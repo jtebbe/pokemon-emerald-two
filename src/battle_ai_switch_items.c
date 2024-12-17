@@ -364,6 +364,8 @@ static bool32 FindMonThatAbsorbsOpponentsMove(u32 battler)
     {
         absorbingTypeAbilities[numAbsorbingAbilities++] = ABILITY_WATER_ABSORB;
         absorbingTypeAbilities[numAbsorbingAbilities++] = ABILITY_DRY_SKIN;
+        absorbingTypeAbilities[numAbsorbingAbilities++] = ABILITY_WATER_COMPACTION;
+        absorbingTypeAbilities[numAbsorbingAbilities++] = ABILITY_STEAM_ENGINE;
         if (B_REDIRECT_ABILITY_IMMUNITY >= GEN_5)
             absorbingTypeAbilities[numAbsorbingAbilities++] = ABILITY_STORM_DRAIN;
     }
@@ -377,6 +379,7 @@ static bool32 FindMonThatAbsorbsOpponentsMove(u32 battler)
     else if (gMovesInfo[predictedMove].type == TYPE_GRASS || (isOpposingBattlerChargingOrInvulnerable && gMovesInfo[incomingMove].type == TYPE_GRASS))
     {
         absorbingTypeAbilities[numAbsorbingAbilities++] = ABILITY_SAP_SIPPER;
+        absorbingTypeAbilities[numAbsorbingAbilities++] = ABILITY_ALGAE_ADDICT;
     }
     else if (gMovesInfo[predictedMove].type == TYPE_GROUND || (isOpposingBattlerChargingOrInvulnerable && gMovesInfo[incomingMove].type == TYPE_GROUND))
     {

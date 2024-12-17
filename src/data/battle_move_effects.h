@@ -2206,6 +2206,19 @@ const struct BattleMoveEffect gBattleMoveEffects[NUM_BATTLE_MOVE_EFFECTS] =
         .encourageEncore = TRUE,
     },
 
+    [EFFECT_FRIGID_TOUCH] =
+    {
+        .battleScript = BattleScript_EffectFrigidTouch,
+        .battleTvScore = 1,
+        .encourageEncore = TRUE,
+    },
+
+    [EFFECT_DEADLY_KISS] = 
+    {
+        .battleScript = BattleScript_EffectDeadlyKiss,
+        .battleTvScore = 1,
+    }
+
     [EFFECT_LAST_RESPECTS] =
     {
         .battleScript = BattleScript_EffectHit,

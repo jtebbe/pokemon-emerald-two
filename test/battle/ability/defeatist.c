@@ -7,11 +7,11 @@ ASSUMPTIONS
     ASSUME(gMovesInfo[MOVE_ECHOED_VOICE].category == DAMAGE_CATEGORY_SPECIAL);
 }
 
-SINGLE_BATTLE_TEST("Defeatist halves Attack when HP <= 50%", s16 damage)
+SINGLE_BATTLE_TEST("Defeatist halves Attack when HP <= 20%", s16 damage)
 {
     u32 hp;
     PARAMETRIZE { hp = 400; }
-    PARAMETRIZE { hp = 200; }
+    PARAMETRIZE { hp = 80; }
     GIVEN {
         PLAYER(SPECIES_ARCHEN) { Ability(ABILITY_DEFEATIST); HP(hp), MaxHP(400);}
         OPPONENT(SPECIES_WOBBUFFET);
@@ -30,7 +30,7 @@ SINGLE_BATTLE_TEST("Defeatist halves Special Attack when HP <= 50%", s16 damage)
 {
     u32 hp;
     PARAMETRIZE { hp = 400; }
-    PARAMETRIZE { hp = 200; }
+    PARAMETRIZE { hp = 80; }
     GIVEN {
         PLAYER(SPECIES_ARCHEN) { Ability(ABILITY_DEFEATIST); HP(hp), MaxHP(400);}
         OPPONENT(SPECIES_WOBBUFFET);

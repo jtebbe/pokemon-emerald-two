@@ -2134,6 +2134,12 @@
 	.4byte \failInstr
 	.endm
 
+	.macro tryfrostbitetype attacker:req, target:req, failInstr:req
+	various \attacker, VARIOUS_FROSTBITE_TYPE_IMMUNITY
+	.byte \target
+	.4byte \failInstr
+	.endm
+
 	.macro trysetfairylock failInstr:req
 	various BS_ATTACKER, VARIOUS_TRY_FAIRY_LOCK
 	.4byte \failInstr

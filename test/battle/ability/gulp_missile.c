@@ -91,7 +91,7 @@ SINGLE_BATTLE_TEST("(Gulp Missile) Transformed Cramorant deal 1/4 of damage oppo
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
         MESSAGE("The opposing Wobbuffet's Defense fell!");
     } THEN {
-        EXPECT_EQ(gulpMissileDamage, opponent->maxHP / 4);
+        EXPECT_EQ(gulpMissileDamage, opponent->maxHP / 3);
     }
 }
 

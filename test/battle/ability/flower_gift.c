@@ -100,13 +100,13 @@ DOUBLE_BATTLE_TEST("Flower Gift increases the attack of Cherrim and its allies b
     }
 }
 
-DOUBLE_BATTLE_TEST("Flower Gift increases the Sp. Def of Cherrim and its allies by 1.5x", s16 damageL, s16 damageR)
+DOUBLE_BATTLE_TEST("Flower Gift increases the special attack of Cherrim and its allies by 1.5x", s16 damageL, s16 damageR)
 {
     bool32 sunny;
     PARAMETRIZE { sunny = FALSE; }
     PARAMETRIZE { sunny = TRUE; }
     GIVEN {
-        ASSUME(gMovesInfo[MOVE_HYPER_VOICE].category == DAMAGE_CATEGORY_SPECIAL);
+        ASSUME(gMovesInfo[MOVE_ABSORB].category == DAMAGE_CATEGORY_SPECIAL);
         PLAYER(SPECIES_CHERRIM_OVERCAST) { Ability(ABILITY_FLOWER_GIFT); }
         PLAYER(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_WOBBUFFET);
@@ -114,7 +114,8 @@ DOUBLE_BATTLE_TEST("Flower Gift increases the Sp. Def of Cherrim and its allies 
     } WHEN {
         if (sunny)
             TURN { MOVE(playerLeft, MOVE_SUNNY_DAY); }
-        TURN { MOVE(opponentLeft, MOVE_HYPER_VOICE, target: playerLeft); }
+        TURN { MOVE(playerLeft, MOVE_ABSORB, target: opponentLeft);
+               MOVE(playerRight, MOVE_ABSORB, target: opponentLeft); }
     } SCENE {
         // sun activates
         if (sunny) {
@@ -122,13 +123,15 @@ DOUBLE_BATTLE_TEST("Flower Gift increases the Sp. Def of Cherrim and its allies 
             ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_FORM_CHANGE, playerLeft);
             MESSAGE("Cherrim transformed!");
         }
-        // opponentLeft uses Hyper Voice
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_HYPER_VOICE, opponentLeft);
-        HP_BAR(playerLeft, captureDamage: &results[i].damageL);
-        HP_BAR(playerRight, captureDamage: &results[i].damageR);
+        // player uses absorb
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_ABSORB, playerLeft);
+        HP_BAR(opponentLeft, captureDamage: &results[i].damageL);
+        // partner uses absorb
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_ABSORB, playerRight);
+        HP_BAR(opponentLeft, captureDamage: &results[i].damageR);
     } FINALLY {
-        EXPECT_MUL_EQ(results[1].damageL, UQ_4_12(1.5), results[0].damageL);
-        EXPECT_MUL_EQ(results[1].damageR, UQ_4_12(1.5), results[0].damageR);
+        EXPECT_MUL_EQ(results[0].damageL, UQ_4_12(1.5), results[1].damageL);
+        EXPECT_MUL_EQ(results[0].damageR, UQ_4_12(1.5), results[1].damageR);
     }
 }
 

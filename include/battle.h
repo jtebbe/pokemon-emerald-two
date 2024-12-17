@@ -251,6 +251,7 @@ struct SpecialStatus
     u8 afterYou:1;
     u8 preventLifeOrbDamage:1; // So that Life Orb doesn't activate various effects.
     u8 distortedTypeMatchups:1;
+    u8 oneTwoState:2;
 };
 
 struct SideTimer

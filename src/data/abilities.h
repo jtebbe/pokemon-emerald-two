@@ -415,7 +415,6 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .name = _("Truant"),
         .description = COMPOUND_STRING("Moves only every two turns."),
         .aiRating = -2,
-        .cantBeOverwritten = TRUE,
     },
 
     [ABILITY_HUSTLE] =
@@ -970,7 +969,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     [ABILITY_DEFEATIST] =
     {
         .name = _("Defeatist"),
-        .description = COMPOUND_STRING("Gives up at half HP."),
+        .description = COMPOUND_STRING("Gives up at one fifth HP."),
         .aiRating = -1,
     },
 
@@ -2408,4 +2407,103 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .cantBeSwapped = TRUE,
         .cantBeTraced = TRUE,
     },
+
+    [ABILITY_ONE_TWO] = 
+    {
+        .name =_("One-Two"),
+        .description = COMPOUND_STRING("Punching moves hit twice."),
+        .aiRating = 2,
+    },
+
+    [ABILITY_HYPNOTIST] = 
+    {
+        .name =_("Hypnotist"),
+        .description = COMPOUND_STRING("Status moves can't miss."),
+        .aiRating = 3,
+    },
+
+    [ABILITY_ALGAE_ADDICT] = 
+    {
+        .name =_("Algae Addict"),
+        .description = COMPOUND_STRING("Absorbs grass moves for HP."),
+        .aiRating = 4,
+    },
+
+    [ABILITY_PHONETIC_MAGIC] = 
+    {
+        .name =_("Phonetic Magic"),
+        .description = COMPOUND_STRING("Omniboost at end of turn."),
+        .aiRating = 10,
+    },
+
+    [ABILITY_ATONAL_BELLS] = 
+    {
+        .name =_("Atonal Bells"),
+        .description = COMPOUND_STRING("Lowers foes' SpAtk."),
+        .aiRating = 7,
+    },
+
+    [ABILITY_ABSOLUTE_ZERO] = 
+    {
+        .name =_("Absolute Zero"),
+        .description = COMPOUND_STRING("Frostbite on attack."),
+        .aiRating = 7,
+    },
+
+    [ABILITY_PRIMORDIAL_SHARDS] = 
+    {
+        .name =_("Primordial Shards"),
+        .description = COMPOUND_STRING("Stealth rocks on attack."),
+        .aiRating = 8,
+    },
+
+    [ABILITY_METALLICIZE] = 
+    {
+        .name =_("Metallicize"),
+        .description = COMPOUND_STRING("Normal moves become steel."),
+        .aiRating = 3,
+    },
+
+    [ABILITY_CONCERTMASTER] = 
+    {
+        .name =_("Concertmaster"),
+        .description = COMPOUND_STRING("Bug moves gain priority."),
+        .aiRating = 1,
+    },
+
+    [ABILITY_TRIUMPHANCE] = 
+    {
+        .name =_("Triumphance"),
+        .description = COMPOUND_STRING("Raises SpAtk on KO."),
+        .aiRating = 5,
+    },
+
+    [ABILITY_RANGER] = 
+    {
+        .name =_("Ranger"),
+        .description = COMPOUND_STRING("Non-contact moves are stronger."),
+        .aiRating = 2,
+    },
+
+    [ABILITY_MAGIC_SHOW] = 
+    {
+        .name =_("Magic Show"),
+        .description = COMPOUND_STRING("Sets up magic room on entry."),
+        .aiRating = 3,
+    },
+
+    [ABILITY_GRAVITATION] = 
+    {
+        .name =_("Gravitation"),
+        .description = COMPOUND_STRING("Sets up gravity on entry."),
+        .aiRating = 2,
+    },
+
+    [ABILITY_SNOW_BLOW] = 
+    {
+        .name =_("Snow Blow"),
+        .description = COMPOUND_STRING("Sets up snow when struck."),
+        .aiRating = 2,
+    },
+
 };
