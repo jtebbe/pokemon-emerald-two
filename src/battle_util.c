@@ -8737,8 +8737,8 @@ bool32 IsBattlerProtected(u32 battlerAtk, u32 battlerDef, u32 move)
      && IsMoveMakingContact(move, gBattlerAttacker)
      && GetBattlerAbility(gBattlerAttacker) == ABILITY_UNSEEN_FIST)
         return FALSE;
-    else if (gSideStatuses[GetBattlerSide(battlerDef)] & SIDE_STATUS_CRAFTY_SHIELD
-             && IS_MOVE_STATUS(move))
+    else if ((gSideStatuses[GetBattlerSide(battlerDef)] & SIDE_STATUS_CRAFTY_SHIELD)
+             && IS_MOVE_STATUS(move) && gMovesInfo[move].effect != EFFECT_COACHING)
         return TRUE;
     else if (gMovesInfo[move].ignoresProtect)
         return FALSE;
@@ -11338,7 +11338,7 @@ u8 GetBattleMoveCategory(u32 moveId)
 
     if (IS_MOVE_STATUS(moveId))
         return DAMAGE_CATEGORY_STATUS;
-    return gTypesInfo[GetMoveType(gCurrentMove)].damageCategory;
+    return gTypesInfo[GetMoveType(moveId)].damageCategory;
 }
 
 static bool32 TryRemoveScreens(u32 battler)
