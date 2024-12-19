@@ -5225,10 +5225,10 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
     [SPECIES_CROBAT] =
     {
         .baseHP        = 85,
-        .baseAttack    = 90,
+        .baseAttack    = 100,
         .baseDefense   = 80,
         .baseSpeed     = 130,
-        .baseSpAttack  = 70,
+        .baseSpAttack  = 60,
         .baseSpDefense = 80,
         .types = MON_TYPES(TYPE_POISON, TYPE_FLYING),
         .catchRate = 90,
@@ -5518,10 +5518,10 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
 #if P_GEN_2_CROSS_EVOS
     [SPECIES_BELLOSSOM] =
     {
-        .baseHP        = 75,
-        .baseAttack    = 80,
+        .baseHP        = 80,
+        .baseAttack    = 65,
         .baseDefense   = P_UPDATED_STATS >= GEN_6 ? 95 : 85,
-        .baseSpeed     = 50,
+        .baseSpeed     = 60,
         .baseSpAttack  = 90,
         .baseSpDefense = 100,
         .types = MON_TYPES(TYPE_GRASS),
@@ -5542,7 +5542,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .friendship = STANDARD_FRIENDSHIP,
         .growthRate = GROWTH_MEDIUM_SLOW,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_GRASS),
-        .abilities = { ABILITY_CHLOROPHYLL, ABILITY_NONE, ABILITY_HEALER },
+        .abilities = { ABILITY_FLOWER_VEIL, ABILITY_HEALER, ABILITY_DANCER },
         .bodyColor = BODY_COLOR_GREEN,
         .speciesName = _("Bellossom"),
         .cryId = CRY_BELLOSSOM,
@@ -16320,7 +16320,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .friendship = STANDARD_FRIENDSHIP,
         .growthRate = GROWTH_MEDIUM_FAST,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_FIELD),
-        .abilities = { ABILITY_SYNCHRONIZE, ABILITY_SYNCHRONIZE, ABILITY_MAGIC_BOUNCE },
+        .abilities = { ABILITY_OPPORTUNIST, ABILITY_OPPORTUNIST, ABILITY_MAGIC_BOUNCE },
         .bodyColor = BODY_COLOR_PURPLE,
         .speciesName = _("Espeon"),
         .cryId = CRY_ESPEON,
