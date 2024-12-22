@@ -17670,10 +17670,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_DYNAMAX] =
     {
         .name = COMPOUND_STRING("Aura Wheel"),
         .description = COMPOUND_STRING(
-            "Raises Speed to attack. The\n"
+            "Raises Speed and Atk. The\n"
             "Type is based on its form."),
         .effect = EFFECT_AURA_WHEEL,
-        .power = 110,
+        .power = 80,
         .type = TYPE_ELECTRIC,
         .accuracy = 100,
         .pp = 10,
@@ -17683,6 +17683,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_DYNAMAX] =
         .metronomeBanned = TRUE,
         .additionalEffects = ADDITIONAL_EFFECTS({
             .moveEffect = MOVE_EFFECT_SPD_PLUS_1,
+            .self = TRUE,
+            .chance = 100,
+        }, {
+            .moveEffect = MOVE_EFFECT_ATK_PLUS_1,
             .self = TRUE,
             .chance = 100,
         }),
