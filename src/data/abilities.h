@@ -2450,9 +2450,9 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .aiRating = 7,
     },
 
-    [ABILITY_PRIMORDIAL_SHARDS] = 
+    [ABILITY_PRIMSHARDS] = 
     {
-        .name =_("Primordial Shards"),
+        .name =_("Primord Shards"),
         .description = COMPOUND_STRING("Stealth rocks on attack."),
         .aiRating = 8,
     },

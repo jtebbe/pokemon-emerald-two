@@ -12271,7 +12271,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .eggMoveLearnset = sTyrogueEggMoveLearnset,
         .evolutions = EVOLUTION({EVO_LEVEL_ATK_LT_DEF, 20, SPECIES_HITMONCHAN},
                                 {EVO_LEVEL_ATK_GT_DEF, 20, SPECIES_HITMONLEE},
-                                {EVO_LEVEL_ATK_EQ_DEF, 20, SPECIES_HITMONTOP},
+                                {EVO_LEVEL_ATK_EQ_DEF, 20, SPECIES_HITMONTOP}),
     },
 #endif //P_GEN_2_CROSS_EVOS
 

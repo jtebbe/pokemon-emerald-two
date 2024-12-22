@@ -10155,7 +10155,7 @@ BattleScript_EffectFrigidTouch::
 	jumpifsafeguard BattleScript_SafeguardProtected
 	attackanimation
 	waitanimation
-	seteffectprimary MOVE_EFFECT_FREEZE_OR_FROSTBITE
+	seteffectprimary MOVE_EFFECT_FROSTBITE
 	resultmessage
 	waitmessage B_WAIT_TIME_LONG
 	goto BattleScript_MoveEnd

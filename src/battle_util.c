@@ -5282,6 +5282,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 if (gBattleWeather == B_WEATHER_SNOW || gBattleWeather == B_WEATHER_RAIN || gBattleWeather == B_WEATHER_SUN) {
 
                     u32 validToRaise = 0;
+                    u32 statsNum = B_MOODY_ACC_EVASION >= GEN_8 ? NUM_STATS : NUM_BATTLE_STATS;
                     for (i = STAT_ATK; i < statsNum; i++)
                     {
                         if (CompareStat(battler, i, MAX_STAT_STAGE, CMP_LESS_THAN))
@@ -6177,7 +6178,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 effect++;
             }
             break;
-        case ABILITY_PRIMORDIAL_SHARDS:
+        case ABILITY_PRIMSHARDS:
             if (!(gMoveResultFlags & MOVE_RESULT_NO_EFFECT)
              && !gProtectStructs[gBattlerAttacker].confusionSelfDmg
              && TARGET_TURN_DAMAGED
@@ -10007,7 +10008,8 @@ static inline u32 CalcDefenseStat(struct DamageCalculationData *damageCalcData, 
             if (gBattleMons[BATTLE_PARTNER(battlerDef)].species == SPECIES_CHERRIM_SUNSHINE && IsBattlerWeatherAffected(BATTLE_PARTNER(battlerDef), B_WEATHER_SUN) && !usesDefStat)
                 modifier = uq4_12_multiply_half_down(modifier, UQ_4_12(1.5));
             break;
-        }*/
+        */
+        }
     }
 
     // field abilities

@@ -2175,7 +2175,7 @@ const struct BattleMoveEffect gBattleMoveEffects[NUM_BATTLE_MOVE_EFFECTS] =
     {
         .battleScript = BattleScript_EffectDeadlyKiss,
         .battleTvScore = 1,
-    }
+    },
 
     [EFFECT_LAST_RESPECTS] =
     {

@@ -5163,7 +5163,7 @@ static void TurnValuesCleanUp(bool8 var0)
             gBattleStruct->commandingDondozo &= ~(1u << i);
 
         gSpecialStatuses[i].parentalBondState = PARENTAL_BOND_OFF;
-        gSpecialStatuses[i].oneTwoState == ONE_TWO_OFF;
+        gSpecialStatuses[i].oneTwoState = ONE_TWO_OFF;
     }
 
     gSideStatuses[B_SIDE_PLAYER] &= ~(SIDE_STATUS_QUICK_GUARD | SIDE_STATUS_WIDE_GUARD | SIDE_STATUS_CRAFTY_SHIELD | SIDE_STATUS_MAT_BLOCK);
