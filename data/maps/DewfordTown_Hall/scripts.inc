@@ -246,11 +246,11 @@ DewfordTown_Hall_EventScript_SludgeBombMan::
 	lock
 	faceplayer
 	call Common_EventScript_BufferTrendyPhrase
-	goto_if_set FLAG_RECEIVED_TM_SLUDGE_BOMB, DewfordTown_Hall_EventScript_ReceivedSludgeBomb
+	goto_if_set FLAG_RECEIVED_TM_ROCK_TOMB, DewfordTown_Hall_EventScript_ReceivedSludgeBomb
 	msgbox DewfordTown_Hall_Text_GiveYouSludgeBomb, MSGBOX_DEFAULT
-	giveitem ITEM_TM_SLUDGE_BOMB
+	giveitem ITEM_TM_ROCK_TOMB
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
-	setflag FLAG_RECEIVED_TM_SLUDGE_BOMB
+	setflag FLAG_RECEIVED_TM_ROCK_TOMB
 	release
 	end
 
