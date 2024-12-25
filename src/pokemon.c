@@ -3398,13 +3398,13 @@ u8 CalculateEnemyPartyCountInSide(u32 battler)
     return CalculatePartyCountOfSide(battler, gEnemyParty);
 }
 
-u8 GetMonsStateToDoubles(void)
+u8 GetMonsStateToDoubles(bool8 isWild)
 {
     s32 aliveCount = 0;
     s32 i;
     CalculatePlayerPartyCount();
 
-    if (OW_DOUBLE_APPROACH_WITH_ONE_MON)
+    if (OW_DOUBLE_APPROACH_WITH_ONE_MON && !isWild)
         return PLAYER_HAS_TWO_USABLE_MONS;
 
     if (gPlayerPartyCount == 1)
@@ -3421,12 +3421,12 @@ u8 GetMonsStateToDoubles(void)
     return (aliveCount > 1) ? PLAYER_HAS_TWO_USABLE_MONS : PLAYER_HAS_ONE_USABLE_MON;
 }
 
-u8 GetMonsStateToDoubles_2(void)
+u8 GetMonsStateToDoubles_2(bool8 isWild)
 {
     s32 aliveCount = 0;
     s32 i;
 
-    if (OW_DOUBLE_APPROACH_WITH_ONE_MON)
+    if (OW_DOUBLE_APPROACH_WITH_ONE_MON && !isWild)
         return PLAYER_HAS_TWO_USABLE_MONS;
 
     for (i = 0; i < PARTY_SIZE; i++)

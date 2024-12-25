@@ -75,7 +75,7 @@ u8 ScriptGiveEgg(u16 species)
 
 void HasEnoughMonsForDoubleBattle(void)
 {
-    switch (GetMonsStateToDoubles())
+    switch (GetMonsStateToDoubles(FALSE))
     {
     case PLAYER_HAS_TWO_USABLE_MONS:
         gSpecialVar_Result = PLAYER_HAS_TWO_USABLE_MONS;
