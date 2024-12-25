@@ -13078,19 +13078,19 @@ const struct Item gItemsInfo[] =
         .secondaryId = MOVE_GRAVITY,
     },
 
-    [ITEM_TM_DAZZLING_GLEAM] =
+    [ITEM_TM_SMACK_DOWN] =
     {
         .name = _("TM179"),
         .price = 2000,
         .description = COMPOUND_STRING(
-            "Dazzling Gleam\n"
-            "deals damage to\n"
-            "both foes."),
+            "Smack Down deals\n"
+            "damage and grounds\n"
+            "flying targets."),
         .importance = I_REUSABLE_TMS,
         .pocket = POCKET_TM_HM,
         .type = ITEM_USE_PARTY_MENU,
         .fieldUseFunc = ItemUseOutOfBattle_TMHM,
-        .secondaryId = MOVE_DAZZLING_GLEAM,
+        .secondaryId = MOVE_SMACK_DOWN,
     },
 
     [ITEM_TM_GYRO_BALL] =

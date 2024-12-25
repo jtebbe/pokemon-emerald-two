@@ -257,7 +257,7 @@
 
 #define FLAG_UNUSED_0x0E9                    0xE9 // Unused Flag
 
-#define FLAG_RECEIVED_TM_FLING               0xEA
+#define FLAG_RECEIVED_TM_DRAGON_TAIL         0xEA
 #define FLAG_RECEIVED_TM_VENOSHOCK           0xEB
 #define FLAG_RECEIVED_GLASS_ORNAMENT         0xEC
 #define FLAG_RECEIVED_SILVER_SHIELD          0xED
@@ -1144,7 +1144,7 @@
 #define FLAG_ITEM_FIERY_PATH_TM_SCARY_FACE                          0x443
 #define FLAG_ITEM_ROUTE_124_RED_SHARD                               0x444
 #define FLAG_ITEM_ROUTE_124_BLUE_SHARD                              0x445
-#define FLAG_ITEM_SAFARI_ZONE_NORTH_WEST_TM_CHILLING_WATer          0x446
+#define FLAG_ITEM_SAFARI_ZONE_NORTH_WEST_TM_CHILLING_WATER          0x446
 #define FLAG_ITEM_ABANDONED_SHIP_ROOMS_1F_HARBOR_MAIL               0x447
 #define FLAG_ITEM_ABANDONED_SHIP_ROOMS_B1F_ESCAPE_ROPE              0x448
 #define FLAG_ITEM_ABANDONED_SHIP_ROOMS_2_B1F_DIVE_BALL              0x449
