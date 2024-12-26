@@ -10,6 +10,7 @@
 #include "palette.h"
 #include "pokedex.h"
 #include "pokemon.h"
+#include "random.h"
 #include "scanline_effect.h"
 #include "sound.h"
 #include "sprite.h"
@@ -50,6 +51,10 @@ static void SpriteCB_Pokeball(struct Sprite *sprite);
 static void SpriteCB_StarterPokemon(struct Sprite *sprite);
 
 static u16 sStarterLabelWindowId;
+
+EWRAM_DATA static u16 grassChoice= 0;
+EWRAM_DATA static u16 fireChoice= 0;
+EWRAM_DATA static u16 waterChoice= 0;
 
 const u16 gBirchBagGrass_Pal[] = INCBIN_U16("graphics/starter_choose/tiles.gbapal");
 static const u16 sPokeballSelection_Pal[] = INCBIN_U16("graphics/starter_choose/pokeball_selection.gbapal");
@@ -110,11 +115,43 @@ static const u8 sStarterLabelCoords[STARTER_MON_COUNT][2] =
     {8, 4},
 };
 
-static const u16 sStarterMon[STARTER_MON_COUNT] =
+static const u16 grassStarterMon[9] =
 {
+    SPECIES_BULBASAUR,
+    SPECIES_CHIKORITA,
     SPECIES_TREECKO,
+    SPECIES_TURTWIG,
+    SPECIES_SNIVY,
+    SPECIES_CHESPIN,
+    SPECIES_ROWLET,
+    SPECIES_GROOKEY,
+    SPECIES_SPRIGATITO,
+};
+
+static const u16 fireStarterMon[9] =
+{
+    SPECIES_CHARMANDER,
+    SPECIES_CYNDAQUIL,
     SPECIES_TORCHIC,
+    SPECIES_CHIMCHAR,
+    SPECIES_TEPIG,
+    SPECIES_FENNEKIN,
+    SPECIES_LITTEN,
+    SPECIES_SCORBUNNY,
+    SPECIES_FUECOCO,
+};
+
+static const u16 waterStarterMon[9] =
+{
+    SPECIES_SQUIRTLE,
+    SPECIES_TOTODILE,
     SPECIES_MUDKIP,
+    SPECIES_PIPLUP,
+    SPECIES_OSHAWOTT,
+    SPECIES_FROAKIE,
+    SPECIES_POPPLIO,
+    SPECIES_SOBBLE,
+    SPECIES_QUAXLY,
 };
 
 static const struct BgTemplate sBgTemplates[3] =
@@ -348,11 +385,28 @@ static const struct SpriteTemplate sSpriteTemplate_StarterCircle =
 };
 
 // .text
+
 u16 GetStarterPokemon(u16 chosenStarterId)
 {
     if (chosenStarterId > STARTER_MON_COUNT)
         chosenStarterId = 0;
-    return sStarterMon[chosenStarterId];
+
+    if (grassChoice == 0) {
+        grassChoice = RandomUniform(RNG_NONE, 1, 9);
+        do {
+            fireChoice = RandomUniform(RNG_NONE, 1, 9);
+        } while (fireChoice == grassChoice || fireChoice == 0);
+        do {
+            waterChoice = RandomUniform(RNG_NONE, 1, 9);
+        } while (waterChoice == grassChoice || waterChoice == fireChoice || waterChoice == 0);
+    }
+    
+    if (chosenStarterId == 0) {
+        return grassStarterMon[grassChoice - 1];
+    } else if (chosenStarterId == 1) {
+        return fireStarterMon[fireChoice - 1];
+    }
+    return waterStarterMon[waterChoice - 1];
 }
 
 static void VblankCB_StarterChoose(void)
