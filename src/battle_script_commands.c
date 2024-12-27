@@ -13342,7 +13342,7 @@ static void Cmd_tryspiteppreduce(void)
 
         if (i != MAX_MON_MOVES && gBattleMons[gBattlerTarget].pp[i] > (B_CAN_SPITE_FAIL >= GEN_4 ? 0 : 1))
         {
-            s32 ppToDeduct = B_PP_REDUCED_BY_SPITE >= GEN_4 ? 4 : (Random() & 3) + 2;
+            s32 ppToDeduct = B_PP_REDUCED_BY_SPITE >= GEN_4 ? 8 : (Random() & 3) + 2;
             // G-Max Depletion only deducts 2 PP.
             if (IsMaxMove(gCurrentMove) && gMovesInfo[gCurrentMove].argument == MAX_EFFECT_SPITE)
                 ppToDeduct = 2;

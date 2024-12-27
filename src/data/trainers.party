@@ -5946,12 +5946,28 @@ Class: Youngster
 Pic: Youngster
 Gender: Male
 Music: Male
-Double Battle: No
-AI: Check Bad Move
+Double Battle: Yes
+AI: Basic Trainer
 
-Poochyena
+Poochyena @ Oran Berry  
+Ability: Intimidate  
 Level: 5
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+EVs: 236 Atk / 36 SpD / 236 Spe
+IVs: 31 HP / 31 Atk / 31 Def / 0 SpA / 31 SpD / 31 Spe 
+Jolly Nature  
+- Howl  
+- Bite  
+- Tackle
+
+Cherubi @ Lum Berry  
+Ability: Chlorophyll  
+Level: 5
+EVs: 236 HP / 180 SpA / 92 SpD  
+Modest Nature  
+IVs: 31 HP / 0 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe 
+- Growth  
+- Leafage  
+- Sunny Day
 
 === TRAINER_BILLY ===
 Name: BILLY

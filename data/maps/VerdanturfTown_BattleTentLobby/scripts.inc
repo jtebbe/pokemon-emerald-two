@@ -244,6 +244,7 @@ VerdanturfTown_BattleTentLobby_EventScript_Boy1::
 	end
 
 VerdanturfTown_BattleTentLobby_EventScript_Poochyena::
+	playmoncry SPECIES_POOCHYENA, CRY_MODE_ENCOUNTER
 	msgbox VerdanturfTown_BattleTentLobby_Text_PoochyenaSus, MSGBOX_DEFAULT
 	end
 
