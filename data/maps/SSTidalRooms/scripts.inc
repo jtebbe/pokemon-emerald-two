@@ -4,11 +4,11 @@ SSTidalRooms_MapScripts::
 SSTidalRooms_EventScript_SnatchGiver::
 	lock
 	faceplayer
-	goto_if_set FLAG_RECEIVED_TM_SUNNY_DAY, SSTidalRooms_EventScript_ExplainSnatch
+	goto_if_set FLAG_RECEIVED_TM_TRICK, SSTidalRooms_EventScript_ExplainSnatch
 	msgbox SSTidalRooms_Text_NotSuspiciousTakeThis, MSGBOX_DEFAULT
-	giveitem ITEM_TM_SUNNY_DAY
+	giveitem ITEM_TM_TRICK
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
-	setflag FLAG_RECEIVED_TM_SUNNY_DAY
+	setflag FLAG_RECEIVED_TM_TRICK
 	msgbox SSTidalRooms_Text_ExplainSnatch, MSGBOX_DEFAULT
 	release
 	end
@@ -169,7 +169,6 @@ SSTidalRooms_Text_NotSuspiciousTakeThis:
 	.string "It's clean! You can use it!$"
 
 SSTidalRooms_Text_ExplainSnatch:
-	.string "SNATCH steals the beneficial effects\n"
-	.string "of certain moves before they can be\l"
-	.string "used by a foe or ally.$"
+	.string "Trick swaps items with an opponent,\n"
+	.string "so you can give them a nasty surprise.$"
 

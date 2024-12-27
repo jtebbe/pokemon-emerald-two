@@ -2,11 +2,11 @@ MauvilleCity_GameCorner_MapScripts::
 	.byte 0
 
     @ Game Corner prices
-	.set TM_SWIFT_COINS, 1500
-	.set TM_HEX_COINS, 3500
-	.set TM_MUD_SHOT_COINS, 4000
-	.set TM_FIRE_SPIN_COINS, 4000
-	.set TM_ACID_SPRAY_COINS, 4000
+	.set TM_SWIFT_COINS, 500
+	.set TM_HEX_COINS, 1000
+	.set TM_MUD_SHOT_COINS, 500
+	.set TM_FIRE_SPIN_COINS, 500
+	.set TM_ACID_SPRAY_COINS, 500
 	.set DOLL_COINS, 1000
 
 	.set COINS_PRICE_50,  1000

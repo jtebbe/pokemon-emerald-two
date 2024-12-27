@@ -9,7 +9,7 @@ Route111_Text_MakingRoomUseTMToMakeYourOwn:
 Route111_Text_ExplainSecretPower:
 	.string "Find a big tree that looks like it might\n"
 	.string "drop some vines.\p"
-	.string "Use SECRET POWER in front of the tree.\n"
+	.string "Use Secret Power in front of the tree.\n"
 	.string "Some vines should get free and drop\l"
 	.string "down, so you can climb the tree.\p"
 	.string "You'll find a lot of space for putting\n"
@@ -18,8 +18,8 @@ Route111_Text_ExplainSecretPower:
 	.string "A SECRET BASE!\p"
 	.string "You should make one, too.\p"
 	.string "Another thing, you don't always have\n"
-	.string "to make your SECRET BASE in a tree.\p"
-	.string "Try using SECRET POWER on rock walls\n"
+	.string "to make your secret base in a tree.\p"
+	.string "Try using secret power on rock walls\n"
 	.string "that have small indents in them.\p"
 	.string "I'm going to look for other places, too.\n"
 	.string "Okay, bye!$"
@@ -33,6 +33,10 @@ Route111_Text_DontHaveAnyRoom:
 	.string "I'll hold on to it, so come back for it\n"
 	.string "another time, okay?$"
 
+Route111_Text_Dyslexia:
+	.string "Was that guy dyslexic? This isn't...\n"
+	.string "This is Stored Power. Dumbass.$"
+
 Route111_EventScript_SecretPowerMan::
 	lock
 	faceplayer
@@ -43,7 +47,7 @@ Route111_EventScript_SecretPowerMan::
 	end
 
 Route111_EventScript_GiveSecretPower::
-	giveitem ITEM_TM_FLING
+	giveitem ITEM_TM_STORED_POWER
 	goto_if_eq VAR_RESULT, FALSE, Route111_EventScript_NoRoomForSecretPower
 	msgbox Route111_Text_ExplainSecretPower, MSGBOX_DEFAULT
 	closemessage
@@ -52,6 +56,8 @@ Route111_EventScript_GiveSecretPower::
 	call_if_eq VAR_FACING, DIR_WEST, Route111_EventScript_SecretPowerManExit
 	call_if_eq VAR_FACING, DIR_EAST, Route111_EventScript_SecretPowerManExit
 	call_if_eq VAR_FACING, DIR_NORTH, Route111_EventScript_SecretPowerManExitNorth
+	msgbox Route111_Text_Dyslexia, MSGBOX_DEFAULT
+	closemessage
 	removeobject VAR_LAST_TALKED
 	release
 	end

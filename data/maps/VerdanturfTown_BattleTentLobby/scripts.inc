@@ -225,11 +225,11 @@ VerdanturfTown_BattleTentLobby_Movement_PlayerEnterDoor:
 VerdanturfTown_BattleTentLobby_EventScript_AttractGiver::
 	lock
 	faceplayer
-	goto_if_set FLAG_RECEIVED_TM_VENOSHOCK, VerdanturfTown_BattleTentLobby_EventScript_ReceivedAttract
+	goto_if_set FLAG_RECEIVED_TM_CHARM, VerdanturfTown_BattleTentLobby_EventScript_ReceivedAttract
 	msgbox VerdanturfTown_BattleTentLobby_Text_AttractionRunsDeep, MSGBOX_DEFAULT
-	giveitem ITEM_TM_VENOSHOCK
+	giveitem ITEM_TM_CHARM
 	goto_if_eq VAR_RESULT, 0, Common_EventScript_ShowBagIsFull
-	setflag FLAG_RECEIVED_TM_VENOSHOCK
+	setflag FLAG_RECEIVED_TM_CHARM
 	msgbox VerdanturfTown_BattleTentLobby_Text_AttractionMutual, MSGBOX_DEFAULT
 	release
 	end
@@ -241,6 +241,10 @@ VerdanturfTown_BattleTentLobby_EventScript_ReceivedAttract::
 
 VerdanturfTown_BattleTentLobby_EventScript_Boy1::
 	msgbox VerdanturfTown_BattleTentLobby_Text_TaughtWhatKindsOfMoves, MSGBOX_NPC
+	end
+
+VerdanturfTown_BattleTentLobby_EventScript_Poochyena::
+	msgbox VerdanturfTown_BattleTentLobby_Text_PoochyenaSus, MSGBOX_DEFAULT
 	end
 
 VerdanturfTown_BattleTentLobby_EventScript_Boy2::
@@ -345,11 +349,16 @@ VerdanturfTown_BattleTentLobby_Text_GentleMonsScaryIfAngry:
 	.string "she's really, really scary!\p"
 	.string "I bet a gentle POKéMON will be scary\n"
 	.string "if it gets angry!$"
+	
+VerdanturfTown_BattleTentLobby_Text_PoochyenaSus:
+	.string "The poochyena sniffs between its\n"
+	.string "trainer's legs. It seems antsy.\p"
+	.string "Poochy: Aroo...$"
 
 VerdanturfTown_BattleTentLobby_Text_AttractionRunsDeep:
 	.string "My feelings toward my POKéMON…\n"
 	.string "The attraction runs deep…\p"
-	.string "Oh, hi, you didn't see that, did you?\n"
+	.string "Oh, shit, you didn't see that, did you?\n"
 	.string "Well, it doesn't matter.\p"
 	.string "How would you like this TM for\n"
 	.string "your POKéMON?$"
@@ -357,8 +366,8 @@ VerdanturfTown_BattleTentLobby_Text_AttractionRunsDeep:
 VerdanturfTown_BattleTentLobby_Text_AttractionMutual:
 	.string "My feelings toward my POKéMON…\n"
 	.string "I'm sure the attraction is mutual!\p"
-	.string "They battle exactly the way I want\n"
-	.string "them to!$"
+	.string "They, uh, battle exactly the way I\n"
+	.string "want them to!$"
 
 VerdanturfTown_BattleTentLobby_Text_TaughtWhatKindsOfMoves:
 	.string "What kind of moves have you taught\n"
