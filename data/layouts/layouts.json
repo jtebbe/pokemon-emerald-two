@@ -95,7 +95,7 @@
       "id": "LAYOUT_LITTLEROOT_TOWN",
       "name": "LittlerootTown_Layout",
       "width": 20,
-      "height": 20,
+      "height": 50,
       "primary_tileset": "gTileset_General",
       "secondary_tileset": "gTileset_Petalburg",
       "border_filepath": "data/layouts/LittlerootTown/border.bin",
@@ -4410,6 +4410,26 @@
       "secondary_tileset": "gTileset_MysteryEventsHouse",
       "border_filepath": "data/layouts/SootopolisCity_MysteryEventsHouse_1F_StairsUnblocked/border.bin",
       "blockdata_filepath": "data/layouts/SootopolisCity_MysteryEventsHouse_1F_StairsUnblocked/map.bin"
+    },
+    {
+      "id": "LAYOUT_LITTLEROOT_TOWN_MR_NATURALS_HOUSE",
+      "name": "LittlerootTown_MrNaturalsHouse_Layout",
+      "width": 10,
+      "height": 10,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_GenericBuilding",
+      "border_filepath": "data/layouts/LittlerootTown_MrNaturalsHouse/border.bin",
+      "blockdata_filepath": "data/layouts/LittlerootTown_MrNaturalsHouse/map.bin"
+    },
+    {
+      "id": "LAYOUT_EMPTY_HOUSE",
+      "name": "EmptyHouse_Layout",
+      "width": 29,
+      "height": 10,
+      "primary_tileset": "gTileset_Building",
+      "secondary_tileset": "gTileset_BattlePike",
+      "border_filepath": "data/layouts/EmptyHouse/border.bin",
+      "blockdata_filepath": "data/layouts/EmptyHouse/map.bin"
     }
   ]
 }

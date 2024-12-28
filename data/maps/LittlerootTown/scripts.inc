@@ -400,6 +400,14 @@ LittlerootTown_EventScript_BirchsLabSign::
 	msgbox LittlerootTown_Text_ProfBirchsLab, MSGBOX_SIGN
 	end
 
+LittlerootTown_EventScript_MrNaturalSign::
+	msgbox LittlerootTown_Text_MrNaturalHouseSign, MSGBOX_SIGN
+	end
+
+LittlerootTown_EventScript_EmptyHouseSign::
+	msgbox LittlerootTown_Text_EmptyHouseSign, MSGBOX_SIGN
+	end
+
 LittlerootTown_EventScript_BrendansHouseSign::
 	lockall
 	checkplayergender
@@ -958,9 +966,9 @@ LittlerootTown_Text_ComeHomeIfAnythingHappens:
 	.string "Go on, go get them, honey!$"
 
 LittlerootTown_Text_CanUsePCToStoreItems:
-	.string "If you use a PC, you can store items\n"
-	.string "and POKéMON.\p"
-	.string "The power of science is staggering!$"
+	.string "I heard Mr. Nat Ural helps trainers'\n"
+	.string "POKéMON to change their natures.\p"
+	.string "The power of drugs is staggering!$"
 
 LittlerootTown_Text_BirchSpendsDaysInLab:
 	.string "PROF. BIRCH spends days in his LAB\n"
@@ -997,10 +1005,16 @@ LittlerootTown_Text_GoodLuckCatchingPokemon:
 
 LittlerootTown_Text_TownSign:
 	.string "LITTLEROOT TOWN\n"
-	.string "“A town that can't be shaded any hue.”$"
+	.string "“A quaint pondside town.”$"
 
 LittlerootTown_Text_ProfBirchsLab:
 	.string "PROF. BIRCH'S POKéMON LAB$"
+
+LittlerootTown_Text_MrNaturalHouseSign:
+	.string "Mr. Nat Ural's House$"
+
+LittlerootTown_Text_EmptyHouseSign:
+	.string "The sign is too faded to read...$"
 
 LittlerootTown_Text_PlayersHouse:
 	.string "{PLAYER}'s HOUSE$"
