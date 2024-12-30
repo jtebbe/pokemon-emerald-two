@@ -4416,7 +4416,7 @@
       "name": "LittlerootTown_MrNaturalsHouse_Layout",
       "width": 10,
       "height": 10,
-      "primary_tileset": "gTileset_General",
+      "primary_tileset": "gTileset_Building",
       "secondary_tileset": "gTileset_GenericBuilding",
       "border_filepath": "data/layouts/LittlerootTown_MrNaturalsHouse/border.bin",
       "blockdata_filepath": "data/layouts/LittlerootTown_MrNaturalsHouse/map.bin"

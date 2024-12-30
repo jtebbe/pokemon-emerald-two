@@ -42,7 +42,7 @@ EmptyHouse_Text_5thSign:
 	.string "yearning to make Agartha golden.$"
 
 EmptyHouse_EventScript_6thSign::
-	msgbox EmptyHouse_Text_5thSign, MSGBOX_SIGN
+	msgbox EmptyHouse_Text_6thSign, MSGBOX_SIGN
 	end
 
 EmptyHouse_Text_6thSign:
@@ -70,5 +70,5 @@ EmptyHouse_EventScript_9thSign::
 	end
 
 EmptyHouse_Text_9thSign:
-	.string "The King awaits those who would,\n"
+	.string "The King awaits those who would\n"
 	.string "transgress upon all of Agartha.$"
