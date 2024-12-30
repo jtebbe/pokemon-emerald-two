@@ -1861,18 +1861,56 @@ bool8 ScrCmd_checkpartymove(struct ScriptContext *ctx)
     u16 moveId = ScriptReadHalfword(ctx);
 
     gSpecialVar_Result = PARTY_SIZE;
-    for (i = 0; i < PARTY_SIZE; i++)
-    {
-        u16 species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES, NULL);
-        if (!species)
+
+    switch (moveId) {
+        case MOVE_CUT:
+            gSpecialVar_0x8004 = SPECIES_BINACLE;
+            gSpecialVar_Result = 0;
             break;
-        if (!GetMonData(&gPlayerParty[i], MON_DATA_IS_EGG) && MonKnowsMove(&gPlayerParty[i], moveId) == TRUE)
-        {
-            gSpecialVar_Result = i;
-            gSpecialVar_0x8004 = species;
+        case MOVE_FLY:
+            gSpecialVar_0x8004 = SPECIES_ALTARIA;
+            gSpecialVar_Result = 0;
             break;
-        }
+        case MOVE_SURF:
+            gSpecialVar_0x8004 = SPECIES_SNORLAX;
+            gSpecialVar_Result = 0;
+            break;
+        case MOVE_STRENGTH:
+            gSpecialVar_0x8004 = SPECIES_EMBOAR;
+            gSpecialVar_Result = 0;
+            break;
+        case MOVE_FLASH:
+            gSpecialVar_0x8004 = SPECIES_MEDITITE;
+            gSpecialVar_Result = 0;
+            break;
+        case MOVE_ROCK_SMASH:
+            gSpecialVar_0x8004 = SPECIES_FLAAFFY;
+            gSpecialVar_Result = 0;
+            break;
+        case MOVE_WATERFALL:
+            gSpecialVar_0x8004 = SPECIES_LAPRAS;
+            gSpecialVar_Result = 0;
+            break;
+        case MOVE_DIVE:
+            gSpecialVar_0x8004 = SPECIES_BRUXISH;
+            gSpecialVar_Result = 0;
+            break;
+        default:
+            for (i = 0; i < PARTY_SIZE; i++)
+            {
+                u16 species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES, NULL);
+                if (!species)
+                    break;
+                if (!GetMonData(&gPlayerParty[i], MON_DATA_IS_EGG) && MonKnowsMove(&gPlayerParty[i], moveId) == TRUE)
+                {
+                    gSpecialVar_Result = i;
+                    gSpecialVar_0x8004 = species;
+                    break;
+                }
+            }
+            break;
     }
+
     return FALSE;
 }
 
