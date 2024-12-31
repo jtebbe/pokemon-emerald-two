@@ -1461,6 +1461,10 @@
         "Move": "MOVE_POISON_JAB"
       },
       {
+        "Level": 37,
+        "Move": "MOVE_FIRST_IMPRESSION"
+      },
+      {
         "Level": 38,
         "Move": "MOVE_AGILITY"
       },
@@ -1514,7 +1518,13 @@
       "MOVE_SLEEP_TALK",
       "MOVE_U_TURN",
       "MOVE_SUBSTITUTE",
-      "MOVE_CONFIDE"
+      "MOVE_CONFIDE",
+      "MOVE_POUNCE",
+      "MOVE_U_TURN",
+      "MOVE_SKITTER_SMACK",
+      "MOVE_TOXIC_SPIKES",
+      "MOVE_GUNK_SHOT",
+      "MOVE_LEECH_LIFE"
     ],
     "EggMoves": [],
     "TutorMoves": [
@@ -1523,6 +1533,7 @@
       "MOVE_DRILL_RUN",
       "MOVE_ELECTROWEB",
       "MOVE_ENDEAVOR",
+      "MOVE_FEINT",
       "MOVE_GIGA_DRAIN",
       "MOVE_KNOCK_OFF",
       "MOVE_LASER_FOCUS",
@@ -1804,6 +1815,10 @@
         "Move": "MOVE_WING_ATTACK"
       },
       {
+        "Level": 41,
+        "Move": "MOVE_HYPER_VOICE"
+      },
+      {
         "Level": 44,
         "Move": "MOVE_ROOST"
       },
@@ -2002,6 +2017,10 @@
       },
       {
         "Level": 1,
+        "Move": "MOVE_FOLLOW_ME"
+      },
+      {
+        "Level": 1,
         "Move": "MOVE_TACKLE"
       },
       {
@@ -2039,6 +2058,10 @@
       {
         "Level": 19,
         "Move": "MOVE_ASSURANCE"
+      },
+      {
+        "Level": 23,
+        "Move": "MOVE_HIT_AND_RUN"
       },
       {
         "Level": 24,
@@ -104554,6 +104577,10 @@
       },
       {
         "Level": 1,
+        "Move": "MOVE_FOLLOW_ME"
+      },
+      {
+        "Level": 1,
         "Move": "MOVE_SWORDS_DANCE"
       },
       {
@@ -104595,6 +104622,10 @@
       {
         "Level": 19,
         "Move": "MOVE_ASSURANCE"
+      },
+      {
+        "Level": 23,
+        "Move": "MOVE_ENCORE"
       },
       {
         "Level": 24,

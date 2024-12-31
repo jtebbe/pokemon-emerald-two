@@ -1291,6 +1291,10 @@
         "Move": "MOVE_ACID"
       },
       {
+        "Level": 24,
+        "Move": "MOVE_CAUSTIC_SPIT"
+      },
+      {
         "Level": 27,
         "Move": "MOVE_SWALLOW"
       },
@@ -2417,6 +2421,10 @@
         "Move": "MOVE_FLAMETHROWER"
       },
       {
+        "Level": 34,
+        "Move": "MOVE_MOONBLAST"
+      },
+      {
         "Level": 36,
         "Move": "MOVE_IMPRISON"
       },
@@ -2695,6 +2703,10 @@
         "Move": "MOVE_SWALLOW"
       },
       {
+        "Level": 14,
+        "Move": "MOVE_FOLLOW_ME"
+      },
+      {
         "Level": 16,
         "Move": "MOVE_ROUND"
       },
@@ -2820,6 +2832,10 @@
       {
         "Level": 1,
         "Move": "MOVE_STOCKPILE"
+      },
+      {
+        "Level": 1,
+        "Move": "MOVE_FOLLOW_ME"
       },
       {
         "Level": 1,
@@ -3043,6 +3059,10 @@
         "Move": "MOVE_STUN_SPORE"
       },
       {
+        "Level": 17,
+        "Move": "MOVE_RAGE_POWDER"
+      },
+      {
         "Level": 18,
         "Move": "MOVE_SLEEP_POWDER"
       },
@@ -3130,6 +3150,10 @@
       {
         "Level": 1,
         "Move": "MOVE_SWEET_SCENT"
+      },
+      {
+        "Level": 1,
+        "Move": "MOVE_RAGE_POWDER"
       },
       {
         "Level": 12,
@@ -3263,6 +3287,10 @@
       {
         "Level": 1,
         "Move": "MOVE_GRASSY_TERRAIN"
+      },
+      {
+        "Level": 1,
+        "Move": "MOVE_RAGE_POWDER"
       },
       {
         "Level": 1,
@@ -5035,6 +5063,14 @@
       {
         "Level": 0,
         "Move": "MOVE_DYNAMIC_PUNCH"
+      },
+      {
+        "Level": 0,
+        "Move": "MOVE_JET_PUNCH"
+      },
+      {
+        "Level": 0,
+        "Move": "MOVE_MACH_PUNCH"
       },
       {
         "Level": 1,
@@ -15539,6 +15575,10 @@
       {
         "Level": 1,
         "Move": "MOVE_ACID"
+      },
+      {
+        "Level": 1,
+        "Move": "MOVE_RAGE_POWDER"
       },
       {
         "Level": 1,
@@ -89290,6 +89330,10 @@
         "Move": "MOVE_FURY_CUTTER"
       },
       {
+        "Level": 13,
+        "Move": "MOVE_FRIGID_TOUCH"
+      },
+      {
         "Level": 15,
         "Move": "MOVE_RAPID_SPIN"
       },
@@ -89407,6 +89451,10 @@
       {
         "Level": 1,
         "Move": "MOVE_SCRATCH"
+      },
+      {
+        "Level": 1,
+        "Move": "MOVE_FRIGID_TOUCH"
       },
       {
         "Level": 1,
@@ -89591,6 +89639,10 @@
         "Move": "MOVE_SPITE"
       },
       {
+        "Level": 14,
+        "Move": "MOVE_FRIGID_TOUCH"
+      },
+      {
         "Level": 16,
         "Move": "MOVE_ICY_WIND"
       },
@@ -89605,6 +89657,10 @@
       {
         "Level": 28,
         "Move": "MOVE_EXTRASENSORY"
+      },
+      {
+        "Level": 30,
+        "Move": "MOVE_BOREAL_BLAST"
       },
       {
         "Level": 32,

@@ -1200,6 +1200,10 @@
         "Move": "MOVE_WHIRLWIND"
       },
       {
+        "Level": 22,
+        "Move": "MOVE_PSYCHIC_NOISE"
+      },
+      {
         "Level": 24,
         "Move": "MOVE_AIR_SLASH"
       },
@@ -2082,6 +2086,7 @@
     "PreEvoMoves": [],
     "TMMoves": [
       "MOVE_MEGA_PUNCH",
+      "MOVE_AGILITY",
       "MOVE_MEGA_KICK",
       "MOVE_PAY_DAY",
       "MOVE_FIRE_PUNCH",
@@ -2151,7 +2156,9 @@
       "MOVE_VENOM_DRENCH",
       "MOVE_HIGH_HORSEPOWER",
       "MOVE_THROAT_CHOP",
-      "MOVE_BODY_PRESS"
+      "MOVE_BODY_PRESS",
+      "MOVE_SCORCHING_SANDS",
+      "MOVE_GUNK_SHOT"
     ],
     "EggMoves": [
       "MOVE_COUNTER",
@@ -2441,6 +2448,7 @@
     "PreEvoMoves": [],
     "TMMoves": [
       "MOVE_MEGA_PUNCH",
+      "MOVE_AGILITY",
       "MOVE_MEGA_KICK",
       "MOVE_PAY_DAY",
       "MOVE_FIRE_PUNCH",
@@ -2511,7 +2519,9 @@
       "MOVE_VENOM_DRENCH",
       "MOVE_HIGH_HORSEPOWER",
       "MOVE_THROAT_CHOP",
-      "MOVE_BODY_PRESS"
+      "MOVE_BODY_PRESS",
+      "MOVE_SCORCHING_SANDS",
+      "MOVE_GUNK_SHOT"
     ],
     "EggMoves": [
       "MOVE_CONFUSION",
@@ -14631,7 +14641,8 @@
       "MOVE_NASTY_PLOT",
       "MOVE_ZEN_HEADBUTT",
       "MOVE_HURRICANE",
-      "MOVE_VENOM_DRENCH"
+      "MOVE_VENOM_DRENCH",
+      "MOVE_GUNK_SHOT"
     ],
     "EggMoves": [
       "MOVE_CURSE",
