@@ -43,13 +43,13 @@
 #define TEMP_FLAGS_END   FLAG_TEMP_1F
 #define NUM_TEMP_FLAGS   (TEMP_FLAGS_END - TEMP_FLAGS_START + 1)
 
-#define FLAG_ITEM_LITTLEROOT_TOWN_TM_GRASS_KNOT    0x20 // Unused Flag
-#define FLAG_UNUSED_0x021    0x21 // Unused Flag
-#define FLAG_UNUSED_0x022    0x22 // Unused Flag
-#define FLAG_UNUSED_0x023    0x23 // Unused Flag
-#define FLAG_UNUSED_0x024    0x24 // Unused Flag
-#define FLAG_UNUSED_0x025    0x25 // Unused Flag
-#define FLAG_UNUSED_0x026    0x26 // Unused Flag
+#define FLAG_ITEM_LITTLEROOT_TOWN_TM_GRASS_KNOT    0x20
+#define FLAG_ITEM_ROUTE_JAGGEDPASS_GROTTO_TM_BULLDOZE    0x21
+#define FLAG_ITEM_ROUTE_111_GROTTO_TM_ROCK_BLAST    0x22
+#define FLAG_ITEM_ROUTE_111_GROTTO_LOADED_DICE    0x23
+#define FLAG_ITEM_ROUTE_JAGGEDPASS_GROTTO_TM_X_SCISSOR    0x24
+#define FLAG_ITEM_ROUTE_JAGGEDPASS_GROTTO_TM_LEAF_STORM    0x25
+#define FLAG_ITEM_ROUTE_JAGGEDPASS_GROTTO_TM_EXPANDING_FORCE    0x26
 #define FLAG_UNUSED_0x027    0x27 // Unused Flag
 #define FLAG_UNUSED_0x028    0x28 // Unused Flag
 #define FLAG_UNUSED_0x029    0x29 // Unused Flag
@@ -1195,7 +1195,7 @@
 #define FLAG_ITEM_ROUTE_111_ELIXIR                                  0x476
 #define FLAG_ITEM_ROUTE_113_HYPER_POTION                            0x477
 #define FLAG_ITEM_ROUTE_115_HEAL_POWDER                             0x478
-#define FLAG_UNUSED_0x479                                           0x479 // Unused Flag
+#define FLAG_ITEM_ROUTE_102_GROTTO_TM_MAGICAL_LEAF                  0x479
 #define FLAG_ITEM_ROUTE_116_POTION                                  0x47A
 #define FLAG_ITEM_ROUTE_119_ELIXIR_2                                0x47B
 #define FLAG_ITEM_ROUTE_120_REVIVE                                  0x47C

@@ -431,7 +431,13 @@
     "TerraCave_Entrance",
     "TerraCave_End",
     "AlteringCave",
-    "MeteorFalls_StevensCave"
+    "MeteorFalls_StevensCave",
+    "Route102_Grotto",
+    "DrilburCave",
+    "Route111_Grotto",
+    "JaggedPass_Grotto",
+    "Route119_Grotto",
+    "EverGrandeGrotto"
   ],
   "gMapGroup_IndoorDynamic": [
     "SecretBase_RedCave1",

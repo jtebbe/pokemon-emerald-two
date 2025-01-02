@@ -100,5 +100,7 @@ Route102_Text_RouteSignOldale:
 	.string "and take them down for rewards!$"
 
 Route102_Text_RouteSignPetalburg:
-	.string "ROUTE 102\n"
-	.string "{LEFT_ARROW} PETALBURG CITY$"
+	.string "Tips from the Creator Part 2:\n"
+	.string "Trainer's pokemon levels scale\p"
+	.string "with yours, but wild pokemons'\n"
+	.string "do not! Take care to catch them!$"

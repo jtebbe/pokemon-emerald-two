@@ -698,6 +698,54 @@
       "height": 1
     },
     {
+      "map_section": "MAPSEC_DRILBUR_CAVE",
+      "name": "DRILBUR CAVE",
+      "x": 2,
+      "y": 9,
+      "width": 2,
+      "height": 1
+    },
+    {
+      "map_section": "MAPSEC_FOREST_GROTTO",
+      "name": "FOREST GROTTO",
+      "x": 2,
+      "y": 9,
+      "width": 2,
+      "height": 1
+    },
+    {
+      "map_section": "MAPSEC_DEN_GROTTO",
+      "name": "DEN GROTTO",
+      "x": 2,
+      "y": 9,
+      "width": 2,
+      "height": 1
+    },
+    {
+      "map_section": "MAPSEC_CALDERA_GROTTO",
+      "name": "CALDERA GROTTO",
+      "x": 2,
+      "y": 9,
+      "width": 2,
+      "height": 1
+    },
+    {
+      "map_section": "MAPSEC_CASCADE_GROTTO",
+      "name": "CASCADE GROTTO",
+      "x": 2,
+      "y": 9,
+      "width": 2,
+      "height": 1
+    },
+    {
+      "map_section": "MAPSEC_MEADOW_GROTTO",
+      "name": "MEADOW GROTTO",
+      "x": 2,
+      "y": 9,
+      "width": 2,
+      "height": 1
+    },
+    {
       "map_section": "MAPSEC_DYNAMIC",
       "name": "",
       "x": 0,

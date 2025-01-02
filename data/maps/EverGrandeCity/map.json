@@ -19,7 +19,9 @@
       "direction": "left"
     }
   ],
-  "object_events": [],
+  "object_events": [
+
+  ],
   "warp_events": [
     {
       "x": 18,
@@ -48,6 +50,13 @@
       "elevation": 0,
       "dest_map": "MAP_VICTORY_ROAD_1F",
       "dest_warp_id": "1"
+    },
+    {
+      "x": 33,
+      "y": 70,
+      "elevation": 0,
+      "dest_map": "MAP_DRILBUR_CAVE",
+      "dest_warp_id": "8"
     }
   ],
   "coord_events": [

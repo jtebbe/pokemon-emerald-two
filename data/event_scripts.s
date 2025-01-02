@@ -1155,3 +1155,15 @@ EventScript_VsSeekerChargingDone::
 	.include "data/maps/LittlerootTown_MrNaturalsHouse/scripts.inc"
 
 	.include "data/maps/EmptyHouse/scripts.inc"
+
+	.include "data/maps/Route102_Grotto/scripts.inc"
+
+	.include "data/maps/DrilburCave/scripts.inc"
+
+	.include "data/maps/Route111_Grotto/scripts.inc"
+
+	.include "data/maps/JaggedPass_Grotto/scripts.inc"
+
+	.include "data/maps/Route119_Grotto/scripts.inc"
+
+	.include "data/maps/EverGrandeGrotto/scripts.inc"

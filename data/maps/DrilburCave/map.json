@@ -1,0 +1,122 @@
+{
+  "id": "MAP_DRILBUR_CAVE",
+  "name": "DrilburCave",
+  "layout": "LAYOUT_DRILBUR_CAVE",
+  "music": "MUS_ABANDONED_SHIP",
+  "region_map_section": "MAPSEC_DRILBUR_CAVE",
+  "requires_flash": false,
+  "weather": "WEATHER_NONE",
+  "map_type": "MAP_TYPE_UNDERGROUND",
+  "allow_cycling": true,
+  "allow_escaping": true,
+  "allow_running": true,
+  "show_map_name": true,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": 0,
+  "object_events": [
+    {
+      "graphics_id": "OBJ_EVENT_GFX_PUSHABLE_BOULDER",
+      "x": 32,
+      "y": 31,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "EventScript_StrengthBoulder",
+      "flag": "FLAG_TEMP_11"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_BREAKABLE_ROCK",
+      "x": 20,
+      "y": 36,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "EventScript_RockSmash",
+      "flag": "FLAG_TEMP_19"
+    }
+  ],
+  "warp_events": [
+    {
+      "x": 17,
+      "y": 38,
+      "elevation": 0,
+      "dest_map": "MAP_ROUTE102",
+      "dest_warp_id": "0"
+    },
+    {
+      "x": 10,
+      "y": 38,
+      "elevation": 0,
+      "dest_map": "MAP_ROUTE102_GROTTO",
+      "dest_warp_id": "0"
+    },
+    {
+      "x": 28,
+      "y": 38,
+      "elevation": 0,
+      "dest_map": "MAP_ROUTE111",
+      "dest_warp_id": "5"
+    },
+    {
+      "x": 36,
+      "y": 38,
+      "elevation": 0,
+      "dest_map": "MAP_ROUTE111_GROTTO",
+      "dest_warp_id": "0"
+    },
+    {
+      "x": 12,
+      "y": 23,
+      "elevation": 0,
+      "dest_map": "MAP_JAGGED_PASS",
+      "dest_warp_id": "5"
+    },
+    {
+      "x": 5,
+      "y": 24,
+      "elevation": 0,
+      "dest_map": "MAP_JAGGED_PASS_GROTTO",
+      "dest_warp_id": "0"
+    },
+    {
+      "x": 23,
+      "y": 17,
+      "elevation": 0,
+      "dest_map": "MAP_ROUTE119",
+      "dest_warp_id": "0"
+    },
+    {
+      "x": 35,
+      "y": 14,
+      "elevation": 0,
+      "dest_map": "MAP_ROUTE119_GROTTO",
+      "dest_warp_id": "0"
+    },
+    {
+      "x": 3,
+      "y": 2,
+      "elevation": 0,
+      "dest_map": "MAP_EVER_GRANDE_CITY",
+      "dest_warp_id": "4"
+    },
+    {
+      "x": 33,
+      "y": 3,
+      "elevation": 0,
+      "dest_map": "MAP_EVER_GRANDE_GROTTO",
+      "dest_warp_id": "0"
+    }
+  ],
+  "coord_events": [
+
+  ],
+  "bg_events": [
+
+  ]
+}
