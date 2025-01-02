@@ -1125,19 +1125,6 @@ static bool32 NoTargetPresent(u8 battler, u32 move)
     return FALSE;
 }
 
-static bool32 TryFormChangeBeforeMove(void)
-{
-    bool32 result = TryBattleFormChange(gBattlerAttacker, FORM_CHANGE_BATTLE_BEFORE_MOVE);
-    if (!result)
-        result = TryBattleFormChange(gBattlerAttacker, FORM_CHANGE_BATTLE_BEFORE_MOVE_CATEGORY);
-    if (!result)
-        return FALSE;
-
-    BattleScriptPushCursor();
-    gBattlescriptCurrInstr = BattleScript_AttackerFormChange;
-    return TRUE;
-}
-
 bool32 ProteanTryChangeType(u32 battler, u32 ability, u32 move, u32 moveType)
 {
       if ((ability == ABILITY_PROTEAN || ability == ABILITY_LIBERO)
@@ -1206,8 +1193,6 @@ static void Cmd_attackcanceler(void)
         gBattlescriptCurrInstr = BattleScript_MoveEnd;
         return;
     }
-    if (B_STANCE_CHANGE_FAIL < GEN_7 && TryFormChangeBeforeMove())
-        return;
     if (AtkCanceller_UnableToUseMove(moveType))
         return;
 
@@ -1279,8 +1264,6 @@ static void Cmd_attackcanceler(void)
         gMoveResultFlags |= MOVE_RESULT_MISSED;
         return;
     }
-    if (B_STANCE_CHANGE_FAIL >= GEN_7 && TryFormChangeBeforeMove())
-        return;
 
     gHitMarker &= ~HITMARKER_ALLOW_NO_PP;
 
@@ -2816,6 +2799,8 @@ static void Cmd_waitmessage(void)
         else
         {
             u16 toWait = cmd->time;
+            if (gTestRunnerHeadless)
+                gPauseCounterBattle = toWait;
             if (++gPauseCounterBattle >= toWait)
             {
                 gPauseCounterBattle = 0;
@@ -5317,6 +5302,8 @@ static void Cmd_pause(void)
     if (gBattleControllerExecFlags == 0)
     {
         u16 value = cmd->frames;
+        if (gTestRunnerHeadless)
+            gPauseCounterBattle = value;
         if (++gPauseCounterBattle >= value)
         {
             gPauseCounterBattle = 0;
@@ -6512,19 +6499,13 @@ static void Cmd_moveend(void)
                             }
                             else // Eject Pack
                             {
-                                if (gBattleResources->flags->flags[gBattlerTarget] & RESOURCE_FLAG_EMERGENCY_EXIT)
-                                {
-                                    gBattlescriptCurrInstr = BattleScript_EjectPackMissesTiming;
-                                    gProtectStructs[battler].statFell = FALSE;
-                                }
-                                else
+                                if (!(gBattleResources->flags->flags[gBattlerTarget] & RESOURCE_FLAG_EMERGENCY_EXIT))
                                 {
                                     gBattlescriptCurrInstr = BattleScript_EjectPackActivates;
                                     AI_DATA->ejectPackSwitch = TRUE;
-                                    // Are these 2 lines below needed?
-                                    gProtectStructs[battler].statFell = FALSE;
                                     gSpecialStatuses[gBattlerAttacker].preventLifeOrbDamage = TRUE;
                                 }
+                                gProtectStructs[battler].statFell = FALSE;
                             }
                             break; // Only the fastest Eject item activates
                         }
@@ -10432,6 +10413,7 @@ static void Cmd_various(void)
         {
             gBattlerSpriteIds[BATTLE_PARTNER(battler)] = gBattleScripting.savedDmg >> 8;
             gBattlerSpriteIds[battler] = gBattleScripting.savedDmg & 0xFF;
+            gBattleScripting.savedDmg = 0;
             if (IsBattlerAlive(battler))
             {
                 SetBattlerShadowSpriteCallback(battler, gBattleMons[battler].species);
