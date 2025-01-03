@@ -297,6 +297,8 @@ Route101_Text_WildPokemonInTallGrass:
 	.string "to go into the tall grass and search.$"
 
 Route101_Text_RouteSign:
-	.string "ROUTE 101\n"
-	.string "{UP_ARROW} OLDALE TOWN$"
+	.string "Over twenty different pokemon\n"
+	.string "populate most locations!\p"
+	.string "No two playthroughs will truly be\n"
+	.string "the same.$"
 

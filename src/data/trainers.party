@@ -228,12 +228,27 @@ Class: Team Aqua
 Pic: Aqua Grunt M
 Gender: Male
 Music: Aqua
-Double Battle: No
+Double Battle: Yes
 AI: Check Bad Move
 
-Poochyena
-Level: 9
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Carvanha @ Black Glasses  
+Ability: Speed Boost  
+Level: 5  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Adamant Nature  
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
+- Bite  
+- Aqua Jet  
+- Focus Energy
+
+Zubat @ Rocky Helmet  
+Ability: Inner Focus  
+Level: 5  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Detect  
+- Poison Fang  
+- Wing Attack
 
 === TRAINER_MARCEL ===
 Name: MARCEL
@@ -2119,13 +2134,30 @@ Class: Lady
 Pic: Lady
 Gender: Female
 Music: Female
-Items: Full Restore
-Double Battle: No
+Double Battle: Yes
 AI: Check Bad Move
 
-Zigzagoon @ Nugget
-Level: 7
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Cottonee @ Lum Berry  
+Ability: Prankster  
+Level: 5   
+EVs: 196 HP / 36 Def / 140 SpA / 56 SpD  
+Modest Nature  
+IVs: 0 Atk  
+- Charm  
+- Confide  
+- Cotton Spore  
+- Absorb
+
+Swirlix @ Safety Goggles  
+Ability: Sweet Veil  
+Level: 5  
+EVs: 180 HP / 44 SpA / 220 SpD / 64 Spe  
+Calm Nature  
+IVs: 0 Atk  
+- Fairy Wind  
+- Aromatherapy  
+- Cotton Guard  
+- Sticky Web
 
 === TRAINER_DAPHNE ===
 Name: DAPHNE
@@ -2523,13 +2555,28 @@ Class: Rich Boy
 Pic: Rich Boy
 Gender: Male
 Music: Rich
-Items: Full Restore
-Double Battle: No
+Double Battle: Yes
 AI: Check Bad Move
 
-Zigzagoon @ Nugget
-Level: 7
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Zigzagoon @ Assault Vest  
+Ability: Fur Coat  
+Level: 5  
+EVs: 8 HP / 196 Atk / 108 SpD / 196 Spe  
+Adamant Nature  
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
+- Tackle  
+- Pursuit  
+- Tail Slap
+
+Zigzagoon-Galar @ Toxic Orb  
+Ability: Quick Feet  
+Level: 5  
+EVs: 16 HP / 240 Atk / 12 SpD / 240 Spe  
+Adamant Nature  
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
+- Lick  
+- Tackle  
+- Fling
 
 === TRAINER_MOLLIE ===
 Name: MOLLIE
@@ -4795,32 +4842,49 @@ Pic: Leader Roxanne
 Gender: Female
 Music: Female
 Items: Potion / Potion
-Double Battle: No
+Double Battle: Yes
 AI: Basic Trainer
 
-Geodude
-Level: 12
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
-- Tackle
-- Defense Curl
-- Rock Throw
-- Rock Tomb
+Onix @ Eviolite  
+Ability: Intimidate  
+Level: 5  
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+- Sand Tomb  
+- Rock Tomb  
+- Wide Guard  
+- Protect
 
-Geodude
-Level: 12
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
-- Tackle
-- Defense Curl
-- Rock Throw
-- Rock Tomb
+Nosepass @ Rocky Helmet  
+Ability: Sturdy  
+Level: 5   
+EVs: 248 HP / 8 Atk / 252 SpD  
+Careful Nature  
+- Rock Tomb  
+- Thunder Wave  
+- Protect  
+- Iron Defense
 
-Nosepass @ Oran Berry
-Level: 15
-IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
-- Block
-- Harden
-- Tackle
-- Rock Tomb
+Cranidos @ Assault Vest  
+Ability: Sheer Force  
+Level: 5    
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Adamant Nature  
+- Rock Tomb  
+- Headbutt  
+- Trailblaze  
+- Thief
+
+Cubone @ Thick Club  
+Ability: Battle Armor  
+Level: 5  
+Tera Type: Rock  
+EVs: 248 HP / 252 Atk / 8 SpD  
+Adamant Nature  
+- Rock Tomb  
+- Protect  
+- Bonemerang  
+- Smack Down
 
 === TRAINER_BRAWLY_1 ===
 Name: BRAWLY
@@ -5975,16 +6039,29 @@ Class: Youngster
 Pic: Youngster
 Gender: Male
 Music: Male
-Double Battle: No
+Double Battle: Yes
 AI: Check Bad Move
 
-Zigzagoon
-Level: 5
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Bidoof @ Normal Gem  
+Ability: Simple  
+Level: 5  
+EVs: 204 HP / 236 Atk / 36 SpD / 28 Spe  
+Adamant Nature  
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
+- Swords Dance  
+- Amnesia  
+- Yawn  
+- Tackle
 
-Seedot
-Level: 7
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Clobbopus @ Punching Glove  
+Ability: Technician  
+Level: 5  
+EVs: 100 HP / 212 Atk / 196 Def  
+Adamant Nature  
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
+- Power-Up Punch  
+- Mega Punch  
+- Taunt
 
 === TRAINER_JOSH ===
 Name: JOSH
@@ -5992,13 +6069,28 @@ Class: Youngster
 Pic: Youngster
 Gender: Male
 Music: Male
-Double Battle: No
+Double Battle: Yes
 AI: Check Bad Move
 
-Geodude
-Level: 10
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
-- Tackle
+Amaura @ Assault Vest  
+Ability: Refrigerate  
+Level: 5  
+EVs: 252 HP / 252 SpA / 4 Spe  
+Modest Nature  
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
+- Round  
+- Roar  
+- Frost Breath
+
+Rolycoly @ Rocky Helmet  
+Ability: Steam Engine  
+Level: 5  
+EVs: 4 Atk / 252 SpA / 252 Spe  
+Naive Nature  
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
+- Round  
+- Rapid Spin  
+- Will-O-Wisp
 
 === TRAINER_TOMMY ===
 Name: TOMMY
@@ -6006,12 +6098,25 @@ Class: Youngster
 Pic: Youngster
 Gender: Male
 Music: Male
-Double Battle: No
+Double Battle: Yes
 AI: Check Bad Move
 
-Geodude
-Level: 8
-IVs: 13 HP / 13 Atk / 13 Def / 13 SpA / 13 SpD / 13 Spe
+Geodude @ Metronome  
+Ability: Rock Head  
+Level: 5  
+EVs: 252 HP / 252 Atk / 4 Def  
+Adamant Nature  
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
+- Bulldoze
+
+Geodude-Alola @ Air Balloon  
+Ability: Galvanize  
+Level: 5  
+EVs: 252 HP / 252 Atk / 4 Def  
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
+- Tackle  
+- Wide Guard  
+- Rock Throw
 
 Geodude
 Level: 8
@@ -6228,16 +6333,27 @@ Class: Youngster
 Pic: Youngster
 Gender: Male
 Music: Male
-Double Battle: No
+Double Battle: Yes
 AI: Check Bad Move
 
-Zigzagoon
-Level: 4
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Chingling @ Grassy Seed  
+Ability: Atonal Bells  
+Level: 5  
+EVs: 236 HP / 36 Def / 236 SpA  
+Modest Nature  
+IVs: 0 Atk  
+- Confusion  
+- Double Team  
+- Safeguard
 
-Taillow
-Level: 3
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Skiddo @ Berry Juice  
+Ability: Grass Pelt  
+Level: 5  
+EVs: 228 HP / 236 Atk / 20 SpA / 4 SpD / 20 Spe  
+Adamant Nature  
+- Grassy Terrain  
+- Bullet Seed  
+- Tackle
 
 === TRAINER_TIMMY ===
 Name: TIMMY
@@ -6342,20 +6458,41 @@ Class: Fisherman
 Pic: Fisherman
 Gender: Male
 Music: Hiker
-Double Battle: No
+Double Battle: Yes
 AI: Check Bad Move
 
-Magikarp
-Level: 5
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Arrokuda @ Mystic Water  
+Ability: Swift Swim  
+Level: 5  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Adamant Nature  
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
+- Flip Turn  
+- Bite  
+- Peck  
+- Endure
 
-Magikarp
-Level: 6
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Mantyke @ Oran Berry  
+Ability: Water Veil  
+Level: 5  
+EVs: 252 HP / 4 SpA / 252 SpD  
+Calm Nature  
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
+- Whirlpool  
+- Haze  
+- Water Gun  
+- Confuse Ray
 
-Magikarp
-Level: 7
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Barboach @ Focus Sash  
+Ability: Earth Eater  
+Level: 5  
+EVs: 252 HP / 252 Atk / 4 Def  
+Adamant Nature  
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
+- Headbutt  
+- Magnitude  
+- Spark  
+- Icy Wind
 
 === TRAINER_CLAUDE ===
 Name: CLAUDE
@@ -8822,9 +8959,25 @@ Music: Twins
 Double Battle: Yes
 AI: Check Bad Move
 
-Seedot
-Level: 6
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Slowpoke @ Iron Ball  
+Ability: Oblivious  
+Level: 5  
+EVs: 252 HP / 4 Def / 252 SpA  
+Modest Nature  
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
+- Trick Room  
+- Confusion  
+- Water Gun
+
+Bonsly @ Clear Amulet  
+Ability: Sturdy  
+Level: 5   
+EVs: 252 HP / 252 Atk / 4 Def  
+Adamant Nature  
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
+- Trailblaze  
+- Mud-Slap  
+- Rollout
 
 Lotad
 Level: 6
@@ -10582,16 +10735,26 @@ Class: Hiker
 Pic: Hiker
 Gender: Male
 Music: Hiker
-Double Battle: No
+Double Battle: Yes
 AI: Check Bad Move
 
-Geodude
-Level: 8
-IVs: 14 HP / 14 Atk / 14 Def / 14 SpA / 14 SpD / 14 Spe
+Aron @ Oran Berry  
+Ability: Rock Head  
+EVs: 252 HP / 252 Atk / 4 Def  
+Adamant Nature  
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
+- Take Down  
+- Rock Polish  
+- Defense Curl
 
-Geodude
-Level: 8
-IVs: 15 HP / 15 Atk / 15 Def / 15 SpA / 15 SpD / 15 Spe
+Nacli @ Chople Berry  
+Ability: Purifying Salt  
+Level: 5  
+EVs: 252 HP / 4 Atk / 252 Def  
+Impish Nature  
+- Rock Throw  
+- Headbutt  
+- Helping Hand
 
 === TRAINER_BRENDEN ===
 Name: BRENDEN
@@ -11075,16 +11238,28 @@ Class: Lass
 Pic: Lass
 Gender: Female
 Music: Female
-Double Battle: No
+Double Battle: Yes
 AI: Check Bad Move
 
-Zigzagoon
-Level: 4
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Lotad @ Eviolite  
+Ability: Swift Swim  
+Level: 5  
+EVs: 196 HP / 116 SpA / 196 SpD  
+Calm Nature  
+IVs: 0 Atk  
+- Leech Seed  
+- Protect  
+- Water Gun
 
-Shroomish
-Level: 4
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Drowzee @ Leftovers  
+Ability: Hypnotist  
+Level: 5  
+EVs: 196 HP / 76 Def / 40 SpA / 196 SpD  
+Calm Nature  
+IVs: 0 Atk  
+- Thunder Wave  
+- Disable  
+- Confusion
 
 === TRAINER_HALEY_1 ===
 Name: HALEY
@@ -11092,16 +11267,28 @@ Class: Lass
 Pic: Lass
 Gender: Female
 Music: Female
-Double Battle: No
+Double Battle: Yes
 AI: Check Bad Move
 
-Lotad
-Level: 6
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Skitty @ Silk Scarf  
+Ability: Normalize  
+Level: 5  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
+- Feint Attack  
+- Charm  
+- Icy Wind
 
-Shroomish
-Level: 6
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Glameow @ Red Card  
+Ability: Limber  
+Level: 5  
+EVs: 252 Atk / 4 Def / 252 Spe  
+Jolly Nature  
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
+- Fake Out  
+- Tail Whip  
+- Quick Attack
 
 === TRAINER_JANICE ===
 Name: JANICE
@@ -11279,16 +11466,28 @@ Class: Bug Catcher
 Pic: Bug Catcher
 Gender: Male
 Music: Male
-Double Battle: No
+Double Battle: Yes
 AI: Check Bad Move
 
-Wurmple
-Level: 4
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Kricketot @ Bright Powder  
+Ability: Concertmaster  
+Level: 5
+EVs: 220 HP / 236 Atk / 28 SpD / 24 Spe  
+Adamant Nature  
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
+- Bug Bite  
+- Growl  
+- String Shot
 
-Wurmple
-Level: 4
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Dewpider @ Oran Berry  
+Ability: Water Bubble  
+Level: 5
+EVs: 212 HP / 20 Def / 240 SpA / 20 SpD / 16 Spe  
+Modest Nature  
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
+- Water Gun  
+- Spider Web  
+- Infestation
 
 === TRAINER_LYLE ===
 Name: LYLE
@@ -11296,24 +11495,28 @@ Class: Bug Catcher
 Pic: Bug Catcher
 Gender: Male
 Music: Male
-Double Battle: No
+Double Battle: Yes
 AI: Check Bad Move
 
-Wurmple
-Level: 3
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Ledyba @ Loaded Dice  
+Ability: Iron Fist  
+Level: 5  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
+- Comet Punch  
+- Swords Dance  
+- Encore
 
-Wurmple
-Level: 3
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
-
-Wurmple
-Level: 3
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
-
-Wurmple
-Level: 3
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Sizzlipede @ Focus Sash  
+Ability: Flame Body  
+Level: 5  
+EVs: 68 HP / 200 Atk / 40 Def / 200 Spe  
+Naive Nature  
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
+- Coil  
+- Bug Bite  
+- Fire Spin
 
 === TRAINER_JOSE ===
 Name: JOSE
@@ -11385,16 +11588,28 @@ Class: Bug Catcher
 Pic: Bug Catcher
 Gender: Male
 Music: Male
-Double Battle: No
+Double Battle: Yes
 AI: Check Bad Move
 
-Nincada
-Level: 6
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Applin @ Yache Berry  
+Ability: Ripen  
+Level: 5  
+EVs: 252 HP / 252 Atk / 4 Def  
+Adamant Nature  
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
+- Pounce  
+- Withdraw  
+- Grassy Glide
 
-Nincada
-Level: 6
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Grookey @ Miracle Seed  
+Ability: Grassy Surge  
+Level: 5  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
+- Fake Out  
+- Branch Poke  
+- Growl
 
 === TRAINER_JAMES_2 ===
 Name: JAMES
@@ -12998,12 +13213,26 @@ Class: Fisherman
 Pic: Fisherman
 Gender: Male
 Music: Hiker
-Double Battle: No
+Double Battle: Yes
 AI: Check Bad Move
 
-Magikarp
-Level: 9
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Magikarp @ Flying Gem  
+Ability: Rattled  
+Level: 5  
+EVs: 252 Atk / 4 Def / 252 Spe  
+Adamant Nature  
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
+- Bounce
+
+Sandygast @ Colbur Berry  
+Ability: Water Compaction  
+Level: 5  
+EVs: 236 HP / 196 Def / 76 SpA  
+Bold Nature  
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
+- Mud-Slap  
+- Night Shade  
+- Scary Face
 
 === TRAINER_HAILEY ===
 Name: HAILEY

@@ -273,12 +273,12 @@ PetalburgWoods_EventScript_Sign2::
 	end
 
 PetalburgWoods_EventScript_Lyle::
-	trainerbattle_single TRAINER_LYLE, PetalburgWoods_Text_GoBugPokemonTeam, PetalburgWoods_Text_ICouldntWin
+	trainerbattle_double TRAINER_LYLE, PetalburgWoods_Text_GoBugPokemonTeam, PetalburgWoods_Text_ICouldntWin, PetalburgWoods_Text_NotEnoughMons
 	msgbox PetalburgWoods_Text_ImOutOfPokeBalls, MSGBOX_AUTOCLOSE
 	end
 
 PetalburgWoods_EventScript_James::
-	trainerbattle_single TRAINER_JAMES_1, PetalburgWoods_Text_InstantlyPopularWithBugPokemon, PetalburgWoods_Text_CantBePopularIfILose, PetalburgWoods_EventScript_TryRegisterJames
+	trainerbattle_double TRAINER_JAMES_1, PetalburgWoods_Text_InstantlyPopularWithBugPokemon, PetalburgWoods_Text_CantBePopularIfILose, PetalburgWoods_Text_NotEnoughMons, PetalburgWoods_EventScript_TryRegisterJames
 	specialvar VAR_RESULT, ShouldTryRematchBattle
 	goto_if_eq VAR_RESULT, TRUE, PetalburgWoods_EventScript_JamesRematch
 	setvar VAR_0x8004, TRAINER_JAMES_1
@@ -348,6 +348,9 @@ PetalburgWoods_Text_NoOneCrossesTeamAqua:
 	.string "No one who crosses TEAM AQUA\n"
 	.string "gets any mercy, not even a kid!\p"
 	.string "Come on and battle me!$"
+
+PetalburgWoods_Text_AquaGruntIntro:
+	.string "Let's do this!$"
 
 PetalburgWoods_Text_YoureKiddingMe:
 	.string "You're kidding me! You're tough!$"
@@ -474,3 +477,6 @@ PetalburgWoods_Text_TrainerTipsPP:
 	.string "If a POKéMON runs out of PP, it must be\n"
 	.string "taken to a POKéMON CENTER.$"
 
+PetalburgWoods_Text_NotEnoughMons:
+	.string "Oh, you don't have two POKéMON?\n"
+	.string "What is this, amateur hour?$"

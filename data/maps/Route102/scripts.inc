@@ -18,7 +18,7 @@ Route102_EventScript_Boy::
 	end
 
 Route102_EventScript_Calvin::
-	trainerbattle_double TRAINER_CALVIN_1, Route102_Text_CalvinIntro, Route102_Text_CalvinDefeated, Route102_EventScript_CalvinRegisterMatchCallAfterBattle
+	trainerbattle_double TRAINER_CALVIN_1, Route102_Text_CalvinIntro, Route102_Text_CalvinDefeated, Route102_Text_NotEnoughPokemon, Route102_EventScript_CalvinRegisterMatchCallAfterBattle
 	setvar VAR_0x8004, TRAINER_CALVIN_1
 	specialvar VAR_RESULT, IsTrainerRegistered
 	goto_if_eq VAR_RESULT, FALSE, Route102_EventScript_CalvinTryRegister
@@ -52,17 +52,17 @@ Route102_EventScript_CalvinRegister::
 	end
 
 Route102_EventScript_Rick::
-	trainerbattle_single TRAINER_RICK, Route102_Text_RickIntro, Route102_Text_RickDefeated
+	trainerbattle_double TRAINER_RICK, Route102_Text_RickIntro, Route102_Text_RickDefeated, Route102_Text_NotEnoughPokemon
 	msgbox Route102_Text_RickPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route102_EventScript_Tiana::
-	trainerbattle_single TRAINER_TIANA, Route102_Text_TianaIntro, Route102_Text_TianaDefeated
+	trainerbattle_double TRAINER_TIANA, Route102_Text_TianaIntro, Route102_Text_TianaDefeated, Route102_Text_NotEnoughPokemon
 	msgbox Route102_Text_TianaPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route102_EventScript_Allen::
-	trainerbattle_single TRAINER_ALLEN, Route102_Text_AllenIntro, Route102_Text_AllenDefeated
+	trainerbattle_double TRAINER_ALLEN, Route102_Text_AllenIntro, Route102_Text_AllenDefeated, Route102_Text_NotEnoughPokemon
 	msgbox Route102_Text_AllenPostBattle, MSGBOX_AUTOCLOSE
 	end
 
@@ -98,6 +98,10 @@ Route102_Text_RouteSignOldale:
 	.string "Stronger trainers guard useful\p"
 	.string "items. Approach them carefully,\n"
 	.string "and take them down for rewards!$"
+
+Route102_Text_NotEnoughPokemon:
+	.string "You don't have enough pokemon?\n"
+	.string "Pff, amateur...$"
 
 Route102_Text_RouteSignPetalburg:
 	.string "Tips from the Creator Part 2:\n"
