@@ -361,8 +361,24 @@ SlateportCity_EventScript_PokefanF::
 	msgbox SlateportCity_Text_BuyTooMuch, MSGBOX_NPC
 	end
 
-SlateportCity_EventScript_Man2::
-	msgbox SlateportCity_Text_BattleTentBuiltRecently, MSGBOX_NPC
+SlateportCity_EventScript_Clark::
+	goto_if_set FLAG_DEFEATED_CLARK, SlateportCity_EventScript_ClarkPostDefeat
+	msgbox SlateportCity_Text_ClarkStart, MSGBOX_NPC
+	msgbox SlateportCity_Text_ClarkQuestion, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, YES, SlateportCity_EventScript_BattleClark
+	msgbox SlateportCity_Text_ClarkReject, MSGBOX_NPC
+	end
+
+SlateportCity_EventScript_BattleClark::
+	msgbox SlateportCity_Text_ClarkIntro, MSGBOX_NPC
+	trainerbattle_no_intro TRAINER_CLARK, SlateportCity_Text_ClarkDefeat
+	setflag FLAG_DEFEATED_CLARK
+	msgbox SlateportCity_Text_ClarkReward, MSGBOX_NPC
+	giveitem ITEM_TM_SNARL
+	goto SlateportCity_EventScript_ClarkPostDefeat
+
+SlateportCity_EventScript_ClarkPostDefeat::
+	msgbox SlateportCity_Text_ClarkPostDefeat, MSGBOX_NPC
 	end
 
 SlateportCity_EventScript_AquaGrunt1::
@@ -1121,13 +1137,33 @@ SlateportCity_Text_CantChangeTradeMonName:
 	.string "The original TRAINER's love for that\n"
 	.string "POKéMON is in the nickname.$"
 
-SlateportCity_Text_BattleTentBuiltRecently:
-	.string "Recently, a BATTLE TENT was built\n"
-	.string "in SLATEPORT.\p"
-	.string "GYMS are fun, but the BATTLE TENT's\n"
-	.string "awesome in its own way.\p"
-	.string "You should go find tough POKéMON\n"
-	.string "for the BATTLE TENT!$"
+SlateportCity_Text_ClarkStart:
+	.string "Well now, you look like quite the tough\n"
+	.string "trainer.$"
+
+SlateportCity_Text_ClarkQuestion:
+	.string "How would you like to earn yourself an\n"
+	.string "interesting TM?$"
+
+SlateportCity_Text_ClarkReject:
+	.string "Hey, your loss!$"
+
+SlateportCity_Text_ClarkIntro:
+	.string "Nice, nice! Time for you to find out\n"
+	.string "why I'm called the SNARL merchant!$"
+
+SlateportCity_Text_ClarkDefeat:
+	.string "Heh! Can't win them all.$"
+
+SlateportCity_Text_ClarkReward:
+	.string "Whew, what a match! Here, take this\n"
+	.string "and terrorize your foes too.$"
+
+SlateportCity_Text_ClarkPostDefeat:
+	.string "Lowering both foes' SpAtk is a \n"
+	.string "powerful tool, to be sure.\p"
+	.string "Best not to let it be a crutch,\n"
+	.string "though.$"
 
 SlateportCity_Text_CaptSternBeingInterviewed:
 	.string "I was hoping that it was a famous star\n"
