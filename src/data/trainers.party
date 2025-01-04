@@ -229,7 +229,7 @@ Pic: Aqua Grunt M
 Gender: Male
 Music: Aqua
 Double Battle: Yes
-AI: Check Bad Move
+AI: Basic Trainer
 
 Carvanha @ Black Glasses  
 Ability: Speed Boost  
@@ -246,6 +246,7 @@ Ability: Inner Focus
 Level: 5  
 EVs: 252 Atk / 4 SpD / 252 Spe  
 Jolly Nature  
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 - Detect  
 - Poison Fang  
 - Wing Attack
@@ -4817,16 +4818,15 @@ Adamant Nature
 - Wide Guard  
 - Protect
 
-Glimmet @ Focus Sash  
-Ability: Toxic Debris  
-Level: 5   
-EVs: 252 SpA / 4 SpD / 252 Spe  
-Timid Nature  
-IVs: 0 Atk  
+Anorith @ Focus Sash  
+Ability: Battle Armor  
+Level: 5  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
 - Stealth Rock  
-- Spikes  
-- Ancient Power  
-- Acid Spray
+- Rock Tomb  
+- Bug Bite  
+- String Shot
 
 Nosepass @ Rocky Helmet  
 Ability: Sturdy  
@@ -6110,7 +6110,7 @@ IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 - Rock Throw
 - Protect
 
-Shieldon @ Assault Vest  
+Shieldon @ Air Balloon  
 Ability: Sturdy  
 Level: 5    
 EVs: 248 HP / 252 Atk / 8 SpA  

@@ -428,10 +428,12 @@ static void Task_HandleStopLearningMoveYesNoInput(u8);
 static void Task_TryLearningNextMoveAfterText(u8);
 static void BufferMonStatsToTaskData(struct Pokemon *, s16 *);
 static void UpdateMonDisplayInfoAfterRareCandy(u8, struct Pokemon *);
+/*
 static void Task_DisplayLevelUpStatsPg1(u8);
 static void DisplayLevelUpStatsPg1(u8);
 static void Task_DisplayLevelUpStatsPg2(u8);
 static void DisplayLevelUpStatsPg2(u8);
+*/
 static void Task_TryLearnNewMoves(u8);
 static void PartyMenuTryEvolution(u8);
 static void DisplayMonNeedsToReplaceMove(u8);
@@ -2762,13 +2764,13 @@ static void PartyMenuDisplayYesNoMenu(void)
 {
     CreateYesNoMenu(&sPartyMenuYesNoWindowTemplate, 0x4F, 13, 0);
 }
-
+/*
 static u8 CreateLevelUpStatsWindow(void)
 {
     sPartyMenuInternal->windowId[0] = AddWindow(&sLevelUpStatsWindowTemplate);
     DrawStdFrameWithCustomTileAndPalette(sPartyMenuInternal->windowId[0], FALSE, 0x4F, 13);
     return sPartyMenuInternal->windowId[0];
-}
+}*/
 
 static void RemoveLevelUpStatsWindow(void)
 {
@@ -5643,7 +5645,8 @@ void ItemUseCB_RareCandy(u8 taskId, TaskFunc task)
 
             DisplayPartyMenuMessage(gStringVar4, TRUE);
             ScheduleBgCopyTilemapToVram(2);
-            gTasks[taskId].func = Task_DisplayLevelUpStatsPg1;
+            sInitialLevel += 1;
+            gTasks[taskId].func = Task_TryLearnNewMoves;
         }
         else
         {
@@ -5671,7 +5674,7 @@ static void UpdateMonDisplayInfoAfterRareCandy(u8 slot, struct Pokemon *mon)
     ScheduleBgCopyTilemapToVram(0);
 }
 
-static void Task_DisplayLevelUpStatsPg1(u8 taskId)
+/*static void Task_DisplayLevelUpStatsPg1(u8 taskId)
 {
     if (WaitFanfare(FALSE) && IsPartyMenuTextPrinterActive() != TRUE && ((JOY_NEW(A_BUTTON)) || (JOY_NEW(B_BUTTON))))
     {
@@ -5709,7 +5712,7 @@ static void DisplayLevelUpStatsPg2(u8 taskId)
     DrawLevelUpWindowPg2(arrayPtr[12], &arrayPtr[6], TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_LIGHT_GRAY);
     CopyWindowToVram(arrayPtr[12], COPYWIN_GFX);
     ScheduleBgCopyTilemapToVram(2);
-}
+}*/
 
 static void Task_TryLearnNewMoves(u8 taskId)
 {
