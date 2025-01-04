@@ -5284,7 +5284,7 @@
     "LevelMoves": [
       {
         "Level": 1,
-        "Move": "MOVE_TELEPORT"
+        "Move": "MOVE_PSYWAVE"
       }
     ],
     "PreEvoMoves": [],
