@@ -2599,7 +2599,7 @@ u8 DoBattlerEndTurnEffects(void)
                     PREPARE_MOVE_BUFFER(gBattleTextBuff1, gBattleStruct->wrappedMove[battler]);
                     gBattlescriptCurrInstr = BattleScript_WrapTurnDmg;
                     if (GetBattlerHoldEffect(gBattleStruct->wrappedBy[battler], TRUE) == HOLD_EFFECT_BINDING_BAND)
-                        gBattleMoveDamage = GetNonDynamaxMaxHP(battler) / (B_BINDING_DAMAGE >= GEN_6 ? 6 : 8);
+                        gBattleMoveDamage = GetNonDynamaxMaxHP(battler) / (B_BINDING_DAMAGE >= GEN_6 ? 4 : 8);
                     else
                         gBattleMoveDamage = GetNonDynamaxMaxHP(battler) / (B_BINDING_DAMAGE >= GEN_6 ? 8 : 16);
 
@@ -9640,6 +9640,10 @@ static inline u32 CalcMoveBasePowerAfterModifiers(struct DamageCalculationData *
         break;
     case HOLD_EFFECT_PUNCHING_GLOVE:
         if (gMovesInfo[move].punchingMove)
+           modifier = uq4_12_multiply(modifier, UQ_4_12(1.1));
+        break;
+    case HOLD_EFFECT_BIG_ROOT:
+        if (gMovesInfo[move].healingMove)
            modifier = uq4_12_multiply(modifier, UQ_4_12(1.1));
         break;
     case HOLD_EFFECT_OGERPON_MASK:

@@ -147,6 +147,7 @@ Route103_EventScript_RivalEnd::
 	clearflag FLAG_HIDE_OLDALE_TOWN_RIVAL
 	savebgm MUS_DUMMY
 	fadedefaultbgm
+	msgbox Route103_Text_LevelCapUp, MSGBOX_DEFAULT
 	releaseall
 	end
 
@@ -353,3 +354,5 @@ Route103_Text_RouteSign:
 	.string "ROUTE 103\n"
 	.string "{DOWN_ARROW} OLDALE TOWN$"
 
+Route103_Text_LevelCapUp:
+	.string "The level cap has risen to 16.$"
