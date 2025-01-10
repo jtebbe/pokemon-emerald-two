@@ -10130,7 +10130,7 @@ static inline uq4_12_t GetOneTwoModifier(u32 battlerAtk)
 {
     if (gSpecialStatuses[battlerAtk].oneTwoState != ONE_TWO_2ND_HIT)
         return UQ_4_12(1.0);
-    return B_PARENTAL_BOND_DMG >= GEN_7 ? UQ_4_12(0.3) : UQ_4_12(0.5);
+    return UQ_4_12(0.3);
 }
 
 static inline uq4_12_t GetSameTypeAttackBonusModifier(struct DamageCalculationData *damageCalcData, u32 abilityAtk)

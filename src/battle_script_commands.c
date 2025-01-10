@@ -6379,6 +6379,9 @@ static void Cmd_moveend(void)
                     {
                         if (gSpecialStatuses[gBattlerAttacker].parentalBondState)
                             gSpecialStatuses[gBattlerAttacker].parentalBondState--;
+                        
+                        if (gSpecialStatuses[gBattlerAttacker].oneTwoState)
+                            gSpecialStatuses[gBattlerAttacker].oneTwoState--;
 
                         gHitMarker |= (HITMARKER_NO_PPDEDUCT | HITMARKER_NO_ATTACKSTRING);
                         gBattleScripting.animTargetsHit = 0;

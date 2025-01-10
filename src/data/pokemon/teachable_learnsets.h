@@ -6867,6 +6867,7 @@ static const u16 sRapidashTeachableLearnset[] = {
 static const u16 sPonytaGalarTeachableLearnset[] = {
     MOVE_AGILITY,
     MOVE_BODY_SLAM,
+    MOVE_BULLDOZE,
     MOVE_CALM_MIND,
     MOVE_CHARM,
     MOVE_DAZZLING_GLEAM,
@@ -6905,6 +6906,7 @@ static const u16 sRapidashGalarTeachableLearnset[] = {
     MOVE_AGILITY,
     MOVE_BATON_PASS,
     MOVE_BODY_SLAM,
+    MOVE_BULLDOZE,
     MOVE_CALM_MIND,
     MOVE_CHARM,
     MOVE_DAZZLING_GLEAM,

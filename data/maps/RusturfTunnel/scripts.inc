@@ -517,10 +517,8 @@ RusturfTunnel_Text_BoyfriendOnOtherSideOfRock:
 	.string "for the benefit of everyone.$"
 
 RusturfTunnel_Text_MikeIntro:
-	.string "What do you call a wild man up in the\n"
-	.string "mountains? A mountain man, right?\p"
-	.string "So why don't they call a POKéMON in\n"
-	.string "the mountains a mountain POKéMON?$"
+	.string "Do you watch Sloppy Walrus too?\n"
+	.string "Bomba!$"
 
 RusturfTunnel_Text_MikeDefeat:
 	.string "My POKéMON…\n"

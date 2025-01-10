@@ -274,11 +274,9 @@ static void FindMapsWithMon(u16 species)
             switch (sFeebasData[i][1])
             {
             case MAP_GROUP_TOWNS_AND_ROUTES:
-                SetAreaHasMon(sFeebasData[i][1], sFeebasData[i][2]);
                 break;
             case MAP_GROUP_DUNGEONS:
             case MAP_GROUP_SPECIAL_AREA:
-                SetSpecialMapHasMon(sFeebasData[i][1], sFeebasData[i][2]);
                 break;
             }
         }

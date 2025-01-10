@@ -282,40 +282,96 @@ DewfordTown_Gym_EventScript_GymStatue::
 	releaseall
 	end
 
+DewfordTown_Gym_EventScript_BrawlyStatue::
+	msgbox DewfordTown_Gym_Text_BrawlyStatue, MSGBOX_DEFAULT
+	releaseall
+	end
+
+DewfordTown_Gym_EventScript_FirstQuestionSign::
+	msgbox DewfordTown_Gym_Text_FirstQuestion, MSGBOX_DEFAULT
+	releaseall
+	end
+
+DewfordTown_Gym_EventScript_FirstQuestionAnswerOneSign::
+	msgbox DewfordTown_Gym_Text_FirstQuestionFirstAnswer, MSGBOX_DEFAULT
+	releaseall
+	end
+
+DewfordTown_Gym_EventScript_FirstQuestionAnswerTwoSign::
+	msgbox DewfordTown_Gym_Text_FirstQuestionSecondAnswer, MSGBOX_DEFAULT
+	releaseall
+	end
+
+DewfordTown_Gym_EventScript_FirstQuestionAnswerThreeSign::
+	msgbox DewfordTown_Gym_Text_FirstQuestionThirdAnswer, MSGBOX_DEFAULT
+	releaseall
+	end
+
+DewfordTown_Gym_EventScript_SecondQuestionSign::
+	msgbox DewfordTown_Gym_Text_SecondQuestion, MSGBOX_DEFAULT
+	releaseall
+	end
+
+DewfordTown_Gym_EventScript_SecondQuestionAnswerOneSign::
+	msgbox DewfordTown_Gym_Text_SecondQuestionFirstAnswer, MSGBOX_DEFAULT
+	releaseall
+	end
+
+DewfordTown_Gym_EventScript_SecondQuestionAnswerTwoSign::
+	msgbox DewfordTown_Gym_Text_SecondQuestionSecondAnswer, MSGBOX_DEFAULT
+	releaseall
+	end
+
+DewfordTown_Gym_EventScript_SecondQuestionAnswerThreeSign::
+	msgbox DewfordTown_Gym_Text_SecondQuestionThirdAnswer, MSGBOX_DEFAULT
+	releaseall
+	end
+
+DewfordTown_Gym_EventScript_SecondQuestionAnswerFourSign::
+	msgbox DewfordTown_Gym_Text_SecondQuestionFourthAnswer, MSGBOX_DEFAULT
+	releaseall
+	end
+
+DewfordTown_Gym_EventScript_SecondQuestionAnswerFiveSign::
+	msgbox DewfordTown_Gym_Text_SecondQuestionFifthAnswer, MSGBOX_DEFAULT
+	releaseall
+	end
+
 DewfordTown_Gym_Text_GymGuideAdvice:
-	.string "Hey, how's it going, CHAMPION-\n"
-	.string "bound {PLAYER}?\p"
-	.string "DEWFORD's GYM LEADER BRAWLY commands\n"
-	.string "FIGHTING-type POKéMON.\p"
-	.string "Going against him with NORMAL-type\n"
-	.string "POKéMON is asking for trouble.\p"
-	.string "FIGHTING POKéMON will lay a serious\n"
-	.string "smack down on NORMAL POKéMON,\l"
-	.string "so be careful!\p"
-	.string "What's worse, the GYM is as dark as\n"
-	.string "the ocean floor.\p"
-	.string "But it will get brighter after defeating\n"
-	.string "the TRAINERS in your way.\p"
-	.string "Hey, okay, go for it!$"
+	.string "Oh... hey {PLAYER}.\p"
+	.string "DEWFORD's GYM LEADER BRAWLY uh...\p"
+	.string "Well there's no sugarcoating it.\n"
+	.string "He's gone a bit crazy.\p"
+	.string "All because he lost to some kid using\n"
+	.string "PSYCHIC POKéMON.\p"
+	.string "Now, he's all about mental health\n"
+	.string "and calls this the Gym of the Mind?\p"
+	.string "I need to give Wallace a call and\n"
+	.string "see if we can replace him.\p"
+	.string "Well, that or you can talk some\n"
+	.string "sense into him!.\p"
+	.string "Or hey, maybe your battling can do\n"
+	.string "it!$"
 
 DewfordTown_Gym_Text_GymGuidePostVictory:
-	.string "Whoah! It's turned too bright in here!\p"
-	.string "Your future is bright, too!$"
+	.string "Thank God! That dumbass is back\n"
+	.string "to normal!$"
 
 DewfordTown_Gym_Text_TakaoIntro:
 	.string "Might is right!\n"
-	.string "Come on!$"
+	.string "Brawly is wrong!$"
 
 DewfordTown_Gym_Text_TakaoDefeat:
-	.string "Not enough power…$"
+	.string "Maybe I do need mental health\n"
+	.string "counseling...$"
 
 DewfordTown_Gym_Text_TakaoPostBattle:
 	.string "Your skill overcame my strength!\n"
-	.string "Your technique is commendable!$"
+	.string "Can you teach me your mantras?$"
 
 DewfordTown_Gym_Text_JocelynIntro:
-	.string "There's no need for BRAWLY to be\n"
-	.string "involved!\p"
+	.string "There's no need for that pansy\n"
+	.string "BRAWLY to be involved!\p"
 	.string "I'll crush you!$"
 
 DewfordTown_Gym_Text_JocelynDefeat:
@@ -323,11 +379,11 @@ DewfordTown_Gym_Text_JocelynDefeat:
 	.string "How could I lose so easily?$"
 
 DewfordTown_Gym_Text_JocelynPostBattle:
-	.string "I'm not going to waste this loss.\n"
-	.string "I'll use it to motivate me to train!\p"
-	.string "One day I'll become a GYM LEADER…\p"
-	.string "No, I'll become the POKéMON LEAGUE\n"
-	.string "CHAMPION!$"
+	.string "What... what is this feeling?.\n"
+	.string "Depression?\p"
+	.string "No, I'm too strong for that!\p"
+	.string "Next time we meet, I'll whoop your\n"
+	.string "sorry ass!$"
 
 DewfordTown_Gym_Text_LauraIntro:
 	.string "Don't you dare brush me off!\n"
@@ -338,62 +394,74 @@ DewfordTown_Gym_Text_LauraDefeat:
 	.string "I lost!$"
 
 DewfordTown_Gym_Text_LauraPostBattle:
-	.string "I battle in the dark to make my heart\n"
-	.string "stronger.\p"
+	.string "I battle in the dark to please my\n"
+	.string "emo teenage heart.\p"
 	.string "But because it's so dark, I can never\n"
-	.string "see BRAWLY's face…$"
+	.string "see BRAWLY's stupid sexy face…$"
 
 DewfordTown_Gym_Text_LilithIntro:
-	.string "Ufufu…\n"
-	.string "Are you stumbling around in the dark?$"
+	.string "Yeah... I thought that it was\n"
+	.string "the Buddha too, but apparently\l"
+	.string "he took that name afterwards.$"
 
 DewfordTown_Gym_Text_LilithDefeat:
-	.string "Oh, you…\n"
-	.string "I don't want to know you!$"
+	.string "Sigh...$"
 
 DewfordTown_Gym_Text_LilithPostBattle:
-	.string "You deserve to stay lost and end up\n"
-	.string "back at the entrance again!$"
+	.string "Please go beat some sense into\n"
+	.string "Brawly, this shit is stupid$"
 
 DewfordTown_Gym_Text_BrendenIntro:
-	.string "I'll show you the gumption of\n"
-	.string "a sailing man!$"
+	.string "Brawly needs a lesson in sailing,\n"
+	.string "nothing like the sea to humble a man!$"
 
 DewfordTown_Gym_Text_BrendenDefeat:
-	.string "How'd this happen?\n"
-	.string "It's not like me to lose this way!$"
+	.string "You... have you too been brought\n"
+	.string "to your knees by the ocean?!$"
 
 DewfordTown_Gym_Text_BrendenPostBattle:
 	.string "Oh, aye! You're worthy of seeing\n"
-	.string "our GYM LEADER.$"
+	.string "our GYM LEADER.\p"
+	.string "Fix him, and our gym will recover.$"
 
 DewfordTown_Gym_Text_CristianIntro:
-	.string "If you mean to pass, it has to be\n"
-	.string "through me!$"
+	.string "Really?\p"
+	.string "You chose Kanye?\p"
+	.string "Slavery was a choice Kanye?\p"
+	.string "Hitler was right Kanye?\p"
+	.string "Do me and everyone else a favor.\p"
+	.string "Turn off your gameboy or emulator,\n"
+	.string "and go jump in the nearest body\l"
+	.string "of freezing water.\p"
+	.string "Your mind needs cleansing,\n"
+	.string "and your body will too after this!$"
 
 DewfordTown_Gym_Text_CristianDefeat:
-	.string "Grrrrr!\n"
-	.string "Vastly overpowered!$"
+	.string "Was... was Kanye right?\n"
+	.string "Sike, oh HELL nah.$"
 
 DewfordTown_Gym_Text_CristianPostBattle:
-	.string "You win!\n"
-	.string "Go after that BADGE!$"
+	.string "Sigh... what has our world\n"
+	.string "come to?$"
 
 DewfordTown_Gym_Text_BrawlyIntro:
+	.string "Namaste!\p"
 	.string "I'm BRAWLY!\n"
 	.string "DEWFORD's GYM LEADER!\p"
-	.string "I've been churned in the rough waves\n"
-	.string "of these parts, and I've grown tough\l"
-	.string "in the pitch-black cave!\p"
+	.string "I've learned from my mistakes, and\n"
+	.string "have trained my mind in addition\l"
+	.string "to my well-honed body!\p"
 	.string "So you wanted to challenge me?\n"
-	.string "Let me see what you're made of!$"
+	.string "Let us see the balance of your\p"
+	.string "chakras!$"
 
 DewfordTown_Gym_Text_BrawlyDefeat:
-	.string "Whoah, wow! You made a much bigger\n"
-	.string "splash than I expected!\p"
-	.string "You swamped me!\p"
-	.string "Okay, you've got me.\n"
-	.string "Take this GYM BADGE!$"
+	.string "Alright fuck this stupid, mumbo-jumbo\n"
+	.string "mind shit. A GYM LEADER is only a\l"
+	.string "stepping stone to the league!\p"
+	.string "May as well do what I do best, and\n"
+	.string "pummel my opponents.\p" 
+	.string "Here, my GYM BADGE.$"
 
 DewfordTown_Gym_Text_ReceivedKnuckleBadge:
 	.string "{PLAYER} received the KNUCKLE BADGE\n"
@@ -419,16 +487,16 @@ DewfordTown_Gym_Text_RegisteredBrawly:
 	.string "in the POKéNAV.$"
 
 DewfordTown_Gym_Text_BrawlyPostBattle:
-	.string "I can see your talent becoming a giant\n"
-	.string "wave to cause a storm of astonishment\l"
-	.string "among TRAINERS one day!$"
+	.string "Keep moving forward, I will too.\p"
+	.string "Some day, I look forward to\n"
+	.string "reversing this battle's outcome!$"
 
 DewfordTown_Gym_Text_GymStatue:
-	.string "DEWFORD TOWN POKéMON GYM$"
+	.string "DEWFORD TOWN MENTAL RETREAT$"
 
 DewfordTown_Gym_Text_GymStatueCertified:
-	.string "DEWFORD TOWN POKéMON GYM\p"
-	.string "BRAWLY'S CERTIFIED TRAINERS:\n"
+	.string "DEWFORD TOWN MENTAL RETREAT\p"
+	.string "BRAWLY'S REHABILITATED INMATES:\n"
 	.string "{PLAYER}$"
 
 DewfordTown_Gym_Text_BrawlyPreRematch:
@@ -457,3 +525,38 @@ DewfordTown_Gym_Text_BrawlyRematchNeedTwoMons:
 	.string "that can battle.\p"
 	.string "I'm sorry, but I'd like you to come back\n"
 	.string "with at least two POKéMON.$"
+
+DewfordTown_Gym_Text_FirstQuestion:
+	.string "Which of the body's chakras holds\n"
+	.string "the power of meditation?$"
+
+DewfordTown_Gym_Text_SecondQuestion:
+	.string "Who was the first to reach true, total\n"
+	.string "enlightenment?$"
+
+DewfordTown_Gym_Text_FirstQuestionFirstAnswer:
+	.string "Ajna$"
+
+DewfordTown_Gym_Text_FirstQuestionSecondAnswer:
+	.string "Manipura$"
+
+DewfordTown_Gym_Text_FirstQuestionThirdAnswer:
+	.string "Svadhishthana$"
+
+DewfordTown_Gym_Text_SecondQuestionFirstAnswer:
+	.string "The Buddha$"
+
+DewfordTown_Gym_Text_SecondQuestionSecondAnswer:
+	.string "Obamna$"
+
+DewfordTown_Gym_Text_SecondQuestionThirdAnswer:
+	.string "Gandhi$"
+
+DewfordTown_Gym_Text_SecondQuestionFourthAnswer:
+	.string "Siddhartha Gautama$"
+
+DewfordTown_Gym_Text_SecondQuestionFifthAnswer:
+	.string "Kanye West$"
+
+DewfordTown_Gym_Text_BrawlyStatue:
+	.string "Know thyself, know all else.$"
