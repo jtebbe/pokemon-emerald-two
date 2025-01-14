@@ -53,9 +53,9 @@
 #define FLAG_ITEM_ROUTE_116_BERRY_JUICE    0x27
 #define FLAG_ITEM_ROUTE_106_TM_DRAINING_KISS    0x28
 #define FLAG_DEFEATED_MUSCLE_BAND_LADY    0x29
-#define FLAG_UNUSED_0x02A    0x2A // Unused Flag
-#define FLAG_UNUSED_0x02B    0x2B // Unused Flag
-#define FLAG_UNUSED_0x02C    0x2C // Unused Flag
+#define FLAG_ITEM_ROUTE_110_TM_SMART_STRIKE    0x2A
+#define FLAG_TOGGLE_EXP_SHARE    0x2B
+#define FLAG_ITEM_ROUTE_103_LIGHT_CLAY    0x2C
 #define FLAG_UNUSED_0x02D    0x2D // Unused Flag
 #define FLAG_UNUSED_0x02E    0x2E // Unused Flag
 #define FLAG_UNUSED_0x02F    0x2F // Unused Flag

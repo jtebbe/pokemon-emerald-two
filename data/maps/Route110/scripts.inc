@@ -630,7 +630,7 @@ Route110_EventScript_BirchScene::
 	delay 30
 	setflag FLAG_ENABLE_PROF_BIRCH_MATCH_CALL
 	msgbox Route110_Text_KeepAnEyeOutForRival, MSGBOX_DEFAULT
-	closemessage
+	giveitem ITEM_THICK_CLUB
 	call_if_eq VAR_0x8008, 1, Route110_EventScript_BirchExit1
 	call_if_eq VAR_0x8008, 2, Route110_EventScript_BirchExit2
 	call_if_eq VAR_0x8008, 3, Route110_EventScript_BirchExit3
@@ -990,5 +990,7 @@ Route110_Text_KeepAnEyeOutForRival:
 	.string "Please keep an eye out for my {RIVAL}.\n"
 	.string "… … … … … …\p"
 	.string "Well, I had better get going.\n"
-	.string "See you again, {PLAYER}{KUN}!$"
+	.string "See you again, {PLAYER}{KUN}!p"
+	.string "Oh, right! I uh... borrowed this\n"
+	.string "from... someone. You can have it!$"
 

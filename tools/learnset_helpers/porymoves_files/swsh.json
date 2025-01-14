@@ -10167,6 +10167,10 @@
   "SEAKING": {
     "LevelMoves": [
       {
+        "Level": 0,
+        "Move": "MOVE_AQUA_JET"
+      },
+      {
         "Level": 1,
         "Move": "MOVE_PECK"
       },

@@ -57,15 +57,16 @@ Route102_Text_TianaPostBattle:
 	.string "I have to catch more POKéMON.$"
 
 Route103_Text_DaisyIntro:
-	.string "Did you feel the tug of our\n"
-	.string "soul-soothing fragrance?$"
+	.string "Perfumes and poison are the most\n"
+	.string "optimal combination, you know?$"
 
 Route103_Text_DaisyDefeated:
 	.string "You weren't led astray by our aroma…$"
 
 Route103_Text_DaisyPostBattle:
 	.string "Aromatherapy is a form of mental\n"
-	.string "healing that works with fragrances.$"
+	.string "healing that works with fragrances.\p"
+	.string "It can be utterly intoxicating!$"
 
 Route103_Text_AmyIntro:
 	.string "AMY: I'm AMY.\n"
@@ -73,7 +74,7 @@ Route103_Text_AmyIntro:
 	.string "We battle together!$"
 
 Route103_Text_AmyDefeated:
-	.string "AMY: Uh-oh, we lost.$"
+	.string "AMY: Uh-oh, stinky!$"
 
 Route103_Text_AmyPostBattle:
 	.string "AMY: You have to think about all\n"
@@ -157,15 +158,15 @@ Route103_Text_AndrewPostBattle:
 	.string "Grrrrr…$"
 
 Route103_Text_MiguelIntro:
-	.string "My POKéMON is delightfully adorable!\n"
+	.string "My POKéMON is delightfully spooky!\n"
 	.string "Don't be shy--I'll show you!$"
 
 Route103_Text_MiguelDefeated:
 	.string "Oh, my gosh!\n"
-	.string "My darling POKéMON!$"
+	.string "My darling ghosties!$"
 
 Route103_Text_MiguelPostBattle:
-	.string "My delightful POKéMON looks darling\n"
+	.string "My delightful POKéMON looks scary\n"
 	.string "even when it's fainted!$"
 
 Route103_Text_MiguelRegister:

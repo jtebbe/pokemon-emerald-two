@@ -323,7 +323,7 @@ SlateportCity_OceanicMuseum_2F_Text_CameToSeeWhatsTakingSoLong:
 
 SlateportCity_OceanicMuseum_2F_Text_ArchieWarning:
 	.string "We are TEAM AQUA,\n"
-	.string "and we love the sea!\p"
+	.string "and we champion the sea!\p"
 	.string "And I am TEAM AQUA's leader,\n"
 	.string "ARCHIE!\p"
 	.string "What makes you interfere with us?\p"
@@ -340,8 +340,9 @@ SlateportCity_OceanicMuseum_2F_Text_ArchieWarning:
 	.string "Don't you agree? What we are doing\n"
 	.string "is a magnificent undertaking.\p"
 	.string "Ah, fine…\n"
-	.string "You're still too young to understand\l"
-	.string "our noble objective.\p"
+	.string "You're still too weak for me to \l"
+	.string "force my way through to you.\p"
+	.string "A pity.\p"
 	.string "But, I warn you, don't even consider\n"
 	.string "interfering with our plans again.\p"
 	.string "The consequences will cost you\n"
