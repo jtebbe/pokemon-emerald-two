@@ -990,7 +990,7 @@ Route110_Text_KeepAnEyeOutForRival:
 	.string "Please keep an eye out for my {RIVAL}.\n"
 	.string "… … … … … …\p"
 	.string "Well, I had better get going.\n"
-	.string "See you again, {PLAYER}{KUN}!p"
+	.string "See you again, {PLAYER}{KUN}!\p"
 	.string "Oh, right! I uh... borrowed this\n"
 	.string "from... someone. You can have it!$"
 

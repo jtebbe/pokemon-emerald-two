@@ -59,7 +59,15 @@ Route117_EventScript_LittleBoy::
 	end
 
 Route117_EventScript_Girl::
+	goto_if_set FLAG_TM_ENDURE, Route117_EventScript_GirlPartTwo
 	msgbox Route117_Text_DayCarePokemonHadNewMove, MSGBOX_NPC
+	giveitem ITEM_TM_ENDURE
+	setflag FLAG_TM_ENDURE
+	goto Route117_EventScript_GirlPartTwo
+	end
+
+Route117_EventScript_GirlPartTwo::
+	msgbox Route117_Text_DayCarePokemonHadNewMoveTwo, MSGBOX_NPC
 	end
 
 Route117_EventScript_RouteSignVerdanturf::
@@ -217,10 +225,17 @@ Route117_EventScript_Aisha::
 	end
 
 Route117_Text_DayCarePokemonHadNewMove:
-	.string "I left my POKéMON at the DAY CARE.\p"
-	.string "When I got it back, it had a new move\n"
-	.string "that I didn't teach it.\l"
-	.string "I was really, really surprised.$"
+	.string "Sometimes it's important to know just\n"
+	.string "how much you can take, you know?\p"
+	.string "When you're at your limit, so close\n"
+	.string "to the finish... this move reflects\l"
+	.string "that pretty well.$"
+
+Route117_Text_DayCarePokemonHadNewMoveTwo:
+	.string "Endure helps enemy pokemon bring you\n"
+	.string "to the brink of being finished.\p"
+	.string "Make sure you and your partners\n"
+	.string "all finish strong!$"
 
 Route117_Text_ArentTheseFlowersPretty:
 	.string "What do you think?\n"
@@ -228,7 +243,9 @@ Route117_Text_ArentTheseFlowersPretty:
 	.string "I planted them all!$"
 
 Route117_Text_AirIsTastyHere:
-	.string "The air is tasty here!$"
+	.string "The air is kinda smells here!\p"
+	.string "I saw a lady burning something\n"
+	.string "and putting it in her mouth...$"
 
 Route117_Text_RouteSignVerdanturf:
 	.string "ROUTE 117\n"

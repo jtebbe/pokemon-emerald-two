@@ -56,7 +56,7 @@
 #define FLAG_ITEM_ROUTE_110_TM_SMART_STRIKE    0x2A
 #define FLAG_TOGGLE_EXP_SHARE    0x2B
 #define FLAG_ITEM_ROUTE_103_LIGHT_CLAY    0x2C
-#define FLAG_UNUSED_0x02D    0x2D // Unused Flag
+#define FLAG_TM_ENDURE    0x2D
 #define FLAG_UNUSED_0x02E    0x2E // Unused Flag
 #define FLAG_UNUSED_0x02F    0x2F // Unused Flag
 #define FLAG_UNUSED_0x030    0x30 // Unused Flag

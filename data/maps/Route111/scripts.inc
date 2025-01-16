@@ -573,6 +573,10 @@ Route111_EventScript_TrainerHillSign::
 	msgbox Route111_Text_TrainerHillSign, MSGBOX_SIGN
 	end
 
+Route111_EventScript_TrainerHillNoSign::
+	msgbox Route111_Text_TrainerHillNoSign, MSGBOX_SIGN
+	end
+
 Route111_Text_BattleOurFamily:
 	.string "Hello! I take it you're a traveler.\p"
 	.string "How's this? What do you say to taking\n"
@@ -726,4 +730,10 @@ Route111_Text_TrainerHillSign:
 	.string "{RIGHT_ARROW} TRAINER HILL ENTRANCE\p"
 	.string "“Scale the heights, you hot-blooded\n"
 	.string "TRAINERS!”$"
+
+Route111_Text_TrainerHillNoSign:
+	.string "Closed for good because the battle\n"
+	.string "frontier is strictly better.\p"
+	.string "Seriously, go enjoy the battle\n"
+	.string "factory or something.$"
 

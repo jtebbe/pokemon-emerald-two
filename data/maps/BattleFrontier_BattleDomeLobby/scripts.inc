@@ -122,9 +122,7 @@ BattleFrontier_BattleDomeLobby_EventScript_ResumeChallenge::
 BattleFrontier_BattleDomeLobby_EventScript_SinglesAttendant::
 	lock
 	faceplayer
-	setvar VAR_FRONTIER_FACILITY, FRONTIER_FACILITY_DOME
-	setvar VAR_FRONTIER_BATTLE_MODE, FRONTIER_MODE_SINGLES
-	goto BattleFrontier_BattleDomeLobby_EventScript_AttendantWelcome
+	msgbox BattleFrontier_BattleDomeLobby_Text_AyyLmao, MSGBOX_DEFAULT
 	end
 
 BattleFrontier_BattleDomeLobby_EventScript_DoublesAttendant::
@@ -683,3 +681,7 @@ BattleFrontier_BattleDomeLobby_Text_ExplainDoubleKORules:
 	.string "time--a double KO--in a tournament\l"
 	.string "match, the REFEREES will review\l"
 	.string "the match and declare the winner.$"
+
+BattleFrontier_BattleDomeLobby_Text_AyyLmao:
+	.string "You thought you could play singles?\n"
+	.string "Lmao, no chance!$"

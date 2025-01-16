@@ -36,7 +36,7 @@ SlateportCity_House_Text_NatureToDoWithStatGains:
 SlateportCity_House_Text_MustBeGoingToBattleTent:
 	.string "You're a TRAINER, aren't you?\p"
 	.string "Since you came to SLATEPORT, you\n"
-	.string "must be going to MAUVILLE CITY.p"
+	.string "must be going to MAUVILLE CITY.\p"
 	.string "Hmm... Tell you what, if you beat\n"
 	.string "me in battle, I'll give you some-\l"
 	.string "thing that'll help you.\p"
