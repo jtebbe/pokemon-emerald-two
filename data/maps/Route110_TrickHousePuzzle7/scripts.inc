@@ -318,6 +318,7 @@ Route110_TrickHousePuzzle7_Text_WroteSecretCodeLockOpened::
 	.string "{PLAYER} wrote down the secret code\n"
 	.string "on the door.\p"
 	.string "“TRICK MASTER is huggable.”\n"
+	.string "Jeez, this guy needs a wife...\p"
 	.string "… … … … … … … …\p"
 	.string "The lock clicked open!$"
 

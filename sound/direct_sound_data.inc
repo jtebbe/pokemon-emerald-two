@@ -27,6 +27,10 @@ DirectSoundWaveData_classical_choir_voice_ahhs::
 	.incbin "sound/direct_sound_samples/classical_choir_voice_ahhs.bin"
 
 	.align 2
+DirectSoundWaveData_vibraphone::
+	.incbin "sound/direct_sound_samples/vibraphone.bin"
+
+	.align 2
 DirectSoundWaveData_sd90_classical_oboe::
 	.incbin "sound/direct_sound_samples/sd90_classical_oboe.bin"
 

@@ -4491,6 +4491,7 @@ static void DebugAction_Sound_MUS_SelectId(u8 taskId)
     X(MUS_CYCLING) \
     X(MUS_POKE_MART) \
     X(MUS_LITTLEROOT) \
+    X(MUS_TEMPLE_OF_DROPLETS) \
     X(MUS_MT_CHIMNEY) \
     X(MUS_ENCOUNTER_FEMALE) \
     X(MUS_LILYCOVE) \

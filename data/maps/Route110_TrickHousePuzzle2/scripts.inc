@@ -102,7 +102,8 @@ Route110_TrickHousePuzzle2_EventScript_Georgia::
 Route110_TrickHousePuzzle2_Text_WroteSecretCodeLockOpened:
 	.string "{PLAYER} wrote down the secret code\n"
 	.string "on the door.\p"
-	.string "“TRICK MASTER is smart.”\n"
+	.string "“TRICK MASTER is lookin' fine”...\n"
+	.string "Bruh.\p"
 	.string "… … … … … … … …\p"
 	.string "The lock clicked open!$"
 

@@ -5501,30 +5501,63 @@ Music: Male
 Double Battle: Yes
 AI: Basic Trainer
 
-Ralts
-Level: 17
-IVs: 1 HP / 1 Atk / 1 Def / 1 SpA / 1 SpD / 1 Spe
+Gallade (M) @ Focus Sash  
+Ability: Sharpness  
+Tera Type: Dark  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Psycho Cut  
+- Aqua Cutter  
+- Night Slash  
+- Protect
+
+Copperajah @ Expert Belt  
+Ability: Sheer Force   
+EVs: 248 HP / 252 Atk / 8 SpD  
+Adamant Nature  
+- Iron Head  
+- Play Rough  
+- Rock Slide  
+- Protect
+
+Granbull @ Assault Vest  
+Ability: Strong Jaw   
+EVs: 248 HP / 252 Atk / 8 SpD  
+Adamant Nature  
+- Fire Fang  
+- Ice Fang  
+- Thunder Fang  
+- Psychic Fangs
 
 === TRAINER_PAUL ===
 Name: PAUL
 Class: School Kid
-Pic: School Kid M
+Pic: School Kid M 
 Gender: Male
 Music: Male
 Double Battle: Yes
 AI: Basic Trainer
 
-Numel
-Level: 15
-IVs: 1 HP / 1 Atk / 1 Def / 1 SpA / 1 SpD / 1 Spe
+Weezing-Galar @ Air Balloon  
+Ability: Neutralizing Gas  
+EVs: 252 HP / 4 SpA / 252 SpD  
+Calm Nature  
+IVs: 0 Atk  
+- Protect  
+- Will-O-Wisp  
+- Sludge Bomb  
+- Strange Steam
 
-Oddish
-Level: 15
-IVs: 1 HP / 1 Atk / 1 Def / 1 SpA / 1 SpD / 1 Spe
-
-Wingull
-Level: 15
-IVs: 1 HP / 1 Atk / 1 Def / 1 SpA / 1 SpD / 1 Spe
+Toedscruel @ Rocky Helmet  
+Ability: Mycelium Might  
+Tera Type: Water  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Giga Drain  
+- Mud Shot  
+- Spore  
+- Protect
 
 === TRAINER_JERRY_2 ===
 Name: JERRY
@@ -5638,13 +5671,34 @@ Music: Girl
 Double Battle: Yes
 AI: Basic Trainer
 
-Shroomish
-Level: 16
-IVs: 1 HP / 1 Atk / 1 Def / 1 SpA / 1 SpD / 1 Spe
+Solrock @ Focus Sash  
+Ability: Gravitation  
+EVs: 248 HP / 252 Atk / 8 SpD  
+Brave Nature  
+- Trick Room  
+- Hypnosis  
+- Rock Slide  
+- Zen Headbutt
 
-Beautifly
-Level: 16
-IVs: 1 HP / 1 Atk / 1 Def / 1 SpA / 1 SpD / 1 Spe
+Stantler @ Eviolite  
+Ability: Intimidate   
+EVs: 252 HP / 252 Atk / 4 SpD  
+Brave Nature  
+- Hypnosis  
+- Headbutt  
+- Double Kick  
+- Facade
+
+Mabosstiff @ Room Service  
+Ability: Intimidate
+Tera Type: Fire   
+EVs: 252 HP / 252 Atk / 4 Def  
+Brave Nature  
+IVs: 0 Spe  
+- Crunch  
+- Protect  
+- Ice Fang  
+- Fire Fang
 
 === TRAINER_KAREN_2 ===
 Name: KAREN
@@ -6778,13 +6832,24 @@ Music: Male
 Double Battle: Yes
 AI: Basic Trainer
 
-Zigzagoon
-Level: 14
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Gumshoos @ Assault Vest  
+Ability: Adaptability    
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+- Swift Chomp
+- Knock Off  
+- Thunder Punch  
+- Low Sweep
 
-Zigzagoon
-Level: 16
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Trevenant @ Sitrus Berry  
+Ability: Harvest  
+Tera Type: Ghost  
+EVs: 252 HP / 252 Atk / 4 SpD  
+Brave Nature  
+- Shadow Claw  
+- Horn Leech  
+- Sucker Punch  
+- Trick Room
 
 === TRAINER_ALLEN ===
 Name: ALLEN
@@ -12463,9 +12528,26 @@ Music: Female
 Double Battle: Yes
 AI: Basic Trainer
 
-Oddish
-Level: 16
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Vileplume @ Black Sludge  
+Ability: Lingering Aroma    
+EVs: 252 HP / 4 SpA / 252 SpD  
+Calm Nature  
+IVs: 0 Atk  
+- Giga Drain  
+- Venoshock  
+- Toxic  
+- Protect
+
+Scovillain @ Big Root  
+Ability: Moody  
+Tera Type: Grass  
+EVs: 252 HP / 4 SpA / 252 SpD  
+Calm Nature  
+IVs: 0 Atk  
+- Protect  
+- Leech Seed  
+- Burning Jealousy  
+- Giga Drain
 
 === TRAINER_ROBIN ===
 Name: ROBIN
@@ -12476,17 +12558,21 @@ Music: Female
 Double Battle: Yes
 AI: Basic Trainer
 
-Skitty
-Level: 14
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Delcatty @ Metronome  
+Ability: Normalize    
+EVs: 252 SpA / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Mud Bomb
 
-Shroomish
-Level: 14
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
-
-Marill
-Level: 14
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Persian @ Covert Cloak  
+Ability: Normalize   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Aerial Ace  
+- Assurance  
+- Protect  
+- Dig
 
 === TRAINER_ANDREA ===
 Name: ANDREA

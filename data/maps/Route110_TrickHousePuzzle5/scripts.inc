@@ -905,6 +905,8 @@ Route110_TrickHousePuzzle5_Text_WroteSecretCodeLockOpened:
 	.string "{PLAYER} wrote down the secret code\n"
 	.string "on the door.\p"
 	.string "“TRICK MASTER is a genius.”\n"
+	.string "In the same way that Jeremy\l"
+	.string "Clarkson is, sure.\p"
 	.string "… … … … … … … …\p"
 	.string "The lock clicked open!$"
 
