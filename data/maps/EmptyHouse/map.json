@@ -2,7 +2,7 @@
   "id": "MAP_EMPTY_HOUSE",
   "name": "EmptyHouse",
   "layout": "LAYOUT_EMPTY_HOUSE",
-  "music": "MUS_ABANDONED_SHIP",
+  "music": "MUS_TEMPLE_OF_DROPLETS",
   "region_map_section": "MAPSEC_LITTLEROOT_TOWN",
   "requires_flash": false,
   "weather": "WEATHER_NONE",

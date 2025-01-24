@@ -1498,18 +1498,17 @@ Route111_Text_BiancaPostBattle:
 	.string "You have quite a ways to travel.$"
 
 Route112_Text_BriceIntro:
-	.string "Hahahaha!\n"
-	.string "How about we have a battle?\l"
-	.string "You and me!\l"
-	.string "Hahahaha!$"
+	.string "HUH!?\p"
+	.string "Don't you know better than to\n"
+	.string "interrupt a man's piss?!$"
 
 Route112_Text_BriceDefeat:
-	.string "I lost!\n"
-	.string "Hahahaha!$"
+	.string "Dammit! I lost AND\n"
+	.string "pissed everywhere!$"
 
 Route112_Text_BricePostBattle:
-	.string "Hahahahaha! Something flew up my nose!\n"
-	.string "Hahahaha-hatchoo!$"
+	.string "Ew! Some flew up my nose!\n"
+	.string "Blegh-hatchoo!$"
 
 Route112_Text_TrentIntro:
 	.string "My legs are solid from pounding up\n"
