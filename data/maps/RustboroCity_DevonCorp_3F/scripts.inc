@@ -257,7 +257,7 @@ RustboroCity_DevonCorp_3F_Text_ExplainExpShare:
 	.string "It was given to me by a friend\n"
 	.string "long ago, in exchange for a favor.\p"
 	.string "That request? To pass it on to a\n"
-	.string "young, shining star of a trainer.p"
+	.string "young, shining star of a trainer.\p"
 	.string "I'm hedging my bets on you!$"
 
 RustboroCity_DevonCorp_3F_Text_NotFamiliarWithTrends:
