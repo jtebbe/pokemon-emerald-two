@@ -2059,7 +2059,7 @@ static s32 AI_CheckBadMove(u32 battlerAtk, u32 battlerDef, u32 move, s32 score)
              || gAbilitiesInfo[aiData->abilities[BATTLE_PARTNER(battlerAtk)]].cantBeSuppressed
              || gAbilitiesInfo[aiData->abilities[battlerDef]].cantBeCopied)
                 ADJUST_SCORE(-10);
-            else if (IsAbilityOfRating(aiData->abilities[battlerAtk], 5) || IsAbilityOfRating(aiData->abilities[BATTLE_PARTNER(battlerAtk)], 5))
+            else if (IsAbilityOfRating(aiData->abilities[BATTLE_PARTNER(battlerAtk)], 5))
                 ADJUST_SCORE(-4);
             break;
         case EFFECT_WISH:
@@ -4021,7 +4021,7 @@ static u32 AI_CalcMoveEffectScore(u32 battlerAtk, u32 battlerDef, u32 move)
         break;
     case EFFECT_ROLE_PLAY:
     case EFFECT_DOODLE:
-        if (IsAbilityOfRating(aiData->abilities[battlerDef], 5))
+        if (IsAbilityOfRating(aiData->abilities[battlerDef], 2))
             ADJUST_SCORE(DECENT_EFFECT);
         break;
     case EFFECT_INGRAIN:

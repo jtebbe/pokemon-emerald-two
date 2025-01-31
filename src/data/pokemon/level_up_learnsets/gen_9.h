@@ -1807,6 +1807,7 @@ static const struct LevelUpMove sBellsproutLevelUpLearnset[] = {
 
 
 static const struct LevelUpMove sWeepinbellLevelUpLearnset[] = {
+    LEVEL_UP_MOVE( 0, MOVE_RAGE_POWDER),
     LEVEL_UP_MOVE( 1, MOVE_VINE_WHIP),
     LEVEL_UP_MOVE( 1, MOVE_WRAP),
     LEVEL_UP_MOVE( 1, MOVE_GROWTH),
@@ -1826,6 +1827,7 @@ static const struct LevelUpMove sWeepinbellLevelUpLearnset[] = {
 
 static const struct LevelUpMove sVictreebelLevelUpLearnset[] = {
     LEVEL_UP_MOVE( 0, MOVE_LEAF_STORM),
+    LEVEL_UP_MOVE( 1, MOVE_RAGE_POWDER),
     LEVEL_UP_MOVE( 1, MOVE_STOCKPILE),
     LEVEL_UP_MOVE( 1, MOVE_SPIT_UP),
     LEVEL_UP_MOVE( 1, MOVE_SWALLOW),
@@ -2017,6 +2019,7 @@ static const struct LevelUpMove sPonytaLevelUpLearnset[] = {
 
 static const struct LevelUpMove sRapidashLevelUpLearnset[] = {
     LEVEL_UP_MOVE( 0, MOVE_SMART_STRIKE),
+    LEVEL_UP_MOVE( 0, MOVE_LOCK_ON),
     LEVEL_UP_MOVE( 1, MOVE_SMART_STRIKE),
     LEVEL_UP_MOVE( 1, MOVE_MEGAHORN),
     LEVEL_UP_MOVE( 1, MOVE_POISON_JAB),
@@ -2031,6 +2034,7 @@ static const struct LevelUpMove sRapidashLevelUpLearnset[] = {
     LEVEL_UP_MOVE(30, MOVE_STOMP),
     LEVEL_UP_MOVE(35, MOVE_FIRE_SPIN),
     LEVEL_UP_MOVE(43, MOVE_TAKE_DOWN),
+    LEVEL_UP_MOVE(46, MOVE_HORN_DRILL),
     LEVEL_UP_MOVE(49, MOVE_INFERNO),
     LEVEL_UP_MOVE(56, MOVE_FIRE_BLAST),
     LEVEL_UP_MOVE(63, MOVE_FLARE_BLITZ),
@@ -2057,6 +2061,7 @@ static const struct LevelUpMove sPonytaGalarLevelUpLearnset[] = {
 
 static const struct LevelUpMove sRapidashGalarLevelUpLearnset[] = {
     LEVEL_UP_MOVE( 0, MOVE_PSYCHO_CUT),
+    LEVEL_UP_MOVE( 0, MOVE_LOCK_ON),
     LEVEL_UP_MOVE( 1, MOVE_PSYCHO_CUT),
     LEVEL_UP_MOVE( 1, MOVE_MEGAHORN),
     LEVEL_UP_MOVE( 1, MOVE_TACKLE),
@@ -2070,6 +2075,7 @@ static const struct LevelUpMove sRapidashGalarLevelUpLearnset[] = {
     LEVEL_UP_MOVE(30, MOVE_STOMP),
     LEVEL_UP_MOVE(35, MOVE_HEAL_PULSE),
     LEVEL_UP_MOVE(43, MOVE_TAKE_DOWN),
+    LEVEL_UP_MOVE(46, MOVE_HORN_DRILL),
     LEVEL_UP_MOVE(49, MOVE_DAZZLING_GLEAM),
     LEVEL_UP_MOVE(56, MOVE_PSYCHIC),
     LEVEL_UP_MOVE(63, MOVE_HEALING_WISH),

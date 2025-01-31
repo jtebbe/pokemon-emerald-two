@@ -6323,6 +6323,10 @@
         "Move": "MOVE_SMART_STRIKE"
       },
       {
+        "Level": 0,
+        "Move": "MOVE_LOCK_ON"
+      },
+      {
         "Level": 1,
         "Move": "MOVE_SMART_STRIKE"
       },
@@ -6377,6 +6381,10 @@
       {
         "Level": 43,
         "Move": "MOVE_TAKE_DOWN"
+      },
+      {
+        "Level": 46,
+        "Move": "MOVE_HORN_DRILL"
       },
       {
         "Level": 49,
@@ -79283,6 +79291,10 @@
         "Move": "MOVE_PSYCHO_CUT"
       },
       {
+        "Level": 0,
+        "Move": "MOVE_LOCK_ON"
+      },
+      {
         "Level": 1,
         "Move": "MOVE_PSYCHO_CUT"
       },
@@ -79339,8 +79351,12 @@
         "Move": "MOVE_TAKE_DOWN"
       },
       {
+        "Level": 46,
+        "Move": "MOVE_TAKE_DOWN"
+      },
+      {
         "Level": 49,
-        "Move": "MOVE_DAZZLING_GLEAM"
+        "Move": "MOVE_HORN_DRILL"
       },
       {
         "Level": 56,

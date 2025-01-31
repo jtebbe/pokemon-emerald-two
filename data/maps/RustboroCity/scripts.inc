@@ -887,6 +887,7 @@ RustboroCity_EventScript_BattleMayTreecko::
 	setflag FLAG_DEFEATED_RIVAL_RUSTBORO
 	msgbox RustboroCity_Text_RivalGiveTeraOrbOne MSGBOX_DEFAULT
 	giveitem ITEM_TERA_ORB
+	setflag FLAG_TERA_ORB_NO_RECHARGE
 	msgbox RustboroCity_Text_RivalGiveTeraOrbTwo MSGBOX_DEFAULT
 	goto RustboroCity_EventScript_MayBrineyHint
 	end
@@ -896,6 +897,7 @@ RustboroCity_EventScript_BattleMayTorchic::
 	setflag FLAG_DEFEATED_RIVAL_RUSTBORO
 	msgbox RustboroCity_Text_RivalGiveTeraOrbOne MSGBOX_DEFAULT
 	giveitem ITEM_TERA_ORB
+	setflag FLAG_TERA_ORB_NO_RECHARGE
 	msgbox RustboroCity_Text_RivalGiveTeraOrbTwo MSGBOX_DEFAULT
 	goto RustboroCity_EventScript_MayBrineyHint
 	end
@@ -905,6 +907,7 @@ RustboroCity_EventScript_BattleMayMudkip::
 	setflag FLAG_DEFEATED_RIVAL_RUSTBORO
 	msgbox RustboroCity_Text_RivalGiveTeraOrbOne MSGBOX_DEFAULT
 	giveitem ITEM_TERA_ORB
+	setflag FLAG_TERA_ORB_NO_RECHARGE
 	msgbox RustboroCity_Text_RivalGiveTeraOrbTwo MSGBOX_DEFAULT
 	goto RustboroCity_EventScript_MayBrineyHint
 	end
@@ -957,6 +960,7 @@ RustboroCity_EventScript_BattleBrendanTreecko::
 	setflag FLAG_DEFEATED_RIVAL_RUSTBORO
 	msgbox RustboroCity_Text_RivalGiveTeraOrbOne MSGBOX_DEFAULT
 	giveitem ITEM_TERA_ORB
+	setflag FLAG_TERA_ORB_NO_RECHARGE
 	msgbox RustboroCity_Text_RivalGiveTeraOrbTwo MSGBOX_DEFAULT
 	goto RustboroCity_EventScript_BrendanBrineyHint
 	end
@@ -966,6 +970,7 @@ RustboroCity_EventScript_BattleBrendanTorchic::
 	setflag FLAG_DEFEATED_RIVAL_RUSTBORO
 	msgbox RustboroCity_Text_RivalGiveTeraOrbOne MSGBOX_DEFAULT
 	giveitem ITEM_TERA_ORB
+	setflag FLAG_TERA_ORB_NO_RECHARGE
 	msgbox RustboroCity_Text_RivalGiveTeraOrbTwo MSGBOX_DEFAULT
 	goto RustboroCity_EventScript_BrendanBrineyHint
 	end
@@ -975,6 +980,7 @@ RustboroCity_EventScript_BattleBrendanMudkip::
 	setflag FLAG_DEFEATED_RIVAL_RUSTBORO
 	msgbox RustboroCity_Text_RivalGiveTeraOrbOne MSGBOX_DEFAULT
 	giveitem ITEM_TERA_ORB
+	setflag FLAG_TERA_ORB_NO_RECHARGE
 	msgbox RustboroCity_Text_RivalGiveTeraOrbTwo MSGBOX_DEFAULT
 	goto RustboroCity_EventScript_BrendanBrineyHint
 	end

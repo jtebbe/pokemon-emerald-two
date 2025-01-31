@@ -610,6 +610,8 @@ Route110_EventScript_BirchScene::
 	call_if_eq VAR_0x8008, 4, Route110_EventScript_BirchApproachPlayer4
 	msgbox Route110_Text_ImagineSeeingYouHere, MSGBOX_DEFAULT
 	closemessage
+	checkitem ITEM_TERA_ORB
+	call_if_eq VAR_RESULT, FALSE, Route110_EventScript_BirchNotVeryNice
 	delay 20
 	applymovement LOCALID_BIRCH, Common_Movement_WalkInPlaceFasterLeft
 	waitmovement 0
@@ -639,6 +641,12 @@ Route110_EventScript_BirchScene::
 	setvar VAR_REGISTER_BIRCH_STATE, 2
 	releaseall
 	end
+
+Route110_EventScript_BirchNotVeryNice::
+	msgbox Route110_Text_ThatsNotVeryNice, MSGBOX_DEFAULT
+	giveitem ITEM_TERA_ORB
+	setflag FLAG_TERA_ORB_NO_RECHARGE
+	return
 
 Route110_EventScript_BirchApproachPlayer1::
 	applymovement LOCALID_BIRCH, Route110_Movement_BirchApproachPlayer1
@@ -993,4 +1001,12 @@ Route110_Text_KeepAnEyeOutForRival:
 	.string "See you again, {PLAYER}{KUN}!\p"
 	.string "Oh, right! I uh... borrowed this\n"
 	.string "from... someone. You can have it!$"
+
+Route110_Text_ThatsNotVeryNice:
+	.string "So {RIVAL} told me you didn't\n"
+	.string "take up their challenge in\l"
+	.string "Rustboro. That's not very nice!\p"
+	.string "Luckily for you, they still said\n"
+	.string "you deserved this, just a bit\l"
+	.string "later for brushing them off!$"
 

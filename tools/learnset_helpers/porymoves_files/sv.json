@@ -5683,7 +5683,9 @@
       "MOVE_KNOCK_OFF",
       "MOVE_TICKLE",
       "MOVE_ACUPRESSURE",
-      "MOVE_AQUA_RING"
+      "MOVE_AQUA_RING",
+      "MOVE_WIDE_GUARD",
+      "MOVE_COUNTER"
     ],
     "TutorMoves": []
   },
@@ -5798,7 +5800,9 @@
       "MOVE_THROAT_CHOP"
     ],
     "EggMoves": [],
-    "TutorMoves": []
+    "TutorMoves": [
+      "MOVE_COUNTER"
+    ]
   },
   "GEODUDE": {
     "LevelMoves": [
@@ -90643,6 +90647,10 @@
   },
   "GOLEM_ALOLA": {
     "LevelMoves": [
+      {
+        "Level": 0,
+        "Move": "MOVE_FEINT"
+      },
       {
         "Level": 1,
         "Move": "MOVE_TACKLE"

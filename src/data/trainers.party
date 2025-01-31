@@ -888,13 +888,36 @@ Music: Hiker
 Double Battle: Yes
 AI: Basic Trainer
 
-Sandslash
-Level: 23
-IVs: 6 HP / 6 Atk / 6 Def / 6 SpA / 6 SpD / 6 Spe
-- Dig
-- Slash
-- Sand Attack
-- Poison Sting
+Ninetales @ Focus Sash  
+Ability: Drought   
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Nasty Plot  
+- Scorching Sands  
+- Flamethrower  
+- Protect
+
+Venusaur @ Black Sludge  
+Ability: Chlorophyll  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Modest Nature  
+IVs: 0 Atk  
+- Solar Beam  
+- Sludge Bomb  
+- Earth Power  
+- Giga Drain
+
+Exeggutor-Alola @ Assault Vest  
+Ability: Frisk  
+Tera Type: Fire  
+EVs: 252 HP / 252 SpA / 4 SpD  
+Modest Nature  
+IVs: 0 Atk  
+- Flamethrower  
+- Dragon Pulse  
+- Energy Ball  
+- Psychic
 
 === TRAINER_CHIP ===
 Name: CHIP
@@ -1416,12 +1439,34 @@ Music: Cool
 Double Battle: Yes
 AI: Basic Trainer
 
-Swellow
-Level: 26
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-- Quick Attack
-- Agility
-- Wing Attack
+Swellow @ Flame Orb  
+Ability: Guts  
+Tera Type: Normal  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Protect  
+- Facade  
+- Aerial Ace  
+- U-turn
+
+Cyclizar @ Heavy-Duty Boots  
+Ability: Regenerator   
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Shed Tail  
+- Dragon Pulse  
+- Hyper Voice  
+- Thunderbolt
+
+Ambipom @ Silk Scarf  
+Ability: Technician   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Fake Out  
+- Aerial Ace  
+- Pursuit  
+- Triple Axel
 
 === TRAINER_PARKER ===
 Name: PARKER
@@ -1432,12 +1477,34 @@ Music: Cool
 Double Battle: Yes
 AI: Basic Trainer
 
-Spinda
-Level: 26
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-- Teeter Dance
-- Dizzy Punch
-- Focus Punch
+Spinda @ Leftovers  
+Ability: Prankster   
+EVs: 252 HP / 4 Def / 252 SpD  
+Calm Nature  
+IVs: 0 Atk  
+- Teeter Dance  
+- Encore  
+- Toxic  
+- Protect
+
+Purugly @ Assault Vest  
+Ability: Own Tempo  
+Tera Type: Normal  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Body Slam  
+- Shadow Claw  
+- Stomping Tantrum  
+- Play Rough
+
+Watchog @ Focus Sash  
+Ability: Inner Focus  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Facade  
+- Confuse Ray  
+- Power-Up Punch  
+- Seed Bomb
 
 === TRAINER_GEORGE ===
 Name: GEORGE
@@ -1448,12 +1515,42 @@ Music: Cool
 Double Battle: Yes
 AI: Basic Trainer
 
-Slakoth @ Sitrus Berry
-Level: 26
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-- Slack Off
-- Counter
-- Shadow Ball
+Snorlax @ Iapapa Berry  
+Ability: Gluttony  
+Tera Type: Normal  
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+- Belly Drum  
+- Facade  
+- Body Slam  
+- Earthquake
+
+Lopunny @ Covert Cloak  
+Ability: Limber   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Fake Out  
+- Encore  
+- Power-Up Punch  
+- Facade
+
+Dudunsparce @ Leftovers  
+Ability: Serene Grace    
+EVs: 252 HP / 4 Atk / 252 Def  
+Impish Nature  
+- Glare  
+- Roost  
+- Headbutt  
+- Rock Slide
+
+Bewear @ Assault Vest  
+Ability: Fluffy  
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+- Drain Punch  
+- Body Slam  
+- Iron Head  
+- Shadow Claw
 
 === TRAINER_BERKE ===
 Name: BERKE
@@ -1464,11 +1561,26 @@ Music: Cool
 Double Battle: Yes
 AI: Basic Trainer
 
-Vigoroth
-Level: 26
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-- Focus Energy
-- Slash
+Kangaskhan (F) @ Assault Vest  
+Ability: Inner Focus   
+EVs: 252 HP / 252 Def / 4 SpD
+Calm Nature  
+IVs: 0 Atk  
+- Fissure
+
+Tauros (M) @ Focus Sash  
+Ability: Intimidate   
+EVs: 252 HP / 4 SpD / 252 Spe  
+Jolly Nature  
+IVs: 0 Atk  
+- Horn Drill
+
+Lickilicky @ Chople Berry  
+Ability: Oblivious   
+EVs: 252 HP / 4 SpD / 252 Spe  
+Jolly Nature  
+IVs: 0 Atk  
+- Fissure
 
 === TRAINER_BRAXTON ===
 Name: BRAXTON
@@ -1806,11 +1918,34 @@ Music: Cool
 Double Battle: Yes
 AI: Basic Trainer
 
-Delcatty
-Level: 26
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-- Feint Attack
-- Shock Wave
+Maushold @ Rocky Helmet  
+Ability: Friend Guard  
+EVs: 248 HP / 8 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Follow Me  
+- Encore  
+- Thunder Wave  
+- Super Fang
+
+Cinccino @ Wide Lens  
+Ability: Skill Link  
+Tera Type: Normal  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Tail Slap  
+- Triple Axel  
+- Play Rough  
+- Giga Impact
+
+Stoutland @ Assault Vest  
+Ability: Intimidate    
+EVs: 252 Atk / 4 SpA / 252 Spe  
+Hasty Nature  
+- Giga Impact  
+- Snarl  
+- Fire Fang  
+- Ice Fang
 
 === TRAINER_ALEXIA ===
 Name: ALEXIA
@@ -1821,12 +1956,34 @@ Music: Cool
 Double Battle: Yes
 AI: Basic Trainer
 
-Wigglytuff
-Level: 26
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-- Defense Curl
-- Double Edge
-- Shadow Ball
+Obstagoon @ Chople Berry  
+Ability: Guts    
+EVs: 252 HP / 4 Def / 252 SpD  
+Calm Nature  
+IVs: 0 Atk  
+- Iron Defense  
+- Body Press  
+- Obstruct  
+- Counter
+
+Miltank (F) @ Rocky Helmet  
+Ability: Scrappy  
+Tera Type: Normal  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Body Slam  
+- Brick Break  
+- Fire Punch  
+- High Horsepower
+
+Bouffalant @ Sitrus Berry  
+Ability: Reckless   
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+- Head Charge  
+- Wild Charge  
+- Iron Head  
+- Poison Jab
 
 === TRAINER_JODY ===
 Name: JODY
@@ -1837,11 +1994,33 @@ Music: Cool
 Double Battle: Yes
 AI: Basic Trainer / Force Setup First Turn
 
-Zangoose
-Level: 26
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-- Swords Dance
-- Slash
+Zangoose @ Toxic Orb  
+Ability: Toxic Boost  
+Tera Type: Normal  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Adamant Nature  
+- Agility  
+- Facade  
+- Protect  
+- Quick Attack
+
+Ursaring @ Flame Orb  
+Ability: Quick Feet    
+EVs: 248 HP / 252 Atk / 8 SpD  
+Adamant Nature  
+- Protect  
+- Facade  
+- Brick Break  
+- Throat Chop
+
+Staraptor @ Choice Scarf  
+Ability: Intimidate  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Adamant Nature  
+- Double-Edge  
+- Final Gambit  
+- U-turn  
+- Dual Wingbeat
 
 === TRAINER_WENDY ===
 Name: WENDY
@@ -2444,9 +2623,35 @@ Music: Female
 Double Battle: Yes
 AI: Basic Trainer
 
-Marill
-Level: 21
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Corsola @ Leftovers  
+Ability: Algae Addict   
+EVs: 252 HP / 4 SpA / 252 SpD  
+Calm Nature  
+IVs: 0 Atk  
+- Whirlpool  
+- Recover  
+- Toxic  
+- Protect
+
+Magnezone @ Air Balloon  
+Ability: Analytic    
+EVs: 248 HP / 252 SpA / 8 SpD  
+Quiet Nature  
+IVs: 0 Atk / 0 Spe  
+- Flash Cannon  
+- Thunderbolt  
+- Signal Beam  
+- Protect
+
+Ledian @ Punching Glove  
+Ability: Iron Fist  
+Tera Type: Ground  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Ice Punch  
+- Thunder Punch  
+- Comet Punch  
+- Heroic Rise
 
 === TRAINER_SHEILA ===
 Name: SHEILA
@@ -4181,13 +4386,25 @@ Music: Male
 Double Battle: Yes
 AI: Basic Trainer
 
-Sandshrew
-Level: 23
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
-- Dig
-- Sand Attack
-- Poison Sting
-- Slash
+Stunfisk @ Leftovers  
+Ability: Sand Veil   
+EVs: 252 HP / 4 Atk / 252 SpD  
+Sassy Nature  
+IVs: 0 Atk  
+- Fissure  
+- Protect  
+- Mud-Slap  
+- Curse
+
+Rhydon @ Eviolite  
+Ability: Reckless  
+Tera Type: Water  
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+- Supercell Slam  
+- High Horsepower  
+- Stone Edge  
+- Tera Blast
 
 === TRAINER_BEAU ===
 Name: BEAU
@@ -4198,29 +4415,35 @@ Music: Male
 Double Battle: Yes
 AI: Basic Trainer
 
-Baltoy
-Level: 21
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
-- Rapid Spin
-- Mud Slap
-- Psybeam
-- Rock Tomb
+Corsola @ Leftovers  
+Ability: Algae Addict   
+EVs: 252 HP / 4 SpA / 252 SpD  
+Calm Nature  
+IVs: 0 Atk  
+- Whirlpool  
+- Recover  
+- Toxic  
+- Protect
 
-Sandshrew
-Level: 21
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
-- Poison Sting
-- Sand Attack
-- Scratch
-- Dig
+Magnezone @ Air Balloon  
+Ability: Analytic    
+EVs: 248 HP / 252 SpA / 8 SpD  
+Quiet Nature  
+IVs: 0 Atk / 0 Spe  
+- Flash Cannon  
+- Thunderbolt  
+- Signal Beam  
+- Protect
 
-Baltoy
-Level: 21
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
-- Rapid Spin
-- Mud Slap
-- Psybeam
-- Rock Tomb
+Ledian @ Punching Glove  
+Ability: Iron Fist  
+Tera Type: Ground  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Ice Punch  
+- Thunder Punch  
+- Comet Punch  
+- Heroic Rise
 
 === TRAINER_LARRY ===
 Name: LARRY
@@ -5692,7 +5915,6 @@ IVs: 0 Spe
 
 Incineroar @ Sitrus Berry  
 Ability: Intimidate  
-Tera Type: Fire  
 EVs: 252 HP / 252 Atk / 4 SpD  
 Adamant Nature  
 - Fake Out  
@@ -5728,39 +5950,66 @@ Pic: Leader Norman
 Gender: Male
 Music: Male
 Double Battle: Yes
-AI: Basic Trainer
+AI: Smart Trainer
 
-Spinda
-Level: 27
-IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
-- Teeter Dance
-- Psybeam
-- Facade
-- Encore
+Grafaiai @ Covert Cloak  
+Ability: Prankster  
+EVs: 252 HP / 4 Def / 252 SpD  
+Calm Nature  
+IVs: 0 Atk  
+- Doodle  
+- Encore  
+- Super Fang  
+- Parting Shot
 
-Vigoroth
-Level: 27
-IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
-- Slash
-- Facade
-- Encore
-- Feint Attack
+Slaking @ Assault Vest  
+Ability: Truant   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Double-Edge  
+- Knock Off  
+- Drain Punch  
+- Play Rough
 
-Linoone
-Level: 29
-IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
-- Slash
-- Belly Drum
-- Facade
-- Headbutt
+Zoroark-Hisui @ Focus Sash  
+Ability: Illusion   
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Shadow Ball  
+- Hyper Voice  
+- Flamethrower  
+- Psychic
 
-Slaking @ Sitrus Berry
-Level: 31
-IVs: 30 HP / 30 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
-- Counter
-- Yawn
-- Facade
-- Feint Attack
+Audino @ Audinite  
+Ability: Regenerator   
+EVs: 252 HP / 4 SpA / 252 SpD  
+Calm Nature  
+IVs: 0 Atk  
+- Protect  
+- Helping Hand  
+- Follow Me  
+- Dazzling Gleam
+
+Ursaluna @ Flame Orb  
+Ability: Guts   
+EVs: 248 HP / 252 Atk / 8 SpD  
+Adamant Nature  
+- Trailblaze  
+- Facade  
+- Swords Dance  
+- High Horsepower
+
+Porygon-Z @ Choice Scarf  
+Ability: Adaptability  
+Tera Type: Normal  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Modest Nature  
+IVs: 0 Atk  
+- Tri Attack  
+- Thunderbolt  
+- Ice Beam  
+- Psychic
 
 === TRAINER_WINONA_1 ===
 Name: WINONA
@@ -9953,21 +10202,26 @@ Music: Girl
 Double Battle: Yes
 AI: Basic Trainer
 
-Sandshrew
-Level: 22
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
-- Dig
-- Sand Attack
-- Poison Sting
-- Slash
+Palossand @ Leftovers  
+Ability: Sand Veil    
+EVs: 252 HP / 252 SpA / 4 SpD  
+Modest Nature  
+IVs: 0 Atk  
+- Shore Up  
+- Shadow Ball  
+- Earth Power  
+- Sludge Bomb
 
-Baltoy
-Level: 22
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
-- Rapid Spin
-- Mud Slap
-- Psybeam
-- Rock Tomb
+Probopass @ Air Balloon  
+Ability: Sand Force  
+Tera Type: Rock  
+EVs: 252 HP / 252 SpA / 4 SpD  
+Modest Nature  
+IVs: 0 Atk  
+- Flash Cannon  
+- Power Gem  
+- Earth Power  
+- Protect
 
 === TRAINER_BECKY ===
 Name: BECKY
@@ -9978,21 +10232,26 @@ Music: Girl
 Double Battle: Yes
 AI: Basic Trainer
 
-Sandshrew
-Level: 22
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
-- Sand Attack
-- Poison Sting
-- Slash
-- Dig
+Houndstone @ Assault Vest  
+Ability: Sand Rush  
+Tera Type: Fighting  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Adamant Nature  
+- Body Press  
+- Shadow Sneak  
+- Poltergeist  
+- Fire Fang
 
-Marill
-Level: 22
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
-- Rollout
-- Bubble Beam
-- Tail Whip
-- Defense Curl
+Espeon @ Expert Belt  
+Ability: Magic Bounce  
+Tera Type: Psychic  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Weather Ball  
+- Protect  
+- Psyshock  
+- Shadow Ball
 
 === TRAINER_CAROL ===
 Name: CAROL
@@ -16399,13 +16658,42 @@ Music: Girl
 Double Battle: Yes
 AI: Basic Trainer
 
-Marill
-Level: 22
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Garganacl @ Leftovers  
+Ability: Purifying Salt  
+Tera Type: Water  
+EVs: 252 HP / 4 Atk / 252 Def  
+Impish Nature  
+- Salt Cure  
+- Recover  
+- Wide Guard  
+- Helping Hand
 
-Lombre
-Level: 22
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Tinkaton (F) @ Covert Cloak  
+Ability: Mold Breaker    
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Fake Out  
+- Gigaton Hammer  
+- Encore  
+- Protect
+
+Dugtrio-Alola @ Focus Sash  
+Ability: Sand Force  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Earthquake  
+- Iron Head  
+- Protect  
+- Double Team
+
+Cacturne @ Assault Vest  
+Ability: Sand Veil  
+EVs: 248 HP / 252 Atk / 8 SpD  
+Adamant Nature  
+- Sucker Punch  
+- Seed Bomb  
+- Knock Off  
+- Lunge
 
 === TRAINER_BRYAN ===
 Name: BRYAN
@@ -16416,13 +16704,36 @@ Music: Hiker
 Double Battle: Yes
 AI: Basic Trainer
 
-Sandshrew
-Level: 22
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Lunatone @ Leftovers  
+Ability: Levitate  
+Tera Type: Ground  
+EVs: 252 HP / 252 SpA / 4 SpD  
+Quiet Nature  
+IVs: 0 Atk / 0 Spe  
+- Trick Room  
+- Power Gem  
+- Psychic  
+- Earth Power
 
-Sandslash
-Level: 22
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Solrock @ Focus Sash  
+Ability: Levitate  
+EVs: 248 HP / 8 Atk / 252 Def  
+Relaxed Nature  
+IVs: 0 Spe  
+- Protect  
+- Hypnosis  
+- Rock Slide  
+- Zen Headbutt
+
+Dracovish @ Room Service  
+Ability: Strong Jaw  
+EVs: 248 HP / 252 Atk / 8 SpD  
+Adamant Nature  
+IVs: 0 Spe  
+- Fishious Rend  
+- Psychic Fangs  
+- Ice Fang  
+- Crunch
 
 === TRAINER_BRANDEN ===
 Name: BRANDEN
@@ -16433,13 +16744,44 @@ Music: Male
 Double Battle: Yes
 AI: Basic Trainer
 
-Taillow
-Level: 22
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Gastrodon @ Assault Vest  
+Ability: Sand Force  
+Tera Type: Grass  
+EVs: 252 HP / 252 SpA / 4 SpD  
+Modest Nature  
+IVs: 0 Spe  
+- Tera Blast  
+- Muddy Water  
+- Earth Power  
+- Ice Beam
 
-Nuzleaf
-Level: 22
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Claydol @ Mental Herb  
+Ability: Gravitation  
+EVs: 252 HP / 4 Def / 252 SpD  
+Sassy Nature  
+IVs: 0 Atk  
+- Trick Room  
+- Cosmic Power  
+- Body Press  
+- Swagger
+
+Rhyperior @ Weakness Policy  
+Ability: Solid Rock  
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+- Rock Slide  
+- Stone Edge  
+- High Horsepower  
+- Protect
+
+Scizor @ Expert Belt  
+Ability: Technician  
+EVs: 248 HP / 252 Atk / 8 SpD  
+Adamant Nature  
+- Swords Dance  
+- Bullet Punch  
+- Bug Bite  
+- Aerial Ace
 
 === TRAINER_BRYANT ===
 Name: BRYANT

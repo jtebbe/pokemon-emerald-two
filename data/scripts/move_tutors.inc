@@ -50,6 +50,28 @@ MoveTutor_EventScript_RolloutTaught::
 	release
 	end
 
+LavaridgeTown_EventScript_AllySwitchTutor::
+	lock
+	faceplayer
+	msgbox MoveTutor_Text_AllySwitchTeach, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, MoveTutor_EventScript_AllySwitchDeclined
+	msgbox MoveTutor_Text_AllySwitchWhichMon, MSGBOX_DEFAULT
+	setvar VAR_0x8005, MOVE_ALLY_SWITCH
+	call MoveTutor_EventScript_OpenPartyMenu
+	goto_if_eq VAR_RESULT, 0, MoveTutor_EventScript_AllySwitchDeclined
+	goto MoveTutor_EventScript_AllySwitchTaught
+	end
+
+MoveTutor_EventScript_AllySwitchDeclined::
+	msgbox MoveTutor_Text_AllySwitchDeclined, MSGBOX_DEFAULT
+	release
+	end
+
+MoveTutor_EventScript_AllySwitchTaught::
+	msgbox MoveTutor_Text_AllySwitchTaught, MSGBOX_DEFAULT
+	release
+	end
+
 VerdanturfTown_PokemonCenter_1F_EventScript_FuryCutterTutor::
 	lock
 	faceplayer

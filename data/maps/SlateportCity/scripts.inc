@@ -139,6 +139,8 @@ SlateportCity_Movement_ScottExit:
 SlateportCity_EventScript_EnergyGuru::
 	lock
 	faceplayer
+	checkitem ITEM_MEGA_RING
+	goto_if_eq VAR_RESULT, FALSE, SlateportCity_EventScript_ComeBackWithMegaRing
 	message SlateportCity_Text_EnergyGuruSellWhatYouNeed
 	waitmessage
 	pokemart SlateportCity_Pokemart_EnergyGuru
@@ -148,13 +150,19 @@ SlateportCity_EventScript_EnergyGuru::
 
 	.align 2
 SlateportCity_Pokemart_EnergyGuru:
-	.2byte ITEM_PROTEIN
-	.2byte ITEM_IRON
-	.2byte ITEM_CARBOS
-	.2byte ITEM_ZINC
-	.2byte ITEM_CALCIUM
-	.2byte ITEM_HP_UP
+	.2byte ITEM_CHARIZARDITE_X
+	.2byte ITEM_CHARIZARDITE_Y
+	.2byte ITEM_VENUSAURITE
+	.2byte ITEM_BLASTOISINITE
+	.2byte ITEM_SCEPTILITE
+	.2byte ITEM_BLAZIKENITE
+	.2byte ITEM_SWAMPERTITE
 	pokemartlistend
+
+SlateportCity_EventScript_ComeBackWithMegaRing::
+	msgbox SlateportCity_Text_ComeBackWithMegaRing, MSGBOX_DEFAULT
+	release
+	end
 
 SlateportCity_EventScript_EffortRibbonWoman::
 	lock
@@ -959,8 +967,8 @@ SlateportCity_EventScript_BerryCrushRankingsSign::
 	end
 
 SlateportCity_Text_EnergyGuruSellWhatYouNeed:
-	.string "I'm the ENERGY GURU! I'll go for it and\n"
-	.string "sell you what you need!$"
+	.string "I'm the STONE SEEKER! Whatchu want?\n"
+	.string "Good choice I got it!$"
 
 SlateportCity_Text_OhYourPokemon:
 	.string "Oh?\n"
@@ -1411,3 +1419,7 @@ SlateportCity_Text_TakingBattleTentChallenge:
 	.string "After all, a tough TRAINER is\n"
 	.string "the perfect fit for the BATTLE TENT!\p"
 	.string "Give it your best effort!$"
+
+SlateportCity_Text_ComeBackWithMegaRing:
+	.string "Hmmm... I can't sell you stuff yet.\n"
+	.string "Come back when you have a MEGA RING.$"

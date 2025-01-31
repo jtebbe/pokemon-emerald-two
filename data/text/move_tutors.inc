@@ -89,6 +89,26 @@ MoveTutor_Text_MimicTaught:
 	.string "Could you execute it to perfection\n"
 	.string "as well as me…?$"
 
+MoveTutor_Text_AllySwitchTeach:
+	.string "Ah, young one!\p"
+	.string "How would you like to teach one of\n"
+	.string "your partners a neat trick?\l"
+	.string "It's called ALLY SWITCH!$"
+
+MoveTutor_Text_AllySwitchDeclined:
+	.string "Fufufu, very well. Come learn it\n"
+	.string "anytime!$"
+
+MoveTutor_Text_AllySwitchWhichMon:
+	.string "Fwofwo! And so I shall!\n"
+	.string "Let me see the POKéMON\l"
+	.string "you wish me to teach.$"
+
+MoveTutor_Text_AllySwitchTaught:
+	.string "Ally Switch is a move of trickery.\p"
+	.string "Could you execute it to perfection\n"
+	.string "and go far…?$"
+
 MoveTutor_Text_MetronomeTeach:
 	.string "I want all sorts of things!\n"
 	.string "But I used up my allowance…\p"
