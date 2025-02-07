@@ -388,23 +388,23 @@ void RunTextPrinters(void)
     do
     {
         int numEmpty = 0;
-        if (gDisableTextPrinters == 0)
+        if (!gDisableTextPrinters)
         {
-            for (i = 0; i < 0x20; ++i)
+            for (i = 0; i < WINDOWS_MAX; ++i)
             {
                 if (sTextPrinters[i].active)
                 {
-                    u16 temp = RenderFont(&sTextPrinters[i]);
-                    switch (temp)
+                    u16 renderCmd = RenderFont(&sTextPrinters[i]);
+                    switch (renderCmd)
                     {
                     case RENDER_PRINT:
                         CopyWindowToVram(sTextPrinters[i].printerTemplate.windowId, COPYWIN_GFX);
                         if (sTextPrinters[i].callback != NULL)
-                            sTextPrinters[i].callback(&sTextPrinters[i].printerTemplate, temp);
+                            sTextPrinters[i].callback(&sTextPrinters[i].printerTemplate, renderCmd);
                         break;
                     case RENDER_UPDATE:
                         if (sTextPrinters[i].callback != NULL)
-                            sTextPrinters[i].callback(&sTextPrinters[i].printerTemplate, temp);
+                            sTextPrinters[i].callback(&sTextPrinters[i].printerTemplate, renderCmd);
                         isInstantText = FALSE;
                         break;
                     case RENDER_FINISH:
@@ -417,7 +417,7 @@ void RunTextPrinters(void)
                     numEmpty++;
                 }
             }
-            if (numEmpty == 0x20)
+            if (numEmpty == WINDOWS_MAX)
                 return;
         }
     } while (isInstantText);
