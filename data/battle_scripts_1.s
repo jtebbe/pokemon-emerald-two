@@ -7584,16 +7584,6 @@ BattleScript_PhoneticMagicActivates::
 BattleScript_PhoneticMagicActivatesEnd:
 	end3
 
-BattleScript_ForecastActivates::
-	statbuffchange MOVE_EFFECT_AFFECTS_USER | STAT_CHANGE_ALLOW_PTR, BattleScript_ForecastActivatesEnd
-	call BattleScript_AbilityPopUp
-	setgraphicalstatchangevalues
-	playanimation BS_ATTACKER, B_ANIM_STATS_CHANGE, sB_ANIM_ARG1
-	printfromtable gStatUpStringIds
-	waitmessage B_WAIT_TIME_LONG
-BattleScript_ForecastActivatesEnd:
-	end3
-
 @ Can't compare directly to a value, have to compare to value at pointer
 sZero:
 .byte 0
