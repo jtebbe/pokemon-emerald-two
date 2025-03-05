@@ -1868,7 +1868,8 @@ s32 CalcCritChanceStage(u32 battlerAtk, u32 battlerDef, u32 move, bool32 recordA
     }
     else if (gStatuses3[battlerAtk] & STATUS3_LASER_FOCUS
           || MoveAlwaysCrits(move)
-          || (abilityAtk == ABILITY_MERCILESS && gBattleMons[battlerDef].status1 & STATUS1_PSN_ANY))
+          || (abilityAtk == ABILITY_MERCILESS && gBattleMons[battlerDef].status1 & STATUS1_PSN_ANY)
+          || abilityAtk == ABILITY_SOUL_STRIKES)
     {
         critChance = CRITICAL_HIT_ALWAYS;
     }

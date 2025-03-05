@@ -2506,4 +2506,11 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .aiRating = 2,
     },
 
+    [ABILITY_SOUL_STRIKES] = 
+    {
+        .name =_("Soul Strikes"),
+        .description = COMPOUND_STRING("Always crits for less damage."),
+        .aiRating = 5,
+    },
+
 };

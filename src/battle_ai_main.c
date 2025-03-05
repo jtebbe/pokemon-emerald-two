@@ -2808,7 +2808,7 @@ static s32 AI_DoubleBattle(u32 battlerAtk, u32 battlerDef, u32 move, s32 score)
     } // check partner move effect
 
     // Adjust for always crit moves
-    if (MoveAlwaysCrits(aiData->partnerMove) && aiData->abilities[battlerAtk] == ABILITY_ANGER_POINT)
+    if ((MoveAlwaysCrits(aiData->partnerMove) ||  atkPartnerAbility == ABILITY_SOUL_STRIKES) && aiData->abilities[battlerAtk] == ABILITY_ANGER_POINT)
     {
         if (AI_IsSlower(battlerAtk, battlerAtkPartner, move))   // Partner moving first
         {
