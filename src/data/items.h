@@ -8762,7 +8762,7 @@ const struct Item gItemsInfo[] =
     {
         .name = _("Razor Claw"),
         .price = (I_PRICE >= GEN_9) ? 15000 : ((I_PRICE >= GEN_7) ? 5000 : 2100),
-        .holdEffect = HOLD_EFFECT_SCOPE_LENS,
+        .holdEffect = HOLD_EFFECT_RAZOR_CLAW,
         .description = COMPOUND_STRING(
             "A hooked claw that\n"
             "ups the holder's\n"
