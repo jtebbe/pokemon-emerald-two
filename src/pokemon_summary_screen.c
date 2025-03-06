@@ -328,6 +328,7 @@ static void WriteToStatsTilemapBuffer(u32 length, u32 block, u32 statsCoordX, u3
 void ExtractMonSkillStatsData(struct Pokemon *mon, struct PokeSummary *sum);
 void ExtractMonSkillIvData(struct Pokemon *mon, struct PokeSummary *sum);
 void ExtractMonSkillEvData(struct Pokemon *mon, struct PokeSummary *sum);
+void ExtractMonBaseStatData(struct Pokemon *mon, struct PokeSummary *sum);
 static void PrintTextOnWindow(u8 windowId, const u8 *string, u8 x, u8 y, u8 lineSpacing, u8 colorId);
 static void PrintTextOnWindowWithFont(u8 windowId, const u8 *string, u8 x, u8 y, u8 lineSpacing, u8 colorId, u32 fontId);
 static const u8 *GetLetterGrade(u32 stat);
@@ -1661,6 +1662,9 @@ static void ChangeStatLabel(s16 mode)
     case SUMMARY_SKILLS_MODE_EVS:
         WriteToStatsTilemapBuffer(ivEvLength, evsBlock, statsCoordX, statsCoordY);
         break;
+    case SUMMARY_SKILLS_MODE_BST:
+        WriteToStatsTilemapBuffer(statsLength, statsBlock, statsCoordX, statsCoordY);
+        break;
     }
     CopyBgTilemapBufferToVram(1);
 }
@@ -1791,6 +1795,9 @@ static u8 IncrementSkillsStatsMode(u8 mode)
             return SUMMARY_SKILLS_MODE_EVS;
         }
     case SUMMARY_SKILLS_MODE_EVS:
+        sMonSummaryScreen->skillsPageMode = SUMMARY_SKILLS_MODE_BST;
+        return SUMMARY_SKILLS_MODE_BST;
+    case SUMMARY_SKILLS_MODE_BST:
     default:
         sMonSummaryScreen->skillsPageMode = SUMMARY_SKILLS_MODE_STATS;
         return SUMMARY_SKILLS_MODE_STATS;
@@ -1825,6 +1832,9 @@ static void ShowMonSkillsInfo(u8 taskId, s16 mode)
     else if (mode == SUMMARY_SKILLS_MODE_EVS)
     {
         ExtractMonSkillEvData(mon, sum);
+        BufferLeftColumnIvEvStats();
+    } else if (mode == SUMMARY_SKILLS_MODE_BST) {
+        ExtractMonBaseStatData(mon, sum);
         BufferLeftColumnIvEvStats();
     }
 
@@ -1880,6 +1890,16 @@ void ExtractMonSkillEvData(struct Pokemon *mon, struct PokeSummary *sum)
     sum->spatk = GetMonData(mon, MON_DATA_SPATK_EV);
     sum->spdef = GetMonData(mon, MON_DATA_SPDEF_EV);
     sum->speed = GetMonData(mon, MON_DATA_SPEED_EV);
+}
+
+void ExtractMonBaseStatData(struct Pokemon *mon, struct PokeSummary *sum)
+{
+    sum->currentHP = gSpeciesInfo[GetMonData(mon, MON_DATA_SPECIES)].baseHP;
+    sum->atk = gSpeciesInfo[GetMonData(mon, MON_DATA_SPECIES)].baseAttack;
+    sum->def = gSpeciesInfo[GetMonData(mon, MON_DATA_SPECIES)].baseDefense;
+    sum->spatk = gSpeciesInfo[GetMonData(mon, MON_DATA_SPECIES)].baseSpAttack;
+    sum->spdef = gSpeciesInfo[GetMonData(mon, MON_DATA_SPECIES)].baseSpDefense;
+    sum->speed = gSpeciesInfo[GetMonData(mon, MON_DATA_SPECIES)].baseSpeed;
 }
 
 static void ChangeSummaryPokemon(u8 taskId, s8 delta)
@@ -4683,6 +4703,7 @@ static inline void ShowUtilityPrompt(s16 mode)
     const u8* gText_SkillPageIvs = COMPOUND_STRING("IVs");
     const u8* gText_SkillPageEvs = COMPOUND_STRING("EVs");
     const u8* gText_SkillPageStats = COMPOUND_STRING("STATS");
+    const u8* gText_SkillPageBaseStats = COMPOUND_STRING("BST");
 
     if (sMonSummaryScreen->currPageIndex == PSS_PAGE_INFO)
     {
@@ -4711,6 +4732,8 @@ static inline void ShowUtilityPrompt(s16 mode)
             }
             else if (mode == SUMMARY_SKILLS_MODE_EVS)
             {
+                promptText = gText_SkillPageBaseStats;
+            } else if (mode == SUMMARY_SKILLS_MODE_BST) {
                 promptText = gText_SkillPageStats;
             }
         }

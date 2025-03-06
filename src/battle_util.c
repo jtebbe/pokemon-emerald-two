@@ -10342,8 +10342,10 @@ static inline uq4_12_t GetBurnOrFrostBiteModifier(struct DamageCalculationData *
     return UQ_4_12(1.0);
 }
 
-static inline uq4_12_t GetCriticalModifier(bool32 isCrit)
+static inline uq4_12_t GetCriticalModifier(bool32 isCrit, u32 battlerAtk)
 {
+    if (isCrit && GetBattlerAbility(battlerAtk) == ABILITY_SOUL_STRIKES)
+        return UQ_4_12(1.2);
     if (isCrit)
         return GetGenConfig(GEN_CONFIG_CRIT_MULTIPLIER) >= GEN_6 ? UQ_4_12(1.5) : UQ_4_12(2.0);
     return UQ_4_12(1.0);
@@ -10424,8 +10426,6 @@ static inline uq4_12_t GetAttackerAbilitiesModifier(u32 battlerAtk, uq4_12_t typ
         if (isCrit)
             return UQ_4_12(1.5);
         break;
-    case ABILITY_SOUL_STRIKES:
-        return UQ_4_12(0.8);
     case ABILITY_TINTED_LENS:
         if (typeEffectivenessModifier <= UQ_4_12(0.5))
             return UQ_4_12(2.0);
@@ -10607,7 +10607,7 @@ static inline s32 DoMoveDamageCalcVars(struct DamageCalculationData *damageCalcD
     DAMAGE_APPLY_MODIFIER(GetParentalBondModifier(battlerAtk));
     DAMAGE_APPLY_MODIFIER(GetOneTwoModifier(battlerAtk));
     DAMAGE_APPLY_MODIFIER(GetWeatherDamageModifier(damageCalcData, holdEffectAtk, holdEffectDef, weather));
-    DAMAGE_APPLY_MODIFIER(GetCriticalModifier(damageCalcData->isCrit));
+    DAMAGE_APPLY_MODIFIER(GetCriticalModifier(damageCalcData->isCrit, battlerAtk));
     DAMAGE_APPLY_MODIFIER(GetGlaiveRushModifier(battlerDef));
 
     if (damageCalcData->randomFactor)
@@ -10670,7 +10670,7 @@ static inline s32 DoFutureSightAttackDamageCalcVars(struct DamageCalculationData
     targetFinalDefense = CalcDefenseStat(damageCalcData, ABILITY_NONE, abilityDef, holdEffectDef, weather);
     dmg = CalculateBaseDamage(gBattleMovePower, userFinalAttack, partyMonLevel, targetFinalDefense);
 
-    DAMAGE_APPLY_MODIFIER(GetCriticalModifier(damageCalcData->isCrit));
+    DAMAGE_APPLY_MODIFIER(GetCriticalModifier(damageCalcData->isCrit, battlerAtk));
 
     if (damageCalcData->randomFactor)
     {
