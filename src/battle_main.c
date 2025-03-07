@@ -3521,7 +3521,7 @@ static void DoBattleIntro(void)
             if (B_FAST_INTRO_PKMN_TEXT == TRUE)
                 gBattleStruct->introState = BATTLE_INTRO_STATE_INTRO_TEXT; // Don't wait for sprite, print message at the same time.
             else
-                gBattleStruct->introState++; // Wait for sprite to load.
+                gBattleStruct->introState += 2; // Wait for sprite to load.
         }
         break;
     case BATTLE_INTRO_STATE_DRAW_PARTY_SUMMARY:
