@@ -9145,6 +9145,40 @@ const struct Item gItemsInfo[] =
         .iconPalette = gItemIconPalette_UtilityUmbrella,
     },
 
+    [ITEM_STRANGE_SWORD] =
+    {
+        .name = _("Strange Sword"),
+        .price = 0,
+        .holdEffect = HOLD_EFFECT_STRANGE_SWORD,
+        .description = COMPOUND_STRING(
+            "Inverts non-immune\n"
+            "attack damage to\n"
+            "opponents."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 100,
+        .iconPic = gItemIcon_RustedSword,
+        .iconPalette = gItemIconPalette_RustedWeapons,
+    },
+
+    [ITEM_STRANGE_SHIELD] =
+    {
+        .name = _("Strange Shield"),
+        .price = 0,
+        .holdEffect = HOLD_EFFECT_STRANGE_SHIELD,
+        .description = COMPOUND_STRING(
+            "Inverts non-immune\n"
+            "incoming damage\n"
+            "from opponents."),
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 100,
+        .iconPic = gItemIcon_RustedShield,
+        .iconPalette = gItemIconPalette_RustedWeapons,
+    },
+
 // Berries
 
     [ITEM_CHERI_BERRY] =

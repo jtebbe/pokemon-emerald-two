@@ -10758,6 +10758,31 @@ static inline void MulByTypeEffectiveness(uq4_12_t *modifier, u32 move, u32 move
     uq4_12_t mod = GetTypeModifier(moveType, defType);
     u32 abilityAtk = GetBattlerAbility(battlerAtk);
 
+    u32 itemAtk = GetBattlerHoldEffect(battlerAtk, TRUE);
+    u32 itemDef = GetBattlerHoldEffect(battlerDef, TRUE);
+
+    if ((itemAtk == HOLD_EFFECT_STRANGE_SWORD || itemDef == HOLD_EFFECT_STRANGE_SHIELD) && !(itemAtk == HOLD_EFFECT_STRANGE_SWORD && itemDef == HOLD_EFFECT_STRANGE_SHIELD)) {
+        if (mod != UQ_4_12(0.0)) {
+            switch(mod) {
+                case UQ_4_12(4.0):
+                    mod = UQ_4_12(0.25);
+                    break;
+                case UQ_4_12(2.0):
+                    mod = UQ_4_12(0.5);
+                    break;
+                case UQ_4_12(1.0):
+                    mod = UQ_4_12(1.0);
+                    break;
+                case UQ_4_12(0.5):
+                    mod = UQ_4_12(2.0);
+                    break;
+                case UQ_4_12(0.25):
+                    mod = UQ_4_12(4.0);
+                    break;
+            }
+        }
+    }
+
     if (mod == UQ_4_12(0.0) && GetBattlerHoldEffect(battlerDef, TRUE) == HOLD_EFFECT_RING_TARGET)
     {
         mod = UQ_4_12(1.0);

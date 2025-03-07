@@ -161,6 +161,8 @@ enum ItemHoldEffect
     HOLD_EFFECT_BERSERK_GENE,
     // Custom Hold Effects
     HOLD_EFFECT_RAZOR_CLAW,
+    HOLD_EFFECT_STRANGE_SWORD,
+    HOLD_EFFECT_STRANGE_SHIELD,
 };
 
 #define HOLD_EFFECT_CHOICE(holdEffect) ((holdEffect == HOLD_EFFECT_CHOICE_BAND || holdEffect == HOLD_EFFECT_CHOICE_SCARF || holdEffect == HOLD_EFFECT_CHOICE_SPECS))
