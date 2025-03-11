@@ -1439,6 +1439,10 @@ static bool32 AccuracyCalcHelper(u32 move, u32 battler)
         effect = TRUE;
         ability = ABILITY_NO_GUARD;
     }
+
+    else if (GetBattlerHoldEffect(battler, TRUE) == HOLD_EFFECT_RING_TARGET) {
+        effect = TRUE;
+    }
     // If the target is under the effects of Telekinesis, and the move isn't a OH-KO move, move hits.
     else if (gStatuses3[battler] & STATUS3_TELEKINESIS
           && !(gStatuses3[battler] & STATUS3_SEMI_INVULNERABLE)
