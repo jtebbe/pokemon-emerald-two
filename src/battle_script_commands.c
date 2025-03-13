@@ -16820,10 +16820,12 @@ bool32 IsMoveAffectedByParentalBond(u32 move, u32 battler)
 bool32 IsMoveAffectedByOneTwo(u32 move, u32 battler)
 {
     if (move != MOVE_NONE && move != MOVE_UNAVAILABLE && move != MOVE_STRUGGLE
-        && gMovesInfo[move].category != DAMAGE_CATEGORY_STATUS
-        && gMovesInfo[move].strikeCount < 2
-        && gMovesInfo[move].effect != EFFECT_MULTI_HIT
-        && gMovesInfo[move].punchingMove)
+        && GetMoveCategory(move) != DAMAGE_CATEGORY_STATUS
+        && GetMoveStrikeCount(move) < 2
+        && GetMoveEffect(move) != EFFECT_SEMI_INVULNERABLE
+        && GetMoveEffect(move) != EFFECT_TWO_TURNS_ATTACK
+        && GetMoveEffect != EFFECT_MULTI_HIT 
+        && IsPunchingMove(move))
     {
         if (IsDoubleBattle())
         {
