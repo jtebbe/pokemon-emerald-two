@@ -8429,7 +8429,7 @@ const struct Item gItemsInfo[] =
         .name = _("Shell Bell"),
         .price = (I_PRICE >= GEN_9) ? 20000 : ((I_PRICE >= GEN_7) ? 4000 : 200),
         .holdEffect = HOLD_EFFECT_SHELL_BELL,
-        .holdEffectParam = 8,
+        .holdEffectParam = 4,
         .description = COMPOUND_STRING(
             "A hold item that\n"
             "restores HP upon\n"

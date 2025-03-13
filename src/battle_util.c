@@ -8428,7 +8428,7 @@ u32 ItemBattleEffects(enum ItemCaseId caseID, u32 battler, bool32 moveTurn)
                     effect = ITEM_STATS_CHANGE;
                     BattleScriptPushCursor();
                     gBattlescriptCurrInstr = BattleScript_TargetItemStatRaise;
-                    SET_STATCHANGER(STAT_ATK, 1, FALSE);
+                    SET_STATCHANGER(STAT_ATK, 3, FALSE);
                 }
                 break;
             case HOLD_EFFECT_LUMINOUS_MOSS:
@@ -8439,7 +8439,7 @@ u32 ItemBattleEffects(enum ItemCaseId caseID, u32 battler, bool32 moveTurn)
                     effect = ITEM_STATS_CHANGE;
                     BattleScriptPushCursor();
                     gBattlescriptCurrInstr = BattleScript_TargetItemStatRaise;
-                    SET_STATCHANGER(STAT_SPDEF, 1, FALSE);
+                    SET_STATCHANGER(STAT_SPDEF, 3, FALSE);
                 }
                 break;
             case HOLD_EFFECT_CELL_BATTERY:
@@ -8450,7 +8450,7 @@ u32 ItemBattleEffects(enum ItemCaseId caseID, u32 battler, bool32 moveTurn)
                     effect = ITEM_STATS_CHANGE;
                     BattleScriptPushCursor();
                     gBattlescriptCurrInstr = BattleScript_TargetItemStatRaise;
-                    SET_STATCHANGER(STAT_ATK, 1, FALSE);
+                    SET_STATCHANGER(STAT_ATK, 3, FALSE);
                 }
                 break;
             case HOLD_EFFECT_ABSORB_BULB:
@@ -8461,7 +8461,7 @@ u32 ItemBattleEffects(enum ItemCaseId caseID, u32 battler, bool32 moveTurn)
                     effect = ITEM_STATS_CHANGE;
                     BattleScriptPushCursor();
                     gBattlescriptCurrInstr = BattleScript_TargetItemStatRaise;
-                    SET_STATCHANGER(STAT_SPATK, 1, FALSE);
+                    SET_STATCHANGER(STAT_SPATK, 3, FALSE);
                 }
                 break;
             case HOLD_EFFECT_ENIGMA_BERRY: // consume and heal if hit by super effective move
@@ -10527,6 +10527,11 @@ static inline uq4_12_t GetDefenderItemsModifier(struct DamageCalculationData *da
             if (damageCalcData->updateFlags)
                 gSpecialStatuses[battlerDef].berryReduced = TRUE;
             return (abilityDef == ABILITY_RIPEN) ? UQ_4_12(0.25) : UQ_4_12(0.5);
+        }
+        break;
+    case HOLD_EFFECT_UTILITY_UMBRELLA:
+        if (moveType == TYPE_FIRE || moveType == TYPE_WATER || moveType == TYPE_ICE) {
+            return UQ_4_12(0.75);
         }
         break;
     }
