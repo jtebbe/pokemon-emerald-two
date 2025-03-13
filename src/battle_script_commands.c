@@ -16824,7 +16824,7 @@ bool32 IsMoveAffectedByOneTwo(u32 move, u32 battler)
         && GetMoveStrikeCount(move) < 2
         && GetMoveEffect(move) != EFFECT_SEMI_INVULNERABLE
         && GetMoveEffect(move) != EFFECT_TWO_TURNS_ATTACK
-        && GetMoveEffect != EFFECT_MULTI_HIT 
+        && GetMoveEffect(move) != EFFECT_MULTI_HIT 
         && IsPunchingMove(move))
     {
         if (IsDoubleBattle())
