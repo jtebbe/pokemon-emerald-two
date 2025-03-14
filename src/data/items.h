@@ -7121,7 +7121,7 @@ const struct Item gItemsInfo[] =
         .name = _("Soul Dew"),
         .price = (I_PRICE >= GEN_7) ? 0 : 200,
         .holdEffect = HOLD_EFFECT_SOUL_DEW,
-        .holdEffectParam = B_SOUL_DEW_BOOST >= GEN_7 ? 20 : 50,
+        .holdEffectParam = B_SOUL_DEW_BOOST >= GEN_7 ? 20 : 30,
         .description = COMPOUND_STRING(
         #if B_SOUL_DEW_BOOST >= GEN_7
             "Powers up Latios' &\n"
@@ -7145,7 +7145,7 @@ const struct Item gItemsInfo[] =
         .name = _("Adamant Orb"),
         .price = (I_PRICE >= GEN_7) ? 0 : 10000,
         .holdEffect = HOLD_EFFECT_ADAMANT_ORB,
-        .holdEffectParam = 20,
+        .holdEffectParam = 50,
         .description = COMPOUND_STRING(
             "Powers up Dialga's\n"
             "Dragon and Steel-\n"
@@ -7163,7 +7163,7 @@ const struct Item gItemsInfo[] =
         .name = _("Lustrous Orb"),
         .price = (I_PRICE >= GEN_7) ? 0 : 10000,
         .holdEffect = HOLD_EFFECT_LUSTROUS_ORB,
-        .holdEffectParam = 20,
+        .holdEffectParam = 50,
         .description = COMPOUND_STRING(
             "Powers up Palkia's\n"
             "Dragon and Water-\n"
@@ -7181,7 +7181,7 @@ const struct Item gItemsInfo[] =
         .name = _("Griseous Orb"),
         .price = (I_PRICE >= GEN_7) ? 0 : 10000,
         .holdEffect = HOLD_EFFECT_GRISEOUS_ORB,
-        .holdEffectParam = 20,
+        .holdEffectParam = 50,
         .description = COMPOUND_STRING(
             "Boosts Giratina's\n"
             "Dragon and Ghost-\n"
@@ -8610,7 +8610,7 @@ const struct Item gItemsInfo[] =
         .name = _("Metronome"),
         .price = (I_PRICE >= GEN_9) ? 15000 : ((I_PRICE >= GEN_7) ? 4000 : 200),
         .holdEffect = HOLD_EFFECT_METRONOME,
-        .holdEffectParam = 20,
+        .holdEffectParam = 40,
         .description = COMPOUND_STRING(
             "A held item that\n"
             "boosts a move used\n"

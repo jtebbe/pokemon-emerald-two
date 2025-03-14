@@ -8584,7 +8584,7 @@ u32 ItemBattleEffects(enum ItemCaseId caseID, u32 battler, bool32 moveTurn)
         case HOLD_EFFECT_STICKY_BARB:   // Not an orb per se, but similar effect, and needs to NOT activate with pickpocket
             if (battlerAbility != ABILITY_MAGIC_GUARD)
             {
-                gBattleStruct->moveDamage[battler] = GetNonDynamaxMaxHP(battler) / 8;
+                gBattleStruct->moveDamage[battler] = GetNonDynamaxMaxHP(battler) / 6;
                 if (gBattleStruct->moveDamage[battler] == 0)
                     gBattleStruct->moveDamage[battler] = 1;
                 BattleScriptExecute(BattleScript_ItemHurtEnd2);
@@ -10229,7 +10229,7 @@ static inline u32 CalcDefenseStat(struct DamageCalculationData *damageCalcData, 
             modifier = uq4_12_multiply_half_down(modifier, UQ_4_12(2.0));
         break;
     case HOLD_EFFECT_METAL_POWDER:
-        if (gBattleMons[battlerDef].species == SPECIES_DITTO && usesDefStat && !(gBattleMons[battlerDef].status2 & STATUS2_TRANSFORMED))
+        if (gBattleMons[battlerDef].species == SPECIES_DITTO)
             modifier = uq4_12_multiply_half_down(modifier, UQ_4_12(2.0));
         break;
     case HOLD_EFFECT_EVIOLITE:
@@ -10245,7 +10245,7 @@ static inline u32 CalcDefenseStat(struct DamageCalculationData *damageCalcData, 
          && (gBattleMons[battlerDef].species == SPECIES_LATIAS || gBattleMons[battlerDef].species == SPECIES_LATIOS)
          && !(gBattleTypeFlags & BATTLE_TYPE_FRONTIER)
          && !usesDefStat)
-            modifier = uq4_12_multiply_half_down(modifier, UQ_4_12(1.5));
+            modifier = uq4_12_multiply_half_down(modifier, UQ_4_12(1.3));
         break;
     }
 
@@ -10493,7 +10493,7 @@ static inline uq4_12_t GetDefenderPartnerAbilitiesModifier(u32 battlerPartnerDef
     return UQ_4_12(1.0);
 }
 
-static inline uq4_12_t GetAttackerItemsModifier(u32 battlerAtk, uq4_12_t typeEffectivenessModifier, u32 holdEffectAtk, u32 isCrit)
+static inline uq4_12_t GetAttackerItemsModifier(u32 battlerAtk, uq4_12_t typeEffectivenessModifier, u32 holdEffectAtk, u32 isCrit, u32 move)
 {
     u32 metronomeTurns;
     uq4_12_t metronomeBoostBase;
@@ -10516,6 +10516,10 @@ static inline uq4_12_t GetAttackerItemsModifier(u32 battlerAtk, uq4_12_t typeEff
     case HOLD_EFFECT_RAZOR_CLAW:
         if (isCrit)
             return UQ_4_12_FLOORED(1.3);
+        break;
+    case HOLD_EFFECT_DOUBLE_PRIZE:
+        if (move == MOVE_PAY_DAY)
+            return UQ_4_12(3.0);
         break;
     }
     return UQ_4_12(1.0);
@@ -10542,9 +10546,16 @@ static inline uq4_12_t GetDefenderItemsModifier(struct DamageCalculationData *da
         }
         break;
     case HOLD_EFFECT_UTILITY_UMBRELLA:
-        if (moveType == TYPE_FIRE || moveType == TYPE_WATER || moveType == TYPE_ICE) {
+        if (moveType == TYPE_FIRE || moveType == TYPE_WATER || moveType == TYPE_ICE)
             return UQ_4_12(0.75);
-        }
+        break;
+    case HOLD_EFFECT_REPEL:
+        if (moveType == TYPE_GHOST || moveType == TYPE_DARK || moveType == TYPE_FAIRY)
+            return UQ_4_12(0.75);
+        break;
+    case HOLD_EFFECT_FLOAT_STONE:
+        if (moveType == TYPE_GROUND)
+            return UQ_4_12(0.75);
         break;
     }
     return UQ_4_12(1.0);
@@ -10586,7 +10597,7 @@ static inline uq4_12_t GetOtherModifiers(struct DamageCalculationData *damageCal
         DAMAGE_MULTIPLY_MODIFIER(GetAttackerAbilitiesModifier(battlerAtk, typeEffectivenessModifier, isCrit, abilityAtk));
         DAMAGE_MULTIPLY_MODIFIER(GetDefenderAbilitiesModifier(move, moveType, battlerAtk, battlerDef, typeEffectivenessModifier, abilityDef));
         DAMAGE_MULTIPLY_MODIFIER(GetDefenderPartnerAbilitiesModifier(battlerDefPartner));
-        DAMAGE_MULTIPLY_MODIFIER(GetAttackerItemsModifier(battlerAtk, typeEffectivenessModifier, holdEffectAtk, isCrit));
+        DAMAGE_MULTIPLY_MODIFIER(GetAttackerItemsModifier(battlerAtk, typeEffectivenessModifier, holdEffectAtk, isCrit, move));
         DAMAGE_MULTIPLY_MODIFIER(GetDefenderItemsModifier(damageCalcData, typeEffectivenessModifier, abilityDef, holdEffectDef));
     }
     else
@@ -10595,7 +10606,7 @@ static inline uq4_12_t GetOtherModifiers(struct DamageCalculationData *damageCal
         DAMAGE_MULTIPLY_MODIFIER(GetDefenderPartnerAbilitiesModifier(battlerDefPartner));
         DAMAGE_MULTIPLY_MODIFIER(GetAttackerAbilitiesModifier(battlerAtk, typeEffectivenessModifier, isCrit, abilityAtk));
         DAMAGE_MULTIPLY_MODIFIER(GetDefenderItemsModifier(damageCalcData, typeEffectivenessModifier, abilityDef, holdEffectDef));
-        DAMAGE_MULTIPLY_MODIFIER(GetAttackerItemsModifier(battlerAtk, typeEffectivenessModifier, holdEffectAtk, isCrit));
+        DAMAGE_MULTIPLY_MODIFIER(GetAttackerItemsModifier(battlerAtk, typeEffectivenessModifier, holdEffectAtk, isCrit, move));
     }
     return finalModifier;
 }

@@ -1847,8 +1847,10 @@ static inline u32 GetHoldEffectCritChanceIncrease(u32 battler, u32 holdEffect)
         critStageIncrease = 1;
         break;
     case HOLD_EFFECT_LUCKY_PUNCH:
-        if (gBattleMons[battler].species == SPECIES_CHANSEY)
-            critStageIncrease = 2;
+        if (gBattleMons[battler].species == SPECIES_CHANSEY || 
+            gBattleMons[battler].species == SPECIES_HAPPINY || 
+            gBattleMons[battler].species == SPECIES_BLISSEY)
+            critStageIncrease = 3;
         break;
     case HOLD_EFFECT_LEEK:
         if (IsBattlerLeekAffected(battler, holdEffect))
