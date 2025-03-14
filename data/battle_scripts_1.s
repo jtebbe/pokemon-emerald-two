@@ -8928,6 +8928,16 @@ BattleScript_AirBaloonMsgIn::
 	waitmessage B_WAIT_TIME_LONG
 	end3
 
+BattleScript_StrangeSwordHeld::
+	printstring STRINGID_STRANGESWORDHELD
+	waitmessage B_WAIT_TIME_LONG
+	end3
+
+BattleScript_StrangeShieldHeld::
+	printstring STRINGID_STRANGESHIELDHELD
+	waitmessage B_WAIT_TIME_LONG
+	end3
+
 BattleScript_AirBaloonMsgPop::
 	printstring STRINGID_AIRBALLOONPOP
 	waitmessage B_WAIT_TIME_LONG

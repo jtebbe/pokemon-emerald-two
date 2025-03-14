@@ -867,5 +867,7 @@ extern const u8 BattleScript_SnowBlowActivates[];
 extern const u8 BattleScript_EffectDeadlyKiss[];
 extern const u8 BattleScript_EffectFrigidTouch[];
 extern const u8 BattleScript_AtonalBellsActivates[];
+extern const u8 BattleScript_StrangeSwordHeld[];
+extern const u8 BattleScript_StrangeShieldHeld[];
 
 #endif // GUARD_BATTLE_SCRIPTS_H

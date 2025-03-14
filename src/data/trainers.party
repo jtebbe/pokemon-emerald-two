@@ -5682,12 +5682,15 @@ Music: Female
 Double Battle: Yes
 Mugshot: Purple
 AI: Smart Trainer
+Party Size: 6
+Pool Rules: Doubles
 
 Onix @ Eviolite  
 Ability: Intimidate  
 Level: 5  
 EVs: 252 HP / 252 Atk / 4 SpD  
 Adamant Nature  
+Tags: Lead
 - Sand Tomb  
 - Rock Tomb  
 - Wide Guard  
@@ -5698,6 +5701,7 @@ Ability: Battle Armor
 Level: 5  
 EVs: 252 Atk / 4 SpD / 252 Spe  
 Jolly Nature  
+Tags: Lead
 - Stealth Rock  
 - Rock Tomb  
 - Bug Bite  
@@ -5728,6 +5732,7 @@ Ability: Sheer Force
 Level: 5    
 EVs: 252 Atk / 4 SpD / 252 Spe  
 Adamant Nature  
+Tags: Ace
 - Rock Tomb  
 - Headbutt  
 - Trailblaze  
@@ -5739,6 +5744,7 @@ Level: 5
 Tera Type: Rock  
 EVs: 248 HP / 252 Atk / 8 SpD  
 Adamant Nature  
+Tags: Ace
 - Rock Tomb  
 - Protect  
 - Bonemerang  

@@ -7974,6 +7974,18 @@ u32 ItemBattleEffects(enum ItemCaseId caseID, u32 battler, bool32 moveTurn)
                 BattleScriptPushCursorAndCallback(BattleScript_AirBaloonMsgIn);
                 RecordItemEffectBattle(battler, HOLD_EFFECT_AIR_BALLOON);
                 break;
+            case HOLD_EFFECT_STRANGE_SWORD:
+                effect = ITEM_EFFECT_OTHER;
+                gBattleScripting.battler = battler;
+                BattleScriptPushCursorAndCallback(BattleScript_StrangeSwordHeld);
+                RecordItemEffectBattle(battler, HOLD_EFFECT_STRANGE_SWORD);
+                break;
+            case HOLD_EFFECT_STRANGE_SHIELD:
+                effect = ITEM_EFFECT_OTHER;
+                gBattleScripting.battler = battler;
+                BattleScriptPushCursorAndCallback(BattleScript_StrangeShieldHeld);
+                RecordItemEffectBattle(battler, HOLD_EFFECT_STRANGE_SHIELD);
+                break;
             case HOLD_EFFECT_ROOM_SERVICE:
                 if (TryRoomService(battler))
                 {
@@ -10766,28 +10778,6 @@ static inline void MulByTypeEffectiveness(uq4_12_t *modifier, u32 move, u32 move
     u32 itemAtk = GetBattlerHoldEffect(battlerAtk, TRUE);
     u32 itemDef = GetBattlerHoldEffect(battlerDef, TRUE);
 
-    if ((itemAtk == HOLD_EFFECT_STRANGE_SWORD || itemDef == HOLD_EFFECT_STRANGE_SHIELD) && !(itemAtk == HOLD_EFFECT_STRANGE_SWORD && itemDef == HOLD_EFFECT_STRANGE_SHIELD)) {
-        if (mod != UQ_4_12(0.0)) {
-            switch(mod) {
-                case UQ_4_12(4.0):
-                    mod = UQ_4_12(0.25);
-                    break;
-                case UQ_4_12(2.0):
-                    mod = UQ_4_12(0.5);
-                    break;
-                case UQ_4_12(1.0):
-                    mod = UQ_4_12(1.0);
-                    break;
-                case UQ_4_12(0.5):
-                    mod = UQ_4_12(2.0);
-                    break;
-                case UQ_4_12(0.25):
-                    mod = UQ_4_12(4.0);
-                    break;
-            }
-        }
-    }
-
     if (mod == UQ_4_12(0.0) && GetBattlerHoldEffect(battlerDef, TRUE) == HOLD_EFFECT_RING_TARGET)
     {
         mod = UQ_4_12(1.0);
@@ -10821,6 +10811,28 @@ static inline void MulByTypeEffectiveness(uq4_12_t *modifier, u32 move, u32 move
     {
         if (defType == TYPE_FLYING && mod >= UQ_4_12(2.0))
             mod = UQ_4_12(1.0);
+    }
+
+    if ((itemAtk == HOLD_EFFECT_STRANGE_SWORD || itemDef == HOLD_EFFECT_STRANGE_SHIELD) && !(itemAtk == HOLD_EFFECT_STRANGE_SWORD && itemDef == HOLD_EFFECT_STRANGE_SHIELD)) {
+        if (mod != UQ_4_12(0.0)) {
+            switch(mod) {
+                case UQ_4_12(4.0):
+                    mod = UQ_4_12(0.25);
+                    break;
+                case UQ_4_12(2.0):
+                    mod = UQ_4_12(0.5);
+                    break;
+                case UQ_4_12(1.0):
+                    mod = UQ_4_12(1.0);
+                    break;
+                case UQ_4_12(0.5):
+                    mod = UQ_4_12(2.0);
+                    break;
+                case UQ_4_12(0.25):
+                    mod = UQ_4_12(4.0);
+                    break;
+            }
+        }
     }
 
     if (gSpecialStatuses[battlerDef].distortedTypeMatchups || (mod > UQ_4_12(0.0) && ShouldTeraShellDistortTypeMatchups(move, battlerDef, defAbility)))

@@ -895,6 +895,8 @@ const u8 *const gBattleStringsTable[BATTLESTRINGS_COUNT] =
     [STRINGID_PKMNSENTTOPCAFTERCATCH]               = gText_PkmnSentToPCAfterCatch,
     [STRINGID_PKMNISALREADYFROSTBITTEN]               = COMPOUND_STRING("{B_DEF_NAME_WITH_PREFIX} is already frostbitten!"),
     [STRINGID_PKMNCUTSSPATTACKWITH]                   = COMPOUND_STRING("{B_SCR_NAME_WITH_PREFIX}'s {B_SCR_ACTIVE_ABILITY} cuts {B_DEF_NAME_WITH_PREFIX2}'s SpAtk!"),
+    [STRINGID_STRANGESWORDHELD]                      = COMPOUND_STRING("{B_SCR_NAME_WITH_PREFIX} holds a strange sword..."),
+    [STRINGID_STRANGESHIELDHELD]                      = COMPOUND_STRING("{B_SCR_NAME_WITH_PREFIX} holds a strange shield..."),
 };
 
 const u16 gTrainerUsedItemStringIds[] =
