@@ -345,6 +345,7 @@ static u32 GetNextTarget(u32 moveTarget, bool32 excludeCurrent);
 static void TryUpdateEvolutionTracker(u32 evolutionMethod, u32 upAmount, u16 usedMove);
 static void AccuracyCheck(bool32 recalcDragonDarts, const u8 *nextInstr, const u8 *failInstr, u16 move);
 static void ResetValuesForCalledMove(void);
+static void TryRestoreDamageAfterCheeckPouch(u32 battler);
 
 static void Cmd_attackcanceler(void);
 static void Cmd_accuracycheck(void);
@@ -2702,6 +2703,7 @@ static void Cmd_datahpupdate(void)
         }
     }
 
+    TryRestoreDamageAfterCheeckPouch(battler);
     gBattlescriptCurrInstr = cmd->nextInstr;
 }
 
@@ -6511,9 +6513,10 @@ static void Cmd_moveend(void)
             {
                 u16 *choicedMoveAtk = &gBattleStruct->choicedMove[gBattlerAttacker];
                 if (gHitMarker & HITMARKER_OBEYS
-                 && (HOLD_EFFECT_CHOICE(holdEffectAtk) || GetBattlerAbility(gBattlerAttacker) == ABILITY_GORILLA_TACTICS)
+                 && !(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE)
                  && gChosenMove != MOVE_STRUGGLE
-                 && (*choicedMoveAtk == MOVE_NONE || *choicedMoveAtk == MOVE_UNAVAILABLE))
+                 && (*choicedMoveAtk == MOVE_NONE || *choicedMoveAtk == MOVE_UNAVAILABLE)
+                 && (HOLD_EFFECT_CHOICE(holdEffectAtk) || GetBattlerAbility(gBattlerAttacker) == ABILITY_GORILLA_TACTICS))
                 {
                     if ((moveEffect == EFFECT_BATON_PASS || moveEffect == EFFECT_HEALING_WISH)
                      && !(gBattleStruct->moveResultFlags[gBattlerTarget] & MOVE_RESULT_FAILED))
@@ -8969,6 +8972,8 @@ static bool32 TryCheekPouch(u32 battler, u32 itemId)
         && gBattleStruct->ateBerry[GetBattlerSide(battler)] & (1u << gBattlerPartyIndexes[battler])
         && !IsBattlerAtMaxHp(battler))
     {
+        gBattleStruct->cheekPouchActivated = TRUE;
+        gBattleScripting.savedDmg = gBattleStruct->moveDamage[battler];
         gBattleStruct->moveDamage[battler] = GetNonDynamaxMaxHP(battler) / 3;
         if (gBattleStruct->moveDamage[battler] == 0)
             gBattleStruct->moveDamage[battler] = 1;
@@ -8979,6 +8984,16 @@ static bool32 TryCheekPouch(u32 battler, u32 itemId)
         return TRUE;
     }
     return FALSE;
+}
+
+// When Cheek Pouch activates mid-battle it overwrites the current damage, so restore it
+static void TryRestoreDamageAfterCheeckPouch(u32 battler)
+{
+    if (gBattleStruct->cheekPouchActivated)
+    {
+        gBattleStruct->moveDamage[battler] = gBattleScripting.savedDmg;
+        gBattleStruct->cheekPouchActivated = FALSE;
+    }
 }
 
 // Used by Bestow and Symbiosis to take an item from one battler and give to another.
