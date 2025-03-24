@@ -17685,72 +17685,72 @@
               {
                 "min_level": 20,
                 "max_level": 28,
-                "species": "SPECIES_MAGMAR"
+                "species": "SPECIES_DARUMAKA_GALAR"
               },
               {
                 "min_level": 20,
                 "max_level": 28,
-                "species": "SPECIES_DARUMAKA"
+                "species": "SPECIES_SANDSLASH_ALOLA"
               },
               {
                 "min_level": 20,
                 "max_level": 28,
-                "species": "SPECIES_HEATMOR"
+                "species": "SPECIES_MR_MIME_GALAR"
               },
               {
                 "min_level": 20,
                 "max_level": 28,
-                "species": "SPECIES_SIZZLIPEDE"
+                "species": "SPECIES_SNEASEL"
               },
               {
                 "min_level": 20,
                 "max_level": 28,
-                "species": "SPECIES_CHARCADET"
+                "species": "SPECIES_SWINUB"
               },
               {
                 "min_level": 20,
                 "max_level": 28,
-                "species": "SPECIES_GROWLITHE"
+                "species": "SPECIES_SNORUNT"
               },
               {
                 "min_level": 20,
                 "max_level": 28,
-                "species": "SPECIES_GROWLITHE_HISUI"
+                "species": "SPECIES_SNOVER"
               },
               {
                 "min_level": 20,
                 "max_level": 28,
-                "species": "SPECIES_HOUNDOUR"
+                "species": "SPECIES_CUBCHOO"
               },
               {
                 "min_level": 20,
                 "max_level": 28,
-                "species": "SPECIES_LITWICK"
+                "species": "SPECIES_VANILLISH"
               },
               {
                 "min_level": 20,
                 "max_level": 28,
-                "species": "SPECIES_LARVESTA"
+                "species": "SPECIES_CRYOGONAL"
               },
               {
                 "min_level": 20,
                 "max_level": 28,
-                "species": "SPECIES_CARKOL"
+                "species": "SPECIES_AMAURA"
               },
               {
                 "min_level": 20,
                 "max_level": 28,
-                "species": "SPECIES_ROGGENROLA"
+                "species": "SPECIES_BERGMITE"
               },
               {
                 "min_level": 20,
                 "max_level": 28,
-                "species": "SPECIES_ROCKRUFF"
+                "species": "SPECIES_EISCUE"
               },
               {
                 "min_level": 20,
                 "max_level": 28,
-                "species": "SPECIES_ROCKRUFF_OWN_TEMPO"
+                "species": "SPECIES_CETODDLE"
               },
               {
                 "min_level": 20,
@@ -17760,7 +17760,7 @@
               {
                 "min_level": 20,
                 "max_level": 28,
-                "species": "SPECIES_GEODUDE_ALOLA"
+                "species": "SPECIES_FRIGIBAX"
               },
               {
                 "min_level": 20,
@@ -17775,12 +17775,12 @@
               {
                 "min_level": 20,
                 "max_level": 28,
-                "species": "SPECIES_DWEBBLE"
+                "species": "SPECIES_MINIOR"
               },
               {
                 "min_level": 20,
                 "max_level": 28,
-                "species": "SPECIES_SALANDIT"
+                "species": "SPECIES_CARBINK"
               }
             ]
           }

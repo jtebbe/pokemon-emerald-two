@@ -4464,9 +4464,9 @@
     {
       "id": "LAYOUT_JAGGED_PASS_GROTTO",
       "name": "JaggedPass_Grotto_Layout",
-      "width": 15,
-      "height": 15,
-      "primary_tileset": "gTileset_General",
+      "width": 16,
+      "height": 40,
+      "primary_tileset": "gTileset_GeneralSnow",
       "secondary_tileset": "gTileset_Cave",
       "border_filepath": "data/layouts/JaggedPass_Grotto/border.bin",
       "blockdata_filepath": "data/layouts/JaggedPass_Grotto/map.bin"
