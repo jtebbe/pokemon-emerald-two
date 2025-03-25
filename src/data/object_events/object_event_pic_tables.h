@@ -1117,6 +1117,33 @@ static const struct SpriteFrameImage sPicTable_PokeBall[] = {
     overworld_frame(gObjectEventPic_PokeBall, 2, 4, 0),
 };
 
+static const struct SpriteFrameImage sPicTable_TmBall[] = {
+    overworld_frame(gObjectEventPic_TmBall, 2, 4, 0),
+    overworld_frame(gObjectEventPic_TmBall, 2, 4, 1),
+    overworld_frame(gObjectEventPic_TmBall, 2, 4, 2),
+    overworld_frame(gObjectEventPic_TmBall, 2, 4, 3),
+    overworld_frame(gObjectEventPic_TmBall, 2, 4, 4),
+    overworld_frame(gObjectEventPic_TmBall, 2, 4, 0),
+};
+
+static const struct SpriteFrameImage sPicTable_BattleItemBall[] = {
+    overworld_frame(gObjectEventPic_BattleItemBall, 2, 4, 0),
+    overworld_frame(gObjectEventPic_BattleItemBall, 2, 4, 1),
+    overworld_frame(gObjectEventPic_BattleItemBall, 2, 4, 2),
+    overworld_frame(gObjectEventPic_BattleItemBall, 2, 4, 3),
+    overworld_frame(gObjectEventPic_BattleItemBall, 2, 4, 4),
+    overworld_frame(gObjectEventPic_BattleItemBall, 2, 4, 0),
+};
+
+static const struct SpriteFrameImage sPicTable_MegaStoneBall[] = {
+    overworld_frame(gObjectEventPic_MegaStoneBall, 2, 4, 0),
+    overworld_frame(gObjectEventPic_MegaStoneBall, 2, 4, 1),
+    overworld_frame(gObjectEventPic_MegaStoneBall, 2, 4, 2),
+    overworld_frame(gObjectEventPic_MegaStoneBall, 2, 4, 3),
+    overworld_frame(gObjectEventPic_MegaStoneBall, 2, 4, 4),
+    overworld_frame(gObjectEventPic_MegaStoneBall, 2, 4, 0),
+};
+
 #if OW_FOLLOWERS_POKEBALLS
 
 #define POKEBALL_PIC_FRAMES(name)                              \
