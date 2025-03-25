@@ -5696,6 +5696,16 @@ Tags: Lead
 - Wide Guard  
 - Protect
 
+Dwebble @ Eviolite  
+Ability: Shell Armor  
+EVs: 248 HP / 8 Atk / 252 Def  
+Impish Nature  
+Tags: Lead
+- Bug Bite  
+- Rock Tomb  
+- Spikes  
+- Wide Guard
+
 Anorith @ Focus Sash  
 Ability: Battle Armor  
 Level: 5  
@@ -5706,6 +5716,17 @@ Tags: Lead
 - Rock Tomb  
 - Bug Bite  
 - String Shot
+
+Glimmet @ Focus Sash  
+Ability: Toxic Debris  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Modest Nature  
+IVs: 0 Atk  
+Tags: Lead
+- Stealth Rock  
+- Acid Spray  
+- Ancient Power  
+- Rock Polish
 
 Nosepass @ Rocky Helmet  
 Ability: Sturdy  
@@ -5727,6 +5748,26 @@ Adamant Nature
 - Tackle  
 - Roar
 
+Corsola @ Leftovers  
+Ability: Algae Addict  
+EVs: 252 HP / 4 SpA / 252 SpD  
+Calm Nature  
+IVs: 0 Atk  
+- Whirlpool  
+- Ancient Power  
+- Confuse Ray  
+- Protect
+
+Omanyte @ Rindo Berry  
+Ability: Shell Armor  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Modest Nature  
+IVs: 0 Atk  
+- Water Pulse  
+- Ancient Power  
+- Protect  
+- Rock Polish
+
 Cranidos @ Assault Vest  
 Ability: Sheer Force  
 Level: 5    
@@ -5737,6 +5778,16 @@ Tags: Ace
 - Headbutt  
 - Trailblaze  
 - Thief
+
+Bonsly @ Assault Vest  
+Ability: Sturdy   
+EVs: 248 HP / 252 Atk / 8 SpD  
+Adamant Nature  
+Tags: Ace
+- Sucker Punch  
+- Rock Tomb  
+- Trailblaze  
+- Counter
 
 Cubone @ Thick Club  
 Ability: Battle Armor  
