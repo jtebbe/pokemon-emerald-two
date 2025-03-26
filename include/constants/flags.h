@@ -61,10 +61,10 @@
 #define FLAG_FLY_FROM_POKENAV               0x2F
 #define FLAG_ITEM_STRANGE_SWORD    0x30
 #define FLAG_ITEM_STRANGE_SHIELD    0x31
-#define FLAG_UNUSED_0x032    0x32 // Unused Flag
-#define FLAG_UNUSED_0x033    0x33 // Unused Flag
-#define FLAG_UNUSED_0x034    0x34 // Unused Flag
-#define FLAG_UNUSED_0x035    0x35 // Unused Flag
+#define FLAG_ITEM_LUMINOUS_MOSS    0x32
+#define FLAG_ITEM_PSYCHIC_SEED    0x33
+#define FLAG_ITEM_SLOWBRONITE    0x34
+#define FLAG_ITEM_ITEM_AUDINITE    0x35
 #define FLAG_UNUSED_0x036    0x36 // Unused Flag
 #define FLAG_UNUSED_0x037    0x37 // Unused Flag
 #define FLAG_UNUSED_0x038    0x38 // Unused Flag

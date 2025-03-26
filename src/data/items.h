@@ -1916,7 +1916,7 @@ const struct Item gItemsInfo[] =
     {
         .name = _("Rare Candy"),
         .pluralName = _("Rare Candies"),
-        .price = (I_PRICE >= GEN_7) ? 100 : 100,
+        .price = (I_PRICE >= GEN_7) ? 50 : 50,
         .description = COMPOUND_STRING(
             "Raises the level\n"
             "of a Pokémon by\n"
@@ -2010,7 +2010,7 @@ const struct Item gItemsInfo[] =
     {
         .name = _("Super Candy"),
         .pluralName = _("Super Candies"),
-        .price = 1000,
+        .price = 250,
         .holdEffectParam = EXP_30000,
         .description = COMPOUND_STRING(
             "Elevates a Pokémon\n"

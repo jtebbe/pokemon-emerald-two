@@ -336,6 +336,45 @@
       "trainer_sight_or_berry_tree_id": "ITEM_TM_THUNDER_FANG",
       "script": "Common_EventScript_FindItem",
       "flag": "FLAG_ITEM_ROUTE_115_THUNDER_FANG"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_BATTLE_BALL",
+      "x": 31,
+      "y": 70,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
+      "movement_range_x": 1,
+      "movement_range_y": 1,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "ITEM_LUMINOUS_MOSS",
+      "script": "Common_EventScript_FindItem",
+      "flag": "FLAG_ITEM_LUMINOUS_MOSS"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_BATTLE_BALL",
+      "x": 10,
+      "y": 5,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "ITEM_PSYCHIC_SEED",
+      "script": "Common_EventScript_FindItem",
+      "flag": "FLAG_ITEM_PSYCHIC_SEED"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_MEGA_BALL",
+      "x": 7,
+      "y": 31,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "ITEM_SLOWBRONITE",
+      "script": "Common_EventScript_FindItem",
+      "flag": "FLAG_ITEM_SLOWBRONITE"
     }
   ],
   "warp_events": [

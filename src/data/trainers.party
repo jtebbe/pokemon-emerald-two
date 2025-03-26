@@ -5680,7 +5680,7 @@ Pic: Leader Roxanne
 Gender: Female
 Music: Female
 Double Battle: Yes
-Mugshot: Purple
+Mugshot: Green
 AI: Smart Trainer
 Party Size: 6
 Pool Rules: Doubles
@@ -5808,12 +5808,16 @@ Pic: Leader Brawly
 Gender: Male
 Music: Male
 Double Battle: Yes
+Mugshot: Green
 AI: Smart Trainer
+Party Size: 6
+Pool Rules: Doubles
 
 Pancham @ Punching Glove  
 Ability: Scrappy  
 EVs: 252 HP / 252 Atk / 4 SpD  
 Adamant Nature  
+Tags: Lead
 - Fire Punch  
 - Ice Punch  
 - Thunder Punch  
@@ -5824,10 +5828,40 @@ Ability: No Guard
 EVs: 252 HP / 252 SpA / 4 SpD  
 Modest Nature  
 IVs: 0 Atk  
+Tags: Lead
 - Work Up  
 - Focus Blast  
 - Fire Blast  
 - Vacuum Wave
+
+Monferno @ Passho Berry  
+Ability: Iron Fist  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+Tags: Lead
+- Fake Out  
+- Mach Punch  
+- Thunder Punch  
+- Protect
+
+Throh (M) @ Leftovers  
+Ability: Guts  
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature
+Tags: Lead
+- Circle Throw  
+- Bulk Up  
+- Protect  
+- Body Slam
+
+Pignite @ Passho Berry  
+Ability: Blaze   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Flame Charge  
+- Power-Up Punch  
+- Knock Off  
+- Bulldoze
 
 Lucario @ Leftovers  
 Ability: Steadfast  
@@ -5839,6 +5873,15 @@ IVs: 0 Atk
 - Mud-Slap  
 - Water Pulse
 
+Heracross @ Coba Berry  
+Ability: Moxie  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Trailblaze  
+- Coaching  
+- Bug Bite  
+- Brick Break
+
 Sawk @ Expert Belt  
 Ability: Inner Focus  
 EVs: 252 Atk / 4 SpD / 252 Spe  
@@ -5848,10 +5891,21 @@ Jolly Nature
 - Rock Tomb  
 - Thunder Punch
 
+Falinks @ Sitrus Berry  
+Ability: Battle Armor   
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+Tags: Ace
+- Bulk Up  
+- First Impression  
+- Brick Break  
+- Protect
+
 Primeape @ Sitrus Berry  
 Ability: Vital Spirit  
 EVs: 252 Atk / 4 SpD / 252 Spe  
 Jolly Nature  
+Tags: Ace
 - Bulk Up  
 - Drain Punch  
 - Fire Punch  
@@ -5862,10 +5916,22 @@ Ability: Intimidate
 Tera Type: Fighting  
 EVs: 252 Atk / 4 SpD / 252 Spe  
 Jolly Nature  
+Tags: Ace
 - Accelerock  
 - Brick Break  
 - Protect  
 - Stomping Tantrum
+
+Electabuzz @ Focus Sash  
+Ability: Static  
+Tera Type: Fighting  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+Tags: Ace
+- Bulk Up  
+- Low Sweep  
+- Thunder Punch  
+- Dual Chop
 
 === TRAINER_WATTSON_1 ===
 Name: WATTSON
@@ -5874,12 +5940,16 @@ Pic: Leader Wattson
 Gender: Male
 Music: Male
 Double Battle: Yes
+Mugshot: Green
 AI: Smart Trainer
+Party Size: 6
+Pool Rules: Doubles
 
 Pincurchin @ Terrain Extender  
 Ability: Electric Surge  
 EVs: 252 HP / 4 Atk / 252 Def  
 Relaxed Nature  
+Tags: Lead
 - Protect  
 - Rising Voltage  
 - Sucker Punch  
@@ -5890,10 +5960,22 @@ Ability: Competitive
 EVs: 252 SpA / 4 SpD / 252 Spe  
 Timid Nature  
 IVs: 0 Atk  
+Tags: Lead
 - Volt Switch  
 - Air Cutter  
 - Protect  
 - Feather Dance
+
+Manectric @ Wise Glasses  
+Ability: Static    
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+Tags: Lead
+- Shock Wave  
+- Signal Beam  
+- Flame Burst  
+- Protect
 
 Raichu @ Life Orb
 Ability: Static   
@@ -5903,6 +5985,16 @@ Hasty Nature
 - Shock Wave  
 - Fake Tears  
 - Alluring Voice
+
+Flaaffy @ Eviolite  
+Ability: Static   
+EVs: 248 HP / 8 Def / 252 SpD  
+Calm Nature  
+IVs: 0 Atk  
+- Cotton Guard  
+- Rest  
+- Sleep Talk  
+- Toxic
 
 Oricorio-Pom-Pom @ Charti Berry  
 Ability: Dancer  
@@ -5914,24 +6006,58 @@ IVs: 0 Atk
 - Revelation Dance  
 - Protect
 
+Lanturn @ Air Balloon  
+Ability: Storm Drain  
+EVs: 252 HP / 252 SpA / 4 SpD  
+Modest Nature  
+IVs: 0 Atk  
+- Water Pulse  
+- Shock Wave  
+- Protect  
+- Volt Switch
+
 Electrode-Hisui @ Focus Sash  
 Ability: Soundproof  
 EVs: 4 Atk / 252 SpA / 252 Spe  
 Hasty Nature  
+Tags: Ace
 - Volt Switch  
 - Giga Drain  
 - Explosion  
 - Protect
+
+Rotom @ Focus Sash  
+Ability: Levitate   
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+Tags: Ace
+- Nasty Plot  
+- Hex  
+- Shock Wave  
+- Thunder Wave
 
 Bronzong @ Leftovers  
 Ability: Levitate  
 Tera Type: Electric  
 EVs: 252 HP / 4 Atk / 252 SpD  
 Careful Nature  
+Tags: Ace
 - Iron Defense  
 - Body Press  
 - Protect  
 - Iron Head
+
+Skuntank @ Leftovers  
+Ability: Stench  
+Tera Type: Electric  
+EVs: 252 Atk / 4 SpA / 252 Spe  
+Naive Nature  
+Tags: Ace
+- Protect  
+- Tera Blast  
+- Poison Tail  
+- Sucker Punch
 
 === TRAINER_FLANNERY_1 ===
 Name: FLANNERY
@@ -5940,26 +6066,51 @@ Pic: Leader Flannery
 Gender: Female
 Music: Female
 Double Battle: Yes
+Mugshot: Green
 AI: Smart Trainer
+Party Size: 6
+Pool Rules: Doubles
 
 Ninetales @ Eject Pack  
 Ability: Drought    
 EVs: 252 SpA / 4 SpD / 252 Spe  
 Timid Nature  
 IVs: 0 Atk  
+Tags: Lead
 - Overheat  
 - Nasty Plot  
 - Protect  
 - Dazzling Gleam
 
+Torkoal @ Eject Pack  
+Ability: Drought   
+EVs: 248 HP / 8 SpA / 252 SpD  
+Calm Nature  
+Tags: Lead
+- Overheat  
+- Will-O-Wisp  
+- Rapid Spin  
+- Protect
+
 Scovillain @ Focus Sash  
 Ability: Chlorophyll   
 EVs: 252 HP / 252 Atk / 4 Spe  
 Adamant Nature  
+Tags: Lead
 - Will-O-Wisp  
 - Protect  
 - Temper Flare  
 - Razor Leaf
+
+Arcanine-Hisui @ Focus Sash  
+Ability: Intimidate   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+Tags: Lead
+- Morning Sun  
+- Flame Charge  
+- Rock Slide  
+- Extreme Speed
 
 Coalossal @ Air Balloon  
 Ability: Steam Engine   
@@ -5980,11 +6131,41 @@ Adamant Nature
 - Knock Off  
 - Blaze Kick
 
+Flareon @ Toxic Orb  
+Ability: Guts   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Flame Charge  
+- Quick Attack  
+- Double Kick  
+- Facade
+
+Marowak-Alola @ Thick Club  
+Ability: Cursed Body   
+EVs: 248 HP / 252 Atk / 8 SpD  
+Adamant Nature  
+- Shadow Bone  
+- Bonemerang  
+- Fire Punch  
+- Detect
+
+Armarouge @ Choice Specs  
+Ability: Flash Fire   
+EVs: 252 HP / 252 SpA / 4 SpD  
+Modest Nature  
+IVs: 0 Atk  
+Tags: Ace
+- Heat Wave  
+- Psyshock  
+- Flash Cannon  
+- Aura Sphere
+
 Rotom-Heat @ Choice Specs  
 Ability: Levitate    
 EVs: 252 SpA / 4 SpD / 252 Spe  
 Timid Nature  
 IVs: 0 Atk  
+Tags: Ace
 - Trick  
 - Volt Switch  
 - Thunder Wave  
@@ -5996,10 +6177,22 @@ Tera Type: Fire
 EVs: 252 SpA / 4 SpD / 252 Spe  
 Timid Nature  
 IVs: 0 Atk  
+Tags: Ace
 - Weather Ball  
 - Discharge  
 - Volt Switch  
 - Hyper Voice
+
+Shiftry @ Assault Vest  
+Ability: Chlorophyll  
+Tera Type: Fire  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+Tags: Ace
+- Tera Blast  
+- Leaf Blade  
+- Sucker Punch  
+- Fake Out
 
 === TRAINER_NORMAN_1 ===
 Name: NORMAN
@@ -6008,13 +6201,17 @@ Pic: Leader Norman
 Gender: Male
 Music: Male
 Double Battle: Yes
+Mugshot: Green
 AI: Smart Trainer
+Party Size: 6
+Pool Rules: Doubles
 
 Grafaiai @ Covert Cloak  
 Ability: Prankster  
 EVs: 252 HP / 4 Def / 252 SpD  
 Calm Nature  
 IVs: 0 Atk  
+Tags: Lead
 - Doodle  
 - Encore  
 - Super Fang  
@@ -6024,6 +6221,7 @@ Slaking @ Assault Vest
 Ability: Truant   
 EVs: 252 Atk / 4 SpD / 252 Spe  
 Jolly Nature  
+Tags: Lead
 - Double-Edge  
 - Knock Off  
 - Drain Punch  
@@ -6039,11 +6237,49 @@ IVs: 0 Atk
 - Flamethrower  
 - Psychic
 
+Drampa @ Leftovers  
+Ability: Berserk  
+EVs: 252 HP / 252 SpA / 4 SpD  
+Modest Nature  
+IVs: 0 Atk  
+- Dragon Pulse  
+- Hyper Voice  
+- Protect  
+- Glare
+
+Fearow @ Scope Lens  
+Ability: Sniper   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Drill Peck  
+- Double-Edge  
+- Tailwind  
+- Protect
+
+Wyrdeer @ Rocky Helmet  
+Ability: Intimidate  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Adamant Nature  
+- Agility  
+- Psyshield Bash  
+- Body Slam  
+- Megahorn
+
+Spinda @ Chople Berry  
+Ability: Prankster  
+EVs: 252 HP / 4 Atk / 252 SpD  
+Careful Nature  
+- Teeter Dance  
+- Disable  
+- Encore  
+- Dizzy Punch
+
 Audino @ Audinite  
 Ability: Regenerator   
 EVs: 252 HP / 4 SpA / 252 SpD  
 Calm Nature  
 IVs: 0 Atk  
+Tags: Ace
 - Protect  
 - Helping Hand  
 - Follow Me  
@@ -6064,7 +6300,8 @@ Tera Type: Normal
 EVs: 252 SpA / 4 SpD / 252 Spe  
 Modest Nature  
 IVs: 0 Atk  
-- Tri Attack  
+Tags: Ace
+- Boomburst  
 - Thunderbolt  
 - Ice Beam  
 - Psychic
@@ -11449,7 +11686,8 @@ Pic: Brendan
 Gender: Male
 Music: Male
 Double Battle: Yes
-AI: Basic Trainer
+Mugshot: Blue
+AI: Smart Trainer
 
 Treecko  
 Ability: Overgrow  
@@ -11465,13 +11703,17 @@ Pic: Brendan
 Gender: Male
 Music: Male
 Double Battle: Yes
+Mugshot: Blue
 AI: Smart Trainer
+Party Size: 4
+Pool Rules: Doubles
 
 Xatu @ Colbur Berry  
 Ability: Magic Bounce  
 EVs: 252 HP / 4 SpA / 252 Spe  
 Timid Nature  
-IVs: 0 Atk  
+IVs: 0 Atk
+Tags: Lead  
 - Tailwind  
 - Reflect  
 - Light Screen  
@@ -11482,6 +11724,7 @@ Ability: Unburden
 Tera Type: Grass  
 EVs: 252 Atk / 4 SpD / 252 Spe  
 Jolly Nature  
+Tags: Ace
 - Swords Dance  
 - Night Slash  
 - Rock Tomb  
@@ -11491,6 +11734,7 @@ Azumarill @ Assault Vest
 Ability: Thick Fat  
 EVs: 252 HP / 252 Atk / 4 SpD  
 Adamant Nature  
+Tags: Lead
 - Aqua Jet  
 - Knock Off  
 - Seismic Toss  
@@ -11499,15 +11743,32 @@ Adamant Nature
 Heatmor @ Air Balloon  
 Ability: Flash Fire   
 EVs: 252 HP / 252 SpA / 4 SpD  
-Modest Nature  
+Modest Nature
+Tags: Lead 
 - Fire Lash  
 - Protect  
 - Scorching Sands  
 - Incinerate
 
-Grovyle
-Level: 20
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+Pikachu @ Light Ball  
+Ability: Lightning Rod   
+EVs: 4 Atk / 252 SpA / 252 Spe  
+Hasty Nature  
+Tags: Lead
+- Fake Out  
+- Thunder Shock  
+- Encore  
+- Draining Kiss
+
+Qwilfish-Hisui @ Eviolite  
+Ability: Intimidate   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+Tags: Ace
+- Poison Tail  
+- Bite  
+- Protect  
+- Aqua Jet
 
 === TRAINER_BRENDAN_ROUTE_119_MUDKIP ===
 Name: BRENDAN
@@ -11537,7 +11798,8 @@ Pic: Brendan
 Gender: Male
 Music: Male
 Double Battle: Yes
-AI: Basic Trainer
+Mugshot: Blue
+AI: Smart Trainer
 
 Torchic  
 Ability: Blaze  
@@ -11553,13 +11815,17 @@ Pic: Brendan
 Gender: Male
 Music: Male
 Double Battle: Yes
-AI: Basic Trainer
+Mugshot: Blue
+AI: Smart Trainer
+Party Size: 4
+Pool Rules: Doubles
 
 Combusken @ Focus Sash  
 Ability: Speed Boost  
 Tera Type: Fire  
 EVs: 252 Atk / 4 SpD / 252 Spe  
-Adamant Nature  
+Adamant Nature 
+Tags: Ace 
 - Swords Dance  
 - Protect  
 - Double Kick  
@@ -11569,6 +11835,7 @@ Nuzleaf @ Tanga Berry
 Ability: Pickpocket  
 EVs: 252 Atk / 4 SpD / 252 Spe  
 Adamant Nature  
+Tags: Lead
 - Fake Out  
 - Night Slash  
 - Protect  
@@ -11578,6 +11845,7 @@ Gyarados @ Assault Vest
 Ability: Intimidate    
 EVs: 252 Atk / 4 SpD / 252 Spe  
 Jolly Nature  
+Tags: Lead
 - Ice Fang  
 - Bite  
 - Bounce  
@@ -11587,18 +11855,32 @@ Oinkologne (M) @ Figy Berry
 Ability: Gluttony    
 EVs: 248 HP / 252 Atk / 8 SpD  
 Adamant Nature  
+Tags: Lead
 - Headbutt  
 - Trailblaze  
 - Bulldoze  
 - Bullet Seed
 
-Lombre
-Level: 18
-IVs: 6 HP / 6 Atk / 6 Def / 6 SpA / 6 SpD / 6 Spe
+Spiritomb @ Roseli Berry  
+Ability: Infiltrator  
+EVs: 248 HP / 252 SpA / 8 SpD  
+Modest Nature  
+IVs: 0 Atk  
+Tags: Ace
+- Calm Mind  
+- Toxic  
+- Hex  
+- Psybeam
 
-Combusken
-Level: 20
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+Cyclizar @ Covert Cloak  
+Ability: Regenerator    
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+Tags: Lead
+- Shed Tail  
+- Breaking Swipe  
+- Quick Attack  
+- Protect
 
 === TRAINER_BRENDAN_ROUTE_119_TREECKO ===
 Name: BRENDAN
@@ -11607,6 +11889,7 @@ Pic: Brendan
 Gender: Male
 Music: Male
 Double Battle: Yes
+Mugshot: Blue
 AI: Basic Trainer
 
 Pelipper
@@ -11628,7 +11911,8 @@ Pic: Brendan
 Gender: Male
 Music: Male
 Double Battle: Yes
-AI: Basic Trainer
+Mugshot: Blue
+AI: Smart Trainer
 
 Mudkip  
 Ability: Torrent  
@@ -11644,23 +11928,28 @@ Pic: Brendan
 Gender: Male
 Music: Male
 Double Battle: Yes
+Mugshot: Blue
 AI: Smart Trainer
+Party Size: 4
+Pool Rules: Doubles
 
 Marshtomp @ Rindo Berry  
 Ability: Damp    
 Tera Type: Water
 EVs: 248 HP / 252 Atk / 8 SpD  
 Adamant Nature  
+Tags: Ace
 - Protect  
 - Bulldoze  
 - Waterfall  
 - Rock Tomb
 
-Chimecho @ Air Balloon
+Chimecho @ Colbur Berry
 Ability: Atonal Bells   
 EVs: 252 HP / 4 SpA / 252 SpD  
 Sassy Nature  
 IVs: 0 Atk  
+Tags: Lead
 - Trick Room  
 - Protect  
 - Psybeam  
@@ -11670,6 +11959,7 @@ Turtonator @ Assault Vest
 Ability: Shell Armor  
 EVs: 248 HP / 8 Atk / 252 SpA  
 Quiet Nature  
+Tags: Lead
 - Incinerate  
 - Dragon Tail  
 - Shock Wave  
@@ -11680,10 +11970,31 @@ Ability: Effect Spore
 EVs: 252 HP / 4 SpA / 252 SpD  
 Calm Nature  
 IVs: 0 Atk  
+Tags: Lead
 - Draining Kiss  
 - Mega Drain  
 - Protect  
 - Leech Seed
+
+Scyther @ Eviolite  
+Ability: Technician  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+Tags: Lead
+- Dual Wingbeat  
+- Bug Bite  
+- Quick Attack  
+- Protect
+
+Togedemaru @ Air Balloon  
+Ability: Iron Barbs  
+EVs: 252 HP / 4 Atk / 252 Spe  
+Jolly Nature  
+Tags: Ace
+- Toxic  
+- Nuzzle  
+- Helping Hand  
+- Protect
 
 === TRAINER_BRENDAN_ROUTE_119_TORCHIC ===
 Name: BRENDAN
@@ -11692,6 +12003,7 @@ Pic: Brendan
 Gender: Male
 Music: Male
 Double Battle: Yes
+Mugshot: Blue
 AI: Basic Trainer
 
 Lombre
@@ -11713,7 +12025,8 @@ Pic: May
 Gender: Female
 Music: Female
 Double Battle: Yes
-AI: Basic Trainer
+Mugshot: Blue
+AI: Smart Trainer
 
 Treecko  
 Ability: Overgrow  
@@ -11729,13 +12042,17 @@ Pic: May
 Gender: Female
 Music: Female
 Double Battle: Yes
+Mugshot: Blue
 AI: Smart Trainer
+Party Size: 4
+Pool Rules: Doubles
 
 Xatu @ Colbur Berry  
 Ability: Magic Bounce  
 EVs: 252 HP / 4 SpA / 252 Spe  
 Timid Nature  
-IVs: 0 Atk  
+IVs: 0 Atk
+Tags: Lead  
 - Tailwind  
 - Reflect  
 - Light Screen  
@@ -11746,6 +12063,7 @@ Ability: Unburden
 Tera Type: Grass  
 EVs: 252 Atk / 4 SpD / 252 Spe  
 Jolly Nature  
+Tags: Ace
 - Swords Dance  
 - Night Slash  
 - Rock Tomb  
@@ -11755,6 +12073,7 @@ Azumarill @ Assault Vest
 Ability: Thick Fat  
 EVs: 252 HP / 252 Atk / 4 SpD  
 Adamant Nature  
+Tags: Lead
 - Aqua Jet  
 - Knock Off  
 - Seismic Toss  
@@ -11763,11 +12082,32 @@ Adamant Nature
 Heatmor @ Air Balloon  
 Ability: Flash Fire   
 EVs: 252 HP / 252 SpA / 4 SpD  
-Modest Nature  
+Modest Nature
+Tags: Lead 
 - Fire Lash  
 - Protect  
 - Scorching Sands  
 - Incinerate
+
+Pikachu @ Light Ball  
+Ability: Lightning Rod   
+EVs: 4 Atk / 252 SpA / 252 Spe  
+Hasty Nature  
+Tags: Lead
+- Fake Out  
+- Thunder Shock  
+- Encore  
+- Draining Kiss
+
+Qwilfish-Hisui @ Eviolite  
+Ability: Intimidate   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+Tags: Ace
+- Poison Tail  
+- Bite  
+- Protect  
+- Aqua Jet
 
 === TRAINER_MAY_ROUTE_119_MUDKIP ===
 Name: MAY
@@ -11776,6 +12116,7 @@ Pic: May
 Gender: Female
 Music: Female
 Double Battle: Yes
+Mugshot: Blue
 AI: Basic Trainer
 
 Slugma
@@ -11797,7 +12138,8 @@ Pic: May
 Gender: Female
 Music: Female
 Double Battle: Yes
-AI: Basic Trainer
+Mugshot: Blue
+AI: Smart Trainer
 
 Torchic  
 Ability: Blaze  
@@ -11813,13 +12155,17 @@ Pic: May
 Gender: Female
 Music: Female
 Double Battle: Yes
+Mugshot: Blue
 AI: Basic Trainer
+Party Size: 4
+Pool Rules: Doubles
 
 Combusken @ Focus Sash  
 Ability: Speed Boost  
 Tera Type: Fire  
 EVs: 252 Atk / 4 SpD / 252 Spe  
-Adamant Nature  
+Adamant Nature 
+Tags: Ace 
 - Swords Dance  
 - Protect  
 - Double Kick  
@@ -11829,6 +12175,7 @@ Nuzleaf @ Tanga Berry
 Ability: Pickpocket  
 EVs: 252 Atk / 4 SpD / 252 Spe  
 Adamant Nature  
+Tags: Lead
 - Fake Out  
 - Night Slash  
 - Protect  
@@ -11838,6 +12185,7 @@ Gyarados @ Assault Vest
 Ability: Intimidate    
 EVs: 252 Atk / 4 SpD / 252 Spe  
 Jolly Nature  
+Tags: Lead
 - Ice Fang  
 - Bite  
 - Bounce  
@@ -11847,10 +12195,32 @@ Oinkologne (M) @ Figy Berry
 Ability: Gluttony    
 EVs: 248 HP / 252 Atk / 8 SpD  
 Adamant Nature  
+Tags: Lead
 - Headbutt  
 - Trailblaze  
 - Bulldoze  
 - Bullet Seed
+
+Spiritomb @ Roseli Berry  
+Ability: Infiltrator  
+EVs: 248 HP / 252 SpA / 8 SpD  
+Modest Nature  
+IVs: 0 Atk  
+Tags: Ace
+- Calm Mind  
+- Toxic  
+- Hex  
+- Psybeam
+
+Cyclizar @ Covert Cloak  
+Ability: Regenerator    
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+Tags: Lead
+- Shed Tail  
+- Breaking Swipe  
+- Quick Attack  
+- Protect
 
 === TRAINER_MAY_ROUTE_119_TREECKO ===
 Name: MAY
@@ -11859,6 +12229,7 @@ Pic: May
 Gender: Female
 Music: Female
 Double Battle: Yes
+Mugshot: Blue
 AI: Basic Trainer
 
 Pelipper
@@ -11880,7 +12251,8 @@ Pic: May
 Gender: Female
 Music: Female
 Double Battle: Yes
-AI: Basic Trainer
+Mugshot: Blue
+AI: Smart Trainer
 
 Mudkip  
 Ability: Torrent  
@@ -11896,23 +12268,28 @@ Pic: May
 Gender: Female
 Music: Female
 Double Battle: Yes
+Mugshot: Blue
 AI: Smart Trainer
+Party Size: 4
+Pool Rules: Doubles
 
 Marshtomp @ Rindo Berry  
 Ability: Damp    
 Tera Type: Water
 EVs: 248 HP / 252 Atk / 8 SpD  
 Adamant Nature  
+Tags: Ace
 - Protect  
 - Bulldoze  
 - Waterfall  
 - Rock Tomb
 
-Chimecho @ Air Balloon
+Chimecho @ Colbur Berry
 Ability: Atonal Bells   
 EVs: 252 HP / 4 SpA / 252 SpD  
 Sassy Nature  
 IVs: 0 Atk  
+Tags: Lead
 - Trick Room  
 - Protect  
 - Psybeam  
@@ -11922,6 +12299,7 @@ Turtonator @ Assault Vest
 Ability: Shell Armor  
 EVs: 248 HP / 8 Atk / 252 SpA  
 Quiet Nature  
+Tags: Lead
 - Incinerate  
 - Dragon Tail  
 - Shock Wave  
@@ -11932,10 +12310,31 @@ Ability: Effect Spore
 EVs: 252 HP / 4 SpA / 252 SpD  
 Calm Nature  
 IVs: 0 Atk  
+Tags: Lead
 - Draining Kiss  
 - Mega Drain  
 - Protect  
 - Leech Seed
+
+Scyther @ Eviolite  
+Ability: Technician  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+Tags: Lead
+- Dual Wingbeat  
+- Bug Bite  
+- Quick Attack  
+- Protect
+
+Togedemaru @ Air Balloon  
+Ability: Iron Barbs  
+EVs: 252 HP / 4 Atk / 252 Spe  
+Jolly Nature  
+Tags: Ace
+- Toxic  
+- Nuzzle  
+- Helping Hand  
+- Protect
 
 === TRAINER_MAY_ROUTE_119_TORCHIC ===
 Name: MAY
@@ -11944,6 +12343,7 @@ Pic: May
 Gender: Female
 Music: Female
 Double Battle: Yes
+Mugshot: Blue
 AI: Basic Trainer
 
 Lombre
@@ -13425,12 +13825,16 @@ Pic: Magma Leader Maxie
 Gender: Male
 Music: Magma
 Double Battle: Yes
+Mugshot: Pink
 AI: Smart Trainer
+Party Size: 6
+Pool Rules: Doubles
 
 Tauros-Paldea-Blaze (M) @ Assault Vest  
 Ability: Intimidate    
 EVs: 252 Atk / 4 SpD / 252 Spe  
 Jolly Nature  
+Tags: Lead
 - Flame Charge  
 - Raging Bull  
 - Double Kick  
@@ -13441,10 +13845,32 @@ Ability: Intimidate
 EVs: 248 HP / 8 SpA / 252 Spe  
 Timid Nature  
 IVs: 0 Atk  
+Tags: Lead
 - Sticky Web  
 - Tailwind  
 - Protect  
 - Bug Buzz
+
+Scovillain @ Covert Cloak  
+Ability: Moody  
+EVs: 252 HP / 4 SpA / 252 SpD  
+Calm Nature  
+IVs: 0 Atk  
+Tags: Lead
+- Protect  
+- Flamethrower  
+- Giga Drain  
+- Leech Seed
+
+Arcanine @ Assault Vest  
+Ability: Intimidate   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+Tags: Lead
+- Flame Charge  
+- Body Slam  
+- Play Rough  
+- Psychic Fangs
 
 Magcargo @ Passho Berry  
 Ability: Earth Eater    
@@ -13456,10 +13882,41 @@ IVs: 0 Atk
 - Power Gem  
 - Scorching Sands
 
+Salazzle (F) @ Air Balloon  
+Ability: Corrosion   
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Sludge Bomb  
+- Flame Burst  
+- Protect  
+- Hyper Voice
+
+Roserade @ Focus Sash  
+Ability: Natural Cure  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Giga Drain  
+- Sludge Bomb  
+- Dazzling Gleam  
+- Protect
+
+Houndoom @ Chople Berry  
+Ability: Early Bird  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Heat Wave  
+- Dark Pulse  
+- Shadow Ball  
+- Protect
+
 Steelix @ Steelixite  
 Ability: Sheer Force  
 EVs: 252 HP / 252 Atk / 4 SpD  
 Adamant Nature  
+Tags: Ace
 - Stomping Tantrum  
 - Iron Head  
 - Ice Fang  
@@ -13470,6 +13927,7 @@ Ability: Simple
 Tera Type: Grass  
 EVs: 252 SpA / 4 SpD / 252 Spe  
 Modest Nature  
+Tags: Ace
 - Rock Polish  
 - Flamethrower  
 - Scorching Sands  
@@ -14745,6 +15203,7 @@ Pic: Wally
 Gender: Male
 Music: Male
 Double Battle: Yes
+Mugshot: Green
 AI: Smart Trainer
 
 Kecleon @ Focus Sash  
@@ -20181,6 +20640,7 @@ Pic: Cooltrainer M
 Gender: Male
 Music: Cool
 Double Battle: Yes
+Mugshot: Yellow
 AI: Smart Trainer
 
 Zorua-Hisui @ Expert Belt  

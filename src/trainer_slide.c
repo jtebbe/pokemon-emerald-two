@@ -61,7 +61,121 @@ static const u8* const sTrainerSlides[DIFFICULTY_COUNT][TRAINERS_COUNT][TRAINER_
             [TRAINER_SLIDE_PLAYER_LANDS_FIRST_CRITICAL_HIT] = COMPOUND_STRING("A lucky shot! But I can hit those too!{PAUSE_UNTIL_PRESS}"),
             [TRAINER_SLIDE_PLAYER_LANDS_FIRST_SUPER_EFFECTIVE_HIT] = COMPOUND_STRING("So you're not just lucky. Hmph!{PAUSE_UNTIL_PRESS}"),
             [TRAINER_SLIDE_LAST_SWITCHIN] = COMPOUND_STRING("So it's come to this. I'll break you apart!{PAUSE_UNTIL_PRESS}"),
-        }
+        },
+
+        [TRAINER_BRAWLY_1] = 
+        {
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_CRITICAL_HIT] = COMPOUND_STRING("I... my zen will not be disturbed!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_SUPER_EFFECTIVE_HIT] = COMPOUND_STRING("Strength can be a weakness...{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_LAST_SWITCHIN] = COMPOUND_STRING("Be... mindful... be... calm...{PAUSE_UNTIL_PRESS}"),
+        },
+
+        [TRAINER_WATTSON_1] = 
+        {
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_CRITICAL_HIT] = COMPOUND_STRING("Oh ho! Nice shot kid!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_SUPER_EFFECTIVE_HIT] = COMPOUND_STRING("Coverage is good! But I have some too.{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_LAST_SWITCHIN] = COMPOUND_STRING("My hairs are standing on end! Let's finish this!{PAUSE_UNTIL_PRESS}"),
+        },
+
+        [TRAINER_MAXIE_MT_CHIMNEY] = 
+        {
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_CRITICAL_HIT] = COMPOUND_STRING("Your luck will run out soon, child.{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_SUPER_EFFECTIVE_HIT] = COMPOUND_STRING("Hmph, a move even an amateur could make.{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_LAST_SWITCHIN] = COMPOUND_STRING("So? You've pushed me far, but we're not done yet!{PAUSE_UNTIL_PRESS}"),
+        },
+
+        [TRAINER_FLANNERY_1] = 
+        {
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_CRITICAL_HIT] = COMPOUND_STRING("Really? What the hell!.{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_SUPER_EFFECTIVE_HIT] = COMPOUND_STRING("Shit, I should have predicted that!.{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_LAST_SWITCHIN] = COMPOUND_STRING("I won't let this end so easily!{PAUSE_UNTIL_PRESS}"),
+        },
+
+        [TRAINER_NORMAN_1] = 
+        {
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_CRITICAL_HIT] = COMPOUND_STRING("Good one kid, but your old man can do better!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_SUPER_EFFECTIVE_HIT] = COMPOUND_STRING("Smart, but not smart enough, kid!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_LAST_SWITCHIN] = COMPOUND_STRING("Haha, down to the wire! Let's do this!{PAUSE_UNTIL_PRESS}"),
+        },
+
+        [TRAINER_MAY_ROUTE_103_MUDKIP] = 
+        {
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_CRITICAL_HIT] = COMPOUND_STRING("Hey, no fair! Lucky...{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_SUPER_EFFECTIVE_HIT] = COMPOUND_STRING("Nice one! You've studied!{PAUSE_UNTIL_PRESS}"),
+        },
+
+        [TRAINER_MAY_ROUTE_103_TORCHIC] = 
+        {
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_CRITICAL_HIT] = COMPOUND_STRING("Hey, no fair! Lucky...{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_SUPER_EFFECTIVE_HIT] = COMPOUND_STRING("Nice one! You've studied!{PAUSE_UNTIL_PRESS}"),
+        },
+
+        [TRAINER_MAY_ROUTE_103_TREECKO] = 
+        {
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_CRITICAL_HIT] = COMPOUND_STRING("Hey, no fair! Lucky...{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_SUPER_EFFECTIVE_HIT] = COMPOUND_STRING("Nice one! You've studied!{PAUSE_UNTIL_PRESS}"),
+        },
+
+        [TRAINER_BRENDAN_ROUTE_103_MUDKIP] = 
+        {
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_CRITICAL_HIT] = COMPOUND_STRING("Ouch! That was a lucky shot.{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_SUPER_EFFECTIVE_HIT] = COMPOUND_STRING("Huh, you're smarter than I thought!{PAUSE_UNTIL_PRESS}"),
+        },
+
+        [TRAINER_BRENDAN_ROUTE_103_TREECKO] = 
+        {
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_CRITICAL_HIT] = COMPOUND_STRING("Ouch! That was a lucky shot.{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_SUPER_EFFECTIVE_HIT] = COMPOUND_STRING("Huh, you're smarter than I thought!{PAUSE_UNTIL_PRESS}"),
+        },
+
+        [TRAINER_BRENDAN_ROUTE_103_TORCHIC] = 
+        {
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_CRITICAL_HIT] = COMPOUND_STRING("Ouch! That was a lucky shot.{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_SUPER_EFFECTIVE_HIT] = COMPOUND_STRING("Huh, you're smarter than I thought!{PAUSE_UNTIL_PRESS}"),
+        },
+
+        [TRAINER_MAY_ROUTE_110_MUDKIP] = 
+        {
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_CRITICAL_HIT] = COMPOUND_STRING("Dang, I see your luck has improved!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_SUPER_EFFECTIVE_HIT] = COMPOUND_STRING("A strong hit, but that won't always work!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_LAST_SWITCHIN] = COMPOUND_STRING("We're on the ropes, but I won't let you win!{PAUSE_UNTIL_PRESS}"),
+        },
+
+        [TRAINER_MAY_ROUTE_110_TREECKO] = 
+        {
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_CRITICAL_HIT] = COMPOUND_STRING("Dang, I see your luck has improved!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_SUPER_EFFECTIVE_HIT] = COMPOUND_STRING("A strong hit, but that won't always work!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_LAST_SWITCHIN] = COMPOUND_STRING("We're on the ropes, but I won't let you win!{PAUSE_UNTIL_PRESS}"),
+        },
+
+        [TRAINER_MAY_ROUTE_110_TORCHIC] = 
+        {
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_CRITICAL_HIT] = COMPOUND_STRING("Dang, I see your luck has improved!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_SUPER_EFFECTIVE_HIT] = COMPOUND_STRING("A strong hit, but that won't always work!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_LAST_SWITCHIN] = COMPOUND_STRING("We're on the ropes, but I won't let you win!{PAUSE_UNTIL_PRESS}"),
+        },
+
+        [TRAINER_BRENDAN_ROUTE_110_MUDKIP] = 
+        {
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_CRITICAL_HIT] = COMPOUND_STRING("You know that won't happen again.{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_SUPER_EFFECTIVE_HIT] = COMPOUND_STRING("Damn, guess I can't go easy!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_LAST_SWITCHIN] = COMPOUND_STRING("You really put my back against the wall, but we're not done!{PAUSE_UNTIL_PRESS}"),
+        },
+
+        [TRAINER_BRENDAN_ROUTE_110_TREECKO] = 
+        {
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_CRITICAL_HIT] = COMPOUND_STRING("You know that won't happen again.{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_SUPER_EFFECTIVE_HIT] = COMPOUND_STRING("Damn, guess I can't go easy!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_LAST_SWITCHIN] = COMPOUND_STRING("You really put my back against the wall, but we're not done!{PAUSE_UNTIL_PRESS}"),
+        },
+
+        [TRAINER_BRENDAN_ROUTE_110_TORCHIC] = 
+        {
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_CRITICAL_HIT] = COMPOUND_STRING("You know that won't happen again.{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_SUPER_EFFECTIVE_HIT] = COMPOUND_STRING("Damn, guess I can't go easy!{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_LAST_SWITCHIN] = COMPOUND_STRING("You really put my back against the wall, but we're not done!{PAUSE_UNTIL_PRESS}"),
+        },
+        
     },
 };
 
