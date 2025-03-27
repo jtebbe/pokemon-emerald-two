@@ -959,23 +959,44 @@ Pic: Ruin Maniac
 Gender: Male
 Music: Hiker
 Double Battle: Yes
-AI: Basic Trainer
+AI: Smart Trainer
 
-Sandshrew
-Level: 25
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
-- Dig
-- Slash
-- Sand Attack
-- Poison Sting
+Nidoking (M) @ Life Orb  
+Ability: Sheer Force   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Poison Jab  
+- Earthquake  
+- Sucker Punch  
+- Ice Punch
 
-Sandslash
-Level: 25
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
-- Dig
-- Slash
-- Sand Attack
-- Poison Sting
+Greninja @ Focus Sash  
+Ability: Battle Bond  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+- Icy Wind  
+- Hydro Pump  
+- Dark Pulse  
+- Water Shuriken
+
+Dracozolt @ Choice Band  
+Ability: Volt Absorb  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Bolt Beak  
+- Dragon Claw  
+- High Horsepower  
+- Iron Tail
+
+Aerodactyl @ Power Herb  
+Ability: Rock Head  
+Tera Type: Fire  
+EVs: 252 Atk / 4 SpA / 252 Spe  
+Hasty Nature  
+- Tera Blast  
+- Sky Attack  
+- Rock Slide  
+- Protect
 
 === TRAINER_DUSTY_2 ===
 Name: DUSTY
@@ -10093,13 +10114,43 @@ Music: Swimmer
 Double Battle: Yes
 AI: Basic Trainer
 
-Wingull
-Level: 25
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Gyarados @ Gyaradosite  
+Ability: Intimidate   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Dragon Dance  
+- Waterfall  
+- Crunch  
+- Iron Head
 
-Wailmer
-Level: 25
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Gothitelle @ Sitrus Berry  
+Ability: Shadow Tag    
+EVs: 248 HP / 8 SpA / 252 SpD  
+Sassy Nature  
+- Fake Out  
+- Psychic  
+- Light Screen  
+- Reflect
+
+Mimikyu @ Focus Sash  
+Ability: Disguise  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Swords Dance  
+- Shadow Claw  
+- Shadow Sneak  
+- Play Rough
+
+Toxtricity @ Throat Spray  
+Ability: Punk Rock  
+Tera Type: Normal  
+EVs: 252 HP / 252 SpA / 4 SpD  
+Modest Nature  
+IVs: 0 Atk  
+- Shift Gear  
+- Boomburst  
+- Overdrive  
+- Sludge Bomb
 
 === TRAINER_IMANI ===
 Name: IMANI
@@ -17059,9 +17110,44 @@ Music: Swimmer
 Double Battle: Yes
 AI: Basic Trainer
 
-Tentacool
-Level: 15
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Drifblim @ Flame Orb  
+Ability: Flare Boost  
+EVs: 252 HP / 252 SpA / 4 Spe  
+Modest Nature  
+IVs: 0 Atk  
+- Tailwind  
+- Shadow Ball  
+- Air Slash  
+- Psychic
+
+Pyukumuku @ Sitrus Berry  
+Ability: Unaware    
+EVs: 252 HP / 4 Def / 252 SpD  
+Sassy Nature  
+IVs: 0 Atk  
+- Curse  
+- Recover  
+- Toxic  
+- Protect
+
+Ursaluna-Bloodmoon (M) @ Weakness Policy  
+Ability: Minds Eye   
+EVs: 252 HP / 252 SpA / 4 SpD  
+Modest Nature  
+IVs: 0 Atk  
+- Calm Mind  
+- Blood Moon  
+- Earth Power  
+- Moonblast
+
+Beedrill @ Beedrillite  
+Ability: Sniper   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- U-turn  
+- Poison Jab  
+- Protect  
+- Knock Off
 
 === TRAINER_ISABELLE ===
 Name: ISABELLE
@@ -17072,9 +17158,42 @@ Music: Swimmer
 Double Battle: Yes
 AI: Basic Trainer
 
-Marill
-Level: 15
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Inteleon @ Scope Lens  
+Ability: Sniper  
+Tera Type: Water  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+- Snipe Shot  
+- Protect  
+- U-turn  
+- Vacuum Wave
+
+Seviper @ Air Balloon  
+Ability: Shed Skin    
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+- Helping Hand  
+- Glare  
+- Sucker Punch  
+- Poison Jab
+
+Flygon @ Rocky Helmet  
+Ability: Wind Rider   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Tailwind  
+- Dragon Claw  
+- First Impression  
+- U-turn
+
+Sirfetch’d @ Leek  
+Ability: Scrappy  
+EVs: 248 HP / 252 Atk / 8 SpD  
+Adamant Nature  
+- Upper Hand  
+- First Impression  
+- Brick Break  
+- Coaching
 
 === TRAINER_ANDRES_1 ===
 Name: ANDRES
@@ -17083,15 +17202,27 @@ Pic: Ruin Maniac
 Gender: Male
 Music: Hiker
 Double Battle: Yes
-AI: Basic Trainer
+AI: Smart Trainer
 
-Sandshrew
-Level: 25
-IVs: 6 HP / 6 Atk / 6 Def / 6 SpA / 6 SpD / 6 Spe
+Palossand @ Rocky Helmet  
+Ability: Water Compaction   
+EVs: 252 HP / 252 SpA / 4 SpD  
+Quiet Nature  
+IVs: 0 Atk / 0 Spe  
+- Shore Up  
+- Earth Power  
+- Flash Cannon  
+- Energy Ball
 
-Sandshrew
-Level: 25
-IVs: 6 HP / 6 Atk / 6 Def / 6 SpA / 6 SpD / 6 Spe
+Mawile @ Mawilite  
+Ability: Intimidate    
+EVs: 248 HP / 252 Atk / 8 SpD  
+Brave Nature  
+IVs: 0 Spe  
+- Iron Head  
+- Swords Dance  
+- Play Rough  
+- Sucker Punch
 
 === TRAINER_JOSUE ===
 Name: JOSUE
@@ -17100,15 +17231,28 @@ Pic: Bird Keeper
 Gender: Male
 Music: Cool
 Double Battle: Yes
-AI: Basic Trainer
+AI: Smart Trainer
 
-Taillow
-Level: 25
-IVs: 6 HP / 6 Atk / 6 Def / 6 SpA / 6 SpD / 6 Spe
+Braviary-Hisui (M) @ Sitrus Berry  
+Ability: Keen Eye  
+EVs: 248 HP / 252 SpA / 8 SpD  
+Quiet Nature  
+IVs: 0 Atk / 0 Spe  
+- Trick Room  
+- Hurricane  
+- Psychic  
+- Heat Wave
 
-Wingull
-Level: 25
-IVs: 6 HP / 6 Atk / 6 Def / 6 SpA / 6 SpD / 6 Spe
+Hatterene @ Choice Specs  
+Ability: Healer  
+Tera Type: Ghost  
+EVs: 252 HP / 252 SpA / 4 SpD  
+Quiet Nature  
+IVs: 0 Atk / 0 Spe  
+- Dazzling Gleam  
+- Psychic  
+- Shadow Ball  
+- Dark Pulse
 
 === TRAINER_CAMRON ===
 Name: CAMRON

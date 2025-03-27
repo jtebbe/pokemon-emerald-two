@@ -56,6 +56,13 @@ static const u8* const sTrainerSlides[DIFFICULTY_COUNT][TRAINERS_COUNT][TRAINER_
 {
     [DIFFICULTY_NORMAL] =
     {
+        
+        [TRAINER_CLARK] = 
+        {
+            [TRAINER_SLIDE_PLAYER_LANDS_FIRST_CRITICAL_HIT] = COMPOUND_STRING("Damn, bad news for the agency friends...{PAUSE_UNTIL_PRESS}"),
+            [TRAINER_SLIDE_ENEMY_LANDS_FIRST_CRITICAL_HIT] = COMPOUND_STRING("Agency, Agency!{PAUSE_UNTIL_PRESS}"),
+        },
+
         [TRAINER_ROXANNE_1] = 
         {
             [TRAINER_SLIDE_PLAYER_LANDS_FIRST_CRITICAL_HIT] = COMPOUND_STRING("A lucky shot! But I can hit those too!{PAUSE_UNTIL_PRESS}"),

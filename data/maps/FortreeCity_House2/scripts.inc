@@ -19,7 +19,7 @@ FortreeCity_House2_EventScript_HiddenPowerGiver::
 	switch VAR_RESULT
 	case 0, FortreeCity_House2_EventScript_WrongGuess
 	msgbox FortreeCity_House2_Text_YourHiddenPowerHasAwoken, MSGBOX_DEFAULT
-	giveitem ITEM_TM_TERA_BLAST
+	giveitem ITEM_TM_EARTH_POWER
 	goto_if_eq VAR_RESULT, 0, Common_EventScript_ShowBagIsFull
 	setflag FLAG_RECEIVED_TM_TERA_BLAST
 	msgbox FortreeCity_House2_Text_ExplainHiddenPower, MSGBOX_DEFAULT
@@ -44,7 +44,7 @@ FortreeCity_House2_EventScript_WrongGuess::
 FortreeCity_House2_Text_HiddenPowersArousedByNature:
 	.string "POKéMON…\p"
 	.string "Their hidden powers are aroused by\n"
-	.string "terastallizing…$"
+	.string "the earth…$"
 
 FortreeCity_House2_Text_CoinInWhichHand:
 	.string "Let this old woman see if your hidden\n"
@@ -72,8 +72,8 @@ FortreeCity_House2_Text_YourHiddenPowerHasAwoken:
 	.string "power of your POKéMON.$"
 
 FortreeCity_House2_Text_ExplainHiddenPower:
-	.string "Tera Blast is a move that changes\n"
-	.string "with the POKéMON's tera type.$"
+	.string "Earth Power is a move that deals\n"
+	.string "heavy damage and may lower SpDef.$"
 
 FortreeCity_House2_Text_YouGuessedWrong:
 	.string "No, too bad.\n"

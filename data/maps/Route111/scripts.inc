@@ -657,7 +657,7 @@ Route111_Text_RouteSignMauville:
 
 Route111_Text_WinstrateHouseSign:
 	.string "“Our family's hearts beat as one!”\n"
-	.string "THE WINSTRATE'S HOUSE$"
+	.string "Defeat us, and Tera Blast is yours!$"
 
 Route111_Text_RouteSign112:
 	.string "ROUTE 111\n"
