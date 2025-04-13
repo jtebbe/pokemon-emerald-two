@@ -32,6 +32,8 @@ const struct PoolRules gPoolRulesetsList[] = {
         .tagMaxMembers[POOL_TAG_ACE] = 2,
         .tagMaxMembers[POOL_TAG_MEGA] = 1,
         .tagMaxMembers[POOL_TAG_TERA] = 1,
+        .tagMaxMembers[POOL_TAG_TAG8] = 1,
+        .tagMaxMembers[POOL_TAG_SUPPORT] = 1,
     },
     [POOL_RULESET_WEATHER_SINGLES] = {
         .speciesClause = B_POOL_RULE_SPECIES_CLAUSE,
