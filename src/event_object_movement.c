@@ -6005,9 +6005,6 @@ void IsFollowerFieldMoveUser(struct ScriptContext *ctx)
     Script_RequestWriteVar(varId);
 
     u16 *var = GetVarPointer(varId);
-    u16 userIndex = gFieldEffectArguments[0]; // field move user index
-    struct Pokemon *follower = GetFirstLiveMon();
-    struct ObjectEvent *obj = GetFollowerObject();
     if (var == NULL)
         return;
     *var = FALSE;
