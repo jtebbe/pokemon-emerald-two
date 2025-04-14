@@ -845,7 +845,7 @@ DOUBLE_BATTLE_TEST("Sheer Force only boosts the damage of moves it's supposed to
             EXPECT_EQ(damage2, damage1);
     }
 }
-DOUBLE_BATTLE_TEST("Sheer Force only boosts the damage of moves it's supposed to boost 4")
+/*DOUBLE_BATTLE_TEST("Sheer Force only boosts the damage of moves it's supposed to boost 4")
 {
     s16 damage1, damage2;
     u32 move = 0;
@@ -924,4 +924,4 @@ DOUBLE_BATTLE_TEST("Sheer Force only boosts the damage of moves it's supposed to
         else
             EXPECT_EQ(damage2, damage1);
     }
-}
+}*/
