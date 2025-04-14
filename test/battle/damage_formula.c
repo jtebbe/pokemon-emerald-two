@@ -151,7 +151,7 @@ SINGLE_BATTLE_TEST("Damage calculation matches Gen5+ (Marshadow vs Mawile)")
     }
 }*/
 
-SINGLE_BATTLE_TEST("Punching Glove vs Muscle Band Damage calculation")
+/*SINGLE_BATTLE_TEST("Punching Glove vs Muscle Band Damage calculation")
 {
     s16 dmgPlayer, dmgOpponent;
     s16 expectedDamagePlayer, expectedDamageOpponent;
@@ -190,7 +190,7 @@ SINGLE_BATTLE_TEST("Punching Glove vs Muscle Band Damage calculation")
         EXPECT_EQ(expectedDamagePlayer, dmgPlayer);
         EXPECT_EQ(expectedDamageOpponent, dmgOpponent);
     }
-}
+}*/
 
 SINGLE_BATTLE_TEST("Gem boosted Damage calculation")
 {

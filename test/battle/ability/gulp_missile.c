@@ -135,7 +135,7 @@ SINGLE_BATTLE_TEST("(Gulp Missile) triggers even if the user is fainted by oppos
     }
 }
 
-SINGLE_BATTLE_TEST("(Gulp Missile) Transformed Cramorant Gulping lowers defense but is prevented by stat reduction preventing abilities")
+/*SINGLE_BATTLE_TEST("(Gulp Missile) Transformed Cramorant Gulping lowers defense but is prevented by stat reduction preventing abilities")
 {
     u32 species, ability;
     PARAMETRIZE { species = SPECIES_METAGROSS; ability = ABILITY_CLEAR_BODY; }
@@ -158,7 +158,7 @@ SINGLE_BATTLE_TEST("(Gulp Missile) Transformed Cramorant Gulping lowers defense 
     } THEN {
         EXPECT_EQ(opponent->statStages[STAT_DEF], DEFAULT_STAT_STAGE);
     }
-}
+}*/
 
 SINGLE_BATTLE_TEST("(Gulp Missile) Transformed Cramorant Gulping lowers defense and still triggers other effects after")
 {

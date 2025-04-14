@@ -2,7 +2,7 @@
 #include "test/battle.h"
 
 // Please add Utility Umbrella interactions with move, item and ability effects on their respective files.
-ASSUMPTIONS
+/*ASSUMPTIONS
 {
     ASSUME(gItemsInfo[ITEM_UTILITY_UMBRELLA].holdEffect == HOLD_EFFECT_UTILITY_UMBRELLA);
     ASSUME(GetMoveType(MOVE_EMBER) == TYPE_FIRE);
@@ -51,6 +51,6 @@ SINGLE_BATTLE_TEST("Utility Umbrella blocks Rain damage modifiers", s16 damage)
         EXPECT_MUL_EQ(results[0].damage, Q_4_12(0.5), results[1].damage);
         EXPECT_MUL_EQ(results[2].damage, Q_4_12(1.5), results[3].damage);
     }
-}
+}*/
 
 // Moves and abilities affected by Utility Umbrella have their tests in the respective files

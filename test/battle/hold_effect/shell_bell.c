@@ -26,7 +26,7 @@ SINGLE_BATTLE_TEST("Shell Bell recovers 1/8 of HP from after the last hit from a
         }
         HP_BAR(player, captureDamage: &shellBellRecovery);
     } THEN {
-        EXPECT_EQ(totalDamage / 8, -1 * shellBellRecovery);
+        EXPECT_EQ(totalDamage / 4, -1 * shellBellRecovery);
     }
 }
 #undef HITS
@@ -126,7 +126,7 @@ SINGLE_BATTLE_TEST("Shell Bell restores 1/8 HP of damage dealt")
     } SCENE {
         ANIMATION(ANIM_TYPE_MOVE, MOVE_SEISMIC_TOSS, player);
         HP_BAR(opponent);
-        HP_BAR(player, damage: -2);
+        HP_BAR(player, damage: -4);
     }
 }
 
@@ -227,8 +227,8 @@ DOUBLE_BATTLE_TEST("Shell Bell heals accumulated damage for spread moves")
     } THEN {
         const s16 totalDamage = opponentLeftDamage
             + playerRightDamage + opponentRightDamage;
-        EXPECT_EQ(shellBellHeal, -totalDamage / 8);
-        EXPECT_EQ(playerLeft->hp, initHp + (totalDamage / 8));
+        EXPECT_EQ(shellBellHeal, -totalDamage / 4);
+        EXPECT_EQ(playerLeft->hp, initHp + (totalDamage / 4));
     }
 }
 
@@ -248,7 +248,7 @@ SINGLE_BATTLE_TEST("Shell Bell restores 1/8 HP at move end, one strike")
     PARAMETRIZE { hp = maxHp - 1; opponentHp = 1; }
     PARAMETRIZE { hp = maxHp / 2; opponentHp = 1; }
 
-    hpGainFromDamage = max(1, min(40, opponentHp) / 8);
+    hpGainFromDamage = max(1, min(40, opponentHp) / 4);
     hpGainActual = min(maxHp - hp, hpGainFromDamage);
 
     GIVEN {

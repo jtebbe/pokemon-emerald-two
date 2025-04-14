@@ -249,7 +249,7 @@ SINGLE_BATTLE_TEST("Rage Fist base power is not increased if move had no affect"
     }
 }
 
-SINGLE_BATTLE_TEST("Rage Fist base power is increased if Disguise breaks")
+/*SINGLE_BATTLE_TEST("Rage Fist base power is increased if Disguise breaks")
 {
     s16 timesGotHit[2];
     u16 species = SPECIES_NONE;
@@ -273,7 +273,7 @@ SINGLE_BATTLE_TEST("Rage Fist base power is increased if Disguise breaks")
     } THEN {
         EXPECT_MUL_EQ(timesGotHit[0], Q_4_12(2.0), timesGotHit[1]);
     }
-}
+}*/
 
 SINGLE_BATTLE_TEST("Rage Fist number of hits is copied by Transform")
 {

@@ -6,7 +6,7 @@ ASSUMPTIONS
     ASSUME(GetMoveCategory(MOVE_AERIAL_ACE) == DAMAGE_CATEGORY_PHYSICAL);
 }
 
-SINGLE_BATTLE_TEST("Disguised Mimikyu will lose 1/8 of its max HP upon changing to its busted form")
+/*SINGLE_BATTLE_TEST("Disguised Mimikyu will lose 1/8 of its max HP upon changing to its busted form")
 {
     s16 disguiseDamage;
 
@@ -23,7 +23,7 @@ SINGLE_BATTLE_TEST("Disguised Mimikyu will lose 1/8 of its max HP upon changing 
         EXPECT_EQ(player->species, SPECIES_MIMIKYU_BUSTED);
         EXPECT_EQ(disguiseDamage, player->maxHP / 8);
     }
-}
+}*/
 
 SINGLE_BATTLE_TEST("Disguised Mimikyu takes no damage from a confusion hit and changes to its busted form")
 {

@@ -1837,7 +1837,7 @@ static inline u32 IsBattlerLeekAffected(u32 battler, u32 holdEffect)
     if (holdEffect == HOLD_EFFECT_LEEK)
     {
         return GET_BASE_SPECIES_ID(gBattleMons[battler].species) == SPECIES_FARFETCHD
-            || gBattleMons[battler].species == SPECIES_SIRFETCHD;
+            || GET_BASE_SPECIES_ID(gBattleMons[battler].species) == SPECIES_SIRFETCHD;
     }
     return FALSE;
 }

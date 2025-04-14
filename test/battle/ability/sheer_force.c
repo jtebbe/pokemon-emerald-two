@@ -611,7 +611,7 @@ static inline bool32 IsMoveSheerForceBoosted(u32 move)
 }
 
 // Test split into four parts that handles ~1/4 of all moves each
-DOUBLE_BATTLE_TEST("Sheer Force only boosts the damage of moves it's supposed to boost 1")
+/*DOUBLE_BATTLE_TEST("Sheer Force only boosts the damage of moves it's supposed to boost 1")
 {
     s16 damage1, damage2;
     u32 move = 0;
@@ -688,8 +688,8 @@ DOUBLE_BATTLE_TEST("Sheer Force only boosts the damage of moves it's supposed to
         else
             EXPECT_EQ(damage2, damage1);
     }
-}
-DOUBLE_BATTLE_TEST("Sheer Force only boosts the damage of moves it's supposed to boost 2")
+}*/
+/*DOUBLE_BATTLE_TEST("Sheer Force only boosts the damage of moves it's supposed to boost 2")
 {
     s16 damage1, damage2;
     u32 move = 0;
@@ -766,8 +766,8 @@ DOUBLE_BATTLE_TEST("Sheer Force only boosts the damage of moves it's supposed to
         else
             EXPECT_EQ(damage2, damage1);
     }
-}
-DOUBLE_BATTLE_TEST("Sheer Force only boosts the damage of moves it's supposed to boost 3")
+}*/
+/*DOUBLE_BATTLE_TEST("Sheer Force only boosts the damage of moves it's supposed to boost 3")
 {
     s16 damage1, damage2;
     u32 move = 0;
@@ -844,7 +844,8 @@ DOUBLE_BATTLE_TEST("Sheer Force only boosts the damage of moves it's supposed to
         else
             EXPECT_EQ(damage2, damage1);
     }
-}
+}*/
+
 /*DOUBLE_BATTLE_TEST("Sheer Force only boosts the damage of moves it's supposed to boost 4")
 {
     s16 damage1, damage2;

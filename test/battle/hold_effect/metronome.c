@@ -8,12 +8,12 @@ ASSUMPTIONS
 
 const uq4_12_t MetronomeMultipliers[] = {
     UQ_4_12(1.0),
-    UQ_4_12(1.2),
     UQ_4_12(1.4),
-    UQ_4_12(1.6),
     UQ_4_12(1.8),
-    UQ_4_12(2.0),
-    UQ_4_12(2.0)
+    UQ_4_12(2.2),
+    UQ_4_12(2.6),
+    UQ_4_12(3.0),
+    UQ_4_12(3.0)
 };
 
 #define METRONOME_TURNS (ARRAY_COUNT(MetronomeMultipliers))

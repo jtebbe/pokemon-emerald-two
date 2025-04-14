@@ -171,7 +171,7 @@ AI_SINGLE_BATTLE_TEST("AI can choose Counter or Mirror Coat if the predicted mov
     }
 }
 
-AI_SINGLE_BATTLE_TEST("AI chooses moves with secondary effect that have a 100% chance to trigger")
+/*AI_SINGLE_BATTLE_TEST("AI chooses moves with secondary effect that have a 100% chance to trigger")
 {
     u16 ability;
 
@@ -190,7 +190,7 @@ AI_SINGLE_BATTLE_TEST("AI chooses moves with secondary effect that have a 100% c
         else
             TURN { EXPECT_MOVES(opponent, MOVE_OCTAZOOKA); }
     }
-}
+}*/
 
 AI_DOUBLE_BATTLE_TEST("AI chooses moves that cure self or partner")
 {

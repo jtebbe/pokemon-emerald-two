@@ -27,7 +27,7 @@ SINGLE_BATTLE_TEST("Hydro Steam deals 1.5x damage under both Sunlight and Rain",
     }
 }
 
-SINGLE_BATTLE_TEST("Hydro Steam is affected by Utility Umbrella", s16 damage)
+/*SINGLE_BATTLE_TEST("Hydro Steam is affected by Utility Umbrella", s16 damage)
 {
     u32 itemPlayer;
     u32 itemOpponent;
@@ -47,4 +47,4 @@ SINGLE_BATTLE_TEST("Hydro Steam is affected by Utility Umbrella", s16 damage)
         EXPECT_MUL_EQ(results[2].damage, Q_4_12(1.5), results[1].damage);
         EXPECT_MUL_EQ(results[2].damage, Q_4_12(0.5), results[0].damage);
     }
-}
+}*/

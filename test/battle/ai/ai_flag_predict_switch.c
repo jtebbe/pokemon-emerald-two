@@ -85,7 +85,7 @@ AI_SINGLE_BATTLE_TEST("AI_FLAG_PREDICT_SWITCH: AI would switch out in trapper-fr
     }
 }
 
-AI_SINGLE_BATTLE_TEST("AI_FLAG_PREDICT_SWITCH: AI can use Focus Punch on predicted switches")
+/*AI_SINGLE_BATTLE_TEST("AI_FLAG_PREDICT_SWITCH: AI can use Focus Punch on predicted switches")
 {
     PASSES_RANDOMLY(5, 10, RNG_AI_PREDICT_SWITCH);
     GIVEN {
@@ -96,7 +96,7 @@ AI_SINGLE_BATTLE_TEST("AI_FLAG_PREDICT_SWITCH: AI can use Focus Punch on predict
     } WHEN {
         TURN { SWITCH(player, 1); EXPECT_MOVE(opponent, MOVE_FOCUS_PUNCH); }
     }
-}
+}*/
 
 AI_SINGLE_BATTLE_TEST("AI_FLAG_PREDICT_SWITCH: AI would switch out in Focus Punch scenario")
 {

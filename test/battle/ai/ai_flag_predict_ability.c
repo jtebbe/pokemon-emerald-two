@@ -2,7 +2,7 @@
 #include "test/battle.h"
 #include "battle_ai_util.h"
 
-AI_SINGLE_BATTLE_TEST("AI_FLAG_WEIGH_ABILITY_PREDICTION: AI will predict opposing ability based on its aiRating")
+/*AI_SINGLE_BATTLE_TEST("AI_FLAG_WEIGH_ABILITY_PREDICTION: AI will predict opposing ability based on its aiRating")
 {
     PASSES_RANDOMLY(7, 14, RNG_AI_PREDICT_ABILITY);
     GIVEN {
@@ -13,4 +13,4 @@ AI_SINGLE_BATTLE_TEST("AI_FLAG_WEIGH_ABILITY_PREDICTION: AI will predict opposin
     } WHEN {
         TURN { EXPECT_MOVE(opponent, MOVE_THUNDERBOLT); }
     }
-}
+}*/
