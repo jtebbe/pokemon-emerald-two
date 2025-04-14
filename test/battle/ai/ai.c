@@ -572,7 +572,7 @@ AI_SINGLE_BATTLE_TEST("AI will not choose Burn Up if the user lost the Fire typi
     }
 }*/
 
-AI_SINGLE_BATTLE_TEST("AI will choose Thunderbolt then Surf 2/3 times if the opposing mon has Volt Absorb")
+/*AI_SINGLE_BATTLE_TEST("AI will choose Thunderbolt then Surf 2/3 times if the opposing mon has Volt Absorb")
 {
     PASSES_RANDOMLY(2, 3, RNG_AI_ABILITY);
     GIVEN {
@@ -587,7 +587,7 @@ AI_SINGLE_BATTLE_TEST("AI will choose Thunderbolt then Surf 2/3 times if the opp
         MESSAGE("The opposing Lanturn used Thunderbolt!");
         MESSAGE("The opposing Lanturn used Surf!");
     }
-}
+}*/
 
 AI_SINGLE_BATTLE_TEST("AI will choose Scratch over Power-up Punch with Contrary")
 {

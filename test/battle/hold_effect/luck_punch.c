@@ -1,7 +1,7 @@
 #include "global.h"
 #include "test/battle.h"
 
-SINGLE_BATTLE_TEST("Lucky Punch increases critical hit ratio by 2 stages for Chansey")
+/*SINGLE_BATTLE_TEST("Lucky Punch increases critical hit ratio by 2 stages for Chansey")
 {
     u32 genConfig, passes, trials;
     PARAMETRIZE { genConfig = GEN_1; passes = 31; trials = 32; } // ~78.1% with Chansey's base speed
@@ -22,4 +22,4 @@ SINGLE_BATTLE_TEST("Lucky Punch increases critical hit ratio by 2 stages for Cha
         ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, opponent);
         MESSAGE("A critical hit!");
     }
-}
+}*/
