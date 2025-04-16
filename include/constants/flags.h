@@ -66,19 +66,19 @@
 #define FLAG_ITEM_SLOWBRONITE    0x34
 #define FLAG_ITEM_ITEM_AUDINITE    0x35
 #define FLAG_ITEM_SHARPEDONITE    0x36
-#define FLAG_UNUSED_0x037    0x37 // Unused Flag
-#define FLAG_UNUSED_0x038    0x38 // Unused Flag
-#define FLAG_UNUSED_0x039    0x39 // Unused Flag
-#define FLAG_UNUSED_0x03A    0x3A // Unused Flag
-#define FLAG_UNUSED_0x03B    0x3B // Unused Flag
-#define FLAG_UNUSED_0x03C    0x3C // Unused Flag
-#define FLAG_UNUSED_0x03D    0x3D // Unused Flag
-#define FLAG_UNUSED_0x03E    0x3E // Unused Flag
-#define FLAG_UNUSED_0x03F    0x3F // Unused Flag
-#define FLAG_UNUSED_0x040    0x40 // Unused Flag
-#define FLAG_UNUSED_0x041    0x41 // Unused Flag
-#define FLAG_UNUSED_0x042    0x42 // Unused Flag
-#define FLAG_UNUSED_0x043    0x43 // Unused Flag
+#define FLAG_AGARTHANS_UNLOCKED    0x37
+#define FLAG_AGARTHAN_1_DEFEATED    0x38
+#define FLAG_AGARTHAN_2_DEFEATED    0x39
+#define FLAG_AGARTHAN_3_DEFEATED    0x3A
+#define FLAG_AGARTHAN_4_DEFEATED    0x3B
+#define FLAG_AGARTHAN_5_DEFEATED    0x3C
+#define FLAG_AGARTHAN_6_DEFEATED    0x3D
+#define FLAG_AGARTHAN_7_DEFEATED    0x3E
+#define FLAG_AGARTHAN_8_DEFEATED    0x3F
+#define FLAG_ALL_AGARTHANS_DEFEATED    0x40
+#define FLAG_AGARTHA_UNLOCKED    0x41
+#define FLAG_AGARTHAN_KING_DEFEATED    0x42
+#define FLAG_ITEM_MISTY_TERRAIN    0x43
 #define FLAG_UNUSED_0x044    0x44 // Unused Flag
 #define FLAG_UNUSED_0x045    0x45 // Unused Flag
 #define FLAG_UNUSED_0x046    0x46 // Unused Flag

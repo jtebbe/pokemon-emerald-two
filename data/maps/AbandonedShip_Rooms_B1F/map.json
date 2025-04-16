@@ -28,7 +28,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
+      "graphics_id": "OBJ_EVENT_GFX_MEGA_BALL",
       "x": 6,
       "y": 7,
       "elevation": 3,
@@ -36,7 +36,7 @@
       "movement_range_x": 1,
       "movement_range_y": 1,
       "trainer_type": "TRAINER_TYPE_NONE",
-      "trainer_sight_or_berry_tree_id": "ITEM_ESCAPE_ROPE",
+      "trainer_sight_or_berry_tree_id": "ITEM_BANETTITE",
       "script": "Common_EventScript_FindItem",
       "flag": "FLAG_ITEM_ABANDONED_SHIP_ROOMS_B1F_ESCAPE_ROPE"
     }

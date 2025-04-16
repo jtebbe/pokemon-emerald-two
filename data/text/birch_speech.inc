@@ -1,9 +1,9 @@
 gText_Birch_Welcome::
 	.string "Hi! Sorry to keep you waiting!\p"
-	.string "Welcome to the world of POKéMON!\p"
+	.string "Welcome to Emerald Squared!\p"
 	.string "My name is BIRCH.\p"
-	.string "But everyone calls me the POKéMON\n"
-	.string "PROFESSOR.\p"
+	.string "But you probably already knew that\n"
+	.string "at this point.\p"
 	.string "$"
 
 gText_Birch_Pokemon::
@@ -13,19 +13,24 @@ gText_Birch_Pokemon::
 
 gText_Birch_MainSpeech::
 	.string "This world is widely inhabited by\n"
-	.string "creatures known as POKéMON.\p"
+	.string "them, from regions around the world.\p"
 	.string "We humans live alongside POKéMON,\n"
 	.string "at times as friendly playmates, and\l"
 	.string "at times as cooperative workmates.\p"
 	.string "And sometimes, we band together\n"
 	.string "and battle others like us.\p"
-	.string "But despite our closeness, we don't\n"
-	.string "know everything about POKéMON.\p"
-	.string "In fact, there are many, many\n"
-	.string "secrets surrounding POKéMON.\p"
-	.string "To unravel POKéMON mysteries,\n"
-	.string "I've been undertaking research.\l"
-	.string "That's what I do.\p"
+	.string "In this hack, you will raise, train,\n"
+	.string "and battle against many trainers.\p"
+	.string "Nearly every battle is a double\n"
+	.string "battle, just like the gamecube\l"
+	.string "spinoff games Colisseum and XD.\p"
+	.string "There are level caps and other,\n"
+	.string "subtler ways of difficulty culling.\p"
+	.string "However, there are just as many QOL\n"
+	.string "changes to help smooth things out.\p"
+	.string "There are new areas, hidden items,\n"
+	.string "and many more things to discover,\l"
+	.string "So explore to your heart's content!\p"
 	.string "$"
 
 gText_Birch_AndYouAre::
@@ -57,5 +62,6 @@ gText_Birch_AreYouReady::
 	.string "world of POKéMON where dreams,\l"
 	.string "adventure, and friendships await!\p"
 	.string "Well, I'll be expecting you later.\n"
-	.string "Come see me in my POKéMON LAB.\p"
+	.string "Come save my dumbass soon, you know\l"
+	.string "the drill.\p"
 	.string "$"
