@@ -79,15 +79,15 @@
 #define FLAG_AGARTHA_UNLOCKED    0x41
 #define FLAG_AGARTHAN_KING_DEFEATED    0x42
 #define FLAG_ITEM_MISTY_TERRAIN    0x43
-#define FLAG_UNUSED_0x044    0x44 // Unused Flag
-#define FLAG_UNUSED_0x045    0x45 // Unused Flag
-#define FLAG_UNUSED_0x046    0x46 // Unused Flag
-#define FLAG_UNUSED_0x047    0x47 // Unused Flag
-#define FLAG_UNUSED_0x048    0x48 // Unused Flag
-#define FLAG_UNUSED_0x049    0x49 // Unused Flag
-#define FLAG_UNUSED_0x04A    0x4A // Unused Flag
-#define FLAG_UNUSED_0x04B    0x4B // Unused Flag
-#define FLAG_UNUSED_0x04C    0x4C // Unused Flag
+#define FLAG_HIDE_OVERWORLD_AGARTHAN_1    0x44
+#define FLAG_HIDE_OVERWORLD_AGARTHAN_2    0x45
+#define FLAG_HIDE_OVERWORLD_AGARTHAN_3    0x46
+#define FLAG_HIDE_OVERWORLD_AGARTHAN_4    0x47
+#define FLAG_HIDE_OVERWORLD_AGARTHAN_5    0x48
+#define FLAG_HIDE_OVERWORLD_AGARTHAN_6    0x49
+#define FLAG_HIDE_OVERWORLD_AGARTHAN_7    0x4A
+#define FLAG_HIDE_OVERWORLD_AGARTHAN_8    0x4B
+#define FLAG_HIDE_OVERWORLD_AGARTHAN_KING    0x4C
 #define FLAG_UNUSED_0x04D    0x4D // Unused Flag
 #define FLAG_UNUSED_0x04E    0x4E // Unused Flag
 #define FLAG_UNUSED_0x04F    0x4F // Unused Flag

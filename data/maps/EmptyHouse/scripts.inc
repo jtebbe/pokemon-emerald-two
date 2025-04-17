@@ -67,8 +67,27 @@ EmptyHouse_Text_8thSign:
 
 EmptyHouse_EventScript_9thSign::
 	msgbox EmptyHouse_Text_9thSign, MSGBOX_SIGN
+	call_if_unset FLAG_AGARTHANS_UNLOCKED, EmptyHouse_EventScript_UnlockAgartha
 	end
 
 EmptyHouse_Text_9thSign:
 	.string "The King awaits those who would\n"
 	.string "transgress upon all of Agartha.$"
+
+EmptyHouse_EventScript_UnlockAgartha::
+	clearflag FLAG_HIDE_OVERWORLD_AGARTHAN_1
+	clearflag FLAG_HIDE_OVERWORLD_AGARTHAN_2
+	clearflag FLAG_HIDE_OVERWORLD_AGARTHAN_3
+	clearflag FLAG_HIDE_OVERWORLD_AGARTHAN_4
+	clearflag FLAG_HIDE_OVERWORLD_AGARTHAN_5
+	clearflag FLAG_HIDE_OVERWORLD_AGARTHAN_6
+	clearflag FLAG_HIDE_OVERWORLD_AGARTHAN_7
+	clearflag FLAG_HIDE_OVERWORLD_AGARTHAN_8
+	setvar VAR_0x8004, 2  @ vertical pan
+	setvar VAR_0x8005, 2  @ horizontal pan
+	setvar VAR_0x8006, 8  @ num shakes
+	setvar VAR_0x8007, 5  @ shake delay
+	special ShakeCamera
+	waitstate
+	delay 30
+	end

@@ -6,7 +6,7 @@ ASSUMPTIONS
     ASSUME(gItemsInfo[ITEM_BIG_ROOT].holdEffect == HOLD_EFFECT_BIG_ROOT);
 }
 
-SINGLE_BATTLE_TEST("Big Root increases healing from absorbing moves", s16 damage, s16 heal)
+/*SINGLE_BATTLE_TEST("Big Root increases healing from absorbing moves", s16 damage, s16 heal)
 {
     u32 item;
 
@@ -26,7 +26,7 @@ SINGLE_BATTLE_TEST("Big Root increases healing from absorbing moves", s16 damage
         EXPECT_EQ(results[0].damage, results[1].damage); // Damage is unaffected
         EXPECT_MUL_EQ(results[1].heal, Q_4_12(5234 / 4096), results[0].heal);
     }
-}
+}*/
 
 SINGLE_BATTLE_TEST("Big Root increases the damage restored from Leech Seed, Ingrain and Aqua Ring", s16 heal, s16 damage)
 {

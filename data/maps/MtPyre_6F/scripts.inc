@@ -1,3 +1,5 @@
+.set LOCALID_NIKKI, 4
+
 MtPyre_6F_MapScripts::
 	.byte 0
 
@@ -26,6 +28,39 @@ MtPyre_6F_EventScript_Cedric::
 	trainerbattle_single TRAINER_CEDRIC, MtPyre_6F_Text_CedricIntro, MtPyre_6F_Text_CedricDefeat
 	msgbox MtPyre_6F_Text_CedricPostBattle, MSGBOX_AUTOCLOSE
 	end
+
+MtPyre_6F_EventScript_Nikki::
+	faceplayer
+	msgbox MtPyre_6F_Text_NikkiIntro, MSGBOX_DEFAULT
+	trainerbattle_single TRAINER_IKKIN, MtPyre_6F_Text_NikkiBattle, MtPyre_6F_Text_NikkiDefeat
+	msgbox MtPyre_6F_Text_NikkiExit, MSGBOX_DEFAULT
+	giveitem ITEM_CHOICE_SPECS
+	fadescreen FADE_TO_BLACK
+	removeobject LOCALID_NIKKI
+	fadescreen FADE_FROM_BLACK
+	release
+	end
+
+MtPyre_6F_Text_NikkiIntro:
+	.string "Hmm?\p"
+	.string "Oh, you can see me?\n"
+	.string "How interesting.\p"
+	.string "Oh child, you've no idea what you've\n"
+	.string "started, have you?$"
+
+MtPyre_6F_Text_NikkiBattle:
+	.string "Let me show you what you've done.$"
+
+MtPyre_6F_Text_NikkiDefeat:
+	.string "Oh-ho?$"
+
+MtPyre_6F_Text_NikkiExit:
+	.string "Strong...\p"
+	.string "I wonder if you are strong enough.\n"
+	.string "The souls around us think so.\p"
+	.string "I'll await your victories against\n"
+	.string "the rest of my kin.\p"
+	.string "Take this, and my duty is fulfilled.$"
 
 MtPyre_6F_Text_ValerieIntro:
 	.string "When I'm here…\n"

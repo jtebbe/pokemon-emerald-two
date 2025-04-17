@@ -1104,13 +1104,36 @@ Music: Interviewer
 Double Battle: Yes
 AI: Basic Trainer
 
-Magnemite
-Level: 27
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+Exploud @ Life Orb  
+Ability: Punk Rock  
+Tera Type: Normal  
+EVs: 252 HP / 252 SpA / 4 SpD  
+Quiet Nature  
+IVs: 0 Atk / 0 Spe  
+- Boomburst  
+- Ice Beam  
+- Flamethrower  
+- Shadow Ball
 
-Loudred
-Level: 27
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+Cofagrigus @ Mental Herb  
+Ability: Mummy  
+EVs: 248 HP / 252 SpA / 8 SpD  
+Quiet Nature  
+IVs: 0 Atk / 0 Spe  
+- Trick Room  
+- Nasty Plot  
+- Shadow Ball  
+- Flash Cannon
+
+Magnezone @ Choice Specs  
+Ability: Sturdy  
+EVs: 248 HP / 252 SpA / 8 SpD  
+Quiet Nature  
+IVs: 0 Atk / 0 Spe  
+- Volt Switch  
+- Thunderbolt  
+- Flash Cannon  
+- Signal Beam
 
 === TRAINER_GABBY_AND_TY_3 ===
 Name: GABBY & TY
@@ -8235,14 +8258,15 @@ Mightyena
 Level: 30
 IVs: 2 HP / 2 Atk / 2 Def / 2 SpA / 2 SpD / 2 Spe
 
-=== TRAINER_CALVIN_4 ===
-Name: CALVIN
-Class: Youngster
-Pic: Youngster
-Gender: Male
-Music: Male
+=== TRAINER_IKKIN ===
+Name: IKKIN
+Class: Occultist
+Pic: Aroma Lady
+Gender: Female
+Music: Female
 Double Battle: Yes
-AI: Basic Trainer
+Mugshot: Purple
+AI: Smart Trainer
 
 Swellow
 Level: 31
@@ -8683,13 +8707,34 @@ Music: Hiker
 Double Battle: Yes
 AI: Basic Trainer
 
-Tentacool
-Level: 25
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Barbaracle @ White Herb  
+Ability: Sharpness  
+Tera Type: Bug  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Adamant Nature  
+- Razor Shell  
+- Night Slash  
+- X-Scissor  
+- Shell Smash
 
-Carvanha
-Level: 25
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Furret @ Covert Cloak  
+Ability: Fur Coat  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Follow Me  
+- Double-Edge  
+- Play Rough  
+- Sucker Punch
+
+Alcremie (F) @ Leftovers  
+Ability: Aroma Veil  
+EVs: 252 HP / 252 SpA / 4 SpD  
+Modest Nature  
+IVs: 0 Atk  
+- Calm Mind  
+- Alluring Voice  
+- Giga Drain  
+- Protect
 
 === TRAINER_WADE ===
 Name: WADE
@@ -9662,11 +9707,45 @@ Pic: Bird Keeper
 Gender: Male
 Music: Cool
 Double Battle: Yes
-AI: Basic Trainer
+AI: Smart Trainer
 
-Wingull
-Level: 26
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Delibird @ Focus Sash  
+Ability: Hustle  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Fake Out  
+- Icicle Spear  
+- Brave Bird  
+- Icy Wind
+
+Nidoqueen (F) @ Life Orb  
+Ability: Sheer Force  
+Tera Type: Normal  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Body Slam  
+- Poison Jab  
+- High Horsepower  
+- Fire Punch
+
+Rotom-Wash @ Choice Scarf  
+Ability: Levitate   
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Trick  
+- Volt Switch  
+- Hydro Pump  
+- Shadow Ball
+
+Annihilape @ Assault Vest  
+Ability: Defiant   
+EVs: 248 HP / 252 Atk / 8 SpD  
+Adamant Nature  
+- Drain Punch  
+- Rage Fist  
+- Close Combat  
+- Gunk Shot
 
 === TRAINER_HUGH ===
 Name: HUGH
@@ -9826,13 +9905,36 @@ Music: Cool
 Double Battle: Yes
 AI: Basic Trainer
 
-Taillow
-Level: 25
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Pidgeot @ Pidgeotite  
+Ability: Keen Eye    
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Modest Nature  
+IVs: 0 Atk  
+- Tailwind  
+- Heat Wave  
+- Hurricane  
+- Hyper Voice
 
-Swellow
-Level: 25
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Swellow @ Choice Specs  
+Ability: Scrappy  
+Tera Type: Normal  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Modest Nature  
+IVs: 0 Atk  
+- Boomburst  
+- Heat Wave  
+- Hurricane  
+- Ominous Wind
+
+Brambleghast @ Colbur Berry  
+Ability: Wind Rider  
+Tera Type: Grass  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Poltergeist  
+- Power Whip  
+- Skitter Smack  
+- Protect
 
 === TRAINER_ROBERT_2 ===
 Name: ROBERT
