@@ -586,6 +586,14 @@
       "height": 1
     },
     {
+      "map_section": "MAPSEC_AGARTHA",
+      "name": "AGARTHA",
+      "x": 21,
+      "y": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
       "map_section": "MAPSEC_SOUTHERN_ISLAND",
       "name": "SOUTHERN ISLAND",
       "x": 12,

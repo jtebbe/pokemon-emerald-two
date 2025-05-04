@@ -2,6 +2,7 @@
 .set LOCALID_ARCHIE, 2
 .set LOCALID_GRUNT_1, 3
 .set LOCALID_GRUNT_2, 4
+.set LOCALID_DAANI, 8
 
 SlateportCity_OceanicMuseum_2F_MapScripts::
 	.byte 0
@@ -439,4 +440,40 @@ SlateportCity_OceanicMuseum_2F_Text_SSAnneReplica:
 	.string "“S.S. ANNE\p"
 	.string "“A replica of the luxury liner that\n"
 	.string "circles the globe.”$"
+
+SlateportCity_OceanicMuseum_2F_EventScript_Daani::
+	lockall
+	faceplayer
+	msgbox SlateportCity_OceanicMuseum_2F_Text_DaaniIntro, MSGBOX_DEFAULT
+	trainerbattle_no_intro TRAINER_DAANI, SlateportCity_OceanicMuseum_2F_Text_DaaniDefeat
+	msgbox SlateportCity_OceanicMuseum_2F_Text_DaaniPostDefeat, MSGBOX_DEFAULT
+	giveitem ITEM_WEAKNESS_POLICY
+	fadescreen FADE_TO_BLACK
+	removeobject LOCALID_DAANI
+	fadescreen FADE_FROM_BLACK
+	setflag FLAG_AGARTHAN_5_DEFEATED
+	clearflag FLAG_SHOW_HOUSE_AGARTHAN_5
+	releaseall
+	end
+
+SlateportCity_OceanicMuseum_2F_Text_DaaniIntro:
+	.string "Hmm?\p"
+	.string "Why are you disturbing me?\p"
+	.string "Wait a minute, you can see me?\n"
+	.string "Ah, so you would challenge Agartha.\p"
+	.string "So be it. I shall record this too\n"
+	.string "in the annals of history!$"
+
+SlateportCity_OceanicMuseum_2F_Text_DaaniDefeat:
+	.string "Fascinating...$"
+
+SlateportCity_OceanicMuseum_2F_Text_DaaniPostDefeat:
+	.string "That was... historic. I didn't\n"
+	.string "expect that much out of you,\l"
+	.string "but maybe...\p"
+	.string "...Hmm, we shall see if you can\n"
+	.string "change the course of history as\l"
+	.string "forseen by our Psychic.\p"
+	.string "Take this, and continue. I'll be\n"
+	.string "watching closely.$"
 

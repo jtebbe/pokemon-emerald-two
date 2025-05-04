@@ -1,6 +1,7 @@
 .set LOCALID_RIVAL, 16
 .set LOCALID_RIVAL_ON_BIKE, 25
 .set LOCALID_SCOTT, 43
+.set LOCALID_MADDY, 44
 
 Route119_MapScripts::
 	map_script MAP_SCRIPT_ON_RESUME, Route119_OnResume
@@ -612,3 +613,43 @@ Route119_Text_TrainerTipsDecoration:
 	.string "Pick your favorite items and create\n"
 	.string "your very own SECRET BASE exactly the\l"
 	.string "way you want.$"
+
+Route119_EventScript_Maddy::
+	lockall
+	faceplayer
+	msgbox Route119_Text_MaddyIntro, MSGBOX_DEFAULT
+	trainerbattle_no_intro TRAINER_MADDY, Route119_Text_MaddyDefeat
+	msgbox Route119_Text_MaddyPostDefeat, MSGBOX_DEFAULT
+	giveitem ITEM_CHOICE_SCARF
+	fadescreen FADE_TO_BLACK
+	removeobject LOCALID_MADDY
+	fadescreen FADE_FROM_BLACK
+	setflag FLAG_AGARTHAN_6_DEFEATED
+	clearflag FLAG_SHOW_HOUSE_AGARTHAN_6
+	releaseall
+	end
+
+Route119_Text_MaddyIntro:
+	.string "Wow, not only did you obtain the \n"
+	.string "knowledge to see me, but you\l"
+	.string "actually found me too!\p"
+	.string "Hmm... in all honesty, you don't\n"
+	.string "seem like a huge threat to us!\p"
+	.string "Care to prove me wrong? Haha,\n"
+	.string "I thought so!$"
+
+Route119_Text_MaddyDefeat:
+	.string "Hmm... I need to report this...$"
+
+Route119_Text_MaddyPostDefeat:
+	.string "Hmm... what are your intentions?\p"
+	.string "If you seek to defile Agarthan\n"
+	.string "lands, you'll be met with defeat,\l"
+	.string "of that I can assure you.\p"
+	.string "If you just wish to be recognized\n"
+	.string "for your strength and take on\l"
+	.string "challenges, then you'll be fine.\p"
+	.string "Regardless, I have to notify him.\p"
+	.string "Still, you deserve a reward for\n"
+	.string "defeating me. Take this, and walk\l"
+	.string "the righteous path.$"

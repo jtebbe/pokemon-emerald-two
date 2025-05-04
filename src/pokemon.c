@@ -5770,6 +5770,11 @@ u16 GetBattleBGM(void)
         switch (trainerClass)
         {
         case TRAINER_CLASS_OCCULTIST:
+        case TRAINER_CLASS_JESTER:
+        case TRAINER_CLASS_KING:
+        case TRAINER_CLASS_SCRIBE:
+        case TRAINER_CLASS_SLAYER:
+        case TRAINER_CLASS_DOCTOR:
             return MUS_TEMPLE_OF_DROPLETS;
         case TRAINER_CLASS_AQUA_LEADER:
         case TRAINER_CLASS_MAGMA_LEADER:

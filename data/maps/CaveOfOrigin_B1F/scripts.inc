@@ -1,7 +1,19 @@
 .set LOCALID_WALLACE, 1
 
 CaveOfOrigin_B1F_MapScripts::
+	map_script MAP_SCRIPT_ON_LOAD, CaveOfOrigin_B1F_OnLoad
 	.byte 0
+
+CaveOfOrigin_B1F_OnLoad:
+	call_if_set FLAG_ALL_AGARTHANS_DEFEATED, CaveOfOrigin_B1F_EventScript_OpenAgartha
+	end
+
+CaveOfOrigin_B1F_EventScript_OpenAgartha::
+	setmetatile 9, 1, METATILE_MeteorFalls_CaveEntrance_Top, TRUE
+	setmetatile 8, 2, METATILE_MeteorFalls_CaveEntrance_Left, TRUE
+	setmetatile 9, 2, METATILE_MeteorFalls_CaveEntrance_Bottom, FALSE
+	setmetatile 10, 2, METATILE_MeteorFalls_CaveEntrance_Right, TRUE
+	return
 
 CaveOfOrigin_B1F_EventScript_Wallace::
 	lock

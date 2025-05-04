@@ -155,7 +155,7 @@ SootopolisCity_EventScript_SetWallaceLeft::
 	return
 
 SootopolisCity_EventScript_SetExpertBlockCaveEntrance::
-	setobjectxyperm LOCALID_EXPERT, 31, 18
+	setobjectxyperm LOCALID_EXPERT, 31, 22
 	return
 
 SootopolisCity_OnWarp:
@@ -1552,7 +1552,9 @@ SootopolisCity_Text_AwakenedPokemonClash:
 SootopolisCity_Text_CaveOfOriginSleepsToo:
 	.string "This is the CAVE OF ORIGIN…\p"
 	.string "With the passing of the crisis,\n"
-	.string "the cave, too, shall sleep…$"
+	.string "the cave, too, shall sleep…\p"
+	.string "At least until they, too, awaken\n"
+	.string "once more…$"
 
 SootopolisCity_Text_SootopolisSkyBeautiful:
 	.string "SOOTOPOLIS sprang up as a town in\n"

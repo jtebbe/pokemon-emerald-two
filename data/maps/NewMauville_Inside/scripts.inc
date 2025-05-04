@@ -1,3 +1,5 @@
+.set LOCALID_WREN, 9
+
 NewMauville_Inside_MapScripts::
 	map_script MAP_SCRIPT_ON_RESUME, NewMauville_Inside_OnResume
 	map_script MAP_SCRIPT_ON_TRANSITION, NewMauville_Inside_OnTransition
@@ -261,3 +263,41 @@ NewMauville_Inside_Text_SteppedOnSwitchGeneratorStopped:
 	.string "… … … … … … … …\p"
 	.string "The generator appears to have\n"
 	.string "stopped…$"
+
+NewMauville_Inside_EventScript_Wren::
+	lockall
+	faceplayer
+	msgbox NewMauville_Inside_Text_WrenIntro, MSGBOX_DEFAULT
+	trainerbattle_no_intro TRAINER_WREN, NewMauville_Inside_Text_WrenDefeat
+	msgbox NewMauville_Inside_Text_WrenPostDefeat, MSGBOX_DEFAULT
+	giveitem ITEM_CHOICE_BAND
+	fadescreen FADE_TO_BLACK
+	removeobject LOCALID_WREN
+	fadescreen FADE_FROM_BLACK
+	setflag FLAG_AGARTHAN_8_DEFEATED
+	clearflag FLAG_SHOW_HOUSE_AGARTHAN_8
+	releaseall
+	end
+
+NewMauville_Inside_Text_WrenIntro:
+	.string "I knew you were coming. The others\n"
+	.string "told me. Or maybe their future\l"
+	.string "selves did, it's hard to tell...\p"
+	.string "I know what you want, and I also\n"
+	.string "know the outcome of our match.\p"
+	.string "Fufufufufu... Would you like to \n"
+	.string "find out for yourself?$"
+
+NewMauville_Inside_Text_WrenDefeat:
+	.string "Huh... That...$"
+
+NewMauville_Inside_Text_WrenPostDefeat:
+	.string "…\p"
+	.string "That was different than what\n"
+	.string "I foresaw. It was… fun, I think.\p"
+	.string "Our king awaits our defeat, to find\n"
+	.string "someone worthy of challenging him.\p"
+	.string "I think that may just be you.\n"
+	.string "take this, and prove me right once\l"
+	.string "more.$"
+

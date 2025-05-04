@@ -4,6 +4,7 @@
 .set LOCALID_GRUNT_4, 13
 .set LOCALID_MAXIE, 14
 .set LOCALID_SCOTT, 16
+.set LOCALID_CARTER, 18
 
 MossdeepCity_MapScripts::
 	map_script MAP_SCRIPT_ON_TRANSITION, MossdeepCity_OnTransition
@@ -433,3 +434,40 @@ MossdeepCity_Text_SootopolisNewGymLeader:
 	.string "People tell me the new LEADER once\n"
 	.string "mentored WALLACE.$"
 
+MossdeepCity_EventScript_Carter::
+	lockall
+	faceplayer
+	msgbox MossdeepCity_Text_CarterIntro, MSGBOX_DEFAULT
+	trainerbattle_no_intro TRAINER_CART, MossdeepCity_Text_CarterDefeat
+	msgbox MossdeepCity_Text_CarterPostDefeat, MSGBOX_DEFAULT
+	giveitem ITEM_CLEAR_AMULET
+	fadescreen FADE_TO_BLACK
+	removeobject LOCALID_CARTER
+	fadescreen FADE_FROM_BLACK
+	setflag FLAG_AGARTHAN_7_DEFEATED
+	clearflag FLAG_SHOW_HOUSE_AGARTHAN_7
+	releaseall
+	end
+
+MossdeepCity_Text_CarterIntro:
+	.string "So yet another fool comes to\n"
+	.string "seek the hidden world's spoils.\p"
+	.string "I know of power, and its ability\n"
+	.string "to corrupt. Too many fall to it.\p"
+	.string "Should you fall to me, you would\n"
+	.string "have been too weak anyways...\p"
+	.string "So let us begin. Prove. Me. Wrong.$"
+
+MossdeepCity_Text_CarterDefeat:
+	.string "Good... Very good!$"
+
+MossdeepCity_Text_CarterPostDefeat:
+	.string "So you are already strong, why\n"
+	.string "seek out the underworld? Just to\l"
+	.string "prove your own strength?\p"
+	.string "If your goal is to prove it to\n"
+	.string "yourself, then by all means,\l"
+	.string "press forward.\p"
+	.string "Take this and find the others.\n"
+	.string "Should we meet again, I will\l"
+	.string "not lose.$"

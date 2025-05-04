@@ -2,6 +2,7 @@
 .set LOCALID_MOM, 4
 .set LOCALID_RIVAL, 7
 .set LOCALID_BIRCH, 8
+.set LOCALID_SEB, 12
 
 LittlerootTown_MapScripts::
 	map_script MAP_SCRIPT_ON_TRANSITION, LittlerootTown_OnTransition
@@ -1038,4 +1039,40 @@ LittlerootTown_Text_BirchSomethingToShowYouAtLab:
 	.string "I gave you?\p"
 	.string "I have something to show you.\n"
 	.string "Let's go to my LAB.$"
+
+LittlerootTown_EventScript_Seb::
+	lockall
+	faceplayer
+	msgbox LittlerootTown_Text_SebIntro, MSGBOX_DEFAULT
+	trainerbattle_no_intro TRAINER_SEB, LittlerootTown_Text_SebDefeat
+	msgbox LittlerootTown_Text_SebPostDefeat, MSGBOX_DEFAULT
+	giveitem ITEM_COVERT_CLOAK
+	fadescreen FADE_TO_BLACK
+	removeobject LOCALID_SEB
+	fadescreen FADE_FROM_BLACK
+	setflag FLAG_AGARTHAN_3_DEFEATED
+	clearflag FLAG_SHOW_HOUSE_AGARTHAN_3
+	releaseall
+	end
+
+LittlerootTown_Text_SebIntro:
+	.string "Ohohoho! So you've read the\n"
+	.string "forbidden knowledge!\p"
+	.string "Well met! You should know, though,\n"
+	.string "the path you chose is a long one!\p"
+	.string "And I'm going to show you just\n"
+	.string "the start of your nightmare!$"
+
+LittlerootTown_Text_SebDefeat:
+	.string "Hahaha, so it begins!$"
+
+LittlerootTown_Text_SebPostDefeat:
+	.string "You have quite the journey ahead\n"
+	.string "of you, but I'm sure you'll be\l"
+	.string "just fine.\p"
+	.string "Go and find the others, and the\n"
+	.string "kingdom's doors will open to you.\p"
+	.string "Before you go, take this. It'll\n"
+	.string "stop many shenanignans like mine\l"
+	.string "wahahahaha!$"
 

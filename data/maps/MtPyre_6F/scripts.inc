@@ -30,37 +30,43 @@ MtPyre_6F_EventScript_Cedric::
 	end
 
 MtPyre_6F_EventScript_Nikki::
+	lockall
 	faceplayer
 	msgbox MtPyre_6F_Text_NikkiIntro, MSGBOX_DEFAULT
-	trainerbattle_single TRAINER_IKKIN, MtPyre_6F_Text_NikkiBattle, MtPyre_6F_Text_NikkiDefeat
+	trainerbattle_no_intro TRAINER_IKKIN, MtPyre_6F_Text_NikkiDefeat
 	msgbox MtPyre_6F_Text_NikkiExit, MSGBOX_DEFAULT
 	giveitem ITEM_CHOICE_SPECS
 	fadescreen FADE_TO_BLACK
 	removeobject LOCALID_NIKKI
 	fadescreen FADE_FROM_BLACK
-	release
+	setflag FLAG_AGARTHAN_1_DEFEATED
+	clearflag FLAG_SHOW_HOUSE_AGARTHAN_1
+	releaseall
 	end
 
 MtPyre_6F_Text_NikkiIntro:
 	.string "Hmm?\p"
-	.string "Oh, you can see me?\n"
-	.string "How interesting.\p"
-	.string "Oh child, you've no idea what you've\n"
-	.string "started, have you?$"
-
-MtPyre_6F_Text_NikkiBattle:
-	.string "Let me show you what you've done.$"
+	.string "You can actually see me?\n"
+	.string "How exciting!\p"
+	.string "It's been a while since I had a\n"
+	.string "real challenge!\p"
+	.string "I am the Occultist, witnesser\n"
+	.string "of truths, of the ancient sect.\p"
+	.string "Bare your soul to me, so that I\n"
+	.string "may see your apex!$"
 
 MtPyre_6F_Text_NikkiDefeat:
-	.string "Oh-ho?$"
+	.string "Haha! How exciting!$"
 
 MtPyre_6F_Text_NikkiExit:
-	.string "Strong...\p"
-	.string "I wonder if you are strong enough.\n"
-	.string "The souls around us think so.\p"
-	.string "I'll await your victories against\n"
-	.string "the rest of my kin.\p"
-	.string "Take this, and my duty is fulfilled.$"
+	.string "Your soul shone bright during\n"
+	.string "our battle!\p"
+	.string "But you're going to have to reach a.\n"
+	.string "higher level to beat the rest of us.\p"
+	.string "Keep fighting and training, and\n"
+	.string "you might survive to reach the peak.\p"
+	.string "You've earned this, and you're\n"
+	.string "going to need it.$"
 
 MtPyre_6F_Text_ValerieIntro:
 	.string "When I'm here…\n"
