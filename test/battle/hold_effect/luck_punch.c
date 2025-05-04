@@ -17,9 +17,9 @@
         PLAYER(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_CHANSEY) { Item(ITEM_LUCKY_PUNCH); }
     } WHEN {
-        TURN { MOVE(opponent, MOVE_TACKLE); }
+        TURN { MOVE(opponent, MOVE_SCRATCH); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, opponent);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, opponent);
         MESSAGE("A critical hit!");
     }
 }*/
