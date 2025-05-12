@@ -2952,7 +2952,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "Creates a barrier that\n"
             "sharply raises Defense."),
-        .effect = EFFECT_DEFENSE_UP_2,
+        .effect = EFFECT_DEFENSE_UP_3,
         .power = 0,
         .type = TYPE_PSYCHIC,
         .accuracy = 0,
@@ -3295,7 +3295,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .effect = EFFECT_HIT,
         .power = 65,
         .type = TYPE_GROUND,
-        .accuracy = 85,
+        .accuracy = 95,
         .pp = 20,
         .target = MOVE_TARGET_SELECTED,
         .priority = 0,
@@ -4068,9 +4068,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "Throws a bone boomerang\n"
             "that strikes twice."),
         .effect = EFFECT_HIT,
-        .power = 50,
+        .power = 45,
         .type = TYPE_GROUND,
-        .accuracy = 90,
+        .accuracy = 100,
         .pp = 10,
         .target = MOVE_TARGET_SELECTED,
         .priority = 0,
@@ -4171,7 +4171,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "Reduces the polygon count\n"
             "and raises Attack."),
-        .effect = EFFECT_ATTACK_UP,
+        .effect = EFFECT_ATTACK_UP_2,
         .power = 0,
         .type = TYPE_NORMAL,
         .accuracy = 0,
@@ -7895,14 +7895,14 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .name = COMPOUND_STRING("Needle Arm"),
         .description = COMPOUND_STRING(
             "Attacks with thorny arms.\n"
-            "May cause flinching."),
+            "Fast and can flinch."),
         .effect = EFFECT_HIT,
         .power = 60,
         .type = TYPE_GRASS,
         .accuracy = 100,
         .pp = 15,
         .target = MOVE_TARGET_SELECTED,
-        .priority = 0,
+        .priority = 1,
         .category = DAMAGE_CATEGORY_PHYSICAL,
         .makesContact = TRUE,
         .minimizeDoubleDamage = B_UPDATED_MOVE_FLAGS < GEN_4,
@@ -13492,7 +13492,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .effect = EFFECT_HIT,
         .power = 40,
         .type = TYPE_DRAGON,
-        .accuracy = 90,
+        .accuracy = 95,
         .pp = 15,
         .target = MOVE_TARGET_SELECTED,
         .priority = 0,
@@ -18715,7 +18715,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .effect = EFFECT_HIT,
         .power = 40,
         .type = TYPE_FLYING,
-        .accuracy = 90,
+        .accuracy = 95,
         .pp = 10,
         .target = MOVE_TARGET_SELECTED,
         .priority = 0,
@@ -20454,7 +20454,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     [MOVE_BLAZING_TORQUE] =
     {
         .name = COMPOUND_STRING("Blazing Torque"),
-        .description = COMPOUND_STRING("---"),
+        .description = COMPOUND_STRING("May burn foe."),
         .effect = EFFECT_HIT,
         .power = 80,
         .type = TYPE_FIRE,
@@ -20483,7 +20483,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     [MOVE_WICKED_TORQUE] =
     {
         .name = COMPOUND_STRING("Wicked Torque"),
-        .description = COMPOUND_STRING("---"),
+        .description = COMPOUND_STRING("May sleep foe."),
         .effect = EFFECT_HIT,
         .power = 80,
         .type = TYPE_DARK,
@@ -20504,7 +20504,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .sketchBanned = (B_SKETCH_BANS >= GEN_9),
         .additionalEffects = ADDITIONAL_EFFECTS({
             .moveEffect = MOVE_EFFECT_SLEEP,
-            .chance = 10,
+            .chance = 30,
         }),
         .battleAnimScript = gBattleAnimMove_WickedTorque,
     },
@@ -20512,7 +20512,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     [MOVE_NOXIOUS_TORQUE] =
     {
         .name = COMPOUND_STRING("Noxious Torque"),
-        .description = COMPOUND_STRING("---"),
+        .description = COMPOUND_STRING("May poison foe."),
         .effect = EFFECT_HIT,
         .power = 100,
         .type = TYPE_POISON,
@@ -20541,7 +20541,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     [MOVE_COMBAT_TORQUE] =
     {
         .name = COMPOUND_STRING("Combat Torque"),
-        .description = COMPOUND_STRING("---"),
+        .description = COMPOUND_STRING("May paralyze foe."),
         .effect = EFFECT_HIT,
         .power = 100,
         .type = TYPE_FIGHTING,
@@ -20570,7 +20570,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     [MOVE_MAGICAL_TORQUE] =
     {
         .name = COMPOUND_STRING("Magical Torque"),
-        .description = COMPOUND_STRING("---"),
+        .description = COMPOUND_STRING("May confuse foe."),
         .effect = EFFECT_HIT,
         .power = 100,
         .type = TYPE_FAIRY,
@@ -20860,7 +20860,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .name = COMPOUND_STRING("Hard Press"),
         .description = sWringOutDescription,
         .effect = EFFECT_POWER_BASED_ON_TARGET_HP,
-        .power = 100,
+        .power = 120,
         .type = TYPE_STEEL,
         .accuracy = 100,
         .pp = 10,
@@ -21046,13 +21046,13 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .power = 65,
         .type = TYPE_ICE,
         .accuracy = 100,
-        .pp = 15,
+        .pp = 20,
         .target = MOVE_TARGET_SELECTED,
         .priority = 0,
         .category = DAMAGE_CATEGORY_SPECIAL,
         .additionalEffects = ADDITIONAL_EFFECTS({
             .moveEffect = MOVE_EFFECT_FREEZE_OR_FROSTBITE,
-            .chance = 40,
+            .chance = 50,
         }),
         .battleAnimScript = gBattleAnimMove_BorealBlast,
     },
@@ -21103,7 +21103,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "A tail slap that\n"
             "lowers foe's speed."),
         .effect = EFFECT_HIT,
-        .power = 70,
+        .power = 75,
         .type = TYPE_FLYING,
         .accuracy = 100,
         .pp = 15,
@@ -21277,7 +21277,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .power = 95,
         .type = TYPE_FIRE,
         .accuracy = 95,
-        .pp = 5,
+        .pp = 10,
         .priority = 1,
         .criticalHitStage = 1,
         .makesContact = TRUE,
@@ -21288,6 +21288,29 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             .chance = 100,
         }),
         .battleAnimScript = gBattleAnimMove_BlazingWhip,
+    },
+
+    [MOVE_STONE_STRIKE] =
+    {
+        .name = COMPOUND_STRING("Stone Strike"),
+        .description = COMPOUND_STRING(
+            "The user slams with stones.\n"
+            "May lower foe defense."),
+        .effect = EFFECT_HIT,
+        .power = 80,
+        .type = TYPE_ROCK,
+        .accuracy = 95,
+        .pp = 15,
+        .priority = 1,
+        .criticalHitStage = 1,
+        .makesContact = TRUE,
+        .target = MOVE_TARGET_SELECTED,
+        .category = DAMAGE_CATEGORY_PHYSICAL,
+        .additionalEffects = ADDITIONAL_EFFECTS({
+            .moveEffect = MOVE_EFFECT_DEF_MINUS_1,
+            .chance = 50,
+        }),
+        .battleAnimScript = gBattleAnimMove_RockThrow,
     },
 
     // Z-Moves

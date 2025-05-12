@@ -242,29 +242,29 @@ EmptyHouse_Text_Agarthan1:
 	.string "causing quite the stir, you know?$"
 
 EmptyHouse_Text_Agarthan2:
-	.string "The spirits grow restless. You're\n"
-	.string "causing quite the stir, you know?$"
+	.string "Hmph. Move forward, you're\n"
+	.string "not finished yet.$"
 
 EmptyHouse_Text_Agarthan3:
-	.string "The spirits grow restless. You're\n"
-	.string "causing quite the stir, you know?$"
+	.string "Hehe, the wheel of time spins,\n"
+	.string "and you with it. Dizzy yet?$"
 
 EmptyHouse_Text_Agarthan4:
-	.string "The spirits grow restless. You're\n"
-	.string "causing quite the stir, you know?$"
+	.string "We monitor your progress closely,\n"
+	.string "child. Don't disappoint us.$"
 
 EmptyHouse_Text_Agarthan5:
-	.string "The spirits grow restless. You're\n"
-	.string "causing quite the stir, you know?$"
+	.string "Hmm... Oh, you're here?\n"
+	.string "There are others to defeat.$"
 
 EmptyHouse_Text_Agarthan6:
-	.string "The spirits grow restless. You're\n"
-	.string "causing quite the stir, you know?$"
+	.string "Get out there and beat the rest,\n"
+	.string "I can't be the only one losing!$"
 
 EmptyHouse_Text_Agarthan7:
-	.string "The spirits grow restless. You're\n"
-	.string "causing quite the stir, you know?$"
+	.string "Your power grows, but you've not\n"
+	.string "yet reached your potential.$"
 
 EmptyHouse_Text_Agarthan8:
-	.string "The spirits grow restless. You're\n"
-	.string "causing quite the stir, you know?$"
+	.string "I feel the anticipation in your\n"
+	.string "mind. Push foward.$"

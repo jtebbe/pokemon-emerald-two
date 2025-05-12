@@ -3686,7 +3686,9 @@
       "MOVE_HONE_CLAWS",
       "MOVE_MEMENTO"
     ],
-    "TutorMoves": []
+    "TutorMoves": [
+      "MOVE_STONE_STRIKE"
+    ]
   },
   "DUGTRIO": {
     "LevelMoves": [
@@ -3808,7 +3810,9 @@
       "MOVE_HONE_CLAWS",
       "MOVE_MEMENTO"
     ],
-    "TutorMoves": []
+    "TutorMoves": [
+      "MOVE_STONE_STRIKE"
+    ]
   },
   "MEOWTH": {
     "LevelMoves": [
@@ -6762,6 +6766,7 @@
       "MOVE_BODY_SLAM",
       "MOVE_SLEEP_TALK",
       "MOVE_REST",
+      "MOVE_HIGH_HORSEPOWER",
       "MOVE_SWORDS_DANCE",
       "MOVE_SUBSTITUTE",
       "MOVE_TAILWIND",
@@ -6987,6 +6992,8 @@
       "MOVE_ICE_SPINNER",
       "MOVE_HELPING_HAND",
       "MOVE_ICE_BEAM",
+      "MOVE_NASTY_PLOT",
+      "MOVE_SWORDS_DANCE",
       "MOVE_HYDRO_PUMP",
       "MOVE_BLIZZARD",
       "MOVE_TERA_BLAST",
@@ -7103,6 +7110,9 @@
       "MOVE_SNOWSCAPE",
       "MOVE_SMART_STRIKE",
       "MOVE_BODY_SLAM",
+      "MOVE_NASTY_PLOT",
+      "MOVE_SWORDS_DANCE",
+      "MOVE_BOREAL_BLAST",
       "MOVE_SLEEP_TALK",
       "MOVE_WATERFALL",
       "MOVE_REST",
@@ -7486,6 +7496,7 @@
       "MOVE_ROCK_BLAST",
       "MOVE_WATERFALL",
       "MOVE_REST",
+      "MOVE_FRIGID_TOUCH",
       "MOVE_SPIKES",
       "MOVE_TOXIC_SPIKES",
       "MOVE_SUBSTITUTE",
@@ -7606,7 +7617,9 @@
       "MOVE_ROCK_BLAST",
       "MOVE_WATERFALL",
       "MOVE_POISON_JAB",
+      "MOVE_FRIGID_TOUCH",
       "MOVE_REST",
+      "MOVE_BOREAL_BLAST",
       "MOVE_SPIKES",
       "MOVE_TOXIC_SPIKES",
       "MOVE_SUBSTITUTE",
@@ -8135,6 +8148,8 @@
       "MOVE_DRAIN_PUNCH",
       "MOVE_REFLECT",
       "MOVE_LIGHT_SCREEN",
+      "MOVE_WILL_O_WISP",
+      "MOVE_FRIGID_TOUCH",
       "MOVE_DAZZLING_GLEAM",
       "MOVE_METRONOME",
       "MOVE_GRASS_KNOT",
@@ -8267,6 +8282,8 @@
       "MOVE_BRICK_BREAK",
       "MOVE_ZEN_HEADBUTT",
       "MOVE_FOUL_PLAY",
+      "MOVE_WILL_O_WISP",
+      "MOVE_FRIGID_TOUCH",
       "MOVE_BODY_SLAM",
       "MOVE_FIRE_PUNCH",
       "MOVE_THUNDER_PUNCH",
@@ -10211,7 +10228,9 @@
       "MOVE_METAL_SOUND"
     ],
     "EggMoves": [],
-    "TutorMoves": []
+    "TutorMoves": [
+      "MOVE_FOLLOW_ME"
+    ]
   },
   "MAGMAR": {
     "LevelMoves": [
@@ -10326,7 +10345,9 @@
       "MOVE_CURSE"
     ],
     "EggMoves": [],
-    "TutorMoves": []
+    "TutorMoves": [
+      "MOVE_FOLLOW_ME"
+    ]
   },
   "PINSIR": {
     "LevelMoves": [],
@@ -10701,6 +10722,7 @@
       "MOVE_DRAGON_DANCE",
       "MOVE_SUBSTITUTE",
       "MOVE_DRILL_RUN",
+      "MOVE_BOREAL_BLAST",
       "MOVE_LIQUIDATION",
       "MOVE_DRAGON_PULSE",
       "MOVE_HYPER_VOICE",
@@ -11731,6 +11753,7 @@
       "MOVE_AERIAL_ACE",
       "MOVE_SWIFT",
       "MOVE_ICY_WIND",
+      "MOVE_BOREAL_BLAST",
       "MOVE_AIR_CUTTER",
       "MOVE_AVALANCHE",
       "MOVE_ENDURE",
@@ -41508,7 +41531,9 @@
       "MOVE_METAL_SOUND"
     ],
     "EggMoves": [],
-    "TutorMoves": []
+    "TutorMoves": [
+      "MOVE_FOLLOW_ME"
+    ]
   },
   "MAGMORTAR": {
     "LevelMoves": [
@@ -41632,7 +41657,9 @@
       "MOVE_CURSE"
     ],
     "EggMoves": [],
-    "TutorMoves": []
+    "TutorMoves": [
+      "MOVE_FOLLOW_ME"
+    ]
   },
   "TOGEKISS": {
     "LevelMoves": [],
@@ -89390,6 +89417,7 @@
       "MOVE_THIEF",
       "MOVE_FACADE",
       "MOVE_AERIAL_ACE",
+      "MOVE_BOREAL_BLAST",
       "MOVE_BULLDOZE",
       "MOVE_METAL_CLAW",
       "MOVE_SWIFT",
@@ -89558,6 +89586,7 @@
       "MOVE_THIEF",
       "MOVE_FACADE",
       "MOVE_AERIAL_ACE",
+      "MOVE_BOREAL_BLAST",
       "MOVE_BULLDOZE",
       "MOVE_METAL_CLAW",
       "MOVE_SWIFT",
@@ -89711,6 +89740,7 @@
       "MOVE_RAIN_DANCE",
       "MOVE_SNOWSCAPE",
       "MOVE_DIG",
+      "MOVE_BOREAL_BLAST",
       "MOVE_ZEN_HEADBUTT",
       "MOVE_FOUL_PLAY",
       "MOVE_BODY_SLAM",
@@ -89854,6 +89884,7 @@
       "MOVE_PSYSHOCK",
       "MOVE_DIG",
       "MOVE_ZEN_HEADBUTT",
+      "MOVE_BOREAL_BLAST",
       "MOVE_FOUL_PLAY",
       "MOVE_BODY_SLAM",
       "MOVE_SLEEP_TALK",
@@ -90002,7 +90033,9 @@
       "MOVE_METAL_SOUND",
       "MOVE_THRASH"
     ],
-    "TutorMoves": []
+    "TutorMoves": [
+      "MOVE_STONE_STRIKE"
+    ]
   },
   "DUGTRIO_ALOLA": {
     "LevelMoves": [
@@ -90071,7 +90104,9 @@
         "Move": "MOVE_FISSURE"
       }
     ],
-    "PreEvoMoves": [],
+    "PreEvoMoves": [
+      "MOVE_STONE_STRIKE"
+    ],
     "TMMoves": [
       "MOVE_TAKE_DOWN",
       "MOVE_CHARM",

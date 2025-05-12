@@ -2121,6 +2121,12 @@
       "MOVE_VENOSHOCK",
       "MOVE_ROUND",
       "MOVE_HEX",
+      "MOVE_ICE_SPINNER",
+      "MOVE_POUNCE",
+      "MOVE_TRAILBLAZE",
+      "MOVE_CHILLING_WATER",
+      "MOVE_DRAGON_CHEER",
+      "MOVE_TEMPER_FLARE",
       "MOVE_BULLDOZE",
       "MOVE_STOMPING_TANTRUM",
       "MOVE_BODY_SLAM",
@@ -2170,7 +2176,8 @@
       "MOVE_TAKE_DOWN"
     ],
     "TutorMoves": [
-      "MOVE_SCORCHING_SANDS"
+      "MOVE_SCORCHING_SANDS",
+      "MOVE_STONE_STRIKE"
     ]
   },
   "NIDORAN_M": {
@@ -2483,6 +2490,12 @@
       "MOVE_ROUND",
       "MOVE_HEX",
       "MOVE_BULLDOZE",
+      "MOVE_ICE_SPINNER",
+      "MOVE_POUNCE",
+      "MOVE_TRAILBLAZE",
+      "MOVE_CHILLING_WATER",
+      "MOVE_DRAGON_CHEER",
+      "MOVE_TEMPER_FLARE",
       "MOVE_SMART_STRIKE",
       "MOVE_STOMPING_TANTRUM",
       "MOVE_BODY_SLAM",
@@ -2536,7 +2549,8 @@
       "MOVE_THRASH"
     ],
     "TutorMoves": [
-      "MOVE_SCORCHING_SANDS"
+      "MOVE_SCORCHING_SANDS",
+      "MOVE_STONE_STRIKE"
     ]
   },
   "CLEFAIRY": {
@@ -3539,6 +3553,7 @@
       "MOVE_VENOSHOCK",
       "MOVE_ROUND",
       "MOVE_ACROBATICS",
+      "MOVE_POUNCE",
       "MOVE_AIR_SLASH",
       "MOVE_AGILITY",
       "MOVE_LEECH_LIFE",
@@ -5571,6 +5586,8 @@
       "MOVE_TRI_ATTACK",
       "MOVE_SUBSTITUTE",
       "MOVE_PSYSHOCK",
+      "MOVE_DARK_PULSE",
+      "MOVE_PSYCHIC_NOISE",
       "MOVE_ENDURE",
       "MOVE_SLEEP_TALK",
       "MOVE_ENCORE",
@@ -5710,7 +5727,8 @@
       "MOVE_POISON_JAB",
       "MOVE_FOCUS_BLAST",
       "MOVE_HEAVY_SLAM",
-      "MOVE_WORK_UP"
+      "MOVE_WORK_UP",
+      "MOVE_TRAILBLAZE"
     ],
     "EggMoves": [
       "MOVE_BULLET_PUNCH",
@@ -5720,7 +5738,8 @@
       "MOVE_TICKLE"
     ],
     "TutorMoves": [
-      "MOVE_COACHING"
+      "MOVE_COACHING",
+      "MOVE_AXE_KICK"
     ]
   },
   "MACHOKE": {
@@ -5834,7 +5853,8 @@
       "MOVE_POISON_JAB",
       "MOVE_FOCUS_BLAST",
       "MOVE_HEAVY_SLAM",
-      "MOVE_WORK_UP"
+      "MOVE_WORK_UP",
+      "MOVE_TRAILBLAZE"
     ],
     "EggMoves": [
       "MOVE_BULLET_PUNCH",
@@ -5844,7 +5864,8 @@
       "MOVE_TICKLE"
     ],
     "TutorMoves": [
-      "MOVE_COACHING"
+      "MOVE_COACHING",
+      "MOVE_AXE_KICK"
     ]
   },
   "MACHAMP": {
@@ -5971,7 +5992,8 @@
       "MOVE_WORK_UP",
       "MOVE_DARKEST_LARIAT",
       "MOVE_HIGH_HORSEPOWER",
-      "MOVE_THROAT_CHOP"
+      "MOVE_THROAT_CHOP",
+      "MOVE_TRAILBLAZE"
     ],
     "EggMoves": [
       "MOVE_BULLET_PUNCH",
@@ -5981,7 +6003,8 @@
       "MOVE_TICKLE"
     ],
     "TutorMoves": [
-      "MOVE_COACHING"
+      "MOVE_COACHING",
+      "MOVE_AXE_KICK"
     ]
   },
   "TENTACOOL": {
@@ -6304,7 +6327,8 @@
       "MOVE_ALLY_SWITCH",
       "MOVE_WILD_CHARGE",
       "MOVE_PLAY_ROUGH",
-      "MOVE_HIGH_HORSEPOWER"
+      "MOVE_HIGH_HORSEPOWER",
+      "MOVE_TRAILBLAZE"
     ],
     "EggMoves": [
       "MOVE_DOUBLE_EDGE",
@@ -6441,7 +6465,8 @@
       "MOVE_DRILL_RUN",
       "MOVE_PLAY_ROUGH",
       "MOVE_HIGH_HORSEPOWER",
-      "MOVE_THROAT_CHOP"
+      "MOVE_THROAT_CHOP",
+      "MOVE_TRAILBLAZE"
     ],
     "EggMoves": [
       "MOVE_DOUBLE_EDGE",
@@ -7910,6 +7935,8 @@
       "MOVE_BRINE",
       "MOVE_FLING",
       "MOVE_ROUND",
+      "MOVE_TRAILBLAZE",
+      "MOVE_POUNCE",
       "MOVE_RAZOR_SHELL",
       "MOVE_FALSE_SWIPE",
       "MOVE_SWORDS_DANCE",
@@ -8036,6 +8063,8 @@
       "MOVE_BODY_SLAM",
       "MOVE_HYDRO_PUMP",
       "MOVE_SURF",
+      "MOVE_TRAILBLAZE",
+      "MOVE_POUNCE",
       "MOVE_ICE_BEAM",
       "MOVE_BLIZZARD",
       "MOVE_AGILITY",
@@ -8906,6 +8935,12 @@
       "MOVE_HELPING_HAND",
       "MOVE_BRICK_BREAK",
       "MOVE_ROCK_TOMB",
+      "MOVE_TRAILBLAZE",
+      "MOVE_POUNCE",
+      "MOVE_CHILLING_WATER",
+      "MOVE_LASH_OUT",
+      "MOVE_EXPLOSION",
+      "MOVE_HARD_PRESS",
       "MOVE_FLING",
       "MOVE_ROUND",
       "MOVE_RETALIATE",
@@ -9696,6 +9731,7 @@
       "MOVE_REST",
       "MOVE_THIEF",
       "MOVE_SNORE",
+      "MOVE_TRAILBLAZE",
       "MOVE_PROTECT",
       "MOVE_GIGA_DRAIN",
       "MOVE_ATTRACT",
@@ -9810,6 +9846,9 @@
       "MOVE_THIEF",
       "MOVE_SNORE",
       "MOVE_PROTECT",
+      "MOVE_TEMPER_FLARE",
+      "MOVE_TRAILBLAZE",
+      "MOVE_POUNCE",
       "MOVE_ICY_WIND",
       "MOVE_ATTRACT",
       "MOVE_SANDSTORM",
@@ -10146,6 +10185,10 @@
       "MOVE_BODY_SLAM",
       "MOVE_HYDRO_PUMP",
       "MOVE_SURF",
+      "MOVE_ICE_SPINNER",
+      "MOVE_POUNCE",
+      "MOVE_TRAILBLAZE",
+      "MOVE_CHILLING_WATER",
       "MOVE_ICE_BEAM",
       "MOVE_BLIZZARD",
       "MOVE_AGILITY",
@@ -10244,6 +10287,10 @@
       "MOVE_DIVE",
       "MOVE_BOUNCE",
       "MOVE_MUD_SHOT",
+      "MOVE_ICE_SPINNER",
+      "MOVE_POUNCE",
+      "MOVE_TRAILBLAZE",
+      "MOVE_CHILLING_WATER",
       "MOVE_ROUND",
       "MOVE_SMART_STRIKE",
       "MOVE_SWORDS_DANCE",
@@ -10868,6 +10915,9 @@
       "MOVE_DRAIN_PUNCH",
       "MOVE_AVALANCHE",
       "MOVE_PSYCHO_CUT",
+      "MOVE_BOREAL_BLAST",
+      "MOVE_PSYCHIC_NOISE",
+      "MOVE_ALLURING_VOICE",
       "MOVE_TRICK_ROOM",
       "MOVE_WONDER_ROOM",
       "MOVE_MAGIC_ROOM",
@@ -11226,6 +11276,10 @@
       "MOVE_ROUND",
       "MOVE_BULLDOZE",
       "MOVE_FALSE_SWIPE",
+      "MOVE_TRAILBLAZE",
+      "MOVE_POUNCE",
+      "MOVE_TEMPER_FLARE",
+      "MOVE_UPPER_HAND",
       "MOVE_BRUTAL_SWING",
       "MOVE_SWORDS_DANCE",
       "MOVE_BODY_SLAM",
@@ -12680,6 +12734,7 @@
       "MOVE_FACADE",
       "MOVE_ROCK_TOMB",
       "MOVE_MUD_SHOT",
+      "MOVE_TRAILBLAZE",
       "MOVE_ROCK_BLAST",
       "MOVE_BRINE",
       "MOVE_ROUND",
@@ -12802,6 +12857,8 @@
       "MOVE_SNORE",
       "MOVE_PROTECT",
       "MOVE_ICY_WIND",
+      "MOVE_TRAILBLAZE",
+      "MOVE_POUNCE",
       "MOVE_GIGA_DRAIN",
       "MOVE_ATTRACT",
       "MOVE_SANDSTORM",
@@ -12973,7 +13030,8 @@
     ],
     "TutorMoves": [
       "MOVE_DUAL_WINGBEAT",
-      "MOVE_METEOR_BEAM"
+      "MOVE_METEOR_BEAM",
+      "MOVE_SKY_DROP"
     ]
   },
   "SNORLAX": {
@@ -17371,6 +17429,10 @@
       "MOVE_IRON_TAIL",
       "MOVE_CRUNCH",
       "MOVE_TAUNT",
+      "MOVE_TRAILBLAZE",
+      "MOVE_POUNCE",
+      "MOVE_HARD_PRESS",
+      "MOVE_METEOR_BEAM",
       "MOVE_IRON_DEFENSE",
       "MOVE_DRAGON_DANCE",
       "MOVE_GYRO_BALL",
@@ -36328,6 +36390,12 @@
       "MOVE_ROCK_TOMB",
       "MOVE_FLING",
       "MOVE_ROUND",
+      "MOVE_TRAILBLAZE",
+      "MOVE_POUNCE",
+      "MOVE_CHILLING_WATER",
+      "MOVE_LASH_OUT",
+      "MOVE_EXPLOSION",
+      "MOVE_HARD_PRESS",
       "MOVE_RETALIATE",
       "MOVE_BULLDOZE",
       "MOVE_BRUTAL_SWING",
@@ -36626,6 +36694,7 @@
       "MOVE_BRUTAL_SWING",
       "MOVE_STOMPING_TANTRUM",
       "MOVE_SWORDS_DANCE",
+      "MOVE_TRAILBLAZE",
       "MOVE_BODY_SLAM",
       "MOVE_EARTHQUAKE",
       "MOVE_AMNESIA",
@@ -74108,6 +74177,9 @@
       "MOVE_ICE_PUNCH",
       "MOVE_HYPER_BEAM",
       "MOVE_GIGA_IMPACT",
+      "MOVE_BOREAL_BLAST",
+      "MOVE_PSYCHIC_NOISE",
+      "MOVE_ALLURING_VOICE",
       "MOVE_SOLAR_BEAM",
       "MOVE_THUNDER_WAVE",
       "MOVE_SCREECH",
@@ -79270,7 +79342,8 @@
       "MOVE_PLAY_ROUGH",
       "MOVE_DAZZLING_GLEAM",
       "MOVE_HIGH_HORSEPOWER",
-      "MOVE_BULLDOZE"
+      "MOVE_BULLDOZE",
+      "MOVE_TRAILBLAZE"
     ],
     "EggMoves": [
       "MOVE_DOUBLE_EDGE",
@@ -79412,7 +79485,8 @@
       "MOVE_DAZZLING_GLEAM",
       "MOVE_HIGH_HORSEPOWER",
       "MOVE_THROAT_CHOP",
-      "MOVE_BULLDOZE"
+      "MOVE_BULLDOZE",
+      "MOVE_TRAILBLAZE"
     ],
     "EggMoves": [
       "MOVE_DOUBLE_EDGE",
@@ -80129,6 +80203,7 @@
       "MOVE_RAIN_DANCE",
       "MOVE_SUNNY_DAY",
       "MOVE_HAIL",
+      "MOVE_BOREAL_BLAST",
       "MOVE_FACADE",
       "MOVE_HELPING_HAND",
       "MOVE_BRICK_BREAK",

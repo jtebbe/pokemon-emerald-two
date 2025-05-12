@@ -1426,7 +1426,7 @@ static bool32 AccuracyCalcHelper(u32 move, u32 battler)
 
     if ((gStatuses3[battler] & STATUS3_ALWAYS_HITS && gDisableStructs[battler].battlerWithSureHit == gBattlerAttacker)
      || (B_TOXIC_NEVER_MISS >= GEN_6 && moveEffect == EFFECT_TOXIC && IS_BATTLER_OF_TYPE(gBattlerAttacker, TYPE_POISON))
-     || gStatuses4[battler] & STATUS4_GLAIVE_RUSH || (moveEffect == MOVE_EFFECT_FREEZE_OR_FROSTBITE 
+     || gStatuses4[battler] & STATUS4_GLAIVE_RUSH || (moveEffect == EFFECT_FRIGID_TOUCH
         && IS_BATTLER_OF_TYPE(gBattlerAttacker, TYPE_ICE)))
     {
         effect = TRUE;
