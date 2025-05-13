@@ -6354,10 +6354,10 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
 #if P_FAMILY_WO_CHIEN
     [SPECIES_WO_CHIEN] =
     {
-        .baseHP        = 85,
-        .baseAttack    = 85,
-        .baseDefense   = 100,
-        .baseSpeed     = 70,
+        .baseHP        = 100,
+        .baseAttack    = 75,
+        .baseDefense   = 115,
+        .baseSpeed     = 50,
         .baseSpAttack  = 95,
         .baseSpDefense = 135,
         .types = MON_TYPES(TYPE_DARK, TYPE_GRASS),

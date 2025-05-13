@@ -17641,6 +17641,7 @@
       "MOVE_DARK_PULSE",
       "MOVE_SKILL_SWAP",
       "MOVE_SUBSTITUTE",
+      "MOVE_TRICK_ROOM",
       "MOVE_CRUNCH",
       "MOVE_SHADOW_BALL",
       "MOVE_HYPER_VOICE",
@@ -19967,6 +19968,7 @@
       "MOVE_BODY_SLAM",
       "MOVE_SLEEP_TALK",
       "MOVE_REFLECT",
+      "MOVE_NASTY_PLOT",
       "MOVE_LIGHT_SCREEN",
       "MOVE_ROCK_BLAST",
       "MOVE_REST",
@@ -20083,6 +20085,7 @@
       "MOVE_ROCK_TOMB",
       "MOVE_FLAME_CHARGE",
       "MOVE_ENDURE",
+      "MOVE_NASTY_PLOT",
       "MOVE_SUNNY_DAY",
       "MOVE_SANDSTORM",
       "MOVE_BODY_SLAM",
@@ -20206,6 +20209,8 @@
       "MOVE_DIG",
       "MOVE_BODY_SLAM",
       "MOVE_SLEEP_TALK",
+      "MOVE_FRIGID_TOUCH",
+      "MOVE_BOREAL_BLAST",
       "MOVE_STOMPING_TANTRUM",
       "MOVE_REST",
       "MOVE_ROCK_SLIDE",
@@ -20238,7 +20243,9 @@
       "MOVE_FREEZE_DRY",
       "MOVE_ICICLE_CRASH"
     ],
-    "TutorMoves": []
+    "TutorMoves": [
+      "MOVE_STONE_STRIKE"
+    ]
   },
   "PILOSWINE": {
     "LevelMoves": [
@@ -20319,6 +20326,8 @@
       "MOVE_ROCK_TOMB",
       "MOVE_AVALANCHE",
       "MOVE_ENDURE",
+      "MOVE_FRIGID_TOUCH",
+      "MOVE_BOREAL_BLAST",
       "MOVE_RAIN_DANCE",
       "MOVE_SANDSTORM",
       "MOVE_SNOWSCAPE",
@@ -20360,7 +20369,9 @@
       "MOVE_FREEZE_DRY",
       "MOVE_ICICLE_CRASH"
     ],
-    "TutorMoves": []
+    "TutorMoves": [
+      "MOVE_STONE_STRIKE"
+    ]
   },
   "CORSOLA": {
     "LevelMoves": [],
@@ -20460,7 +20471,9 @@
       "MOVE_RAPID_SPIN",
       "MOVE_SPLASH"
     ],
-    "TutorMoves": []
+    "TutorMoves": [
+      "MOVE_FAKE_OUT"
+    ]
   },
   "MANTINE": {
     "LevelMoves": [],
@@ -20673,6 +20686,8 @@
       "MOVE_MUD_SHOT",
       "MOVE_FLAME_CHARGE",
       "MOVE_ENDURE",
+      "MOVE_SCORCHING_SANDS",
+      "MOVE_AURA_SPHERE",
       "MOVE_SUNNY_DAY",
       "MOVE_RAIN_DANCE",
       "MOVE_FOUL_PLAY",
@@ -20813,6 +20828,8 @@
       "MOVE_PSYCHIC_FANGS",
       "MOVE_BODY_SLAM",
       "MOVE_SLEEP_TALK",
+      "MOVE_SCORCHING_SANDS",
+      "MOVE_AURA_SPHERE",
       "MOVE_REST",
       "MOVE_TAUNT",
       "MOVE_DARK_PULSE",
@@ -42324,6 +42341,8 @@
       "MOVE_RAIN_DANCE",
       "MOVE_SANDSTORM",
       "MOVE_SNOWSCAPE",
+      "MOVE_FRIGID_TOUCH",
+      "MOVE_BOREAL_BLAST",
       "MOVE_DIG",
       "MOVE_BODY_SLAM",
       "MOVE_SLEEP_TALK",
@@ -42369,7 +42388,9 @@
       "MOVE_FREEZE_DRY",
       "MOVE_ICICLE_CRASH"
     ],
-    "TutorMoves": []
+    "TutorMoves": [
+      "MOVE_STONE_STRIKE"
+    ]
   },
   "PORYGON_Z": {
     "LevelMoves": [
