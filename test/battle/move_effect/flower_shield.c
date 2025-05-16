@@ -23,15 +23,15 @@ DOUBLE_BATTLE_TEST("Flower Shield raises the defense of all grass type pokemon")
         MESSAGE("Tangela used Flower Shield!");
         ANIMATION(ANIM_TYPE_MOVE, MOVE_FLOWER_SHIELD, playerLeft);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, playerLeft);
-        MESSAGE("Tangela's Defense rose!");
+        MESSAGE("Tangela's Defense sharply rose!");
         ANIMATION(ANIM_TYPE_MOVE, MOVE_FLOWER_SHIELD, playerLeft);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponentLeft);
-        MESSAGE("The opposing Sunkern's Defense rose!");
+        MESSAGE("The opposing Sunkern's Defense sharply rose!");
         ANIMATION(ANIM_TYPE_MOVE, MOVE_FLOWER_SHIELD, playerLeft);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, playerRight);
-        MESSAGE("Tangrowth's Defense rose!");
+        MESSAGE("Tangrowth's Defense sharply rose!");
         ANIMATION(ANIM_TYPE_MOVE, MOVE_FLOWER_SHIELD, playerLeft);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponentRight);
-        MESSAGE("The opposing Sunflora's Defense rose!");
+        MESSAGE("The opposing Sunflora's Defense sharply rose!");
     }
 }

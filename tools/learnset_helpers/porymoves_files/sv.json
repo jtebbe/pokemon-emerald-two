@@ -45687,7 +45687,9 @@
       "MOVE_YAWN",
       "MOVE_SUCKER_PUNCH"
     ],
-    "TutorMoves": []
+    "TutorMoves": [
+      "MOVE_STONE_STRIKE"
+    ]
   },
   "PIGNITE": {
     "LevelMoves": [
@@ -45818,7 +45820,9 @@
       "MOVE_CURSE"
     ],
     "EggMoves": [],
-    "TutorMoves": []
+    "TutorMoves": [
+      "MOVE_STONE_STRIKE"
+    ]
   },
   "EMBOAR": {
     "LevelMoves": [
@@ -45962,7 +45966,9 @@
       "MOVE_HARD_PRESS"
     ],
     "EggMoves": [],
-    "TutorMoves": []
+    "TutorMoves": [
+      "MOVE_STONE_STRIKE"
+    ]
   },
   "OSHAWOTT": {
     "LevelMoves": [
@@ -46056,6 +46062,9 @@
       "MOVE_X_SCISSOR",
       "MOVE_LIQUIDATION",
       "MOVE_ENCORE",
+      "MOVE_CALM_MIND",
+      "MOVE_FRIGID_TOUCH",
+      "MOVE_BOREAL_BLAST",
       "MOVE_SURF",
       "MOVE_HELPING_HAND",
       "MOVE_ICE_BEAM",
@@ -46161,6 +46170,9 @@
       "MOVE_DIG",
       "MOVE_FALSE_SWIPE",
       "MOVE_BRICK_BREAK",
+      "MOVE_CALM_MIND",
+      "MOVE_FRIGID_TOUCH",
+      "MOVE_BOREAL_BLAST",
       "MOVE_AIR_SLASH",
       "MOVE_SLEEP_TALK",
       "MOVE_WATERFALL",
@@ -46282,6 +46294,9 @@
       "MOVE_ICY_WIND",
       "MOVE_FLING",
       "MOVE_AVALANCHE",
+      "MOVE_CALM_MIND",
+      "MOVE_FRIGID_TOUCH",
+      "MOVE_BOREAL_BLAST",
       "MOVE_ENDURE",
       "MOVE_RAIN_DANCE",
       "MOVE_SNOWSCAPE",
