@@ -31831,6 +31831,8 @@
       "MOVE_FACADE",
       "MOVE_REST",
       "MOVE_ATTRACT",
+      "MOVE_TRAILBLAZE",
+      "MOVE_NASTY_PLOT",
       "MOVE_ENERGY_BALL",
       "MOVE_ENDURE",
       "MOVE_FLASH",
@@ -31857,7 +31859,9 @@
       "MOVE_SPIKES",
       "MOVE_SYNTHESIS"
     ],
-    "TutorMoves": []
+    "TutorMoves": [
+      "MOVE_FAKE_OUT"
+    ]
   },
   "GULPIN": {
     "LevelMoves": [
@@ -41359,6 +41363,10 @@
       "MOVE_DIG",
       "MOVE_SHADOW_BALL",
       "MOVE_DOUBLE_TEAM",
+      "MOVE_TRAILBLAZE",
+      "MOVE_POUNCE",
+      "MOVE_ICE_SPINNER",
+      "MOVE_FLIP_TURN",
       "MOVE_SHOCK_WAVE",
       "MOVE_FACADE",
       "MOVE_REST",
@@ -41478,6 +41486,10 @@
       "MOVE_SHADOW_BALL",
       "MOVE_DOUBLE_TEAM",
       "MOVE_SHOCK_WAVE",
+      "MOVE_TRAILBLAZE",
+      "MOVE_POUNCE",
+      "MOVE_ICE_SPINNER",
+      "MOVE_FLIP_TURN",
       "MOVE_FACADE",
       "MOVE_REST",
       "MOVE_ATTRACT",
@@ -41983,6 +41995,8 @@
       "MOVE_GIGA_DRAIN",
       "MOVE_DAZZLING_GLEAM",
       "MOVE_SOLAR_BEAM",
+      "MOVE_TRAILBLAZE",
+      "MOVE_NASTY_PLOT",
       "MOVE_SHADOW_BALL",
       "MOVE_DOUBLE_TEAM",
       "MOVE_SLUDGE_BOMB",
@@ -42013,7 +42027,9 @@
       "MOVE_SPIKES",
       "MOVE_SYNTHESIS"
     ],
-    "TutorMoves": []
+    "TutorMoves": [
+      "MOVE_FAKE_OUT"
+    ]
   },
   "ROSERADE": {
     "LevelMoves": [
@@ -42104,6 +42120,8 @@
       "MOVE_RAIN_DANCE",
       "MOVE_GIGA_DRAIN",
       "MOVE_DAZZLING_GLEAM",
+      "MOVE_TRAILBLAZE",
+      "MOVE_NASTY_PLOT",
       "MOVE_SOLAR_BEAM",
       "MOVE_SHADOW_BALL",
       "MOVE_DOUBLE_TEAM",
@@ -42137,7 +42155,9 @@
       "MOVE_SPIKES",
       "MOVE_SYNTHESIS"
     ],
-    "TutorMoves": []
+    "TutorMoves": [
+      "MOVE_FAKE_OUT"
+    ]
   },
   "CRANIDOS": {
     "LevelMoves": [
@@ -42242,7 +42262,9 @@
       "MOVE_THRASH",
       "MOVE_WHIRLWIND"
     ],
-    "TutorMoves": []
+    "TutorMoves": [
+      "MOVE_STONE_STRIKE"
+    ]
   },
   "RAMPARDOS": {
     "LevelMoves": [
@@ -42363,7 +42385,9 @@
       "MOVE_THRASH",
       "MOVE_WHIRLWIND"
     ],
-    "TutorMoves": []
+    "TutorMoves": [
+      "MOVE_STONE_STRIKE"
+    ]
   },
   "SHIELDON": {
     "LevelMoves": [
@@ -42706,6 +42730,7 @@
       "MOVE_RAIN_DANCE",
       "MOVE_GIGA_DRAIN",
       "MOVE_SAFEGUARD",
+      "MOVE_TRICK_ROOM",
       "MOVE_SOLAR_BEAM",
       "MOVE_DIG",
       "MOVE_PSYCHIC",
@@ -42821,6 +42846,9 @@
       "MOVE_AERIAL_ACE",
       "MOVE_FACADE",
       "MOVE_REST",
+      "MOVE_HURRICANE",
+      "MOVE_TAILWIND",
+      "MOVE_PSYCHIC_NOISE",
       "MOVE_ATTRACT",
       "MOVE_THIEF",
       "MOVE_SKILL_SWAP",
@@ -43374,6 +43402,7 @@
       "MOVE_DOUBLE_TEAM",
       "MOVE_FACADE",
       "MOVE_REST",
+      "MOVE_MOONBLAST",
       "MOVE_ATTRACT",
       "MOVE_ENERGY_BALL",
       "MOVE_ENDURE",
@@ -43476,6 +43505,7 @@
       "MOVE_SOLAR_BEAM",
       "MOVE_DOUBLE_TEAM",
       "MOVE_FACADE",
+      "MOVE_MOONBLAST",
       "MOVE_REST",
       "MOVE_ATTRACT",
       "MOVE_ENERGY_BALL",
@@ -44629,6 +44659,13 @@
       "MOVE_PROTECT",
       "MOVE_RAIN_DANCE",
       "MOVE_IRON_TAIL",
+      "MOVE_POUNCE",
+      "MOVE_TRAILBLAZE",
+      "MOVE_COMEUPPANCE",
+      "MOVE_TEMPER_FLARE",
+      "MOVE_STOMPING_TANTRUM",
+      "MOVE_HIGH_HORSEPOWER",
+      "MOVE_BULK_UP",
       "MOVE_THUNDERBOLT",
       "MOVE_THUNDER",
       "MOVE_DIG",
@@ -44754,6 +44791,13 @@
       "MOVE_HYPER_BEAM",
       "MOVE_PROTECT",
       "MOVE_RAIN_DANCE",
+      "MOVE_POUNCE",
+      "MOVE_BULK_UP",
+      "MOVE_TRAILBLAZE",
+      "MOVE_COMEUPPANCE",
+      "MOVE_TEMPER_FLARE",
+      "MOVE_STOMPING_TANTRUM",
+      "MOVE_HIGH_HORSEPOWER",
       "MOVE_IRON_TAIL",
       "MOVE_THUNDERBOLT",
       "MOVE_THUNDER",
@@ -46924,6 +46968,9 @@
       "MOVE_ROCK_TOMB",
       "MOVE_AERIAL_ACE",
       "MOVE_TORMENT",
+      "MOVE_TRAILBLAZE",
+      "MOVE_POUNCE",
+      "MOVE_ICE_SPINNER",
       "MOVE_FACADE",
       "MOVE_REST",
       "MOVE_ATTRACT",
@@ -46955,7 +47002,9 @@
       "MOVE_SLASH",
       "MOVE_WHIRLWIND"
     ],
-    "TutorMoves": []
+    "TutorMoves": [
+      "MOVE_STONE_STRIKE"
+    ]
   },
   "DRAPION": {
     "LevelMoves": [
@@ -47061,6 +47110,9 @@
       "MOVE_DOUBLE_TEAM",
       "MOVE_SLUDGE_BOMB",
       "MOVE_ROCK_TOMB",
+      "MOVE_TRAILBLAZE",
+      "MOVE_POUNCE",
+      "MOVE_ICE_SPINNER",
       "MOVE_AERIAL_ACE",
       "MOVE_TORMENT",
       "MOVE_FACADE",
@@ -47099,7 +47151,9 @@
       "MOVE_SLASH",
       "MOVE_WHIRLWIND"
     ],
-    "TutorMoves": []
+    "TutorMoves": [
+      "MOVE_STONE_STRIKE"
+    ]
   },
   "CROAGUNK": {
     "LevelMoves": [
@@ -47411,6 +47465,10 @@
       "MOVE_FLING",
       "MOVE_ENDURE",
       "MOVE_PAYBACK",
+      "MOVE_TRICK_ROOM",
+      "MOVE_TRAILBLAZE",
+      "MOVE_STOMPING_TANTRUM",
+      "MOVE_POUNCE",
       "MOVE_GIGA_IMPACT",
       "MOVE_FLASH",
       "MOVE_SWORDS_DANCE",
@@ -52434,6 +52492,7 @@
       "MOVE_REST",
       "MOVE_ATTRACT",
       "MOVE_THIEF",
+      "MOVE_TRICK_ROOM",
       "MOVE_SKILL_SWAP",
       "MOVE_ENDURE",
       "MOVE_BUG_BUZZ",
@@ -52537,6 +52596,7 @@
     "TMMoves": [
       "MOVE_SUNNY_DAY",
       "MOVE_HYPER_BEAM",
+      "MOVE_TRICK_ROOM",
       "MOVE_PROTECT",
       "MOVE_RAIN_DANCE",
       "MOVE_GIGA_DRAIN",
