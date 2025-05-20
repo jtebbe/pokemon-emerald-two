@@ -2256,7 +2256,7 @@ bool8 ScrCmd_checkpartymove(struct ScriptContext *ctx)
 
     gSpecialVar_Result = PARTY_SIZE;
 
-    switch (moveId) {
+    switch (move) {
         case MOVE_CUT:
             gSpecialVar_0x8004 = SPECIES_BINACLE;
             gSpecialVar_Result = 0;
