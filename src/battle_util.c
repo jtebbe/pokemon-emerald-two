@@ -4190,7 +4190,7 @@ static inline uq4_12_t GetSupremeOverlordModifier(u32 battler)
 
 static inline bool32 HadMoreThanHalfHpNowDoesnt(u32 battler)
 {
-    u32 cutoff = gBattleMons[battler].maxHP / 2;
+    u32 cutoff = gBattleMons[battler].maxHP / 5;
     // Had more than half of hp before, now has less
      return (gBattleStruct->hpBefore[battler] > cutoff
              && gBattleMons[battler].hp <= cutoff);

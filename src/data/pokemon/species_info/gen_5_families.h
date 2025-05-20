@@ -5584,7 +5584,7 @@ const struct SpeciesInfo gSpeciesInfoGen5[] =
         .baseSpeed     = 30,
         .baseSpAttack  = 60,
         .baseSpDefense = 65,
-        .types = MON_TYPES(TYPE_GHOST),
+        .types = MON_TYPES(TYPE_GHOST, TYPE_STEEL),
         .catchRate = 190,
         .expYield = 61,
         .evYield_Defense = 1,
@@ -5656,7 +5656,7 @@ const struct SpeciesInfo gSpeciesInfoGen5[] =
         .baseSpeed     = 30,
         .baseSpAttack  = 105,
         .baseSpDefense = 105,
-        .types = MON_TYPES(TYPE_GHOST),
+        .types = MON_TYPES(TYPE_GHOST, TYPE_STEEL),
         .catchRate = 90,
         .expYield = 169,
         .evYield_Defense = 2,
@@ -8928,7 +8928,7 @@ const struct SpeciesInfo gSpeciesInfoGen5[] =
 #if P_FAMILY_KLINK
     [SPECIES_KLINK] =
     {
-        .baseHP        = 40,
+        .baseHP        = 45,
         .baseAttack    = 55,
         .baseDefense   = 70,
         .baseSpeed     = 30,
@@ -8998,7 +8998,7 @@ const struct SpeciesInfo gSpeciesInfoGen5[] =
 
     [SPECIES_KLANG] =
     {
-        .baseHP        = 60,
+        .baseHP        = 70,
         .baseAttack    = 80,
         .baseDefense   = 95,
         .baseSpeed     = 50,
@@ -9068,7 +9068,7 @@ const struct SpeciesInfo gSpeciesInfoGen5[] =
 
     [SPECIES_KLINKLANG] =
     {
-        .baseHP        = 60,
+        .baseHP        = 78,
         .baseAttack    = 100,
         .baseDefense   = 115,
         .baseSpeed     = 90,

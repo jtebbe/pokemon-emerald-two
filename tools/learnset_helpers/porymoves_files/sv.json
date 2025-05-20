@@ -46546,6 +46546,7 @@
       "MOVE_REST",
       "MOVE_EERIE_IMPULSE",
       "MOVE_SUBSTITUTE",
+      "MOVE_TEMPER_FLARE",
       "MOVE_THUNDERBOLT",
       "MOVE_HELPING_HAND",
       "MOVE_BATON_PASS",
@@ -46630,6 +46631,7 @@
       "MOVE_FACADE",
       "MOVE_BULLDOZE",
       "MOVE_SWIFT",
+      "MOVE_TEMPER_FLARE",
       "MOVE_FLAME_CHARGE",
       "MOVE_ENDURE",
       "MOVE_VOLT_SWITCH",
@@ -50432,6 +50434,8 @@
       "MOVE_RAIN_DANCE",
       "MOVE_DIG",
       "MOVE_BULLET_SEED",
+      "MOVE_TEMPER_FLARE",
+      "MOVE_IRON_HEAD",
       "MOVE_ZEN_HEADBUTT",
       "MOVE_BODY_SLAM",
       "MOVE_SLEEP_TALK",
@@ -50543,6 +50547,8 @@
       "MOVE_SMART_STRIKE",
       "MOVE_DIG",
       "MOVE_BULLET_SEED",
+      "MOVE_TEMPER_FLARE",
+      "MOVE_IRON_HEAD",
       "MOVE_ZEN_HEADBUTT",
       "MOVE_BODY_SLAM",
       "MOVE_SLEEP_TALK",
@@ -52283,6 +52289,8 @@
       "MOVE_AVALANCHE",
       "MOVE_ENDURE",
       "MOVE_RAIN_DANCE",
+      "MOVE_FRIGID_TOUCH",
+      "MOVE_BOREAL_BLAST",
       "MOVE_SNOWSCAPE",
       "MOVE_DIG",
       "MOVE_SHADOW_CLAW",
@@ -52314,7 +52322,9 @@
       "MOVE_NIGHT_SLASH",
       "MOVE_YAWN"
     ],
-    "TutorMoves": []
+    "TutorMoves": [
+      "MOVE_STONE_STRIKE"
+    ]
   },
   "BEARTIC": {
     "LevelMoves": [
@@ -52417,6 +52427,8 @@
       "MOVE_BULLDOZE",
       "MOVE_SNARL",
       "MOVE_METAL_CLAW",
+      "MOVE_FRIGID_TOUCH",
+      "MOVE_BOREAL_BLAST",
       "MOVE_ICY_WIND",
       "MOVE_MUD_SHOT",
       "MOVE_ROCK_TOMB",
@@ -52470,7 +52482,9 @@
       "MOVE_NIGHT_SLASH",
       "MOVE_YAWN"
     ],
-    "TutorMoves": []
+    "TutorMoves": [
+      "MOVE_STONE_STRIKE"
+    ]
   },
   "CRYOGONAL": {
     "LevelMoves": [
@@ -52958,6 +52972,9 @@
       "MOVE_SHADOW_BALL",
       "MOVE_STEALTH_ROCK",
       "MOVE_PSYCHIC",
+      "MOVE_THROAT_CHOP",
+      "MOVE_HARD_PRESS",
+      "MOVE_TEMPER_FLARE",
       "MOVE_HEAVY_SLAM",
       "MOVE_HELPING_HAND",
       "MOVE_EARTH_POWER",
@@ -52978,7 +52995,9 @@
       "MOVE_CURSE"
     ],
     "EggMoves": [],
-    "TutorMoves": []
+    "TutorMoves": [
+      "MOVE_STONE_STRIKE"
+    ]
   },
   "GOLURK": {
     "LevelMoves": [
@@ -53070,6 +53089,9 @@
       "MOVE_HEX",
       "MOVE_ICY_WIND",
       "MOVE_ROCK_TOMB",
+      "MOVE_THROAT_CHOP",
+      "MOVE_HARD_PRESS",
+      "MOVE_TEMPER_FLARE",
       "MOVE_LOW_SWEEP",
       "MOVE_NIGHT_SHADE",
       "MOVE_FLING",
@@ -53130,7 +53152,9 @@
       "MOVE_HARD_PRESS"
     ],
     "EggMoves": [],
-    "TutorMoves": []
+    "TutorMoves": [
+      "MOVE_STONE_STRIKE"
+    ]
   },
   "PAWNIARD": {
     "LevelMoves": [
