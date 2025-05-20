@@ -69,7 +69,7 @@ SINGLE_BATTLE_TEST("Eject Pack will miss timing to switch out user if Emergency 
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET) { Item(ITEM_EJECT_PACK); }
         PLAYER(SPECIES_WYNAUT);
-        OPPONENT(SPECIES_GOLISOPOD) { Ability(ABILITY_EMERGENCY_EXIT); MaxHP(263); HP(133); };
+        OPPONENT(SPECIES_GOLISOPOD) { Ability(ABILITY_EMERGENCY_EXIT); MaxHP(250); HP(51); };
         OPPONENT(SPECIES_WYNAUT);
     } WHEN {
         TURN { MOVE(player, MOVE_OVERHEAT); SEND_OUT(opponent, 1); }

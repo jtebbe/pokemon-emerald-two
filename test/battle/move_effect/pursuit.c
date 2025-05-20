@@ -613,7 +613,7 @@ SINGLE_BATTLE_TEST("Pursuit attacks a switching foe and switchin is correctly st
 SINGLE_BATTLE_TEST("Pursuit doesn't cause mon with Emergency Exit to switch twice")
 {
     GIVEN {
-        PLAYER(SPECIES_GOLISOPOD) { HP(101); MaxHP(200); Ability(ABILITY_EMERGENCY_EXIT); }
+        PLAYER(SPECIES_GOLISOPOD) { HP(41); MaxHP(200); Ability(ABILITY_EMERGENCY_EXIT); }
         PLAYER(SPECIES_WOBBUFFET);
         PLAYER(SPECIES_VOLTORB);
         OPPONENT(SPECIES_WOBBUFFET);

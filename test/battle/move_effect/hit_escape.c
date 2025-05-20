@@ -67,7 +67,7 @@ SINGLE_BATTLE_TEST("Hit Escape: U-turn does not switch the user out if Wimp Out 
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
         PLAYER(SPECIES_WYNAUT);
-        OPPONENT(SPECIES_WIMPOD) { MaxHP(200); HP(101); Ability(ABILITY_WIMP_OUT); }
+        OPPONENT(SPECIES_WIMPOD) { MaxHP(200); HP(41); Ability(ABILITY_WIMP_OUT); }
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
         TURN { MOVE(player, MOVE_U_TURN); SEND_OUT(opponent, 1); }

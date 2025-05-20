@@ -4190,6 +4190,14 @@ static inline uq4_12_t GetSupremeOverlordModifier(u32 battler)
 
 static inline bool32 HadMoreThanHalfHpNowDoesnt(u32 battler)
 {
+    u32 cutoff = gBattleMons[battler].maxHP / 2;
+    // Had more than half of hp before, now has less
+     return (gBattleStruct->hpBefore[battler] > cutoff
+             && gBattleMons[battler].hp <= cutoff);
+}
+
+static inline bool32 HadMoreThanFifthHpNowDoesnt(u32 battler)
+{
     u32 cutoff = gBattleMons[battler].maxHP / 5;
     // Had more than half of hp before, now has less
      return (gBattleStruct->hpBefore[battler] > cutoff
@@ -12528,7 +12536,7 @@ bool32 EmergencyExitCanBeTriggered(u32 battler)
 
     if (IsBattlerTurnDamaged(battler)
      && IsBattlerAlive(battler)
-     && HadMoreThanHalfHpNowDoesnt(battler)
+     && HadMoreThanFifthHpNowDoesnt(battler)
      && (CanBattlerSwitch(battler) || !(gBattleTypeFlags & BATTLE_TYPE_TRAINER))
      && !(gBattleTypeFlags & BATTLE_TYPE_ARENA)
      && CountUsablePartyMons(battler) > 0
