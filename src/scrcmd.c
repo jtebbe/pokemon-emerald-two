@@ -2286,7 +2286,7 @@ bool8 ScrCmd_checkpartymove(struct ScriptContext *ctx)
             gSpecialVar_Result = 0;
             break;
         case MOVE_DIVE:
-            gSpecialVar_0x8004 = SPECIES_BRUXISH;
+            gSpecialVar_0x8004 = SPECIES_STARMIE;
             gSpecialVar_Result = 0;
             break;
         default:
@@ -2300,8 +2300,10 @@ bool8 ScrCmd_checkpartymove(struct ScriptContext *ctx)
                     break;
                 }
             }
-            return FALSE;
     }
+    
+    return FALSE;
+
 }
 
 bool8 ScrCmd_addmoney(struct ScriptContext *ctx)
