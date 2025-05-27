@@ -13277,9 +13277,44 @@ Music: Cool
 Double Battle: Yes
 AI: Basic Trainer
 
-Absol
-Level: 27
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Eldegoss @ Leftovers  
+Ability: Cotton Down   
+EVs: 252 HP / 4 Def / 252 SpD  
+Calm Nature  
+IVs: 0 Atk  
+- Sleep Powder  
+- Cotton Guard  
+- Body Press  
+- Helping Hand
+
+Klinklang @ Bright Powder  
+Ability: Clear Body   
+EVs: 252 HP / 4 Def / 252 SpD  
+Careful Nature  
+- Bulldoze  
+- Shift Gear  
+- Gear Grind  
+- Ice Spinner
+
+Mr. Rime @ Blunder Policy  
+Ability: Tangled Feet  
+EVs: 104 HP / 252 SpA / 152 Spe  
+Modest Nature  
+IVs: 0 Atk  
+- Ice Beam  
+- Psychic  
+- Protect  
+- Hypnosis
+
+Tyrantrum @ Life Orb  
+Ability: Intimidate  
+Tera Type: Fairy  
+EVs: 132 HP / 252 Atk / 124 Spe  
+Adamant Nature  
+- Rock Polish  
+- Stone Edge  
+- Dragon Claw  
+- Play Rough
 
 === TRAINER_JONAS ===
 Name: JONAS
