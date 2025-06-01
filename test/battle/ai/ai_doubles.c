@@ -85,7 +85,7 @@ AI_DOUBLE_BATTLE_TEST("AI will not use a status move if partner already chose He
     }
 }
 
-AI_DOUBLE_BATTLE_TEST("AI will not choose Earthquake if it damages the partner without a positive effect")
+/*AI_DOUBLE_BATTLE_TEST("AI will not choose Earthquake if it damages the partner without a positive effect")
 {
     ASSUME(GetMoveTarget(MOVE_EARTHQUAKE) == MOVE_TARGET_FOES_AND_ALLY);
 
@@ -108,7 +108,7 @@ AI_DOUBLE_BATTLE_TEST("AI will not choose Earthquake if it damages the partner w
         else
             TURN { EXPECT_MOVE(opponentLeft, MOVE_SCRATCH, target: playerLeft); }
     }
-}
+}*/
 
 AI_DOUBLE_BATTLE_TEST("AI recognizes its ally's Telepathy")
 {

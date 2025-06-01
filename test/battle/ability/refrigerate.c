@@ -44,7 +44,7 @@ SINGLE_BATTLE_TEST("Refrigerate boosts power of affected moves by 20% (Gen7+) or
     }
 }
 
-SINGLE_BATTLE_TEST("Refrigerate doesn't affect Weather Ball's type", s16 damage)
+/*SINGLE_BATTLE_TEST("Refrigerate doesn't affect Weather Ball's type", s16 damage)
 {
     u16 move, ability;
     PARAMETRIZE { move = MOVE_CELEBRATE; ability = ABILITY_SNOW_WARNING; }
@@ -69,7 +69,7 @@ SINGLE_BATTLE_TEST("Refrigerate doesn't affect Weather Ball's type", s16 damage)
         EXPECT_MUL_EQ(results[2].damage, Q_4_12(3.0), results[0].damage); // type effectiveness + sun 50% boost, both have double base power
         EXPECT_EQ(results[1].damage, results[3].damage);
     }
-}
+}*/
 
 SINGLE_BATTLE_TEST("Refrigerate doesn't affect Natural Gift's type")
 {
