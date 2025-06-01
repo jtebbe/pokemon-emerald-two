@@ -12,9 +12,10 @@
   "allow_running": true,
   "show_map_name": false,
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
-  "connections": 0,
+  "connections": null,
   "object_events": [
     {
+      "local_id": "LOCALID_AGARTHAN1",
       "graphics_id": "OBJ_EVENT_GFX_HEX_MANIAC",
       "x": 1,
       "y": 3,
@@ -28,6 +29,7 @@
       "flag": "FLAG_SHOW_HOUSE_AGARTHAN_1"
     },
     {
+      "local_id": "LOCALID_AGARTHAN8",
       "graphics_id": "OBJ_EVENT_GFX_OLD_MAN",
       "x": 18,
       "y": 3,
@@ -41,6 +43,7 @@
       "flag": "FLAG_SHOW_HOUSE_AGARTHAN_8"
     },
     {
+      "local_id": "LOCALID_AGARTHAN2",
       "graphics_id": "OBJ_EVENT_GFX_MAN_3",
       "x": 27,
       "y": 3,
@@ -54,6 +57,7 @@
       "flag": "FLAG_SHOW_HOUSE_AGARTHAN_2"
     },
     {
+      "local_id": "LOCALID_AGARTHAN3",
       "graphics_id": "OBJ_EVENT_GFX_MAN_5",
       "x": 4,
       "y": 3,
@@ -67,6 +71,7 @@
       "flag": "FLAG_SHOW_HOUSE_AGARTHAN_3"
     },
     {
+      "local_id": "LOCALID_AGARTHAN4",
       "graphics_id": "OBJ_EVENT_GFX_SCIENTIST_1",
       "x": 24,
       "y": 3,
@@ -80,6 +85,7 @@
       "flag": "FLAG_SHOW_HOUSE_AGARTHAN_4"
     },
     {
+      "local_id": "LOCALID_AGARTHAN6",
       "graphics_id": "OBJ_EVENT_GFX_PICNICKER",
       "x": 21,
       "y": 3,
@@ -93,6 +99,7 @@
       "flag": "FLAG_SHOW_HOUSE_AGARTHAN_6"
     },
     {
+      "local_id": "LOCALID_AGARTHAN5",
       "graphics_id": "OBJ_EVENT_GFX_WOMAN_2",
       "x": 7,
       "y": 3,
@@ -106,6 +113,7 @@
       "flag": "FLAG_SHOW_HOUSE_AGARTHAN_5"
     },
     {
+      "local_id": "LOCALID_AGARTHAN7",
       "graphics_id": "OBJ_EVENT_GFX_MAN_4",
       "x": 10,
       "y": 3,
@@ -141,9 +149,7 @@
       "dest_warp_id": "4"
     }
   ],
-  "coord_events": [
-
-  ],
+  "coord_events": [],
   "bg_events": [
     {
       "type": "sign",

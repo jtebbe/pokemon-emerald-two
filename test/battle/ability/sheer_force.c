@@ -672,6 +672,8 @@ static inline bool32 IsMoveSheerForceBoosted(u32 move)
                 TURN { MOVE(opponentRight, MOVE_WATER_GUN, target: playerLeft); MOVE(playerRight, MOVE_WATER_GUN, target: opponentLeft); SKIP_TURN(playerLeft); SKIP_TURN(opponentLeft); }
                 TURN { SKIP_TURN(playerLeft); SKIP_TURN(opponentLeft); }
                 break;
+            default:
+                break;
         }
     } SCENE {
         if (GetMoveEffect(move) != EFFECT_FUTURE_SIGHT)
@@ -750,6 +752,8 @@ static inline bool32 IsMoveSheerForceBoosted(u32 move)
                 TURN { MOVE(opponentRight, MOVE_WATER_GUN, target: playerLeft); MOVE(playerRight, MOVE_WATER_GUN, target: opponentLeft); SKIP_TURN(playerLeft); SKIP_TURN(opponentLeft); }
                 TURN { SKIP_TURN(playerLeft); SKIP_TURN(opponentLeft); }
                 break;
+            default:
+                break;
         }
     } SCENE {
         if (GetMoveEffect(move) != EFFECT_FUTURE_SIGHT)
@@ -827,6 +831,8 @@ static inline bool32 IsMoveSheerForceBoosted(u32 move)
             case EFFECT_BIDE:
                 TURN { MOVE(opponentRight, MOVE_WATER_GUN, target: playerLeft); MOVE(playerRight, MOVE_WATER_GUN, target: opponentLeft); SKIP_TURN(playerLeft); SKIP_TURN(opponentLeft); }
                 TURN { SKIP_TURN(playerLeft); SKIP_TURN(opponentLeft); }
+                break;
+            default:
                 break;
         }
     } SCENE {
@@ -908,6 +914,8 @@ static inline bool32 IsMoveSheerForceBoosted(u32 move)
             case EFFECT_BIDE:
                 TURN { MOVE(opponentRight, MOVE_WATER_GUN, target: playerLeft); MOVE(playerRight, MOVE_WATER_GUN, target: opponentLeft); SKIP_TURN(playerLeft); SKIP_TURN(opponentLeft); }
                 TURN { SKIP_TURN(playerLeft); SKIP_TURN(opponentLeft); }
+                break;
+            default:
                 break;
         }
     } SCENE {

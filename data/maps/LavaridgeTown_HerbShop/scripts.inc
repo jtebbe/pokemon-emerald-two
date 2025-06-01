@@ -1,5 +1,3 @@
-.set LOCALID_JAKE, 4
-
 LavaridgeTown_HerbShop_MapScripts::
 	.byte 0
 

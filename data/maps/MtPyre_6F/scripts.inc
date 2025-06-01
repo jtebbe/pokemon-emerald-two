@@ -1,5 +1,3 @@
-.set LOCALID_NIKKI, 4
-
 MtPyre_6F_MapScripts::
 	.byte 0
 

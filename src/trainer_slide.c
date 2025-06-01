@@ -367,7 +367,7 @@ enum TrainerSlideTargets ShouldDoTrainerSlide(u32 battler, enum TrainerSlideType
     u32 retValue = TRAINER_SLIDE_TARGET_TRAINER_A;
     bool32 shouldRun = FALSE;
 
-    if (!(gBattleTypeFlags & BATTLE_TYPE_TRAINER) || GetBattlerSide(battler) != B_SIDE_OPPONENT)
+    if (!(gBattleTypeFlags & BATTLE_TYPE_TRAINER) || IsOnPlayerSide(battler))
         return TRAINER_SLIDE_TARGET_NONE;
 
     SetTrainerSlideParamters(battler, &firstId, &lastId, &trainerId, &retValue);
@@ -446,7 +446,7 @@ void TryInitializeFirstSTABMoveTrainerSlide(u32 battlerDef, u32 battlerAtk, u32 
     if (IsSlideInitalizedOrPlayed(slideId))
         return;
 
-    if ((GetBattlerSide(battlerDef) == B_SIDE_PLAYER))
+    if ((IsOnPlayerSide(battlerDef)))
         return;
 
     if (IS_BATTLER_OF_TYPE(battlerAtk, moveType) == FALSE)
@@ -462,7 +462,7 @@ void TryInitializeTrainerSlidePlayerLandsFirstCriticalHit(u32 target)
     if (IsSlideInitalizedOrPlayed(slideId))
         return;
 
-    if (GetBattlerSide(target) == B_SIDE_PLAYER)
+    if (IsOnPlayerSide(target))
         return;
 
     InitalizeTrainerSlide(slideId);
@@ -475,7 +475,7 @@ void TryInitializeTrainerSlideEnemyLandsFirstCriticalHit(u32 target)
     if (IsSlideInitalizedOrPlayed(slideId))
         return;
 
-    if (GetBattlerSide(target) == B_SIDE_OPPONENT)
+    if (!IsOnPlayerSide(target))
         return;
 
     InitalizeTrainerSlide(slideId);
@@ -488,7 +488,7 @@ void TryInitializeTrainerSlidePlayerLandsFirstSuperEffectiveHit(u32 target)
     if (IsSlideInitalizedOrPlayed(slideId))
         return;
 
-    if (GetBattlerSide(target) == B_SIDE_PLAYER)
+    if (IsOnPlayerSide(target))
         return;
 
     InitalizeTrainerSlide(slideId);
@@ -501,7 +501,7 @@ void TryInitializeTrainerSlideEnemyMonUnaffected(u32 target)
     if (IsSlideInitalizedOrPlayed(slideId))
         return;
 
-    if (GetBattlerSide(target) != B_SIDE_OPPONENT)
+    if (IsOnPlayerSide(target))
         return;
 
     InitalizeTrainerSlide(slideId);

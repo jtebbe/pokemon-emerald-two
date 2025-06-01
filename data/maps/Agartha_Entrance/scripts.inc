@@ -1,5 +1,3 @@
-.set LOCALID_NADROJ, 1
-
 Agartha_Entrance_MapScripts::
 	.byte 0
 
