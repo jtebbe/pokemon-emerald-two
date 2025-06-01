@@ -61526,6 +61526,7 @@
       "MOVE_MAGICAL_LEAF",
       "MOVE_AIR_CUTTER",
       "MOVE_NIGHT_SHADE",
+      "MOVE_AGILITY",
       "MOVE_ENDURE",
       "MOVE_SUNNY_DAY",
       "MOVE_RAIN_DANCE",
@@ -61648,6 +61649,7 @@
       "MOVE_SWORDS_DANCE",
       "MOVE_SUBSTITUTE",
       "MOVE_GIGA_DRAIN",
+      "MOVE_AGILITY",
       "MOVE_TAILWIND",
       "MOVE_ENERGY_BALL",
       "MOVE_HELPING_HAND",
@@ -61772,6 +61774,7 @@
       "MOVE_LOW_SWEEP",
       "MOVE_AIR_CUTTER",
       "MOVE_NIGHT_SHADE",
+      "MOVE_AGILITY",
       "MOVE_ENDURE",
       "MOVE_SUNNY_DAY",
       "MOVE_RAIN_DANCE",
@@ -63318,6 +63321,8 @@
       "MOVE_ACROBATICS",
       "MOVE_STRUGGLE_BUG",
       "MOVE_POUNCE",
+      "MOVE_TAILWIND",
+      "MOVE_SLUDGE_BOMB",
       "MOVE_CHARGE_BEAM",
       "MOVE_FACADE",
       "MOVE_BULLDOZE",
@@ -63545,6 +63550,8 @@
       "MOVE_ROCK_TOMB",
       "MOVE_FLING",
       "MOVE_AVALANCHE",
+      "MOVE_BOREAL_BLAST",
+      "MOVE_FRIGID_TOUCH",
       "MOVE_ENDURE",
       "MOVE_SUNNY_DAY",
       "MOVE_RAIN_DANCE",
@@ -63677,6 +63684,7 @@
       "MOVE_U_TURN",
       "MOVE_AIR_SLASH",
       "MOVE_SLEEP_TALK",
+      "MOVE_ALLURING_VOICE",
       "MOVE_REST",
       "MOVE_TAUNT",
       "MOVE_SWORDS_DANCE",
@@ -64145,7 +64153,8 @@
     "EggMoves": [
       "MOVE_ENDEAVOR",
       "MOVE_LAST_RESORT",
-      "MOVE_THRASH"
+      "MOVE_THRASH",
+      "MOVE_STONE_STRIKE"
     ],
     "TutorMoves": []
   },
@@ -64427,6 +64436,8 @@
       "MOVE_BODY_SLAM",
       "MOVE_SLEEP_TALK",
       "MOVE_STOMPING_TANTRUM",
+      "MOVE_BULK_UP",
+      "MOVE_AMNESIA",
       "MOVE_REST",
       "MOVE_ROCK_SLIDE",
       "MOVE_IRON_HEAD",
@@ -64454,7 +64465,9 @@
       "MOVE_ROAR",
       "MOVE_SMACK_DOWN"
     ],
-    "TutorMoves": []
+    "TutorMoves": [
+      "MOVE_STONE_STRIKE"
+    ]
   },
   "MUDSDALE": {
     "LevelMoves": [
@@ -64530,6 +64543,8 @@
       "MOVE_SLEEP_TALK",
       "MOVE_STOMPING_TANTRUM",
       "MOVE_REST",
+      "MOVE_BULK_UP",
+      "MOVE_AMNESIA",
       "MOVE_ROCK_SLIDE",
       "MOVE_BODY_PRESS",
       "MOVE_IRON_HEAD",
@@ -64561,7 +64576,9 @@
       "MOVE_ROAR",
       "MOVE_SMACK_DOWN"
     ],
-    "TutorMoves": []
+    "TutorMoves": [
+      "MOVE_STONE_STRIKE"
+    ]
   },
   "DEWPIDER": {
     "LevelMoves": [
@@ -66365,6 +66382,7 @@
       "MOVE_ACROBATICS",
       "MOVE_THIEF",
       "MOVE_TRAILBLAZE",
+      "MOVE_TEMPER_FLARE",
       "MOVE_FACADE",
       "MOVE_BULLDOZE",
       "MOVE_METAL_CLAW",
@@ -66509,6 +66527,8 @@
       "MOVE_SHADOW_CLAW",
       "MOVE_BULK_UP",
       "MOVE_SLEEP_TALK",
+      "MOVE_FRIGID_TOUCH",
+      "MOVE_ENCORE",
       "MOVE_DRAIN_PUNCH",
       "MOVE_LIGHT_SCREEN",
       "MOVE_DAZZLING_GLEAM",
@@ -94826,6 +94846,7 @@
       "MOVE_RAIN_DANCE",
       "MOVE_BULLET_SEED",
       "MOVE_FALSE_SWIPE",
+      "MOVE_AGILITY",
       "MOVE_BRICK_BREAK",
       "MOVE_U_TURN",
       "MOVE_SHADOW_CLAW",
@@ -97105,7 +97126,8 @@
     "EggMoves": [
       "MOVE_ENDEAVOR",
       "MOVE_LAST_RESORT",
-      "MOVE_THRASH"
+      "MOVE_THRASH",
+      "MOVE_STONE_STRIKE"
     ],
     "TutorMoves": []
   },
@@ -97255,7 +97277,9 @@
       "MOVE_THROAT_CHOP"
     ],
     "EggMoves": [],
-    "TutorMoves": []
+    "TutorMoves": [
+      "MOVE_STONE_STRIKE"
+    ]
   },
   "TOXTRICITY_LOW_KEY": {
     "LevelMoves": [
