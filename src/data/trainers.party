@@ -16348,9 +16348,44 @@ Music: Male
 Double Battle: Yes
 AI: Basic Trainer
 
-Ninjask
-Level: 25
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Dustox @ Sitrus Berry  
+Ability: Shield Dust  
+EVs: 252 HP / 176 Def / 80 SpD  
+Careful Nature  
+IVs: 0 Atk  
+- Rage Powder  
+- Tailwind  
+- Toxic  
+- Protect
+
+Archeops @ Assault Vest  
+Ability: Defeatist  
+Tera Type: Dark  
+EVs: 252 HP / 252 Atk / 4 Def  
+Adamant Nature  
+- Dual Wingbeat  
+- Stone Strike 
+- Knock Off  
+- U-turn
+
+Clawitzer @ Sitrus Berry  
+Ability: Mega Launcher  
+EVs: 252 HP / 252 SpA / 4 SpD  
+Modest Nature  
+IVs: 0 Atk  
+- Water Pulse  
+- Nasty Plot  
+- Dragon Pulse  
+- Aura Sphere
+
+Decidueye-Hisui @ Assault Vest  
+Ability: Ranger    
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+- Verdant Arrow  
+- Close Combat  
+- Dual Wingbeat  
+- Knock Off
 
 === TRAINER_JAMES_1 ===
 Name: JAMES

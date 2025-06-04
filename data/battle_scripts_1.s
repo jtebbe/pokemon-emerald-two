@@ -8022,7 +8022,6 @@ BattleScript_MagicShowActivates::
 	call BattleScript_AbilityPopUp
 	printstring STRINGID_BIZARREARENACREATED
 	waitmessage B_WAIT_TIME_LONG
-	playanimation BS_SCRIPTING, B_ANIM_RESTORE_BG
 	end3
 
 BattleScript_GravitationActivates::
@@ -8030,7 +8029,6 @@ BattleScript_GravitationActivates::
 	call BattleScript_AbilityPopUp
 	printstring STRINGID_GRAVITYINTENSIFIED
 	waitmessage B_WAIT_TIME_LONG
-	playanimation BS_SCRIPTING, B_ANIM_RESTORE_BG
 	end3
 
 BattleScript_BadDreamsActivates::
