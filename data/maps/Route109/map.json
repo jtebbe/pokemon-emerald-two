@@ -362,9 +362,7 @@
       "dest_warp_id": "0"
     }
   ],
-  "coord_events": [
-
-  ],
+  "coord_events": [],
   "bg_events": [
     {
       "type": "sign",
@@ -427,7 +425,7 @@
       "x": 7,
       "y": 43,
       "elevation": 3,
-      "item": "ITEM_NORMAL_GEM",
+      "item": "ITEM_GRASS_GEM",
       "flag": "FLAG_HIDDEN_ITEM_ROUTE_109_HEART_SCALE_3"
     }
   ]
