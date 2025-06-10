@@ -41,6 +41,7 @@ gBattleAnimMove_Roost::
 	end
 
 gBattleAnimMove_Gravity::
+gBattleAnimGeneral_Gravity::
 	fadetobg BG_COSMIC
 	waitbgfadein
 	createvisualtask AnimTask_SetAnimTargetToAttackerOpposite, 1

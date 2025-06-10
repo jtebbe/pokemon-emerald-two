@@ -8021,14 +8021,16 @@ BattleScript_MagicShowActivates::
 	pause B_WAIT_TIME_SHORT
 	call BattleScript_AbilityPopUp
 	printstring STRINGID_BIZARREARENACREATED
-	waitmessage B_WAIT_TIME_LONG
+	waitstate
+	playanimation BS_BATTLER_0, B_ANIM_MAGIC_ROOM
 	end3
 
 BattleScript_GravitationActivates::
 	pause B_WAIT_TIME_SHORT
 	call BattleScript_AbilityPopUp
 	printstring STRINGID_GRAVITYINTENSIFIED
-	waitmessage B_WAIT_TIME_LONG
+	waitstate
+	playanimation BS_BATTLER_0, B_ANIM_GRAVITY
 	end3
 
 BattleScript_BadDreamsActivates::
