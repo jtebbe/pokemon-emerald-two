@@ -10829,10 +10829,6 @@ void TryRestoreHeldItems(void)
         {
             u16 lostItem = gBattleStruct->itemLost[B_SIDE_PLAYER][i].originalItem;
 
-            // Check if the mon is not holding the lost item
-            if (GetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM) != lostItem)
-                lostItem = ITEM_NONE;
-
             // Check if the lost item should be restored
             if (lostItem != ITEM_NONE || returnNPCItems)
                 SetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM, &lostItem);
