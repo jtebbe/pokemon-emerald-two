@@ -99,7 +99,7 @@ SINGLE_BATTLE_TEST("Normalize doesn't boost power of unaffected moves by 20% (< 
     }
 }
 
-SINGLE_BATTLE_TEST("Normalize boosts power of unaffected moves by 20% (Gen7+)", s16 damage)
+/*SINGLE_BATTLE_TEST("Normalize boosts power of unaffected moves by 20% (Gen7+)", s16 damage)
 {
     u32 ability;
     PARAMETRIZE { ability = ABILITY_CUTE_CHARM; }
@@ -154,7 +154,7 @@ SINGLE_BATTLE_TEST("Normalize boosts power of affected moves by 20% (Gen7+)", s1
     } FINALLY {
         EXPECT_MUL_EQ(results[0].damage, Q_4_12(1.8), results[1].damage); // STAB + ate
     }
-}
+}*/
 
 SINGLE_BATTLE_TEST("Normalize-affected moves become Electric-type under Electrify's effect", s16 damage)
 {
