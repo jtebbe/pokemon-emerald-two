@@ -438,7 +438,8 @@
     "JaggedPass_Grotto",
     "Route119_Grotto",
     "EverGrandeGrotto",
-    "Agartha_Entrance"
+    "Agartha_Entrance",
+    "PetalburgSanctum"
   ],
   "gMapGroup_IndoorDynamic": [
     "SecretBase_RedCave1",

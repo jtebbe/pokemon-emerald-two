@@ -962,13 +962,44 @@ Music: Female
 Double Battle: Yes
 AI: Basic Trainer
 
-Roselia
-Level: 26
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Ledian @ Focus Sash  
+Ability: Shield Dust   
+EVs: 4 Def / 252 SpA / 252 Spe  
+Timid Nature  
+- Heroic Rise  
+- Bug Buzz  
+- Air Slash  
+- Focus Blast
 
-Gloom
-Level: 26
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Pikachu @ Light Ball  
+Ability: Static    
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Fake Out  
+- Volt Tackle  
+- Play Rough  
+- Quick Attack
+
+Cradily @ Leftovers  
+Ability: Storm Drain    
+EVs: 252 HP / 4 Def / 252 SpD  
+Calm Nature  
+IVs: 0 Atk  
+- Ingrain  
+- Toxic  
+- Protect  
+- Leech Seed
+
+Primarina @ Life Orb  
+Ability: Torrent  
+Tera Type: Poison  
+EVs: 252 HP / 4 Def / 252 SpA  
+Modest Nature  
+IVs: 0 Atk  
+- Protect  
+- Aqua Ring  
+- Moonblast  
+- Scald
 
 === TRAINER_ROSE_2 ===
 Name: ROSE
@@ -2416,11 +2447,55 @@ Pic: Cooltrainer F
 Gender: Female
 Music: Cool
 Double Battle: Yes
-AI: Basic Trainer
+AI: Smart Trainer
 
-Sableye
-Level: 30
-IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
+Hitmonchan (M) @ Assault Vest  
+Ability: One-Two  
+EVs: 252 HP / 252 Atk / 4 Def  
+Adamant Nature  
+- Ice Punch  
+- Fire Punch  
+- Power-Up Punch  
+- Thunder Punch
+
+Mantine @ Wacan Berry  
+Ability: Swift Swim  
+EVs: 252 HP / 252 SpA / 4 SpD  
+Modest Nature  
+IVs: 0 Atk  
+- Tailwind  
+- Hydro Pump  
+- Hurricane  
+- Ice Beam
+
+Glaceon @ Life Orb  
+Ability: Snow Cloak  
+EVs: 252 HP / 4 Def / 252 SpA  
+Modest Nature  
+IVs: 0 Atk  
+- Freeze-Dry  
+- Ice Beam  
+- Alluring Voice  
+- Shadow Ball
+
+Parasect @ Choice Band  
+Ability: Analytic    
+EVs: 248 HP / 252 Atk / 8 SpD  
+Adamant Nature  
+IVs: 0 Spe  
+- Leech Life  
+- Seed Bomb  
+- Knock Off  
+- Brick Break
+
+Medicham @ Medichamite  
+Ability: Pure Power  
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+- Fake Out  
+- Bullet Punch  
+- Zen Headbutt  
+- Close Combat
 
 === TRAINER_HOPE ===
 Name: HOPE
@@ -11572,13 +11647,45 @@ Music: Cool
 Double Battle: Yes
 AI: Basic Trainer
 
-Wingull
-Level: 28
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Persian @ Silk Scarf  
+Ability: Technician  
+Tera Type: Normal  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Fake Out  
+- Hypnosis  
+- Double-Edge  
+- Protect
 
-Natu
-Level: 28
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Lunatone @ Power Herb  
+Ability: Gravitation    
+EVs: 248 HP / 252 Def / 8 SpA  
+Bold Nature  
+IVs: 0 Atk  
+- Hypnosis  
+- Meteor Beam  
+- Protect  
+- Psychic
+
+Espathra @ Leftovers  
+Ability: Speed Boost  
+EVs: 252 HP / 252 Def / 4 SpD  
+Bold Nature  
+IVs: 0 Atk  
+- Protect  
+- Hypnosis  
+- Lumina Crash  
+- Calm Mind
+
+Alakazam @ Focus Sash  
+Ability: Synchronize  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Dream Eater  
+- Dazzling Gleam  
+- Energy Ball  
+- Protect
 
 === TRAINER_ROBERT_1 ===
 Name: ROBERT
@@ -13575,13 +13682,44 @@ Music: Twins
 Double Battle: Yes
 AI: Basic Trainer
 
-Beautifly
-Level: 26
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Beautifly @ Focus Sash  
+Ability: Simple  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Modest Nature  
+IVs: 0 Atk  
+- Quiver Dance  
+- Air Slash  
+- Bug Buzz  
+- Energy Ball
 
-Dustox
-Level: 26
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Dustox @ Covert Cloak  
+Ability: Shield Dust  
+EVs: 248 HP / 8 Def / 252 SpD  
+Calm Nature  
+IVs: 0 Atk  
+- Rage Powder  
+- Tailwind  
+- Toxic  
+- Protect
+
+Raticate @ Sitrus Berry  
+Ability: Guts   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Hit and Run  
+- Follow Me  
+- Pursuit  
+- Wild Charge
+
+Feraligatr @ Life Orb  
+Ability: Sheer Force  
+Tera Type: Water  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Dragon Dance  
+- Liquidation  
+- Crunch  
+- Ice Punch
 
 === TRAINER_AMY_AND_LIV_3 ===
 Name: AMY & LIV
@@ -15758,9 +15896,44 @@ Music: Male
 Double Battle: Yes
 AI: Basic Trainer
 
-Pinsir
-Level: 27
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Tauros-Paldea-Aqua (M) @ Sitrus Berry  
+Ability: Intimidate   
+EVs: 252 HP / 252 Def / 4 SpD  
+Bold Nature  
+IVs: 0 Atk  
+- Body Press  
+- Protect  
+- Swagger  
+- Tail Whip
+
+Tauros-Paldea-Blaze (M) @ Assault Vest  
+Ability: Intimidate  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Trailblaze  
+- Close Combat  
+- Raging Bull  
+- High Horsepower
+
+Furfrou @ Rocky Helmet  
+Ability: Fur Coat  
+Tera Type: Ghost  
+EVs: 252 HP / 4 Atk / 252 Spe  
+Jolly Nature  
+- Cotton Guard  
+- Body Press  
+- Sucker Punch  
+- Snarl
+
+Dragalge @ Life Orb  
+Ability: Adaptability    
+EVs: 252 HP / 252 SpA / 4 SpD  
+Modest Nature  
+IVs: 0 Atk  
+- Dragon Pulse  
+- Sludge Bomb  
+- Protect  
+- Shadow Ball
 
 === TRAINER_MITCHELL ===
 Name: MITCHELL

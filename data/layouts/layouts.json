@@ -1344,7 +1344,7 @@
     {
       "id": "LAYOUT_PETALBURG_WOODS",
       "name": "PetalburgWoods_Layout",
-      "width": 48,
+      "width": 62,
       "height": 44,
       "primary_tileset": "gTileset_General",
       "secondary_tileset": "gTileset_Rustboro",
@@ -4500,6 +4500,16 @@
       "secondary_tileset": "gTileset_Cave",
       "border_filepath": "data/layouts/Agartha_Entrance/border.bin",
       "blockdata_filepath": "data/layouts/Agartha_Entrance/map.bin"
+    },
+    {
+      "id": "LAYOUT_PETALBURG_SANCTUM",
+      "name": "PetalburgSanctum_Layout",
+      "width": 10,
+      "height": 10,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_Rustboro",
+      "border_filepath": "data/layouts/PetalburgSanctum/border.bin",
+      "blockdata_filepath": "data/layouts/PetalburgSanctum/map.bin"
     }
   ]
 }

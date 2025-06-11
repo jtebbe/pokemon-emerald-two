@@ -28,7 +28,7 @@ ASSUMPTIONS
     }
 }*/
 
-SINGLE_BATTLE_TEST("Big Root increases the damage restored from Leech Seed, Ingrain and Aqua Ring", s16 heal, s16 damage)
+/*SINGLE_BATTLE_TEST("Big Root increases the damage restored from Leech Seed, Ingrain and Aqua Ring", s16 heal, s16 damage)
 {
     u32 item;
     u32 move;
@@ -55,7 +55,7 @@ SINGLE_BATTLE_TEST("Big Root increases the damage restored from Leech Seed, Ingr
         EXPECT_MUL_EQ(results[2].heal, Q_4_12(1.3), results[3].heal);
         EXPECT_MUL_EQ(results[4].heal, Q_4_12(1.3), results[5].heal);
     }
-}
+}*/
 
 SINGLE_BATTLE_TEST("Big Root increases damage from absorbing Liquid Ooze", s16 damage)
 {

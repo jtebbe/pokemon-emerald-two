@@ -1166,3 +1166,5 @@ EventScript_VsSeekerChargingDone::
 	.include "data/maps/EverGrandeGrotto/scripts.inc"
 	.include "data/scripts/dexnav.inc"
 	.include "data/maps/Agartha_Entrance/scripts.inc"
+
+	.include "data/maps/PetalburgSanctum/scripts.inc"
