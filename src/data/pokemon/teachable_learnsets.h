@@ -11089,6 +11089,7 @@ static const u16 sMagmortarTeachableLearnset[] = {
     MOVE_CURSE,
     MOVE_DARK_PULSE,
     MOVE_DOUBLE_EDGE,
+    MOVE_DRAGON_PULSE,
     MOVE_DYNAMIC_PUNCH,
     MOVE_EARTHQUAKE,
     MOVE_ENDURE,
