@@ -9314,7 +9314,7 @@ static inline uq4_12_t GetBurnOrFrostBiteModifier(struct DamageCalculationData *
 static inline uq4_12_t GetCriticalModifier(bool32 isCrit, u32 battlerAtk)
 {
     if (isCrit && GetBattlerAbility(battlerAtk) == ABILITY_SOUL_STRIKES)
-        return UQ_4_12(1.2);
+        return UQ_4_12(1.3);
     if (isCrit)
         return GetGenConfig(GEN_CONFIG_CRIT_MULTIPLIER) >= GEN_6 ? UQ_4_12(1.5) : UQ_4_12(2.0);
     return UQ_4_12(1.0);

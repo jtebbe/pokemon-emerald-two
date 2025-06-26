@@ -4800,7 +4800,7 @@ static u32 AI_CalcMoveEffectScore(u32 battlerAtk, u32 battlerDef, u32 move)
         }
         break;
     case EFFECT_SPEED_SWAP:
-        if (gBattleMons[battlerDef].speed > gBattleMons[battlerAtk].speed)
+        if (gBattleMons[battlerDef].speed > gBattleMons[battlerAtk].speed || (IS_TARGETING_PARTNER(battlerAtk, battlerDef) && gBattleMons[battlerDef].speed < gBattleMons[battlerAtk].speed))
             ADJUST_SCORE(DECENT_EFFECT);
         break;
     case EFFECT_GUARD_SPLIT:

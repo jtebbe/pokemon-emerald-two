@@ -4808,7 +4808,7 @@ s32 GetBattleMovePriority(u32 battler, u32 ability, u32 move)
         gProtectStructs[battler].pranksterElevated = 1;
         priority++;
     }
-    else if (ability == ABILITY_CONCERTMASTER && gMovesInfo[move].type == TYPE_BUG)
+    else if (ability == ABILITY_CONCERTMASTER && GetMoveType(move) == TYPE_BUG)
     {
         priority++;
     }
