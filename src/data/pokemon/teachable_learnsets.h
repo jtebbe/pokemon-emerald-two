@@ -38058,6 +38058,7 @@ static const u16 sSawsbuckTeachableLearnset[] = {
     MOVE_SMART_STRIKE,
     MOVE_SNORE,
     MOVE_SOLAR_BEAM,
+    MOVE_SOLAR_BLADE,
     MOVE_STOMPING_TANTRUM,
     MOVE_SUNNY_DAY,
     MOVE_SWAGGER,

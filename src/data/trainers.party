@@ -18427,19 +18427,155 @@ Pic: Magma Leader Maxie
 Gender: Male
 Music: Magma
 Double Battle: Yes
-AI: Basic Trainer
+Mugshot: Pink
+AI: Smart Trainer
+Party Size: 6
+Pool Rules: Doubles
 
-Mightyena
-Level: 37
-IVs: 18 HP / 18 Atk / 18 Def / 18 SpA / 18 SpD / 18 Spe
+Castform @ Heat Rock  
+Ability: Forecast    
+EVs: 252 HP / 4 Def / 252 SpA  
+Modest Nature  
+IVs: 0 Atk 
+Tags: Lead 
+- Tailwind  
+- Weather Ball  
+- Protect  
+- Ice Beam
 
-Crobat
-Level: 38
-IVs: 18 HP / 18 Atk / 18 Def / 18 SpA / 18 SpD / 18 Spe
+Ninetales @ Heat Rock  
+Ability: Drought  
+EVs: 4 Def / 252 SpA / 252 Spe  
+Timid Nature  
+IVs: 0 Atk 
+Tags: Lead 
+- Overheat  
+- Moonblast  
+- Will-O-Wisp  
+- Protect
 
-Camerupt
-Level: 39
-IVs: 18 HP / 18 Atk / 18 Def / 18 SpA / 18 SpD / 18 Spe
+Exeggutor-Alola @ Sitrus Berry  
+Ability: Harvest  
+EVs: 252 HP / 252 SpA / 4 SpD  
+Quiet Nature  
+IVs: 0 Atk  
+Tags: Lead
+- Trick Room  
+- Energy Ball  
+- Flamethrower  
+- Draco Meteor
+
+Sawsbuck @ Sitrus Berry  
+Ability: Chlorophyll   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Tera Type: Water
+Adamant Nature  
+Tags: Lead / Tera
+- Double-Edge  
+- High Horsepower  
+- Solar Blade  
+- Swords Dance
+
+Castform @ Assault Vest  
+Ability: Forecast    
+EVs: 248 HP / 252 SpA / 8 SpD  
+Modest Nature  
+IVs: 0 Atk  
+- Weather Ball  
+- Ice Beam  
+- Solar Beam  
+- Thunderbolt
+
+Goodra-Hisui @ Assault Vest  
+Ability: Sap Sipper   
+EVs: 252 HP / 252 SpA / 4 SpD  
+Modest Nature  
+IVs: 0 Atk  
+- Thunderbolt  
+- Flamethrower  
+- Flash Cannon  
+- Dragon Pulse
+
+Nidoking (M) @ Life Orb  
+Ability: Sheer Force   
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Earth Power  
+- Sludge Bomb  
+- Flamethrower  
+- Protect
+
+Skarmory @ Leftovers  
+Ability: Sturdy  
+Tera Type: Fighting  
+EVs: 252 HP / 232 Def / 24 Spe  
+Bold Nature  
+IVs: 0 Atk 
+Tags: Tera 
+- Spikes  
+- Stealth Rock  
+- Body Press  
+- Tailwind
+
+Orthworm @ Leftovers  
+Ability: Earth Eater    
+EVs: 252 HP / 4 Def / 252 SpD  
+Careful Nature  
+- Shed Tail  
+- Body Press  
+- Iron Head  
+- Protect
+
+Diggersby @ Choice Band  
+Ability: Huge Power   
+EVs: 252 HP / 252 Atk / 4 Def  
+Adamant Nature  
+- High Horsepower  
+- Body Slam  
+- Fire Punch  
+- Brick Break
+
+Ursaluna @ Flame Orb  
+Ability: Guts    
+EVs: 252 Atk / 4 Def / 252 Spe  
+Jolly Nature  
+- Protect  
+- Facade  
+- Headlong Rush  
+- Play Rough
+
+Garchomp @ Loaded Dice  
+Ability: Rough Skin  
+Tera Type: Fairy  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Adamant Nature 
+Tags: Tera 
+- Scale Shot  
+- Tera Blast  
+- Stomping Tantrum  
+- Poison Jab
+
+Charizard @ Charizardite X  
+Ability: Blaze  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+Tags: Mega
+- Dragon Claw  
+- Protect  
+- Flare Blitz  
+- Rock Slide
+
+Houndoom @ Houndoominite  
+Ability: Flash Fire   
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+Tags: Mega
+- Dark Pulse  
+- Flamethrower  
+- Solar Beam  
+- Protect
 
 === TRAINER_MAXIE_MT_CHIMNEY ===
 Name: MAXIE
@@ -22537,11 +22673,66 @@ Pic: Magma Grunt M
 Gender: Male
 Music: Magma
 Double Battle: Yes
-AI: Basic Trainer
+AI: Smart Trainer
 
-Zubat
-Level: 29
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Torkoal @ Heat Rock  
+Ability: Drought   
+EVs: 248 HP / 252 SpA / 8 SpD  
+Modest Nature  
+IVs: 0 Atk / 0 Spe  
+- Protect  
+- Heat Wave  
+- Earth Power  
+- Solar Beam
+
+Indeedee-F (F) @ Psychic Seed  
+Ability: Psychic Surge   
+EVs: 252 HP / 252 Def / 4 SpD  
+Bold Nature  
+IVs: 0 Atk  
+- Trick Room  
+- Expanding Force  
+- Protect  
+- Follow Me
+
+Marowak-Alola @ Thick Club  
+Ability: Cursed Body  
+EVs: 252 HP / 252 Atk / 4 SpD  
+Brave Nature  
+IVs: 0 Spe  
+- Shadow Bone  
+- Flare Blitz  
+- Protect  
+- Knock Off
+
+Orthworm @ Mental Herb  
+Ability: Earth Eater   
+EVs: 248 HP / 252 Atk / 8 SpD  
+Adamant Nature  
+- Shed Tail  
+- Body Press  
+- Coil  
+- Iron Head
+
+Charizard @ Life Orb  
+Ability: Solar Power  
+Tera Type: Grass  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Tailwind  
+- Weather Ball  
+- Solar Beam  
+- Air Slash
+
+Lilligant-Hisui (F) @ Focus Sash  
+Ability: Chlorophyll  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Adamant Nature  
+- Victory Dance  
+- Close Combat  
+- Solar Blade  
+- Protect
 
 === TRAINER_GRUNT_MAGMA_HIDEOUT_2 ===
 Name: GRUNT
@@ -22552,9 +22743,40 @@ Music: Magma
 Double Battle: Yes
 AI: Basic Trainer
 
-Poochyena
-Level: 29
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Golem-Alola @ Choice Band  
+Ability: Galvanize  
+Tera Type: Electric  
+EVs: 252 HP / 252 Atk / 4 Def  
+Adamant Nature  
+- Giga Impact
+
+Centiskorch @ Charti Berry  
+Ability: White Smoke    
+EVs: 248 HP / 252 Atk / 8 SpD  
+Adamant Nature  
+- Coil  
+- Blazing Whip  
+- Leech Life  
+- Protect
+
+Stunfisk @ Life Orb  
+Ability: Static  
+EVs: 252 HP / 252 SpA / 4 SpD  
+Modest Nature  
+IVs: 0 Atk  
+- Thunderbolt  
+- Earth Power  
+- Protect  
+- Foul Play
+
+Conkeldurr @ Clear Amulet  
+Ability: Sheer Force   
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+- Low Sweep  
+- Ice Punch  
+- Fire Punch  
+- Protect
 
 === TRAINER_GRUNT_MAGMA_HIDEOUT_3 ===
 Name: GRUNT
@@ -22565,9 +22787,44 @@ Music: Magma
 Double Battle: Yes
 AI: Basic Trainer
 
-Numel
-Level: 29
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Volbeat @ Covert Cloak  
+Ability: Prankster    
+EVs: 252 HP / 4 Def / 252 SpD  
+Careful Nature  
+- Sunny Day  
+- Encore  
+- Tailwind  
+- U-turn
+
+Typhlosion-Hisui @ Choice Specs  
+Ability: Blaze   
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Eruption  
+- Shadow Ball  
+- Heat Wave  
+- Extrasensory
+
+Dragalge @ Assault Vest  
+Ability: Adaptability    
+EVs: 252 HP / 4 Def / 252 SpA  
+Modest Nature  
+IVs: 0 Atk  
+- Dragon Pulse  
+- Sludge Bomb  
+- Focus Blast  
+- Hydro Pump
+
+Morpeko @ Focus Sash  
+Ability: Hunger Switch  
+Tera Type: Psychic  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Aura Wheel  
+- Protect  
+- Crunch  
+- Psychic Fangs
 
 === TRAINER_GRUNT_MAGMA_HIDEOUT_4 ===
 Name: GRUNT
@@ -22578,13 +22835,43 @@ Music: Magma
 Double Battle: Yes
 AI: Basic Trainer
 
-Baltoy
-Level: 28
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Ninetales @ Eject Pack  
+Ability: Drought   
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Hypnosis  
+- Overheat  
+- Solar Beam  
+- Protect
 
-Zubat
-Level: 28
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Claydol @ Leftovers  
+Ability: Gravitation  
+Tera Type: Water  
+EVs: 252 HP / 252 Def / 4 SpD  
+Impish Nature  
+- Swagger  
+- Sand Tomb  
+- Toxic  
+- Protect
+
+Machamp @ Flame Orb  
+Ability: Guts  
+EVs: 248 HP / 252 Atk / 8 SpD  
+Adamant Nature  
+- Protect  
+- Bullet Punch  
+- Dynamic Punch  
+- Stone Edge
+
+Runerigus @ Assault Vest  
+Ability: Wandering Spirit    
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+- Rock Slide  
+- Zen Headbutt  
+- Stone Edge  
+- Poltergeist
 
 === TRAINER_GRUNT_MAGMA_HIDEOUT_5 ===
 Name: GRUNT
@@ -22595,13 +22882,46 @@ Music: Magma
 Double Battle: Yes
 AI: Basic Trainer
 
-Baltoy
-Level: 28
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Blissey @ Leftovers  
+Ability: Healer  
+Tera Type: Ghost  
+EVs: 252 HP / 4 Def / 252 SpD  
+Calm Nature  
+IVs: 0 Atk  
+- Seismic Toss  
+- Soft-Boiled  
+- Toxic  
+- Protect
 
-Numel
-Level: 28
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Magmortar @ Assault Vest  
+Ability: Flame Body  
+EVs: 252 HP / 4 Def / 252 SpA  
+Modest Nature  
+IVs: 0 Atk  
+- Focus Blast  
+- Fire Blast  
+- Thunderbolt  
+- Psychic
+
+Scovillain @ Coba Berry  
+Ability: Moody   
+EVs: 252 HP / 4 Def / 252 SpD  
+Calm Nature  
+IVs: 0 Atk  
+- Protect  
+- Leech Seed  
+- Ingrain  
+- Flamethrower
+
+Drampa @ Choice Specs  
+Ability: Berserk    
+EVs: 248 HP / 252 SpA / 8 SpD  
+Modest Nature  
+IVs: 0 Atk  
+- Draco Meteor  
+- Hyper Voice  
+- Hyper Beam  
+- Ice Beam
 
 === TRAINER_GRUNT_MAGMA_HIDEOUT_6 ===
 Name: GRUNT
@@ -22610,11 +22930,36 @@ Pic: Magma Grunt M
 Gender: Male
 Music: Magma
 Double Battle: Yes
-AI: Basic Trainer
+AI: Smart Trainer
 
-Mightyena
-Level: 29
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Mightyena @ Assault Vest  
+Ability: Intimidate  
+Tera Type: Poison  
+EVs: 252 Atk / 4 Def / 252 Spe  
+Adamant Nature  
+- Trailblaze  
+- Poison Fang  
+- Crunch  
+- Play Rough
+
+Ceruledge @ Focus Sash  
+Ability: Weak Armor    
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Swords Dance  
+- Shadow Sneak  
+- Protect  
+- Bitter Blade
+
+Pidgeot @ Strange Sword  
+Ability: No Guard    
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Hyper Voice  
+- Hurricane  
+- Heat Wave  
+- Protect
 
 === TRAINER_GRUNT_MAGMA_HIDEOUT_7 ===
 Name: GRUNT
@@ -22625,9 +22970,42 @@ Music: Magma
 Double Battle: Yes
 AI: Basic Trainer
 
-Zubat
-Level: 29
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Crobat @ Covert Cloak  
+Ability: Inner Focus   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Tailwind  
+- Brave Bird  
+- Cross Poison  
+- Protect
+
+Rapidash @ Choice Band  
+Ability: Flame Body  
+Tera Type: Fairy  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- High Horsepower  
+- Flare Blitz  
+- Play Rough  
+- Megahorn
+
+Gumshoos @ Life Orb  
+Ability: Adaptability  
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+- Swift Chomp  
+- Double-Edge  
+- Iron Head  
+- Knock Off
+
+Bisharp @ Eviolite  
+Ability: Defiant   
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+- Sucker Punch  
+- Iron Head  
+- Swords Dance  
+- Protect
 
 === TRAINER_GRUNT_MAGMA_HIDEOUT_8 ===
 Name: GRUNT
@@ -22638,9 +23016,42 @@ Music: Magma
 Double Battle: Yes
 AI: Basic Trainer
 
-Poochyena
-Level: 29
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Annihilape @ Sitrus Berry  
+Ability: Defiant  
+Tera Type: Fire  
+EVs: 252 Atk / 4 Def / 252 Spe  
+Jolly Nature  
+- Fire Punch  
+- Rage Fist  
+- Protect  
+- Close Combat
+
+Raticate-Alola @ Iapapa Berry  
+Ability: Gluttony   
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+- Follow Me  
+- Encore  
+- Sucker Punch  
+- Quick Attack
+
+Crustle @ Mental Herb  
+Ability: Sturdy   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Shell Smash  
+- Rock Slide  
+- X-Scissor  
+- Protect
+
+Lokix @ Life Orb  
+Ability: Tinted Lens  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- First Impression  
+- Sucker Punch  
+- X-Scissor  
+- Protect
 
 === TRAINER_GRUNT_MAGMA_HIDEOUT_9 ===
 Name: GRUNT
@@ -22651,9 +23062,46 @@ Music: Magma
 Double Battle: Yes
 AI: Basic Trainer
 
-Zubat
-Level: 29
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Simisear @ Focus Sash  
+Ability: Gluttony   
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Nasty Plot  
+- Flamethrower  
+- Grass Knot  
+- Alluring Voice
+
+Amoonguss @ Mental Herb  
+Ability: Effect Spore  
+Tera Type: Water
+EVs: 248 HP / 8 SpA / 252 SpD  
+Calm Nature  
+IVs: 0 Atk  
+- Rage Powder  
+- Protect  
+- Sludge Bomb  
+- Spore
+
+Alakazam @ Life Orb  
+Ability: Magic Guard  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Psyshock  
+- Energy Ball  
+- Focus Blast  
+- Protect
+
+Lickilicky @ Assault Vest  
+Ability: Own Tempo    
+EVs: 252 HP / 252 Def / 4 SpD  
+Relaxed Nature  
+IVs: 0 Spe  
+- Seismic Toss  
+- Body Press  
+- Counter  
+- Gyro Ball
 
 === TRAINER_GRUNT_MAGMA_HIDEOUT_10 ===
 Name: GRUNT
@@ -22664,9 +23112,44 @@ Music: Magma
 Double Battle: Yes
 AI: Basic Trainer
 
-Mightyena
-Level: 29
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Rotom-Heat @ Choice Scarf  
+Ability: Levitate  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Modest Nature  
+IVs: 0 Atk  
+- Volt Switch  
+- Overheat  
+- Trick  
+- Dark Pulse
+
+Furfrou @ Leftovers  
+Ability: Fur Coat  
+EVs: 252 HP / 4 Atk / 252 SpD  
+Careful Nature  
+IVs: 0 Atk  
+- Helping Hand  
+- Cotton Guard  
+- Body Press  
+- Thunder Wave
+
+Cloyster @ White Herb  
+Ability: Skill Link  
+Tera Type: Grass  
+EVs: 252 HP / 4 SpD / 252 Spe  
+Adamant Nature  
+- Icicle Spear  
+- Liquidation  
+- Rock Blast  
+- Shell Smash
+
+Mimikyu @ Focus Sash  
+Ability: Disguise   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Swords Dance  
+- Shadow Sneak  
+- Play Rough  
+- Leech Life
 
 === TRAINER_GRUNT_MAGMA_HIDEOUT_11 ===
 Name: GRUNT
@@ -22677,9 +23160,43 @@ Music: Magma
 Double Battle: Yes
 AI: Basic Trainer
 
-Baltoy
-Level: 29
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Talonflame @ Covert Cloak  
+Ability: Gale Wings   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Tailwind  
+- Brave Bird  
+- Flare Blitz  
+- Quick Attack
+
+Lanturn @ Assault Vest  
+Ability: Lightning Rod  
+EVs: 252 HP / 4 Def / 252 SpA  
+Modest Nature  
+IVs: 0 Atk  
+- Charge Beam  
+- Scald  
+- Ice Beam  
+- Thunderbolt
+
+Haxorus @ Choice Band  
+Ability: Mold Breaker    
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Iron Head  
+- Dragon Claw  
+- Close Combat  
+- First Impression
+
+Passimian @ Life Orb  
+Ability: Receiver  
+Tera Type: Poison  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Close Combat  
+- Knock Off  
+- Gunk Shot  
+- Protect
 
 === TRAINER_GRUNT_MAGMA_HIDEOUT_12 ===
 Name: GRUNT
@@ -22690,9 +23207,35 @@ Music: Magma
 Double Battle: Yes
 AI: Basic Trainer
 
-Numel
-Level: 29
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Indeedee-F (F) @ Mental Herb  
+Ability: Own Tempo  
+EVs: 252 HP / 252 Def / 4 SpD  
+Relaxed Nature  
+IVs: 0 Atk / 0 Spe  
+- Trick Room  
+- Follow Me  
+- Expanding Force  
+- Protect
+
+Steelix @ Assault Vest  
+Ability: Intimidate   
+EVs: 252 HP / 252 Atk / 4 SpD  
+Brave Nature  
+IVs: 0 Spe  
+- Rock Slide  
+- Gyro Ball  
+- High Horsepower  
+- Fire Fang
+
+Reuniclus @ Covert Cloak  
+Ability: Overcoat   
+EVs: 248 HP / 252 SpA / 8 SpD  
+Quiet Nature  
+IVs: 0 Atk / 0 Spe  
+- Trick Room  
+- Psychic  
+- Focus Blast  
+- Energy Ball
 
 === TRAINER_GRUNT_MAGMA_HIDEOUT_13 ===
 Name: GRUNT
@@ -22703,9 +23246,36 @@ Music: Magma
 Double Battle: Yes
 AI: Basic Trainer
 
-Zubat
-Level: 29
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Torkoal @ Heat Rock  
+Ability: Drought   
+EVs: 248 HP / 252 SpA / 8 SpD  
+Modest Nature  
+IVs: 0 Atk  
+- Protect  
+- Heat Wave  
+- Earth Power  
+- Solar Beam
+
+Golisopod @ Life Orb  
+Ability: Emergency Exit  
+EVs: 252 HP / 252 Atk / 4 SpD  
+Brave Nature  
+IVs: 0 Spe  
+- First Impression  
+- Liquidation  
+- Knock Off  
+- Protect
+
+Cursola @ Power Herb  
+Ability: Perish Body  
+Tera Type: Rock  
+EVs: 252 HP / 4 Def / 252 SpA  
+Quiet Nature  
+IVs: 0 Atk / 0 Spe  
+- Hydro Pump  
+- Ice Beam  
+- Shadow Ball  
+- Meteor Beam
 
 === TRAINER_GRUNT_MAGMA_HIDEOUT_14 ===
 Name: GRUNT
@@ -22716,9 +23286,44 @@ Music: Magma
 Double Battle: Yes
 AI: Basic Trainer
 
-Mightyena
-Level: 29
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Crobat @ Mental Herb  
+Ability: Inner Focus   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Tailwind  
+- Cross Poison  
+- Brave Bird  
+- U-turn
+
+Rotom-Heat @ Choice Specs  
+Ability: Levitate  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Volt Switch  
+- Overheat  
+- Trick  
+- Shadow Ball
+
+Chandelure @ Focus Sash  
+Ability: Shadow Tag  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Modest Nature  
+IVs: 0 Atk  
+- Flamethrower  
+- Energy Ball  
+- Shadow Ball  
+- Protect
+
+Gastrodon-East @ Assault Vest  
+Ability: Storm Drain  
+Tera Type: Fire  
+EVs: 252 HP / 252 SpA / 4 SpD  
+Modest Nature  
+- Ice Beam  
+- Scald  
+- Earth Power  
+- Tera Blast
 
 === TRAINER_GRUNT_MAGMA_HIDEOUT_15 ===
 Name: GRUNT
@@ -22727,11 +23332,35 @@ Pic: Magma Grunt F
 Gender: Female
 Music: Magma
 Double Battle: Yes
-AI: Basic Trainer
+AI: Smart Trainer
 
-Numel
-Level: 29
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Incineroar @ Rocky Helmet  
+Ability: Intimidate    
+EVs: 252 HP / 120 Def / 136 SpD  
+Impish Nature  
+- Fake Out  
+- Parting Shot  
+- Flare Blitz  
+- Protect
+
+Accelgor @ Choice Specs  
+Ability: Sticky Hold    
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Bug Buzz  
+- Dark Pulse  
+- Sludge Bomb  
+- Energy Ball
+
+Medicham @ Medichamite  
+Ability: Pure Power   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Fake Out  
+- Bullet Punch  
+- Protect  
+- Zen Headbutt
 
 === TRAINER_GRUNT_MAGMA_HIDEOUT_16 ===
 Name: GRUNT
@@ -22742,9 +23371,46 @@ Music: Magma
 Double Battle: Yes
 AI: Basic Trainer
 
-Baltoy
-Level: 29
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Coalossal @ Rocky Helmet  
+Ability: Steam Engine  
+Tera Type: Fighting  
+EVs: 252 HP / 4 Def / 252 SpD  
+Careful Nature  
+IVs: 0 Atk  
+- Iron Defense  
+- Body Press  
+- Will-O-Wisp  
+- Stealth Rock
+
+Slowbro @ Covert Cloak  
+Ability: Oblivious  
+EVs: 252 HP / 252 SpA / 4 SpD  
+Quiet Nature  
+IVs: 0 Atk / 0 Spe  
+- Trick Room  
+- Scald  
+- Psyshock  
+- Slack Off
+
+Donphan @ Assault Vest  
+Ability: Sturdy   
+EVs: 248 HP / 252 Atk / 8 SpD  
+Brave Nature  
+IVs: 0 Spe  
+- Rock Slide  
+- High Horsepower  
+- Gunk Shot  
+- Ice Spinner
+
+Ampharos @ Life Orb  
+Ability: Galvanize   
+EVs: 252 HP / 4 Def / 252 SpA  
+Quiet Nature  
+IVs: 0 Atk / 0 Spe  
+- Hyper Voice  
+- Dragon Pulse  
+- Power Gem  
+- Protect
 
 === TRAINER_TABITHA_MAGMA_HIDEOUT ===
 Name: TABITHA
@@ -22753,23 +23419,67 @@ Pic: Magma Admin
 Gender: Male
 Music: Magma
 Double Battle: Yes
-AI: Basic Trainer
+AI: Smart Trainer
 
-Numel
-Level: 26
-IVs: 9 HP / 9 Atk / 9 Def / 9 SpA / 9 SpD / 9 Spe
+Charizard @ Charizardite Y  
+Ability: Solar Power   
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Tailwind  
+- Solar Beam  
+- Weather Ball  
+- Protect
 
-Mightyena
-Level: 28
-IVs: 9 HP / 9 Atk / 9 Def / 9 SpA / 9 SpD / 9 Spe
+Thievul @ Covert Cloak  
+Ability: Run Away    
+EVs: 248 HP / 8 Atk / 252 Spe  
+Hasty Nature  
+- Fake Out  
+- Taunt  
+- Foul Play  
+- Snarl
 
-Zubat
-Level: 30
-IVs: 9 HP / 9 Atk / 9 Def / 9 SpA / 9 SpD / 9 Spe
+Venusaur @ Life Orb  
+Ability: Chlorophyll    
+EVs: 220 HP / 252 SpA / 36 Spe  
+Modest Nature  
+IVs: 0 Atk  
+- Growth  
+- Sludge Bomb  
+- Energy Ball  
+- Earth Power
 
-Camerupt
-Level: 33
-IVs: 9 HP / 9 Atk / 9 Def / 9 SpA / 9 SpD / 9 Spe
+Lapras @ Assault Vest  
+Ability: Storm Drain  
+Tera Type: Fairy  
+EVs: 252 HP / 4 Def / 252 SpA  
+Modest Nature  
+IVs: 0 Atk  
+- Alluring Voice  
+- Weather Ball  
+- Freeze-Dry  
+- Thunderbolt
+
+Cherrim @ Sitrus Berry  
+Ability: Flower Gift   
+EVs: 252 HP / 4 Def / 252 SpD  
+Calm Nature  
+IVs: 0 Atk  
+- Aromatherapy  
+- Protect  
+- Leech Seed  
+- Energy Ball
+
+Heliolisk @ Choice Specs  
+Ability: Solar Power  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Solar Beam  
+- Hyper Beam  
+- Thunderbolt  
+- Weather Ball
 
 === TRAINER_DARCY ===
 Name: DARCY
