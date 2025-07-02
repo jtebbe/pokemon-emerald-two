@@ -103,9 +103,44 @@ Music: Aqua
 Double Battle: Yes
 AI: Basic Trainer
 
-Poochyena
-Level: 32
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Walrein @ Assault Vest  
+Ability: Thick Fat  
+Tera Type: Grass  
+EVs: 252 HP / 4 Def / 252 SpA  
+Modest Nature  
+IVs: 0 Atk  
+- Ice Beam  
+- Surf  
+- Signal Beam  
+- Icy Wind
+
+Toxicroak @ Focus Sash  
+Ability: Dry Skin    
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Fake Out  
+- Close Combat  
+- Gunk Shot  
+- Protect
+
+Fearow @ Razor Claw  
+Ability: Sniper   
+EVs: 252 Atk / 4 Def / 252 Spe  
+Jolly Nature  
+- Drill Peck  
+- Protect  
+- Tailwind  
+- Double-Edge
+
+Milotic @ Leftovers  
+Ability: Competitive   
+EVs: 252 HP / 4 Def / 252 SpA  
+Modest Nature  
+IVs: 0 Atk  
+- Ice Beam  
+- Scald  
+- Alluring Voice  
+- Protect
 
 === TRAINER_GRUNT_AQUA_HIDEOUT_2 ===
 Name: GRUNT
@@ -116,13 +151,44 @@ Music: Aqua
 Double Battle: Yes
 AI: Basic Trainer
 
-Zubat
-Level: 31
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Kingdra @ Life Orb  
+Ability: Swift Swim  
+Tera Type: Stellar  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Modest Nature  
+IVs: 0 Atk  
+- Muddy Water  
+- Weather Ball  
+- Protect  
+- Ice Beam
 
-Carvanha
-Level: 31
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Meowstic (M) @ Covert Cloak  
+Ability: Prankster    
+EVs: 248 HP / 8 Atk / 252 SpD  
+Careful Nature  
+- Fake Out  
+- Light Screen  
+- Reflect  
+- Rain Dance
+
+Shiinotic @ Rocky Helmet  
+Ability: Rain Dish  
+EVs: 252 HP / 252 SpA / 4 SpD  
+Modest Nature  
+IVs: 0 Atk  
+- Moonblast  
+- Energy Ball  
+- Rage Powder  
+- Protect
+
+Klawf @ Focus Sash  
+Ability: Anger Shell   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Adamant Nature  
+- Shell Smash  
+- Rock Slide  
+- Protect  
+- Stone Edge
 
 === TRAINER_GRUNT_AQUA_HIDEOUT_3 ===
 Name: GRUNT
@@ -133,9 +199,43 @@ Music: Aqua
 Double Battle: Yes
 AI: Basic Trainer
 
-Zubat
-Level: 32
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Carracosta @ Assault Vest  
+Ability: Sturdy    
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+- Body Press  
+- Wave Crash  
+- Stone Edge  
+- Zen Headbutt
+
+Absol @ Focus Sash  
+Ability: Defiant
+Tera Type: Fairy   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Adamant Nature  
+- Agility  
+- Throat Chop  
+- Play Rough  
+- Sucker Punch
+
+Toedscruel @ Yache Berry  
+Ability: Mycelium Might  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Rage Powder  
+- Earth Power  
+- Energy Ball  
+- Spore
+
+Minior-Meteor @ White Herb  
+Ability: Shields Down   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Adamant Nature  
+- Shell Smash  
+- Rock Slide  
+- Acrobatics  
+- Zen Headbutt
 
 === TRAINER_GRUNT_AQUA_HIDEOUT_4 ===
 Name: GRUNT
@@ -146,9 +246,43 @@ Music: Aqua
 Double Battle: Yes
 AI: Basic Trainer
 
-Carvanha
-Level: 32
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Veluza @ Sitrus Berry  
+Ability: Mold Breaker  
+Tera Type: Fighting  
+EVs: 248 HP / 140 SpA / 8 SpD / 112 Spe  
+Modest Nature  
+- Fillet Away  
+- Stored Power  
+- Hydro Pump  
+- Tera Blast
+
+Delcatty @ Silk Scarf  
+Ability: Normalize  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+- Fake Out  
+- Thunder Wave  
+- Ice Beam  
+- Protect
+
+Forretress @ Leftovers  
+Ability: Sturdy  
+EVs: 252 HP / 252 Def / 4 SpD  
+Relaxed Nature  
+IVs: 0 Spe  
+- Gyro Ball  
+- Explosion  
+- Iron Defense  
+- Body Press
+
+Leavanny @ Choice Scarf  
+Ability: Swarm   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Adamant Nature  
+- Leaf Blade  
+- X-Scissor  
+- Triple Axel  
+- Throat Chop
 
 === TRAINER_GRUNT_SEAFLOOR_CAVERN_1 ===
 Name: GRUNT
@@ -869,9 +1003,44 @@ Music: Aqua
 Double Battle: Yes
 AI: Basic Trainer
 
-Carvanha
-Level: 32
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Floatzel @ Choice Band  
+Ability: Swift Swim  
+Tera Type: Water  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Flip Turn  
+- Crunch  
+- Wave Crash  
+- Ice Spinner
+
+Purugly @ Assault Vest  
+Ability: Defiant    
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Fake Out  
+- Body Slam  
+- Play Rough  
+- U-turn
+
+Espeon @ Life Orb  
+Ability: Magic Bounce    
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Psychic  
+- Alluring Voice  
+- Shadow Ball  
+- Protect
+
+Vanilluxe @ Choice Specs  
+Ability: Snow Warning  
+EVs: 252 HP / 252 SpA / 4 SpD  
+Modest Nature  
+IVs: 0 Atk  
+- Freeze-Dry  
+- Blizzard  
+- Flash Cannon  
+- Signal Beam
 
 === TRAINER_GRUNT_AQUA_HIDEOUT_6 ===
 Name: GRUNT
@@ -880,11 +1049,37 @@ Pic: Aqua Grunt F
 Gender: Female
 Music: Aqua
 Double Battle: Yes
-AI: Basic Trainer
+AI: Smart Trainer
 
-Zubat
-Level: 32
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Castform @ Damp Rock  
+Ability: Forecast    
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Modest Nature  
+IVs: 0 Atk  
+- Tailwind  
+- Weather Ball  
+- Ice Beam  
+- Thunder
+
+Luvdisc @ Leftovers  
+Ability: Hydration  
+EVs: 252 HP / 252 Def / 4 SpD  
+Bold Nature  
+IVs: 0 Atk  
+- Whirlpool  
+- Toxic  
+- Endeavor  
+- Protect
+
+Ampharos @ Ampharosite  
+Ability: Static    
+EVs: 248 HP / 252 SpA / 8 SpD  
+Modest Nature  
+IVs: 0 Atk  
+- Dragon Pulse  
+- Protect  
+- Electro Shot  
+- Dazzling Gleam
 
 === TRAINER_FREDRICK ===
 Name: FREDRICK
@@ -931,15 +1126,67 @@ Pic: Aqua Admin M
 Gender: Male
 Music: Aqua
 Double Battle: Yes
-AI: Basic Trainer
+AI: Smart Trainer
 
-Mightyena
-Level: 34
-IVs: 6 HP / 6 Atk / 6 Def / 6 SpA / 6 SpD / 6 Spe
+Ludicolo @ Life Orb  
+Ability: Swift Swim  
+EVs: 4 Def / 252 SpA / 252 Spe  
+Modest Nature  
+IVs: 0 Atk  
+- Weather Ball  
+- Energy Ball  
+- Protect  
+- Ice Beam
 
-Golbat
-Level: 34
-IVs: 6 HP / 6 Atk / 6 Def / 6 SpA / 6 SpD / 6 Spe
+Politoed @ Assault Vest  
+Ability: Drizzle   
+EVs: 248 HP / 252 SpA / 8 SpD  
+Modest Nature  
+IVs: 0 Atk  
+- Weather Ball  
+- Ice Beam  
+- Earth Power  
+- Psychic
+
+Kilowattrel @ Choice Specs  
+Ability: Volt Absorb  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Thunder  
+- Volt Switch  
+- Hurricane  
+- Weather Ball
+
+Tentacruel @ Leftovers  
+Ability: Rain Dish   
+EVs: 252 HP / 4 Def / 252 SpA  
+Modest Nature  
+IVs: 0 Atk  
+- Muddy Water  
+- Whirlpool  
+- Protect  
+- Acid Armor
+
+Whiscash @ Sitrus Berry  
+Ability: Earth Eater  
+Tera Type: Electric  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Dragon Dance  
+- High Horsepower  
+- Liquidation  
+- Stone Edge
+
+Pelipper @ Focus Sash  
+Ability: Drizzle    
+EVs: 248 HP / 252 SpA / 8 SpD  
+Modest Nature  
+IVs: 0 Atk  
+- Tailwind  
+- Weather Ball  
+- Hurricane  
+- Protect
 
 === TRAINER_ZANDER ===
 Name: ZANDER
@@ -5017,15 +5264,47 @@ Pic: Aqua Grunt F
 Gender: Female
 Music: Aqua
 Double Battle: Yes
-AI: Basic Trainer
+AI: Smart Trainer
 
-Poochyena
-Level: 31
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Poliwrath @ Life Orb  
+Ability: Swift Swim   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Adamant Nature  
+- Rain Dance  
+- Liquidation  
+- Drain Punch  
+- Ice Punch
 
-Zubat
-Level: 31
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Electabuzz @ Eviolite  
+Ability: Static    
+EVs: 252 HP / 4 SpA / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Follow Me  
+- Taunt  
+- Protect  
+- Thunder
+
+Exploud @ Assault Vest  
+Ability: Punk Rock  
+Tera Type: Ghost  
+EVs: 252 HP / 252 SpA / 4 SpD  
+Modest Nature  
+IVs: 0 Atk  
+- Boomburst  
+- Ice Beam  
+- Focus Blast  
+- Shadow Ball
+
+Carnivine @ Life Orb  
+Ability: Huge Power    
+EVs: 252 HP / 252 Atk / 4 Def  
+Brave Nature  
+IVs: 0 Spe  
+- Trick Room  
+- Power Whip  
+- Knock Off  
+- Protect
 
 === TRAINER_GRUNT_AQUA_HIDEOUT_8 ===
 Name: GRUNT
@@ -5034,11 +5313,35 @@ Pic: Aqua Grunt M
 Gender: Male
 Music: Aqua
 Double Battle: Yes
-AI: Basic Trainer
+AI: Smart Trainer
 
-Carvanha
-Level: 32
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Rillaboom @ Rocky Helmet  
+Ability: Grassy Surge    
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+- Fake Out  
+- U-turn  
+- Grassy Glide  
+- Protect
+
+Seaking @ Blunder Policy  
+Ability: Lightning Rod   
+EVs: 252 HP / 252 Atk / 4 Def  
+Adamant Nature  
+- Aqua Tail  
+- Drill Run  
+- Megahorn  
+- Protect
+
+Kabutops @ Life Orb  
+Ability: Swift Swim  
+Tera Type: Bug  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Adamant Nature  
+- Rock Slide  
+- Liquidation  
+- Leech Life  
+- Protect
 
 === TRAINER_SHAWN ===
 Name: SHAWN
