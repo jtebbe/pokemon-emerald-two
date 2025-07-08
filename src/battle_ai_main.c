@@ -2048,7 +2048,11 @@ static s32 AI_CheckBadMove(u32 battlerAtk, u32 battlerDef, u32 move, s32 score)
             break;
         case EFFECT_COPYCAT:
         case EFFECT_MIRROR_MOVE:
-            return AI_CheckBadMove(battlerAtk, battlerDef, predictedMove, score);
+            if (predictedMove && GetMoveEffect(predictedMove) != GetMoveEffect(move))
+                return AI_CheckBadMove(battlerAtk, battlerDef, predictedMove, score);
+            else
+                ADJUST_SCORE(-10);
+            break;
         case EFFECT_FLOWER_SHIELD:
             if (!IS_BATTLER_OF_TYPE(battlerAtk, TYPE_GRASS)
               && !(isDoubleBattle && IS_BATTLER_OF_TYPE(BATTLE_PARTNER(battlerAtk), TYPE_GRASS)))
@@ -2314,7 +2318,10 @@ static s32 AI_CheckBadMove(u32 battlerAtk, u32 battlerDef, u32 move, s32 score)
                 ADJUST_SCORE(-10);
             break;
         case EFFECT_NATURE_POWER:
-            return AI_CheckBadMove(battlerAtk, battlerDef, GetNaturePowerMove(battlerAtk), score);
+            predictedMove = GetNaturePowerMove(battlerAtk);
+            if (GetMoveEffect(predictedMove) != GetMoveEffect(move))
+                return AI_CheckBadMove(battlerAtk, battlerDef, GetNaturePowerMove(battlerAtk), score);
+            break;
         case EFFECT_TAUNT:
             if (gDisableStructs[battlerDef].tauntTimer > 0
               || DoesPartnerHaveSameMoveEffect(BATTLE_PARTNER(battlerAtk), battlerDef, move, aiData->partnerMove))
@@ -2494,7 +2501,7 @@ static s32 AI_CheckBadMove(u32 battlerAtk, u32 battlerDef, u32 move, s32 score)
             {
                 if (AI_IsSlower(battlerAtk, battlerDef, move))
                     ADJUST_SCORE(-10);    // Target is predicted to go first, Me First will fail
-                else
+                else if (GetMoveEffect(predictedMove) != GetMoveEffect(move))
                     return AI_CheckBadMove(battlerAtk, battlerDef, predictedMove, score);
             }
             else
@@ -3827,7 +3834,7 @@ static u32 AI_CalcMoveEffectScore(u32 battlerAtk, u32 battlerDef, u32 move)
             ADJUST_SCORE(DECENT_EFFECT);
         break;
     case EFFECT_MIRROR_MOVE:
-        if (predictedMove != MOVE_NONE)
+        if (predictedMove && GetMoveEffect(predictedMove) != GetMoveEffect(move))
             return AI_CheckViability(battlerAtk, battlerDef, predictedMove, score);
         break;
     case EFFECT_ATTACK_UP:
@@ -4091,7 +4098,8 @@ static u32 AI_CalcMoveEffectScore(u32 battlerAtk, u32 battlerDef, u32 move)
     case EFFECT_MIMIC:
         if (AI_IsFaster(battlerAtk, battlerDef, move))
         {
-            if (gLastMoves[battlerDef] != MOVE_NONE && gLastMoves[battlerDef] != 0xFFFF)
+            if (gLastMoves[battlerDef] != MOVE_NONE && gLastMoves[battlerDef] != 0xFFFF
+                    && (GetMoveEffect(gLastMoves[battlerDef]) != GetMoveEffect(move)))
                 return AI_CheckViability(battlerAtk, battlerDef, gLastMoves[battlerDef], score);
         }
         break;
