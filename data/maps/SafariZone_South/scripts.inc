@@ -148,3 +148,27 @@ SafariZone_Northeast_EventScript_Woman::
 SafariZone_Northeast_EventScript_Girl::
 	msgbox SafariZone_Northeast_Text_Girl, MSGBOX_NPC
 	end
+
+SafariZone_SouthWest_EventScript_Sign::
+	msgbox SafariZone_SouthWest_Text_Sign, MSGBOX_SIGN
+	end
+
+SafariZone_South_EventScript_Sign::
+	msgbox SafariZone_South_Text_Sign, MSGBOX_SIGN
+	end
+
+SafariZone_SouthEast_EventScript_Sign::
+	msgbox SafariZone_SouthEast_Text_Sign, MSGBOX_SIGN
+	end
+
+SafariZone_NorthWest_EventScript_Sign::
+	msgbox SafariZone_NorthWest_Text_Sign, MSGBOX_SIGN
+	end
+
+SafariZone_North_EventScript_Sign::
+	msgbox SafariZone_North_Text_Sign, MSGBOX_SIGN
+	end
+
+SafariZone_NorthEast_EventScript_Sign::
+	msgbox SafariZone_NorthEast_Text_Sign, MSGBOX_SIGN
+	end

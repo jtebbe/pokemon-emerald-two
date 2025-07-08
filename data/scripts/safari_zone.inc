@@ -292,3 +292,22 @@ SafariZone_Northeast_Text_Girl:
 	.string "I can't seem to catch anything!\p"
 	.string "I'll end up wasting the admission\n"
 	.string "price if I don't catch something!$"
+
+SafariZone_NorthEast_Text_Sign:
+	.string "Ultra beasts dwell here.$"
+
+SafariZone_SouthEast_Text_Sign:
+	.string "Ultra beasts dwell here.$"
+
+SafariZone_North_Text_Sign:
+	.string "Minor legendary pokemon dwell here.$"
+
+SafariZone_South_Text_Sign:
+	.string "Paradox pokemon dwell here.$"
+
+SafariZone_NorthWest_Text_Sign:
+	.string "Mythical pokemon dwell here.$"
+
+SafariZone_SouthWest_Text_Sign:
+	.string "Minor legendary pokemon dwell here.$"
+

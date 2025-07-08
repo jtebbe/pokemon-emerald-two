@@ -65,7 +65,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
+      "graphics_id": "OBJ_EVENT_GFX_TM_BALL",
       "x": 31,
       "y": 15,
       "elevation": 3,
@@ -73,7 +73,7 @@
       "movement_range_x": 1,
       "movement_range_y": 1,
       "trainer_type": "TRAINER_TYPE_NONE",
-      "trainer_sight_or_berry_tree_id": "ITEM_BIG_PEARL",
+      "trainer_sight_or_berry_tree_id": "ITEM_TM_BREAKING_SWIPE",
       "script": "Common_EventScript_FindItem",
       "flag": "FLAG_ITEM_SAFARI_ZONE_SOUTH_EAST_BIG_PEARL"
     },
@@ -99,7 +99,7 @@
       "x": 19,
       "y": 36,
       "elevation": 3,
-      "item": "ITEM_PP_UP",
+      "item": "ITEM_GRACIDEA",
       "flag": "FLAG_HIDDEN_ITEM_SAFARI_ZONE_SOUTH_EAST_PP_UP"
     },
     {
@@ -107,8 +107,16 @@
       "x": 32,
       "y": 33,
       "elevation": 0,
-      "item": "ITEM_FULL_RESTORE",
+      "item": "ITEM_REVEAL_GLASS",
       "flag": "FLAG_HIDDEN_ITEM_SAFARI_ZONE_SOUTH_EAST_FULL_RESTORE"
+    },
+    {
+      "type": "sign",
+      "x": 6,
+      "y": 16,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "SafariZone_SouthEast_EventScript_Sign"
     }
   ]
 }

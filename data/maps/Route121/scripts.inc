@@ -1,6 +1,10 @@
 Route121_MapScripts::
 	.byte 0
 
+Route121_EventScript_Man::
+	msgbox Route121_Text_SorryComeBack, MSGBOX_NPC
+	end
+
 Route121_EventScript_Woman::
 	msgbox Route121_Text_AheadLoomsMtPyre, MSGBOX_NPC
 	end
@@ -185,4 +189,10 @@ Route121_Text_MtPyrePierSign:
 Route121_Text_SafariZoneSign:
 	.string "“Filled with rare POKéMON!”\n"
 	.string "SAFARI ZONE$"
+
+Route121_Text_SorryComeBack:
+	.string "Sorry trainer! You need at least eight\n"
+	.string "badges to enter here, there's some\l"
+	.string "real strong pokemon here for the best\l"
+	.string "of the best!$"
 
