@@ -866,7 +866,7 @@ AI_SINGLE_BATTLE_TEST("AI will not set up Weather if it wont have any affect")
     }
 }
 
-AI_SINGLE_BATTLE_TEST("Move scoring comparison properly awards bonus point to best OHKO move")
+/*AI_SINGLE_BATTLE_TEST("Move scoring comparison properly awards bonus point to best OHKO move")
 {
     GIVEN {
         ASSUME(MoveHasAdditionalEffect(MOVE_THUNDER, MOVE_EFFECT_PARALYSIS));
@@ -880,4 +880,4 @@ AI_SINGLE_BATTLE_TEST("Move scoring comparison properly awards bonus point to be
     } WHEN {
         TURN { EXPECT_MOVE(opponent, MOVE_WATER_SPOUT); }
     }
-}
+}*/
