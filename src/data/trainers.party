@@ -553,9 +553,34 @@ Music: Swimmer
 Double Battle: Yes
 AI: Basic Trainer
 
-Gyarados
-Level: 34
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Coalossal @ Air Balloon  
+Ability: Steam Engine  
+EVs: 220 HP / 252 Atk / 36 Spe  
+Adamant Nature  
+- Flare Blitz  
+- Stone Edge  
+- High Horsepower  
+- Stealth Rock
+
+Bibarel @ Leftovers  
+Ability: Moody  
+Tera Type: Grass  
+EVs: 252 HP / 4 Def / 252 SpD  
+Careful Nature  
+- Protect  
+- Quick Attack  
+- Swords Dance  
+- Liquidation
+
+Glaceon @ Assault Vest  
+Ability: Snow Cloak  
+EVs: 252 HP / 252 SpA / 4 SpD  
+Modest Nature  
+IVs: 0 Atk  
+- Freeze-Dry  
+- Alluring Voice  
+- Hyper Voice  
+- Shadow Ball
 
 === TRAINER_GRUNT_RUSTURF_TUNNEL ===
 Name: GRUNT
@@ -4570,13 +4595,44 @@ Music: Swimmer
 Double Battle: Yes
 AI: Basic Trainer
 
-Tentacool
-Level: 33
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Dubwool @ Rocky Helmet  
+Ability: Fluffy   
+EVs: 252 HP / 4 Def / 252 SpD  
+Calm Nature  
+IVs: 0 Atk  
+- Cotton Guard  
+- Body Press  
+- Thunder Wave  
+- Growl
 
-Wingull
-Level: 33
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Mandibuzz (F) @ Leftovers  
+Ability: Overcoat  
+Tera Type: Poison 
+EVs: 252 HP / 252 Def / 4 SpD  
+Bold Nature  
+IVs: 0 Atk  
+- Toxic  
+- Protect  
+- Foul Play  
+- Tailwind
+
+Durant @ Choice Band  
+Ability: Hustle   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Crunch  
+- Iron Head  
+- X-Scissor  
+- Rock Slide
+
+Lapras @ Sitrus Berry  
+Ability: Storm Drain   
+EVs: 248 HP / 8 SpA / 252 SpD  
+Sassy Nature  
+- Frigid Touch  
+- Freeze-Dry  
+- Muddy Water  
+- Protect
 
 === TRAINER_ROLAND ===
 Name: ROLAND
@@ -4587,9 +4643,34 @@ Music: Swimmer
 Double Battle: Yes
 AI: Basic Trainer
 
-Carvanha
-Level: 34
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Ferrothorn @ Occa Berry  
+Ability: Iron Barbs   
+EVs: 248 HP / 8 Atk / 252 Def  
+Relaxed Nature  
+IVs: 0 Spe  
+- Gyro Ball  
+- Seed Bomb  
+- Protect  
+- Stealth Rock
+
+Hydrapple @ Choice Specs  
+Ability: Supersweet Syrup  
+EVs: 248 HP / 252 SpA / 8 SpD  
+Modest Nature  
+IVs: 0 Atk  
+- Fickle Beam  
+- Energy Ball  
+- Earth Power  
+- Hydro Pump
+
+Spiritomb @ Choice Band  
+Ability: Pressure  
+EVs: 248 HP / 252 Atk / 8 SpD  
+Adamant Nature  
+- Last Respects  
+- Sucker Punch  
+- Shadow Sneak  
+- Giga Impact
 
 === TRAINER_NOLEN ===
 Name: NOLEN
@@ -4793,13 +4874,43 @@ Music: Swimmer
 Double Battle: Yes
 AI: Basic Trainer
 
-Tentacool
-Level: 33
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Ariados @ Covert Cloak  
+Ability: Merciless  
+EVs: 248 HP / 252 Atk / 8 SpD  
+Adamant Nature  
+- Toxic Thread  
+- Sticky Web  
+- Poison Jab  
+- X-Scissor
 
-Wailmer
-Level: 33
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Inteleon @ Scope Lens  
+Ability: Sniper  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Icy Wind  
+- Snipe Shot  
+- Protect  
+- Ice Beam
+
+Electrode-Hisui @ Choice Specs  
+Ability: Soundproof  
+Tera Type: Fire  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+- Electro Ball  
+- Chloroblast  
+- Foul Play  
+- Tera Blast
+
+Haxorus @ Choice Band  
+Ability: Rivalry    
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Adamant Nature  
+- Iron Head  
+- Poison Jab  
+- Dragon Claw  
+- Brick Break
 
 === TRAINER_TONY_2 ===
 Name: TONY
@@ -14101,9 +14212,44 @@ Music: Swimmer
 Double Battle: Yes
 AI: Basic Trainer
 
-Wailmer
-Level: 34
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Glalie @ Leftovers  
+Ability: Moody  
+Tera Type: Water  
+EVs: 252 HP / 144 Def / 112 SpD  
+Calm Nature  
+- Protect  
+- Toxic  
+- Ice Beam  
+- Tera Blast
+
+Togekiss @ Mental Herb  
+Ability: Serene Grace    
+EVs: 252 HP / 252 Def / 4 SpD  
+Bold Nature  
+IVs: 0 Atk  
+- Thunder Wave  
+- Follow Me  
+- Air Slash  
+- Dazzling Gleam
+
+Tangrowth @ Sitrus Berry  
+Ability: Chlorophyll  
+EVs: 252 HP / 4 Def / 252 SpD  
+Careful Nature  
+IVs: 0 Atk  
+- Rage Powder  
+- Toxic  
+- Protect  
+- Pain Split
+
+Obstagoon @ Assault Vest  
+Ability: Defiant    
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Knock Off  
+- Body Slam  
+- Gunk Shot  
+- Fire Punch
 
 === TRAINER_GRACE ===
 Name: GRACE
@@ -14114,9 +14260,33 @@ Music: Swimmer
 Double Battle: Yes
 AI: Basic Trainer
 
-Marill
-Level: 34
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Empoleon @ Rocky Helmet  
+Ability: Competitive  
+EVs: 252 HP / 4 Def / 252 SpA  
+Quiet Nature  
+IVs: 0 Atk / 0 Spe  
+- Surf  
+- Ice Beam  
+- Flash Cannon  
+- Protect
+
+Machoke @ Eviolite  
+Ability: No Guard   
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+- Dynamic Punch  
+- Protect  
+- Bullet Punch  
+- Rock Slide
+
+Emolga @ Charti Berry  
+Ability: Motor Drive  
+EVs: 4 Atk / 252 SpA / 252 Spe  
+Timid Nature  
+- Electroweb  
+- Air Slash  
+- Nuzzle  
+- Protect
 
 === TRAINER_TANYA ===
 Name: TANYA
@@ -18525,9 +18695,35 @@ Music: Swimmer
 Double Battle: Yes
 AI: Basic Trainer
 
-Staryu
-Level: 34
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Slowking @ Covert Cloak  
+Ability: Oblivious   
+EVs: 252 HP / 252 SpA / 4 SpD  
+Quiet Nature  
+IVs: 0 Atk  
+- Trick Room  
+- Chilly Reception  
+- Scald  
+- Psychic Noise
+
+Amoonguss @ Rocky Helmet  
+Ability: Effect Spore   
+EVs: 248 HP / 8 SpA / 252 SpD  
+Calm Nature  
+IVs: 0 Atk  
+- Spore  
+- Protect  
+- Sludge Bomb  
+- Pollen Puff
+
+Dondozo @ Leftovers  
+Ability: Unaware  
+Tera Type: Dragon  
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+- Curse  
+- Liquidation  
+- Order Up  
+- Rock Slide
 
 === TRAINER_GRUNT_WEATHER_INST_5 ===
 Name: GRUNT
@@ -22170,13 +22366,43 @@ Music: Swimmer
 Double Battle: Yes
 AI: Basic Trainer
 
-Chinchou
-Level: 34
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Cacturne @ Sitrus Berry  
+Ability: Water Absorb  
+Tera Type: Poison  
+EVs: 248 HP / 252 Atk / 8 SpD  
+Adamant Nature  
+- Poison Jab  
+- Sucker Punch  
+- Seed Bomb  
+- Swords Dance
 
-Carvanha
-Level: 33
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Vaporeon @ Leftovers  
+Ability: Water Absorb    
+EVs: 252 HP / 4 Def / 252 SpA  
+Modest Nature  
+IVs: 0 Atk  
+- Calm Mind  
+- Surf  
+- Ice Beam  
+- Protect
+
+Azumarill @ Choice Band  
+Ability: Huge Power    
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+- Play Rough  
+- Liquidation  
+- Aqua Jet  
+- Knock Off
+
+Froslass (F) @ Focus Sash  
+Ability: Snow Cloak   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Destiny Bond  
+- Poltergeist  
+- Triple Axel  
+- Disable
 
 === TRAINER_LILA_AND_ROY_2 ===
 Name: LILA & ROY
