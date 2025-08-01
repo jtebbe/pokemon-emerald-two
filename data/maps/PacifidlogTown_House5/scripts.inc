@@ -23,8 +23,11 @@ PacifidlogTown_House5_Text_CantSeeMirageIslandToday:
 	.string "I can't see MIRAGE ISLAND today…$"
 
 PacifidlogTown_House5_Text_CanSeeMirageIslandToday:
-	.string "Oh! Oh my!\n"
-	.string "I can see MIRAGE ISLAND today!$"
+	.string "Mirage Island has appeared more\n"
+	.string "often recently.\p"
+	.string "I wonder if those strange rumblings\n"
+	.string "in Sootopolis had anything to do\l"
+	.string "with it.$"
 
 PacifidlogTown_House5_Text_MirageIslandAppearDependingOnWeather:
 	.string "MIRAGE ISLAND…\p"

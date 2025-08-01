@@ -12,32 +12,31 @@ Pic: Steven
 Gender: Male
 Music: Male
 
-Metang
-Brave Nature
-Level: 42
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-EVs: 252 Atk / 252 Def / 6 SpA
-- Light Screen
-- Psychic
-- Reflect
-- Metal Claw
+Metagross @ Assault Vest  
+Ability: Clear Body  
+Tera Type: Water
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+- Heavy Slam  
+- Psychic Fangs  
+- Hammer Arm  
+- Knock Off
 
-Skarmory
-Impish Nature
-Level: 43
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-EVs: 252 HP / 6 SpA / 252 SpD
-- Toxic
-- Aerial Ace
-- Protect
-- Steel Wing
+Archaludon @ Power Herb  
+Ability: Stamina   
+EVs: 252 HP / 252 SpA / 4 SpD  
+Modest Nature  
+IVs: 0 Atk  
+- Electro Shot  
+- Protect  
+- Draco Meteor  
+- Body Press
 
-Aggron
-Adamant Nature
-Level: 44
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-EVs: 252 Atk / 252 SpA / 6 SpD
-- Thunder
-- Protect
-- Solar Beam
-- Dragon Claw
+Aggron @ Air Balloon  
+Ability: Sturdy   
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+- Heavy Slam  
+- Stone Edge  
+- Protect  
+- Ice Punch

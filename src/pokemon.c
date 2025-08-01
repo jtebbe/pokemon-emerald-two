@@ -5843,6 +5843,9 @@ u16 GetBattleBGM(void)
         case TRAINER_CLASS_SCRIBE:
         case TRAINER_CLASS_SLAYER:
         case TRAINER_CLASS_DOCTOR:
+        case TRAINER_CLASS_SCOUT:
+        case TRAINER_CLASS_AGARTHAN_PSYCHIC:
+        case TRAINER_CLASS_SAGE:
             return MUS_TEMPLE_OF_DROPLETS;
         case TRAINER_CLASS_AQUA_LEADER:
         case TRAINER_CLASS_MAGMA_LEADER:

@@ -108,7 +108,8 @@
 #define TRAINER_PIC_LEAF                  90
 #define TRAINER_PIC_RS_BRENDAN            91
 #define TRAINER_PIC_RS_MAY                92
-#define TRAINER_PIC_COUNT                 93
+#define TRAINER_PIC_AGARTHAN_JESTER       93
+#define TRAINER_PIC_COUNT                 94
 
 // The player back pics are assumed to alternate according to the gender values (MALE/FEMALE)
 #define TRAINER_BACK_PIC_BRENDAN                0
@@ -357,7 +358,10 @@
 #define TRAINER_CLASS_SLAYER         0x45
 #define TRAINER_CLASS_JESTER         0x46
 #define TRAINER_CLASS_DOCTOR         0x47
-#define TRAINER_CLASS_COUNT          0x48
+#define TRAINER_CLASS_AGARTHAN_PSYCHIC         0x48
+#define TRAINER_CLASS_SCOUT         0x49
+#define TRAINER_CLASS_SAGE         0x4a
+#define TRAINER_CLASS_COUNT          0x4b
 
 #define TRAINER_ENCOUNTER_MUSIC_MALE         0 // standard male encounter music
 #define TRAINER_ENCOUNTER_MUSIC_FEMALE       1 // standard female encounter music
