@@ -21436,6 +21436,36 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .battleAnimScript = gBattleAnimMove_RockThrow,
     },
 
+    [MOVE_FLY_TRAP] =
+    {
+        .name = COMPOUND_STRING("Fly Trap"),
+        .description = COMPOUND_STRING(
+            "Super effective on Bug-\n"
+        #if B_USE_FROSTBITE == TRUE
+            "types. May flinch."),
+        #else
+            "types. May cause freezing."),
+        #endif
+        .effect = EFFECT_SUPER_EFFECTIVE_ON_ARG,
+        .power = 80,
+        .type = TYPE_GRASS,
+        .accuracy = 100,
+        .pp = 20,
+        .target = MOVE_TARGET_SELECTED,
+        .priority = 0,
+        .category = DAMAGE_CATEGORY_PHYSICAL,
+        .argument = { .type = TYPE_BUG },
+        .additionalEffects = ADDITIONAL_EFFECTS({
+            .moveEffect = MOVE_EFFECT_FLINCH,
+            .chance = 20,
+        }),
+        .contestEffect = CONTEST_EFFECT_STARTLE_MONS_SAME_TYPE_APPEAL,
+        .contestCategory = CONTEST_CATEGORY_BEAUTY,
+        .contestComboStarterId = 0,
+        .contestComboMoves = {0},
+        .battleAnimScript = gBattleAnimMove_Bite,
+    },
+
     // Z-Moves
     [MOVE_BREAKNECK_BLITZ] =
     {

@@ -23,7 +23,9 @@ Agartha_Entrance_EventScript_Nadroj::
 	waitstate
 	delay 4
 	msgbox Agartha_Entrance_Text_YourMettle, MSGBOX_DEFAULT
-	trainerbattle_no_intro TRAINER_NADROJ, SeafloorCavern_Room9_Text_ArchieDefeat
+	trainerbattle_no_intro TRAINER_NADROJ, Agartha_Entrance_Text_WellDone
+	msgbox Agartha_Entrance_Text_MyDefeat, MSGBOX_DEFAULT
+	giveitem ITEM_ASSAULT_VEST
 	msgbox Agartha_Entrance_Text_ItIsDone, MSGBOX_DEFAULT
 	fadescreen FADE_TO_BLACK
 	removeobject LOCALID_NADROJ
@@ -58,6 +60,11 @@ Agartha_Entrance_Text_YourMettle:
 Agartha_Entrance_Text_WellDone:
 	.string "... ha...\n"
 	.string "... haha, well done.$"
+
+Agartha_Entrance_Text_MyDefeat:
+	.string "It's my loss. You've exceeded\n"
+	.string "every possible expectation.\p"
+	.string "Here, you deserve this.$"
 
 Agartha_Entrance_Text_ItIsDone:
 	.string "Well... I can see my old friend\p"

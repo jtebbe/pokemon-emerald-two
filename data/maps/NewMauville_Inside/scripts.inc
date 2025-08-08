@@ -266,7 +266,7 @@ NewMauville_Inside_EventScript_Wren::
 	lockall
 	faceplayer
 	msgbox NewMauville_Inside_Text_WrenIntro, MSGBOX_DEFAULT
-	trainerbattle_no_intro TRAINER_WREN, NewMauville_Inside_Text_WrenDefeat
+	trainerbattle_no_intro TRAINER_EMEKA, NewMauville_Inside_Text_WrenDefeat
 	msgbox NewMauville_Inside_Text_WrenPostDefeat, MSGBOX_DEFAULT
 	giveitem ITEM_CHOICE_BAND
 	fadescreen FADE_TO_BLACK

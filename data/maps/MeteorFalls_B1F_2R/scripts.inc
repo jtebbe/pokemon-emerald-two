@@ -7,7 +7,7 @@ MeteorFalls_B1F_2R_EventScript_Nico::
 	msgbox MeteorFalls_B1F_2R_Text_NicoIntro, MSGBOX_DEFAULT
 	trainerbattle_no_intro TRAINER_NICO, MeteorFalls_B1F_2R_Text_NicoDefeat
 	msgbox MeteorFalls_B1F_2R_Text_NicoPostDefeat, MSGBOX_DEFAULT
-	giveitem ITEM_ASSAULT_VEST
+	giveitem ITEM_POWER_HERB
 	msgbox MeteorFalls_B1F_2R_Text_NicoGoodbye, MSGBOX_DEFAULT
 	fadescreen FADE_TO_BLACK
 	removeobject LOCALID_NICO

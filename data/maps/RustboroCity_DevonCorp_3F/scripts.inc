@@ -256,7 +256,7 @@ RustboroCity_DevonCorp_3F_Text_ExplainExpShare:
 	.string "long ago, in exchange for a favor.\p"
 	.string "That request? To pass it on to a\n"
 	.string "young, shining star of a trainer.\p"
-	.string "I'm hedging my bets on you!$"
+	.string "I'm hedging my bets on you, haha!$"
 
 RustboroCity_DevonCorp_3F_Text_NotFamiliarWithTrends:
 	.string "MR. STONE: Since my youth, I've immersed\n"

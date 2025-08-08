@@ -358,7 +358,7 @@
 #define TRAINER_ANTHONY                     352
 #define TRAINER_BENJAMIN_1                  353
 #define TRAINER_CART                        354
-#define TRAINER_WREN                        355
+#define TRAINER_EMEKA                       355
 #define TRAINER_BENJAMIN_4                  356
 #define TRAINER_BENJAMIN_5                  357
 #define TRAINER_ABIGAIL_1                   358
