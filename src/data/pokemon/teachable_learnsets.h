@@ -25779,6 +25779,7 @@ static const u16 sDusknoirTeachableLearnset[] = {
     MOVE_CONFUSE_RAY,
     MOVE_CURSE,
     MOVE_DARK_PULSE,
+    MOVE_DRAIN_PUNCH,
     MOVE_DREAM_EATER,
     MOVE_EARTHQUAKE,
     MOVE_ENDURE,

@@ -43151,6 +43151,7 @@
       "MOVE_FRIGID_TOUCH",
       "MOVE_ROCK_SLIDE",
       "MOVE_TAUNT",
+      "MOVE_DRAIN_PUNCH",
       "MOVE_IMPRISON",
       "MOVE_DARK_PULSE",
       "MOVE_LEECH_LIFE",
