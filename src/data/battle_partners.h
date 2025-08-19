@@ -44,21 +44,21 @@
             .gender = TRAINER_MON_RANDOM_GENDER,
 #line 15
             .heldItem = ITEM_ASSAULT_VEST,
-#line 18
+#line 19
             .ev = TRAINER_PARTY_EVS(252, 252, 0, 0, 0, 4),
-#line 20
+#line 21
             .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
 #line 16
             .ability = ABILITY_CLEAR_BODY,
+#line 17
+            .lvl = 70,
 #line 20
-            .lvl = 100,
-#line 19
             .nature = NATURE_ADAMANT,
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
-#line 17
+#line 18
             .teraType = TYPE_WATER,
             .moves = {
-#line 20
+#line 21
                 MOVE_HEAVY_SLAM,
                 MOVE_PSYCHIC_FANGS,
                 MOVE_HAMMER_ARM,
@@ -66,24 +66,24 @@
             },
             },
             {
-#line 25
+#line 26
             .species = SPECIES_ARCHALUDON,
             .gender = TRAINER_MON_RANDOM_GENDER,
-#line 25
-            .heldItem = ITEM_POWER_HERB,
-#line 27
-            .ev = TRAINER_PARTY_EVS(252, 0, 0, 0, 252, 4),
-#line 29
-            .iv = TRAINER_PARTY_IVS(31, 0, 31, 31, 31, 31),
 #line 26
+            .heldItem = ITEM_POWER_HERB,
+#line 29
+            .ev = TRAINER_PARTY_EVS(252, 0, 0, 0, 252, 4),
+#line 31
+            .iv = TRAINER_PARTY_IVS(31, 0, 31, 31, 31, 31),
+#line 27
             .ability = ABILITY_STAMINA,
-#line 30
-            .lvl = 100,
 #line 28
+            .lvl = 70,
+#line 30
             .nature = NATURE_MODEST,
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
             .moves = {
-#line 30
+#line 32
                 MOVE_ELECTRO_SHOT,
                 MOVE_PROTECT,
                 MOVE_DRACO_METEOR,
@@ -91,24 +91,24 @@
             },
             },
             {
-#line 35
+#line 37
             .species = SPECIES_AGGRON,
             .gender = TRAINER_MON_RANDOM_GENDER,
-#line 35
-            .heldItem = ITEM_AIR_BALLOON,
 #line 37
+            .heldItem = ITEM_AIR_BALLOON,
+#line 40
             .ev = TRAINER_PARTY_EVS(252, 252, 0, 0, 0, 4),
-#line 39
+#line 42
             .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
-#line 36
+#line 38
             .ability = ABILITY_STURDY,
 #line 39
-            .lvl = 100,
-#line 38
+            .lvl = 70,
+#line 41
             .nature = NATURE_ADAMANT,
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
             .moves = {
-#line 39
+#line 42
                 MOVE_HEAVY_SLAM,
                 MOVE_STONE_EDGE,
                 MOVE_PROTECT,

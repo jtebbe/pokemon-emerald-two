@@ -352,8 +352,8 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_BATTLE_BALL",
-      "x": 31,
-      "y": 19,
+      "x": 29,
+      "y": 46,
       "elevation": 3,
       "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
       "movement_range_x": 1,
@@ -375,6 +375,19 @@
       "trainer_sight_or_berry_tree_id": "3",
       "script": "Route114_EventScript_Kai",
       "flag": "0"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_TM_BALL",
+      "x": 31,
+      "y": 19,
+      "elevation": 4,
+      "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "ITEM_TM_TRICK_ROOM",
+      "script": "Common_EventScript_FindItem",
+      "flag": "FLAG_ITEM_TM_TRICK_ROOM"
     }
   ],
   "warp_events": [

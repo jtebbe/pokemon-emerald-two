@@ -2513,4 +2513,12 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .aiRating = 5,
     },
 
+    [ABILITY_STOUT_SHIELD] =
+    {
+        .name = _("Stout Shield"),
+        .description = COMPOUND_STRING("Protects from spread moves."),
+        .aiRating = 4,
+        .breakable = TRUE,
+    },
+
 };

@@ -7636,7 +7636,7 @@ BattleScript_TryIntimidateHoldEffects:
 	itemstatchangeeffects BS_TARGET
 	jumpifnoholdeffect BS_TARGET, HOLD_EFFECT_ADRENALINE_ORB, BattleScript_TryIntimidateHoldEffectsRet
 	jumpifstat BS_TARGET, CMP_EQUAL, STAT_SPEED, 12, BattleScript_TryIntimidateHoldEffectsRet
-	setstatchanger STAT_SPEED, 1, FALSE
+	setstatchanger STAT_SPEED, 2, FALSE
 	statbuffchange STAT_CHANGE_NOT_PROTECT_AFFECTED | MOVE_EFFECT_CERTAIN | STAT_CHANGE_ALLOW_PTR, BattleScript_TryIntimidateHoldEffectsRet
 	playanimation BS_TARGET, B_ANIM_HELD_ITEM_EFFECT
 	setgraphicalstatchangevalues
@@ -10119,7 +10119,7 @@ BattleScript_AtonalBellsLoop:
 	jumpifability BS_TARGET, ABILITY_SOUNDPROOF, BattleScript_AtonalBellsPrevented
 BattleScript_AtonalBellsEffect:
 	copybyte sBATTLER, gBattlerAttacker
-	setstatchanger STAT_ATK, 1, TRUE
+	setstatchanger STAT_SPATK, 1, TRUE
 	statbuffchange STAT_CHANGE_NOT_PROTECT_AFFECTED | STAT_CHANGE_ALLOW_PTR, BattleScript_AtonalBellsLoopIncrement
 	setgraphicalstatchangevalues
 	jumpifability BS_TARGET, ABILITY_CONTRARY, BattleScript_AtonalBellsContrary
@@ -10166,6 +10166,7 @@ BattleScript_AtonalBellsInReverse:
 	modifybattlerstatstage BS_TARGET, STAT_SPATK, INCREASE, 1, BattleScript_AtonalBellsLoopIncrement, ANIM_ON
 	call BattleScript_TryAtonalBellsHoldEffects
 	goto BattleScript_AtonalBellsLoopIncrement
+	
 BattleScript_SleepClauseBlocked::
 	pause B_WAIT_TIME_SHORT
 	setmoveresultflags MOVE_RESULT_FAILED

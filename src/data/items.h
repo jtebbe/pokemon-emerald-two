@@ -8626,7 +8626,7 @@ const struct Item gItemsInfo[] =
         .pluralName = _("Zoom Lenses"),
         .price = (I_PRICE >= GEN_9) ? 10000 : ((I_PRICE >= GEN_7) ? 4000 : 200),
         .holdEffect = HOLD_EFFECT_ZOOM_LENS,
-        .holdEffectParam = 20,
+        .holdEffectParam = 100,
         .description = COMPOUND_STRING(
             "If the holder moves\n"
             "after the foe, it'll\n"
@@ -8922,9 +8922,9 @@ const struct Item gItemsInfo[] =
         .holdEffect = HOLD_EFFECT_RING_TARGET,
         .holdEffectParam = 0,
         .description = COMPOUND_STRING(
-            "Moves that usually\n"
-            "have no effect will\n"
-            "hit the holder."),
+            "Moves that have\n"
+            "no effect will hit,\n"
+            "all moves hit hard."),
         .pocket = POCKET_ITEMS,
         .type = ITEM_USE_BAG_MENU,
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,

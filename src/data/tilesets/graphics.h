@@ -1653,3 +1653,40 @@ const u16 gTilesetPalettes_GeneralSnow[][16] =
 };
 
 const u32 gTilesetTiles_GeneralSnow[] = INCBIN_U32("data/tilesets/primary/general_snow/tiles.4bpp.lz");
+const u16 gTilesetPalettes_AgarthaUnderwater[][16] =
+{
+    INCBIN_U16("data/tilesets/primary/agartha_underwater/palettes/00.gbapal"),
+    INCBIN_U16("data/tilesets/primary/agartha_underwater/palettes/01.gbapal"),
+    INCBIN_U16("data/tilesets/primary/agartha_underwater/palettes/02.gbapal"),
+    INCBIN_U16("data/tilesets/primary/agartha_underwater/palettes/03.gbapal"),
+    INCBIN_U16("data/tilesets/primary/agartha_underwater/palettes/04.gbapal"),
+    INCBIN_U16("data/tilesets/primary/agartha_underwater/palettes/05.gbapal"),
+    INCBIN_U16("data/tilesets/primary/agartha_underwater/palettes/06.gbapal"),
+    INCBIN_U16("data/tilesets/primary/agartha_underwater/palettes/07.gbapal"),
+    INCBIN_U16("data/tilesets/primary/agartha_underwater/palettes/08.gbapal"),
+    INCBIN_U16("data/tilesets/primary/agartha_underwater/palettes/09.gbapal"),
+    INCBIN_U16("data/tilesets/primary/agartha_underwater/palettes/10.gbapal"),
+    INCBIN_U16("data/tilesets/primary/agartha_underwater/palettes/11.gbapal"),
+    INCBIN_U16("data/tilesets/primary/agartha_underwater/palettes/12.gbapal"),
+};
+
+const u32 gTilesetTiles_AgarthaUnderwater[] = INCBIN_U32("data/tilesets/primary/agartha_underwater/tiles.4bpp.lz");
+
+const u16 gTilesetPalettes_AgarthaReef[][16] =
+{
+    INCBIN_U16("data/tilesets/secondary/agartha_reef/palettes/00.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/agartha_reef/palettes/01.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/agartha_reef/palettes/02.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/agartha_reef/palettes/03.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/agartha_reef/palettes/04.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/agartha_reef/palettes/05.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/agartha_reef/palettes/06.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/agartha_reef/palettes/07.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/agartha_reef/palettes/08.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/agartha_reef/palettes/09.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/agartha_reef/palettes/10.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/agartha_reef/palettes/11.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/agartha_reef/palettes/12.gbapal"),
+};
+
+const u32 gTilesetTiles_AgarthaReef[] = INCBIN_U32("data/tilesets/secondary/agartha_reef/tiles.4bpp.lz");

@@ -90,9 +90,25 @@ Music: Hiker
 Double Battle: Yes
 AI: Smart Trainer
 
-Geodude
-Level: 21
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Golem @ Assault Vest  
+Ability: Sturdy  
+Tera Type: Grass  
+EVs: 252 HP / 252 Atk / 4 Def  
+Adamant Nature  
+- Body Press  
+- High Horsepower  
+- Rock Tomb  
+- Fire Punch
+
+Samurott @ Sitrus Berry  
+Ability: Shell Armor   
+EVs: 252 HP / 252 SpA / 4 SpD  
+Modest Nature  
+IVs: 0 Atk  
+- Work Up  
+- Scald  
+- Air Slash  
+- Vacuum Wave
 
 === TRAINER_GRUNT_AQUA_HIDEOUT_1 ===
 Name: GRUNT
@@ -1794,16 +1810,43 @@ Music: Cool
 Double Battle: Yes
 AI: Smart Trainer
 
-Medicham
-Level: 43
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Deoxys-Attack @ Focus Sash  
+Ability: Pressure  
+Tera Type: Ghost  
+EVs: 4 Atk / 252 SpA / 252 Spe  
+Hasty Nature  
+- Protect  
+- Psycho Boost  
+- Extreme Speed  
+- Ice Beam
+
+Regidrago @ Roseli Berry  
+Ability: Dragon's Maw    
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Adamant Nature  
+- Dragon Dance  
+- Dragon Claw  
+- Explosion  
+- Protect
+
+Chandelure @ Choice Scarf  
+Ability: Flame Body   
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Overheat  
+- Shadow Ball  
+- Energy Ball  
 - Psychic
 
-Claydol
-Level: 43
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
-- Skill Swap
-- Earthquake
+Empoleon @ Assault Vest  
+Ability: Competitive    
+EVs: 252 HP / 252 SpA / 4 SpD  
+Modest Nature  
+- Flip Turn  
+- Hydro Pump  
+- Flash Cannon  
+- Ice Beam
 
 === TRAINER_VIOLET ===
 Name: VIOLET
@@ -2923,13 +2966,42 @@ Music: Cool
 Double Battle: Yes
 AI: Smart Trainer
 
-Cacturne
-Level: 43
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+Cacturne @ Life Orb  
+Ability: Sand Veil   
+EVs: 248 HP / 252 Atk / 8 SpD  
+Adamant Nature  
+- Swords Dance  
+- Sucker Punch  
+- Seed Bomb  
+- Protect
 
-Pelipper
-Level: 43
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+Gigalith @ Sitrus Berry  
+Ability: Sand Stream  
+EVs: 252 HP / 4 Def / 252 SpD  
+Careful Nature  
+IVs: 0 Atk  
+- Body Press  
+- Protect  
+- Wide Guard  
+- Stealth Rock
+
+Dracozolt @ Choice Band  
+Ability: Sand Rush    
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Adamant Nature  
+- Bolt Beak  
+- Dragon Claw  
+- High Horsepower  
+- Fire Fang
+
+Perrserker @ Life Orb  
+Ability: Tough Claws    
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+- Fake Out  
+- Iron Head  
+- Close Combat  
+- Knock Off
 
 === TRAINER_ALBERT ===
 Name: ALBERT
@@ -2940,13 +3012,45 @@ Music: Cool
 Double Battle: Yes
 AI: Smart Trainer
 
-Magneton
-Level: 43
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+Magnezone @ Air Balloon  
+Ability: Analytic   
+EVs: 248 HP / 252 SpA / 8 SpD  
+Modest Nature  
+IVs: 0 Atk  
+- Thunderbolt  
+- Flash Cannon  
+- Protect  
+- Rising Voltage
 
-Muk
-Level: 43
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+Stunfisk @ Assault Vest  
+Ability: Electric Surge   
+EVs: 252 HP / 252 SpA / 4 SpD  
+Modest Nature  
+IVs: 0 Atk  
+- Earth Power  
+- Thunderbolt  
+- Muddy Water  
+- Sludge Bomb
+
+Iron Bundle @ Focus Sash  
+Ability: Quark Drive    
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Freeze-Dry  
+- Hydro Pump  
+- Protect  
+- Encore
+
+Iron Leaves @ Choice Scarf  
+Ability: Quark Drive  
+Tera Type: Fighting  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Adamant Nature  
+- Psyblade  
+- Leaf Blade  
+- Close Combat  
+- Megahorn
 
 === TRAINER_SAMUEL ===
 Name: SAMUEL
@@ -2957,17 +3061,43 @@ Music: Cool
 Double Battle: Yes
 AI: Smart Trainer
 
-Swellow
-Level: 42
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+Ogerpon-Wellspring (F) @ Wellspring Mask  
+Ability: Water Absorb   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Ivy Cudgel  
+- Spiky Shield  
+- Follow Me  
+- Power Whip
 
-Mawile
-Level: 42
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+Iron Valiant @ Booster Energy  
+Ability: Quark Drive   
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Calm Mind  
+- Moonblast  
+- Aura Sphere  
+- Protect
 
-Kadabra
-Level: 42
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+Accelgor @ Choice Specs  
+Ability: Sticky Hold  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Bug Buzz  
+- Focus Blast  
+- Giga Drain  
+- Sludge Bomb
+
+Boltund @ Life Orb  
+Ability: Strong Jaw   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Protect  
+- Fire Fang  
+- Play Rough  
+- Thunder Fang
 
 === TRAINER_VITO ===
 Name: VITO
@@ -2978,21 +3108,43 @@ Music: Cool
 Double Battle: Yes
 AI: Smart Trainer
 
-Dodrio
-Level: 42
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+Dodrio @ Focus Sash  
+Ability: Run Away   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Swords Dance  
+- Drill Run  
+- Brave Bird  
+- Quick Attack
 
-Kadabra
-Level: 42
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+Tangrowth @ Sitrus Berry  
+Ability: Regenerator  
+Tera Type: Water  
+EVs: 252 HP / 252 SpA / 4 SpD  
+Modest Nature  
+IVs: 0 Atk  
+- Rage Powder  
+- Giga Drain  
+- Sludge Bomb  
+- Focus Blast
 
-Electrode
-Level: 42
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+Zapdos-Galar @ Roseli Berry  
+Ability: Defiant    
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Brave Bird  
+- Close Combat  
+- Protect  
+- Tailwind
 
-Shiftry
-Level: 42
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+Pawmot @ Focus Band  
+Ability: Volt Absorb    
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Revival Blessing  
+- Double Shock  
+- Close Combat  
+- Protect
 
 === TRAINER_OWEN ===
 Name: OWEN
@@ -3003,17 +3155,46 @@ Music: Cool
 Double Battle: Yes
 AI: Smart Trainer
 
-Kecleon
-Level: 42
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+Kecleon @ Covert Cloak  
+Ability: Color Change   
+EVs: 252 HP / 252 Atk / 4 Def  
+Brave Nature  
+IVs: 0 Spe  
+- Trick Room  
+- Fake Out  
+- Double-Edge  
+- Drain Punch
 
-Graveler
-Level: 42
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+Ursaluna-Bloodmoon (M) @ Sitrus Berry  
+Ability: Mind's Eye  
+Tera Type: Ghost  
+EVs: 252 HP / 252 SpA / 4 SpD  
+Quiet Nature  
+IVs: 0 Atk / 0 Spe  
+- Calm Mind  
+- Protect  
+- Blood Moon  
+- Earth Power
 
-Wailord
-Level: 42
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+Brute Bonnet @ Figy Berry  
+Ability: Protosynthesis    
+EVs: 252 HP / 252 Atk / 4 SpD  
+Brave Nature  
+IVs: 0 Spe  
+- Sucker Punch  
+- Spore  
+- Seed Bomb  
+- Rage Powder
+
+Typhlosion-Hisui @ Iron Ball  
+Ability: Frisk   
+EVs: 252 HP / 4 Def / 252 SpA  
+Quiet Nature  
+IVs: 0 Atk / 0 Spe  
+- Eruption  
+- Shadow Ball  
+- Protect  
+- Focus Blast
 
 === TRAINER_WILTON_2 ===
 Name: WILTON
@@ -3108,13 +3289,43 @@ Music: Cool
 Double Battle: Yes
 AI: Smart Trainer
 
-Graveler
-Level: 33
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+Ursaluna @ Flame Orb  
+Ability: Guts   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Protect  
+- Facade  
+- Headlong Rush  
+- Play Rough
 
-Ludicolo
-Level: 33
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+Whimsicott @ Covert Cloak  
+Ability: Prankster   
+EVs: 252 HP / 252 Def / 4 SpA  
+Bold Nature  
+IVs: 0 Atk  
+- Tailwind  
+- Encore  
+- Moonblast  
+- Helping Hand
+
+Rotom-Wash @ Choice Specs  
+Ability: Levitate  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Trick  
+- Thunderbolt  
+- Hydro Pump  
+- Shadow Ball
+
+Beedrill @ Beedrillite  
+Ability: Swarm    
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- X-Scissor  
+- Poison Jab  
+- Protect  
+- Knock Off
 
 === TRAINER_MARY ===
 Name: MARY
@@ -3397,9 +3608,44 @@ Music: Cool
 Double Battle: Yes
 AI: Smart Trainer
 
-Roselia
-Level: 45
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+Roserade @ Focus Sash  
+Ability: Poison Point  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Sludge Bomb  
+- Leaf Storm  
+- Protect  
+- Sleep Powder
+
+Sandy Shocks @ Booster Energy  
+Ability: Protosynthesis    
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Thunderbolt  
+- Earth Power  
+- Protect  
+- Stealth Rock
+
+Moltres @ Heavy-Duty Boots  
+Ability: Flame Body  
+Tera Type: Water  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Will-O-Wisp  
+- Tailwind  
+- Brave Bird  
+- Flare Blitz
+
+Dragapult @ Choice Band  
+Ability: Clear Body  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Dragon Darts  
+- Phantom Force  
+- Psychic Fangs  
+- Sucker Punch
 
 === TRAINER_SHANNON ===
 Name: SHANNON
@@ -3410,9 +3656,45 @@ Music: Cool
 Double Battle: Yes
 AI: Smart Trainer
 
-Claydol
-Level: 45
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+Claydol @ Sitrus Berry  
+Ability: Gravitation    
+EVs: 252 HP / 4 Def / 252 SpD  
+Calm Nature  
+IVs: 0 Atk  
+- Protect  
+- Cosmic Power  
+- Stored Power  
+- Reflect
+
+Darkrai @ Iapapa Berry  
+Ability: Bad Dreams  
+Tera Type: Poison  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Dark Void  
+- Nasty Plot  
+- Sludge Bomb  
+- Dark Pulse
+
+Enamorus (F) @ Choice Scarf  
+Ability: Contrary    
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Modest Nature  
+IVs: 0 Atk  
+- Moonblast  
+- Earth Power  
+- Focus Blast  
+- Psychic
+
+Rampardos @ Focus Sash  
+Ability: Sheer Force    
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Adamant Nature  
+- Rock Polish  
+- Rock Slide  
+- Fire Punch  
+- Zen Headbutt
 
 === TRAINER_MICHELLE ===
 Name: MICHELLE
@@ -3423,17 +3705,43 @@ Music: Cool
 Double Battle: Yes
 AI: Smart Trainer
 
-Torkoal
-Level: 42
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+Sableye @ Sitrus Berry  
+Ability: Keen Eye   
+EVs: 252 HP / 4 Def / 252 SpD  
+Careful Nature  
+- Will-O-Wisp  
+- Frigid Touch  
+- Foul Play  
+- Fake Out
 
-Medicham
-Level: 42
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+Annihilape @ Figy Berry  
+Ability: Defiant  
+Tera Type: Fire  
+EVs: 248 HP / 252 Atk / 8 SpD  
+Adamant Nature  
+- Bulk Up  
+- Rage Fist  
+- Drain Punch  
+- Protect
 
-Ludicolo
-Level: 42
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+Chi-Yu @ Choice Scarf  
+Ability: Beads of Ruin  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Modest Nature  
+IVs: 0 Atk  
+- Hex  
+- Heat Wave  
+- Dark Pulse  
+- Psychic
+
+Dugtrio @ Focus Sash  
+Ability: Arena Trap   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- High Horsepower  
+- Protect  
+- Sucker Punch  
+- Helping Hand
 
 === TRAINER_CAROLINE ===
 Name: CAROLINE
@@ -3444,13 +3752,44 @@ Music: Cool
 Double Battle: Yes
 AI: Smart Trainer
 
-Skarmory
-Level: 43
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+Alakazam @ Alakazite  
+Ability: Magic Guard   
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Expanding Force  
+- Protect  
+- Dazzling Gleam  
+- Nasty Plot
 
-Sableye
-Level: 43
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+Indeedee-F (F) @ Psychic Seed  
+Ability: Psychic Surge   
+EVs: 248 HP / 8 SpA / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Follow Me  
+- Expanding Force  
+- Helping Hand  
+- Heal Pulse
+
+Hatterene (F) @ Assault Vest  
+Ability: Magic Bounce   
+EVs: 252 HP / 4 Atk / 252 SpA  
+Quiet Nature  
+- Expanding Force  
+- Nuzzle  
+- Moonblast  
+- Mystical Fire
+
+Hoopa @ Colbur Berry  
+Ability: Magician    
+EVs: 252 HP / 252 SpA / 4 SpD  
+Modest Nature  
+IVs: 0 Atk  
+- Expanding Force  
+- Shadow Ball  
+- Protect  
+- Energy Ball
 
 === TRAINER_JULIE ===
 Name: JULIE
@@ -3461,17 +3800,42 @@ Music: Cool
 Double Battle: Yes
 AI: Smart Trainer
 
-Sandslash
-Level: 42
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+Iron Boulder @ Booster Energy  
+Ability: Quark Drive   
+Tera Type: Fighting
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Swords Dance  
+- Mighty Cleave  
+- Zen Headbutt  
+- Sacred Sword
 
-Ninetales
-Level: 42
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+Mew @ Mental Herb  
+Ability: Synchronize  
+EVs: 252 HP / 4 SpA / 252 SpD  
+Calm Nature  
+- Fake Out  
+- Coaching  
+- Encore  
+- Psychic
 
-Tropius
-Level: 42
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+Buzzwole @ Assault Vest  
+Ability: Beast Boost   
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+- Drain Punch  
+- Leech Life  
+- Rock Slide  
+- Stomping Tantrum
+
+Marshadow @ Focus Sash  
+Ability: Technician    
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Shadow Sneak  
+- Spectral Thief  
+- Close Combat  
+- Protect
 
 === TRAINER_BROOKE_2 ===
 Name: BROOKE
@@ -4096,9 +4460,35 @@ Music: Female
 Double Battle: Yes
 AI: Smart Trainer
 
-Shroomish
-Level: 21
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Bellossom @ Covert Cloak  
+Ability: Healer  
+EVs: 252 HP / 4 Def / 252 SpA  
+Modest Nature  
+IVs: 0 Atk  
+- Quiver Dance  
+- Giga Drain  
+- Pollen Puff  
+- Sludge Bomb
+
+Oricorio-Pom-Pom @ Focus Sash  
+Ability: Dancer   
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Modest Nature  
+IVs: 0 Atk  
+- Quiver Dance  
+- Revelation Dance  
+- Protect  
+- Hurricane
+
+Audino @ Sitrus Berry  
+Ability: Healer  
+EVs: 252 HP / 4 SpA / 252 SpD  
+Calm Nature  
+IVs: 0 Atk  
+- Follow Me  
+- Helping Hand  
+- Heal Pulse  
+- Hyper Beam
 
 === TRAINER_SHIRLEY ===
 Name: SHIRLEY
@@ -4109,9 +4499,35 @@ Music: Female
 Double Battle: Yes
 AI: Smart Trainer
 
-Numel
-Level: 21
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Camerupt @ Assault Vest  
+Ability: Anger Point  
+Tera Type: Fire  
+EVs: 248 HP / 252 Atk / 8 SpD  
+Adamant Nature  
+- Temper Flare  
+- Stomping Tantrum  
+- Stone Strike  
+- Body Slam
+
+Glalie @ Leftovers  
+Ability: Moody  
+Tera Type: Water  
+EVs: 252 HP / 4 Def / 252 SpD  
+Calm Nature  
+IVs: 0 Atk  
+- Frost Breath  
+- Protect  
+- Chilling Water  
+- Foul Play
+
+Cinccino @ Loaded Dice  
+Ability: Technician   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Tidy Up  
+- Tail Slap  
+- Bullet Seed  
+- Triple Axel
 
 === TRAINER_JESSICA_1 ===
 Name: JESSICA
@@ -4415,13 +4831,44 @@ Music: Intense
 Double Battle: Yes
 AI: Smart Trainer
 
-Whiscash
-Level: 33
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Klinklang @ Life Orb  
+Ability: Clear Body  
+Tera Type: Electric  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Adamant Nature  
+- Shift Gear  
+- Gear Grind  
+- Wild Charge  
+- Protect
 
-Meditite
-Level: 33
-IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
+Maushold @ Covert Cloak  
+Ability: Friend Guard    
+EVs: 248 HP / 8 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Follow Me  
+- Thunder Wave  
+- Super Fang  
+- Encore
+
+Phione @ Rocky Helmet  
+Ability: Hydration    
+EVs: 252 HP / 4 Def / 252 SpA  
+Modest Nature  
+IVs: 0 Atk  
+- Take Heart  
+- Rest  
+- Sleep Talk  
+- Scald
+
+Salamence @ Heavy-Duty Boots  
+Ability: Intimidate   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Adamant Nature  
+- Dragon Dance  
+- Dragon Claw  
+- Dual Wingbeat  
+- Protect
 
 === TRAINER_GARRET ===
 Name: GARRET
@@ -5543,9 +5990,44 @@ Music: Swimmer
 Double Battle: Yes
 AI: Smart Trainer
 
-Sealeo
-Level: 34
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Bastiodon @ Rocky Helmet  
+Ability: Stout Shield  
+Tera Type: Fighting  
+EVs: 252 HP / 4 Def / 252 SpD  
+Calm Nature  
+IVs: 0 Atk  
+- Iron Defense  
+- Rest  
+- Sleep Talk  
+- Body Press
+
+Beautifly @ Covert Cloak  
+Ability: Multiscale  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Modest Nature  
+IVs: 0 Atk  
+- Quiver Dance  
+- Bug Buzz  
+- Hurricane  
+- Psychic
+
+Emboar @ Assault Vest  
+Ability: Reckless  
+EVs: 248 HP / 252 Atk / 8 SpD  
+Adamant Nature  
+- Close Combat  
+- Flare Blitz  
+- Head Smash  
+- High Horsepower
+
+Araquanid @ Choice Band  
+Ability: Water Bubble  
+EVs: 248 HP / 252 Atk / 8 SpD  
+Adamant Nature  
+- Liquidation  
+- Leech Life  
+- Poison Jab  
+- Crunch
 
 === TRAINER_KEVIN ===
 Name: KEVIN
@@ -5602,9 +6084,43 @@ Music: Swimmer
 Double Battle: Yes
 AI: Smart Trainer
 
-Gyarados
-Level: 34
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Omastar @ Assault Vest  
+Ability: Swift Swim  
+Tera Type: Grass  
+EVs: 252 HP / 252 SpA / 4 SpD  
+Modest Nature  
+- Tera Blast  
+- Muddy Water  
+- Earth Power  
+- Ice Beam
+
+Kleavor @ Focus Sash  
+Ability: Sharpness  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Adamant Nature  
+- Tailwind  
+- Stone Axe  
+- X-Scissor  
+- Night Slash
+
+Banette @ Colbur Berry  
+Ability: Defiant    
+EVs: 252 HP / 252 Atk / 4 Def  
+Adamant Nature  
+- Swords Dance  
+- Poltergeist  
+- Shadow Sneak  
+- Giga Impact
+
+Jellicent @ Sitrus Berry  
+Ability: Cursed Body   
+EVs: 252 HP / 4 SpA / 252 SpD  
+Calm Nature  
+IVs: 0 Atk  
+- Will-O-Wisp  
+- Destiny Bond  
+- Scald  
+- Hex
 
 === TRAINER_DUDLEY ===
 Name: DUDLEY
@@ -5780,13 +6296,42 @@ Music: Intense
 Double Battle: Yes
 AI: Smart Trainer
 
-Machop
-Level: 32
-IVs: 6 HP / 6 Atk / 6 Def / 6 SpA / 6 SpD / 6 Spe
+Heracross @ Flame Orb  
+Ability: Guts  
+Tera Type: Normal  
+EVs: 252 Atk / 4 Def / 252 Spe  
+Adamant Nature  
+- Facade  
+- Trailblaze  
+- Close Combat  
+- Protect
 
-Machoke
-Level: 32
-IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
+Tangela @ Eviolite  
+Ability: Regenerator  
+EVs: 252 HP / 4 Def / 252 SpD  
+Careful Nature  
+- Rage Powder  
+- Sleep Powder  
+- Protect  
+- Knock Off
+
+Passimian @ Adrenaline Orb  
+Ability: Defiant    
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Close Combat  
+- Gunk Shot  
+- Protect  
+- Knock Off
+
+Carnivine @ Assault Vest  
+Ability: Huge Power  
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+- Knock Off  
+- Power Whip  
+- Facade  
+- Giga Impact
 
 === TRAINER_KIYO ===
 Name: KIYO
@@ -9471,6 +10016,36 @@ IVs: 0 Atk
 - Thunder Wave  
 - Hex
 
+Ninetales @ Life Orb  
+Ability: Drought  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Protect  
+- Overheat  
+- Solar Beam  
+- Weather Ball
+
+Torkoal @ Life Orb  
+Ability: Drought   
+EVs: 248 HP / 252 SpA / 8 SpD  
+Modest Nature  
+IVs: 0 Atk  
+- Heat Wave  
+- Solar Beam  
+- Weather Ball  
+- Protect
+
+Castform @ Heat Rock  
+Ability: Forecast   
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Tailwind  
+- Weather Ball  
+- Ice Beam  
+- Thunderbolt
+
 Heliolisk @ Assault Vest  
 Ability: Solar Power  
 Tera Type: Fire  
@@ -9611,7 +10186,7 @@ EVs: 252 SpA / 4 SpD / 252 Spe
 Modest Nature  
 IVs: 0 Atk  
 Tags: Tera
-- Boomburst  
+- Hyper Beam  
 - Thunderbolt  
 - Ice Beam  
 - Psychic
@@ -11119,13 +11694,34 @@ Music: Intense
 Double Battle: Yes
 AI: Smart Trainer
 
-Meditite
-Level: 21
-IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
+Medicham @ Assault Vest  
+Ability: Pure Power    
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+- Zen Headbutt  
+- Drain Punch  
+- Bullet Punch  
+- Thunder Punch
 
-Makuhita
-Level: 21
-IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
+Oinkologne (M) @ Sitrus Berry  
+Ability: Gluttony   
+EVs: 248 HP / 252 Atk / 8 SpD  
+Adamant Nature  
+- Body Slam  
+- High Horsepower  
+- Curse  
+- Play Rough
+
+Mantine @ Wacan Berry  
+Ability: Water Absorb  
+Tera Type: Ground  
+EVs: 252 HP / 4 Def / 252 SpA  
+Modest Nature  
+IVs: 0 Atk  
+- Aqua Ring  
+- Protect  
+- Scald  
+- Air Slash
 
 === TRAINER_SHELBY_2 ===
 Name: SHELBY
@@ -11411,21 +12007,35 @@ Music: Cool
 Double Battle: Yes
 AI: Smart Trainer
 
-Slaking
-Level: 43
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
-- Attract
-- Ice Beam
-- Thunderbolt
-- Flamethrower
+Walking Wake @ Life Orb  
+Ability: Protosynthesis    
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Hydro Steam  
+- Protect  
+- Draco Meteor  
+- Weather Ball
 
-Dusclops
-Level: 43
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
-- Skill Swap
+Torkoal @ Life Orb  
+Ability: Drought  
+EVs: 248 HP / 252 SpA / 8 SpD  
+Modest Nature  
+IVs: 0 Atk  
+- Heat Wave  
+- Earth Power  
+- Solar Beam  
 - Protect
-- Will O Wisp
-- Toxic
+
+Cradily @ Leftovers  
+Ability: Suction Cups   
+EVs: 252 HP / 252 Def / 4 SpD  
+Bold Nature  
+IVs: 0 Atk  
+- Synthesis  
+- Ingrain  
+- Toxic  
+- Protect
 
 === TRAINER_KATELYNN ===
 Name: KATELYNN
@@ -11436,21 +12046,34 @@ Music: Cool
 Double Battle: Yes
 AI: Smart Trainer
 
-Gardevoir
-Level: 43
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
-- Skill Swap
-- Psychic
-- Thunderbolt
-- Calm Mind
+Charizard @ Charizardite Y  
+Ability: Blaze    
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Weather Ball  
+- Air Slash  
+- Protect  
+- Tailwind
 
-Slaking
-Level: 43
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
-- Earthquake
-- Shadow Ball
-- Aerial Ace
-- Brick Break
+Gouging Fire @ Sitrus Berry  
+Ability: Protosynthesis  
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+- Howl  
+- Heat Crash  
+- Dragon Claw  
+- Protect
+
+Lilligant (F) @ Focus Sash  
+Ability: Chlorophyll    
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Modest Nature  
+IVs: 0 Atk  
+- Sleep Powder  
+- Quiver Dance  
+- Giga Drain  
+- Alluring Voice
 
 === TRAINER_JAYLEN ===
 Name: JAYLEN
@@ -15039,13 +15662,35 @@ Music: Intense
 Double Battle: Yes
 AI: Smart Trainer
 
-Bagon
-Level: 34
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-- Dragon Breath
-- Headbutt
-- Focus Energy
-- Ember
+Drampa @ Choice Specs  
+Ability: Berserk   
+EVs: 248 HP / 252 SpA / 8 SpD  
+Modest Nature  
+IVs: 0 Atk  
+- Hyper Beam  
+- Draco Meteor  
+- Thunderbolt  
+- Ice Beam
+
+Haxorus @ Sitrus Berry  
+Ability: Mold Breaker  
+Tera Type: Fairy  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Adamant Nature  
+- Dragon Dance  
+- Tera Blast  
+- Dragon Claw  
+- Iron Head
+
+Dragalge @ Assault Vest  
+Ability: Adaptability    
+EVs: 252 HP / 252 SpA / 4 SpD  
+Modest Nature  
+IVs: 0 Atk  
+- Sludge Bomb  
+- Dragon Pulse  
+- Hydro Pump  
+- Shadow Ball
 
 === TRAINER_PERRY ===
 Name: PERRY
@@ -15612,13 +16257,43 @@ Music: Cool
 Double Battle: Yes
 AI: Smart Trainer
 
-Natu
-Level: 33
-IVs: 18 HP / 18 Atk / 18 Def / 18 SpA / 18 SpD / 18 Spe
+Corviknight @ Mental Herb  
+Ability: Mirror Armor    
+EVs: 252 HP / 252 Atk / 4 Spe  
+Adamant Nature  
+- Tailwind  
+- Brave Bird  
+- Iron Head  
+- Protect
 
-Swellow
-Level: 33
-IVs: 18 HP / 18 Atk / 18 Def / 18 SpA / 18 SpD / 18 Spe
+Tyranitar @ Assault Vest  
+Ability: Sand Stream  
+Tera Type: Ground  
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+- Knock Off  
+- Stone Edge  
+- High Horsepower  
+- Ice Punch
+
+Ludicolo @ Life Orb  
+Ability: Swift Swim  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Modest Nature  
+IVs: 0 Atk  
+- Rain Dance  
+- Hydro Pump  
+- Giga Drain  
+- Ice Beam
+
+Muk @ Black Sludge  
+Ability: Sticky Hold   
+EVs: 252 HP / 252 Atk / 4 Def  
+Adamant Nature  
+- Minimize  
+- Knock Off  
+- Poison Jab  
+- Protect
 
 === TRAINER_BECK ===
 Name: BECK
@@ -15629,9 +16304,43 @@ Music: Cool
 Double Battle: Yes
 AI: Smart Trainer
 
-Tropius
-Level: 34
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Snorlax @ Figy Berry  
+Ability: Gluttony  
+Tera Type: Ghost 
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+- Belly Drum  
+- Body Slam  
+- High Horsepower  
+- Protect
+
+Amoonguss @ Covert Cloak  
+Ability: Effect Spore  
+EVs: 252 HP / 4 Def / 252 SpD  
+Calm Nature  
+IVs: 0 Atk  
+- Spore  
+- Rage Powder  
+- Sludge Bomb  
+- Protect
+
+Meowstic (M) @ Focus Sash  
+Ability: Prankster   
+EVs: 252 HP / 4 SpA / 252 SpD  
+Calm Nature  
+- Fake Out  
+- Thunder Wave  
+- Reflect  
+- Psychic
+
+Electrode-Hisui @ Choice Specs  
+Ability: Aftermath  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+- Thunderbolt  
+- Chloroblast  
+- Foul Play  
+- Hyper Beam
 
 === TRAINER_YASU ===
 Name: YASU
@@ -15745,17 +16454,43 @@ Gender: Female
 Music: Cool
 Double Battle: Yes
 
-Claydol
-Level: 43
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
-- Skill Swap
-- Earthquake
+Escavalier @ Assault Vest  
+Ability: Overcoat  
+Tera Type: Fire  
+EVs: 252 HP / 252 Atk / 4 Def  
+Adamant Nature  
+- Tera Blast  
+- Iron Head  
+- X-Scissor  
+- Fell Stinger
 
-Lanturn
-Level: 43
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
-- Thunderbolt
-- Earthquake
+Ariados @ Covert Cloak  
+Ability: Sniper    
+EVs: 252 HP / 4 Def / 252 SpD  
+Careful Nature  
+- Toxic Thread  
+- Protect  
+- Sticky Web  
+- Poison Jab
+
+Scream Tail @ Booster Energy  
+Ability: Protosynthesis   
+EVs: 252 HP / 4 SpA / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Reflect  
+- Light Screen  
+- Encore  
+- Boomburst
+
+Landorus-Therian (M) @ Choice Scarf  
+Ability: Intimidate    
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Adamant Nature  
+- Stomping Tantrum  
+- Rock Slide  
+- Knock Off  
+- U-turn
 
 === TRAINER_JANI ===
 Name: JANI
@@ -17266,9 +18001,44 @@ Music: Swimmer
 Double Battle: Yes
 AI: Smart Trainer
 
-Seaking
-Level: 34
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Tinkaton (F) @ Sitrus Berry  
+Ability: Mold Breaker    
+EVs: 252 HP / 4 Atk / 252 Spe  
+Jolly Nature  
+- Fake Out  
+- Encore  
+- Gigaton Hammer  
+- Thunder Wave
+
+Volbeat (M) @ Covert Cloak  
+Ability: Prankster   
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Tail Glow  
+- Bug Buzz  
+- Tailwind  
+- Shadow Ball
+
+Braviary-Hisui (M) @ Scope Lens  
+Ability: Tinted Lens    
+EVs: 252 HP / 252 SpA / 4 SpD  
+Modest Nature  
+IVs: 0 Atk  
+- Esper Wing  
+- Protect  
+- Roost  
+- Hurricane
+
+Duraludon @ Eviolite  
+Ability: Stalwart  
+EVs: 252 HP / 252 Def / 4 SpD  
+Bold Nature  
+IVs: 0 Atk  
+- Snarl  
+- Body Press  
+- Draco Meteor  
+- Protect
 
 === TRAINER_LINDA ===
 Name: LINDA
@@ -17279,13 +18049,45 @@ Music: Swimmer
 Double Battle: Yes
 AI: Smart Trainer
 
-Horsea
-Level: 33
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Mismagius @ Choice Specs  
+Ability: Levitate  
+Tera Type: Electric  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Shadow Ball  
+- Thunderbolt  
+- Psychic  
+- Energy Ball
 
-Seadra
-Level: 33
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Pincurchin @ Assault Vest  
+Ability: Electric Surge   
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+- Supercell Slam  
+- Liquidation  
+- Poison Jab  
+- Sucker Punch
+
+Raichu-Alola @ Life Orb  
+Ability: Surge Surfer    
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Nasty Plot  
+- Thunderbolt  
+- Psychic  
+- Alluring Voice
+
+Arboliva @ Sitrus Berry  
+Ability: Harvest  
+EVs: 248 HP / 252 SpA / 8 SpD  
+Modest Nature  
+IVs: 0 Atk  
+- Terrain Pulse  
+- Hyper Beam  
+- Energy Ball  
+- Protect
 
 === TRAINER_KAYLEE ===
 Name: KAYLEE
@@ -17313,13 +18115,42 @@ Music: Swimmer
 Double Battle: Yes
 AI: Smart Trainer
 
-Luvdisc
-Level: 33
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Ledian @ Sitrus Berry  
+Ability: Shield Dust  
+Tera Type: Fighting  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Baton Pass  
+- Heroic Rise  
+- Acrobatics  
+- Knock Off
 
-Luvdisc
-Level: 33
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Mienshao @ Rocky Helmet  
+Ability: Inner Focus   
+EVs: 4 HP / 252 Atk / 252 Spe  
+Jolly Nature  
+- Fake Out  
+- Wide Guard  
+- Close Combat  
+- Ice Spinner
+
+Garchomp @ Loaded Dice  
+Ability: Rough Skin   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Scale Shot  
+- Stomping Tantrum  
+- Iron Head  
+- Protect
+
+Mabosstiff @ Choice Scarf  
+Ability: Intimidate  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Adamant Nature  
+- Play Rough  
+- Crunch  
+- Wild Charge  
+- Psychic Fangs
 
 === TRAINER_CARLEE ===
 Name: CARLEE
@@ -18535,13 +19366,41 @@ Music: Male
 Double Battle: Yes
 AI: Smart Trainer
 
-Machoke
-Level: 33
-IVs: 18 HP / 18 Atk / 18 Def / 18 SpA / 18 SpD / 18 Spe
+Palafin @ Choice Band  
+Ability: Zero to Hero   
+EVs: 4 HP / 252 Atk / 252 Spe  
+Adamant Nature  
+- Flip Turn  
+- Wave Crash  
+- Close Combat  
+- Jet Punch
 
-Spheal
-Level: 33
-IVs: 18 HP / 18 Atk / 18 Def / 18 SpA / 18 SpD / 18 Spe
+Altaria @ Sitrus Berry  
+Ability: Fluffy  
+Tera Type: Steel  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Adamant Nature  
+- Tailwind  
+- Dragon Dance  
+- Dragon Claw  
+- Brave Bird
+
+Ditto @ Choice Scarf  
+Ability: Imposter   
+EVs: 252 HP / 4 Atk / 252 Spe  
+Bashful Nature  
+IVs: 30 Atk  
+- Transform
+
+Bellibolt @ Air Balloon  
+Ability: Electromorphosis    
+EVs: 252 HP / 252 SpA / 4 SpD  
+Modest Nature  
+IVs: 0 Atk  
+- Slack Off  
+- Thunderbolt  
+- Muddy Water  
+- Protect
 
 === TRAINER_MARLEY ===
 Name: MARLEY
@@ -18552,13 +19411,34 @@ Music: Cool
 Double Battle: Yes
 AI: Smart Trainer
 
-Manectric
-Level: 34
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-- Bite
-- Roar
-- Thunder Wave
-- Thunderbolt
+Manectric @ Manectite  
+Ability: Static   
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Thunderbolt  
+- Overheat  
+- Protect  
+- Snarl
+
+Morpeko @ Focus Sash  
+Ability: Hunger Switch   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Aura Wheel  
+- Knock Off  
+- Protect  
+- Psychic Fangs
+
+Ferrothorn @ Rocky Helmet  
+Ability: Iron Barbs  
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+IVs: 0 Spe  
+- Leech Seed  
+- Protect  
+- Gyro Ball  
+- Power Whip
 
 === TRAINER_REYNA ===
 Name: REYNA
@@ -18569,13 +19449,43 @@ Music: Intense
 Double Battle: Yes
 AI: Smart Trainer
 
-Meditite
-Level: 33
-IVs: 6 HP / 6 Atk / 6 Def / 6 SpA / 6 SpD / 6 Spe
+Durant @ Choice Band  
+Ability: Hustle    
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- X-Scissor  
+- Iron Head  
+- Rock Slide  
+- First Impression
 
-Hariyama
-Level: 33
-IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
+Conkeldurr @ Flame Orb  
+Ability: Guts    
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+- Protect  
+- Mach Punch  
+- Facade  
+- Close Combat
+
+Quaquaval @ Focus Sash  
+Ability: Moxie  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Aqua Step  
+- Protect  
+- Close Combat  
+- Coaching
+
+Espeon @ Choice Scarf  
+Ability: Magic Bounce  
+Tera Type: Fairy  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Modest Nature  
+IVs: 0 Atk  
+- Psychic  
+- Shadow Ball  
+- Alluring Voice  
+- Trick
 
 === TRAINER_HUDSON ===
 Name: HUDSON
@@ -18586,9 +19496,43 @@ Music: Male
 Double Battle: Yes
 AI: Smart Trainer
 
-Wailmer
-Level: 34
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Veluza @ Sitrus Berry  
+Ability: Sharpness  
+Tera Type: Dark  
+EVs: 252 Atk / 4 Def / 252 Spe  
+Adamant Nature  
+- Fillet Away  
+- Psycho Cut  
+- Aqua Cutter  
+- Night Slash
+
+Magmar @ Eviolite  
+Ability: Flame Body  
+EVs: 252 HP / 4 SpA / 252 SpD  
+Calm Nature  
+IVs: 0 Atk  
+- Follow Me  
+- Will-O-Wisp  
+- Flamethrower  
+- Protect
+
+Mamoswine @ Choice Scarf  
+Ability: Oblivious  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Adamant Nature  
+- Icicle Crash  
+- High Horsepower  
+- Rock Slide  
+- Superpower
+
+Lickilicky @ Assault Vest  
+Ability: Oblivious  
+EVs: 248 HP / 252 Atk / 8 SpD  
+Adamant Nature  
+- Body Slam  
+- Giga Impact  
+- Explosion  
+- Knock Off
 
 === TRAINER_CONOR ===
 Name: CONOR
@@ -18599,13 +19543,45 @@ Music: Intense
 Double Battle: Yes
 AI: Smart Trainer
 
-Chinchou
-Level: 33
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Runerigus @ Sitrus Berry  
+Ability: Wandering Spirit   
+EVs: 252 HP / 252 Atk / 4 SpD  
+Brave Nature  
+IVs: 0 Spe  
+- Trick Room  
+- Poltergeist  
+- Rock Slide  
+- Protect
 
-Hariyama
-Level: 33
-IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
+Hatterene (F) @ Assault Vest  
+Ability: Magic Bounce  
+EVs: 252 HP / 4 Atk / 252 SpA  
+Quiet Nature  
+- Nuzzle  
+- Moonblast  
+- Psychic  
+- Mystical Fire
+
+Hariyama @ Flame Orb  
+Ability: Guts    
+EVs: 252 HP / 252 Atk / 4 Def  
+Brave Nature  
+IVs: 0 Spe  
+- Facade  
+- Close Combat  
+- Coaching  
+- Protect
+
+Porygon-Z @ Choice Specs  
+Ability: Adaptability  
+Tera Type: Normal  
+EVs: 252 HP / 4 Def / 252 SpA  
+Quiet Nature  
+IVs: 0 Atk / 0 Spe  
+- Boomburst  
+- Shadow Ball  
+- Ice Beam  
+- Thunderbolt
 
 === TRAINER_EDWIN_1 ===
 Name: EDWIN
@@ -20393,21 +21369,35 @@ Music: Cool
 Double Battle: Yes
 AI: Smart Trainer
 
-Lunatone
-Level: 43
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
-- Explosion
-- Reflect
-- Light Screen
-- Psychic
+Iron Moth @ Booster Energy  
+Ability: Quark Drive   
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Sludge Wave  
+- Flamethrower  
+- Energy Ball  
+- Protect
 
-Solrock
-Level: 43
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
-- Explosion
-- Reflect
-- Light Screen
-- Shadow Ball
+Pecharunt @ Black Sludge  
+Ability: Poison Puppeteer   
+EVs: 252 HP / 252 SpA / 4 SpD  
+Modest Nature  
+IVs: 0 Atk  
+- Poison Gas  
+- Hex  
+- Protect  
+- Recover
+
+Cetitan @ Sitrus Berry  
+Ability: Sheer Force  
+Tera Type: Water  
+EVs: 4 HP / 252 Atk / 252 Spe  
+Jolly Nature  
+- Belly Drum  
+- Ice Shard  
+- Liquidation  
+- Play Rough
 
 === TRAINER_ISAAC_2 ===
 Name: ISAAC
@@ -20588,13 +21578,32 @@ Music: Cool
 Double Battle: Yes
 AI: Smart Trainer
 
-Sableye
-Level: 43
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Swellow @ Flame Orb  
+Ability: Guts    
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Tailwind  
+- Protect  
+- Brave Bird  
+- Double-Edge
 
-Absol
-Level: 43
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Absol @ Absolite  
+Ability: Justified   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Sucker Punch  
+- Protect  
+- Play Rough  
+- Close Combat
+
+Melmetal @ Assault Vest  
+Ability: Iron Fist  
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+- Double Iron Bash  
+- Darkest Lariat  
+- High Horsepower  
+- Facade
 
 === TRAINER_GARRISON ===
 Name: GARRISON
@@ -29244,7 +30253,7 @@ Hasty Nature
 - Protect
 
 Ninetales-Alola @ Covert Cloak  
-Ability: Snow Cloak  
+Ability: Snow Warning  
 EVs: 252 SpA / 4 SpD / 252 Spe  
 Timid Nature  
 IVs: 0 Atk  

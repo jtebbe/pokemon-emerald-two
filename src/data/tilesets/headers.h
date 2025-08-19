@@ -841,3 +841,25 @@ const struct Tileset gTileset_GeneralSnow =
     .metatileAttributes = gMetatileAttributes_GeneralSnow,
     .callback = NULL,
 };
+
+const struct Tileset gTileset_AgarthaUnderwater =
+{
+    .isCompressed = TRUE,
+    .isSecondary = FALSE,
+    .tiles = gTilesetTiles_AgarthaUnderwater,
+    .palettes = gTilesetPalettes_AgarthaUnderwater,
+    .metatiles = gMetatiles_AgarthaUnderwater,
+    .metatileAttributes = gMetatileAttributes_AgarthaUnderwater,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_AgarthaReef =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_AgarthaReef,
+    .palettes = gTilesetPalettes_AgarthaReef,
+    .metatiles = gMetatiles_AgarthaReef,
+    .metatileAttributes = gMetatileAttributes_AgarthaReef,
+    .callback = NULL,
+};

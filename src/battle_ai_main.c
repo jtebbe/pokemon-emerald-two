@@ -4554,6 +4554,9 @@ static u32 AI_CalcMoveEffectScore(u32 battlerAtk, u32 battlerDef, u32 move)
             if (!ShouldPoison(battlerAtk, battlerAtk))
                 ADJUST_SCORE(DECENT_EFFECT);
             break;
+        case HOLD_EFFECT_RING_TARGET:
+            ADJUST_SCORE(DECENT_EFFECT); // assume its beneficial
+            break;
         case HOLD_EFFECT_FLAME_ORB:
             if (!ShouldBurn(battlerAtk, battlerAtk, aiData->abilities[battlerAtk]))
                 ADJUST_SCORE(DECENT_EFFECT);

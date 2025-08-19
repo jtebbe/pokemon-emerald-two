@@ -4368,7 +4368,7 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         .baseSpeed     = 40,
         .baseSpAttack  = 55,
         .baseSpDefense = 75,
-        .types = MON_TYPES(TYPE_DRAGON, TYPE_NONE),
+        .types = MON_TYPES(TYPE_DRAGON),
         .catchRate = 45,
         .expYield = 60,
         .evYield_SpDefense = 1,
@@ -5684,7 +5684,7 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
     #else
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_FLYING),
     #endif
-        .abilities = { ABILITY_FRISK, ABILITY_INFILTRATOR, ABILITY_TELEPATHY },
+        .abilities = { ABILITY_FRISK, ABILITY_INFILTRATOR, ABILITY_PUNK_ROCK },
         .bodyColor = BODY_COLOR_PURPLE,
         .speciesName = _("Noibat"),
         .cryId = CRY_NOIBAT,
@@ -5739,7 +5739,7 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         .levelUpLearnset = sNoibatLevelUpLearnset,
         .teachableLearnset = sNoibatTeachableLearnset,
         .eggMoveLearnset = sNoibatEggMoveLearnset,
-        .evolutions = EVOLUTION({EVO_LEVEL, 48, SPECIES_NOIVERN}),
+        .evolutions = EVOLUTION({EVO_LEVEL, 30, SPECIES_NOIVERN}),
     },
 
     [SPECIES_NOIVERN] =
@@ -5763,7 +5763,7 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
     #else
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_FLYING),
     #endif
-        .abilities = { ABILITY_FRISK, ABILITY_INFILTRATOR, ABILITY_TELEPATHY },
+        .abilities = { ABILITY_FRISK, ABILITY_INFILTRATOR, ABILITY_PUNK_ROCK },
         .bodyColor = BODY_COLOR_PURPLE,
         .speciesName = _("Noivern"),
         .cryId = CRY_NOIVERN,
