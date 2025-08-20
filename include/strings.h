@@ -75,6 +75,15 @@ extern const u8 gText_SoSo[];
 extern const u8 gText_Bad[];
 extern const u8 gText_TheWorst[];
 
+extern const u8 gText_InfiniteRepelOn[];
+extern const u8 gText_InfiniteRepelOff[];
+
+//Start Pokevial Branch
+extern const u8 gText_PokevialHasDoses[];
+extern const u8 gText_PokevialIsEmpty[];
+extern const u8 gText_YourPkmnWereRestored[];
+//End Pokevial Branch
+
 extern const u8 Roulette_Text_ControlsInstruction[];
 extern const u8 Roulette_Text_KeepPlaying[];
 extern const u8 Roulette_Text_Jackpot[];

@@ -1631,6 +1631,22 @@ extern const u32 gItemIcon_Gem[];
 extern const u16 gItemIconPalette_Ruby[];
 extern const u16 gItemIconPalette_Sapphire[];
 
+// Start Pokevial Branch
+extern const u32 gItemIcon_Pokevial0[];
+extern const u32 gItemIcon_Pokevial1[];
+extern const u32 gItemIcon_Pokevial2[];
+extern const u32 gItemIcon_Pokevial3[];
+extern const u32 gItemIcon_Pokevial4[];
+extern const u32 gItemIcon_Pokevial5[];
+extern const u32 gItemIcon_Pokevial6[];
+extern const u32 gItemIcon_Pokevial7[];
+extern const u32 gItemIcon_Pokevial8[];
+extern const u32 gItemIcon_Pokevial9[];
+extern const u32 gItemIcon_Pokevial[];
+
+extern const u16 gItemIconPalette_Pokevial[];
+// End Pokevial Branch
+
 // GEN IX ITEMS
 extern const u32 gItemIcon_AbilityShield[];
 extern const u16 gItemIconPalette_AbilityShield[];

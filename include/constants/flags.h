@@ -459,7 +459,7 @@
 #define FLAG_REGISTERED_WALLACE              (TRAINER_REGISTERED_FLAGS_START + REMATCH_WALLACE)
 
 #define FLAG_ITEM_TM_TRICK_ROOM                    0x1AA
-#define FLAG_UNUSED_0x1AB                    0x1AB // Unused Flag
+#define FLAG_INFINITE_REPEL                    0x1AB // Unused Flag
 
 #define FLAG_DEFEATED_DEOXYS                 0x1AC
 #define FLAG_BATTLED_DEOXYS                  0x1AD

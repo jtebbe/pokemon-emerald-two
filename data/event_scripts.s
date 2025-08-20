@@ -46,6 +46,7 @@
 #include "constants/party_menu.h"
 #include "constants/pokedex.h"
 #include "constants/pokemon.h"
+#include "constants/pokevial.h" //Pokevial Branch
 #include "constants/rtc.h"
 #include "constants/roulette.h"
 #include "constants/script_menu.h"
