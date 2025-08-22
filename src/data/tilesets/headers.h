@@ -863,3 +863,14 @@ const struct Tileset gTileset_AgarthaReef =
     .metatileAttributes = gMetatileAttributes_AgarthaReef,
     .callback = NULL,
 };
+
+const struct Tileset gTileset_AgarthaDistortion =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_AgarthaDistortion,
+    .palettes = gTilesetPalettes_AgarthaDistortion,
+    .metatiles = gMetatiles_AgarthaDistortion,
+    .metatileAttributes = gMetatileAttributes_AgarthaDistortion,
+    .callback = NULL,
+};

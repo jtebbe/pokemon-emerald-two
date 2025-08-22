@@ -984,6 +984,10 @@ static const u16 sNaturePowerMoves[BATTLE_ENVIRONMENT_COUNT] =
     [BATTLE_ENVIRONMENT_BUILDING]   = MOVE_TRI_ATTACK,
     [BATTLE_ENVIRONMENT_PLAIN]      = MOVE_TRI_ATTACK,
     [BATTLE_ENVIRONMENT_SNOW]       = MOVE_ICE_BEAM,
+    [BATTLE_ENVIRONMENT_GYM]        = MOVE_FLASH_CANNON,
+    [BATTLE_ENVIRONMENT_BEACH]        = MOVE_HIGH_HORSEPOWER,
+    [BATTLE_ENVIRONMENT_CAVE_SNOW]        = MOVE_ICE_BEAM,
+    [BATTLE_ENVIRONMENT_CAVE_SCALDING]        = MOVE_FIRE_BLAST,
 #elif B_NATURE_POWER_MOVES == GEN_6
     [BATTLE_ENVIRONMENT_GRASS]      = MOVE_ENERGY_BALL,
     [BATTLE_ENVIRONMENT_LONG_GRASS] = MOVE_ENERGY_BALL,
@@ -3687,7 +3691,7 @@ void SetMoveEffect(bool32 primary, bool32 certain)
                 }
                 break;
             case MOVE_EFFECT_RECHARGE:
-                if (B_SKIP_RECHARGE == GEN_1 && !IsBattlerAlive(gBattlerTarget))  // Skip recharge if gen 1 and foe is KO'd
+                if ((B_SKIP_RECHARGE == GEN_1 && !IsBattlerAlive(gBattlerTarget)) || GetBattlerAbility(gBattlerAttacker) == ABILITY_LORD_OF_TIME)  // Skip recharge if gen 1 and foe is KO'd
                     break;
 
                 gBattleMons[gEffectBattler].status2 |= STATUS2_RECHARGE;

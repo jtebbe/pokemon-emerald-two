@@ -156,18 +156,18 @@ EmptyHouse_EventScript_UnlockAgarthaLand::
 	special ShakeCamera
 	waitstate
 	delay 30
-	msgbox EmptyHouse_Text_AgarthansUnison
 	fadescreen FADE_TO_BLACK
 	delay 12
+	msgbox EmptyHouse_Text_AgarthansUnison, MSGBOX_NPC
 	clearflag FLAG_AGARTHAN_ITEM
-	removeobject LOCALID_AGARTHAN1
-	removeobject LOCALID_AGARTHAN2
-	removeobject LOCALID_AGARTHAN3
-	removeobject LOCALID_AGARTHAN4
-	removeobject LOCALID_AGARTHAN5
-	removeobject LOCALID_AGARTHAN6
-	removeobject LOCALID_AGARTHAN7
-	removeobject LOCALID_AGARTHAN8
+	setflag FLAG_SHOW_HOUSE_AGARTHAN_1
+	setflag FLAG_SHOW_HOUSE_AGARTHAN_2
+	setflag FLAG_SHOW_HOUSE_AGARTHAN_3
+	setflag FLAG_SHOW_HOUSE_AGARTHAN_4
+	setflag FLAG_SHOW_HOUSE_AGARTHAN_5
+	setflag FLAG_SHOW_HOUSE_AGARTHAN_6
+	setflag FLAG_SHOW_HOUSE_AGARTHAN_7
+	setflag FLAG_SHOW_HOUSE_AGARTHAN_8
 	fadescreen FADE_FROM_BLACK
 	end
 

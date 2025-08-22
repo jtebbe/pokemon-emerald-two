@@ -46,6 +46,7 @@
 #include "constants/battle_setup.h"
 #include "constants/event_objects.h"
 #include "constants/game_stat.h"
+#include "constants/layouts.h"
 #include "constants/items.h"
 #include "constants/songs.h"
 #include "constants/map_types.h"
@@ -622,6 +623,7 @@ static void CB2_EndScriptedWildBattle(void)
 u8 BattleSetup_GetEnvironmentId(void)
 {
     u16 tileBehavior;
+    u32 tileId;
     s16 x, y;
 
     if (I_FISHING_ENVIRONMENT >= GEN_4 && gIsFishingEncounter)
@@ -630,13 +632,29 @@ u8 BattleSetup_GetEnvironmentId(void)
         PlayerGetDestCoords(&x, &y);
 
     tileBehavior = MapGridGetMetatileBehaviorAt(x, y);
+    tileId = MapGridGetMetatileIdAt(x, y);
 
-    if (MetatileBehavior_IsTallGrass(tileBehavior))
-        return BATTLE_ENVIRONMENT_GRASS;
-    if (MetatileBehavior_IsLongGrass(tileBehavior))
-        return BATTLE_ENVIRONMENT_LONG_GRASS;
-    if (MetatileBehavior_IsSandOrDeepSand(tileBehavior))
-        return BATTLE_ENVIRONMENT_SAND;
+    switch (gMapHeader.mapLayoutId) {
+        case LAYOUT_JAGGED_PASS_GROTTO:
+            return BATTLE_ENVIRONMENT_SNOW;
+        case LAYOUT_SHOAL_CAVE_LOW_TIDE_ICE_ROOM:
+            return BATTLE_ENVIRONMENT_CAVE_SNOW;
+        case LAYOUT_SCORCHED_SLAB:
+        case LAYOUT_FIERY_PATH:
+        case LAYOUT_MAGMA_HIDEOUT_1F:
+        case LAYOUT_MAGMA_HIDEOUT_2F_1R:
+        case LAYOUT_MAGMA_HIDEOUT_2F_2R:
+        case LAYOUT_MAGMA_HIDEOUT_2F_3R:
+        case LAYOUT_MAGMA_HIDEOUT_3F_1R:
+        case LAYOUT_MAGMA_HIDEOUT_3F_2R:
+        case LAYOUT_MAGMA_HIDEOUT_3F_3R:
+        case LAYOUT_MAGMA_HIDEOUT_4F:
+            return BATTLE_ENVIRONMENT_CAVE_SCALDING;
+        case LAYOUT_ROUTE102_GROTTO:
+            return BATTLE_ENVIRONMENT_LONG_GRASS;
+        case LAYOUT_DRILBUR_CAVE:
+            return BATTLE_ENVIRONMENT_CAVE;
+    }
 
     switch (gMapHeader.mapType)
     {
@@ -647,8 +665,6 @@ u8 BattleSetup_GetEnvironmentId(void)
     case MAP_TYPE_UNDERGROUND:
         if (MetatileBehavior_IsIndoorEncounter(tileBehavior))
             return BATTLE_ENVIRONMENT_BUILDING;
-        if (MetatileBehavior_IsSurfableWaterOrUnderwater(tileBehavior))
-            return BATTLE_ENVIRONMENT_POND;
         return BATTLE_ENVIRONMENT_CAVE;
     case MAP_TYPE_INDOOR:
     case MAP_TYPE_SECRET_BASE:
@@ -678,6 +694,104 @@ u8 BattleSetup_GetEnvironmentId(void)
     if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_ROUTE113) && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_ROUTE113))
         return BATTLE_ENVIRONMENT_SAND;
     if (GetSavedWeather() == WEATHER_SANDSTORM)
+        return BATTLE_ENVIRONMENT_SAND;
+
+    //Routes, cities, towns AFTER specific metatiles.
+    switch (gMapHeader.mapLayoutId) {
+        case LAYOUT_MT_PYRE_EXTERIOR:
+        case LAYOUT_MT_PYRE_SUMMIT:
+            return BATTLE_ENVIRONMENT_MOUNTAIN;
+        case LAYOUT_PETALBURG_SANCTUM:
+        case LAYOUT_PETALBURG_WOODS:
+            return BATTLE_ENVIRONMENT_LONG_GRASS;
+        case LAYOUT_ROUTE112:
+            if (tileId == 0x271) {
+                return BATTLE_ENVIRONMENT_MOUNTAIN;
+            } else {
+                return BATTLE_ENVIRONMENT_GRASS;
+            }
+        case LAYOUT_ROUTE113:
+        case LAYOUT_ROUTE114:
+        case LAYOUT_JAGGED_PASS:
+        case LAYOUT_ROUTE115:
+        case LAYOUT_ROUTE118:
+        case LAYOUT_MT_CHIMNEY:
+            if (tileId == 0x001 || tileId == 0x004 || tileId == 0x00D || tileId == 0x00E) {
+                return BATTLE_ENVIRONMENT_GRASS;
+            } else if (tileId == 0x0C8 || tileId == 0x0C9 || tileId == 0x0CA ||
+               tileId == 0x0D1 || tileId == 0x0D2 || tileId == 0x0D3 ||
+               tileId == 0x0D8 || tileId == 0x0D9 || tileId == 0x0DA) {
+                return BATTLE_ENVIRONMENT_POND;
+            }
+            else if (tileId == 0x124) {
+                return BATTLE_ENVIRONMENT_BEACH;
+            } else if (MetatileBehavior_IsLongGrass(tileBehavior)) {
+                return BATTLE_ENVIRONMENT_LONG_GRASS;
+            }
+            return BATTLE_ENVIRONMENT_MOUNTAIN;
+        case LAYOUT_ROUTE102:
+        case LAYOUT_ROUTE103:
+        case LAYOUT_ROUTE107:
+        case LAYOUT_ROUTE116:
+        case LAYOUT_ROUTE117:
+        case LAYOUT_ROUTE121:
+        case LAYOUT_ROUTE123:
+        case LAYOUT_ROUTE130:
+            return BATTLE_ENVIRONMENT_GRASS;
+        case LAYOUT_ROUTE120:
+            if (tileId == 0x0C8 || tileId == 0x0C9 || tileId == 0x0CA ||
+               tileId == 0x0D1 || tileId == 0x0D2 || tileId == 0x0D3 ||
+               tileId == 0x0D8 || tileId == 0x0D9 || tileId == 0x0DA) {
+                return BATTLE_ENVIRONMENT_POND;
+            } else if (MetatileBehavior_IsLongGrass(tileBehavior)) {
+                return BATTLE_ENVIRONMENT_LONG_GRASS;
+            } else {
+                return BATTLE_ENVIRONMENT_GRASS;
+            }
+        case LAYOUT_ROUTE104:
+        case LAYOUT_ROUTE105:
+        case LAYOUT_ROUTE106:
+        case LAYOUT_ROUTE108:
+        case LAYOUT_ROUTE125:
+            if (tileId == 0x124 || tileId == 0x19E || tileId == 0x1A5 
+                || tileId == 0x19D || tileId == 0x195 || tileId == 0x19F) {
+                return BATTLE_ENVIRONMENT_BEACH;
+            } else {
+                return BATTLE_ENVIRONMENT_GRASS;
+            }
+        case LAYOUT_ROUTE127:
+        case LAYOUT_ROUTE128:
+        case LAYOUT_ROUTE132:
+        case LAYOUT_ROUTE133:
+        case LAYOUT_ROUTE134:
+            return BATTLE_ENVIRONMENT_BEACH;
+        case LAYOUT_ROUTE109:
+            if (!MetatileBehavior_IsTallGrass(tileBehavior)) {
+                return BATTLE_ENVIRONMENT_BEACH;
+            } else {
+                return BATTLE_ENVIRONMENT_GRASS;
+            }
+        case LAYOUT_ROUTE110:
+            if (tileId >= 0x2F0 && tileId <= 0x34F) {
+                return BATTLE_ENVIRONMENT_BUILDING;
+            }
+            return BATTLE_ENVIRONMENT_GRASS;
+        case LAYOUT_ROUTE111:
+            if (tileId == 0x071) {
+                return BATTLE_ENVIRONMENT_MOUNTAIN;
+            } else {
+                return BATTLE_ENVIRONMENT_GRASS;
+            }
+        default:
+            break;
+    }
+    
+
+    if (MetatileBehavior_IsTallGrass(tileBehavior))
+        return BATTLE_ENVIRONMENT_GRASS;
+    if (MetatileBehavior_IsLongGrass(tileBehavior))
+        return BATTLE_ENVIRONMENT_LONG_GRASS;
+    if (MetatileBehavior_IsSandOrDeepSand(tileBehavior))
         return BATTLE_ENVIRONMENT_SAND;
 
     return BATTLE_ENVIRONMENT_PLAIN;

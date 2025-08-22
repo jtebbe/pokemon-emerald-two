@@ -701,6 +701,39 @@ const struct BattleBackground sBattleEnvironmentTable[] =
         .entryTilemap = gBattleEnvironmentAnimTilemap_Building,
         .palette = gBattleEnvironmentPalette_Plain,
     },
+    [BATTLE_ENVIRONMENT_GYM] =
+    {
+        .tileset = gBattleEnvironmentTiles_Gym,
+        .tilemap = gBattleEnvironmentTilemap_Gym,
+        .palette = gBattleEnvironmentPalette_Gym,
+    },
+    [BATTLE_ENVIRONMENT_BEACH] =
+    {
+        .tileset = gBattleEnvironmentTiles_Beach,
+        .tilemap = gBattleEnvironmentTilemap_Beach,
+        .entryTileset = gBattleEnvironmentAnimTiles_Sand,
+        .entryTilemap = gBattleEnvironmentAnimTilemap_Sand,
+        .palette = gBattleEnvironmentPalette_Beach,
+    },
+    [BATTLE_ENVIRONMENT_SNOW] =
+    {
+        .tileset = gBattleEnvironmentTiles_Snow,
+        .tilemap = gBattleEnvironmentTilemap_Snow,
+        .palette = gBattleEnvironmentPalette_Snow,
+    },
+    [BATTLE_ENVIRONMENT_CAVE_SNOW] =
+    {
+        .tileset = gBattleEnvironmentTiles_CaveSnow,
+        .tilemap = gBattleEnvironmentTilemap_CaveSnow,
+        .palette = gBattleEnvironmentPalette_CaveSnow,
+    },
+    [BATTLE_ENVIRONMENT_CAVE_SCALDING] =
+    {
+        .tileset = gBattleEnvironmentTiles_CaveScalding,
+        .tilemap = gBattleEnvironmentTilemap_CaveScalding,
+        .palette = gBattleEnvironmentPalette_CaveScalding,
+    },
+    
 };
 
 void BattleInitBgsAndWindows(void)
@@ -814,9 +847,9 @@ void DrawMainBattleBackground(void)
             LoadPalette(sBattleEnvironmentTable[gBattleEnvironment].palette, BG_PLTT_ID(2), 3 * PLTT_SIZE_4BPP);
             break;
         case MAP_BATTLE_SCENE_GYM:
-            LZDecompressVram(gBattleEnvironmentTiles_Building, (void *)(BG_CHAR_ADDR(2)));
-            LZDecompressVram(gBattleEnvironmentTilemap_Building, (void *)(BG_SCREEN_ADDR(26)));
-            LoadPalette(gBattleEnvironmentPalette_BuildingGym, BG_PLTT_ID(2), 3 * PLTT_SIZE_4BPP);
+            LZDecompressVram(gBattleEnvironmentTiles_Gym, (void *)(BG_CHAR_ADDR(2)));
+            LZDecompressVram(gBattleEnvironmentTilemap_Gym, (void *)(BG_SCREEN_ADDR(26)));
+            LoadPalette(gBattleEnvironmentPalette_Gym, BG_PLTT_ID(2), 3 * PLTT_SIZE_4BPP);
             break;
         case MAP_BATTLE_SCENE_MAGMA:
             LZDecompressVram(gBattleEnvironmentTiles_Stadium, (void *)(BG_CHAR_ADDR(2)));

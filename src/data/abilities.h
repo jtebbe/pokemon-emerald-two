@@ -2521,4 +2521,11 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .breakable = TRUE,
     },
 
+    [ABILITY_LORD_OF_TIME] =
+    {
+        .name = _("Lord of Time"),
+        .description = COMPOUND_STRING("Recharging isn't necessary."),
+        .aiRating = 2,
+    },
+
 };

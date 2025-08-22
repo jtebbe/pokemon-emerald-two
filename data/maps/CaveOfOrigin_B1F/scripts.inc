@@ -7,10 +7,10 @@ CaveOfOrigin_B1F_OnLoad:
 	end
 
 CaveOfOrigin_B1F_EventScript_OpenAgartha::
-	setmetatile 9, 1, METATILE_MeteorFalls_CaveEntrance_Top, TRUE
-	setmetatile 8, 2, METATILE_MeteorFalls_CaveEntrance_Left, TRUE
-	setmetatile 9, 2, METATILE_MeteorFalls_CaveEntrance_Bottom, FALSE
-	setmetatile 10, 2, METATILE_MeteorFalls_CaveEntrance_Right, TRUE
+	setmetatile 9, 1, METATILE_AgarthaTop, TRUE
+	setmetatile 8, 2, METATILE_AgarthaLeft, TRUE
+	setmetatile 9, 2, METATILE_AgarthaBottom, FALSE
+	setmetatile 10, 2, METATILE_AgarthaRight, TRUE
 	return
 
 CaveOfOrigin_B1F_EventScript_Wallace::

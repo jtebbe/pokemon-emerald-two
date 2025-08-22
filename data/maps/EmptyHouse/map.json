@@ -25,7 +25,7 @@
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "NULL",
+      "script": "EmptyHouse_EventScript_1stAgarthan",
       "flag": "FLAG_SHOW_HOUSE_AGARTHAN_1"
     },
     {
@@ -39,7 +39,7 @@
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "NULL",
+      "script": "EmptyHouse_EventScript_8thAgarthan",
       "flag": "FLAG_SHOW_HOUSE_AGARTHAN_8"
     },
     {
@@ -53,7 +53,7 @@
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "NULL",
+      "script": "EmptyHouse_EventScript_2ndAgarthan",
       "flag": "FLAG_SHOW_HOUSE_AGARTHAN_2"
     },
     {
@@ -67,7 +67,7 @@
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "NULL",
+      "script": "EmptyHouse_EventScript_3rdAgarthan",
       "flag": "FLAG_SHOW_HOUSE_AGARTHAN_3"
     },
     {
@@ -81,7 +81,7 @@
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "NULL",
+      "script": "EmptyHouse_EventScript_4thAgarthan",
       "flag": "FLAG_SHOW_HOUSE_AGARTHAN_4"
     },
     {
@@ -95,7 +95,7 @@
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "NULL",
+      "script": "EmptyHouse_EventScript_6thAgarthan",
       "flag": "FLAG_SHOW_HOUSE_AGARTHAN_6"
     },
     {
@@ -109,7 +109,7 @@
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "NULL",
+      "script": "EmptyHouse_EventScript_5thAgarthan",
       "flag": "FLAG_SHOW_HOUSE_AGARTHAN_5"
     },
     {
@@ -123,7 +123,7 @@
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "NULL",
+      "script": "EmptyHouse_EventScript_7thAgarthan",
       "flag": "FLAG_SHOW_HOUSE_AGARTHAN_7"
     },
     {
@@ -143,6 +143,20 @@
   "warp_events": [
     {
       "x": 14,
+      "y": 9,
+      "elevation": 0,
+      "dest_map": "MAP_LITTLEROOT_TOWN",
+      "dest_warp_id": "4"
+    },
+    {
+      "x": 13,
+      "y": 9,
+      "elevation": 0,
+      "dest_map": "MAP_LITTLEROOT_TOWN",
+      "dest_warp_id": "4"
+    },
+    {
+      "x": 15,
       "y": 9,
       "elevation": 0,
       "dest_map": "MAP_LITTLEROOT_TOWN",

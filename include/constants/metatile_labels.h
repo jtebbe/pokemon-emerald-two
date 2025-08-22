@@ -357,6 +357,11 @@
 #define METATILE_MeteorFalls_CaveEntrance_Right   0x24F
 #define METATILE_MeteorFalls_CaveEntrance_Top     0x246
 
+#define METATILE_AgarthaTop 0x32E 
+#define METATILE_AgarthaBottom 0x336
+#define METATILE_AgarthaLeft 0x335
+#define METATILE_AgarthaRight 0x337
+
 // gTileset_Mossdeep
 #define METATILE_Mossdeep_Door              0x2A1
 #define METATILE_Mossdeep_Door_SpaceCenter  0x2ED
