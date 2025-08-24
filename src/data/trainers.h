@@ -34705,7 +34705,7 @@ F_TRAINER_FEMALE |
 #line 13571
         .trainerClass = TRAINER_CLASS_SLAYER,
 #line 13572
-        .trainerPic = TRAINER_PIC_DRAGON_TAMER,
+        .trainerPic = TRAINER_PIC_AGARTHAN_SLAYER,
         .encounterMusic_gender =
 #line 13574
             TRAINER_ENCOUNTER_MUSIC_HIKER,

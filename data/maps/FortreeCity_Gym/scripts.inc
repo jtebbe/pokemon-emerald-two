@@ -43,6 +43,8 @@ FortreeCity_Gym_EventScript_WinonaDefeated::
 	waitfanfare
 	closemessage
 	delay 30
+	msgbox FortreeCity_Gym_Text_LevelCapUp, MSGBOX_AUTOCLOSE
+	pokevialincreasesize
 	setflag FLAG_ENABLE_WINONA_MATCH_CALL
 	setvar VAR_SCOTT_FORTREE_CALL_STEP_COUNTER, 0
 	setflag FLAG_SCOTT_CALL_FORTREE_GYM
@@ -317,3 +319,8 @@ FortreeCity_Gym_Text_WinonaRematchNeedTwoMons:
 	.string "POKéMON with you?\p"
 	.string "Please return with two POKéMON\n"
 	.string "at the very least.$"
+
+FortreeCity_Gym_Text_LevelCapUp:
+	.string "The level cap has risen to 55.\p"
+	.string "Also, the number of charges in\n"
+	.string "your pokevial has been increased.$"

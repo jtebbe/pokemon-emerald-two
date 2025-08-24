@@ -30,6 +30,11 @@ RustboroCity_Gym_EventScript_GiveRockTomb::
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	setflag FLAG_RECEIVED_TM_ROCK_TOMB
 	msgbox RustboroCity_Gym_Text_ExplainRockTomb, MSGBOX_DEFAULT
+	waitmessage
+	msgbox RustboroCity_Gym_Text_PokeVial, MSGBOX_DEFAULT
+	waitmessage
+	giveitem ITEM_POKEVIAL
+	msgbox RustboroCity_Gym_Text_LevelCapUp, MSGBOX_AUTOCLOSE
 	release
 	end
 
@@ -285,3 +290,11 @@ RustboroCity_Gym_Text_RoxanneRematchNeedTwoMons:
 RustboroCity_Gym_Text_NotEnoughMons:
 	.string "Oh, you don't have two POKéMON?\n"
 	.string "What is this, amateur hour?$"
+
+RustboroCity_Gym_Text_LevelCapUp:
+	.string "The level cap has risen to 23.$"
+
+RustboroCity_Gym_Text_PokeVial:
+	.string "Also, take this. You've earned\n"
+	.string "it. Use it to heal your party\l"
+	.string "when you're out in the wild.$"

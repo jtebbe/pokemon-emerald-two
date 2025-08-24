@@ -15,7 +15,7 @@
   "connections": null,
   "object_events": [
     {
-      "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
+      "graphics_id": "OBJ_EVENT_GFX_MEGA_BALL",
       "x": 4,
       "y": 4,
       "elevation": 3,
@@ -23,7 +23,7 @@
       "movement_range_x": 0,
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
-      "trainer_sight_or_berry_tree_id": "ITEM_MOON_BALL",
+      "trainer_sight_or_berry_tree_id": "ITEM_MEDICHAMITE",
       "script": "Common_EventScript_FindItem",
       "flag": "FLAG_ITEM_GRANITE_CAVE_B2F_REPEL"
     },
@@ -176,7 +176,7 @@
       "x": 28,
       "y": 6,
       "elevation": 3,
-      "item": "ITEM_EVERSTONE",
+      "item": "ITEM_TM_PLAY_ROUGH",
       "flag": "FLAG_HIDDEN_ITEM_GRANITE_CAVE_B2F_EVERSTONE_1"
     },
     {
@@ -184,7 +184,7 @@
       "x": 15,
       "y": 11,
       "elevation": 3,
-      "item": "ITEM_EVERSTONE",
+      "item": "ITEM_TM_AMNESIA",
       "flag": "FLAG_HIDDEN_ITEM_GRANITE_CAVE_B2F_EVERSTONE_2"
     }
   ]

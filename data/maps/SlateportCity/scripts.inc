@@ -134,6 +134,16 @@ SlateportCity_Pokemart_EnergyGuru:
 	.2byte ITEM_SCEPTILITE
 	.2byte ITEM_BLAZIKENITE
 	.2byte ITEM_SWAMPERTITE
+	.2byte ITEM_MEWTWONITE_X
+	.2byte ITEM_MEWTWONITE_Y
+	.2byte ITEM_LATIOSITE
+	.2byte ITEM_LATIASITE
+	.2byte ITEM_SABLENITE
+	.2byte ITEM_ALTARIANITE
+	.2byte ITEM_STEELIXITE
+	.2byte ITEM_PIDGEOTITE
+	.2byte ITEM_DIANCITE
+	.2byte ITEM_BEEDRILLITE
 	pokemartlistend
 
 SlateportCity_EventScript_ComeBackWithMegaRing::
@@ -533,20 +543,23 @@ SlateportCity_EventScript_DecorClerk::
 
 	.align 2
 SlateportCity_PokemartDecor:
-	.2byte DECOR_RED_BRICK
-	.2byte DECOR_BLUE_BRICK
-	.2byte DECOR_YELLOW_BRICK
-	.2byte DECOR_RED_BALLOON
-	.2byte DECOR_BLUE_BALLOON
-	.2byte DECOR_YELLOW_BALLOON
-	.2byte DECOR_C_LOW_NOTE_MAT
-	.2byte DECOR_D_NOTE_MAT
-	.2byte DECOR_E_NOTE_MAT
-	.2byte DECOR_F_NOTE_MAT
-	.2byte DECOR_G_NOTE_MAT
-	.2byte DECOR_A_NOTE_MAT
-	.2byte DECOR_B_NOTE_MAT
-	.2byte DECOR_C_HIGH_NOTE_MAT
+	.2byte ITEM_BUG_MEMORY
+	.2byte ITEM_DARK_MEMORY
+	.2byte ITEM_DRAGON_MEMORY
+	.2byte ITEM_ELECTRIC_MEMORY
+	.2byte ITEM_FAIRY_MEMORY
+	.2byte ITEM_FIGHTING_MEMORY
+	.2byte ITEM_FIRE_MEMORY
+	.2byte ITEM_FLYING_MEMORY
+	.2byte ITEM_GHOST_MEMORY
+	.2byte ITEM_GRASS_MEMORY
+	.2byte ITEM_GROUND_MEMORY
+	.2byte ITEM_ICE_MEMORY
+	.2byte ITEM_POISON_MEMORY
+	.2byte ITEM_PSYCHIC_MEMORY
+	.2byte ITEM_ROCK_MEMORY
+	.2byte ITEM_STEEL_MEMORY
+	.2byte ITEM_WATER_MEMORY
 	pokemartlistend
 
 SlateportCity_EventScript_PowerTMClerk::
@@ -563,6 +576,7 @@ SlateportCity_EventScript_PowerTMClerk::
 SlateportCity_Pokemart_PowerTMs:
 	.2byte ITEM_ABILITY_CAPSULE
 	.2byte ITEM_ABILITY_PATCH
+	.2byte ITEM_SOUL_DEW
 	pokemartlistend
 
 @ Scene with Capt Sterns interview and Team Aqua announcing plans to steal Submarine

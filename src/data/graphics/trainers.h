@@ -295,6 +295,9 @@ const u16 gTrainerBackPicPalette_Leaf[] = INCBIN_U16("graphics/trainers/back_pic
 const u32 gTrainerFrontPic_AgarthanJester[] = INCBIN_U32("graphics/trainers/front_pics/agarthan_jester.4bpp.lz");
 const u16 gTrainerPalette_AgarthanJester[] = INCBIN_U16("graphics/trainers/front_pics/agarthan_jester.gbapal");
 
+const u32 gTrainerFrontPic_AgarthanSlayer[] = INCBIN_U32("graphics/trainers/front_pics/agarthan_slayer.4bpp.lz");
+const u16 gTrainerPalette_AgarthanSlayer[] = INCBIN_U16("graphics/trainers/front_pics/agarthan_slayer.gbapal");
+
 // The first two parameters invoke a front pic and palette by
 // calling a "TRAINER_PIC" constant (e.g. TRAINER_PIC_HIKER), and
 // gTrainerFrontPic/gTrainerPalette pointers, (e.g "gTrainerFrontPic_Hiker" and "gTrainerPalette_Hiker").
@@ -405,6 +408,7 @@ const struct TrainerSprite gTrainerSprites[] =
     TRAINER_SPRITE(TRAINER_PIC_RS_BRENDAN, gTrainerFrontPic_RubySapphireBrendan, gTrainerPalette_RubySapphireBrendan),
     TRAINER_SPRITE(TRAINER_PIC_RS_MAY, gTrainerFrontPic_RubySapphireMay, gTrainerPalette_RubySapphireMay),
     TRAINER_SPRITE(TRAINER_PIC_AGARTHAN_JESTER, gTrainerFrontPic_AgarthanJester, gTrainerPalette_AgarthanJester),
+    TRAINER_SPRITE(TRAINER_PIC_AGARTHAN_SLAYER, gTrainerFrontPic_AgarthanSlayer, gTrainerPalette_AgarthanSlayer),
 };
 
 static const union AnimCmd sAnimCmd_Hoenn[] =

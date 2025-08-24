@@ -610,7 +610,7 @@
       "movement_range_x": 1,
       "movement_range_y": 1,
       "trainer_type": "TRAINER_TYPE_NONE",
-      "trainer_sight_or_berry_tree_id": "ITEM_RING_TARGET",
+      "trainer_sight_or_berry_tree_id": "ITEM_FIGHTING_GEM",
       "script": "Common_EventScript_FindItem",
       "flag": "FLAG_WONDER_CARD_UNUSED_1"
     }
@@ -942,7 +942,7 @@
       "x": 20,
       "y": 29,
       "elevation": 3,
-      "item": "ITEM_WATER_GEM",
+      "item": "ITEM_ELECTRIC_GEM",
       "flag": "FLAG_HIDDEN_ITEM_ROUTE_119_MAX_ETHER"
     },
     {

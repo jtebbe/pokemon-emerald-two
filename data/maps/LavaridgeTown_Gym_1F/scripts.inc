@@ -74,6 +74,8 @@ LavaridgeTown_Gym_1F_EventScript_FlanneryDefeated::
 	waitfanfare
 	closemessage
 	delay 30
+	msgbox LavaridgeTown_Gym_Text_LevelCapUp, MSGBOX_AUTOCLOSE
+	pokevialincreasesize
 	setflag FLAG_ENABLE_FLANNERY_MATCH_CALL
 	release
 	end
@@ -397,3 +399,8 @@ LavaridgeTown_Gym_1F_Text_FlanneryRematchNeedTwoMons:
 	.string "that can battle?\p"
 	.string "I hate to say this, but when you come\n"
 	.string "see me, bring at least two POKéMON.$"
+
+LavaridgeTown_Gym_Text_LevelCapUp:
+	.string "The level cap has risen to 40.\p"
+	.string "Also, the number of charges in\n"
+	.string "your pokevial has been increased.$"

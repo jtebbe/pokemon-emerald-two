@@ -547,6 +547,10 @@ static void CB2_InitBattleInternal(void)
         }
     }
 
+    if (gBattleTypeFlags & BATTLE_TYPE_FIRST_BATTLE) {
+        gBattleEnvironment = BATTLE_ENVIRONMENT_GRASS;
+    }
+
     InitBattleBgsVideo();
     LoadBattleTextboxAndBackground();
     ResetSpriteData();

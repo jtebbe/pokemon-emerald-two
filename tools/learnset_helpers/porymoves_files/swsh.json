@@ -65090,7 +65090,8 @@
     "TutorMoves": [
       "MOVE_STEEL_BEAM",
       "MOVE_RISING_VOLTAGE",
-      "MOVE_STEEL_ROLLER"
+      "MOVE_STEEL_ROLLER",
+      "MOVE_FOLLOW_ME"
     ]
   },
   "MIMIKYU": {

@@ -19,7 +19,7 @@ FortreeCity_House2_EventScript_HiddenPowerGiver::
 	switch VAR_RESULT
 	case 0, FortreeCity_House2_EventScript_WrongGuess
 	msgbox FortreeCity_House2_Text_YourHiddenPowerHasAwoken, MSGBOX_DEFAULT
-	giveitem ITEM_TM_SCORCHING_SANDS
+	giveitem ITEM_TM_FUTURE_SIGHT
 	goto_if_eq VAR_RESULT, 0, Common_EventScript_ShowBagIsFull
 	setflag FLAG_RECEIVED_TM_TERA_BLAST
 	msgbox FortreeCity_House2_Text_ExplainHiddenPower, MSGBOX_DEFAULT
@@ -72,8 +72,8 @@ FortreeCity_House2_Text_YourHiddenPowerHasAwoken:
 	.string "power of your POKéMON.$"
 
 FortreeCity_House2_Text_ExplainHiddenPower:
-	.string "Scorching Sands is a move that deals\n"
-	.string "damage and may burn.$"
+	.string "Future Sight is a move that deals\n"
+	.string "damage after some time.$"
 
 FortreeCity_House2_Text_YouGuessedWrong:
 	.string "No, too bad.\n"

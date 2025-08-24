@@ -177,7 +177,7 @@
       "x": 49,
       "y": 9,
       "elevation": 3,
-      "item": "ITEM_HEART_SCALE",
+      "item": "ITEM_TM_HEAVY_SLAM",
       "flag": "FLAG_HIDDEN_ITEM_ROUTE_128_HEART_SCALE_1"
     },
     {
@@ -185,7 +185,7 @@
       "x": 57,
       "y": 21,
       "elevation": 3,
-      "item": "ITEM_HEART_SCALE",
+      "item": "ITEM_TM_DRAGON_PULSE",
       "flag": "FLAG_HIDDEN_ITEM_ROUTE_128_HEART_SCALE_2"
     },
     {

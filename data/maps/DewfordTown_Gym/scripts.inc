@@ -161,6 +161,8 @@ DewfordTown_Gym_EventScript_BrawlyDefeated::
 	waitfanfare
 	closemessage
 	delay 30
+	msgbox DewfordTown_Gym_Text_LevelCapUp, MSGBOX_AUTOCLOSE
+	pokevialincreasesize
 	setflag FLAG_ENABLE_BRAWLY_MATCH_CALL
 	setvar VAR_ROXANNE_CALL_STEP_COUNTER, 0
 	setflag FLAG_ENABLE_ROXANNE_FIRST_CALL
@@ -560,3 +562,8 @@ DewfordTown_Gym_Text_SecondQuestionFifthAnswer:
 
 DewfordTown_Gym_Text_BrawlyStatue:
 	.string "Know thyself, know all else.$"
+
+DewfordTown_Gym_Text_LevelCapUp:
+	.string "The level cap has risen to 28.\p"
+	.string "Also, the number of charges in\n"
+	.string "your pokevial has been increased.$"

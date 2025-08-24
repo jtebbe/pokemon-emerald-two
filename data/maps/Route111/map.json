@@ -374,7 +374,7 @@
       "movement_range_x": 0,
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
-      "trainer_sight_or_berry_tree_id": "ITEM_MENTAL_HERB",
+      "trainer_sight_or_berry_tree_id": "ITEM_PUNCHING_GLOVE",
       "script": "Common_EventScript_FindItem",
       "flag": "FLAG_ITEM_ROUTE_111_HP_UP"
     },
@@ -1074,7 +1074,7 @@
       "x": 26,
       "y": 70,
       "elevation": 0,
-      "item": "ITEM_STARDUST",
+      "item": "ITEM_SMOOTH_ROCK",
       "flag": "FLAG_HIDDEN_ITEM_ROUTE_111_STARDUST"
     },
     {
@@ -1119,7 +1119,7 @@
       "x": 35,
       "y": 66,
       "elevation": 0,
-      "item": "ITEM_RARE_CANDY",
+      "item": "ITEM_TM_BODY_PRESS",
       "flag": "FLAG_HIDDEN_ITEM_ROUTE_111_RARE_CANDY"
     },
     {

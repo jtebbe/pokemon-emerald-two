@@ -635,6 +635,17 @@ u8 BattleSetup_GetEnvironmentId(void)
     tileId = MapGridGetMetatileIdAt(x, y);
 
     switch (gMapHeader.mapLayoutId) {
+        case LAYOUT_RUSTBORO_CITY_GYM:
+        case LAYOUT_DEWFORD_TOWN_GYM:
+        case LAYOUT_MAUVILLE_CITY_GYM:
+        case LAYOUT_LAVARIDGE_TOWN_GYM_1F:
+        case LAYOUT_LAVARIDGE_TOWN_GYM_B1F:
+        case LAYOUT_PETALBURG_CITY_GYM:
+        case LAYOUT_FORTREE_CITY_GYM:
+        case LAYOUT_MOSSDEEP_CITY_GYM:
+        case LAYOUT_SOOTOPOLIS_CITY_GYM_1F:
+        case LAYOUT_SOOTOPOLIS_CITY_GYM_B1F:
+            return BATTLE_ENVIRONMENT_GYM;
         case LAYOUT_JAGGED_PASS_GROTTO:
             return BATTLE_ENVIRONMENT_SNOW;
         case LAYOUT_SHOAL_CAVE_LOW_TIDE_ICE_ROOM:
@@ -739,11 +750,15 @@ u8 BattleSetup_GetEnvironmentId(void)
         case LAYOUT_ROUTE130:
             return BATTLE_ENVIRONMENT_GRASS;
         case LAYOUT_ROUTE120:
+        case LAYOUT_ROUTE119:
             if (tileId == 0x0C8 || tileId == 0x0C9 || tileId == 0x0CA ||
                tileId == 0x0D1 || tileId == 0x0D2 || tileId == 0x0D3 ||
                tileId == 0x0D8 || tileId == 0x0D9 || tileId == 0x0DA) {
                 return BATTLE_ENVIRONMENT_POND;
-            } else if (MetatileBehavior_IsLongGrass(tileBehavior)) {
+            } else if (tileId == 0x124) {
+                return BATTLE_ENVIRONMENT_BEACH;
+            }
+            else if (MetatileBehavior_IsLongGrass(tileBehavior)) {
                 return BATTLE_ENVIRONMENT_LONG_GRASS;
             } else {
                 return BATTLE_ENVIRONMENT_GRASS;

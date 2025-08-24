@@ -113,6 +113,8 @@ SootopolisCity_Gym_1F_EventScript_JuanDefeated::
 	waitfanfare
 	closemessage
 	delay 30
+	msgbox SootopolisCity_Gym_Text_LevelCapUp, MSGBOX_AUTOCLOSE
+	pokevialincreasesize
 	setflag FLAG_ENABLE_JUAN_MATCH_CALL
 	release
 	end
@@ -319,3 +321,7 @@ SootopolisCity_Gym_1F_Text_JuanRematchNeedTwoMons:
 	.string "I wish that you would return with\n"
 	.string "two, perhaps more, POKéMON, please.$"
 
+SootopolisCity_Gym_Text_LevelCapUp:
+	.string "The level cap has been removed.\p"
+	.string "Also, the number of charges in\n"
+	.string "your pokevial has been increased.$"

@@ -211,7 +211,7 @@
       "x": 9,
       "y": 25,
       "elevation": 0,
-      "item": "ITEM_PSYCHIC_GEM",
+      "item": "ITEM_TM_PHANTOM_FORCE",
       "flag": "FLAG_HIDDEN_ITEM_MT_PYRE_SUMMIT_ZINC"
     },
     {
@@ -219,7 +219,7 @@
       "x": 37,
       "y": 7,
       "elevation": 3,
-      "item": "ITEM_SPOOKY_PLATE",
+      "item": "ITEM_TM_NASTY_PLOT",
       "flag": "FLAG_HIDDEN_ITEM_MT_PYRE_SUMMIT_RARE_CANDY"
     }
   ]

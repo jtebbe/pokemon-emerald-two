@@ -317,7 +317,7 @@
       "x": 39,
       "y": 35,
       "elevation": 3,
-      "item": "ITEM_POTION",
+      "item": "ITEM_TM_HELPING_HAND",
       "flag": "FLAG_HIDDEN_ITEM_PETALBURG_WOODS_POTION"
     },
     {
@@ -325,7 +325,7 @@
       "x": 26,
       "y": 6,
       "elevation": 3,
-      "item": "ITEM_TINY_MUSHROOM",
+      "item": "ITEM_TM_BATON_PASS",
       "flag": "FLAG_HIDDEN_ITEM_PETALBURG_WOODS_TINY_MUSHROOM_1"
     },
     {

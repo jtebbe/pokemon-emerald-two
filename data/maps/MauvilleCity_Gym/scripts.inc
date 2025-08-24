@@ -107,6 +107,8 @@ MauvilleCity_Gym_EventScript_WattsonDefeated::
 	waitfanfare
 	closemessage
 	delay 30
+	msgbox MauvilleCity_Gym_Text_LevelCapUp, MSGBOX_AUTOCLOSE
+	pokevialincreasesize
 	setflag FLAG_ENABLE_WATTSON_MATCH_CALL
 	release
 	end
@@ -419,3 +421,7 @@ MauvilleCity_Gym_Text_WattsonRematchNeedTwoMons:
 	.string "Come see me with two or more\n"
 	.string "POKéMON, all right?$"
 
+MauvilleCity_Gym_Text_LevelCapUp:
+	.string "The level cap has risen to 34.\p"
+	.string "Also, the number of charges in\n"
+	.string "your pokevial has been increased.$"

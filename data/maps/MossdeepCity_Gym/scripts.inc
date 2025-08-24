@@ -90,6 +90,8 @@ MossdeepCity_Gym_EventScript_TateAndLizaDefeated::
 	waitfanfare
 	closemessage
 	delay 30
+	msgbox MossdeepCity_Gym_Text_LevelCapUp, MSGBOX_AUTOCLOSE
+	pokevialincreasesize
 	setflag FLAG_ENABLE_TATE_AND_LIZA_MATCH_CALL
 	release
 	end
@@ -651,3 +653,8 @@ MossdeepCity_Gym_Text_TateAndLizaRematchNeedTwoMons:
 	.string "LIZA: You brought just one POKéMON!\p"
 	.string "TATE: We need you to bring at least…\n"
 	.string "LIZA: Two POKéMON when you come back.$"
+
+MossdeepCity_Gym_Text_LevelCapUp:
+	.string "The level cap has risen to 70.\p"
+	.string "Also, the number of charges in\n"
+	.string "your pokevial has been increased.$"

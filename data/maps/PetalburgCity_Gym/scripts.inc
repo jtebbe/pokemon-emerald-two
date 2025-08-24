@@ -88,6 +88,9 @@ PetalburgCity_Gym_EventScript_ReturnFromWallyTutorial::
 	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterUp
 	waitmovement 0
 	msgbox PetalburgCity_Gym_Text_DadGoCollectBadges, MSGBOX_DEFAULT
+	msgbox PetalburgCity_Gym_Text_InfinteRepel, MSGBOX_DEFAULT
+	waitmessage
+	giveitem ITEM_INFINITE_REPEL
 	setvar VAR_PETALBURG_GYM_STATE, 2
 	releaseall
 	end
@@ -391,7 +394,10 @@ PetalburgCity_Gym_EventScript_NormanBattle::
 	call PetalburgCity_Gym_EventScript_GiveFacade
 	delay 30
 	msgbox PetalburgCity_Gym_Text_DadHappyAndSad, MSGBOX_DEFAULT
+	waitmessage
+	msgbox PetalburgCity_Gym_Text_LevelCapUp, MSGBOX_DEFAULT
 	closemessage
+	pokevialincreasesize
 	delay 40
 	playse SE_DOOR
 	delay 10
@@ -1596,3 +1602,12 @@ PetalburgCity_Gym_Text_ExplainMegaRing:
 	.string "It will bring you and your partners\n"
 	.string "a whole new level of power.$"
 
+PetalburgCity_Gym_Text_InfinteRepel:
+	.string "As another thank you for helping\n"
+	.string "that young lad, here, take this.\p"
+	.string "It's just a bit of QoL for you.$"
+
+PetalburgCity_Gym_Text_LevelCapUp:
+	.string "The level cap has risen to 47.\p"
+	.string "Also, the number of charges in\n"
+	.string "your pokevial has been increased.$"

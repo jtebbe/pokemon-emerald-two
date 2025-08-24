@@ -459,7 +459,7 @@
 #define FLAG_REGISTERED_WALLACE              (TRAINER_REGISTERED_FLAGS_START + REMATCH_WALLACE)
 
 #define FLAG_ITEM_TM_TRICK_ROOM                    0x1AA
-#define FLAG_INFINITE_REPEL                    0x1AB // Unused Flag
+#define FLAG_INFINITE_REPEL                    0x1AB
 
 #define FLAG_DEFEATED_DEOXYS                 0x1AC
 #define FLAG_BATTLED_DEOXYS                  0x1AD
@@ -508,18 +508,18 @@
 #define FLAG_ENABLE_TATE_AND_LIZA_MATCH_CALL 0x1D8
 #define FLAG_ENABLE_JUAN_MATCH_CALL          0x1D9
 
-#define FLAG_UNUSED_0x1DA                    0x1DA // Unused Flag
+#define FLAG_ITEM_DARK_PULSE                    0x1DA
 
 #define FLAG_SHOWN_MYSTIC_TICKET             0x1DB
 #define FLAG_DEFEATED_HO_OH                  0x1DC
 #define FLAG_DEFEATED_LUGIA                  0x1DD
 
-#define FLAG_UNUSED_0x1DE                    0x1DE // Unused Flag
-#define FLAG_UNUSED_0x1DF                    0x1DF // Unused Flag
-#define FLAG_UNUSED_0x1E0                    0x1E0 // Unused Flag
-#define FLAG_UNUSED_0x1E1                    0x1E1 // Unused Flag
-#define FLAG_UNUSED_0x1E2                    0x1E2 // Unused Flag
-#define FLAG_ITEM_ROUTE_116_TM_STEALTH_ROCK  0x1E3 // Unused Flag
+#define FLAG_ITEM_TM_LASH_OUT                    0x1DE
+#define FLAG_ITEM_PSYCHIC_GEM                    0x1DF 
+#define FLAG_ITEM_GHOST_GEM                    0x1E0
+#define FLAG_ITEM_DRAGON_GEM                    0x1E1
+#define FLAG_ITEM_STEEL_GEM                    0x1E2
+#define FLAG_ITEM_ROUTE_116_TM_STEALTH_ROCK  0x1E3
 
 // Mystery Gift Flags (Unknown)
 #define FLAG_MYSTERY_GIFT_DONE               0x1E4
@@ -665,15 +665,15 @@
 #define FLAG_SHOW_HOUSE_AGARTHAN_7  0x26C
 #define FLAG_SHOW_HOUSE_AGARTHAN_8  0x26D
 #define FLAG_AGARTHAN_ITEM  0x26E
-#define FLAG_UNUSED_0x26F  0x26F // Unused Flag
-#define FLAG_UNUSED_0x270  0x270 // Unused Flag
-#define FLAG_UNUSED_0x271  0x271 // Unused Flag
-#define FLAG_UNUSED_0x272  0x272 // Unused Flag
-#define FLAG_UNUSED_0x273  0x273 // Unused Flag
-#define FLAG_UNUSED_0x274  0x274 // Unused Flag
-#define FLAG_UNUSED_0x275  0x275 // Unused Flag
-#define FLAG_UNUSED_0x276  0x276 // Unused Flag
-#define FLAG_UNUSED_0x277  0x277 // Unused Flag
+#define FLAG_ITEM_GENGARITE  0x26F
+#define FLAG_ITEM_AGGRONITE  0x270
+#define FLAG_ITEM_TYRANITARITE  0x271
+#define FLAG_ITEM_SCIZORITE  0x272
+#define FLAG_ITEM_ALAKAZITE  0x273
+#define FLAG_ITEM_HERACRONITE  0x274
+#define FLAG_ITEM_MAWILITE  0x275
+#define FLAG_MOVE_RELEARNER  0x276
+#define FLAG_MOVE_RELEARNER_STATE  0x277
 #define FLAG_UNUSED_0x278  0x278 // Unused Flag
 #define FLAG_UNUSED_0x279  0x279 // Unused Flag
 #define FLAG_UNUSED_0x27A  0x27A // Unused Flag

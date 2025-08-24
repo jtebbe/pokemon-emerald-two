@@ -120,7 +120,7 @@
       "x": 41,
       "y": 11,
       "elevation": 3,
-      "item": "ITEM_POKE_BALL",
+      "item": "ITEM_TM_EERIE_IMPULSE",
       "flag": "FLAG_HIDDEN_ITEM_ROUTE_106_POKE_BALL"
     },
     {
@@ -136,7 +136,7 @@
       "x": 68,
       "y": 15,
       "elevation": 3,
-      "item": "ITEM_HEART_SCALE",
+      "item": "ITEM_TM_FRIGID_TOUCH",
       "flag": "FLAG_HIDDEN_ITEM_ROUTE_106_HEART_SCALE"
     },
     {

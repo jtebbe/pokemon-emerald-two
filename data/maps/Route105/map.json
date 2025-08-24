@@ -185,7 +185,7 @@
       "x": 7,
       "y": 55,
       "elevation": 3,
-      "item": "ITEM_BIG_PEARL",
+      "item": "ITEM_TM_SKITTER_SMACK",
       "flag": "FLAG_HIDDEN_ITEM_ROUTE_105_BIG_PEARL"
     }
   ]

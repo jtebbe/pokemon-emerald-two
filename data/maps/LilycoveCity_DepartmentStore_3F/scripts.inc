@@ -13,12 +13,20 @@ LilycoveCity_DepartmentStore_3F_EventScript_ClerkLeft::
 
 	.align 2
 LilycoveCity_DepartmentStore_3F_Pokemart_Vitamins:
-	.2byte ITEM_PROTEIN
-	.2byte ITEM_CALCIUM
-	.2byte ITEM_IRON
-	.2byte ITEM_ZINC
-	.2byte ITEM_CARBOS
-	.2byte ITEM_HP_UP
+	.2byte ITEM_BOOSTER_ENERGY
+	.2byte ITEM_DRAGON_FANG
+	.2byte ITEM_ELECTRIC_SEED
+	.2byte ITEM_MISTY_SEED
+	.2byte ITEM_MAGNET
+	.2byte ITEM_MYSTIC_WATER
+	.2byte ITEM_NEVER_MELT_ICE
+	.2byte ITEM_TWISTED_SPOON
+	.2byte ITEM_POISON_BARB
+	.2byte ITEM_SHARP_BEAK
+	.2byte ITEM_SILVER_POWDER
+	.2byte ITEM_SNOWBALL
+	.2byte ITEM_SPELL_TAG
+	.2byte ITEM_FLOAT_STONE
 	pokemartlistend
 
 LilycoveCity_DepartmentStore_3F_EventScript_ClerkRight::
@@ -33,13 +41,24 @@ LilycoveCity_DepartmentStore_3F_EventScript_ClerkRight::
 
 	.align 2
 LilycoveCity_DepartmentStore_3F_Pokemart_StatBoosters:
-	.2byte ITEM_X_SPEED
-	.2byte ITEM_X_SP_ATK
-	.2byte ITEM_X_ATTACK
-	.2byte ITEM_X_DEFENSE
-	.2byte ITEM_DIRE_HIT
-	.2byte ITEM_GUARD_SPEC
-	.2byte ITEM_X_ACCURACY
+	.2byte ITEM_ABILITY_SHIELD
+	.2byte ITEM_BIG_ROOT
+	.2byte ITEM_BINDING_BAND
+	.2byte ITEM_DESTINY_KNOT
+	.2byte ITEM_EXPERT_BELT
+	.2byte ITEM_GRIP_CLAW
+	.2byte ITEM_HEAVY_DUTY_BOOTS
+	.2byte ITEM_LAGGING_TAIL
+	.2byte ITEM_LAX_INCENSE
+	.2byte ITEM_LUCK_INCENSE
+	.2byte ITEM_ROCKY_HELMET
+	.2byte ITEM_SHED_SHELL
+	.2byte ITEM_SMOKE_BALL
+	.2byte ITEM_STICKY_BARB
+	.2byte ITEM_THROAT_SPRAY
+	.2byte ITEM_UTILITY_UMBRELLA
+	.2byte ITEM_ZOOM_LENS
+	.2byte ITEM_ADRENALINE_ORB
 	pokemartlistend
 
 LilycoveCity_DepartmentStore_3F_EventScript_TriathleteM::

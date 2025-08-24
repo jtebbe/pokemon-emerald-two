@@ -8532,6 +8532,8 @@ static inline u32 CalcMoveBasePowerAfterModifiers(struct DamageCalculationData *
     case EFFECT_EARTHQUAKE:
         if (gFieldStatuses & STATUS_FIELD_GRASSY_TERRAIN && !(gStatuses3[battlerDef] & STATUS3_SEMI_INVULNERABLE))
             modifier = uq4_12_multiply(modifier, UQ_4_12(0.5));
+        if (!(gStatuses3[battlerDef] & STATUS3_SEMI_INVULNERABLE) && GetBattlerHoldEffect(battlerDef, TRUE) == HOLD_EFFECT_FLOAT_STONE)
+            modifier = uq4_12_multiply(modifier, UQ_4_12(0.25));
         break;
     case EFFECT_KNOCK_OFF:
         if (B_KNOCK_OFF_DMG >= GEN_6

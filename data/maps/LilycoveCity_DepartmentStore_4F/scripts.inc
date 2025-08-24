@@ -30,6 +30,18 @@ LilycoveCity_DepartmentStore_4F_Pokemart_AttackTMs:
 	.2byte ITEM_TM_BLIZZARD
 	.2byte ITEM_TM_HYPER_BEAM
 	.2byte ITEM_TM_GIGA_IMPACT
+	.2byte ITEM_TM_BLAST_BURN
+	.2byte ITEM_TM_HYDRO_CANNON
+	.2byte ITEM_TM_FRENZY_PLANT
+	.2byte ITEM_TM_OUTRAGE
+	.2byte ITEM_TM_HURRICANE
+	.2byte ITEM_TM_BUG_BUZZ
+	.2byte ITEM_TM_STEEL_BEAM
+	.2byte ITEM_TM_GYRO_BALL
+	.2byte ITEM_TM_MISTY_EXPLOSION
+	.2byte ITEM_TM_DOUBLE_EDGE
+	.2byte ITEM_TM_HARD_PRESS
+	.2byte ITEM_TM_PSYCHIC_NOISE
 	pokemartlistend
 
 LilycoveCity_DepartmentStore_4F_EventScript_ClerkRight::
@@ -48,6 +60,17 @@ LilycoveCity_DepartmentStore_4F_Pokemart_DefenseTMs:
 	.2byte ITEM_TM_COACHING
 	.2byte ITEM_TM_REFLECT
 	.2byte ITEM_TM_LIGHT_SCREEN
+	.2byte ITEM_TM_ELECTRIC_TERRAIN
+	.2byte ITEM_TM_PSYCHIC_TERRAIN
+	.2byte ITEM_TM_GRASSY_TERRAIN
+	.2byte ITEM_TM_MISTY_TERRAIN
+	.2byte ITEM_TM_HAZE
+	.2byte ITEM_TM_PAIN_SPLIT
+	.2byte ITEM_TM_PSYCH_UP
+	.2byte ITEM_TM_ENDEAVOR
+	.2byte ITEM_TM_METAL_SOUND
+	.2byte ITEM_TM_CURSE
+	.2byte ITEM_TM_UPPER_HAND
 	pokemartlistend
 
 LilycoveCity_DepartmentStore_4F_Text_AttackOrDefenseTM:
