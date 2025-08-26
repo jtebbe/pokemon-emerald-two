@@ -2524,7 +2524,42 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     [ABILITY_LORD_OF_TIME] =
     {
         .name = _("Lord of Time"),
-        .description = COMPOUND_STRING("Recharging isn't necessary."),
+        .description = COMPOUND_STRING("(Re)charging isn't necessary."),
+        .aiRating = 2,
+    },
+
+    [ABILITY_LORD_OF_SPACE] =
+    {
+        .name = _("Lord of Space"),
+        .description = COMPOUND_STRING("Evades protection and acc."),
+        .aiRating = 2,
+    },
+
+    [ABILITY_SPACIAL_DOMINANCE] =
+    {
+        .name = _("Spacial Reset"),
+        .description = COMPOUND_STRING("Removes most field conditions."),
+        .aiRating = 2,
+    },
+
+    [ABILITY_TEMPORAL_ASSERTION] =
+    {
+        .name = _("Temporal Stretch"),
+        .description = COMPOUND_STRING("Lengthens its field changes."),
+        .aiRating = 2,
+    },
+
+    [ABILITY_DISTORTION] =
+    {
+        .name = _("Distortion"),
+        .description = COMPOUND_STRING("Reverts phys/spec split."),
+        .aiRating = 2,
+    },
+
+    [ABILITY_UMBRAL_GRIP] =
+    {
+        .name = _("Umbral Grip"),
+        .description = COMPOUND_STRING("Damages foes over time."),
         .aiRating = 2,
     },
 

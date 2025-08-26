@@ -44099,6 +44099,8 @@
       "MOVE_THUNDER",
       "MOVE_DRACO_METEOR",
       "MOVE_STEEL_BEAM",
+      "MOVE_METEOR_BEAM",
+      "MOVE_SOLAR_BEAM",
       "MOVE_TERA_BLAST",
       "MOVE_ROAR",
       "MOVE_GRAVITY",

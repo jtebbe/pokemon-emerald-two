@@ -3551,6 +3551,13 @@ BattleScript_PowerHerbActivation:
 	removeitem BS_ATTACKER
 	return
 
+BattleScript_LordOfTimeActivation:
+	call BattleScript_AbilityPopUp
+	pause B_WAIT_TIME_SHORT
+	printstring STRINGID_LORDOFTIME
+	waitmessage B_WAIT_TIME_LONG
+	return
+
 BattleScript_EffectTwoTurnsAttack::
 	jumpifstatus2 BS_ATTACKER, STATUS2_MULTIPLETURNS, BattleScript_TwoTurnMovesSecondTurn
 	jumpifword CMP_COMMON_BITS, gHitMarker, HITMARKER_NO_ATTACKSTRING, BattleScript_TwoTurnMovesSecondTurn
@@ -3559,6 +3566,7 @@ BattleScript_EffectTwoTurnsAttack::
 	call BattleScript_FirstChargingTurn
 	tryfiretwoturnmoveaftercharging BS_ATTACKER, BattleScript_TwoTurnMovesSecondTurn @ e.g. Electro Shot
 	jumpifholdeffect BS_ATTACKER, HOLD_EFFECT_POWER_HERB, BattleScript_TwoTurnMovesSecondPowerHerbActivates
+	jumpifability BS_ATTACKER, ABILITY_LORD_OF_TIME, BattleScript_TwoTurnMovesLordOfTime
 	goto BattleScript_MoveEnd
 
 BattleScript_EffectGeomancy::
@@ -3617,6 +3625,18 @@ BattleScript_FirstChargingTurnAfterAttackString:
 	twoturnmoveschargestringandanimation
 	setadditionaleffects @ only onChargeTurnOnly effects will work here
 	return
+
+BattleScript_TwoTurnMovesLordOfTime:
+	call BattleScript_LordOfTimeActivation
+	trygulpmissile @ Edge case for Cramorant ability Gulp Missile
+BattleScript_FromTwoTurnMovesSecondTurnRetLordOfTime:
+	call BattleScript_TwoTurnMovesSecondTurnRet
+	accuracycheck BattleScript_PrintMoveMissed, ACC_CURR_MOVE
+@ before Gen 5, charge moves did not print an attack string on the charge turn
+.if B_UPDATED_MOVE_DATA < GEN_5
+	attackstring
+.endif
+	goto BattleScript_HitFromCritCalc
 
 BattleScript_TwoTurnMovesSecondPowerHerbActivates:
 	call BattleScript_PowerHerbActivation
@@ -8044,6 +8064,39 @@ BattleScript_BadDreams_HidePopUp:
 	tryfaintmon BS_TARGET
 	goto BattleScript_BadDreamsIncrement
 
+BattleScript_UmbralGripActivates::
+	setbyte gBattlerTarget, 0
+BattleScript_UmbralGripLoop:
+	jumpiftargetally BattleScript_UmbralGripIncrement
+	jumpifability BS_TARGET, ABILITY_MAGIC_GUARD, BattleScript_UmbralGripIncrement
+BattleScript_UmbralGrip_Dmg:
+	jumpifbyteequal sFIXED_ABILITY_POPUP, sZero, BattleScript_UmbralGrip_ShowPopUp
+BattleScript_UmbralGrip_DmgAfterPopUp:
+	printstring STRINGID_UMBRALGRIPDMG
+	waitmessage B_WAIT_TIME_LONG
+	dmg_1_16_targethp
+	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_PASSIVE_HP_UPDATE
+	healthbarupdate BS_TARGET
+	datahpupdate BS_TARGET
+	jumpifhasnohp BS_TARGET, BattleScript_UmbralGrip_HidePopUp
+BattleScript_UmbralGripIncrement:
+	addbyte gBattlerTarget, 1
+	jumpifbytenotequal gBattlerTarget, gBattlersCount, BattleScript_UmbralGripLoop
+	jumpifbyteequal sFIXED_ABILITY_POPUP, sZero, BattleScript_UmbralGripEnd
+	destroyabilitypopup
+	pause 15
+BattleScript_UmbralGripEnd:
+	end3
+BattleScript_UmbralGrip_ShowPopUp:
+	copybyte gBattlerAbility, gBattlerAttacker
+	call BattleScript_AbilityPopUp
+	setbyte sFIXED_ABILITY_POPUP, TRUE
+	goto BattleScript_UmbralGrip_DmgAfterPopUp
+BattleScript_UmbralGrip_HidePopUp:
+	destroyabilitypopup
+	tryfaintmon BS_TARGET
+	goto BattleScript_UmbralGripIncrement
+
 BattleScript_TookAttack::
 	attackstring
 	pause B_WAIT_TIME_SHORT
@@ -8407,6 +8460,13 @@ BattleScript_SwitchInAbilityMsgRet::
 	printfromtable gSwitchInAbilityStringIds
 	waitmessage B_WAIT_TIME_LONG
 	return
+
+BattleScript_SwitchInSpacialDominance::
+	call BattleScript_AbilityPopUp
+	printstring STRINGID_SPACIALDOMINANCE
+	playanimation BS_ATTACKER, B_ANIM_RESTORE_BG
+	waitmessage B_WAIT_TIME_LONG
+	end3
 
 BattleScript_ActivateAsOne::
 	call BattleScript_AbilityPopUp

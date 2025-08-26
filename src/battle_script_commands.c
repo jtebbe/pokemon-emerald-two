@@ -1538,6 +1538,9 @@ static bool32 AccuracyCalcHelper(u32 move, u32 battler)
     else if (GetBattlerAbility(gBattlerAttacker) == ABILITY_HYPNOTIST && gMovesInfo[move].category == DAMAGE_CATEGORY_STATUS) {
         effect = TRUE;
     }
+    else if (GetBattlerAbility(gBattlerAttacker) == ABILITY_LORD_OF_SPACE) {
+        effect = TRUE;
+    }
     // If the target has the ability No Guard and they aren't involved in a Sky Drop or the current move isn't Sky Drop, move hits.
     else if (GetBattlerAbility(battler) == ABILITY_NO_GUARD
           && (moveEffect != EFFECT_SKY_DROP || gBattleStruct->skyDropTargets[battler] == SKY_DROP_NO_TARGET))
@@ -3213,7 +3216,9 @@ static inline bool32 TrySetReflect(u32 battler)
     if (!(gSideStatuses[side] & SIDE_STATUS_REFLECT))
     {
         gSideStatuses[side] |= SIDE_STATUS_REFLECT;
-        if (GetBattlerHoldEffect(battler, TRUE) == HOLD_EFFECT_LIGHT_CLAY)
+        if (GetBattlerAbility(battler) == ABILITY_TEMPORAL_ASSERTION)
+            gSideTimers[side].reflectTimer = gBattleTurnCounter + 250;
+        else if (GetBattlerHoldEffect(battler, TRUE) == HOLD_EFFECT_LIGHT_CLAY)
             gSideTimers[side].reflectTimer = gBattleTurnCounter + 8;
         else
             gSideTimers[side].reflectTimer = gBattleTurnCounter + 5;
@@ -3234,7 +3239,9 @@ static inline bool32 TrySetLightScreen(u32 battler)
     if (!(gSideStatuses[side] & SIDE_STATUS_LIGHTSCREEN))
     {
         gSideStatuses[side] |= SIDE_STATUS_LIGHTSCREEN;
-        if (GetBattlerHoldEffect(battler, TRUE) == HOLD_EFFECT_LIGHT_CLAY)
+        if (GetBattlerAbility(battler) == ABILITY_TEMPORAL_ASSERTION)
+            gSideTimers[side].lightscreenTimer = gBattleTurnCounter + 250;
+        else if (GetBattlerHoldEffect(battler, TRUE) == HOLD_EFFECT_LIGHT_CLAY)
             gSideTimers[side].lightscreenTimer = gBattleTurnCounter + 8;
         else
             gSideTimers[side].lightscreenTimer = gBattleTurnCounter + 5;
@@ -4282,7 +4289,9 @@ void SetMoveEffect(bool32 primary, bool32 certain)
                 {
                     gFieldStatuses &= ~STATUS_FIELD_TERRAIN_ANY;
                     gFieldStatuses |= statusFlag;
-                    if (GetBattlerHoldEffect(gBattlerAttacker, TRUE) == HOLD_EFFECT_TERRAIN_EXTENDER)
+                    if (GetBattlerAbility(gBattlerAttacker) == ABILITY_TEMPORAL_ASSERTION)
+                        gFieldTimers.terrainTimer = gBattleTurnCounter + 250;
+                    else if (GetBattlerHoldEffect(gBattlerAttacker, TRUE) == HOLD_EFFECT_TERRAIN_EXTENDER)
                         gFieldTimers.terrainTimer = gBattleTurnCounter + 8;
                     else
                         gFieldTimers.terrainTimer = gBattleTurnCounter + 5;
@@ -4331,7 +4340,9 @@ void SetMoveEffect(bool32 primary, bool32 certain)
                 if (!(gSideStatuses[GetBattlerSide(gBattlerAttacker)] & SIDE_STATUS_AURORA_VEIL))
                 {
                     gSideStatuses[GetBattlerSide(gBattlerAttacker)] |= SIDE_STATUS_AURORA_VEIL;
-                    if (GetBattlerHoldEffect(gBattlerAttacker, TRUE) == HOLD_EFFECT_LIGHT_CLAY)
+                    if (GetBattlerAbility(gBattlerAttacker) == ABILITY_TEMPORAL_ASSERTION)
+                        gSideTimers[GetBattlerSide(gBattlerAttacker)].auroraVeilTimer = gBattleTurnCounter + 250;
+                    else if (GetBattlerHoldEffect(gBattlerAttacker, TRUE) == HOLD_EFFECT_LIGHT_CLAY)
                         gSideTimers[GetBattlerSide(gBattlerAttacker)].auroraVeilTimer = gBattleTurnCounter + 8;
                     else
                         gSideTimers[GetBattlerSide(gBattlerAttacker)].auroraVeilTimer = gBattleTurnCounter + 5;
@@ -4344,7 +4355,12 @@ void SetMoveEffect(bool32 primary, bool32 certain)
                 if (!(gFieldStatuses & STATUS_FIELD_GRAVITY))
                 {
                     gFieldStatuses |= STATUS_FIELD_GRAVITY;
-                    gFieldTimers.gravityTimer = gBattleTurnCounter + 5;
+                    if (GetBattlerAbility(gBattlerAttacker) == ABILITY_TEMPORAL_ASSERTION) {
+                        gFieldTimers.gravityTimer = gBattleTurnCounter + 250;
+                    } else {
+                        gFieldTimers.gravityTimer = gBattleTurnCounter + 5;
+                    }
+                    
                     BattleScriptPush(gBattlescriptCurrInstr + 1);
                     gBattlescriptCurrInstr = BattleScript_EffectGravitySuccess;
                 }
@@ -7668,7 +7684,11 @@ static void Cmd_sethealblock(void)
     else
     {
         gStatuses3[gBattlerTarget] |= STATUS3_HEAL_BLOCK;
-        gDisableStructs[gBattlerTarget].healBlockTimer = gBattleTurnCounter + 5;
+        if (GetBattlerAbility(gBattlerAttacker) == ABILITY_TEMPORAL_ASSERTION) {
+            gDisableStructs[gBattlerTarget].healBlockTimer = gBattleTurnCounter + 250;
+        } else {
+            gDisableStructs[gBattlerTarget].healBlockTimer = gBattleTurnCounter + 5;
+        }
         gBattlescriptCurrInstr = cmd->nextInstr;
     }
 }
@@ -9218,7 +9238,12 @@ static void Cmd_setgravity(void)
     else
     {
         gFieldStatuses |= STATUS_FIELD_GRAVITY;
-        gFieldTimers.gravityTimer = gBattleTurnCounter + 5;
+        if (GetBattlerAbility(gBattlerAttacker) == ABILITY_TEMPORAL_ASSERTION) {
+            gFieldTimers.gravityTimer = gBattleTurnCounter + 250;
+        } else {
+            gFieldTimers.gravityTimer = gBattleTurnCounter + 5;
+        }
+        
         gBattlescriptCurrInstr = cmd->nextInstr;
     }
 }
@@ -10764,7 +10789,11 @@ static void Cmd_various(void)
         if (!(gSideStatuses[GetBattlerSide(battler)] & SIDE_STATUS_LUCKY_CHANT))
         {
             gSideStatuses[GetBattlerSide(battler)] |= SIDE_STATUS_LUCKY_CHANT;
-            gSideTimers[GetBattlerSide(battler)].luckyChantTimer = gBattleTurnCounter + 5;
+            if (GetBattlerAbility(battler) == ABILITY_TEMPORAL_ASSERTION) {
+                gSideTimers[GetBattlerSide(battler)].luckyChantTimer = gBattleTurnCounter + 250;
+            } else {
+                gSideTimers[GetBattlerSide(battler)].luckyChantTimer = gBattleTurnCounter + 5;
+            }
             gBattlescriptCurrInstr = cmd->nextInstr;
         }
         else
@@ -11206,7 +11235,9 @@ static void Cmd_various(void)
         else
         {
             gSideStatuses[GetBattlerSide(battler)] |= SIDE_STATUS_AURORA_VEIL;
-            if (GetBattlerHoldEffect(battler, TRUE) == HOLD_EFFECT_LIGHT_CLAY)
+            if (GetBattlerAbility(battler) == ABILITY_TEMPORAL_ASSERTION)
+                gSideTimers[GetBattlerSide(battler)].auroraVeilTimer = gBattleTurnCounter + 250;
+            else if (GetBattlerHoldEffect(battler, TRUE) == HOLD_EFFECT_LIGHT_CLAY)
                 gSideTimers[GetBattlerSide(battler)].auroraVeilTimer = gBattleTurnCounter + 8;
             else
                 gSideTimers[GetBattlerSide(battler)].auroraVeilTimer = gBattleTurnCounter + 5;
@@ -12031,6 +12062,11 @@ static void Cmd_manipulatedamage(void)
         break;
     case DMG_1_8_TARGET_HP:
         gBattleStruct->moveDamage[gBattlerTarget] = GetNonDynamaxMaxHP(gBattlerTarget) / 8;
+        if (gBattleStruct->moveDamage[gBattlerTarget] == 0)
+            gBattleStruct->moveDamage[gBattlerTarget] = 1;
+        break;
+    case DMG_1_16_TARGET_HP:
+        gBattleStruct->moveDamage[gBattlerTarget] = GetNonDynamaxMaxHP(gBattlerTarget) / 16;
         if (gBattleStruct->moveDamage[gBattlerTarget] == 0)
             gBattleStruct->moveDamage[gBattlerTarget] = 1;
         break;
@@ -13263,7 +13299,11 @@ static void Cmd_setmist(void)
     }
     else
     {
-        gSideTimers[GetBattlerSide(gBattlerAttacker)].mistTimer = gBattleTurnCounter + 5;
+        if (GetBattlerAbility(gBattlerAttacker) == ABILITY_TEMPORAL_ASSERTION) {
+            gSideTimers[GetBattlerSide(gBattlerAttacker)].mistTimer = gBattleTurnCounter + 250;
+        } else {
+            gSideTimers[GetBattlerSide(gBattlerAttacker)].mistTimer = gBattleTurnCounter + 5;
+        }
         gSideStatuses[GetBattlerSide(gBattlerAttacker)] |= SIDE_STATUS_MIST;
         gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SET_MIST;
     }
@@ -13925,7 +13965,11 @@ static void Cmd_settailwind(void)
     if (!(gSideStatuses[side] & SIDE_STATUS_TAILWIND))
     {
         gSideStatuses[side] |= SIDE_STATUS_TAILWIND;
-        gSideTimers[side].tailwindTimer = gBattleTurnCounter +  (B_TAILWIND_TURNS >= GEN_5 ? 4 : 3);
+        if (GetBattlerAbility(gBattlerAttacker) == ABILITY_TEMPORAL_ASSERTION) {
+            gSideTimers[side].tailwindTimer = gBattleTurnCounter +  250;
+        } else {
+            gSideTimers[side].tailwindTimer = gBattleTurnCounter +  (B_TAILWIND_TURNS >= GEN_5 ? 4 : 3);
+        }
         gBattlescriptCurrInstr = cmd->nextInstr;
     }
     else
@@ -14252,7 +14296,11 @@ static void Cmd_setembargo(void)
     else
     {
         gStatuses3[gBattlerTarget] |= STATUS3_EMBARGO;
-        gDisableStructs[gBattlerTarget].embargoTimer = gBattleTurnCounter + 5;
+        if (GetBattlerAbility(gBattlerAttacker) == ABILITY_TEMPORAL_ASSERTION) {
+            gDisableStructs[gBattlerTarget].embargoTimer = gBattleTurnCounter + 250;
+        } else {
+            gDisableStructs[gBattlerTarget].embargoTimer = gBattleTurnCounter + 5;
+        }
         gBattlescriptCurrInstr = cmd->nextInstr;
     }
 }
@@ -14321,7 +14369,11 @@ static void Cmd_setsafeguard(void)
     else
     {
         gSideStatuses[GetBattlerSide(gBattlerAttacker)] |= SIDE_STATUS_SAFEGUARD;
-        gSideTimers[GetBattlerSide(gBattlerAttacker)].safeguardTimer = gBattleTurnCounter + 5;
+        if (GetBattlerAbility(gBattlerAttacker) == ABILITY_TEMPORAL_ASSERTION) {
+            gSideTimers[GetBattlerSide(gBattlerAttacker)].safeguardTimer = gBattleTurnCounter + 250;
+        } else {
+            gSideTimers[GetBattlerSide(gBattlerAttacker)].safeguardTimer = gBattleTurnCounter + 5;
+        }
         gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SET_SAFEGUARD;
     }
 
@@ -15201,7 +15253,11 @@ static void HandleRoomMove(u32 statusFlag, u16 *timer, u8 stringId)
     else
     {
         gFieldStatuses |= statusFlag;
-        *timer = gBattleTurnCounter + 5;
+        if (GetBattlerAbility(gBattlerAttacker) == ABILITY_TEMPORAL_ASSERTION) {
+            *timer = gBattleTurnCounter + 250;
+        } else {
+            *timer = gBattleTurnCounter + 5;
+        }
         gBattleCommunication[MULTISTRING_CHOOSER] = stringId;
     }
 }
@@ -15340,10 +15396,20 @@ static void Cmd_setuserstatus3(void)
     else
     {
         gStatuses3[gBattlerAttacker] |= flags;
-        if (flags & STATUS3_MAGNET_RISE)
-            gDisableStructs[gBattlerAttacker].magnetRiseTimer = gBattleTurnCounter + 5;
-        if (flags & STATUS3_LASER_FOCUS)
-            gDisableStructs[gBattlerAttacker].laserFocusTimer = gBattleTurnCounter + 2;
+        if (flags & STATUS3_MAGNET_RISE) {
+            if (GetBattlerAbility(gBattlerAttacker) == ABILITY_TEMPORAL_ASSERTION) {
+                gDisableStructs[gBattlerAttacker].magnetRiseTimer = gBattleTurnCounter + 250;
+            } else {
+                gDisableStructs[gBattlerAttacker].magnetRiseTimer = gBattleTurnCounter + 5;
+            }
+        }
+        if (flags & STATUS3_LASER_FOCUS) {
+            if (GetBattlerAbility(gBattlerAttacker) == ABILITY_TEMPORAL_ASSERTION) {
+                gDisableStructs[gBattlerAttacker].laserFocusTimer = gBattleTurnCounter + 250;
+            } else {
+                gDisableStructs[gBattlerAttacker].laserFocusTimer = gBattleTurnCounter + 2;
+            }
+        }
         gBattlescriptCurrInstr = cmd->nextInstr;
     }
 }
@@ -15598,7 +15664,11 @@ static void Cmd_settypebasedhalvers(void)
             if (!(gFieldStatuses & STATUS_FIELD_MUDSPORT))
             {
                 gFieldStatuses |= STATUS_FIELD_MUDSPORT;
-                gFieldTimers.mudSportTimer = gBattleTurnCounter + 5;
+                if (GetBattlerAbility(gBattlerAttacker) == ABILITY_TEMPORAL_ASSERTION) {
+                    gFieldTimers.mudSportTimer = gBattleTurnCounter + 250;
+                } else {
+                    gFieldTimers.mudSportTimer = gBattleTurnCounter + 5;
+                }
                 gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_WEAKEN_ELECTRIC;
                 worked = TRUE;
             }
@@ -15620,7 +15690,11 @@ static void Cmd_settypebasedhalvers(void)
             if (!(gFieldStatuses & STATUS_FIELD_WATERSPORT))
             {
                 gFieldStatuses |= STATUS_FIELD_WATERSPORT;
-                gFieldTimers.waterSportTimer = gBattleTurnCounter + 5;
+                if (GetBattlerAbility(gBattlerAttacker) == ABILITY_TEMPORAL_ASSERTION) {
+                    gFieldTimers.waterSportTimer = gBattleTurnCounter + 250;
+                } else {
+                    gFieldTimers.waterSportTimer = gBattleTurnCounter + 5;
+                }
                 gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_WEAKEN_FIRE;
                 worked = TRUE;
             }
@@ -16590,7 +16664,11 @@ static void Cmd_settelekinesis(void)
     else
     {
         gStatuses3[gBattlerTarget] |= STATUS3_TELEKINESIS;
-        gDisableStructs[gBattlerTarget].telekinesisTimer = gBattleTurnCounter + 3;
+        if (GetBattlerAbility(gBattlerAttacker) == ABILITY_TEMPORAL_ASSERTION) {
+            gDisableStructs[gBattlerTarget].telekinesisTimer = gBattleTurnCounter + 250;
+        } else {
+            gDisableStructs[gBattlerTarget].telekinesisTimer = gBattleTurnCounter + 3;
+        }
         gBattlescriptCurrInstr = cmd->nextInstr;
     }
 }
@@ -17450,7 +17528,11 @@ void BS_SetTerrain(void)
 
     gFieldStatuses &= ~STATUS_FIELD_TERRAIN_ANY;
     gFieldStatuses |= statusFlag;
-    gFieldTimers.terrainTimer = gBattleTurnCounter + (atkHoldEffect == HOLD_EFFECT_TERRAIN_EXTENDER) ? 8 : 5;
+    if (GetBattlerAbility(gBattlerAttacker) == ABILITY_TEMPORAL_ASSERTION) {
+        gFieldTimers.terrainTimer = gBattleTurnCounter + 250;
+    } else {
+        gFieldTimers.terrainTimer = gBattleTurnCounter + (atkHoldEffect == HOLD_EFFECT_TERRAIN_EXTENDER) ? 8 : 5;
+    }
     gBattlescriptCurrInstr = cmd->nextInstr;
 }
 
@@ -17659,13 +17741,25 @@ void BS_SetPledgeStatus(void)
         switch (cmd->sideStatus)
         {
         case SIDE_STATUS_RAINBOW:
-            gSideTimers[side].rainbowTimer = gBattleTurnCounter + 4;
+            if (GetBattlerAbility(battler) == ABILITY_TEMPORAL_ASSERTION) {
+                gSideTimers[side].rainbowTimer = gBattleTurnCounter + 250;
+            } else {
+                gSideTimers[side].rainbowTimer = gBattleTurnCounter + 4;
+            }
             break;
         case SIDE_STATUS_SEA_OF_FIRE:
-            gSideTimers[side].seaOfFireTimer = gBattleTurnCounter + 4;
+        if (GetBattlerAbility(battler) == ABILITY_TEMPORAL_ASSERTION) {
+                gSideTimers[side].seaOfFireTimer = gBattleTurnCounter + 250;
+            } else {
+                gSideTimers[side].seaOfFireTimer = gBattleTurnCounter + 4;
+            }
             break;
         case SIDE_STATUS_SWAMP:
-            gSideTimers[side].swampTimer = gBattleTurnCounter + 4;
+        if (GetBattlerAbility(battler) == ABILITY_TEMPORAL_ASSERTION) {
+                gSideTimers[side].swampTimer = gBattleTurnCounter + 250;
+            } else {
+                gSideTimers[side].swampTimer = gBattleTurnCounter + 4;
+            }
         }
 
         gBattlescriptCurrInstr = cmd->nextInstr;
@@ -18707,7 +18801,11 @@ void BS_TrySetTorment(void)
      && !IsAbilityOnSide(gBattlerTarget, ABILITY_AROMA_VEIL))
     {
         gBattleMons[gBattlerTarget].status2 |= STATUS2_TORMENT;
-        gDisableStructs[gBattlerTarget].tormentTimer = gBattleTurnCounter + 3; // 3 turns excluding current turn
+        if (GetBattlerAbility(gBattlerAttacker) == ABILITY_TEMPORAL_ASSERTION) {
+            gDisableStructs[gBattlerTarget].tormentTimer = gBattleTurnCounter + 250;
+        } else {
+            gDisableStructs[gBattlerTarget].tormentTimer = gBattleTurnCounter + 3;
+        }
         gBattleCommunication[MULTISTRING_CHOOSER] = 3;
         gEffectBattler = gBattlerTarget;
         gBattlescriptCurrInstr = cmd->nextInstr;

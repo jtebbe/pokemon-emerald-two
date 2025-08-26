@@ -1053,6 +1053,8 @@ static bool32 AI_IsMoveEffectInMinus(u32 battlerAtk, u32 battlerDef, u32 move, s
                         return TRUE;
                     break;
                 case MOVE_EFFECT_RECHARGE:
+                    if (GetBattlerAbility(battlerAtk) == ABILITY_LORD_OF_TIME)
+                        return FALSE;
                     return additionalEffect->self;
                 case MOVE_EFFECT_ATK_PLUS_1:
                 case MOVE_EFFECT_DEF_PLUS_1:
@@ -1721,7 +1723,7 @@ bool32 IsMoveEncouragedToHit(u32 battlerAtk, u32 battlerDef, u32 move)
     if (gStatuses3[battlerDef] & STATUS3_ALWAYS_HITS || gDisableStructs[battlerDef].battlerWithSureHit == battlerAtk)
         return TRUE;
 
-    if (gAiLogicData->abilities[battlerDef] == ABILITY_NO_GUARD || gAiLogicData->abilities[battlerAtk] == ABILITY_NO_GUARD || 
+    if (gAiLogicData->abilities[battlerDef] == ABILITY_NO_GUARD || gAiLogicData->abilities[battlerAtk] == ABILITY_LORD_OF_SPACE || gAiLogicData->abilities[battlerAtk] == ABILITY_NO_GUARD || 
         (gMovesInfo[move].category == DAMAGE_CATEGORY_STATUS && gAiLogicData->abilities[battlerAtk] == ABILITY_HYPNOTIST))
         return TRUE;
 
@@ -1764,7 +1766,7 @@ bool32 ShouldTryOHKO(u32 battlerAtk, u32 battlerDef, u32 atkAbility, u32 defAbil
 
     if ((((gStatuses3[battlerDef] & STATUS3_ALWAYS_HITS)
         && gDisableStructs[battlerDef].battlerWithSureHit == battlerAtk)
-        || atkAbility == ABILITY_NO_GUARD || defAbility == ABILITY_NO_GUARD)
+        || atkAbility == ABILITY_NO_GUARD || defAbility == ABILITY_NO_GUARD || atkAbility == ABILITY_LORD_OF_SPACE)
         && gBattleMons[battlerAtk].level >= gBattleMons[battlerDef].level)
     {
         return TRUE;
@@ -2783,7 +2785,8 @@ bool32 IsTwoTurnNotSemiInvulnerableMove(u32 battlerAtk, u32 move)
     case EFFECT_SOLAR_BEAM:
     case EFFECT_TWO_TURNS_ATTACK:
         return !(gAiLogicData->holdEffects[battlerAtk] == HOLD_EFFECT_POWER_HERB
-              || (AI_GetWeather() & GetMoveTwoTurnAttackWeather(move)));
+              || (AI_GetWeather() & GetMoveTwoTurnAttackWeather(move))
+              || GetBattlerAbility(battlerAtk) == ABILITY_LORD_OF_TIME);
     default:
         return FALSE;
     }

@@ -32198,7 +32198,7 @@ F_TRAINER_FEMALE |
             .species = SPECIES_DIALGA,
             .gender = TRAINER_MON_RANDOM_GENDER,
 #line 12595
-            .heldItem = ITEM_ADAMANT_ORB,
+            .heldItem = ITEM_ASSAULT_VEST,
 #line 12597
             .ev = TRAINER_PARTY_EVS(252, 0, 4, 0, 252, 0),
 #line 12599
@@ -32213,9 +32213,9 @@ F_TRAINER_FEMALE |
             .moves = {
 #line 12600
                 MOVE_ROAR_OF_TIME,
-                MOVE_HYPER_BEAM,
-                MOVE_PROTECT,
-                MOVE_TRICK_ROOM,
+                MOVE_METEOR_BEAM,
+                MOVE_SOLAR_BEAM,
+                MOVE_FLASH_CANNON,
             },
             },
             {

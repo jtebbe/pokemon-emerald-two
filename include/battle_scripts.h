@@ -281,6 +281,7 @@ extern const u8 BattleScript_AttackerAbilityStatRaise[];
 extern const u8 BattleScript_AttackerAbilityStatRaiseEnd3[];
 extern const u8 BattleScript_PoisonHealActivates[];
 extern const u8 BattleScript_BadDreamsActivates[];
+extern const u8 BattleScript_UmbralGripActivates[];
 extern const u8 BattleScript_SwitchInAbilityMsg[];
 extern const u8 BattleScript_SwitchInAbilityMsgRet[];
 extern const u8 BattleScript_ToxicSpikesPoisoned[];
@@ -881,5 +882,6 @@ extern const u8 BattleScript_StrangeShieldHeld[];
 extern const u8 BattleScript_QuestionForfeitBattle[];
 extern const u8 BattleScript_ForfeitBattleGaveMoney[];
 extern const u8 BattleScript_AbilityPopUp[];
+extern const u8 BattleScript_SwitchInSpacialDominance[];
 
 #endif // GUARD_BATTLE_SCRIPTS_H

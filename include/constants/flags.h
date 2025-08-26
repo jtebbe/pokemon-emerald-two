@@ -674,8 +674,8 @@
 #define FLAG_ITEM_MAWILITE  0x275
 #define FLAG_MOVE_RELEARNER  0x276
 #define FLAG_MOVE_RELEARNER_STATE  0x277
-#define FLAG_UNUSED_0x278  0x278 // Unused Flag
-#define FLAG_UNUSED_0x279  0x279 // Unused Flag
+#define FLAG_TRAINER_SIGHT  0x278
+#define FLAG_WALK_ANYWHERE  0x279
 #define FLAG_UNUSED_0x27A  0x27A // Unused Flag
 #define FLAG_UNUSED_0x27B  0x27B // Unused Flag
 #define FLAG_UNUSED_0x27C  0x27C // Unused Flag

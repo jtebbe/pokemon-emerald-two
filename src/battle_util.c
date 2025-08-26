@@ -60,6 +60,7 @@ functions instead of at the top of the file with the other declarations.
 
 typedef void (*MoveSuccessOrderCancellers)(u32 *effect);
 static bool32 TryRemoveScreens(u32 battler);
+static bool32 TryRemoveFieldEffects(u32 battler);
 static bool32 IsUnnerveAbilityOnOpposingSide(u32 battler);
 static u32 GetFlingPowerFromItemId(u32 itemId);
 static void SetRandomMultiHitCounter();
@@ -3777,6 +3778,20 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 effect++;
             }
             break;
+        case ABILITY_SPACIAL_DOMINANCE:
+            if (!gSpecialStatuses[battler].switchInAbilityDone)
+            {
+                bool32 refreshedTerrain = TryRemoveFieldEffects(battler);
+                gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SWITCHIN_SPACIALDOMINANCE;
+                gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                if (refreshedTerrain != TRUE) {
+                    BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
+                } else {
+                    BattleScriptPushCursorAndCallback(BattleScript_SwitchInSpacialDominance);
+                }
+                effect++;
+            }
+            break;
         case ABILITY_DRIZZLE:
             if (TryChangeBattleWeather(battler, BATTLE_WEATHER_RAIN, TRUE))
             {
@@ -4374,6 +4389,10 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 break;
             case ABILITY_BAD_DREAMS:
                 BattleScriptPushCursorAndCallback(BattleScript_BadDreamsActivates);
+                effect++;
+                break;
+            case ABILITY_UMBRAL_GRIP:
+                BattleScriptPushCursorAndCallback(BattleScript_UmbralGripActivates);
                 effect++;
                 break;
             case ABILITY_SOLAR_POWER:
@@ -7895,6 +7914,10 @@ bool32 IsBattlerProtected(u32 battlerAtk, u32 battlerDef, u32 move)
     if (gProtectStructs[battlerDef].protected == PROTECT_NONE
      && gProtectStructs[BATTLE_PARTNER(battlerDef)].protected == PROTECT_NONE)
         return FALSE;
+    
+    if (GetBattlerAbility(battlerAtk) == ABILITY_LORD_OF_SPACE) {
+        return FALSE;
+    }
 
     if (gProtectStructs[battlerDef].protected != PROTECT_MAX_GUARD && !MoveIgnoresProtect(move))
     {
@@ -10717,7 +10740,7 @@ u32 GetBattleMoveCategory(u32 move)
             return DAMAGE_CATEGORY_STATUS;
     }
 
-    if (B_PHYSICAL_SPECIAL_SPLIT <= GEN_4)
+    if (B_PHYSICAL_SPECIAL_SPLIT <= GEN_4 || IsAbilityOnField(ABILITY_DISTORTION))
         return gTypesInfo[GetBattleMoveType(move)].damageCategory;
 
     return GetMoveCategory(move);
@@ -10769,6 +10792,45 @@ static bool32 TryRemoveScreens(u32 battler)
     }
 
     return removed;
+}
+
+static bool32 TryRemoveFieldEffects(u32 battler)
+{
+    bool32 removedTerrain = FALSE;
+    u8 enemySide = GetBattlerSide(BATTLE_OPPOSITE(battler));
+    u8 allySide = GetBattlerSide(battler);
+
+    // try to remove from battler's side
+    if (gSideStatuses[allySide] & SIDE_STATUS_SCREEN_ANY)
+        gSideStatuses[allySide] &= ~SIDE_STATUS_SCREEN_ANY;
+    if (gSideStatuses[allySide] & SIDE_STATUS_HAZARDS_ANY)
+        gSideStatuses[allySide] &= ~SIDE_STATUS_HAZARDS_ANY;
+    if (gSideStatuses[allySide] & SIDE_STATUS_PLEDGE_ANY)
+        gSideStatuses[allySide] &= ~SIDE_STATUS_PLEDGE_ANY;
+    if (gSideStatuses[allySide] & SIDE_STATUS_OTHERS)
+        gSideStatuses[allySide] &= ~SIDE_STATUS_OTHERS;
+
+    // try to remove from battler opponent's side
+    if (gSideStatuses[enemySide] & SIDE_STATUS_SCREEN_ANY)
+        gSideStatuses[enemySide] &= ~SIDE_STATUS_SCREEN_ANY;
+    if (gSideStatuses[enemySide] & SIDE_STATUS_HAZARDS_ANY)
+        gSideStatuses[enemySide] &= ~SIDE_STATUS_HAZARDS_ANY;
+    if (gSideStatuses[enemySide] & SIDE_STATUS_PLEDGE_ANY)
+        gSideStatuses[enemySide] &= ~SIDE_STATUS_PLEDGE_ANY;
+    if (gSideStatuses[enemySide] & SIDE_STATUS_OTHERS)
+        gSideStatuses[enemySide] &= ~SIDE_STATUS_OTHERS;
+    
+    if (gFieldStatuses & STATUS_FIELD_TERRAIN_ANY) {
+        gFieldStatuses &= ~STATUS_FIELD_TERRAIN_ANY;
+        removedTerrain = TRUE;
+    }
+
+    if (gBattleWeather & B_WEATHER_ANY) {
+        gWishFutureKnock.weatherDuration = 0;
+        gBattleWeather = 0;
+    }
+
+    return removedTerrain;
 }
 
 static bool32 IsUnnerveAbilityOnOpposingSide(u32 battler)
