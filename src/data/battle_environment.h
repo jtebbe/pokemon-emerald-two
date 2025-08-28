@@ -36,25 +36,25 @@ const u32 gBattleEnvironmentTiles_Building[] = INCBIN_U32("graphics/battle_envir
 const u16 gBattleEnvironmentPalette_Frontier[] = INCBIN_U16("graphics/battle_environment/stadium/battle_frontier.gbapal"); // this is also used for link battles
 const u32 gBattleEnvironmentTilemap_Building[] = INCBIN_U32("graphics/battle_environment/building/map.bin.smolTM");
 
-const u32 gBattleEnvironmentTiles_Gym[] = INCBIN_U32("graphics/battle_environment/gym/tiles.4bpp.lz");
+const u32 gBattleEnvironmentTiles_Gym[] = INCBIN_U32("graphics/battle_environment/gym/tiles.4bpp.smol");
 const u16 gBattleEnvironmentPalette_Gym[] = INCBIN_U16("graphics/battle_environment/gym/palette.gbapal");
-const u32 gBattleEnvironmentTilemap_Gym[] = INCBIN_U32("graphics/battle_environment/gym/map.bin.lz");
+const u32 gBattleEnvironmentTilemap_Gym[] = INCBIN_U32("graphics/battle_environment/gym/map.bin.smolTM");
 
-const u32 gBattleEnvironmentTiles_Beach[] = INCBIN_U32("graphics/battle_environment/beach/tiles.4bpp.lz");
+const u32 gBattleEnvironmentTiles_Beach[] = INCBIN_U32("graphics/battle_environment/beach/tiles.4bpp.smol");
 const u16 gBattleEnvironmentPalette_Beach[] = INCBIN_U16("graphics/battle_environment/beach/palette.gbapal");
-const u32 gBattleEnvironmentTilemap_Beach[] = INCBIN_U32("graphics/battle_environment/beach/map.bin.lz");
+const u32 gBattleEnvironmentTilemap_Beach[] = INCBIN_U32("graphics/battle_environment/beach/map.bin.smolTM");
 
-const u32 gBattleEnvironmentTiles_Snow[] = INCBIN_U32("graphics/battle_environment/snow/tiles.4bpp.lz");
+const u32 gBattleEnvironmentTiles_Snow[] = INCBIN_U32("graphics/battle_environment/snow/tiles.4bpp.smol");
 const u16 gBattleEnvironmentPalette_Snow[] = INCBIN_U16("graphics/battle_environment/snow/palette.gbapal");
-const u32 gBattleEnvironmentTilemap_Snow[] = INCBIN_U32("graphics/battle_environment/snow/map.bin.lz");
+const u32 gBattleEnvironmentTilemap_Snow[] = INCBIN_U32("graphics/battle_environment/snow/map.bin.smolTM");
 
-const u32 gBattleEnvironmentTiles_CaveSnow[] = INCBIN_U32("graphics/battle_environment/snow_cave/tiles.4bpp.lz");
+const u32 gBattleEnvironmentTiles_CaveSnow[] = INCBIN_U32("graphics/battle_environment/snow_cave/tiles.4bpp.smol");
 const u16 gBattleEnvironmentPalette_CaveSnow[] = INCBIN_U16("graphics/battle_environment/snow_cave/palette.gbapal");
-const u32 gBattleEnvironmentTilemap_CaveSnow[] = INCBIN_U32("graphics/battle_environment/snow_cave/map.bin.lz");
+const u32 gBattleEnvironmentTilemap_CaveSnow[] = INCBIN_U32("graphics/battle_environment/snow_cave/map.bin.smolTM");
 
-const u32 gBattleEnvironmentTiles_CaveScalding[] = INCBIN_U32("graphics/battle_environment/scalding_cave/tiles.4bpp.lz");
+const u32 gBattleEnvironmentTiles_CaveScalding[] = INCBIN_U32("graphics/battle_environment/scalding_cave/tiles.4bpp.smol");
 const u16 gBattleEnvironmentPalette_CaveScalding[] = INCBIN_U16("graphics/battle_environment/scalding_cave/palette.gbapal");
-const u32 gBattleEnvironmentTilemap_CaveScalding[] = INCBIN_U32("graphics/battle_environment/scalding_cave/map.bin.lz");
+const u32 gBattleEnvironmentTilemap_CaveScalding[] = INCBIN_U32("graphics/battle_environment/scalding_cave/map.bin.smolTM");
 
 #define ENVIRONMENT_BACKGROUND(background)                      \
 {                                                               \

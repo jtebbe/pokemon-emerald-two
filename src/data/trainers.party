@@ -79,7 +79,7 @@ Class: Pkmn Trainer 1
 Pic: Hiker
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 
 === TRAINER_SAWYER_1 ===
 Name: SAWYER
@@ -87,7 +87,7 @@ Class: Hiker
 Pic: Hiker
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Golem @ Assault Vest  
@@ -116,7 +116,7 @@ Class: Team Aqua
 Pic: Aqua Grunt M
 Gender: Male
 Music: Aqua
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Walrein @ Assault Vest  
@@ -164,7 +164,7 @@ Class: Team Aqua
 Pic: Aqua Grunt M
 Gender: Male
 Music: Aqua
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Kingdra @ Life Orb  
@@ -212,7 +212,7 @@ Class: Team Aqua
 Pic: Aqua Grunt M
 Gender: Male
 Music: Aqua
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Carracosta @ Assault Vest  
@@ -259,7 +259,7 @@ Class: Team Aqua
 Pic: Aqua Grunt M
 Gender: Male
 Music: Aqua
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Veluza @ Sitrus Berry  
@@ -306,7 +306,7 @@ Class: Team Aqua
 Pic: Aqua Grunt M
 Gender: Male
 Music: Aqua
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Mightyena @ Assault Vest  
@@ -352,7 +352,7 @@ Class: Team Aqua
 Pic: Aqua Grunt M
 Gender: Male
 Music: Aqua
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Togekiss @ Covert Cloak  
@@ -400,7 +400,7 @@ Class: Team Aqua
 Pic: Aqua Grunt M
 Gender: Male
 Music: Aqua
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Crobat @ Mental Herb  
@@ -446,7 +446,7 @@ Class: Pkmn Breeder
 Pic: Pokemon Breeder F
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Delcatty @ Focus Sash  
@@ -493,7 +493,7 @@ Class: Team Aqua
 Pic: Aqua Grunt M
 Gender: Male
 Music: Aqua
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Carvanha @ Black Glasses  
@@ -522,7 +522,7 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Shuckle @ Sitrus Berry  
@@ -571,7 +571,7 @@ Class: Bird Keeper
 Pic: Bird Keeper
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Kingdra @ Life Orb  
@@ -621,7 +621,7 @@ Class: Collector
 Pic: Collector
 Gender: Male
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Pyroar @ Assault Vest  
@@ -668,7 +668,7 @@ Class: Team Aqua
 Pic: Aqua Grunt F
 Gender: Female
 Music: Aqua
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Sharpedo @ Focus Sash  
@@ -713,7 +713,7 @@ Class: Swimmer M
 Pic: Swimmer M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Coalossal @ Air Balloon  
@@ -751,7 +751,7 @@ Class: Team Aqua
 Pic: Aqua Grunt M
 Gender: Male
 Music: Aqua
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Grimer-Alola @ Assault Vest
@@ -780,7 +780,7 @@ Class: Team Aqua
 Pic: Aqua Grunt M
 Gender: Male
 Music: Aqua
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Crobat @ Choice Band  
@@ -826,7 +826,7 @@ Class: Team Aqua
 Pic: Aqua Grunt M
 Gender: Male
 Music: Aqua
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Obstagoon @ Assault Vest  
@@ -873,7 +873,7 @@ Class: Team Aqua
 Pic: Aqua Grunt M
 Gender: Male
 Music: Aqua
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Hitmontop (M) @ Covert Cloak  
@@ -923,7 +923,7 @@ Class: Team Aqua
 Pic: Aqua Grunt M
 Gender: Male
 Music: Aqua
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Floatzel @ Assault Vest  
@@ -960,7 +960,7 @@ Class: Team Aqua
 Pic: Aqua Grunt M
 Gender: Male
 Music: Aqua
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Beedrill @ Scope Lens  
@@ -997,7 +997,7 @@ Class: Team Magma
 Pic: Magma Grunt M
 Gender: Male
 Music: Magma
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Camerupt @ Cameruptite  
@@ -1045,7 +1045,7 @@ Class: Team Aqua
 Pic: Aqua Grunt M
 Gender: Male
 Music: Aqua
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Lapras @ Assault Vest  
@@ -1092,7 +1092,7 @@ Class: Team Aqua
 Pic: Aqua Grunt M
 Gender: Male
 Music: Aqua
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Sharpedo @ Life Orb  
@@ -1138,7 +1138,7 @@ Class: Team Aqua
 Pic: Aqua Grunt M
 Gender: Male
 Music: Aqua
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Castform @ Damp Rock  
@@ -1176,7 +1176,7 @@ Class: Team Aqua
 Pic: Aqua Grunt F
 Gender: Female
 Music: Aqua
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Delphox @ Life Orb  
@@ -1223,7 +1223,7 @@ Class: Team Aqua
 Pic: Aqua Grunt F
 Gender: Female
 Music: Aqua
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Floatzel @ Choice Band  
@@ -1271,7 +1271,7 @@ Class: Team Aqua
 Pic: Aqua Grunt F
 Gender: Female
 Music: Aqua
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Castform @ Damp Rock  
@@ -1310,7 +1310,7 @@ Class: Expert
 Pic: Expert M
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Lurantis @ Assault Vest  
@@ -1348,7 +1348,7 @@ Class: Aqua Admin
 Pic: Aqua Admin M
 Gender: Male
 Music: Aqua
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Ludicolo @ Life Orb  
@@ -1417,7 +1417,7 @@ Class: Black Belt
 Pic: Black Belt
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Dugtrio @ Focus Sash  
@@ -1454,7 +1454,7 @@ Class: Aqua Admin
 Pic: Aqua Admin F
 Gender: Female
 Music: Aqua
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Absol @ Absolite  
@@ -1520,7 +1520,7 @@ Class: Aqua Admin
 Pic: Aqua Admin F
 Gender: Female
 Music: Aqua
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Palafin @ Choice Scarf  
@@ -1558,7 +1558,7 @@ Class: Aqua Leader
 Pic: Aqua Leader Archie
 Gender: Male
 Music: Aqua
-Double Battle: Yes
+Battle Type: Doubles
 Mugshot: Pink
 AI: Smart Trainer
 Party Size: 6
@@ -1703,7 +1703,7 @@ Class: Hex Maniac
 Pic: Hex Maniac
 Gender: Female
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Skarmory @ Rocky Helmet  
@@ -1741,7 +1741,7 @@ Class: Aroma Lady
 Pic: Aroma Lady
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Delcatty @ Metronome  
@@ -1768,7 +1768,7 @@ Class: Aroma Lady
 Pic: Aroma Lady
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Comfey @ Big Root  
@@ -1807,7 +1807,7 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Deoxys-Attack @ Focus Sash  
@@ -1854,7 +1854,7 @@ Class: Aroma Lady
 Pic: Aroma Lady
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Ledian @ Focus Sash  
@@ -1902,7 +1902,7 @@ Class: Aroma Lady
 Pic: Aroma Lady
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Shroomish
@@ -1919,7 +1919,7 @@ Class: Aroma Lady
 Pic: Aroma Lady
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Shroomish
@@ -1940,7 +1940,7 @@ Class: Aroma Lady
 Pic: Aroma Lady
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Shroomish
@@ -1961,7 +1961,7 @@ Class: Aroma Lady
 Pic: Aroma Lady
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Breloom
@@ -1982,7 +1982,7 @@ Class: Ruin Maniac
 Pic: Ruin Maniac
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Ninetales @ Focus Sash  
@@ -2022,7 +2022,7 @@ Class: Ruin Maniac
 Pic: Ruin Maniac
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Hippowdon @ Sitrus Berry  
@@ -2069,7 +2069,7 @@ Class: Ruin Maniac
 Pic: Ruin Maniac
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Nidoking (M) @ Life Orb  
@@ -2115,7 +2115,7 @@ Class: Ruin Maniac
 Pic: Ruin Maniac
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Sandslash
@@ -2132,7 +2132,7 @@ Class: Ruin Maniac
 Pic: Ruin Maniac
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Sandslash
@@ -2149,7 +2149,7 @@ Class: Ruin Maniac
 Pic: Ruin Maniac
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Sandslash
@@ -2166,7 +2166,7 @@ Class: Ruin Maniac
 Pic: Ruin Maniac
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Sandslash
@@ -2183,7 +2183,7 @@ Class: Interviewer
 Pic: Interviewer
 Gender: Male
 Music: Interviewer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Magneton @ Eviolite  
@@ -2212,7 +2212,7 @@ Class: Interviewer
 Pic: Interviewer
 Gender: Male
 Music: Interviewer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Exploud @ Life Orb  
@@ -2252,7 +2252,7 @@ Class: Interviewer
 Pic: Interviewer
 Gender: Male
 Music: Interviewer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Magneton
@@ -2269,7 +2269,7 @@ Class: Interviewer
 Pic: Interviewer
 Gender: Male
 Music: Interviewer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Magneton
@@ -2286,7 +2286,7 @@ Class: Interviewer
 Pic: Interviewer
 Gender: Male
 Music: Interviewer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Magneton
@@ -2303,7 +2303,7 @@ Class: Interviewer
 Pic: Interviewer
 Gender: Male
 Music: Interviewer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Magneton
@@ -2328,7 +2328,7 @@ Class: Tuber F
 Pic: Tuber F
 Gender: Female
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Mareep @ Rocky Helmet  
@@ -2357,7 +2357,7 @@ Class: Tuber F
 Pic: Tuber F
 Gender: Female
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Swalot @ Black Sludge  
@@ -2395,7 +2395,7 @@ Class: Tuber F
 Pic: Tuber F
 Gender: Female
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Palafin @ Choice Band  
@@ -2442,7 +2442,7 @@ Class: Tuber F
 Pic: Tuber F
 Gender: Female
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Marill
@@ -2459,7 +2459,7 @@ Class: Tuber F
 Pic: Tuber F
 Gender: Female
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Marill
@@ -2476,7 +2476,7 @@ Class: Tuber F
 Pic: Tuber F
 Gender: Female
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Marill
@@ -2493,7 +2493,7 @@ Class: Tuber F
 Pic: Tuber F
 Gender: Female
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Azumarill
@@ -2510,7 +2510,7 @@ Class: Tuber M
 Pic: Tuber M
 Gender: Male
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Kingler @ Assault Vest  
@@ -2538,7 +2538,7 @@ Class: Tuber M
 Pic: Tuber M
 Gender: Male
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Koffing @ Black Sludge  
@@ -2569,7 +2569,7 @@ Class: Tuber M
 Pic: Tuber M
 Gender: Male
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Hypno @ Mental Herb  
@@ -2608,7 +2608,7 @@ Class: Tuber M
 Pic: Tuber M
 Gender: Male
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Linoone
@@ -2625,7 +2625,7 @@ Class: Tuber M
 Pic: Tuber M
 Gender: Male
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Linoone
@@ -2642,7 +2642,7 @@ Class: Tuber M
 Pic: Tuber M
 Gender: Male
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Linoone
@@ -2659,7 +2659,7 @@ Class: Tuber M
 Pic: Tuber M
 Gender: Male
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Linoone
@@ -2676,7 +2676,7 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Swellow @ Flame Orb  
@@ -2714,7 +2714,7 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Spinda @ Leftovers  
@@ -2752,7 +2752,7 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Snorlax @ Iapapa Berry  
@@ -2798,7 +2798,7 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Kangaskhan (F) @ Assault Vest  
@@ -2828,7 +2828,7 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Exeggutor @ Sitrus Berry  
@@ -2887,7 +2887,7 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Raging Bolt @ Booster Energy  
@@ -2916,7 +2916,7 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Starmie @ Choice Specs  
@@ -2945,7 +2945,7 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Cofagrigus @ Leftovers  
@@ -2983,7 +2983,7 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Cacturne @ Life Orb  
@@ -3029,7 +3029,7 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Magnezone @ Air Balloon  
@@ -3078,7 +3078,7 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Ogerpon-Wellspring (F) @ Wellspring Mask  
@@ -3125,7 +3125,7 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Dodrio @ Focus Sash  
@@ -3172,7 +3172,7 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Kecleon @ Covert Cloak  
@@ -3222,7 +3222,7 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Electrike
@@ -3243,7 +3243,7 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Manectric
@@ -3264,7 +3264,7 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Manectric
@@ -3285,7 +3285,7 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Manectric
@@ -3306,7 +3306,7 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Ursaluna @ Flame Orb  
@@ -3353,7 +3353,7 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Maushold @ Rocky Helmet  
@@ -3391,7 +3391,7 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Obstagoon @ Chople Berry  
@@ -3429,7 +3429,7 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer / Force Setup First Turn
 
 Zangoose @ Toxic Orb  
@@ -3466,7 +3466,7 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer / Force Setup First Turn
 
 Thievul @ Normal Gem  
@@ -3514,7 +3514,7 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer / Force Setup First Turn
 
 Aggron @ Aggronite  
@@ -3541,7 +3541,7 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Thwackey @ Eviolite  
@@ -3578,7 +3578,7 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Hitmonchan (M) @ Assault Vest  
@@ -3635,7 +3635,7 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Roserade @ Focus Sash  
@@ -3683,7 +3683,7 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Claydol @ Sitrus Berry  
@@ -3732,7 +3732,7 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Sableye @ Sitrus Berry  
@@ -3779,7 +3779,7 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Alakazam @ Alakazite  
@@ -3827,7 +3827,7 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Iron Boulder @ Booster Energy  
@@ -3873,7 +3873,7 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Wingull
@@ -3894,7 +3894,7 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Pelipper
@@ -3915,7 +3915,7 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Pelipper
@@ -3936,7 +3936,7 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Pelipper
@@ -3957,7 +3957,7 @@ Class: Hex Maniac
 Pic: Hex Maniac
 Gender: Female
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Annihilape @ Sitrus Berry  
@@ -3975,7 +3975,7 @@ Class: Hex Maniac
 Pic: Hex Maniac
 Gender: Female
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Mimikyu @ Focus Sash  
@@ -4023,7 +4023,7 @@ Class: Hex Maniac
 Pic: Hex Maniac
 Gender: Female
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Ampharos @ Ampharosite  
@@ -4062,7 +4062,7 @@ Class: Hex Maniac
 Pic: Hex Maniac
 Gender: Female
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Bruxish @ Choice Scarf  
@@ -4109,7 +4109,7 @@ Class: Hex Maniac
 Pic: Hex Maniac
 Gender: Female
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Skeledirge @ Throat Spray  
@@ -4158,7 +4158,7 @@ Class: Hex Maniac
 Pic: Hex Maniac
 Gender: Female
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Sableye
@@ -4175,7 +4175,7 @@ Class: Hex Maniac
 Pic: Hex Maniac
 Gender: Female
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Spoink
@@ -4192,7 +4192,7 @@ Class: Hex Maniac
 Pic: Hex Maniac
 Gender: Female
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Spoink
@@ -4209,7 +4209,7 @@ Class: Hex Maniac
 Pic: Hex Maniac
 Gender: Female
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Duskull
@@ -4230,7 +4230,7 @@ Class: Lady
 Pic: Lady
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Cottonee @ Lum Berry  
@@ -4261,7 +4261,7 @@ Class: Lady
 Pic: Lady
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Drednaw @ White Herb  
@@ -4289,7 +4289,7 @@ Class: Team Magma
 Pic: Magma Grunt M
 Gender: Male
 Music: Magma
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Mightyena @ Choice Band  
@@ -4337,7 +4337,7 @@ Class: Lady
 Pic: Lady
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Zigzagoon @ Nugget
@@ -4352,7 +4352,7 @@ Class: Lady
 Pic: Lady
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Golisopod @ Assault Vest  
@@ -4380,7 +4380,7 @@ Class: Lady
 Pic: Lady
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Roselia @ Nugget
@@ -4393,7 +4393,7 @@ Class: Lady
 Pic: Lady
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Linoone @ Nugget
@@ -4406,7 +4406,7 @@ Class: Lady
 Pic: Lady
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Linoone @ Nugget
@@ -4419,7 +4419,7 @@ Class: Lady
 Pic: Lady
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Linoone @ Nugget
@@ -4432,7 +4432,7 @@ Class: Lady
 Pic: Lady
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Linoone @ Nugget
@@ -4449,7 +4449,7 @@ Class: Beauty
 Pic: Beauty
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Corsola @ Leftovers  
@@ -4488,7 +4488,7 @@ Class: Beauty
 Pic: Beauty
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Bellossom @ Covert Cloak  
@@ -4527,7 +4527,7 @@ Class: Beauty
 Pic: Beauty
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Camerupt @ Assault Vest  
@@ -4566,7 +4566,7 @@ Class: Beauty
 Pic: Beauty
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Kecleon @ Life Orb  
@@ -4616,7 +4616,7 @@ Class: Beauty
 Pic: Beauty
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Floatzel @ Choice Band  
@@ -4644,7 +4644,7 @@ Class: Beauty
 Pic: Beauty
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Dondozo @ Clear Amulet  
@@ -4673,7 +4673,7 @@ Class: Beauty
 Pic: Beauty
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Relicanth @ Assault Vest  
@@ -4702,7 +4702,7 @@ Class: Beauty
 Pic: Beauty
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Sharpedo @ Life Orb  
@@ -4730,7 +4730,7 @@ Class: Beauty
 Pic: Beauty
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Kecleon
@@ -4755,7 +4755,7 @@ Class: Beauty
 Pic: Beauty
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Kecleon
@@ -4780,7 +4780,7 @@ Class: Beauty
 Pic: Beauty
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Kecleon
@@ -4805,7 +4805,7 @@ Class: Beauty
 Pic: Beauty
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Kecleon
@@ -4830,7 +4830,7 @@ Class: Rich Boy
 Pic: Rich Boy
 Gender: Male
 Music: Rich
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Zigzagoon @ Assault Vest  
@@ -4859,7 +4859,7 @@ Class: Expert
 Pic: Expert F
 Gender: Female
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Klinklang @ Life Orb  
@@ -4907,7 +4907,7 @@ Class: Rich Boy
 Pic: Rich Boy
 Gender: Male
 Music: Rich
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Azumarill @ Nugget
@@ -4920,7 +4920,7 @@ Class: Rich Boy
 Pic: Rich Boy
 Gender: Male
 Music: Rich
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Linoone @ Nugget
@@ -4933,7 +4933,7 @@ Class: Rich Boy
 Pic: Rich Boy
 Gender: Male
 Music: Rich
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Linoone @ Nugget
@@ -4946,7 +4946,7 @@ Class: Rich Boy
 Pic: Rich Boy
 Gender: Male
 Music: Rich
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Linoone @ Nugget
@@ -4959,7 +4959,7 @@ Class: Rich Boy
 Pic: Rich Boy
 Gender: Male
 Music: Rich
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Linoone @ Nugget
@@ -4976,7 +4976,7 @@ Class: Pokemaniac
 Pic: Pokemaniac
 Gender: Male
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Primeape @ Choice Scarf  
@@ -5012,7 +5012,7 @@ Class: Beauty
 Pic: Beauty
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Tsareena @ Covert Cloak  
@@ -5049,7 +5049,7 @@ Class: Pokemaniac
 Pic: Pokemaniac
 Gender: Male
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer / Force Setup First Turn
 
 Rhyperior @ Mental Herb  
@@ -5097,7 +5097,7 @@ Class: Team Magma
 Pic: Magma Grunt F
 Gender: Female
 Music: Magma
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Magmar @ Eviolite  
@@ -5135,7 +5135,7 @@ Class: Pokemaniac
 Pic: Pokemaniac
 Gender: Male
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Lairon
@@ -5148,7 +5148,7 @@ Class: Pokemaniac
 Pic: Pokemaniac
 Gender: Male
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Lairon
@@ -5165,7 +5165,7 @@ Class: Pokemaniac
 Pic: Pokemaniac
 Gender: Male
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Lairon
@@ -5182,7 +5182,7 @@ Class: Pokemaniac
 Pic: Pokemaniac
 Gender: Male
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Aggron
@@ -5199,7 +5199,7 @@ Class: Swimmer M
 Pic: Swimmer M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Sharpedo @ Sharpedonite  
@@ -5236,7 +5236,7 @@ Class: Swimmer M
 Pic: Swimmer M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Sableye @ Lagging Tail  
@@ -5274,7 +5274,7 @@ Class: Swimmer M
 Pic: Swimmer M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Tentacruel @ Black Sludge  
@@ -5314,7 +5314,7 @@ Class: Swimmer M
 Pic: Swimmer M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Tauros-Paldea-Aqua (M) @ Clear Amulet  
@@ -5352,7 +5352,7 @@ Class: Swimmer M
 Pic: Swimmer M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Simisage @ Focus Sash  
@@ -5391,7 +5391,7 @@ Class: Swimmer M
 Pic: Swimmer M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Greninja @ Focus Sash  
@@ -5431,7 +5431,7 @@ Class: Swimmer M
 Pic: Swimmer M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Noctowl @ Leftovers  
@@ -5469,7 +5469,7 @@ Class: Swimmer M
 Pic: Swimmer M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Toucannon @ Covert Cloak  
@@ -5506,7 +5506,7 @@ Class: Swimmer M
 Pic: Swimmer M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Dubwool @ Rocky Helmet  
@@ -5554,7 +5554,7 @@ Class: Swimmer M
 Pic: Swimmer M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Ferrothorn @ Occa Berry  
@@ -5592,7 +5592,7 @@ Class: Swimmer M
 Pic: Swimmer M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Cetitan @ Sitrus Berry  
@@ -5640,7 +5640,7 @@ Class: Swimmer M
 Pic: Swimmer M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Clodsire @ Leftovers  
@@ -5688,7 +5688,7 @@ Class: Swimmer M
 Pic: Swimmer M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Maushold @ Covert Cloak  
@@ -5736,7 +5736,7 @@ Class: Swimmer M
 Pic: Swimmer M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Toxapex @ Black Sludge  
@@ -5784,7 +5784,7 @@ Class: Swimmer M
 Pic: Swimmer M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Gyarados @ Rocky Helmet  
@@ -5832,7 +5832,7 @@ Class: Swimmer M
 Pic: Swimmer M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Sableye @ Sablenite  
@@ -5879,7 +5879,7 @@ Class: Swimmer M
 Pic: Swimmer M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Kleavor @ Mental Herb  
@@ -5927,7 +5927,7 @@ Class: Swimmer M
 Pic: Swimmer M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Exeggutor-Alola @ Sitrus Berry  
@@ -5970,7 +5970,7 @@ Class: Swimmer M
 Pic: Swimmer M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Haxorus @ Chople Berry  
@@ -6018,7 +6018,7 @@ Class: Swimmer M
 Pic: Swimmer M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Bastiodon @ Rocky Helmet  
@@ -6066,7 +6066,7 @@ Class: Swimmer M
 Pic: Swimmer M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Feraligatr @ Life Orb  
@@ -6112,7 +6112,7 @@ Class: Swimmer M
 Pic: Swimmer M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Omastar @ Assault Vest  
@@ -6159,7 +6159,7 @@ Class: Swimmer M
 Pic: Swimmer M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Tentacool
@@ -6180,7 +6180,7 @@ Class: Swimmer M
 Pic: Swimmer M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Ariados @ Covert Cloak  
@@ -6227,7 +6227,7 @@ Class: Swimmer M
 Pic: Swimmer M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Sharpedo
@@ -6240,7 +6240,7 @@ Class: Swimmer M
 Pic: Swimmer M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Sharpedo
@@ -6253,7 +6253,7 @@ Class: Swimmer M
 Pic: Swimmer M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Staryu
@@ -6270,7 +6270,7 @@ Class: Swimmer M
 Pic: Swimmer M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Starmie
@@ -6287,7 +6287,7 @@ Class: Black Belt
 Pic: Black Belt
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Mienfoo @ Eviolite  
@@ -6324,7 +6324,7 @@ Class: Black Belt
 Pic: Black Belt
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Heracross @ Flame Orb  
@@ -6370,7 +6370,7 @@ Class: Black Belt
 Pic: Black Belt
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Garganacl @ Assault Vest  
@@ -6418,7 +6418,7 @@ Class: Black Belt
 Pic: Black Belt
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Hariyama @ Flame Orb  
@@ -6478,7 +6478,7 @@ Class: Black Belt
 Pic: Black Belt
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Machamp @ Assault Vest  
@@ -6516,7 +6516,7 @@ Class: Black Belt
 Pic: Black Belt
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Machoke
@@ -6529,7 +6529,7 @@ Class: Black Belt
 Pic: Black Belt
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Machop
@@ -6546,7 +6546,7 @@ Class: Black Belt
 Pic: Black Belt
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Machop
@@ -6567,7 +6567,7 @@ Class: Black Belt
 Pic: Black Belt
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Machop
@@ -6592,7 +6592,7 @@ Class: Black Belt
 Pic: Black Belt
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Hariyama @ Assault Vest  
@@ -6621,7 +6621,7 @@ Class: Black Belt
 Pic: Black Belt
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Passimian @ Leftovers  
@@ -6663,7 +6663,7 @@ Class: Black Belt
 Pic: Black Belt
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Amoonguss @ Mental Herb  
@@ -6722,7 +6722,7 @@ Class: Guitarist
 Pic: Guitarist
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Pachirisu @ Air Balloon  
@@ -6759,7 +6759,7 @@ Class: Team Aqua
 Pic: Aqua Grunt F
 Gender: Female
 Music: Aqua
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Poliwrath @ Life Orb  
@@ -6808,7 +6808,7 @@ Class: Team Aqua
 Pic: Aqua Grunt M
 Gender: Male
 Music: Aqua
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Rillaboom @ Rocky Helmet  
@@ -6845,7 +6845,7 @@ Class: Guitarist
 Pic: Guitarist
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Eelektrik @ Assault Vest  
@@ -6882,7 +6882,7 @@ Class: Guitarist
 Pic: Guitarist
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Milotic @ Leftovers  
@@ -6929,7 +6929,7 @@ Class: Guitarist
 Pic: Guitarist
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Magneton @ Focus Sash  
@@ -6958,7 +6958,7 @@ Class: Guitarist
 Pic: Guitarist
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Magnemite
@@ -6979,7 +6979,7 @@ Class: Guitarist
 Pic: Guitarist
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Magnemite
@@ -7000,7 +7000,7 @@ Class: Guitarist
 Pic: Guitarist
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Magneton
@@ -7021,7 +7021,7 @@ Class: Guitarist
 Pic: Guitarist
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Magneton
@@ -7042,7 +7042,7 @@ Class: Kindler
 Pic: Kindler
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Arcanine @ Leftovers  
@@ -7069,7 +7069,7 @@ Class: Kindler
 Pic: Kindler
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Raboot @ Choice Band  
@@ -7108,7 +7108,7 @@ Class: Kindler
 Pic: Kindler
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Drifblim @ Flame Orb  
@@ -7158,7 +7158,7 @@ Class: Kindler
 Pic: Kindler
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Magmortar @ Assault Vest  
@@ -7188,7 +7188,7 @@ Class: Kindler
 Pic: Kindler
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Magcargo @ Focus Sash  
@@ -7227,7 +7227,7 @@ Class: Kindler
 Pic: Kindler
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Incineroar @ Assault Vest  
@@ -7265,7 +7265,7 @@ Class: Kindler
 Pic: Kindler
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Slugma
@@ -7282,7 +7282,7 @@ Class: Kindler
 Pic: Kindler
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Slugma
@@ -7299,7 +7299,7 @@ Class: Kindler
 Pic: Kindler
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Slugma
@@ -7316,7 +7316,7 @@ Class: Kindler
 Pic: Kindler
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Magcargo
@@ -7333,7 +7333,7 @@ Class: Camper
 Pic: Camper
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Stunfisk @ Leftovers  
@@ -7362,7 +7362,7 @@ Class: Camper
 Pic: Camper
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Corsola @ Leftovers  
@@ -7401,7 +7401,7 @@ Class: Camper
 Pic: Camper
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Shiftry @ Focus Sash  
@@ -7439,7 +7439,7 @@ Class: Camper
 Pic: Camper
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Castform @ Leftovers  
@@ -7487,7 +7487,7 @@ Class: Camper
 Pic: Camper
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Kecleon @ Assault Vest  
@@ -7514,7 +7514,7 @@ Class: Camper
 Pic: Camper
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Pinsir @ Focus Sash  
@@ -7553,7 +7553,7 @@ Class: Picnicker
 Pic: Picnicker
 Gender: Female
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Furfrou @ Assault Vest  
@@ -7580,7 +7580,7 @@ Class: Camper
 Pic: Camper
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Nidoking (M) @ Life Orb  
@@ -7608,7 +7608,7 @@ Class: Camper
 Pic: Camper
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Sandslash @ Expert Belt  
@@ -7645,7 +7645,7 @@ Class: Camper
 Pic: Camper
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Linoone
@@ -7662,7 +7662,7 @@ Class: Camper
 Pic: Camper
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Sandshrew
@@ -7683,7 +7683,7 @@ Class: Camper
 Pic: Camper
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Swellow
@@ -7704,7 +7704,7 @@ Class: Bug Maniac
 Pic: Bug Maniac
 Gender: Male
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Stunfisk @ Choice Specs  
@@ -7753,7 +7753,7 @@ Class: Bug Maniac
 Pic: Bug Maniac
 Gender: Male
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Raticate @ Flame Orb  
@@ -7801,7 +7801,7 @@ Class: Bug Maniac
 Pic: Bug Maniac
 Gender: Male
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Orbeetle @ Focus Sash  
@@ -7848,7 +7848,7 @@ Class: Bug Maniac
 Pic: Bug Maniac
 Gender: Male
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Masquerain @ Focus Sash  
@@ -7896,7 +7896,7 @@ Class: Bug Maniac
 Pic: Bug Maniac
 Gender: Male
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Beedrill @ Focus Sash  
@@ -7933,7 +7933,7 @@ Class: Bug Maniac
 Pic: Bug Maniac
 Gender: Male
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Surskit
@@ -7954,7 +7954,7 @@ Class: Bug Maniac
 Pic: Bug Maniac
 Gender: Male
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Surskit
@@ -7975,7 +7975,7 @@ Class: Bug Maniac
 Pic: Bug Maniac
 Gender: Male
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Surskit
@@ -8000,7 +8000,7 @@ Class: Bug Maniac
 Pic: Bug Maniac
 Gender: Male
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Surskit
@@ -8029,7 +8029,7 @@ Class: Psychic
 Pic: Psychic M
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Sigilyph @ Focus Sash  
@@ -8057,7 +8057,7 @@ Class: Psychic
 Pic: Psychic M
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Musharna @ Sitrus Berry  
@@ -8096,7 +8096,7 @@ Class: Psychic
 Pic: Psychic M
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Slowking @ Covert Cloak  
@@ -8136,7 +8136,7 @@ Class: Psychic
 Pic: Psychic M
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Farigiraf @ Throat Spray  
@@ -8175,7 +8175,7 @@ Class: Psychic
 Pic: Psychic M
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Gardevoir @ Gardevoirite  
@@ -8222,7 +8222,7 @@ Class: Psychic
 Pic: Psychic M
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Espathra @ Leftovers  
@@ -8241,7 +8241,7 @@ Class: Psychic
 Pic: Psychic M
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Oricorio-Pa'u @ Focus Sash  
@@ -8289,7 +8289,7 @@ Class: Psychic
 Pic: Psychic M
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Kadabra
@@ -8306,7 +8306,7 @@ Class: Psychic
 Pic: Psychic M
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Kadabra
@@ -8323,7 +8323,7 @@ Class: Psychic
 Pic: Psychic M
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Kadabra
@@ -8340,7 +8340,7 @@ Class: Psychic
 Pic: Psychic M
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Solrock
@@ -8357,7 +8357,7 @@ Class: Psychic
 Pic: Psychic F
 Gender: Female
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Togetic @ Eviolite  
@@ -8401,7 +8401,7 @@ Class: Psychic
 Pic: Psychic F
 Gender: Female
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Meowstic (M) @ Light Clay  
@@ -8436,7 +8436,7 @@ Class: Psychic
 Pic: Psychic F
 Gender: Female
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Meowstic-F (F) @ Iron Ball  
@@ -8476,7 +8476,7 @@ Class: Psychic
 Pic: Psychic F
 Gender: Female
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Slowbro @ Covert Cloak  
@@ -8515,7 +8515,7 @@ Class: Psychic
 Pic: Psychic F
 Gender: Female
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Togekiss @ Life Orb  
@@ -8562,7 +8562,7 @@ Class: Psychic
 Pic: Psychic F
 Gender: Female
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Gardevoir @ Choice Scarf  
@@ -8590,7 +8590,7 @@ Class: Psychic
 Pic: Psychic F
 Gender: Female
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Kricketune @ Covert Cloak  
@@ -8626,7 +8626,7 @@ Class: Psychic
 Pic: Psychic F
 Gender: Female
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Kadabra
@@ -8643,7 +8643,7 @@ Class: Psychic
 Pic: Psychic F
 Gender: Female
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Kadabra
@@ -8660,7 +8660,7 @@ Class: Psychic
 Pic: Psychic F
 Gender: Female
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Kadabra
@@ -8677,7 +8677,7 @@ Class: Psychic
 Pic: Psychic F
 Gender: Female
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Lunatone
@@ -8694,7 +8694,7 @@ Class: Gentleman
 Pic: Gentleman
 Gender: Male
 Music: Rich
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Ribombee @ Mental Herb  
@@ -8761,7 +8761,7 @@ Class: Gentleman
 Pic: Gentleman
 Gender: Male
 Music: Rich
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Manectric
@@ -8778,7 +8778,7 @@ Class: Gentleman
 Pic: Gentleman
 Gender: Male
 Music: Rich
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Zangoose
@@ -8791,7 +8791,7 @@ Class: Gentleman
 Pic: Gentleman
 Gender: Male
 Music: Rich
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Manectric
@@ -8804,7 +8804,7 @@ Class: Gentleman
 Pic: Gentleman
 Gender: Male
 Music: Rich
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Linoone
@@ -8829,7 +8829,7 @@ Class: Gentleman
 Pic: Gentleman
 Gender: Male
 Music: Rich
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Linoone
@@ -8853,7 +8853,7 @@ Class: Gentleman
 Pic: Gentleman
 Gender: Male
 Music: Rich
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Linoone
@@ -8886,7 +8886,7 @@ Class: Elite Four
 Pic: Elite Four Sidney
 Gender: Male
 Music: Elite Four
-Double Battle: Yes
+Battle Type: Doubles
 Mugshot: Yellow
 AI: Smart Trainer
 Party Size: 6
@@ -9057,7 +9057,7 @@ Class: Elite Four
 Pic: Elite Four Phoebe
 Gender: Female
 Music: Elite Four
-Double Battle: Yes
+Battle Type: Doubles
 Mugshot: Yellow
 AI: Smart Trainer
 Party Size: 6
@@ -9214,7 +9214,7 @@ Class: Elite Four
 Pic: Elite Four Glacia
 Gender: Female
 Music: Elite Four
-Double Battle: Yes
+Battle Type: Doubles
 Mugshot: Yellow
 AI: Smart Trainer
 Party Size: 6
@@ -9378,7 +9378,7 @@ Class: Elite Four
 Pic: Elite Four Drake
 Gender: Male
 Music: Elite Four
-Double Battle: Yes
+Battle Type: Doubles
 Mugshot: Yellow
 AI: Smart Trainer
 Party Size: 6
@@ -9562,7 +9562,7 @@ Class: Leader
 Pic: Leader Roxanne
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 Mugshot: Green
 AI: Smart Trainer
 Party Size: 6
@@ -9700,7 +9700,7 @@ Class: Leader
 Pic: Leader Brawly
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 Mugshot: Green
 AI: Smart Trainer
 Party Size: 6
@@ -9839,7 +9839,7 @@ Class: Leader
 Pic: Leader Wattson
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 Mugshot: Green
 AI: Smart Trainer
 Party Size: 6
@@ -9972,7 +9972,7 @@ Class: Leader
 Pic: Leader Flannery
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 Mugshot: Green
 AI: Smart Trainer
 Party Size: 6
@@ -10145,7 +10145,7 @@ Class: Leader
 Pic: Leader Norman
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 Mugshot: Green
 AI: Smart Trainer
 Party Size: 6
@@ -10278,7 +10278,7 @@ Class: Leader
 Pic: Leader Winona
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 Mugshot: Green
 AI: Smart Trainer
 Party Size: 6
@@ -10452,7 +10452,7 @@ Class: Leader
 Pic: Leader Tate And Liza
 Gender: Male
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 Mugshot: Green
 AI: Smart Trainer
 Party Size: 6
@@ -10591,7 +10591,7 @@ Class: Leader
 Pic: Leader Juan
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 Mugshot: Green
 AI: Smart Trainer
 Party Size: 6
@@ -10765,7 +10765,7 @@ Class: School Kid
 Pic: School Kid M
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Togetic @ Expert Belt  
@@ -10795,7 +10795,7 @@ Class: School Kid
 Pic: School Kid M
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Gallade (M) @ Focus Sash  
@@ -10832,7 +10832,7 @@ Class: School Kid
 Pic: School Kid M 
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Weezing-Galar @ Air Balloon  
@@ -10862,7 +10862,7 @@ Class: School Kid
 Pic: School Kid M
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Ralts
@@ -10879,7 +10879,7 @@ Class: School Kid
 Pic: School Kid M
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Kirlia
@@ -10896,7 +10896,7 @@ Class: School Kid
 Pic: School Kid M
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Kirlia
@@ -10913,7 +10913,7 @@ Class: School Kid
 Pic: School Kid M
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Kirlia
@@ -10934,7 +10934,7 @@ Class: School Kid
 Pic: School Kid F
 Gender: Female
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Shroomish @ Rocky Helmet  
@@ -10965,7 +10965,7 @@ Class: School Kid
 Pic: School Kid F
 Gender: Female
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Solrock @ Focus Sash  
@@ -11003,7 +11003,7 @@ Class: School Kid
 Pic: School Kid F
 Gender: Female
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Shroomish
@@ -11020,7 +11020,7 @@ Class: School Kid
 Pic: School Kid F
 Gender: Female
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Shroomish
@@ -11037,7 +11037,7 @@ Class: School Kid
 Pic: School Kid F
 Gender: Female
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Breloom
@@ -11054,7 +11054,7 @@ Class: School Kid
 Pic: School Kid F
 Gender: Female
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Breloom
@@ -11071,7 +11071,7 @@ Class: Sr And Jr
 Pic: Sr And Jr
 Gender: Male
 Music: Twins
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Machamp @ Flame Orb  
@@ -11119,7 +11119,7 @@ Class: Sr And Jr
 Pic: Sr And Jr
 Gender: Male
 Music: Twins
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Golbat @ Assault Vest  
@@ -11165,7 +11165,7 @@ Class: Sr And Jr
 Pic: Sr And Jr
 Gender: Male
 Music: Twins
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Zigzagoon
@@ -11189,7 +11189,7 @@ Class: Sr And Jr
 Pic: Sr And Jr
 Gender: Male
 Music: Twins
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Zigzagoon
@@ -11213,7 +11213,7 @@ Class: Sr And Jr
 Pic: Sr And Jr
 Gender: Male
 Music: Twins
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Linoone
@@ -11237,7 +11237,7 @@ Class: Sr And Jr
 Pic: Sr And Jr
 Gender: Male
 Music: Twins
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Linoone
@@ -11261,7 +11261,7 @@ Class: Winstrate
 Pic: Pokefan M
 Gender: Male
 Music: Twins
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Swellow @ Silk Scarf  
@@ -11287,7 +11287,7 @@ Class: Pokefan
 Pic: Pokefan M 
 Gender: Male
 Music: Twins
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Brambleghast @ Occa Berry  
@@ -11325,7 +11325,7 @@ Class: Pokefan
 Pic: Pokefan M
 Gender: Male
 Music: Twins
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Skitty @ Oran Berry
@@ -11382,7 +11382,7 @@ Class: Pokefan
 Pic: Pokefan M
 Gender: Male
 Music: Twins
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Skitty @ Oran Berry
@@ -11395,7 +11395,7 @@ Class: Pokefan
 Pic: Pokefan M
 Gender: Male
 Music: Twins
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Skitty @ Oran Berry
@@ -11408,7 +11408,7 @@ Class: Pokefan
 Pic: Pokefan M
 Gender: Male
 Music: Twins
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Delcatty @ Oran Berry
@@ -11421,7 +11421,7 @@ Class: Pokefan
 Pic: Pokefan M
 Gender: Male
 Music: Twins
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Delcatty @ Sitrus Berry
@@ -11434,7 +11434,7 @@ Class: Winstrate
 Pic: Pokefan F
 Gender: Female
 Music: Twins
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Roserade @ Focus Sash  
@@ -11464,7 +11464,7 @@ Class: Pokefan
 Pic: Pokefan F
 Gender: Female
 Music: Twins
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Seviper @ Assault Vest  
@@ -11511,7 +11511,7 @@ Class: Pokefan
 Pic: Pokefan F
 Gender: Female
 Music: Twins
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Azumarill @ Sitrus Berry  
@@ -11539,7 +11539,7 @@ Class: Pokefan
 Pic: Pokefan F
 Gender: Female
 Music: Twins
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Minun @ Rocky Helmet  
@@ -11558,7 +11558,7 @@ Class: Pokefan
 Pic: Pokefan F
 Gender: Female
 Music: Twins
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Plusle @ Oran Berry
@@ -11575,7 +11575,7 @@ Class: Pokefan
 Pic: Pokefan F
 Gender: Female
 Music: Twins
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Plusle @ Oran Berry
@@ -11592,7 +11592,7 @@ Class: Pokefan
 Pic: Pokefan F
 Gender: Female
 Music: Twins
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Plusle @ Oran Berry
@@ -11609,7 +11609,7 @@ Class: Pokefan
 Pic: Pokefan F
 Gender: Female
 Music: Twins
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Plusle @ Sitrus Berry
@@ -11626,7 +11626,7 @@ Class: Expert
 Pic: Expert M
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Blastoise @ Life Orb  
@@ -11665,7 +11665,7 @@ Class: Expert
 Pic: Expert M
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Hariyama
@@ -11682,7 +11682,7 @@ Class: Expert
 Pic: Expert M
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Hariyama
@@ -11699,7 +11699,7 @@ Class: Expert
 Pic: Expert M
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Hariyama
@@ -11716,7 +11716,7 @@ Class: Expert
 Pic: Expert M
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Hariyama
@@ -11733,7 +11733,7 @@ Class: Winstrate
 Pic: Expert F
 Gender: Female
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Primeape @ Eviolite  
@@ -11761,7 +11761,7 @@ Class: Expert
 Pic: Expert F
 Gender: Female
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Medicham @ Assault Vest  
@@ -11799,7 +11799,7 @@ Class: Expert
 Pic: Expert F
 Gender: Female
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Meditite
@@ -11816,7 +11816,7 @@ Class: Expert
 Pic: Expert F
 Gender: Female
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Medicham
@@ -11833,7 +11833,7 @@ Class: Expert
 Pic: Expert F
 Gender: Female
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Medicham
@@ -11850,7 +11850,7 @@ Class: Expert
 Pic: Expert F
 Gender: Female
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Medicham
@@ -11867,7 +11867,7 @@ Class: Youngster
 Pic: Youngster
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Poochyena @ Oran Berry  
@@ -11896,7 +11896,7 @@ Class: Youngster
 Pic: Youngster
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Bidoof @ Normal Gem  
@@ -11926,7 +11926,7 @@ Class: Youngster
 Pic: Youngster
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Amaura @ Assault Vest  
@@ -11967,7 +11967,7 @@ Class: Youngster
 Pic: Youngster
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Geodude @ Metronome  
@@ -12007,7 +12007,7 @@ Class: Youngster
 Pic: Youngster
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Rattata @ Flame Orb  
@@ -12036,7 +12036,7 @@ Class: Youngster
 Pic: Youngster
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Luxio @ Shuca Berry  
@@ -12074,7 +12074,7 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Walking Wake @ Life Orb  
@@ -12113,7 +12113,7 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Charizard @ Charizardite Y  
@@ -12151,7 +12151,7 @@ Class: Youngster
 Pic: Youngster
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Gengar @ Focus Sash  
@@ -12199,7 +12199,7 @@ Class: Youngster
 Pic: Youngster
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Electivire @ Assault Vest  
@@ -12228,7 +12228,7 @@ Class: Scribe
 Pic: Lady
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 Mugshot: Purple
 AI: Smart Trainer
 Party Size: 6
@@ -12502,7 +12502,7 @@ Class: King
 Pic: Steven
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 Mugshot: Purple
 AI: Smart Trainer
 Party Size: 6
@@ -12682,7 +12682,7 @@ Class: Occultist
 Pic: Hex Maniac
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 Mugshot: Purple
 AI: Smart Trainer
 Party Size: 6
@@ -12933,7 +12933,7 @@ Class: Beauty
 Pic: Beauty
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Swellow @ Focus Sash  
@@ -12969,7 +12969,7 @@ Class: Youngster
 Pic: Youngster
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Gumshoos @ Assault Vest  
@@ -12997,7 +12997,7 @@ Class: Youngster
 Pic: Youngster
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Chingling @ Grassy Seed  
@@ -13025,7 +13025,7 @@ Class: Youngster
 Pic: Youngster
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Blitzle @ Assault Vest  
@@ -13063,7 +13063,7 @@ Class: Champion
 Pic: Champion Wallace
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 Mugshot: Yellow
 AI: Smart Trainer
 Party Size: 6
@@ -13239,7 +13239,7 @@ Class: Fisherman
 Pic: Fisherman
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Seaking @ Focus Sash  
@@ -13275,7 +13275,7 @@ Class: Fisherman
 Pic: Fisherman
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Arrokuda @ Mystic Water  
@@ -13317,7 +13317,7 @@ Class: Fisherman
 Pic: Fisherman
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Whiscash @ Covert Cloak  
@@ -13345,7 +13345,7 @@ Class: Fisherman
 Pic: Fisherman
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Dewott @ Expert Belt  
@@ -13372,7 +13372,7 @@ Class: Fisherman
 Pic: Fisherman
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Tentacool @ Eviolite  
@@ -13400,7 +13400,7 @@ Class: Fisherman
 Pic: Fisherman
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Wailmer @ Assault Vest  
@@ -13429,7 +13429,7 @@ Class: Fisherman
 Pic: Fisherman
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Simipour @ Aguav Berry  
@@ -13469,7 +13469,7 @@ Class: Fisherman
 Pic: Fisherman
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Barbaracle @ White Herb  
@@ -13507,7 +13507,7 @@ Class: Fisherman
 Pic: Fisherman
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Tentacool @ Black Sludge  
@@ -13536,7 +13536,7 @@ Class: Fisherman
 Pic: Fisherman
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Huntail @ Mental Herb  
@@ -13572,7 +13572,7 @@ Class: Slayer
 Pic: Agarthan Slayer
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 Mugshot: Purple
 AI: Smart Trainer
 Party Size: 6
@@ -13803,7 +13803,7 @@ Class: Jester
 Pic: Agarthan Jester
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 Mugshot: Purple
 AI: Smart Trainer
 Party Size: 6
@@ -13946,7 +13946,7 @@ Class: Doctor
 Pic: Collector
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 Mugshot: Purple
 AI: Smart Trainer
 Party Size: 6
@@ -14129,7 +14129,7 @@ Class: Scout
 Pic: Pokemon Ranger M
 Gender: Female
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 Mugshot: Purple
 AI: Smart Trainer
 Party Size: 6
@@ -14274,7 +14274,7 @@ Class: Fisherman
 Pic: Fisherman
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Zoroark @ Focus Sash  
@@ -14321,7 +14321,7 @@ Class: Triathlete
 Pic: Cycling Triathlete M
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Electrode @ Focus Sash  
@@ -14358,7 +14358,7 @@ Class: Triathlete
 Pic: Cycling Triathlete M
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Ampharos @ Assault Vest  
@@ -14387,7 +14387,7 @@ Class: Triathlete
 Pic: Cycling Triathlete M
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Magneton @ Eviolite  
@@ -14425,7 +14425,7 @@ Class: Sage
 Pic: Collector
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 Mugshot: Purple
 AI: Smart Trainer
 Party Size: 6
@@ -14588,7 +14588,7 @@ Class: Agarthan Psychic
 Pic: Expert M
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 Mugshot: Purple
 AI: Smart Trainer
 Party Size: 6
@@ -14781,7 +14781,7 @@ Class: Triathlete
 Pic: Cycling Triathlete M
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Magneton
@@ -14794,7 +14794,7 @@ Class: Triathlete
 Pic: Cycling Triathlete M
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Piloswine @ Eviolite  
@@ -14830,7 +14830,7 @@ Class: Triathlete
 Pic: Cycling Triathlete F
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Magneton @ Assault Vest  
@@ -14869,7 +14869,7 @@ Class: Triathlete
 Pic: Cycling Triathlete F
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Pinsir @ Focus Sash  
@@ -14905,7 +14905,7 @@ Class: Triathlete
 Pic: Cycling Triathlete F
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Magnemite
@@ -14918,7 +14918,7 @@ Class: Triathlete
 Pic: Cycling Triathlete F
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Magnemite
@@ -14931,7 +14931,7 @@ Class: Triathlete
 Pic: Cycling Triathlete F
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Magneton
@@ -14944,7 +14944,7 @@ Class: Triathlete
 Pic: Cycling Triathlete F
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Magneton
@@ -14957,7 +14957,7 @@ Class: Triathlete
 Pic: Running Triathlete M
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Doduo @ Yache Berry  
@@ -14995,7 +14995,7 @@ Class: Triathlete
 Pic: Running Triathlete M
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Doduo
@@ -15008,7 +15008,7 @@ Class: Triathlete
 Pic: Running Triathlete M
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Doduo
@@ -15021,7 +15021,7 @@ Class: Triathlete
 Pic: Running Triathlete M
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Dodrio
@@ -15034,7 +15034,7 @@ Class: Triathlete
 Pic: Running Triathlete M
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Dodrio
@@ -15047,7 +15047,7 @@ Class: Triathlete
 Pic: Running Triathlete F
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Sneasel @ Focus Sash  
@@ -15084,7 +15084,7 @@ Class: Triathlete
 Pic: Running Triathlete F
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Doduo
@@ -15097,7 +15097,7 @@ Class: Triathlete
 Pic: Running Triathlete F
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Doduo
@@ -15110,7 +15110,7 @@ Class: Triathlete
 Pic: Running Triathlete F
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Dodrio
@@ -15123,7 +15123,7 @@ Class: Triathlete
 Pic: Running Triathlete F
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Dodrio
@@ -15136,7 +15136,7 @@ Class: Triathlete
 Pic: Swimming Triathlete M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Weavile @ Choice Band  
@@ -15183,7 +15183,7 @@ Class: Youngster
 Pic: Youngster
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Lickilicky @ Sitrus Berry  
@@ -15218,7 +15218,7 @@ Class: Triathlete
 Pic: Swimming Triathlete M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Pyukumuku @ Black Sludge  
@@ -15267,7 +15267,7 @@ Class: Triathlete
 Pic: Swimming Triathlete M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Barbaracle @ White Herb  
@@ -15305,7 +15305,7 @@ Class: Triathlete
 Pic: Swimming Triathlete M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Wugtrio @ Life Orb 
@@ -15352,7 +15352,7 @@ Class: Triathlete
 Pic: Swimming Triathlete M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Staryu
@@ -15365,7 +15365,7 @@ Class: Triathlete
 Pic: Swimming Triathlete M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Staryu
@@ -15378,7 +15378,7 @@ Class: Triathlete
 Pic: Swimming Triathlete M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Starmie
@@ -15391,7 +15391,7 @@ Class: Triathlete
 Pic: Swimming Triathlete M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Starmie
@@ -15404,7 +15404,7 @@ Class: Triathlete
 Pic: Swimming Triathlete F
 Gender: Female
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Staryu
@@ -15417,7 +15417,7 @@ Class: Triathlete
 Pic: Swimming Triathlete F
 Gender: Female
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Poliwrath @ Life Orb  
@@ -15464,7 +15464,7 @@ Class: Triathlete
 Pic: Swimming Triathlete F
 Gender: Female
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Scyther @ Eviolite  
@@ -15513,7 +15513,7 @@ Class: Triathlete
 Pic: Swimming Triathlete F
 Gender: Female
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Samurott-Hisui @ Assault Vest  
@@ -15559,7 +15559,7 @@ Class: Triathlete
 Pic: Swimming Triathlete F
 Gender: Female
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Glaceon @ Assault Vest  
@@ -15607,7 +15607,7 @@ Class: Triathlete
 Pic: Swimming Triathlete F
 Gender: Female
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Staryu
@@ -15620,7 +15620,7 @@ Class: Triathlete
 Pic: Swimming Triathlete F
 Gender: Female
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Staryu
@@ -15633,7 +15633,7 @@ Class: Triathlete
 Pic: Swimming Triathlete F
 Gender: Female
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Starmie
@@ -15646,7 +15646,7 @@ Class: Triathlete
 Pic: Swimming Triathlete F
 Gender: Female
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Starmie
@@ -15659,7 +15659,7 @@ Class: Dragon Tamer
 Pic: Dragon Tamer
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Noivern @ Covert Cloak  
@@ -15707,7 +15707,7 @@ Class: Dragon Tamer
 Pic: Dragon Tamer
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Altaria
@@ -15724,7 +15724,7 @@ Class: Dragon Tamer
 Pic: Dragon Tamer
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Altaria
@@ -15741,7 +15741,7 @@ Class: Dragon Tamer
 Pic: Dragon Tamer
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Bagon
@@ -15762,7 +15762,7 @@ Class: Dragon Tamer
 Pic: Dragon Tamer
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Altaria
@@ -15783,7 +15783,7 @@ Class: Dragon Tamer
 Pic: Dragon Tamer
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Drampa @ Choice Specs  
@@ -15822,7 +15822,7 @@ Class: Bird Keeper
 Pic: Bird Keeper
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Delibird @ Focus Sash  
@@ -15869,7 +15869,7 @@ Class: Bird Keeper
 Pic: Bird Keeper
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Beedrill @ Beedrillite  
@@ -15926,7 +15926,7 @@ Class: Bird Keeper
 Pic: Bird Keeper
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Glaceon @ Leftovers  
@@ -15974,7 +15974,7 @@ Class: Bird Keeper
 Pic: Bird Keeper
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Sigilyph @ Life Orb  
@@ -16022,7 +16022,7 @@ Class: Bird Keeper
 Pic: Bird Keeper
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Minior @ White Herb  
@@ -16068,7 +16068,7 @@ Class: Bird Keeper
 Pic: Bird Keeper
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Tropius @ Mental Herb  
@@ -16115,7 +16115,7 @@ Class: Bird Keeper
 Pic: Bird Keeper
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Murkrow @ Covert Cloak  
@@ -16153,7 +16153,7 @@ Class: Bird Keeper
 Pic: Bird Keeper
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Persian @ Silk Scarf  
@@ -16202,7 +16202,7 @@ Class: Bird Keeper
 Pic: Bird Keeper
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Rapidash @ Choice Band  
@@ -16249,7 +16249,7 @@ Class: Bird Keeper
 Pic: Bird Keeper
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Swellow @ Choice Specs  
@@ -16275,7 +16275,7 @@ Class: Bird Keeper
 Pic: Bird Keeper
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Pidgeot @ Pidgeotite  
@@ -16315,7 +16315,7 @@ Class: Bird Keeper
 Pic: Bird Keeper
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Natu
@@ -16332,7 +16332,7 @@ Class: Bird Keeper
 Pic: Bird Keeper
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Natu
@@ -16349,7 +16349,7 @@ Class: Bird Keeper
 Pic: Bird Keeper
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Natu
@@ -16366,7 +16366,7 @@ Class: Bird Keeper
 Pic: Bird Keeper
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Altaria
@@ -16383,7 +16383,7 @@ Class: Bird Keeper
 Pic: Bird Keeper
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Corviknight @ Mental Herb  
@@ -16430,7 +16430,7 @@ Class: Bird Keeper
 Pic: Bird Keeper
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Snorlax @ Figy Berry  
@@ -16477,7 +16477,7 @@ Class: Ninja Boy
 Pic: Ninja Boy
 Gender: Male
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Greninja @ Focus Sash  
@@ -16524,7 +16524,7 @@ Class: Ninja Boy
 Pic: Ninja Boy
 Gender: Male
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Blastoise @ Blastoisinite  
@@ -16581,7 +16581,7 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 
 Escavalier @ Assault Vest  
 Ability: Overcoat  
@@ -16627,7 +16627,7 @@ Class: Tuber F
 Pic: Tuber F
 Gender: Female
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Excadrill @ Air Balloon  
@@ -16665,7 +16665,7 @@ Class: Ninja Boy
 Pic: Ninja Boy
 Gender: Male
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 
 Shedinja @ Air Balloon  
 Ability: Wonder Guard  
@@ -16690,7 +16690,7 @@ Class: Ninja Boy
 Pic: Ninja Boy
 Gender: Male
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 
 Snover @ Eviolite  
 Ability: Snow Warning    
@@ -16718,7 +16718,7 @@ Class: Ninja Boy
 Pic: Ninja Boy
 Gender: Male
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 
 Koffing
 Level: 24
@@ -16755,7 +16755,7 @@ Class: Ninja Boy
 Pic: Ninja Boy
 Gender: Male
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 
 Koffing
 Level: 27
@@ -16792,7 +16792,7 @@ Class: Ninja Boy
 Pic: Ninja Boy
 Gender: Male
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 
 Koffing
 Level: 30
@@ -16827,7 +16827,7 @@ Class: Ninja Boy
 Pic: Ninja Boy
 Gender: Male
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 
 Koffing
 Level: 33
@@ -16864,7 +16864,7 @@ Class: Battle Girl
 Pic: Battle Girl
 Gender: Female
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Sneasel-Hisui @ Eviolite  
@@ -16903,7 +16903,7 @@ Class: Battle Girl
 Pic: Battle Girl
 Gender: Female
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Meditite @ Choice Band  
@@ -16940,7 +16940,7 @@ Class: Battle Girl
 Pic: Battle Girl
 Gender: Female
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Medicham @ Punching Glove  
@@ -16977,7 +16977,7 @@ Class: Battle Girl
 Pic: Battle Girl
 Gender: Female
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Sirfetch’d @ Leek  
@@ -17004,7 +17004,7 @@ Class: Battle Girl
 Pic: Battle Girl
 Gender: Female
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Breloom @ Toxic Orb  
@@ -17031,7 +17031,7 @@ Class: Battle Girl
 Pic: Battle Girl
 Gender: Female
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Meditite
@@ -17048,7 +17048,7 @@ Class: Battle Girl
 Pic: Battle Girl
 Gender: Female
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Meditite
@@ -17065,7 +17065,7 @@ Class: Battle Girl
 Pic: Battle Girl
 Gender: Female
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Medicham
@@ -17082,7 +17082,7 @@ Class: Battle Girl
 Pic: Battle Girl
 Gender: Female
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Medicham
@@ -17099,7 +17099,7 @@ Class: Parasol Lady
 Pic: Parasol Lady
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Squawkabilly-Blue @ Focus Sash  
@@ -17137,7 +17137,7 @@ Class: Parasol Lady
 Pic: Parasol Lady
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Whimsicott @ Covert Cloak  
@@ -17184,7 +17184,7 @@ Class: Parasol Lady
 Pic: Parasol Lady
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Overqwil @ Assault Vest  
@@ -17247,7 +17247,7 @@ Class: Parasol Lady
 Pic: Parasol Lady
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Numel
@@ -17264,7 +17264,7 @@ Class: Parasol Lady
 Pic: Parasol Lady
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Numel
@@ -17281,7 +17281,7 @@ Class: Parasol Lady
 Pic: Parasol Lady
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Roselia
@@ -17306,7 +17306,7 @@ Class: Parasol Lady
 Pic: Parasol Lady
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Roselia
@@ -17331,7 +17331,7 @@ Class: Swimmer F
 Pic: Swimmer F
 Gender: Female
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Gyarados @ Gyaradosite  
@@ -17378,7 +17378,7 @@ Class: Swimmer F
 Pic: Swimmer F
 Gender: Female
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Azumarill @ Life Orb  
@@ -17418,7 +17418,7 @@ Class: Swimmer F
 Pic: Swimmer F
 Gender: Female
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Sneasler @ Normal Gem  
@@ -17455,7 +17455,7 @@ Class: Swimmer F
 Pic: Swimmer F
 Gender: Female
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Ninetales-Alola @ Covert Cloak  
@@ -17494,7 +17494,7 @@ Class: Swimmer F
 Pic: Swimmer F
 Gender: Female
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Seaking @ Choice Scarf  
@@ -17532,7 +17532,7 @@ Class: Swimmer F
 Pic: Swimmer F
 Gender: Female
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Kingdra @ Choice Specs  
@@ -17570,7 +17570,7 @@ Class: Swimmer F
 Pic: Swimmer F
 Gender: Female
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Rabsca @ Mental Herb  
@@ -17610,7 +17610,7 @@ Class: Swimmer F
 Pic: Swimmer F
 Gender: Female
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Octillery @ Leftovers  
@@ -17648,7 +17648,7 @@ Class: Swimmer F
 Pic: Swimmer F
 Gender: Female
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Glalie @ Leftovers  
@@ -17696,7 +17696,7 @@ Class: Swimmer F
 Pic: Swimmer F
 Gender: Female
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Empoleon @ Rocky Helmet  
@@ -17733,7 +17733,7 @@ Class: Swimmer F
 Pic: Swimmer F
 Gender: Female
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Luvdisc @ Covert Cloak  
@@ -17782,7 +17782,7 @@ Class: Swimmer F
 Pic: Swimmer F
 Gender: Female
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Seaking @ Assault Vest  
@@ -17829,7 +17829,7 @@ Class: Swimmer F
 Pic: Swimmer F
 Gender: Female
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Masquerain @ Mental Herb  
@@ -17877,7 +17877,7 @@ Class: Swimmer F
 Pic: Swimmer F
 Gender: Female
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Eiscue @ Sitrus Berry  
@@ -17924,7 +17924,7 @@ Class: Swimmer F
 Pic: Swimmer F
 Gender: Female
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Slowking-Galar @ Leftovers  
@@ -17971,7 +17971,7 @@ Class: Swimmer F
 Pic: Swimmer F
 Gender: Female
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Luvdisc @ Leftovers  
@@ -18018,7 +18018,7 @@ Class: Swimmer F
 Pic: Swimmer F
 Gender: Female
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Huntail @ Life Orb  
@@ -18068,7 +18068,7 @@ Class: Swimmer F
 Pic: Swimmer F
 Gender: Female
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Aggron @ Aggronite  
@@ -18116,7 +18116,7 @@ Class: Swimmer F
 Pic: Swimmer F
 Gender: Female
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Toedscruel @ Sitrus Berry  
@@ -18155,7 +18155,7 @@ Class: Swimmer F
 Pic: Swimmer F
 Gender: Female
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Tinkaton (F) @ Sitrus Berry  
@@ -18203,7 +18203,7 @@ Class: Swimmer F
 Pic: Swimmer F
 Gender: Female
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Mismagius @ Choice Specs  
@@ -18252,7 +18252,7 @@ Class: Swimmer F
 Pic: Swimmer F
 Gender: Female
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Lanturn
@@ -18269,7 +18269,7 @@ Class: Swimmer F
 Pic: Swimmer F
 Gender: Female
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Ledian @ Sitrus Berry  
@@ -18315,7 +18315,7 @@ Class: Swimmer F
 Pic: Swimmer F
 Gender: Female
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Seaking
@@ -18328,7 +18328,7 @@ Class: Swimmer F
 Pic: Swimmer F
 Gender: Female
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Wailmer
@@ -18341,7 +18341,7 @@ Class: Swimmer F
 Pic: Swimmer F
 Gender: Female
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Wailmer
@@ -18354,7 +18354,7 @@ Class: Swimmer F
 Pic: Swimmer F
 Gender: Female
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Staryu
@@ -18371,7 +18371,7 @@ Class: Swimmer F
 Pic: Swimmer F
 Gender: Female
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Luvdisc
@@ -18392,7 +18392,7 @@ Class: Picnicker
 Pic: Picnicker
 Gender: Female
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Palossand @ Leftovers  
@@ -18422,7 +18422,7 @@ Class: Picnicker
 Pic: Picnicker
 Gender: Female
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Houndstone @ Assault Vest  
@@ -18452,7 +18452,7 @@ Class: Picnicker
 Pic: Picnicker
 Gender: Female
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Arcanine @ Rocky Helmet  
@@ -18490,7 +18490,7 @@ Class: Picnicker
 Pic: Picnicker
 Gender: Female
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Watchog @ Focus Sash  
@@ -18529,7 +18529,7 @@ Class: Picnicker
 Pic: Picnicker
 Gender: Female
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Delcatty @ Choice Specs  
@@ -18558,7 +18558,7 @@ Class: Picnicker
 Pic: Picnicker
 Gender: Female
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Breloom @ Toxic Orb  
@@ -18596,7 +18596,7 @@ Class: Psychic
 Pic: Psychic M
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Wobbuffet @ Rocky Helmet  
@@ -18645,7 +18645,7 @@ Class: Picnicker
 Pic: Picnicker
 Gender: Female
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Meganium @ Leftovers  
@@ -18683,7 +18683,7 @@ Class: Picnicker
 Pic: Picnicker
 Gender: Female
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Shroomish
@@ -18704,7 +18704,7 @@ Class: Picnicker
 Pic: Picnicker
 Gender: Female
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Breloom
@@ -18725,7 +18725,7 @@ Class: Picnicker
 Pic: Picnicker
 Gender: Female
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Breloom
@@ -18746,7 +18746,7 @@ Class: Picnicker
 Pic: Picnicker
 Gender: Female
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Breloom
@@ -18767,7 +18767,7 @@ Class: Twins
 Pic: Twins
 Gender: Male
 Music: Twins
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Pidgeotto @ Focus Sash  
@@ -18803,7 +18803,7 @@ Class: Twins
 Pic: Twins
 Gender: Male
 Music: Twins
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Plusle
@@ -18820,7 +18820,7 @@ Class: Twins
 Pic: Twins
 Gender: Male
 Music: Twins
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Slowpoke @ Iron Ball  
@@ -18849,7 +18849,7 @@ Class: Twins
 Pic: Twins
 Gender: Male
 Music: Twins
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Beautifly @ Focus Sash  
@@ -18897,7 +18897,7 @@ Class: Twins
 Pic: Twins
 Gender: Male
 Music: Twins
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Plusle
@@ -18914,7 +18914,7 @@ Class: Twins
 Pic: Twins
 Gender: Male
 Music: Twins
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Duskull
@@ -18935,7 +18935,7 @@ Class: Twins
 Pic: Twins
 Gender: Male
 Music: Twins
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Plusle
@@ -18952,7 +18952,7 @@ Class: Twins
 Pic: Twins
 Gender: Male
 Music: Twins
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Plusle
@@ -18977,7 +18977,7 @@ Class: Twins
 Pic: Twins
 Gender: Male
 Music: Twins
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Plusle
@@ -19002,7 +19002,7 @@ Class: Sailor
 Pic: Sailor
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Torkoal @ Leftovers  
@@ -19034,7 +19034,7 @@ Class: Sailor
 Pic: Sailor
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Bibarel @ Leftovers  
@@ -19062,7 +19062,7 @@ Class: Sailor
 Pic: Sailor
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Gigalith @ Assault Vest  
@@ -19111,7 +19111,7 @@ Class: Sailor
 Pic: Sailor
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Rhyhorn @ Assault Vest  
@@ -19138,7 +19138,7 @@ Class: Sailor
 Pic: Sailor
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Tentacruel
@@ -19155,7 +19155,7 @@ Class: Sailor
 Pic: Sailor
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Machop
@@ -19176,7 +19176,7 @@ Class: Sailor
 Pic: Sailor
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Altaria @ Altarianite  
@@ -19221,7 +19221,7 @@ Class: Sailor
 Pic: Sailor
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Wingull
@@ -19242,7 +19242,7 @@ Class: Sailor
 Pic: Sailor
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Pelipper
@@ -19263,7 +19263,7 @@ Class: Sailor
 Pic: Sailor
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Pelipper
@@ -19284,7 +19284,7 @@ Class: Sailor
 Pic: Sailor
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Pelipper
@@ -19305,7 +19305,7 @@ Class: Hiker
 Pic: Hiker
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Torkoal @ Assault Vest  
@@ -19334,7 +19334,7 @@ Class: Pokefan
 Pic: Pokefan F
 Gender: Female
 Music: Twins
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Vaporeon @ Leftovers  
@@ -19363,7 +19363,7 @@ Class: Cooltrainer 2
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Eldegoss @ Leftovers  
@@ -19411,7 +19411,7 @@ Class: Ninja Boy
 Pic: Ninja Boy
 Gender: Male
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Grafaiai @ Covert Cloak  
@@ -19447,7 +19447,7 @@ Class: Parasol Lady
 Pic: Parasol Lady
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Slaking @ Assault Vest  
@@ -19486,7 +19486,7 @@ Class: Expert
 Pic: Expert M
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Corviknight @ Mental Herb  
@@ -19532,7 +19532,7 @@ Class: Sailor
 Pic: Sailor
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Palafin @ Choice Band  
@@ -19577,7 +19577,7 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Manectric @ Manectite  
@@ -19615,7 +19615,7 @@ Class: Battle Girl
 Pic: Battle Girl
 Gender: Female
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Durant @ Choice Band  
@@ -19662,7 +19662,7 @@ Class: Sailor
 Pic: Sailor
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Veluza @ Sitrus Berry  
@@ -19709,7 +19709,7 @@ Class: Expert
 Pic: Expert M
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Runerigus @ Sitrus Berry  
@@ -19758,7 +19758,7 @@ Class: Collector
 Pic: Collector
 Gender: Male
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Baltoy @ Eviolite  
@@ -19790,7 +19790,7 @@ Class: Collector
 Pic: Collector
 Gender: Male
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Kricketune @ Focus Sash  
@@ -19818,7 +19818,7 @@ Class: Magma Admin
 Pic: Magma Admin
 Gender: Male
 Music: Magma
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 Party Size: 3
 Pool Rules: Doubles
@@ -19901,7 +19901,7 @@ Class: Collector
 Pic: Collector
 Gender: Male
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Lombre
@@ -19918,7 +19918,7 @@ Class: Collector
 Pic: Collector
 Gender: Male
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Lombre
@@ -19935,7 +19935,7 @@ Class: Collector
 Pic: Collector
 Gender: Male
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Lombre
@@ -19952,7 +19952,7 @@ Class: Collector
 Pic: Collector
 Gender: Male
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Ludicolo
@@ -19969,7 +19969,7 @@ Class: Rival
 Pic: Wally
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 Mugshot: Blue
 AI: Smart Trainer
 Party Size: 6
@@ -20129,7 +20129,7 @@ Class: Rival
 Pic: Brendan
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 Mugshot: Blue
 AI: Smart Trainer
 
@@ -20146,7 +20146,7 @@ Class: Rival
 Pic: Brendan
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 Mugshot: Blue
 AI: Smart Trainer
 Party Size: 4
@@ -20220,7 +20220,7 @@ Class: Rival
 Pic: Brendan
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 Mugshot: Blue
 Party Size: 6
@@ -20345,7 +20345,7 @@ Class: Rival
 Pic: Brendan
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 Mugshot: Blue
 AI: Smart Trainer
 
@@ -20362,7 +20362,7 @@ Class: Rival
 Pic: Brendan
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 Mugshot: Blue
 AI: Smart Trainer
 Party Size: 4
@@ -20436,7 +20436,7 @@ Class: Rival
 Pic: Brendan
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 Mugshot: Blue
 Party Size: 6
@@ -20562,7 +20562,7 @@ Class: Rival
 Pic: Brendan
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 Mugshot: Blue
 AI: Smart Trainer
 
@@ -20579,7 +20579,7 @@ Class: Rival
 Pic: Brendan
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 Mugshot: Blue
 AI: Smart Trainer
 Party Size: 4
@@ -20654,7 +20654,7 @@ Class: Rival
 Pic: Brendan
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 Mugshot: Blue
 Party Size: 6
@@ -20788,7 +20788,7 @@ Class: Rival
 Pic: May
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 Mugshot: Blue
 AI: Smart Trainer
 
@@ -20805,7 +20805,7 @@ Class: Rival
 Pic: May
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 Mugshot: Blue
 AI: Smart Trainer
 Party Size: 4
@@ -20879,7 +20879,7 @@ Class: Rival
 Pic: May
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 Mugshot: Blue
 AI: Smart Trainer
 Party Size: 6
@@ -21004,7 +21004,7 @@ Class: Rival
 Pic: May
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 Mugshot: Blue
 AI: Smart Trainer
 
@@ -21021,7 +21021,7 @@ Class: Rival
 Pic: May
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 Mugshot: Blue
 AI: Smart Trainer
 Party Size: 4
@@ -21095,7 +21095,7 @@ Class: Rival
 Pic: May
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 Mugshot: Blue
 Party Size: 6
@@ -21221,7 +21221,7 @@ Class: Rival
 Pic: May
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 Mugshot: Blue
 AI: Smart Trainer
 
@@ -21238,7 +21238,7 @@ Class: Rival
 Pic: May
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 Mugshot: Blue
 AI: Smart Trainer
 Party Size: 4
@@ -21313,7 +21313,7 @@ Class: Rival
 Pic: May
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 Mugshot: Blue
 Party Size: 6
@@ -21447,7 +21447,7 @@ Class: Pkmn Breeder
 Pic: Pokemon Breeder M
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Wartortle @ Rocky Helmet  
@@ -21487,7 +21487,7 @@ Class: Bug Catcher
 Pic: Bug Catcher
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Tauros-Paldea-Aqua (M) @ Sitrus Berry  
@@ -21535,7 +21535,7 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Iron Moth @ Booster Energy  
@@ -21574,7 +21574,7 @@ Class: Pkmn Breeder
 Pic: Pokemon Breeder M
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Loudred
@@ -21607,7 +21607,7 @@ Class: Pkmn Breeder
 Pic: Pokemon Breeder M
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Loudred
@@ -21640,7 +21640,7 @@ Class: Pkmn Breeder
 Pic: Pokemon Breeder M
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Loudred
@@ -21673,7 +21673,7 @@ Class: Pkmn Breeder
 Pic: Pokemon Breeder M
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Loudred
@@ -21706,7 +21706,7 @@ Class: Pkmn Breeder
 Pic: Pokemon Breeder F
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Quaxwell @ Assault Vest  
@@ -21744,7 +21744,7 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Swellow @ Flame Orb  
@@ -21780,7 +21780,7 @@ Class: Ruin Maniac
 Pic: Ruin Maniac
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Sandaconda @ Smooth Rock  
@@ -21818,7 +21818,7 @@ Class: Pkmn Breeder
 Pic: Pokemon Breeder F
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Wingull
@@ -21851,7 +21851,7 @@ Class: Pkmn Breeder
 Pic: Pokemon Breeder F
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Pelipper
@@ -21884,7 +21884,7 @@ Class: Pkmn Breeder
 Pic: Pokemon Breeder F
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Pelipper
@@ -21917,7 +21917,7 @@ Class: Pkmn Breeder
 Pic: Pokemon Breeder F
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Pelipper
@@ -21950,7 +21950,7 @@ Class: Pkmn Ranger
 Pic: Pokemon Ranger M
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer / Force Setup First Turn
 
 Klinklang @ Sitrus Berry  
@@ -21997,7 +21997,7 @@ Class: Pkmn Ranger
 Pic: Pokemon Ranger M
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Talonflame @ Focus Sash  
@@ -22043,7 +22043,7 @@ Class: Pkmn Ranger
 Pic: Pokemon Ranger M
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Gengar @ Focus Sash  
@@ -22071,7 +22071,7 @@ Class: Pkmn Ranger
 Pic: Pokemon Ranger M
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer / Force Setup First Turn
 
 Breloom
@@ -22084,7 +22084,7 @@ Class: Pkmn Ranger
 Pic: Pokemon Ranger M
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Breloom
@@ -22097,7 +22097,7 @@ Class: Pkmn Ranger
 Pic: Pokemon Ranger M
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer / Force Setup First Turn
 
 Breloom
@@ -22110,7 +22110,7 @@ Class: Pkmn Ranger
 Pic: Pokemon Ranger M
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Kecleon
@@ -22127,7 +22127,7 @@ Class: Pkmn Ranger
 Pic: Pokemon Ranger F
 Gender: Female
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer / Force Setup First Turn
 
 Tropius @ Leftovers  
@@ -22175,7 +22175,7 @@ Class: Pkmn Ranger
 Pic: Pokemon Ranger F
 Gender: Female
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer / Force Setup First Turn
 
 Ludicolo @ Choice Specs  
@@ -22224,7 +22224,7 @@ Class: Pkmn Ranger
 Pic: Pokemon Ranger F
 Gender: Female
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Beedrill @ Beedrillite  
@@ -22252,7 +22252,7 @@ Class: Pkmn Ranger
 Pic: Pokemon Ranger F
 Gender: Female
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer / Force Setup First Turn
 
 Gloom
@@ -22269,7 +22269,7 @@ Class: Pkmn Ranger
 Pic: Pokemon Ranger F
 Gender: Female
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Gloom
@@ -22286,7 +22286,7 @@ Class: Pkmn Ranger
 Pic: Pokemon Ranger F
 Gender: Female
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer / Force Setup First Turn
 
 Gloom
@@ -22303,7 +22303,7 @@ Class: Pkmn Ranger
 Pic: Pokemon Ranger F
 Gender: Female
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Bellossom
@@ -22320,7 +22320,7 @@ Class: Triathlete
 Pic: Cycling Triathlete M
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Butterfree @ Focus Sash  
@@ -22350,7 +22350,7 @@ Class: Team Aqua
 Pic: Aqua Grunt M
 Gender: Male
 Music: Aqua
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Milotic @ Sitrus Berry  
@@ -22388,7 +22388,7 @@ Class: Team Magma
 Pic: Aqua Grunt F
 Gender: Female
 Music: Aqua
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Wailmer
@@ -22405,7 +22405,7 @@ Class: Team Aqua
 Pic: Aqua Grunt F
 Gender: Female
 Music: Aqua
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Shiftry @ Focus Sash  
@@ -22442,7 +22442,7 @@ Class: Team Magma
 Pic: Magma Grunt M
 Gender: Male
 Music: Magma
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Flareon @ Toxic Orb  
@@ -22488,7 +22488,7 @@ Class: Hiker
 Pic: Hiker
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Aron @ Oran Berry  
@@ -22527,7 +22527,7 @@ Class: Sailor
 Pic: Sailor
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Croconaw @ Assault Vest  
@@ -22564,7 +22564,7 @@ Class: Battle Girl
 Pic: Battle Girl
 Gender: Female
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Monferno @ Expert Belt  
@@ -22601,7 +22601,7 @@ Class: Black Belt
 Pic: Black Belt
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Morgrem @ Rocky Helmet  
@@ -22638,7 +22638,7 @@ Class: Hex Maniac
 Pic: Hex Maniac
 Gender: Female
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Medicham @ Choice Band  
@@ -22676,7 +22676,7 @@ Class: Swimmer M
 Pic: Swimmer M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Carvanha
@@ -22689,7 +22689,7 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Exploud @ Assault Vest  
@@ -22736,7 +22736,7 @@ Class: Swimmer M
 Pic: Swimmer M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Tentacruel
@@ -22749,7 +22749,7 @@ Class: Team Magma
 Pic: Magma Grunt M
 Gender: Male
 Music: Magma
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Runerigus @ Passho Berry  
@@ -22790,7 +22790,7 @@ Class: Swimmer M
 Pic: Swimmer M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Kommo-o @ Sitrus Berry  
@@ -22828,7 +22828,7 @@ Class: Psychic
 Pic: Psychic F
 Gender: Female
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Girafarig
@@ -22841,7 +22841,7 @@ Class: Gentleman
 Pic: Gentleman
 Gender: Male
 Music: Rich
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Grumpig @ Assault Vest  
@@ -22877,7 +22877,7 @@ Class: Hex Maniac
 Pic: Hex Maniac
 Gender: Female
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Chimecho @ Mental Herb  
@@ -22915,7 +22915,7 @@ Class: Gentleman
 Pic: Gentleman
 Gender: Male
 Music: Rich
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Mr. Rime @ Figy Berry  
@@ -22953,7 +22953,7 @@ Class: Psychic
 Pic: Psychic M
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Wobbuffet @ Mental Herb  
@@ -22993,7 +22993,7 @@ Class: Team Magma
 Pic: Magma Grunt F
 Gender: Female
 Music: Magma
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Revavroom @ Air Balloon  
@@ -23040,7 +23040,7 @@ Class: Team Magma
 Pic: Magma Grunt M
 Gender: Male
 Music: Magma
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Garchomp @ Rocky Helmet  
@@ -23087,7 +23087,7 @@ Class: Team Magma
 Pic: Magma Grunt M
 Gender: Male
 Music: Magma
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Coalossal @ Power Herb  
@@ -23126,7 +23126,7 @@ Class: Team Magma
 Pic: Magma Grunt M
 Gender: Male
 Music: Magma
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Salazzle (F) @ Focus Sash  
@@ -23164,7 +23164,7 @@ Class: Team Magma
 Pic: Magma Grunt M
 Gender: Male
 Music: Magma
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Arcanine-Hisui @ Assault Vest  
@@ -23201,7 +23201,7 @@ Class: Psychic
 Pic: Psychic F
 Gender: Female
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Slowbro @ Slowbronite  
@@ -23239,7 +23239,7 @@ Class: Rival
 Pic: Brendan
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 Mugshot: Blue
 
@@ -23279,7 +23279,7 @@ Class: Rival
 Pic: Brendan
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 Mugshot: Blue
 
@@ -23317,7 +23317,7 @@ Class: Expert
 Pic: Expert M
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Falinks @ Sitrus Berry  
@@ -23363,7 +23363,7 @@ Class: Triathlete
 Pic: Swimming Triathlete F
 Gender: Female
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Slowking @ Covert Cloak  
@@ -23402,7 +23402,7 @@ Class: Team Aqua
 Pic: Aqua Grunt F
 Gender: Female
 Music: Aqua
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Swalot @ Clear Amulet  
@@ -23453,7 +23453,7 @@ Class: Magma Admin
 Pic: Magma Admin
 Gender: Male
 Music: Magma
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Noctowl @ Covert Cloak  
@@ -23501,7 +23501,7 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer / Force Setup First Turn
 
 Castform @ Heat Rock  
@@ -23549,7 +23549,7 @@ Class: Rival
 Pic: Brendan
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 Mugshot: Blue
 
@@ -23589,7 +23589,7 @@ Class: Rival
 Pic: May
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 Mugshot: Blue
 
@@ -23627,7 +23627,7 @@ Class: Magma Leader
 Pic: Magma Leader Maxie
 Gender: Male
 Music: Magma
-Double Battle: Yes
+Battle Type: Doubles
 Mugshot: Pink
 AI: Smart Trainer
 Party Size: 6
@@ -23784,7 +23784,7 @@ Class: Magma Leader
 Pic: Magma Leader Maxie
 Gender: Male
 Music: Magma
-Double Battle: Yes
+Battle Type: Doubles
 Mugshot: Pink
 AI: Smart Trainer
 Party Size: 6
@@ -23919,7 +23919,7 @@ Class: Lass
 Pic: Lass
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Lotad @ Eviolite  
@@ -23948,7 +23948,7 @@ Class: Lass
 Pic: Lass
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Skitty @ Silk Scarf  
@@ -23977,7 +23977,7 @@ Class: Lass
 Pic: Lass
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Meditite @ Bright Powder  
@@ -24007,7 +24007,7 @@ Class: Winstrate
 Pic: Lass
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Breloom @ Expert Belt  
@@ -24035,7 +24035,7 @@ Class: Lass
 Pic: Lass
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Lombre
@@ -24052,7 +24052,7 @@ Class: Lass
 Pic: Lass
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Lombre
@@ -24069,7 +24069,7 @@ Class: Lass
 Pic: Lass
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Lombre
@@ -24086,7 +24086,7 @@ Class: Lass
 Pic: Lass
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Swellow
@@ -24107,7 +24107,7 @@ Class: Lass
 Pic: Lass
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Vileplume @ Black Sludge  
@@ -24137,7 +24137,7 @@ Class: Lass
 Pic: Lass
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Delcatty @ Metronome  
@@ -24162,7 +24162,7 @@ Class: Lass
 Pic: Lass
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Whiscash @ Sitrus Berry  
@@ -24192,7 +24192,7 @@ Class: Lass
 Pic: Lass
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Seaking @ Choice Band  
@@ -24220,7 +24220,7 @@ Class: Bug Catcher
 Pic: Bug Catcher
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Kricketot @ Bright Powder  
@@ -24249,7 +24249,7 @@ Class: Bug Catcher
 Pic: Bug Catcher
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Ledyba @ Loaded Dice  
@@ -24278,7 +24278,7 @@ Class: Bug Catcher
 Pic: Bug Catcher
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Paras @ Focus Sash  
@@ -24307,7 +24307,7 @@ Class: Bug Catcher
 Pic: Bug Catcher
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Ariados @ Mental Herb  
@@ -24353,7 +24353,7 @@ Class: Bug Catcher
 Pic: Bug Catcher
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Beautifly @ Focus Sash  
@@ -24401,7 +24401,7 @@ Class: Bug Catcher
 Pic: Bug Catcher
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Dustox @ Sitrus Berry  
@@ -24449,7 +24449,7 @@ Class: Bug Catcher
 Pic: Bug Catcher
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Applin @ Yache Berry  
@@ -24478,7 +24478,7 @@ Class: Bug Catcher
 Pic: Bug Catcher
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Ninjask
@@ -24491,7 +24491,7 @@ Class: Bug Catcher
 Pic: Bug Catcher
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Dustox
@@ -24508,7 +24508,7 @@ Class: Bug Catcher
 Pic: Bug Catcher
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Surskit
@@ -24529,7 +24529,7 @@ Class: Bug Catcher
 Pic: Bug Catcher
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Surskit
@@ -24554,7 +24554,7 @@ Class: Hiker
 Pic: Hiker
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Golem @ Normal Gem  
@@ -24582,7 +24582,7 @@ Class: Hiker
 Pic: Hiker
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Steelix @ Assault Vest  
@@ -24619,7 +24619,7 @@ Class: Hiker
 Pic: Hiker
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Arcanine-Hisui @ Rocky Helmet  
@@ -24656,7 +24656,7 @@ Class: Hiker
 Pic: Hiker
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Weezing-Galar @ Air Balloon  
@@ -24675,7 +24675,7 @@ Class: Hiker
 Pic: Hiker
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Barbaracle @ White Herb  
@@ -24702,7 +24702,7 @@ Class: Hiker
 Pic: Hiker
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Kabuto @ Focus Sash  
@@ -24731,7 +24731,7 @@ Class: Hiker
 Pic: Hiker
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Crustle @ Custap Berry  
@@ -24771,7 +24771,7 @@ Class: Hiker
 Pic: Hiker
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Wailmer
@@ -24786,7 +24786,7 @@ Class: Hiker
 Pic: Hiker
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Pelipper
@@ -24807,7 +24807,7 @@ Class: Hiker
 Pic: Hiker
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Graveler-Alola @ Electric Gem  
@@ -24837,7 +24837,7 @@ Class: Hiker
 Pic: Hiker
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Geodude
@@ -24862,7 +24862,7 @@ Class: Hiker
 Pic: Hiker
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Geodude
@@ -24887,7 +24887,7 @@ Class: Hiker
 Pic: Hiker
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Geodude
@@ -24912,7 +24912,7 @@ Class: Hiker
 Pic: Hiker
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Graveler
@@ -24937,7 +24937,7 @@ Class: Young Couple
 Pic: Young Couple
 Gender: Male
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Rillaboom @ Assault Vest  
@@ -25007,7 +25007,7 @@ Class: Young Couple
 Pic: Young Couple
 Gender: Male
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Luvdisc
@@ -25024,7 +25024,7 @@ Class: Young Couple
 Pic: Young Couple
 Gender: Male
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Volbeat (M) @ Covert Cloak  
@@ -25091,7 +25091,7 @@ Class: Young Couple
 Pic: Young Couple
 Gender: Male
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Volbeat
@@ -25108,7 +25108,7 @@ Class: Young Couple
 Pic: Young Couple
 Gender: Male
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Volbeat
@@ -25125,7 +25125,7 @@ Class: Young Couple
 Pic: Young Couple
 Gender: Male
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Volbeat
@@ -25142,7 +25142,7 @@ Class: Young Couple
 Pic: Young Couple
 Gender: Male
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Volbeat
@@ -25159,7 +25159,7 @@ Class: Beauty
 Pic: Beauty
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Ponyta-Galar @ Eviolite  
@@ -25186,7 +25186,7 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Illumise @ Heat Rock  
@@ -25215,7 +25215,7 @@ Class: Battle Girl
 Pic: Battle Girl
 Gender: Female
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Flaaffy @ Rocky Helmet  
@@ -25254,7 +25254,7 @@ Class: Battle Girl
 Pic: Battle Girl
 Gender: Female
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Fletchinder @ Focus Sash  
@@ -25301,7 +25301,7 @@ Class: Ninja Boy
 Pic: Ninja Boy
 Gender: Male
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Arbok @ Ability Shield  
@@ -25348,7 +25348,7 @@ Class: Ninja Boy
 Pic: Ninja Boy
 Gender: Male
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Doublade @ Eviolite  
@@ -25398,7 +25398,7 @@ Class: Ninja Boy
 Pic: Ninja Boy
 Gender: Male
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Weezing-Galar @ Sitrus Berry  
@@ -25445,7 +25445,7 @@ Class: Camper
 Pic: Camper
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Chatot @ Focus Sash  
@@ -25480,7 +25480,7 @@ Class: Picnicker
 Pic: Picnicker
 Gender: Female
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Farfetch’d @ Stick  
@@ -25528,7 +25528,7 @@ Class: Rival
 Pic: Wally
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 Mugshot: Green
 AI: Smart Trainer
 
@@ -25573,7 +25573,7 @@ Class: Rival
 Pic: Wally
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Altaria
@@ -25622,7 +25622,7 @@ Class: Rival
 Pic: Wally
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Altaria
@@ -25671,7 +25671,7 @@ Class: Rival
 Pic: Wally
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Altaria
@@ -25720,7 +25720,7 @@ Class: Rival
 Pic: Wally
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Altaria
@@ -25769,7 +25769,7 @@ Class: Rival
 Pic: Brendan
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 Mugshot: Blue
 Party Size: 6
@@ -25905,7 +25905,7 @@ Class: Rival
 Pic: Brendan
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 Mugshot: Blue
 Party Size: 6
@@ -26052,7 +26052,7 @@ Class: Rival
 Pic: Brendan
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 Mugshot: Blue
 Party Size: 6
@@ -26202,7 +26202,7 @@ Class: Rival
 Pic: May
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 Mugshot: Blue
 Party Size: 6
@@ -26338,7 +26338,7 @@ Class: Rival
 Pic: May
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 Mugshot: Blue
 Party Size: 6
@@ -26485,7 +26485,7 @@ Class: Rival
 Pic: May
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 Mugshot: Blue
 Party Size: 6
@@ -26635,7 +26635,7 @@ Class: Fisherman
 Pic: Fisherman
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Lapras @ Loaded Dice  
@@ -26682,7 +26682,7 @@ Class: Fisherman
 Pic: Fisherman
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Palafin @ Choice Band  
@@ -26728,7 +26728,7 @@ Class: Fisherman
 Pic: Fisherman
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Inteleon @ Scope Lens  
@@ -26776,7 +26776,7 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Lapras @ Assault Vest  
@@ -26824,7 +26824,7 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Florges (F) @ Salac Berry  
@@ -26872,7 +26872,7 @@ Class: Black Belt
 Pic: Black Belt
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Grapploct @ Assault Vest  
@@ -26920,7 +26920,7 @@ Class: Fisherman
 Pic: Fisherman
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Sneasler @ Misty Seed  
@@ -26966,7 +26966,7 @@ Class: Bird Keeper
 Pic: Bird Keeper
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Zoroark-Hisui @ Focus Sash  
@@ -27014,7 +27014,7 @@ Class: Swimmer M
 Pic: Swimmer M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Walrein @ Assault Vest  
@@ -27061,7 +27061,7 @@ Class: Swimmer F
 Pic: Swimmer F
 Gender: Female
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Gliscor @ Toxic Orb  
@@ -27099,7 +27099,7 @@ Class: Twins
 Pic: Twins
 Gender: Male
 Music: Twins
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Cacturne @ Assault Vest  
@@ -27145,7 +27145,7 @@ Class: Sr And Jr
 Pic: Sr And Jr
 Gender: Male
 Music: Twins
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Froslass (F) @ Mental Herb  
@@ -27193,7 +27193,7 @@ Class: Sr And Jr
 Pic: Sr And Jr
 Gender: Male
 Music: Twins
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Chatot @ Focus Sash  
@@ -27222,7 +27222,7 @@ Class: Young Couple
 Pic: Young Couple
 Gender: Male
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Garbodor @ Normal Gem  
@@ -27270,7 +27270,7 @@ Class: Old Couple
 Pic: Old Couple
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Iron Valiant @ Booster Energy  
@@ -27318,7 +27318,7 @@ Class: Old Couple
 Pic: Old Couple
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Medicham
@@ -27343,7 +27343,7 @@ Class: Old Couple
 Pic: Old Couple
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Medicham
@@ -27368,7 +27368,7 @@ Class: Old Couple
 Pic: Old Couple
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer / Force Setup First Turn
 
 Medicham
@@ -27393,7 +27393,7 @@ Class: Old Couple
 Pic: Old Couple
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Medicham
@@ -27418,7 +27418,7 @@ Class: Sis And Bro
 Pic: Sis And Bro
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Annihilape @ Choice Scarf  
@@ -27462,7 +27462,7 @@ Class: Sis And Bro
 Pic: Sis And Bro
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Cacturne @ Sitrus Berry  
@@ -27509,7 +27509,7 @@ Class: Sis And Bro
 Pic: Sis And Bro
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Chinchou
@@ -27526,7 +27526,7 @@ Class: Sis And Bro
 Pic: Sis And Bro
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Lanturn
@@ -27543,7 +27543,7 @@ Class: Sis And Bro
 Pic: Sis And Bro
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Lanturn
@@ -27560,7 +27560,7 @@ Class: Sis And Bro
 Pic: Sis And Bro
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Lanturn
@@ -27577,7 +27577,7 @@ Class: Sis And Bro
 Pic: Sis And Bro
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Sunflora @ Life Orb  
@@ -27627,7 +27627,7 @@ Class: Fisherman
 Pic: Fisherman
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Sharpedo @ Life Orb  
@@ -27684,7 +27684,7 @@ Class: Rich Boy
 Pic: Rich Boy
 Gender: Male
 Music: Rich
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Dunsparce @ Eviolite  
@@ -27703,7 +27703,7 @@ Class: Lady
 Pic: Lady
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Qwilfish @ Leftovers  
@@ -27722,7 +27722,7 @@ Class: Fisherman
 Pic: Fisherman
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Magikarp @ Flying Gem  
@@ -27749,7 +27749,7 @@ Class: Tuber F
 Pic: Tuber F
 Gender: Female
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Chingling @ Eviolite  
@@ -27777,7 +27777,7 @@ Class: Tuber M
 Pic: Tuber M
 Gender: Male
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Swablu @ Throat Spray  
@@ -27800,7 +27800,7 @@ Class: Pokefan
 Pic: Pokefan M
 Gender: Male
 Music: Twins
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Plusle @ Focus Sash  
@@ -27819,7 +27819,7 @@ Class: Guitarist
 Pic: Guitarist
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Electabuzz @ Eviolite  
@@ -27848,7 +27848,7 @@ Class: Triathlete
 Pic: Cycling Triathlete F
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Voltorb-Hisui @ Focus Sash  
@@ -27876,7 +27876,7 @@ Class: Guitarist
 Pic: Guitarist
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Tinkatuff (F) @ Sitrus Berry  
@@ -27903,7 +27903,7 @@ Class: Black Belt
 Pic: Black Belt
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Sneasel-Hisui @ Focus Sash  
@@ -27930,7 +27930,7 @@ Class: Camper
 Pic: Camper
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Sandslash @ Leftovers  
@@ -27966,7 +27966,7 @@ Class: Aroma Lady
 Pic: Aroma Lady
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Florges (F) @ Sitrus Berry  
@@ -28004,7 +28004,7 @@ Class: Picnicker
 Pic: Picnicker
 Gender: Female
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Dustox @ Mental Herb  
@@ -28032,7 +28032,7 @@ Class: Kindler
 Pic: Kindler
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Numel @ Eviolite  
@@ -28059,7 +28059,7 @@ Class: Picnicker
 Pic: Picnicker
 Gender: Female
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Wyrdeer @ Colbur Berry  
@@ -28089,7 +28089,7 @@ Class: Bird Keeper
 Pic: Bird Keeper
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Gyarados @ Assault Vest  
@@ -28117,7 +28117,7 @@ Class: Camper
 Pic: Camper
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Indeedee (M) @ Throat Spray  
@@ -28147,7 +28147,7 @@ Class: Pokemaniac
 Pic: Pokemaniac
 Gender: Male
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Porygon2 @ Eviolite  
@@ -28186,7 +28186,7 @@ Class: Picnicker
 Pic: Picnicker
 Gender: Female
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Toedscruel @ Focus Sash  
@@ -28206,7 +28206,7 @@ Class: Fisherman
 Pic: Fisherman
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Bruxish @ Focus Sash  
@@ -28234,7 +28234,7 @@ Class: Picnicker
 Pic: Picnicker
 Gender: Female
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Yanmega @ Covert Cloak  
@@ -28262,7 +28262,7 @@ Class: Youngster
 Pic: Youngster
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Linoone @ Assault Vest  
@@ -28300,7 +28300,7 @@ Class: Team Magma
 Pic: Magma Grunt M
 Gender: Male
 Music: Magma
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Torkoal @ Heat Rock  
@@ -28368,7 +28368,7 @@ Class: Team Magma
 Pic: Magma Grunt M
 Gender: Male
 Music: Magma
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Golem-Alola @ Choice Band  
@@ -28412,7 +28412,7 @@ Class: Team Magma
 Pic: Magma Grunt M
 Gender: Male
 Music: Magma
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Volbeat @ Covert Cloak  
@@ -28460,7 +28460,7 @@ Class: Team Magma
 Pic: Magma Grunt M
 Gender: Male
 Music: Magma
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Ninetales @ Eject Pack  
@@ -28507,7 +28507,7 @@ Class: Team Magma
 Pic: Magma Grunt M
 Gender: Male
 Music: Magma
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Blissey @ Leftovers  
@@ -28557,7 +28557,7 @@ Class: Team Magma
 Pic: Magma Grunt M
 Gender: Male
 Music: Magma
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Mightyena @ Assault Vest  
@@ -28595,7 +28595,7 @@ Class: Team Magma
 Pic: Magma Grunt M
 Gender: Male
 Music: Magma
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Crobat @ Covert Cloak  
@@ -28641,7 +28641,7 @@ Class: Team Magma
 Pic: Magma Grunt M
 Gender: Male
 Music: Magma
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Annihilape @ Sitrus Berry  
@@ -28687,7 +28687,7 @@ Class: Team Magma
 Pic: Magma Grunt M
 Gender: Male
 Music: Magma
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Simisear @ Focus Sash  
@@ -28737,7 +28737,7 @@ Class: Team Magma
 Pic: Magma Grunt M
 Gender: Male
 Music: Magma
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Rotom-Heat @ Choice Scarf  
@@ -28785,7 +28785,7 @@ Class: Team Magma
 Pic: Magma Grunt M
 Gender: Male
 Music: Magma
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Talonflame @ Covert Cloak  
@@ -28832,7 +28832,7 @@ Class: Team Magma
 Pic: Magma Grunt M
 Gender: Male
 Music: Magma
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Indeedee-F (F) @ Mental Herb  
@@ -28871,7 +28871,7 @@ Class: Team Magma
 Pic: Magma Grunt M
 Gender: Male
 Music: Magma
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Torkoal @ Heat Rock  
@@ -28911,7 +28911,7 @@ Class: Team Magma
 Pic: Magma Grunt F
 Gender: Female
 Music: Magma
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Crobat @ Mental Herb  
@@ -28959,7 +28959,7 @@ Class: Team Magma
 Pic: Magma Grunt F
 Gender: Female
 Music: Magma
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Incineroar @ Rocky Helmet  
@@ -28996,7 +28996,7 @@ Class: Team Magma
 Pic: Magma Grunt F
 Gender: Female
 Music: Magma
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Coalossal @ Rocky Helmet  
@@ -29046,7 +29046,7 @@ Class: Magma Admin
 Pic: Magma Admin
 Gender: Male
 Music: Magma
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Charizard @ Charizardite Y  
@@ -29115,7 +29115,7 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Primarina @ Assault Vest  
@@ -29154,7 +29154,7 @@ Class: Magma Leader
 Pic: Magma Leader Maxie
 Gender: Male
 Music: Magma
-Double Battle: Yes
+Battle Type: Doubles
 Mugshot: Pink
 AI: Smart Trainer
 Party Size: 3
@@ -29224,7 +29224,7 @@ Class: Swimmer M
 Pic: Swimmer M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Drifblim @ Flame Orb  
@@ -29272,7 +29272,7 @@ Class: Swimmer F
 Pic: Swimmer F
 Gender: Female
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Inteleon @ Scope Lens  
@@ -29318,7 +29318,7 @@ Class: Ruin Maniac
 Pic: Ruin Maniac
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Palossand @ Rocky Helmet  
@@ -29347,7 +29347,7 @@ Class: Bird Keeper
 Pic: Bird Keeper
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Braviary-Hisui (M) @ Sitrus Berry  
@@ -29377,7 +29377,7 @@ Class: Triathlete
 Pic: Swimming Triathlete M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Starmie @ Choice Specs  
@@ -29415,7 +29415,7 @@ Class: Sailor
 Pic: Sailor
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Poliwrath @ Punching Glove  
@@ -29452,7 +29452,7 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Pikachu @ Light Ball  
@@ -29490,7 +29490,7 @@ Class: Bird Keeper
 Pic: Bird Keeper
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Vivillon @ Focus Sash  
@@ -29527,7 +29527,7 @@ Class: Picnicker
 Pic: Picnicker
 Gender: Female
 Music: Girl
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Garganacl @ Leftovers  
@@ -29573,7 +29573,7 @@ Class: Ruin Maniac
 Pic: Ruin Maniac
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Lunatone @ Leftovers  
@@ -29613,7 +29613,7 @@ Class: Camper
 Pic: Camper
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Gastrodon @ Assault Vest  
@@ -29661,7 +29661,7 @@ Class: Kindler
 Pic: Kindler
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Salazzle @ Leftovers  
@@ -29691,7 +29691,7 @@ Class: Aroma Lady
 Pic: Aroma Lady
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Whimsicott @ Covert Cloak  
@@ -29720,7 +29720,7 @@ Class: Triathlete
 Pic: Running Triathlete F
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Dodrio @ Life Orb  
@@ -29758,7 +29758,7 @@ Class: Ninja Boy
 Pic: Ninja Boy
 Gender: Male
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Ninjask @ Focus Sash  
@@ -29804,7 +29804,7 @@ Class: Psychic
 Pic: Psychic F
 Gender: Female
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Vanilluxe @ Icy Rock  
@@ -29832,7 +29832,7 @@ Class: Battle Girl
 Pic: Battle Girl
 Gender: Female
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Glaceon @ Choice Specs  
@@ -29872,7 +29872,7 @@ Class: Psychic
 Pic: Psychic F
 Gender: Female
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Nidoqueen (F) @ Air Balloon  
@@ -29902,7 +29902,7 @@ Class: Hiker
 Pic: Hiker
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Kubfu @ Rocky Helmet  
@@ -29947,7 +29947,7 @@ Class: Youngster
 Pic: Youngster
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Maschiff @ Eviolite  
@@ -29977,7 +29977,7 @@ Class: Triathlete
 Pic: Running Triathlete F
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Sandshrew-Alola @ Focus Sash  
@@ -30016,7 +30016,7 @@ Class: Psychic
 Pic: Psychic F
 Gender: Female
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Seviper @ Assault Vest  
@@ -30054,7 +30054,7 @@ Class: Battle Girl
 Pic: Battle Girl
 Gender: Female
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Braixen @ Focus Sash  
@@ -30092,7 +30092,7 @@ Class: Expert
 Pic: Expert F
 Gender: Female
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Roserade @ Focus Sash  
@@ -30140,7 +30140,7 @@ Class: Guitarist
 Pic: Guitarist
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Banette @ Banettite  
@@ -30207,7 +30207,7 @@ Class: Kindler
 Pic: Kindler
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Torkoal @ Heat Rock  
@@ -30257,7 +30257,7 @@ Class: Parasol Lady
 Pic: Parasol Lady
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Qwilfish-Hisui @ Eviolite  
@@ -30304,7 +30304,7 @@ Class: Cooltrainer
 Pic: Cooltrainer M
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Manectric @ Assault Vest  
@@ -30352,7 +30352,7 @@ Class: Battle Girl
 Pic: Battle Girl
 Gender: Female
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Falinks @ Covert Cloak  
@@ -30401,7 +30401,7 @@ Class: Bug Maniac
 Pic: Bug Maniac
 Gender: Male
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Orbeetle @ Mental Herb  
@@ -30441,7 +30441,7 @@ Class: Pkmn Breeder
 Pic: Pokemon Breeder M
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Delibird @ Focus Sash  
@@ -30488,7 +30488,7 @@ Class: Pkmn Breeder
 Pic: Pokemon Breeder F
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Greninja @ Focus Sash  
@@ -30533,7 +30533,7 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Shedinja @ Safety Goggles  
@@ -30579,7 +30579,7 @@ Class: Rival
 Pic: May
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 Mugshot: Blue
 
@@ -30619,7 +30619,7 @@ Class: Rival
 Pic: May
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 Mugshot: Blue
 
@@ -30659,7 +30659,7 @@ Class: Leader
 Pic: Leader Roxanne
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Golem
@@ -30700,7 +30700,7 @@ Class: Leader
 Pic: Leader Roxanne
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Omanyte
@@ -30749,7 +30749,7 @@ Class: Leader
 Pic: Leader Roxanne
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Omastar
@@ -30798,7 +30798,7 @@ Class: Leader
 Pic: Leader Roxanne
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Aerodactyl
@@ -30855,7 +30855,7 @@ Class: Leader
 Pic: Leader Brawly
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Machamp @ Sitrus Berry
@@ -30896,7 +30896,7 @@ Class: Leader
 Pic: Leader Brawly
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Machamp @ Sitrus Berry
@@ -30937,7 +30937,7 @@ Class: Leader
 Pic: Leader Brawly
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Hitmonchan
@@ -30986,7 +30986,7 @@ Class: Leader
 Pic: Leader Brawly
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Hitmonlee
@@ -31043,7 +31043,7 @@ Class: Leader
 Pic: Leader Wattson
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Mareep
@@ -31084,7 +31084,7 @@ Class: Leader
 Pic: Leader Wattson
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Pikachu
@@ -31133,7 +31133,7 @@ Class: Leader
 Pic: Leader Wattson
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Raichu
@@ -31182,7 +31182,7 @@ Class: Leader
 Pic: Leader Wattson
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Electabuzz
@@ -31239,7 +31239,7 @@ Class: Leader
 Pic: Leader Flannery
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Magcargo @ White Herb
@@ -31280,7 +31280,7 @@ Class: Leader
 Pic: Leader Flannery
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Growlithe
@@ -31329,7 +31329,7 @@ Class: Leader
 Pic: Leader Flannery
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Houndour
@@ -31386,7 +31386,7 @@ Class: Leader
 Pic: Leader Flannery
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Arcanine
@@ -31443,7 +31443,7 @@ Class: Leader
 Pic: Leader Norman
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Chansey
@@ -31484,7 +31484,7 @@ Class: Leader
 Pic: Leader Norman
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Slaking @ Sitrus Berry
@@ -31533,7 +31533,7 @@ Class: Leader
 Pic: Leader Norman
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Slaking @ Sitrus Berry
@@ -31582,7 +31582,7 @@ Class: Leader
 Pic: Leader Norman
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Slaking @ Sitrus Berry
@@ -31639,7 +31639,7 @@ Class: Leader
 Pic: Leader Winona
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer / Risky
 
 Dratini @ Sitrus Berry
@@ -31688,7 +31688,7 @@ Class: Leader
 Pic: Leader Winona
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer / Risky
 
 Hoothoot
@@ -31745,7 +31745,7 @@ Class: Leader
 Pic: Leader Winona
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer / Risky
 
 Noctowl
@@ -31802,7 +31802,7 @@ Class: Leader
 Pic: Leader Winona
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer / Risky
 
 Noctowl
@@ -31859,7 +31859,7 @@ Class: Leader
 Pic: Leader Tate And Liza
 Gender: Male
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Slowpoke
@@ -31908,7 +31908,7 @@ Class: Leader
 Pic: Leader Tate And Liza
 Gender: Male
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Drowzee
@@ -31965,7 +31965,7 @@ Class: Leader
 Pic: Leader Tate And Liza
 Gender: Male
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Hypno
@@ -32022,7 +32022,7 @@ Class: Leader
 Pic: Leader Tate And Liza
 Gender: Male
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Hypno
@@ -32079,7 +32079,7 @@ Class: Leader
 Pic: Leader Juan
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Poliwag
@@ -32128,7 +32128,7 @@ Class: Leader
 Pic: Leader Juan
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Poliwhirl
@@ -32177,7 +32177,7 @@ Class: Leader
 Pic: Leader Juan
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Lapras
@@ -32234,7 +32234,7 @@ Class: Leader
 Pic: Leader Juan
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Lapras
@@ -32291,7 +32291,7 @@ Class: Bug Maniac
 Pic: Bug Maniac
 Gender: Male
 Music: Suspicious
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Charjabug @ Eviolite  
@@ -32329,7 +32329,7 @@ Class: Bird Keeper
 Pic: Bird Keeper
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Staraptor @ Choice Scarf  
@@ -32375,7 +32375,7 @@ Class: Rival
 Pic: Steven
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Skarmory
@@ -32432,7 +32432,7 @@ Class: Salon Maiden
 Pic: Salon Maiden Anabel
 Gender: Female
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Beldum
@@ -32445,7 +32445,7 @@ Class: Dome Ace
 Pic: Dome Ace Tucker
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Beldum
@@ -32458,7 +32458,7 @@ Class: Palace Maven
 Pic: Palace Maven Spenser
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Beldum
@@ -32471,7 +32471,7 @@ Class: Arena Tycoon
 Pic: Arena Tycoon Greta
 Gender: Female
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Beldum
@@ -32484,7 +32484,7 @@ Class: Factory Head
 Pic: Factory Head Noland
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Beldum
@@ -32497,7 +32497,7 @@ Class: Pike Queen
 Pic: Pike Queen Lucy
 Gender: Female
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Beldum
@@ -32510,7 +32510,7 @@ Class: Pyramid King
 Pic: Pyramid King Brandon
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Beldum
@@ -32523,7 +32523,7 @@ Class: Ruin Maniac
 Pic: Ruin Maniac
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Sandshrew
@@ -32540,7 +32540,7 @@ Class: Ruin Maniac
 Pic: Ruin Maniac
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Nosepass
@@ -32561,7 +32561,7 @@ Class: Ruin Maniac
 Pic: Ruin Maniac
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Nosepass
@@ -32582,7 +32582,7 @@ Class: Ruin Maniac
 Pic: Ruin Maniac
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Nosepass
@@ -32603,7 +32603,7 @@ Class: Sailor
 Pic: Sailor
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Wingull
@@ -32624,7 +32624,7 @@ Class: Sailor
 Pic: Sailor
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Pelipper
@@ -32645,7 +32645,7 @@ Class: Sailor
 Pic: Sailor
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Pelipper
@@ -32666,7 +32666,7 @@ Class: Sailor
 Pic: Sailor
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Pelipper
@@ -32687,7 +32687,7 @@ Class: Triathlete
 Pic: Swimming Triathlete M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Staryu
@@ -32704,7 +32704,7 @@ Class: Triathlete
 Pic: Swimming Triathlete M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Wingull
@@ -32725,7 +32725,7 @@ Class: Triathlete
 Pic: Swimming Triathlete M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Pelipper
@@ -32746,7 +32746,7 @@ Class: Triathlete
 Pic: Swimming Triathlete M
 Gender: Male
 Music: Swimmer
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Pelipper
@@ -32767,7 +32767,7 @@ Class: Black Belt
 Pic: Black Belt
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Machoke
@@ -32784,7 +32784,7 @@ Class: Black Belt
 Pic: Black Belt
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Makuhita
@@ -32805,7 +32805,7 @@ Class: Black Belt
 Pic: Black Belt
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Hariyama
@@ -32826,7 +32826,7 @@ Class: Black Belt
 Pic: Black Belt
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Hariyama
@@ -32847,7 +32847,7 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Loudred
@@ -32864,7 +32864,7 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Spinda
@@ -32885,7 +32885,7 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Spinda
@@ -32906,7 +32906,7 @@ Class: Cooltrainer
 Pic: Cooltrainer F
 Gender: Female
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Spinda
@@ -32927,7 +32927,7 @@ Class: Guitarist
 Pic: Guitarist
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Electrike
@@ -32948,7 +32948,7 @@ Class: Guitarist
 Pic: Guitarist
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Electrike
@@ -32969,7 +32969,7 @@ Class: Guitarist
 Pic: Guitarist
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Manectric
@@ -32990,7 +32990,7 @@ Class: Guitarist
 Pic: Guitarist
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Manectric
@@ -33011,7 +33011,7 @@ Class: Hiker
 Pic: Hiker
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Geodude
@@ -33028,7 +33028,7 @@ Class: Hiker
 Pic: Hiker
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Machop
@@ -33049,7 +33049,7 @@ Class: Hiker
 Pic: Hiker
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Machop
@@ -33070,7 +33070,7 @@ Class: Hiker
 Pic: Hiker
 Gender: Male
 Music: Hiker
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Machoke
@@ -33091,7 +33091,7 @@ Class: Pkmn Breeder
 Pic: Pokemon Breeder F
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Electabuzz @ Eviolite  
@@ -33136,7 +33136,7 @@ Class: Pkmn Breeder
 Pic: Pokemon Breeder F
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Skitty
@@ -33169,7 +33169,7 @@ Class: Pkmn Breeder
 Pic: Pokemon Breeder F
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Delcatty
@@ -33202,7 +33202,7 @@ Class: Pkmn Breeder
 Pic: Pokemon Breeder F
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Delcatty
@@ -33235,7 +33235,7 @@ Class: Beauty
 Pic: Beauty
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Wailmer
@@ -33252,7 +33252,7 @@ Class: Beauty
 Pic: Beauty
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Luvdisc
@@ -33273,7 +33273,7 @@ Class: Beauty
 Pic: Beauty
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Luvdisc
@@ -33294,7 +33294,7 @@ Class: Beauty
 Pic: Beauty
 Gender: Female
 Music: Female
-Double Battle: Yes
+Battle Type: Doubles
 AI: Smart Trainer
 
 Luvdisc
@@ -33315,7 +33315,7 @@ Class: Psychic
 Pic: Psychic F
 Gender: Female
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 
 Samurott-Hisui @ Assault Vest  
 Ability: Sharpness   
@@ -33332,7 +33332,7 @@ Class: Psychic
 Pic: Psychic M
 Gender: Male
 Music: Intense
-Double Battle: Yes
+Battle Type: Doubles
 
 Banette @ Focus Sash  
 Ability: Fluffy   
@@ -33358,7 +33358,7 @@ Class: Gentleman
 Pic: Gentleman
 Gender: Male
 Music: Rich
-Double Battle: Yes
+Battle Type: Doubles
 
 Wobbuffet @ Mental Herb  
 Ability: Shadow Tag    
@@ -33376,7 +33376,7 @@ Class: Rival
 Pic: Red
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 
 Charmander
 Level: 5
@@ -33388,7 +33388,7 @@ Class: Rival
 Pic: Leaf
 Gender: Female
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 
 Bulbasaur
 Level: 5
@@ -33400,7 +33400,7 @@ Class: RS Protag
 Pic: RS Brendan
 Gender: Male
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 
 Groudon
 Level: 5
@@ -33412,7 +33412,7 @@ Class: RS Protag
 Pic: RS May
 Gender: Female
 Music: Male
-Double Battle: Yes
+Battle Type: Doubles
 
 Kyogre
 Level: 5
@@ -33424,7 +33424,7 @@ Class: Cooltrainer
 Pic: Clark
 Gender: Male
 Music: Cool
-Double Battle: Yes
+Battle Type: Doubles
 Mugshot: Yellow
 AI: Smart Trainer
 

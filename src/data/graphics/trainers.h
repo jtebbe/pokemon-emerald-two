@@ -292,13 +292,13 @@ const u8 gTrainerBackPic_Steven[] = INCBIN_U8("graphics/trainers/back_pics/steve
 const u16 gTrainerBackPicPalette_Red[] = INCBIN_U16("graphics/trainers/back_pics/red.gbapal");
 const u16 gTrainerBackPicPalette_Leaf[] = INCBIN_U16("graphics/trainers/back_pics/leaf.gbapal");
 
-const u32 gTrainerFrontPic_AgarthanJester[] = INCBIN_U32("graphics/trainers/front_pics/agarthan_jester.4bpp.lz");
+const u32 gTrainerFrontPic_AgarthanJester[] = INCBIN_U32("graphics/trainers/front_pics/agarthan_jester.4bpp.smol");
 const u16 gTrainerPalette_AgarthanJester[] = INCBIN_U16("graphics/trainers/front_pics/agarthan_jester.gbapal");
 
-const u32 gTrainerFrontPic_AgarthanSlayer[] = INCBIN_U32("graphics/trainers/front_pics/agarthan_slayer.4bpp.lz");
+const u32 gTrainerFrontPic_AgarthanSlayer[] = INCBIN_U32("graphics/trainers/front_pics/agarthan_slayer.4bpp.smol");
 const u16 gTrainerPalette_AgarthanSlayer[] = INCBIN_U16("graphics/trainers/front_pics/agarthan_slayer.gbapal");
 
-const u32 gTrainerFrontPic_Clark[] = INCBIN_U32("graphics/trainers/front_pics/clark.4bpp.lz");
+const u32 gTrainerFrontPic_Clark[] = INCBIN_U32("graphics/trainers/front_pics/clark.4bpp.smol");
 const u16 gTrainerPalette_Clark[] = INCBIN_U16("graphics/trainers/front_pics/clark.gbapal");
 
 // The first two parameters invoke a front pic and palette by

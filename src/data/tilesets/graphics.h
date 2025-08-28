@@ -1650,7 +1650,7 @@ const u16 gTilesetPalettes_GeneralSnow[][16] =
     INCBIN_U16("data/tilesets/primary/general_snow/palettes/12.gbapal"),
 };
 
-const u32 gTilesetTiles_GeneralSnow[] = INCBIN_U32("data/tilesets/primary/general_snow/tiles.4bpp.lz");
+const u32 gTilesetTiles_GeneralSnow[] = INCBIN_U32("data/tilesets/primary/general_snow/tiles.4bpp.smol");
 const u16 gTilesetPalettes_AgarthaUnderwater[][16] =
 {
     INCBIN_U16("data/tilesets/primary/agartha_underwater/palettes/00.gbapal"),
@@ -1668,7 +1668,7 @@ const u16 gTilesetPalettes_AgarthaUnderwater[][16] =
     INCBIN_U16("data/tilesets/primary/agartha_underwater/palettes/12.gbapal"),
 };
 
-const u32 gTilesetTiles_AgarthaUnderwater[] = INCBIN_U32("data/tilesets/primary/agartha_underwater/tiles.4bpp.lz");
+const u32 gTilesetTiles_AgarthaUnderwater[] = INCBIN_U32("data/tilesets/primary/agartha_underwater/tiles.4bpp.smol");
 
 const u16 gTilesetPalettes_AgarthaReef[][16] =
 {
@@ -1687,7 +1687,7 @@ const u16 gTilesetPalettes_AgarthaReef[][16] =
     INCBIN_U16("data/tilesets/secondary/agartha_reef/palettes/12.gbapal"),
 };
 
-const u32 gTilesetTiles_AgarthaReef[] = INCBIN_U32("data/tilesets/secondary/agartha_reef/tiles.4bpp.lz");
+const u32 gTilesetTiles_AgarthaReef[] = INCBIN_U32("data/tilesets/secondary/agartha_reef/tiles.4bpp.fastSmol");
 
 const u16 gTilesetPalettes_AgarthaDistortion[][16] =
 {
@@ -1706,5 +1706,5 @@ const u16 gTilesetPalettes_AgarthaDistortion[][16] =
     INCBIN_U16("data/tilesets/secondary/agartha_distortion/palettes/12.gbapal"),
 };
 
-const u32 gTilesetTiles_AgarthaDistortion[] = INCBIN_U32("data/tilesets/secondary/agartha_distortion/tiles.4bpp.lz");
+const u32 gTilesetTiles_AgarthaDistortion[] = INCBIN_U32("data/tilesets/secondary/agartha_distortion/tiles.4bpp.fastSmol");
 const u32 gTilesetTiles_UnionRoom[] = INCBIN_U32("data/tilesets/secondary/union_room/tiles.4bpp.fastSmol");
