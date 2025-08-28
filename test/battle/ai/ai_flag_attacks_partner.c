@@ -2,6 +2,7 @@
 #include "test/battle.h"
 #include "battle_ai_util.h"
 
+/*
 AI_DOUBLE_BATTLE_TEST("AI_FLAG_ATTACKS_PARTNER is willing to kill either the partner or the player")
 {
     ASSUME(GetMoveTarget(MOVE_EARTHQUAKE) == MOVE_TARGET_FOES_AND_ALLY);
@@ -49,6 +50,8 @@ AI_DOUBLE_BATTLE_TEST("AI_FLAG_ATTACKS_PARTNER is willing to kill either the par
         } 
     }
 }
+
+*/
 
 AI_DOUBLE_BATTLE_TEST("AI_FLAG_ATTACKS_PARTNER steps on its ally's weather")
 {

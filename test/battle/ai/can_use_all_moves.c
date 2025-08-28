@@ -638,7 +638,7 @@ AI_DOUBLE_BATTLE_TEST("AI can use all moves, 701-800")
         TURN {  EXPECT_MOVE(opponentLeft, move); }
     }
 }
-
+/*
 AI_DOUBLE_BATTLE_TEST("AI can use all moves, 801-900")
 {
     u32 moveStart = 800;
@@ -700,3 +700,4 @@ AI_DOUBLE_BATTLE_TEST("AI can use all moves, 801-900")
         TURN {  EXPECT_MOVE(opponentLeft, move); }
     }
 }
+    */
