@@ -3399,40 +3399,6 @@ static s32 AI_DoubleBattle(u32 battlerAtk, u32 battlerDef, u32 move, s32 score)
                     isMoveAffectedByPartnerAbility = FALSE;
                 }
                 break;
-            case ABILITY_WATER_COMPACTION:
-                if (moveType == TYPE_WATER && isFriendlyFireOK
-                    && ShouldTriggerAbility(battlerAtk, battlerAtkPartner, atkPartnerAbility))
-                {
-                    if (moveTarget == MOVE_TARGET_FOES_AND_ALLY)
-                    {
-                        ADJUST_SCORE(DECENT_EFFECT);
-                    }
-
-                    if (GetMoveStrikeCount(move) > 1 && effect != EFFECT_DRAGON_DARTS)
-                    {
-                        ADJUST_SCORE(DECENT_EFFECT);
-                    }
-                }
-                else
-                {
-                    isMoveAffectedByPartnerAbility = FALSE;
-                }
-                break;
-            case ABILITY_STEAM_ENGINE:
-                if (isFriendlyFireOK && (moveType == TYPE_WATER || moveType == TYPE_FIRE)
-                    && ShouldTriggerAbility(battlerAtk, battlerAtkPartner, atkPartnerAbility))
-                {
-                    if (moveTarget == MOVE_TARGET_FOES_AND_ALLY)
-                    {
-                        ADJUST_SCORE(DECENT_EFFECT);
-                    }
-                    RETURN_SCORE_PLUS(WEAK_EFFECT);
-                }
-                else
-                {
-                    isMoveAffectedByPartnerAbility = FALSE;
-                }
-                break;
             case ABILITY_THERMAL_EXCHANGE:
                 if (moveType == TYPE_FIRE && isFriendlyFireOK
                     && !IsBattleMoveStatus(move)
@@ -5082,7 +5048,7 @@ static u32 AI_CalcMoveEffectScore(u32 battlerAtk, u32 battlerDef, u32 move)
         }
         break;
     case EFFECT_SPEED_SWAP:
-        if (gBattleMons[battlerDef].speed > gBattleMons[battlerAtk].speed || (IS_TARGETING_PARTNER(battlerAtk, battlerDef) && gBattleMons[battlerDef].speed < gBattleMons[battlerAtk].speed))
+        if (gBattleMons[battlerDef].speed > gBattleMons[battlerAtk].speed || (IsTargetingPartner(battlerAtk, battlerDef) && gBattleMons[battlerDef].speed < gBattleMons[battlerAtk].speed))
             ADJUST_SCORE(DECENT_EFFECT);
         break;
 case EFFECT_GUARD_SPLIT:

@@ -1415,17 +1415,15 @@ BattleScript_EffectGearUpNoPlusMinusTryAtk:
 	attackanimation
 	waitanimation
 BattleScript_EffectGearUpNoPlusMinusSkipAnim:
-	setbyte sSTAT_ANIM_PLAYED, FALSE
-	playstatchangeanimation BS_TARGET, BIT_ATK | BIT_SPATK, 0
 	setstatchanger STAT_ATK, 1, FALSE
-	statbuffchange STAT_CHANGE_ALLOW_PTR, BattleScript_EffectGearUpNoPlusMinusTrySpAtk
+	statbuffchange BS_TARGET, STAT_CHANGE_ALLOW_PTR, BattleScript_EffectGearUpNoPlusMinusTrySpAtk, BIT_SPATK
 	jumpifbyte CMP_EQUAL, cMULTISTRING_CHOOSER, B_MSG_STAT_WONT_INCREASE, BattleScript_EffectGearUpNoPlusMinusTrySpAtk
 	addbyte gBattleCommunication, 1
 	printfromtable gStatUpStringIds
 	waitmessage B_WAIT_TIME_LONG
 BattleScript_EffectGearUpNoPlusMinusTrySpAtk:
 	setstatchanger STAT_SPATK, 1, FALSE
-	statbuffchange STAT_CHANGE_ALLOW_PTR, BattleScript_EffectGearUpLoop
+	statbuffchange BS_TARGET, STAT_CHANGE_ALLOW_PTR, BattleScript_EffectGearUpLoop
 	jumpifbyte CMP_EQUAL, cMULTISTRING_CHOOSER, B_MSG_STAT_WONT_INCREASE, BattleScript_EffectGearUpLoop
 	addbyte gBattleCommunication, 1
 	printfromtable gStatUpStringIds
@@ -9839,36 +9837,6 @@ BattleScript_EffectSnow::
 	setfieldweather BATTLE_WEATHER_SNOW
 	goto BattleScript_MoveWeatherChange
 
-BattleScript_EffectFrigidTouch::
-	attackcanceler
-	attackstring
-	ppreduce
-	jumpifability BS_TARGET, ABILITY_MAGMA_ARMOR, BattleScript_AbilityProtectsDoesntAffect
-	jumpifability BS_TARGET, ABILITY_COMATOSE, BattleScript_AbilityProtectsDoesntAffect
-	jumpifability BS_TARGET, ABILITY_PURIFYING_SALT, BattleScript_AbilityProtectsDoesntAffect
-	jumpifflowerveil BattleScript_FlowerVeilProtects
-	jumpifleafguardprotected BS_TARGET, BattleScript_AbilityProtectsDoesntAffect
-	jumpifshieldsdown BS_TARGET, BattleScript_AbilityProtectsDoesntAffect
-	jumpifsubstituteblocks BattleScript_ButItFailed
-	typecalc
-	jumpifmovehadnoeffect BattleScript_ButItFailed
-	jumpifstatus BS_TARGET, STATUS1_FROSTBITE, BattleScript_AlreadyFrostbitten
-	jumpifstatus BS_TARGET, STATUS1_ANY, BattleScript_ButItFailed
-	jumpifterrainaffected BS_TARGET, STATUS_FIELD_MISTY_TERRAIN, BattleScript_MistyTerrainPrevents
-	accuracycheck BattleScript_ButItFailed, ACC_CURR_MOVE
-	jumpifsafeguard BattleScript_SafeguardProtected
-	attackanimation
-	waitanimation
-	seteffectprimary MOVE_EFFECT_FREEZE_OR_FROSTBITE
-	goto BattleScript_MoveEnd
-
-BattleScript_AlreadyFrostbitten:
-	setalreadystatusedmoveattempt BS_ATTACKER
-	pause B_WAIT_TIME_SHORT
-	printstring STRINGID_PKMNISALREADYFROSTBITTEN
-	waitmessage B_WAIT_TIME_LONG
-	goto BattleScript_MoveEnd
-
 BattleScript_EffectDeadlyKiss::
 	attackcanceler
 	attackstring
@@ -9879,7 +9847,6 @@ BattleScript_EffectDeadlyKiss::
 	jumpifability BS_TARGET_SIDE, ABILITY_PASTEL_VEIL, BattleScript_PastelVeilProtects
 	jumpifflowerveil BattleScript_FlowerVeilProtects
 	jumpifleafguardprotected BS_TARGET, BattleScript_AbilityProtectsDoesntAffect
-	jumpifshieldsdown BS_TARGET, BattleScript_AbilityProtectsDoesntAffect
 	jumpifsubstituteblocks BattleScript_ButItFailed
 	jumpifstatus BS_TARGET, STATUS1_POISON | STATUS1_TOXIC_POISON, BattleScript_AlreadyPoisoned
 	jumpifstatus BS_TARGET, STATUS1_ANY, BattleScript_ButItFailed
@@ -9888,33 +9855,14 @@ BattleScript_EffectDeadlyKiss::
 	jumpifsafeguard BattleScript_SafeguardProtected
 	attackanimation
 	waitanimation
-	seteffectprimary MOVE_EFFECT_TOXIC
+	seteffectprimary BS_ATTACKER, BS_TARGET, MOVE_EFFECT_TOXIC
 	goto BattleScript_MoveSwitch
-
-BattleScript_TryAtonalBellsHoldEffects:
-	itemstatchangeeffects BS_TARGET
-	jumpifnoholdeffect BS_TARGET, HOLD_EFFECT_ADRENALINE_ORB, BattleScript_TryAtonalBellsHoldEffectsRet
-	jumpifstat BS_TARGET, CMP_EQUAL, STAT_SPEED, 12, BattleScript_TryAtonalBellsHoldEffectsRet
-	setstatchanger STAT_SPEED, 1, FALSE
-	statbuffchange STAT_CHANGE_NOT_PROTECT_AFFECTED | MOVE_EFFECT_CERTAIN | STAT_CHANGE_ALLOW_PTR, BattleScript_TryAtonalBellsHoldEffectsRet
-	playanimation BS_TARGET, B_ANIM_HELD_ITEM_EFFECT
-	setgraphicalstatchangevalues
-	playanimation BS_TARGET, B_ANIM_STATS_CHANGE, sB_ANIM_ARG1
-	copybyte sBATTLER, gBattlerTarget
-	setlastuseditem BS_TARGET
-	printstring STRINGID_USINGITEMSTATOFPKMNROSE
-	waitmessage B_WAIT_TIME_LONG
-	removeitem BS_TARGET
-BattleScript_TryAtonalBellsHoldEffectsRet:
-	return
 
 BattleScript_AtonalBellsActivates::
 	savetarget
-.if B_ABILITY_POP_UP == TRUE
-	showabilitypopup BS_ATTACKER
+	showabilitypopup
 	pause B_WAIT_TIME_LONG
 	destroyabilitypopup
-.endif
 	setbyte gBattlerTarget, 0
 BattleScript_AtonalBellsLoop:
 	jumpifbyteequal gBattlerTarget, gBattlerAttacker, BattleScript_AtonalBellsLoopIncrement
@@ -9924,8 +9872,7 @@ BattleScript_AtonalBellsLoop:
 BattleScript_AtonalBellsEffect:
 	copybyte sBATTLER, gBattlerAttacker
 	setstatchanger STAT_SPATK, 1, TRUE
-	statbuffchange STAT_CHANGE_NOT_PROTECT_AFFECTED | STAT_CHANGE_ALLOW_PTR, BattleScript_AtonalBellsLoopIncrement
-	setgraphicalstatchangevalues
+	statbuffchange BS_TARGET, STAT_CHANGE_NOT_PROTECT_AFFECTED | STAT_CHANGE_ALLOW_PTR, BattleScript_AtonalBellsLoopIncrement
 	jumpifability BS_TARGET, ABILITY_CONTRARY, BattleScript_AtonalBellsContrary
 	jumpifbyte CMP_EQUAL, cMULTISTRING_CHOOSER, B_MSG_STAT_WONT_DECREASE, BattleScript_AtonalBellsWontDecrease
 	playanimation BS_TARGET, B_ANIM_STATS_CHANGE, sB_ANIM_ARG1
@@ -9933,7 +9880,6 @@ BattleScript_AtonalBellsEffect:
 BattleScript_AtonalBellsEffect_WaitString:
 	waitmessage B_WAIT_TIME_LONG
 	copybyte sBATTLER, gBattlerTarget
-	call BattleScript_TryAtonalBellsHoldEffects
 BattleScript_AtonalBellsLoopIncrement:
 	addbyte gBattlerTarget, 1
 	jumpifbytenotequal gBattlerTarget, gBattlersCount, BattleScript_AtonalBellsLoop
@@ -9968,7 +9914,6 @@ BattleScript_AtonalBellsInReverse:
 	call BattleScript_AbilityPopUpTarget
 	pause B_WAIT_TIME_SHORT
 	modifybattlerstatstage BS_TARGET, STAT_SPATK, INCREASE, 1, BattleScript_AtonalBellsLoopIncrement, ANIM_ON
-	call BattleScript_TryAtonalBellsHoldEffects
 	goto BattleScript_AtonalBellsLoopIncrement
 	
 BattleScript_SleepClauseBlocked::

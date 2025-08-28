@@ -2296,6 +2296,10 @@ bool8 ScrCmd_checkfieldmove(struct ScriptContext *ctx)
     Script_RequestEffects(SCREFF_V1);
 
     gSpecialVar_Result = PARTY_SIZE;
+    if (doUnlockedCheck && !IsFieldMoveUnlocked(fieldMove))
+        return FALSE;
+
+    move = FieldMove_GetMoveId(fieldMove);
 
     switch (move) {
         case MOVE_CUT:
@@ -2331,17 +2335,11 @@ bool8 ScrCmd_checkfieldmove(struct ScriptContext *ctx)
             gSpecialVar_Result = 0;
             break;
         default:
-            for (i = 0; i < PARTY_SIZE; i++)
-            {
-                u16 species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES, NULL);
-                if (!GetMonData(&gPlayerParty[i], MON_DATA_IS_EGG) && MonKnowsMove(&gPlayerParty[i], move) == TRUE)
-                {
-                    gSpecialVar_Result = i;
-                    gSpecialVar_0x8004 = species;
-                    break;
-                }
-            }
+            gSpecialVar_0x8004 = SPECIES_DITTO;
+            gSpecialVar_Result = 0;
+            break;
     }
+    
     return FALSE;
 
 }

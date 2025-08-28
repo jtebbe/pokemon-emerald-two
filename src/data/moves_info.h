@@ -21144,13 +21144,14 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "A cold touch that\n"
             "causes frostbite."),
-        .effect = EFFECT_FRIGID_TOUCH,
+        .effect = EFFECT_NON_VOLATILE_STATUS,
         .power = 0,
         .type = TYPE_ICE,
         .accuracy = 85,
         .pp = 15,
         .makesContact = TRUE,
         .target = MOVE_TARGET_SELECTED,
+        .argument = { .nonVolatileStatus = MOVE_EFFECT_FREEZE_OR_FROSTBITE },
         .priority = 0,
         .category = DAMAGE_CATEGORY_STATUS,
         .magicCoatAffected = TRUE,

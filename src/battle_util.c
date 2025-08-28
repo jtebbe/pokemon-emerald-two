@@ -3076,7 +3076,7 @@ bool32 CanAbilityBlockMove(u32 battlerAtk, u32 battlerDef, u32 abilityAtk, u32 a
         break;
     case ABILITY_STOUT_SHIELD:
         if (IsSpreadMove(move) && !IsBattlerAlly(battlerAtk, battlerDef)) {
-            if (gBattleMons[battlerAtk].status2 & STATUS2_MULTIPLETURNS)
+            if (gBattleMons[battlerAtk].volatiles.multipleTurns)
                 gHitMarker |= HITMARKER_NO_PPDEDUCT;
             battleScriptBlocksMove = BattleScript_DazzlingProtected;
         }
@@ -4972,11 +4972,11 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
              && IsBattlerTurnDamaged(gBattlerTarget)
              && CanGetFrostbite(gBattlerTarget, gBattlerAttacker, GetBattlerAbility(gBattlerAttacker)))
             {
-                gBattleScripting.moveEffect = MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_FREEZE_OR_FROSTBITE;
+                gEffectBattler = gBattlerAttacker;
+                gBattleScripting.battler = gBattlerTarget;
+                gBattleScripting.moveEffect = MOVE_EFFECT_FREEZE_OR_FROSTBITE;
                 PREPARE_ABILITY_BUFFER(gBattleTextBuff1, gLastUsedAbility);
-                BattleScriptPushCursor();
-                gBattlescriptCurrInstr = BattleScript_AbilityStatusEffect;
-                gHitMarker |= HITMARKER_STATUS_ABILITY_EFFECT;
+                BattleScriptCall(BattleScript_AbilityStatusEffect);
                 effect++;
             }
             break;
@@ -5175,11 +5175,10 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             if (!(gBattleStruct->moveResultFlags[gBattlerTarget] & MOVE_RESULT_NO_EFFECT)
              && !gProtectStructs[gBattlerAttacker].confusionSelfDmg
              && IsBattlerTurnDamaged(gBattlerTarget)
-            && (gSideTimers[GetBattlerSide(gBattlerAttacker)].stealthRockAmount != 1))
+            && (!IsHazardOnSide(GetBattlerSide(gEffectBattler), HAZARDS_STEALTH_ROCK)))
             {
                 SWAP(gBattlerAttacker, gBattlerTarget, i);
-                BattleScriptPushCursor();
-                gBattlescriptCurrInstr = BattleScript_PrimordialShardsActivates;
+                BattleScriptCall(BattleScript_PrimordialShardsActivates);
                 effect++;
             }
             break;
@@ -8551,7 +8550,7 @@ static inline u32 CalcMoveBasePowerAfterModifiers(struct DamageContext *ctx)
     case EFFECT_EARTHQUAKE:
         if (gFieldStatuses & STATUS_FIELD_GRASSY_TERRAIN && !IsSemiInvulnerable(battlerDef, CHECK_ALL))
             modifier = uq4_12_multiply(modifier, UQ_4_12(0.5));
-        if (!(gStatuses3[battlerDef] & STATUS3_SEMI_INVULNERABLE) && GetBattlerHoldEffect(battlerDef, TRUE) == HOLD_EFFECT_FLOAT_STONE)
+        if (!IsSemiInvulnerable(battlerDef, CHECK_ALL) && GetBattlerHoldEffect(battlerDef, TRUE) == HOLD_EFFECT_FLOAT_STONE)
             modifier = uq4_12_multiply(modifier, UQ_4_12(0.25));
         break;
     case EFFECT_KNOCK_OFF:
@@ -8658,7 +8657,7 @@ static inline u32 CalcMoveBasePowerAfterModifiers(struct DamageContext *ctx)
             modifier = uq4_12_multiply(modifier, UQ_4_12(GetGenConfig(GEN_CONFIG_ATE_MULTIPLIER) >= GEN_7 ? 1.2 : 1.3));
         break;
     case ABILITY_METALLICIZE:
-        if (moveType == TYPE_STEEL && gBattleStruct->ateBoost[battlerAtk])
+        if (moveType == TYPE_STEEL && gBattleStruct->battlerState[battlerAtk].ateBoost)
             modifier = uq4_12_multiply(modifier, UQ_4_12(1.2));
         break;
     case ABILITY_GALVANIZE:
@@ -9629,7 +9628,7 @@ static inline uq4_12_t GetOtherModifiers(struct DamageContext *ctx)
         DAMAGE_MULTIPLY_MODIFIER(GetAttackerAbilitiesModifier(ctx->battlerAtk, ctx->typeEffectivenessModifier, ctx->isCrit, ctx->abilityAtk));
         DAMAGE_MULTIPLY_MODIFIER(GetDefenderAbilitiesModifier(ctx));
         DAMAGE_MULTIPLY_MODIFIER(GetDefenderPartnerAbilitiesModifier(battlerDefPartner));
-        DAMAGE_MULTIPLY_MODIFIER(GetAttackerItemsModifier(ctx->battlerAtk, ctx->typeEffectivenessModifier, ctx->holdEffectAtk, isCrit));
+        DAMAGE_MULTIPLY_MODIFIER(GetAttackerItemsModifier(ctx->battlerAtk, ctx->typeEffectivenessModifier, ctx->holdEffectAtk, ctx->isCrit));
         DAMAGE_MULTIPLY_MODIFIER(GetDefenderItemsModifier(ctx));
     }
     else
@@ -9638,7 +9637,7 @@ static inline uq4_12_t GetOtherModifiers(struct DamageContext *ctx)
         DAMAGE_MULTIPLY_MODIFIER(GetDefenderPartnerAbilitiesModifier(battlerDefPartner));
         DAMAGE_MULTIPLY_MODIFIER(GetAttackerAbilitiesModifier(ctx->battlerAtk, ctx->typeEffectivenessModifier, ctx->isCrit, ctx->abilityAtk));
         DAMAGE_MULTIPLY_MODIFIER(GetDefenderItemsModifier(ctx));
-        DAMAGE_MULTIPLY_MODIFIER(GetAttackerItemsModifier(ctx->battlerAtk, ctx->typeEffectivenessModifier, ctx->holdEffectAtk, isCrit));
+        DAMAGE_MULTIPLY_MODIFIER(GetAttackerItemsModifier(ctx->battlerAtk, ctx->typeEffectivenessModifier, ctx->holdEffectAtk, ctx->isCrit));
     }
     return finalModifier;
 }
@@ -9667,7 +9666,7 @@ static inline s32 DoMoveDamageCalcVars(struct DamageContext *ctx)
     DAMAGE_APPLY_MODIFIER(GetTargetDamageModifier(ctx));
     DAMAGE_APPLY_MODIFIER(GetParentalBondModifier(ctx->battlerAtk));
     DAMAGE_APPLY_MODIFIER(GetWeatherDamageModifier(ctx));
-    DAMAGE_APPLY_MODIFIER(GetCriticalModifier(ctx->isCrit, battlerAtk));
+    DAMAGE_APPLY_MODIFIER(GetCriticalModifier(ctx->isCrit, ctx->battlerAtk));
     DAMAGE_APPLY_MODIFIER(GetGlaiveRushModifier(ctx->battlerDef));
 
     DAMAGE_APPLY_MODIFIER(GetOneTwoModifier(ctx->battlerAtk));
@@ -9864,8 +9863,8 @@ static inline void MulByTypeEffectiveness(struct DamageContext *ctx, uq4_12_t *m
 {
     uq4_12_t mod = GetTypeModifier(ctx->moveType, defType);
 
-    u32 itemAtk = GetBattlerHoldEffect(battlerAtk, TRUE);
-    u32 itemDef = GetBattlerHoldEffect(battlerDef, TRUE);
+    u32 itemAtk = GetBattlerHoldEffect(ctx->battlerAtk, TRUE);
+    u32 itemDef = GetBattlerHoldEffect(ctx->battlerDef, TRUE);
 
     if (mod == UQ_4_12(0.0) && ctx->holdEffectDef == HOLD_EFFECT_RING_TARGET)
     {
@@ -10811,8 +10810,6 @@ static bool32 TryRemoveFieldEffects(u32 battler)
     // try to remove from battler's side
     if (gSideStatuses[allySide] & SIDE_STATUS_SCREEN_ANY)
         gSideStatuses[allySide] &= ~SIDE_STATUS_SCREEN_ANY;
-    if (gSideStatuses[allySide] & SIDE_STATUS_HAZARDS_ANY)
-        gSideStatuses[allySide] &= ~SIDE_STATUS_HAZARDS_ANY;
     if (gSideStatuses[allySide] & SIDE_STATUS_PLEDGE_ANY)
         gSideStatuses[allySide] &= ~SIDE_STATUS_PLEDGE_ANY;
     if (gSideStatuses[allySide] & SIDE_STATUS_OTHERS)
@@ -10821,8 +10818,6 @@ static bool32 TryRemoveFieldEffects(u32 battler)
     // try to remove from battler opponent's side
     if (gSideStatuses[enemySide] & SIDE_STATUS_SCREEN_ANY)
         gSideStatuses[enemySide] &= ~SIDE_STATUS_SCREEN_ANY;
-    if (gSideStatuses[enemySide] & SIDE_STATUS_HAZARDS_ANY)
-        gSideStatuses[enemySide] &= ~SIDE_STATUS_HAZARDS_ANY;
     if (gSideStatuses[enemySide] & SIDE_STATUS_PLEDGE_ANY)
         gSideStatuses[enemySide] &= ~SIDE_STATUS_PLEDGE_ANY;
     if (gSideStatuses[enemySide] & SIDE_STATUS_OTHERS)
@@ -10837,6 +10832,9 @@ static bool32 TryRemoveFieldEffects(u32 battler)
         gWishFutureKnock.weatherDuration = 0;
         gBattleWeather = 0;
     }
+
+    RemoveAllHazardsFromField(allySide);
+    RemoveAllHazardsFromField(enemySide);
 
     return removedTerrain;
 }
