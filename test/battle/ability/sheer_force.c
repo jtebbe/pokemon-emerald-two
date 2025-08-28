@@ -614,7 +614,7 @@ static inline bool32 IsMoveSheerForceBoosted(u32 move)
 {
     s16 damage1, damage2;
     u32 move = 0;
-    for (u32 j = 1; j < MOVES_COUNT; j += 4)
+    for (u32 j = MOVE_POUND; j < MOVES_COUNT_GEN1; j++)
     {
         if (GetMoveCategory(j) != DAMAGE_CATEGORY_STATUS && !IgnoreMoveForSheerForceBoost(j))
             PARAMETRIZE { move = j; }
