@@ -19813,6 +19813,7 @@ Frustration_Weak:
 	createvisualtask AnimTask_ShakeMon2, 2, ANIM_TARGET, 1, 0, 6, 1
 	goto Frustration_Continue
 
+gBattleAnimGeneral_Safeguard::
 gBattleAnimMove_Safeguard::
 	loadspritegfx ANIM_TAG_GUARD_RING
 	monbg ANIM_ATK_PARTNER
@@ -21448,6 +21449,7 @@ gBattleAnimMove_ExtremeSpeed::
 	delay 1
 	end
 
+gBattleAnimGeneral_Uproar::
 gBattleAnimMove_Uproar::
 	loadspritegfx ANIM_TAG_JAGGED_MUSIC_NOTE
 	loadspritegfx ANIM_TAG_THIN_RING

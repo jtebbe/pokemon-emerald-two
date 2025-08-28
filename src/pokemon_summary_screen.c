@@ -1757,6 +1757,8 @@ static void Task_HandleInput(u8 taskId)
                 && ShouldShowMoveRelearner()
                 && (sMonSummaryScreen->currPageIndex == PSS_PAGE_BATTLE_MOVES || sMonSummaryScreen->currPageIndex == PSS_PAGE_CONTEST_MOVES))
         {
+            state = MOVE_RELEARNER_LEVEL_UP_MOVES;
+            GetSetMoveRelearnerVar(&state);
             sMonSummaryScreen->callback = CB2_InitLearnMove;
             gSpecialVar_0x8004 = sMonSummaryScreen->curMonIndex;
             gOriginSummaryScreenPage = sMonSummaryScreen->currPageIndex;
@@ -1777,7 +1779,7 @@ static void Task_HandleInput(u8 taskId)
             {
                 u8 attempts = MOVE_RELEARNER_COUNT; // Max attempts to cycle through all options
                 do {
-                    state = (state + 1) % MOVE_RELEARNER_COUNT;
+                    state = MOVE_RELEARNER_LEVEL_UP_MOVES;
                     GetSetMoveRelearnerVar(&state);
                     VarSet(P_VAR_MOVE_RELEARNER_STATE, state);
                 } while (sMonSummaryScreen->relearnableMovesNum == 0 && --attempts);
@@ -1790,7 +1792,7 @@ static void Task_HandleInput(u8 taskId)
             {
                 u8 attempts = MOVE_RELEARNER_COUNT; // Max attempts to cycle through all options
                 do {
-                    state = (state == 0) ? MOVE_RELEARNER_COUNT - 1 : state - 1;
+                    state = MOVE_RELEARNER_LEVEL_UP_MOVES;
                     GetSetMoveRelearnerVar(&state);
                     VarSet(P_VAR_MOVE_RELEARNER_STATE, state);
                 } while (sMonSummaryScreen->relearnableMovesNum == 0 && --attempts);
@@ -2022,7 +2024,7 @@ static void Task_ChangeSummaryMon(u8 taskId)
             if (P_SUMMARY_SCREEN_MOVE_RELEARNER
                 && (sMonSummaryScreen->currPageIndex == PSS_PAGE_BATTLE_MOVES || sMonSummaryScreen->currPageIndex == PSS_PAGE_CONTEST_MOVES))
             {
-                u8 state = VarGet(P_VAR_MOVE_RELEARNER_STATE);
+                u8 state = MOVE_RELEARNER_LEVEL_UP_MOVES;
                 GetSetMoveRelearnerVar(&state);
                 VarSet(P_VAR_MOVE_RELEARNER_STATE, state);
                 if (ShouldShowMoveRelearner())
@@ -2081,13 +2083,13 @@ static void GetSetMoveRelearnerVar(u8 *state)
     struct Pokemon *mon = &sMonSummaryScreen->currentMon;
 
     if (*state == MOVE_RELEARNER_LEVEL_UP_MOVES && !GetNumberOfLevelUpMoves(mon))
-        *state = MOVE_RELEARNER_EGG_MOVES;
+        *state = MOVE_RELEARNER_LEVEL_UP_MOVES;
 
     if (*state == MOVE_RELEARNER_EGG_MOVES && !GetNumberOfEggMoves(mon))
-        *state = MOVE_RELEARNER_TM_MOVES;
+        *state = MOVE_RELEARNER_LEVEL_UP_MOVES;
 
     if (*state == MOVE_RELEARNER_TM_MOVES && !GetNumberOfTMMoves(mon))
-        *state = MOVE_RELEARNER_TUTOR_MOVES;
+        *state = MOVE_RELEARNER_LEVEL_UP_MOVES;
 
     if (*state == MOVE_RELEARNER_TUTOR_MOVES && !GetNumberOfTutorMoves(mon))
     {
@@ -3330,7 +3332,7 @@ static void PrintPageNamesAndStats(void)
 static void PutPageWindowTilemaps(u8 page)
 {
     u8 i;
-    u8 state = VarGet(P_VAR_MOVE_RELEARNER_STATE);
+    u8 state = MOVE_RELEARNER_LEVEL_UP_MOVES;
 
     ClearWindowTilemap(PSS_LABEL_WINDOW_POKEMON_INFO_TITLE);
     ClearWindowTilemap(PSS_LABEL_WINDOW_POKEMON_SKILLS_TITLE);

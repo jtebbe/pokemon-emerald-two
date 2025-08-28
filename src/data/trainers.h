@@ -85475,7 +85475,7 @@ F_TRAINER_FEMALE |
 #line 33423
         .trainerClass = TRAINER_CLASS_COOLTRAINER,
 #line 33424
-        .trainerPic = TRAINER_PIC_COOLTRAINER_M,
+        .trainerPic = TRAINER_PIC_CLARK,
         .encounterMusic_gender =
 #line 33426
             TRAINER_ENCOUNTER_MUSIC_COOL,

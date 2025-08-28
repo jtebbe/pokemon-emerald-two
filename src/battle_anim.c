@@ -254,6 +254,8 @@ static const u8* const sBattleAnims_General[NUM_B_ANIMS_GENERAL] =
     [B_ANIM_SIMPLE_HEAL]            = gBattleAnimGeneral_SimpleHeal,
     [B_ANIM_POWER_CONSTRUCT]        = gBattleAnimGeneral_PowerConstruct,
     [B_ANIM_GRAVITY]                = gBattleAnimGeneral_Gravity,
+    [B_ANIM_SAFEGUARD]              = gBattleAnimGeneral_Safeguard,
+    [B_ANIM_UPROAR]                 = gBattleAnimGeneral_Uproar,
 };
 
 static const u8* const sBattleAnims_Special[NUM_B_ANIMS_SPECIAL] =

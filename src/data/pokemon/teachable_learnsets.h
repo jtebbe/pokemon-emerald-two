@@ -247,10 +247,10 @@
 // Tutor moves found from map scripts:                 //
 // - MOVE_ALLY_SWITCH                                  //
 // - MOVE_BODY_SLAM                                    //
+// - MOVE_COACHING                                     //
 // - MOVE_COUNTER                                      //
 // - MOVE_COUNTER                                      //
 // - MOVE_DEFENSE_CURL                                 //
-// - MOVE_DOUBLE_EDGE                                  //
 // - MOVE_DREAM_EATER                                  //
 // - MOVE_DYNAMIC_PUNCH                                //
 // - MOVE_ENDURE                                       //

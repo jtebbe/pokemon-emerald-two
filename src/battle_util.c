@@ -1306,6 +1306,24 @@ u32 TrySetCantSelectMoveBattleScript(u32 battler)
         }
     }
 
+    if (GetActiveGimmick(battler) != GIMMICK_Z_MOVE && IsAbilityOnField(ABILITY_RAGEBAITER) && IsBattleMoveStatus(move) && GetBattlerAbility(battler) != ABILITY_OBLIVIOUS)
+    {
+        if ((GetActiveGimmick(battler) == GIMMICK_DYNAMAX))
+            gCurrentMove = MOVE_MAX_GUARD;
+        else
+            gCurrentMove = move;
+        if (gBattleTypeFlags & BATTLE_TYPE_PALACE)
+        {
+            gPalaceSelectionBattleScripts[battler] = BattleScript_SelectingNotAllowedMoveRagebaiterInPalace;
+            gProtectStructs[battler].palaceUnableToUseMove = TRUE;
+        }
+        else
+        {
+            gSelectionBattleScripts[battler] = BattleScript_SelectingNotAllowedMoveRagebaiter;
+            limitations++;
+        }
+    }
+
     if (GetActiveGimmick(battler) != GIMMICK_Z_MOVE && gDisableStructs[battler].tauntTimer != 0 && IsBattleMoveStatus(move))
     {
         if ((GetActiveGimmick(battler) == GIMMICK_DYNAMAX))
@@ -1575,6 +1593,8 @@ u8 CheckMoveLimitations(u32 battler, u8 unusableMoves, u16 check)
             unusableMoves |= 1u << i;
         // Can't Use Twice flag
         else if (check & MOVE_LIMITATION_CANT_USE_TWICE && MoveCantBeUsedTwice(move) && move == gLastResultingMoves[battler])
+            unusableMoves |= 1u << i;
+        else if (check & MOVE_LIMITATION_TAUNT && IsAbilityOnField(ABILITY_RAGEBAITER) && IsBattleMoveStatus(move) && GetBattlerAbility(battler) != ABILITY_OBLIVIOUS)
             unusableMoves |= 1u << i;
     }
     return unusableMoves;
@@ -2120,6 +2140,18 @@ static void CancellerTaunted(u32 *effect)
     }
 }
 
+static void CancellerRagebaited(u32 *effect)
+{
+    if (GetActiveGimmick(gBattlerAttacker) != GIMMICK_Z_MOVE && IsAbilityOnField(ABILITY_RAGEBAITER) && IsBattleMoveStatus(gCurrentMove) && GetBattlerAbility(gBattlerAttacker) != ABILITY_OBLIVIOUS)
+    {
+        gProtectStructs[gBattlerAttacker].unableToUseMove = TRUE;
+        CancelMultiTurnMoves(gBattlerAttacker, SKY_DROP_ATTACKCANCELLER_CHECK);
+        gBattlescriptCurrInstr = BattleScript_MoveUsedIsRagebaited;
+        gHitMarker |= HITMARKER_UNABLE_TO_USE_MOVE;
+        *effect = 1;
+    }
+}
+
 static void CancellerImprisoned(u32 *effect)
 {
     if (GetActiveGimmick(gBattlerAttacker) != GIMMICK_Z_MOVE && GetImprisonedMovesCount(gBattlerAttacker, gCurrentMove))
@@ -2520,6 +2552,7 @@ static const MoveSuccessOrderCancellers sMoveSuccessOrderCancellers[] =
     [CANCELLER_GRAVITY] = CancellerGravity,
     [CANCELLER_THROAT_CHOP] = CancellerThroatChop,
     [CANCELLER_TAUNTED] = CancellerTaunted,
+    [CANCELLER_RAGEBAITED] = CancellerRagebaited,
     [CANCELLER_IMPRISONED] = CancellerImprisoned,
     [CANCELLER_CONFUSED] = CancellerConfused,
     [CANCELLER_PARALYSED] = CancellerParalysed,
@@ -3937,6 +3970,20 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 effect++;
             }
             break;
+        case ABILITY_ILEX_WHIMSY:
+            if (!(gSideStatuses[GetBattlerSide(battler)] & SIDE_STATUS_SAFEGUARD))
+            {
+                gSideStatuses[GetBattlerSide(battler)] |= SIDE_STATUS_SAFEGUARD;
+                gSideTimers[GetBattlerSide(battler)].safeguardTimer = gBattleTurnCounter + 5;
+            }
+            if (!(gSideStatuses[GetBattlerSide(battler)] & SIDE_STATUS_MIST)) 
+            {
+                gSideTimers[GetBattlerSide(battler)].mistTimer = gBattleTurnCounter + 5;
+                gSideStatuses[GetBattlerSide(battler)] |= SIDE_STATUS_MIST;
+            }
+            BattleScriptPushCursorAndCallback(BattleScript_IlexWhimsyActivates);
+            effect++;
+            break;
         case ABILITY_INTIMIDATE:
             if (!gSpecialStatuses[battler].switchInAbilityDone)
             {
@@ -3945,6 +3992,13 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 gSpecialStatuses[battler].switchInAbilityDone = TRUE;
                 SET_STATCHANGER(STAT_ATK, 1, TRUE);
                 BattleScriptPushCursorAndCallback(BattleScript_IntimidateActivates);
+                effect++;
+            }
+            break;
+        case ABILITY_RAGEBAITER:
+            if (!gSpecialStatuses[battler].switchInAbilityDone)
+            {
+                BattleScriptPushCursorAndCallback(BattleScript_RagebaiterActivates);
                 effect++;
             }
             break;

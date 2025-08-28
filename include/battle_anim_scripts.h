@@ -1019,6 +1019,8 @@ extern const u8 gBattleAnimGeneral_TeraActivate[];
 extern const u8 gBattleAnimGeneral_SimpleHeal[];
 extern const u8 gBattleAnimGeneral_PowerConstruct[];
 extern const u8 gBattleAnimGeneral_Gravity[];
+extern const u8 gBattleAnimGeneral_Safeguard[];
+extern const u8 gBattleAnimGeneral_Uproar[];
 
 // special animations
 extern const u8 gBattleAnimSpecial_LevelUp[];

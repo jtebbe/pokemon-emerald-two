@@ -588,8 +588,10 @@
 #define B_ANIM_SIMPLE_HEAL              52
 #define B_ANIM_POWER_CONSTRUCT          53
 #define B_ANIM_GRAVITY                  54
+#define B_ANIM_SAFEGUARD                55
+#define B_ANIM_UPROAR                   56
 
-#define NUM_B_ANIMS_GENERAL             55
+#define NUM_B_ANIMS_GENERAL             57
 
 // special animations table (sBattleAnims_Special)
 #define B_ANIM_LVL_UP                   0

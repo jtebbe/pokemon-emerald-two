@@ -6475,6 +6475,19 @@ BattleScript_SelectingNotAllowedMoveTauntInPalace::
 	printstring STRINGID_PKMNCANTUSEMOVETAUNT
 	goto BattleScript_SelectingUnusableMoveInPalace
 
+BattleScript_SelectingNotAllowedMoveRagebaiter::
+	printselectionstring STRINGID_PKMNCANTUSEMOVERAGEBAITED
+	endselectionscript
+
+BattleScript_MoveUsedIsRagebaited::
+	printstring STRINGID_PKMNCANTUSEMOVERAGEBAITED
+	waitmessage B_WAIT_TIME_LONG
+	goto BattleScript_MoveEnd
+
+BattleScript_SelectingNotAllowedMoveRagebaiterInPalace::
+	printstring STRINGID_PKMNCANTUSEMOVERAGEBAITED
+	goto BattleScript_SelectingUnusableMoveInPalace
+
 BattleScript_SelectingNotAllowedMoveThroatChop::
 	printselectionstring STRINGID_PKMNCANTUSEMOVETHROATCHOP
 	endselectionscript
@@ -7641,6 +7654,15 @@ BattleScript_ShedSkinActivates::
 	updatestatusicon BS_ATTACKER
 	end3
 
+BattleScript_RagebaiterActivates::
+	pause B_WAIT_TIME_SHORT
+	call BattleScript_AbilityPopUp
+	printstring STRINGID_ISREALLYANNOYING
+	waitstate
+	playanimation BS_ABILITY_BATTLER, B_ANIM_UPROAR
+	waitanimation
+	end3
+
 BattleScript_ActivateWeatherAbilities:
 	saveattacker
 	savetarget
@@ -8026,6 +8048,14 @@ BattleScript_GravitationActivates::
 	printstring STRINGID_GRAVITYINTENSIFIED
 	waitstate
 	playanimation BS_BATTLER_0, B_ANIM_GRAVITY
+	end3
+
+BattleScript_IlexWhimsyActivates::
+	pause B_WAIT_TIME_SHORT
+	call BattleScript_AbilityPopUp
+	printstring STRINGID_ILEXWHIMSY
+	waitstate
+	playanimation BS_BATTLER_0, B_ANIM_SAFEGUARD
 	end3
 
 BattleScript_BadDreamsActivates::

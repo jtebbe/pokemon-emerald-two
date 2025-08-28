@@ -2563,4 +2563,18 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .aiRating = 2,
     },
 
+    [ABILITY_ILEX_WHIMSY] =
+    {
+        .name = _("Ilex Whimsy"),
+        .description = COMPOUND_STRING("Safeguards + mists allies."),
+        .aiRating = 4,
+    },
+
+    [ABILITY_RAGEBAITER] =
+    {
+        .name = _("Ragebaiter"),
+        .description = COMPOUND_STRING("All mons must attack."),
+        .aiRating = 4,
+    },
+
 };
