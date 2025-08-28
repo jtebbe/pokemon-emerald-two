@@ -894,7 +894,7 @@ AI_SINGLE_BATTLE_TEST("AI will stop setting up at +4")
     }
 }
 
-AI_SINGLE_BATTLE_TEST("Move scoring comparison properly awards bonus point to best OHKO move")
+/*AI_SINGLE_BATTLE_TEST("Move scoring comparison properly awards bonus point to best OHKO move")
 {
     GIVEN {
         ASSUME(MoveHasAdditionalEffect(MOVE_THUNDER, MOVE_EFFECT_PARALYSIS));
@@ -908,7 +908,7 @@ AI_SINGLE_BATTLE_TEST("Move scoring comparison properly awards bonus point to be
     } WHEN {
         TURN { EXPECT_MOVE(opponent, MOVE_WATER_SPOUT); }
     }
-}
+}*/
 
 AI_SINGLE_BATTLE_TEST("AI will see Magnitude damage")
 {

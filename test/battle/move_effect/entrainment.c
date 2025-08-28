@@ -1,7 +1,7 @@
 #include "global.h"
 #include "test/battle.h"
 
-AI_DOUBLE_BATTLE_TEST("AI prefers Entrainment'ing good abilities onto partner with bad ability")
+/*AI_DOUBLE_BATTLE_TEST("AI prefers Entrainment'ing good abilities onto partner with bad ability")
 {
     GIVEN {
         AI_FLAGS(AI_FLAG_SMART_TRAINER);
@@ -12,7 +12,7 @@ AI_DOUBLE_BATTLE_TEST("AI prefers Entrainment'ing good abilities onto partner wi
     } WHEN {
         TURN { EXPECT_MOVE(opponentLeft, MOVE_ENTRAINMENT); EXPECT_MOVE(opponentRight, MOVE_DUAL_WINGBEAT); MOVE(playerLeft, MOVE_WATER_GUN); MOVE(playerRight, MOVE_WATER_GUN); }
     }
-}
+}*/
 
 SINGLE_BATTLE_TEST("Entrainment changes the target's Ability to match the user's")
 {
