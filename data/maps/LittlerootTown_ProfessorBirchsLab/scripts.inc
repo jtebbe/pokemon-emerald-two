@@ -113,13 +113,15 @@ LittlerootTown_ProfessorBirchsLab_EventScript_GiveStarterEvent::
 	waitfanfare
 	msgbox LittlerootTown_ProfessorBirchsLab_Text_WhyNotGiveNicknameToMon, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, YES, LittlerootTown_ProfessorBirchsLab_EventScript_NicknameStarter
-	goto_if_eq VAR_RESULT, NO, LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_OhRightSecondMon, MSGBOX_DEFAULT
+	goto LittlerootTown_ProfessorBirchsLab_EventScript_GiveRandomSecondMon
 	end
 
 LittlerootTown_ProfessorBirchsLab_EventScript_NicknameStarter::
 	setvar VAR_0x8004, 0
 	call Common_EventScript_NameReceivedPartyMon
-	goto LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_OhRightSecondMon, MSGBOX_DEFAULT
+	goto LittlerootTown_ProfessorBirchsLab_EventScript_GiveRandomSecondMon
 	end
 
 LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival::
@@ -189,12 +191,6 @@ LittlerootTown_ProfessorBirchsLab_EventScript_UpgradeToNationalDex::
 	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterUp
 	waitmovement 0
 	msgbox LittlerootTown_ProfessorBirchsLab_Text_OkayAllDone, MSGBOX_DEFAULT
-	playfanfare MUS_OBTAIN_ITEM
-	message LittlerootTown_ProfessorBirchsLab_Text_PokedexUpgradedToNational
-	waitmessage
-	waitfanfare
-	setflag FLAG_SYS_NATIONAL_DEX
-	special EnableNationalPokedex
 	msgbox LittlerootTown_ProfessorBirchsLab_Text_GrassyPatchWaiting2, MSGBOX_DEFAULT
 	closemessage
 	setflag FLAG_HIDE_LITTLEROOT_TOWN_BIRCH
@@ -506,6 +502,8 @@ EventScript_RegisterProfBirch::
 LittlerootTown_ProfessorBirchsLab_EventScript_GivePokedex::
 	msgbox LittlerootTown_ProfessorBirchsLab_Text_HeardYouBeatRivalTakePokedex, MSGBOX_DEFAULT
 	call LittlerootTown_ProfessorBirchsLab_EventScript_ReceivePokedex
+	setflag FLAG_SYS_NATIONAL_DEX
+	special EnableNationalPokedex
 	msgbox LittlerootTown_ProfessorBirchsLab_Text_ExplainPokedex, MSGBOX_DEFAULT
 	closemessage
 	applymovement LOCALID_BIRCHS_LAB_RIVAL, LittlerootTown_ProfessorBirchsLab_Movement_RivalApproachPlayer
@@ -525,7 +523,7 @@ LittlerootTown_ProfessorBirchsLab_EventScript_GivePokedex::
 
 LittlerootTown_ProfessorBirchsLab_EventScript_MayGivePokeBalls::
 	msgbox LittlerootTown_ProfessorBirchsLab_Text_MayGotPokedexTooTakeThese, MSGBOX_DEFAULT
-	giveitem ITEM_POKE_BALL, 5
+	giveitem ITEM_POKE_BALL, 10
 	call_if_eq VAR_RESULT, FALSE, LittlerootTown_ProfessorBirchsLab_EventScript_MayNoRoomForPokeBalls
 	msgbox LittlerootTown_ProfessorBirchsLab_Text_CatchCutePokemonWithPokeBalls, MSGBOX_DEFAULT
 	setvar VAR_RESULT, 0
@@ -533,7 +531,7 @@ LittlerootTown_ProfessorBirchsLab_EventScript_MayGivePokeBalls::
 
 LittlerootTown_ProfessorBirchsLab_EventScript_BrendanGivePokeBalls::
 	msgbox LittlerootTown_ProfessorBirchsLab_Text_BrendanGotPokedexTooTakeThese, MSGBOX_DEFAULT
-	giveitem ITEM_POKE_BALL, 5
+	giveitem ITEM_POKE_BALL, 10
 	call_if_eq VAR_RESULT, FALSE, LittlerootTown_ProfessorBirchsLab_EventScript_BrendanNoRoomForPokeBalls
 	msgbox LittlerootTown_ProfessorBirchsLab_Text_CatchCoolPokemonWithPokeBalls, MSGBOX_DEFAULT
 	setvar VAR_RESULT, 1
@@ -655,6 +653,359 @@ LittlerootTown_ProfessorBirchsLab_EventScript_ScottAboardSSTidalCall::
 	clearflag FLAG_SCOTT_CALL_BATTLE_FRONTIER
 	releaseall
 	end
+
+LittlerootTown_ProfessorBirchsLab_EventScript_GiveRandomSecondMon::
+	random 17
+	call_if_eq VAR_RESULT, 0, LittlerootTown_ProfessorBirchsLab_EventScript_GiveMon0
+	call_if_eq VAR_RESULT, 1, LittlerootTown_ProfessorBirchsLab_EventScript_GiveMon1
+	call_if_eq VAR_RESULT, 2, LittlerootTown_ProfessorBirchsLab_EventScript_GiveMon2
+	call_if_eq VAR_RESULT, 3, LittlerootTown_ProfessorBirchsLab_EventScript_GiveMon3
+	call_if_eq VAR_RESULT, 4, LittlerootTown_ProfessorBirchsLab_EventScript_GiveMon4
+	call_if_eq VAR_RESULT, 5, LittlerootTown_ProfessorBirchsLab_EventScript_GiveMon5
+	call_if_eq VAR_RESULT, 6, LittlerootTown_ProfessorBirchsLab_EventScript_GiveMon6
+	call_if_eq VAR_RESULT, 7, LittlerootTown_ProfessorBirchsLab_EventScript_GiveMon7
+	call_if_eq VAR_RESULT, 8, LittlerootTown_ProfessorBirchsLab_EventScript_GiveMon8
+	call_if_eq VAR_RESULT, 9, LittlerootTown_ProfessorBirchsLab_EventScript_GiveMon9
+	call_if_eq VAR_RESULT, 10, LittlerootTown_ProfessorBirchsLab_EventScript_GiveMon10
+	call_if_eq VAR_RESULT, 11, LittlerootTown_ProfessorBirchsLab_EventScript_GiveMon11
+	call_if_eq VAR_RESULT, 12, LittlerootTown_ProfessorBirchsLab_EventScript_GiveMon12
+	call_if_eq VAR_RESULT, 13, LittlerootTown_ProfessorBirchsLab_EventScript_GiveMon13
+	call_if_eq VAR_RESULT, 14, LittlerootTown_ProfessorBirchsLab_EventScript_GiveMon14
+	call_if_eq VAR_RESULT, 15, LittlerootTown_ProfessorBirchsLab_EventScript_GiveMon15
+	call_if_eq VAR_RESULT, 16, LittlerootTown_ProfessorBirchsLab_EventScript_GiveMon16
+	call_if_eq VAR_RESULT, 17, LittlerootTown_ProfessorBirchsLab_EventScript_GiveMon17
+	goto LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival
+	end
+
+LittlerootTown_ProfessorBirchsLab_EventScript_GiveMon0::
+	givemon SPECIES_DROWZEE, 5
+	bufferspeciesname STR_VAR_2, SPECIES_DROWZEE
+	playfanfare MUS_OBTAIN_ITEM
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_ObtainedMon0, MSGBOX_DEFAULT
+	waitmessage
+	waitfanfare
+	bufferspeciesname STR_VAR_1, SPECIES_DROWZEE
+	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival
+	call Common_EventScript_GetGiftMonPartySlot
+	call Common_EventScript_NameReceivedPartyMon
+	goto LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival
+	end
+
+LittlerootTown_ProfessorBirchsLab_Text_ObtainedMon0:
+	.string "{PLAYER} obtained a Drowzee.$"
+
+LittlerootTown_ProfessorBirchsLab_EventScript_GiveMon1::
+	givemon SPECIES_EKANS, 5
+	bufferspeciesname STR_VAR_2, SPECIES_EKANS
+	playfanfare MUS_OBTAIN_ITEM
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_ObtainedMon1, MSGBOX_DEFAULT
+	waitmessage
+	waitfanfare
+	bufferspeciesname STR_VAR_1, SPECIES_EKANS
+	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival
+	call Common_EventScript_GetGiftMonPartySlot
+	call Common_EventScript_NameReceivedPartyMon
+	goto LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival
+	end
+
+LittlerootTown_ProfessorBirchsLab_Text_ObtainedMon1:
+	.string "{PLAYER} obtained an Ekans.$"
+
+LittlerootTown_ProfessorBirchsLab_EventScript_GiveMon2::
+	givemon SPECIES_MAREEP, 5
+	bufferspeciesname STR_VAR_2, SPECIES_MAREEP
+	playfanfare MUS_OBTAIN_ITEM
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_ObtainedMon2, MSGBOX_DEFAULT
+	waitmessage
+	waitfanfare
+	bufferspeciesname STR_VAR_1, SPECIES_MAREEP
+	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival
+	call Common_EventScript_GetGiftMonPartySlot
+	call Common_EventScript_NameReceivedPartyMon
+	goto LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival
+	end
+
+LittlerootTown_ProfessorBirchsLab_Text_ObtainedMon2:
+	.string "{PLAYER} obtained a Mareep.$"
+
+LittlerootTown_ProfessorBirchsLab_EventScript_GiveMon3::
+	givemon SPECIES_NATU, 5
+	bufferspeciesname STR_VAR_2, SPECIES_NATU
+	playfanfare MUS_OBTAIN_ITEM
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_ObtainedMon3, MSGBOX_DEFAULT
+	waitmessage
+	waitfanfare
+	bufferspeciesname STR_VAR_1, SPECIES_NATU
+	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival
+	call Common_EventScript_GetGiftMonPartySlot
+	call Common_EventScript_NameReceivedPartyMon
+	goto LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival
+	end
+
+LittlerootTown_ProfessorBirchsLab_Text_ObtainedMon3:
+	.string "{PLAYER} obtained a Natu.$"
+
+LittlerootTown_ProfessorBirchsLab_EventScript_GiveMon4::
+	givemon SPECIES_BALTOY, 5
+	bufferspeciesname STR_VAR_2, SPECIES_BALTOY
+	playfanfare MUS_OBTAIN_ITEM
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_ObtainedMon4, MSGBOX_DEFAULT
+	waitmessage
+	waitfanfare
+	bufferspeciesname STR_VAR_1, SPECIES_BALTOY
+	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival
+	call Common_EventScript_GetGiftMonPartySlot
+	call Common_EventScript_NameReceivedPartyMon
+	goto LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival
+	end
+
+LittlerootTown_ProfessorBirchsLab_Text_ObtainedMon4:
+	.string "{PLAYER} obtained a Baltoy.$"
+
+LittlerootTown_ProfessorBirchsLab_EventScript_GiveMon5::
+	givemon SPECIES_SHUPPET, 5
+	bufferspeciesname STR_VAR_2, SPECIES_SHUPPET
+	playfanfare MUS_OBTAIN_ITEM
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_ObtainedMon5, MSGBOX_DEFAULT
+	waitmessage
+	waitfanfare
+	bufferspeciesname STR_VAR_1, SPECIES_SHUPPET
+	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival
+	call Common_EventScript_GetGiftMonPartySlot
+	call Common_EventScript_NameReceivedPartyMon
+	goto LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival
+	end
+
+LittlerootTown_ProfessorBirchsLab_Text_ObtainedMon5:
+	.string "{PLAYER} obtained a Shuppet.$"
+
+LittlerootTown_ProfessorBirchsLab_EventScript_GiveMon6::
+	givemon SPECIES_SKORUPI, 5
+	bufferspeciesname STR_VAR_2, SPECIES_SKORUPI
+	playfanfare MUS_OBTAIN_ITEM
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_ObtainedMon6, MSGBOX_DEFAULT
+	waitmessage
+	waitfanfare
+	bufferspeciesname STR_VAR_1, SPECIES_SKORUPI
+	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival
+	call Common_EventScript_GetGiftMonPartySlot
+	call Common_EventScript_NameReceivedPartyMon
+	goto LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival
+	end
+
+LittlerootTown_ProfessorBirchsLab_Text_ObtainedMon6:
+	.string "{PLAYER} obtained a Skorupi.$"
+
+LittlerootTown_ProfessorBirchsLab_EventScript_GiveMon7::
+	givemon SPECIES_KRICKETOT, 5
+	bufferspeciesname STR_VAR_2, SPECIES_KRICKETOT
+	playfanfare MUS_OBTAIN_ITEM
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_ObtainedMon7, MSGBOX_DEFAULT
+	waitmessage
+	waitfanfare
+	bufferspeciesname STR_VAR_1, SPECIES_KRICKETOT
+	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival
+	call Common_EventScript_GetGiftMonPartySlot
+	call Common_EventScript_NameReceivedPartyMon
+	goto LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival
+	end
+
+LittlerootTown_ProfessorBirchsLab_Text_ObtainedMon7:
+	.string "{PLAYER} obtained a Kricketot.$"
+
+LittlerootTown_ProfessorBirchsLab_EventScript_GiveMon8::
+	givemon SPECIES_KLINK, 5
+	bufferspeciesname STR_VAR_2, SPECIES_KLINK
+	playfanfare MUS_OBTAIN_ITEM
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_ObtainedMon8, MSGBOX_DEFAULT
+	waitmessage
+	waitfanfare
+	bufferspeciesname STR_VAR_1, SPECIES_KLINK
+	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival
+	call Common_EventScript_GetGiftMonPartySlot
+	call Common_EventScript_NameReceivedPartyMon
+	goto LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival
+	end
+
+LittlerootTown_ProfessorBirchsLab_Text_ObtainedMon8:
+	.string "{PLAYER} obtained a Klink.$"
+
+LittlerootTown_ProfessorBirchsLab_EventScript_GiveMon9::
+	givemon SPECIES_YAMASK, 5
+	bufferspeciesname STR_VAR_2, SPECIES_YAMASK
+	playfanfare MUS_OBTAIN_ITEM
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_ObtainedMon9, MSGBOX_DEFAULT
+	waitmessage
+	waitfanfare
+	bufferspeciesname STR_VAR_1, SPECIES_YAMASK
+	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival
+	call Common_EventScript_GetGiftMonPartySlot
+	call Common_EventScript_NameReceivedPartyMon
+	goto LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival
+	end
+
+LittlerootTown_ProfessorBirchsLab_Text_ObtainedMon9:
+	.string "{PLAYER} obtained a Yamask.$"
+
+LittlerootTown_ProfessorBirchsLab_EventScript_GiveMon10::
+	givemon SPECIES_SPRITZEE, 5
+	bufferspeciesname STR_VAR_2, SPECIES_SPRITZEE
+	playfanfare MUS_OBTAIN_ITEM
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_ObtainedMon10, MSGBOX_DEFAULT
+	waitmessage
+	waitfanfare
+	bufferspeciesname STR_VAR_1, SPECIES_SPRITZEE
+	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival
+	call Common_EventScript_GetGiftMonPartySlot
+	call Common_EventScript_NameReceivedPartyMon
+	goto LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival
+	end
+
+LittlerootTown_ProfessorBirchsLab_Text_ObtainedMon10:
+	.string "{PLAYER} obtained a Spritzee.$"
+
+LittlerootTown_ProfessorBirchsLab_EventScript_GiveMon11::
+	givemon SPECIES_HELIOPTILE, 5
+	bufferspeciesname STR_VAR_2, SPECIES_HELIOPTILE
+	playfanfare MUS_OBTAIN_ITEM
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_ObtainedMon11, MSGBOX_DEFAULT
+	waitmessage
+	waitfanfare
+	bufferspeciesname STR_VAR_1, SPECIES_HELIOPTILE
+	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival
+	call Common_EventScript_GetGiftMonPartySlot
+	call Common_EventScript_NameReceivedPartyMon
+	goto LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival
+	end
+
+LittlerootTown_ProfessorBirchsLab_Text_ObtainedMon11:
+	.string "{PLAYER} obtained a Helioptile.$"
+
+LittlerootTown_ProfessorBirchsLab_EventScript_GiveMon12::
+	givemon SPECIES_WIMPOD, 5
+	bufferspeciesname STR_VAR_2, SPECIES_WIMPOD
+	playfanfare MUS_OBTAIN_ITEM
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_ObtainedMon12, MSGBOX_DEFAULT
+	waitmessage
+	waitfanfare
+	bufferspeciesname STR_VAR_1, SPECIES_WIMPOD
+	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival
+	call Common_EventScript_GetGiftMonPartySlot
+	call Common_EventScript_NameReceivedPartyMon
+	goto LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival
+	end
+
+LittlerootTown_ProfessorBirchsLab_Text_ObtainedMon12:
+	.string "{PLAYER} obtained a Wimpod.$"
+
+LittlerootTown_ProfessorBirchsLab_EventScript_GiveMon13::
+	givemon SPECIES_SANDYGAST, 5
+	bufferspeciesname STR_VAR_2, SPECIES_SANDYGAST
+	playfanfare MUS_OBTAIN_ITEM
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_ObtainedMon13, MSGBOX_DEFAULT
+	waitmessage
+	waitfanfare
+	bufferspeciesname STR_VAR_1, SPECIES_SANDYGAST
+	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival
+	call Common_EventScript_GetGiftMonPartySlot
+	call Common_EventScript_NameReceivedPartyMon
+	goto LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival
+	end
+
+LittlerootTown_ProfessorBirchsLab_Text_ObtainedMon13:
+	.string "{PLAYER} obtained a Sandygast.$"
+
+LittlerootTown_ProfessorBirchsLab_EventScript_GiveMon14::
+	givemon SPECIES_BLIPBUG, 5
+	bufferspeciesname STR_VAR_2, SPECIES_BLIPBUG
+	playfanfare MUS_OBTAIN_ITEM
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_ObtainedMon14, MSGBOX_DEFAULT
+	waitmessage
+	waitfanfare
+	bufferspeciesname STR_VAR_1, SPECIES_BLIPBUG
+	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival
+	call Common_EventScript_GetGiftMonPartySlot
+	call Common_EventScript_NameReceivedPartyMon
+	goto LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival
+	end
+
+LittlerootTown_ProfessorBirchsLab_Text_ObtainedMon14:
+	.string "{PLAYER} obtained a Blipbug.$"
+
+LittlerootTown_ProfessorBirchsLab_EventScript_GiveMon15::
+	givemon SPECIES_SINISTEA, 5
+	bufferspeciesname STR_VAR_2, SPECIES_SINISTEA
+	playfanfare MUS_OBTAIN_ITEM
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_ObtainedMon15, MSGBOX_DEFAULT
+	waitmessage
+	waitfanfare
+	bufferspeciesname STR_VAR_1, SPECIES_SINISTEA
+	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival
+	call Common_EventScript_GetGiftMonPartySlot
+	call Common_EventScript_NameReceivedPartyMon
+	goto LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival
+	end
+
+LittlerootTown_ProfessorBirchsLab_Text_ObtainedMon15:
+	.string "{PLAYER} obtained a Sinistea.$"
+
+LittlerootTown_ProfessorBirchsLab_EventScript_GiveMon16::
+	givemon SPECIES_RELLOR, 5
+	bufferspeciesname STR_VAR_2, SPECIES_RELLOR
+	playfanfare MUS_OBTAIN_ITEM
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_ObtainedMon16, MSGBOX_DEFAULT
+	waitmessage
+	waitfanfare
+	bufferspeciesname STR_VAR_1, SPECIES_RELLOR
+	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival
+	call Common_EventScript_GetGiftMonPartySlot
+	call Common_EventScript_NameReceivedPartyMon
+	goto LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival
+	end
+
+LittlerootTown_ProfessorBirchsLab_Text_ObtainedMon16:
+	.string "{PLAYER} obtained a Rellor.$"
+
+LittlerootTown_ProfessorBirchsLab_EventScript_GiveMon17::
+	givemon SPECIES_FIDOUGH, 5
+	bufferspeciesname STR_VAR_2, SPECIES_FIDOUGH
+	playfanfare MUS_OBTAIN_ITEM
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_ObtainedMon17, MSGBOX_DEFAULT
+	waitmessage
+	waitfanfare
+	bufferspeciesname STR_VAR_1, SPECIES_FIDOUGH
+	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival
+	call Common_EventScript_GetGiftMonPartySlot
+	call Common_EventScript_NameReceivedPartyMon
+	goto LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival
+	end
+
+LittlerootTown_ProfessorBirchsLab_Text_ObtainedMon17:
+	.string "{PLAYER} obtained a Fidough.$"
+
+LittlerootTown_ProfessorBirchsLab_Text_OhRightSecondMon:
+	.string "Ah yes, that reminds me. That pokemon\n"
+	.string "will get lonely without a partner!\p"
+	.string "Luckily for you, I have another one\n"
+	.string "in need of a trainer. Here!$"
 
 LittlerootTown_ProfessorBirchsLab_Text_BirchAwayOnFieldwork:
 	.string "Hunh? PROF. BIRCH?\p"
@@ -820,38 +1171,26 @@ LittlerootTown_ProfessorBirchsLab_Text_OtherRegionsUpgradeToNational:
 	.string "{PLAYER}{KUN} and {RIVAL}, I've had the two\n"
 	.string "of you help me study POKéMON.\p"
 	.string "Thanks to your help, new facts\n"
-	.string "are coming to light.\p"
-	.string "It appears that in the HOENN region,\n"
-	.string "there are also POKéMON from other\l"
-	.string "regions.\p"
-	.string "It goes to show how rich and varied\n"
-	.string "the natural environments of HOENN\l"
-	.string "happen to be.\p"
-	.string "That's why I think it's necessary for\n"
-	.string "me to upgrade your POKéDEX to\l"
-	.string "the NATIONAL Mode.\p"
-	.string "Here, let me see your POKéDEX units.$"
+	.string "are coming to light!\p"
+	.string "In the next update, you two will be\n"
+	.string "able to access a new enriching area,\l"
+	.string "and an updated battle frontier!$"
 
 LittlerootTown_ProfessorBirchsLab_Text_MayUpgradeSoCool:
 	.string "MAY: Eheheh!\p"
-	.string "It's so cool that even my POKéDEX\n"
-	.string "is getting updated!\p"
-	.string "It's because you went out and caught\n"
-	.string "so many POKéMON, {PLAYER}{KUN}!$"
+	.string "That's great!\n"
+	.string "I can't wait to see it!$"
 
 LittlerootTown_ProfessorBirchsLab_Text_BrendanYouCanThankMe:
 	.string "BRENDAN: I went out all over HOENN\n"
 	.string "and checked out POKéMON.\p"
 	.string "You can thank me for getting\n"
-	.string "the NATIONAL Mode POKéDEX.\p"
+	.string "the next update in motion.\p"
 	.string "Yep, you're lucky, {PLAYER}!$"
 
 LittlerootTown_ProfessorBirchsLab_Text_OkayAllDone:
-	.string "PROF. BIRCH: Okay, all done!$"
-
-LittlerootTown_ProfessorBirchsLab_Text_PokedexUpgradedToNational:
-	.string "{PLAYER}'s POKéDEX was upgraded\n"
-	.string "to the NATIONAL Mode!$"
+	.string "PROF. BIRCH: Okay, all done!\p"
+	.string "You guys can go now.$"
 
 LittlerootTown_ProfessorBirchsLab_Text_GrassyPatchWaiting2:
 	.string "PROF. BIRCH: But listen.\n"

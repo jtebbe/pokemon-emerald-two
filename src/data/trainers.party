@@ -20140,6 +20140,12 @@ IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 - Pound  
 - Leer
 
+Pichu  
+Ability: Static  
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
+- Fake Out  
+- Nuzzle
+
 === TRAINER_BRENDAN_ROUTE_110_MUDKIP ===
 Name: BRENDAN
 Class: Rival
@@ -20355,6 +20361,12 @@ Level: 5
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
 - Scratch  
 - Growl
+
+Spearow  
+Ability: Intimidate  
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
+- Leer  
+- Rage
 
 === TRAINER_BRENDAN_ROUTE_110_TREECKO ===
 Name: BRENDAN
@@ -20572,6 +20584,12 @@ Level: 5
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
 - Tackle  
 - Growl
+
+Toedscool  
+Ability: Mycelium Might  
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
+- Rage Powder  
+- Absorb
 
 === TRAINER_BRENDAN_ROUTE_110_TORCHIC ===
 Name: BRENDAN
@@ -20799,6 +20817,12 @@ IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 - Pound  
 - Leer
 
+Pichu  
+Ability: Static  
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
+- Fake Out  
+- Nuzzle
+
 === TRAINER_MAY_ROUTE_110_MUDKIP ===
 Name: MAY
 Class: Rival
@@ -21014,6 +21038,12 @@ Level: 5
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
 - Scratch  
 - Growl
+
+Spearow  
+Ability: Intimidate  
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
+- Leer  
+- Rage
 
 === TRAINER_MAY_ROUTE_110_TREECKO ===
 Name: MAY
@@ -21231,6 +21261,12 @@ Level: 5
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
 - Tackle  
 - Growl
+
+Toedscool  
+Ability: Mycelium Might  
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
+- Rage Powder  
+- Absorb
 
 === TRAINER_MAY_ROUTE_110_TORCHIC ===
 Name: MAY

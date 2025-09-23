@@ -708,6 +708,12 @@ enum BattleEnvironments BattleSetup_GetEnvironmentId(void)
 
     //Routes, cities, towns AFTER specific metatiles.
     switch (gMapHeader.mapLayoutId) {
+        case LAYOUT_LITTLEROOT_TOWN:
+        case LAYOUT_MOSSDEEP_CITY:
+            if (tileId == 0x001 || tileId == 0x004 || tileId == 0x00D || tileId == 0x00E) {
+                return BATTLE_ENVIRONMENT_GRASS;
+            }
+            break;
         case LAYOUT_MT_PYRE_EXTERIOR:
         case LAYOUT_MT_PYRE_SUMMIT:
             return BATTLE_ENVIRONMENT_MOUNTAIN;
@@ -798,6 +804,11 @@ enum BattleEnvironments BattleSetup_GetEnvironmentId(void)
             }
         default:
             break;
+    }
+
+    if (tileId == 0x124 || tileId == 0x19E || tileId == 0x1A5 
+        || tileId == 0x19D || tileId == 0x195 || tileId == 0x19F) {
+        return BATTLE_ENVIRONMENT_BEACH;
     }
     
 
