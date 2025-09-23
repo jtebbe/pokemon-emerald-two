@@ -39,7 +39,7 @@ TEST("JSON Print all pokemon")
         DebugPrintf("        \"defense\": %u,", currSpecies->baseDefense);
         DebugPrintf("        \"spAttack\": %u,", currSpecies->baseSpAttack);
         DebugPrintf("        \"spDefense\": %u,", currSpecies->baseSpDefense);
-        DebugPrintf("        \"speed\": %u,", currSpecies->baseSpeed);
+        DebugPrintf("        \"speed\": %u", currSpecies->baseSpeed);
         DebugPrintf("    },");
 
         //  Print abilities
@@ -126,7 +126,7 @@ TEST("JSON Print all pokemon")
         DebugPrintf("    \"eggCycles\": %u,", currSpecies->eggCycles);
         DebugPrintf("    \"monCategory\": \"%S\",", currSpecies->categoryName);
         DebugPrintf("    \"natDexNum\": %u,", currSpecies->natDexNum);
-        DebugPrintf("    \"internalId\": %u,", i);
+        DebugPrintf("    \"internalId\": %u", i);
 
         //  Print forms
         if (currSpecies->isMegaEvolution)
