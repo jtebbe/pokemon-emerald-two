@@ -2255,13 +2255,45 @@ Music: Interviewer
 Battle Type: Doubles
 AI: Smart Trainer
 
-Magneton
-Level: 30
-IVs: 18 HP / 18 Atk / 18 Def / 18 SpA / 18 SpD / 18 Spe
+Toxtricity @ Throat Spray  
+Ability: Punk Rock  
+EVs: 4 Atk / 252 SpA / 252 Spe  
+Mild Nature  
+- Shift Gear  
+- Boomburst  
+- Gunk Shot  
+- Overdrive
 
-Loudred
-Level: 30
-IVs: 18 HP / 18 Atk / 18 Def / 18 SpA / 18 SpD / 18 Spe
+Exploud @ Life Orb  
+Ability: Punk Rock  
+Tera Type: Normal  
+EVs: 252 HP / 252 SpA / 4 SpD  
+Quiet Nature  
+IVs: 0 Atk / 0 Spe  
+- Boomburst  
+- Ice Beam  
+- Flamethrower  
+- Shadow Ball
+
+Cofagrigus @ Mental Herb  
+Ability: Mummy  
+EVs: 248 HP / 252 SpA / 8 SpD  
+Quiet Nature  
+IVs: 0 Atk / 0 Spe  
+- Trick Room  
+- Nasty Plot  
+- Shadow Ball  
+- Flash Cannon
+
+Magnezone @ Choice Specs  
+Ability: Sturdy  
+EVs: 248 HP / 252 SpA / 8 SpD  
+Quiet Nature  
+IVs: 0 Atk / 0 Spe  
+- Volt Switch  
+- Thunderbolt  
+- Flash Cannon  
+- Signal Beam
 
 === TRAINER_GABBY_AND_TY_4 ===
 Name: GABBY & TY
@@ -15407,9 +15439,45 @@ Music: Swimmer
 Battle Type: Doubles
 AI: Smart Trainer
 
-Staryu
-Level: 34
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Starmie @ Assault Vest  
+Ability: Regenerator  
+Tera Type: Ice  
+EVs: 4 Def / 252 SpA / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Thunderbolt  
+- Ice Beam  
+- Hydro Pump  
+- Power Gem
+
+Kilowattrel @ Focus Sash  
+Ability: Competitive   
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Tailwind  
+- Protect  
+- Thunderbolt  
+- Hurricane
+
+Bellossom @ Sitrus Berry  
+Ability: Healer  
+EVs: 4 HP / 252 SpA / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Quiver Dance  
+- Giga Drain  
+- Sludge Bomb  
+- Dazzling Gleam
+
+Incineroar @ Safety Goggles  
+Ability: Intimidate  
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+- Fake Out  
+- Parting Shot  
+- Knock Off  
+- Flare Blitz
 
 === TRAINER_DONNY ===
 Name: DONNY
@@ -18318,9 +18386,25 @@ Music: Swimmer
 Battle Type: Doubles
 AI: Smart Trainer
 
-Seaking
-Level: 35
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Talonflame @ Focus Sash  
+Ability: Gale Wings  
+Tera Type: Ghost  
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+- Tailwind  
+- Brave Bird  
+- Flare Blitz  
+- Will-O-Wisp
+
+Beedrill @ Beedrillite  
+Ability: Sniper  
+Tera Type: Bug  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Adamant Nature  
+- U-turn  
+- Poison Jab  
+- Drill Run  
+- Protect
 
 === TRAINER_JENNY_2 ===
 Name: JENNY
@@ -22715,9 +22799,43 @@ Music: Swimmer
 Battle Type: Doubles
 AI: Smart Trainer
 
-Carvanha
-Level: 34
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Sharpedo @ Life Orb  
+Ability: Speed Boost  
+Tera Type: Fairy  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Adamant Nature  
+- Protect  
+- Crunch  
+- Liquidation  
+- Tera Blast
+
+Liepard @ Focus Sash  
+Ability: Prankster  
+EVs: 252 HP / 4 Atk / 252 SpD  
+Careful Nature  
+- Fake Out  
+- Thunder Wave  
+- Foul Play  
+- Encore
+
+Arcanine @ Sitrus Berry  
+Ability: Intimidate  
+EVs: 248 HP / 8 Atk / 252 SpD  
+Careful Nature  
+- Will-O-Wisp  
+- Extreme Speed  
+- Flare Blitz  
+- Protect
+
+Dragalge @ Assault Vest  
+Ability: Adaptability  
+EVs: 252 HP / 252 SpA / 4 SpD  
+Modest Nature  
+IVs: 0 Atk  
+- Draco Meteor  
+- Sludge Bomb  
+- Thunderbolt  
+- Hydro Pump
 
 === TRAINER_ATHENA ===
 Name: ATHENA
@@ -22775,9 +22893,23 @@ Music: Swimmer
 Battle Type: Doubles
 AI: Smart Trainer
 
-Tentacruel
-Level: 35
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Sirfetch’d @ Leek  
+Ability: Scrappy    
+EVs: 248 HP / 252 Atk / 8 SpD  
+Adamant Nature  
+- Meteor Assault  
+- First Impression  
+- Brave Bird  
+- Protect
+
+Mamoswine @ Choice Band  
+Ability: Oblivious  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Adamant Nature  
+- Rock Slide  
+- Icicle Crash  
+- High Horsepower  
+- Heavy Slam
 
 === TRAINER_GRUNT_MT_CHIMNEY_2 ===
 Name: GRUNT
