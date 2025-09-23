@@ -9,6 +9,7 @@
 TEST("JSON Print all pokemon")
 {
     u32 endVal = NUM_SPECIES;
+    DebugPrintf("{");
     for (u32 i = 1; i < endVal; i++)
     {
         const struct SpeciesInfo *currSpecies = &gSpeciesInfo[i];
@@ -22,6 +23,7 @@ TEST("JSON Print all pokemon")
             //continue;
 
         //  Start printing species data
+        DebugPrintf("\"%S\": ", currSpecies->speciesName);
         DebugPrintf("{");
         //  Print species name
         DebugPrintf("    \"speciesName\": \"%S\",", currSpecies->speciesName);
@@ -130,12 +132,13 @@ TEST("JSON Print all pokemon")
 
         //  Print forms
         if (currSpecies->isMegaEvolution)
-            DebugPrintf("    \"form\": \"mega\",");
+            DebugPrintf("    ,\"form\": \"mega\"");
         else if (currSpecies->isGigantamax)
-            DebugPrintf("    \"form\": \"gigantamax\",");
+            DebugPrintf("    ,\"form\": \"gigantamax\"");
 
-        DebugPrintf("}");
+        DebugPrintf("},");
     }
+    DebugPrintf("}");
 }
 
 TEST("Print all pokemon")

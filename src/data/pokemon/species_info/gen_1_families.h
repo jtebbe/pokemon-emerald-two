@@ -18965,7 +18965,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .levelUpLearnset = sMunchlaxLevelUpLearnset,
         .teachableLearnset = sMunchlaxTeachableLearnset,
         .eggMoveLearnset = sMunchlaxEggMoveLearnset,
-        .evolutions = EVOLUTION({EVO_LEVEL, 10, SPECIES_SNORLAX}),
+        .evolutions = EVOLUTION({EVO_LEVEL, 25, SPECIES_SNORLAX}),
     },
 #endif //P_GEN_4_CROSS_EVOS
 
