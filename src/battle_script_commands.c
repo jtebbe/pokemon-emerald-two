@@ -2825,9 +2825,20 @@ static void Cmd_printselectionstringfromtable(void)
     }
 }
 
-u8 GetBattlerTurnOrderNum(u8 battler)
+bool32 HasBattlerActedThisTurn(u32 battler)
 {
-    s32 i;
+    u32 i;
+    for (i = 0; i < gCurrentTurnActionNumber; i++)
+    {
+        if (gBattlerByTurnOrder[i] == battler)
+            return TRUE;
+    }
+    return FALSE;
+}
+
+u32 GetBattlerTurnOrderNum(u32 battler)
+{
+    u32 i;
     for (i = 0; i < gBattlersCount; i++)
     {
         if (gBattlerByTurnOrder[i] == battler)
@@ -3117,8 +3128,8 @@ void SetMoveEffect(u32 battler, u32 effectBattler, bool32 primary, bool32 certai
         {
             gBattlescriptCurrInstr++;
         }
-        else if (GetBattlerTurnOrderNum(gEffectBattler) > gCurrentTurnActionNumber
-                && !(GetActiveGimmick(gEffectBattler) == GIMMICK_DYNAMAX))
+        else if (!HasBattlerActedThisTurn(gEffectBattler)
+              && GetActiveGimmick(gEffectBattler) != GIMMICK_DYNAMAX)
         {
             gBattleMons[gEffectBattler].volatiles.flinched = TRUE;
             gBattlescriptCurrInstr++;
@@ -3451,7 +3462,7 @@ void SetMoveEffect(u32 battler, u32 effectBattler, bool32 primary, bool32 certai
         }
         break;
     case MOVE_EFFECT_CORE_ENFORCER:
-        if (GetBattlerTurnOrderNum(gBattlerAttacker) > GetBattlerTurnOrderNum(gBattlerTarget)
+        if (HasBattlerActedThisTurn(gBattlerTarget)
          && !NoAliveMonsForEitherParty())
         {
             BattleScriptPush(gBattlescriptCurrInstr + 1);
@@ -9492,10 +9503,12 @@ static bool32 ChangeOrderTargetAfterAttacker(void)
     u32 i;
     u8 data[MAX_BATTLERS_COUNT];
     u8 actionsData[MAX_BATTLERS_COUNT];
+    u32 attackerTurnOrderNum = GetBattlerTurnOrderNum(gBattlerAttacker);
+    u32 targetTurnOrderNum = GetBattlerTurnOrderNum(gBattlerTarget);
 
-    if (GetBattlerTurnOrderNum(gBattlerAttacker) > GetBattlerTurnOrderNum(gBattlerTarget))
+    if (attackerTurnOrderNum > targetTurnOrderNum)
         return FALSE;
-    if (GetBattlerTurnOrderNum(gBattlerAttacker) + 1 == GetBattlerTurnOrderNum(gBattlerTarget))
+    if (attackerTurnOrderNum + 1 == targetTurnOrderNum)
         return GetGenConfig(GEN_CONFIG_AFTER_YOU_TURN_ORDER) >= GEN_8;
 
     for (i = 0; i < MAX_BATTLERS_COUNT; i++)
@@ -9503,14 +9516,14 @@ static bool32 ChangeOrderTargetAfterAttacker(void)
         data[i] = gBattlerByTurnOrder[i];
         actionsData[i] = gActionsByTurnOrder[i];
     }
-    if (GetBattlerTurnOrderNum(gBattlerAttacker) == 0 && GetBattlerTurnOrderNum(gBattlerTarget) == 2)
+    if (attackerTurnOrderNum == 0 && targetTurnOrderNum == 2)
     {
         gBattlerByTurnOrder[1] = gBattlerTarget;
         gActionsByTurnOrder[1] = actionsData[2];
         gBattlerByTurnOrder[2] = data[1];
         gActionsByTurnOrder[2] = actionsData[1];
     }
-    else if (GetBattlerTurnOrderNum(gBattlerAttacker) == 0 && GetBattlerTurnOrderNum(gBattlerTarget) == 3)
+    else if (attackerTurnOrderNum == 0 && targetTurnOrderNum == 3)
     {
         gBattlerByTurnOrder[1] = gBattlerTarget;
         gActionsByTurnOrder[1] = actionsData[3];
@@ -9519,7 +9532,7 @@ static bool32 ChangeOrderTargetAfterAttacker(void)
         gBattlerByTurnOrder[3] = data[2];
         gActionsByTurnOrder[3] = actionsData[2];
     }
-    else // Attacker == 1, Target == 3
+    else // attackerTurnOrderNum == 1, targetTurnOrderNum == 3
     {
         gBattlerByTurnOrder[2] = gBattlerTarget;
         gActionsByTurnOrder[2] = actionsData[3];
@@ -10899,6 +10912,11 @@ static void Cmd_setlightscreen(void)
     gBattlescriptCurrInstr = cmd->nextInstr;
 }
 
+// for var lands
+#define NO_HIT 0
+#define CALC_ACC 1
+#define SURE_HIT 2
+// for var endured
 #define NOT_ENDURED       0
 #define FOCUS_SASHED      1
 #define FOCUS_BANDED      2
@@ -10907,7 +10925,6 @@ static void Cmd_tryKO(void)
 {
     CMD_ARGS(const u8 *failInstr);
 
-    bool32 lands = FALSE;
     enum BattleMoveEffects effect = GetMoveEffect(gCurrentMove);
     enum ItemHoldEffect holdEffect = GetBattlerHoldEffect(gBattlerTarget, TRUE);
     u16 targetAbility = GetBattlerAbility(gBattlerTarget);
@@ -10953,24 +10970,28 @@ static void Cmd_tryKO(void)
     }
     else
     {
-        if (gBattleMons[gBattlerAttacker].level >= gBattleMons[gBattlerTarget].level
-         && ((gBattleMons[gBattlerTarget].volatiles.lockOn
-                && gDisableStructs[gBattlerTarget].battlerWithSureHit == gBattlerAttacker)
-            || IsAbilityAndRecord(gBattlerAttacker, GetBattlerAbility(gBattlerAttacker), ABILITY_NO_GUARD)
-            || IsAbilityAndRecord(gBattlerTarget, targetAbility, ABILITY_NO_GUARD)))
-        {
-            lands = TRUE;
-        }
-        else
+        u32 lands = NO_HIT;
+        if (gBattleMons[gBattlerTarget].level > gBattleMons[gBattlerAttacker].level)
+            lands = NO_HIT;
+        else if ((gBattleMons[gBattlerTarget].volatiles.lockOn && gDisableStructs[gBattlerTarget].battlerWithSureHit == gBattlerAttacker)
+              || IsAbilityAndRecord(gBattlerAttacker, GetBattlerAbility(gBattlerAttacker), ABILITY_NO_GUARD)
+              || IsAbilityAndRecord(gBattlerTarget, targetAbility, ABILITY_NO_GUARD))
+            lands = SURE_HIT;
+        else if (IsSemiInvulnerable(gBattlerTarget, CHECK_ALL))
+            lands = NO_HIT;
+        else if (!JumpIfMoveAffectedByProtect(gCurrentMove, gBattlerTarget, TRUE, cmd->failInstr))
+            lands = CALC_ACC;
+
+        if (lands == CALC_ACC)
         {
             u16 odds = GetMoveAccuracy(gCurrentMove) + (gBattleMons[gBattlerAttacker].level - gBattleMons[gBattlerTarget].level);
             if (B_SHEER_COLD_ACC >= GEN_7 && effect == EFFECT_SHEER_COLD && !IS_BATTLER_OF_TYPE(gBattlerAttacker, TYPE_ICE))
                 odds -= 10;
             if (RandomPercentage(RNG_ACCURACY, odds) && gBattleMons[gBattlerAttacker].level >= gBattleMons[gBattlerTarget].level)
-                lands = TRUE;
+                lands = SURE_HIT;
         }
 
-        if (lands)
+        if (lands == SURE_HIT)
         {
             if (gDisableStructs[gBattlerTarget].endured)
             {
@@ -11006,6 +11027,9 @@ static void Cmd_tryKO(void)
         }
     }
 }
+#undef NO_HIT
+#undef CALC_ACC
+#undef SURE_HIT
 #undef NOT_ENDURED
 #undef FOCUS_SASHED
 #undef FOCUS_BANDED
@@ -11471,7 +11495,7 @@ static void Cmd_trysetencore(void)
         gDisableStructs[gBattlerTarget].encoredMove = gBattleMons[gBattlerTarget].moves[i];
         gDisableStructs[gBattlerTarget].encoredMovePos = i;
         // Encore always lasts 3 turns, but we need to account for a scenario where Encore changes the move during the same turn.
-        if (GetBattlerTurnOrderNum(gBattlerAttacker) > GetBattlerTurnOrderNum(gBattlerTarget))
+        if (HasBattlerActedThisTurn(gBattlerTarget))
             gDisableStructs[gBattlerTarget].encoreTimer = 4;
         else
             gDisableStructs[gBattlerTarget].encoreTimer = 3;
@@ -12785,7 +12809,7 @@ static void Cmd_settaunt(void)
         if (B_TAUNT_TURNS >= GEN_5)
         {
             turns = 4;
-            if (GetBattlerTurnOrderNum(gBattlerTarget) > GetBattlerTurnOrderNum(gBattlerAttacker))
+            if (!HasBattlerActedThisTurn(gBattlerTarget))
                 turns--; // If the target hasn't yet moved this turn, Taunt lasts for only three turns (source: Bulbapedia)
         }
         else if (B_TAUNT_TURNS >= GEN_4)
@@ -12814,7 +12838,7 @@ static void Cmd_trysethelpinghand(void)
 
     if (IsDoubleBattle()
         && !(gAbsentBattlerFlags & (1u << gBattlerTarget))
-        && gCurrentTurnActionNumber < GetBattlerTurnOrderNum(gBattlerTarget))
+        && !HasBattlerActedThisTurn(gBattlerTarget))
     {
         gProtectStructs[gBattlerTarget].helpingHand++;
         gBattlescriptCurrInstr = cmd->nextInstr;
@@ -15497,7 +15521,7 @@ void BS_SetPledge(void)
     else if ((gChosenActionByBattler[partner] == B_ACTION_USE_MOVE)
           && IsDoubleBattle()
           && IsBattlerAlive(partner)
-          && GetBattlerTurnOrderNum(gBattlerAttacker) < GetBattlerTurnOrderNum(partner)
+          && !HasBattlerActedThisTurn(partner)
           && !(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE)
           && gCurrentMove != partnerMove
           && GetMoveEffect(partnerMove) == EFFECT_PLEDGE)
@@ -15708,7 +15732,7 @@ void BS_TryUpperHand(void)
     u32 abilityDef = GetBattlerAbility(gBattlerTarget);
     u32 prio = GetChosenMovePriority(gBattlerTarget, abilityDef);
 
-    if (GetBattlerTurnOrderNum(gBattlerAttacker) > GetBattlerTurnOrderNum(gBattlerTarget)
+    if (HasBattlerActedThisTurn(gBattlerTarget)
      || gChosenMoveByBattler[gBattlerTarget] == MOVE_NONE
      || IsBattleMoveStatus(gChosenMoveByBattler[gBattlerTarget])
      || prio < 1
@@ -15925,7 +15949,7 @@ void BS_TryQuash(void)
     u32 i, j;
 
     // It's true if foe is faster, has a bigger priority, or switches
-    if (GetBattlerTurnOrderNum(gBattlerAttacker) > GetBattlerTurnOrderNum(gBattlerTarget))
+    if (HasBattlerActedThisTurn(gBattlerTarget))
     {
         gBattlescriptCurrInstr = cmd->failInstr;
         return;
@@ -17454,7 +17478,7 @@ void BS_SuckerPunchCheck(void)
     NATIVE_ARGS(const u8 *failInstr);
     if (gProtectStructs[gBattlerTarget].protected == PROTECT_OBSTRUCT)
         gBattlescriptCurrInstr = cmd->failInstr;
-    else if (GetBattlerTurnOrderNum(gBattlerAttacker) > GetBattlerTurnOrderNum(gBattlerTarget))
+    else if (HasBattlerActedThisTurn(gBattlerTarget))
         gBattlescriptCurrInstr = cmd->failInstr;
     else if (IsBattleMoveStatus(gBattleMons[gBattlerTarget].moves[gBattleStruct->chosenMovePositions[gBattlerTarget]]) && !gProtectStructs[gBattlerTarget].noValidMoves)
         gBattlescriptCurrInstr = cmd->failInstr;
@@ -17541,7 +17565,7 @@ void BS_TryMeFirst(void)
     NATIVE_ARGS(const u8 *failInstr);
     u16 move = gBattleMons[gBattlerTarget].moves[gBattleStruct->chosenMovePositions[gBattlerTarget]];
     if (IsBattleMoveStatus(move) || IsMoveMeFirstBanned(move)
-        || GetBattlerTurnOrderNum(gBattlerAttacker) > GetBattlerTurnOrderNum(gBattlerTarget))
+        || HasBattlerActedThisTurn(gBattlerTarget))
     {
         gBattlescriptCurrInstr = cmd->failInstr;
     }
@@ -17565,7 +17589,7 @@ void BS_TryMeFirst(void)
 void BS_TryElectrify(void)
 {
     NATIVE_ARGS(const u8 *failInstr);
-    if (GetBattlerTurnOrderNum(gBattlerAttacker) > GetBattlerTurnOrderNum(gBattlerTarget))
+    if (HasBattlerActedThisTurn(gBattlerTarget))
     {
         gBattlescriptCurrInstr = cmd->failInstr;
     }
