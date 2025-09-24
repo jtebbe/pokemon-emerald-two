@@ -33,7 +33,7 @@ MeteorFalls_B1F_2R_Text_NicoDefeat:
 
 MeteorFalls_B1F_2R_Text_NicoPostDefeat:
 	.string "I shudder to think of the monster\n"
-	.string "you'll once you reach your\l"
+	.string "you'll be once you reach your\l"
 	.string "full potential.\p"
 	.string "I will return to the kingdom, and\n"
 	.string "I await our fated rematch then.\p"

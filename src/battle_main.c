@@ -1954,7 +1954,16 @@ u8 CreateNPCTrainerPartyFromTrainer(struct Pokemon *party, const struct Trainer 
 
             CustomTrainerPartyAssignMoves(&party[i], &partyData[monIndex]);
             SetMonData(&party[i], MON_DATA_IVS, &(partyData[monIndex].iv));
-            if (partyData[monIndex].ev != NULL)
+            if (FlagGet(FLAG_NO_EVS_MODE)) {
+                u8 fixedEv = 0;
+                SetMonData(&party[i], MON_DATA_HP_EV, &fixedEv);
+                SetMonData(&party[i], MON_DATA_ATK_EV, &fixedEv);
+                SetMonData(&party[i], MON_DATA_DEF_EV, &fixedEv);
+                SetMonData(&party[i], MON_DATA_SPATK_EV, &fixedEv);
+                SetMonData(&party[i], MON_DATA_SPDEF_EV, &fixedEv);
+                SetMonData(&party[i], MON_DATA_SPEED_EV, &fixedEv);
+            }
+            else if (partyData[monIndex].ev != NULL)
             {
                 SetMonData(&party[i], MON_DATA_HP_EV, &(partyData[monIndex].ev[0]));
                 SetMonData(&party[i], MON_DATA_ATK_EV, &(partyData[monIndex].ev[1]));

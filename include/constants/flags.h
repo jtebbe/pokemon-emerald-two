@@ -676,8 +676,8 @@
 #define FLAG_MOVE_RELEARNER_STATE  0x277
 #define FLAG_TRAINER_SIGHT  0x278
 #define FLAG_WALK_ANYWHERE  0x279
-#define FLAG_UNUSED_0x27A  0x27A // Unused Flag
-#define FLAG_UNUSED_0x27B  0x27B // Unused Flag
+#define FLAG_PERFECT_IVS_MODE  0x27A
+#define FLAG_NO_EVS_MODE  0x27B 
 #define FLAG_UNUSED_0x27C  0x27C // Unused Flag
 #define FLAG_UNUSED_0x27D  0x27D // Unused Flag
 #define FLAG_UNUSED_0x27E  0x27E // Unused Flag

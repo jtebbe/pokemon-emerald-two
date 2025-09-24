@@ -163,7 +163,7 @@
       "y": 7,
       "elevation": 0,
       "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
-      "script": "LittlerootTown_ProfessorBirchsLab_EventScript_Bookshelf"
+      "script": "LittlerootTown_ProfessorBirchsLab_EventScript_PerfectIvsMode"
     },
     {
       "type": "sign",
@@ -171,7 +171,7 @@
       "y": 7,
       "elevation": 0,
       "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
-      "script": "LittlerootTown_ProfessorBirchsLab_EventScript_Bookshelf"
+      "script": "LittlerootTown_ProfessorBirchsLab_EventScript_NoEvMode"
     },
     {
       "type": "sign",

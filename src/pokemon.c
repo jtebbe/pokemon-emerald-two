@@ -56,6 +56,7 @@
 #include "constants/battle_string_ids.h"
 #include "constants/cries.h"
 #include "constants/event_objects.h"
+#include "constants/flags.h"
 #include "constants/form_change_types.h"
 #include "constants/hold_effects.h"
 #include "constants/item_effects.h"
@@ -1134,7 +1135,16 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
     u32 teraType = (boxMon->personality & 0x1) == 0 ? GetSpeciesType(species, 0) : GetSpeciesType(species, 1);
     SetBoxMonData(boxMon, MON_DATA_TERA_TYPE, &teraType);
 
-    if (fixedIV < USE_RANDOM_IVS)
+    if (FlagGet(FLAG_PERFECT_IVS_MODE)) {
+        fixedIV = 31;
+        SetBoxMonData(boxMon, MON_DATA_HP_IV, &fixedIV);
+        SetBoxMonData(boxMon, MON_DATA_ATK_IV, &fixedIV);
+        SetBoxMonData(boxMon, MON_DATA_DEF_IV, &fixedIV);
+        SetBoxMonData(boxMon, MON_DATA_SPEED_IV, &fixedIV);
+        SetBoxMonData(boxMon, MON_DATA_SPATK_IV, &fixedIV);
+        SetBoxMonData(boxMon, MON_DATA_SPDEF_IV, &fixedIV);
+    }
+    else if (fixedIV < USE_RANDOM_IVS)
     {
         SetBoxMonData(boxMon, MON_DATA_HP_IV, &fixedIV);
         SetBoxMonData(boxMon, MON_DATA_ATK_IV, &fixedIV);
@@ -5321,6 +5331,9 @@ void MonGainEVs(struct Pokemon *mon, u16 defeatedSpecies)
     for (i = 0; i < NUM_STATS; i++)
     {
         if (totalEVs >= currentEVCap)
+            break;
+        
+        if (FlagGet(FLAG_NO_EVS_MODE))
             break;
 
         if (CheckPartyHasHadPokerus(mon, 0))

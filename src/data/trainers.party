@@ -4563,8 +4563,7 @@ Battle Type: Doubles
 AI: Smart Trainer
 
 Camerupt @ Assault Vest  
-Ability: Anger Point  
-Tera Type: Fire  
+Ability: Anger Point   
 EVs: 248 HP / 252 Atk / 8 SpD  
 Adamant Nature  
 - Temper Flare  
@@ -24345,7 +24344,6 @@ Adamant Nature
 
 Corsola @ Leftovers  
 Ability: Algae Addict  
-Tera Type: Water  
 EVs: 252 HP / 252 Def / 4 SpD  
 Calm Nature  
 IVs: 0 Atk  
