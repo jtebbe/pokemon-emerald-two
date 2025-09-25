@@ -21,6 +21,8 @@ static const u16 sBulbasaurEggMoveLearnset[] = {
     MOVE_ENDURE,
     MOVE_GIGA_DRAIN,
     MOVE_GRASSY_TERRAIN,
+    MOVE_TOXIC,
+    MOVE_CURSE,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_BULBASAUR
@@ -1545,6 +1547,7 @@ static const u16 sSentretEggMoveLearnset[] = {
     MOVE_IRON_TAIL,
     MOVE_CAPTIVATE,
     MOVE_BABY_DOLL_EYES,
+    MOVE_TIDY_UP,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_SENTRET
@@ -4495,6 +4498,7 @@ static const u16 sMinccinoEggMoveLearnset[] = {
     MOVE_SLEEP_TALK,
     MOVE_ENDURE,
     MOVE_FLAIL,
+    MOVE_TIDY_UP,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_MINCCINO
