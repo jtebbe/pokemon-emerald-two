@@ -20,6 +20,8 @@ FallarborTown_CozmosHouse_EventScript_PlayerHasMeteorite::
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	setvar VAR_0x8004, ITEM_METEORITE
 	call Common_EventScript_PlayerHandedOverTheItem
+	msgbox FallarborTown_CozmosHouse_Text_PleaseTakeThisSmallerMeteorite, MSGBOX_DEFAULT
+	giveitem ITEM_METEORITE
 	setflag FLAG_RECEIVED_TM_TAILWIND
 	msgbox FallarborTown_CozmosHouse_Text_ReallyGoingToHelpMyResearch, MSGBOX_DEFAULT
 	release
@@ -116,3 +118,6 @@ FallarborTown_CozmosHouse_Text_CozmoIsSoHappy:
 	.string "Look at PROF. COZMO…\n"
 	.string "He's so happy! I think it's cute.$"
 
+FallarborTown_CozmosHouse_Text_PleaseTakeThisSmallerMeteorite:
+	.string "Oh, you can have this smaller one!\n"
+	.string "I hear deoxys can utilize it.$"

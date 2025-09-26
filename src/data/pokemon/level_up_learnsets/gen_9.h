@@ -5376,7 +5376,6 @@ static const struct LevelUpMove sFlaaffyLevelUpLearnset[] = {
 static const struct LevelUpMove sAmpharosLevelUpLearnset[] = {
     LEVEL_UP_MOVE( 0, MOVE_THUNDER_PUNCH),
     LEVEL_UP_MOVE( 0, MOVE_HYPER_VOICE),
-    LEVEL_UP_MOVE( 0, MOVE_ELECTRO_SHOT),
     LEVEL_UP_MOVE( 1, MOVE_FIRE_PUNCH),
     LEVEL_UP_MOVE( 1, MOVE_TACKLE),
     LEVEL_UP_MOVE( 1, MOVE_GROWL),
@@ -5394,6 +5393,7 @@ static const struct LevelUpMove sAmpharosLevelUpLearnset[] = {
     LEVEL_UP_MOVE(35, MOVE_POWER_GEM),
     LEVEL_UP_MOVE(40, MOVE_DISCHARGE),
     LEVEL_UP_MOVE(46, MOVE_COTTON_GUARD),
+    LEVEL_UP_MOVE(48, MOVE_ELECTRO_SHOT),
     LEVEL_UP_MOVE(51, MOVE_DAZZLING_GLEAM),
     LEVEL_UP_MOVE(57, MOVE_LIGHT_SCREEN),
     LEVEL_UP_MOVE(62, MOVE_THUNDER),
@@ -16122,7 +16122,6 @@ static const struct LevelUpMove sHelioptileLevelUpLearnset[] = {
 };
 
 static const struct LevelUpMove sHelioliskLevelUpLearnset[] = {
-    LEVEL_UP_MOVE( 0, MOVE_ELECTRO_SHOT),
     LEVEL_UP_MOVE( 1, MOVE_EERIE_IMPULSE),
     LEVEL_UP_MOVE( 1, MOVE_DISCHARGE),
     LEVEL_UP_MOVE( 1, MOVE_QUICK_ATTACK),
@@ -16139,6 +16138,7 @@ static const struct LevelUpMove sHelioliskLevelUpLearnset[] = {
     LEVEL_UP_MOVE( 1, MOVE_TAIL_WHIP),
     LEVEL_UP_MOVE( 1, MOVE_POUND),
     LEVEL_UP_MOVE( 1, MOVE_THUNDER_SHOCK),
+    LEVEL_UP_MOVE(48, MOVE_ELECTRO_SHOT),
     LEVEL_UP_END
 };
 #endif //P_FAMILY_HELIOPTILE
@@ -19937,7 +19937,6 @@ static const struct LevelUpMove sDuraludonLevelUpLearnset[] = {
 
 #if P_GEN_9_CROSS_EVOS
 static const struct LevelUpMove sArchaludonLevelUpLearnset[] = {
-    LEVEL_UP_MOVE( 0, MOVE_ELECTRO_SHOT),
     LEVEL_UP_MOVE( 1, MOVE_LEER),
     LEVEL_UP_MOVE( 1, MOVE_METAL_CLAW),
     LEVEL_UP_MOVE( 6, MOVE_ROCK_SMASH),
@@ -19948,6 +19947,7 @@ static const struct LevelUpMove sArchaludonLevelUpLearnset[] = {
     LEVEL_UP_MOVE(36, MOVE_IRON_DEFENSE),
     LEVEL_UP_MOVE(42, MOVE_FOCUS_ENERGY),
     LEVEL_UP_MOVE(48, MOVE_DRAGON_CLAW),
+    LEVEL_UP_MOVE(51, MOVE_ELECTRO_SHOT),
     LEVEL_UP_MOVE(54, MOVE_FLASH_CANNON),
     LEVEL_UP_MOVE(60, MOVE_METAL_BURST),
     LEVEL_UP_MOVE(66, MOVE_HYPER_BEAM),

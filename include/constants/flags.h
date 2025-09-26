@@ -678,7 +678,7 @@
 #define FLAG_WALK_ANYWHERE  0x279
 #define FLAG_PERFECT_IVS_MODE  0x27A
 #define FLAG_NO_EVS_MODE  0x27B 
-#define FLAG_UNUSED_0x27C  0x27C // Unused Flag
+#define FLAG_ITEM_ROTOM_CATALOG  0x27C
 #define FLAG_UNUSED_0x27D  0x27D // Unused Flag
 #define FLAG_UNUSED_0x27E  0x27E // Unused Flag
 #define FLAG_UNUSED_0x27F  0x27F // Unused Flag
