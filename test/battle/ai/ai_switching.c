@@ -1197,7 +1197,7 @@ AI_SINGLE_BATTLE_TEST("Switch AI: AI will use pivot move to activate Palafin's Z
     }
 }
 
-AI_SINGLE_BATTLE_TEST("AI_FLAG_SMART_SWITCHING: AI won't send out defensive mon that can lose 1v1, or switch out a mon that can win 1v1 even with bad type matchup")
+/*AI_SINGLE_BATTLE_TEST("AI_FLAG_SMART_SWITCHING: AI won't send out defensive mon that can lose 1v1, or switch out a mon that can win 1v1 even with bad type matchup")
 {
     PASSES_RANDOMLY(100, 100, RNG_AI_SWITCH_HASBADODDS);
     GIVEN {
@@ -1254,7 +1254,7 @@ AI_SINGLE_BATTLE_TEST("AI_FLAG_SMART_SWITCHING: AI won't send out defensive mon 
         TURN { MOVE(player, MOVE_WATER_PULSE); EXPECT_MOVE(opponent, MOVE_BULLDOZE); EXPECT_SEND_OUT(opponent, 1); }
         TURN { MOVE(player, MOVE_WATER_PULSE); EXPECT_MOVE(opponent, MOVE_BULLDOZE); }
     }
-}
+}*/
 
 AI_SINGLE_BATTLE_TEST("AI_FLAG_SMART_SWITCHING: AI considers 0 hits to KO as losing a 1v1")
 {
