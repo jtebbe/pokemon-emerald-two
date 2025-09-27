@@ -3337,7 +3337,7 @@ void SetMoveEffect(u32 battler, u32 effectBattler, bool32 primary, bool32 certai
         }
         break;
     case MOVE_EFFECT_RECHARGE:
-        if (B_SKIP_RECHARGE == GEN_1 && !IsBattlerAlive(gBattlerTarget))  // Skip recharge if gen 1 and foe is KO'd
+        if ((B_SKIP_RECHARGE == GEN_1 && !IsBattlerAlive(gBattlerTarget)) || GetBattlerAbility(gEffectBattler) == ABILITY_LORD_OF_TIME)  // Skip recharge if gen 1 and foe is KO'd
             break;
 
         gBattleMons[gEffectBattler].volatiles.recharge = TRUE;
@@ -12621,6 +12621,12 @@ static bool32 CheckIfCanFireTwoTurnMoveNow(u8 battler, bool8 checkChargeTurnEffe
         return FALSE;
 
     // Insert custom conditions here
+
+    if (gCurrentMove == MOVE_METEOR_BEAM && gFieldStatuses & STATUS_FIELD_GRAVITY)
+        return TRUE;
+    
+    if ((gCurrentMove == MOVE_FLY || gCurrentMove == MOVE_SKY_ATTACK) && gSideStatuses[GetBattlerSide(battler)] & SIDE_STATUS_TAILWIND)
+        return TRUE;
 
     // Certain two-turn moves may fire on the first turn in the right weather (Solar Beam, Electro Shot)
     // By default, all two-turn moves have the option of adding weather to their argument

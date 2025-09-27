@@ -3440,8 +3440,8 @@ BattleScript_EffectTwoTurnsAttack::
 	tryfiretwoturnmovewithoutcharging BS_ATTACKER, BattleScript_EffectHit @ e.g. Solar Beam
 	call BattleScript_FirstChargingTurn
 	tryfiretwoturnmoveaftercharging BS_ATTACKER, BattleScript_TwoTurnMovesSecondTurn @ e.g. Electro Shot
-	jumpifholdeffect BS_ATTACKER, HOLD_EFFECT_POWER_HERB, BattleScript_TwoTurnMovesSecondPowerHerbActivates, TRUE
 	jumpifability BS_ATTACKER, ABILITY_LORD_OF_TIME, BattleScript_TwoTurnMovesLordOfTime
+	jumpifholdeffect BS_ATTACKER, HOLD_EFFECT_POWER_HERB, BattleScript_TwoTurnMovesSecondPowerHerbActivates, TRUE
 	goto BattleScript_MoveEnd
 
 BattleScript_EffectGeomancy::

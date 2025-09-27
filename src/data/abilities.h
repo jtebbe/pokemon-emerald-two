@@ -2524,7 +2524,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     [ABILITY_LORD_OF_TIME] =
     {
         .name = _("Lord of Time"),
-        .description = COMPOUND_STRING("(Re)charging isn't necessary."),
+        .description = COMPOUND_STRING("Charging isn't necessary."),
         .aiRating = 2,
     },
 

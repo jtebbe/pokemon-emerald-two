@@ -24053,6 +24053,7 @@ Charizard @ Charizardite X
 Ability: Blaze  
 EVs: 252 Atk / 4 SpD / 252 Spe  
 Adamant Nature  
+Tags: Mega
 - Protect  
 - Flare Blitz  
 - Dragon Claw  
@@ -25695,7 +25696,7 @@ Pic: Wally
 Gender: Male
 Music: Male
 Battle Type: Doubles
-Mugshot: Green
+Mugshot: Blue
 AI: Smart Trainer
 
 Kecleon @ Focus Sash  
