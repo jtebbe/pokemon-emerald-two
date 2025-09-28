@@ -2577,4 +2577,11 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .aiRating = 4,
     },
 
+    [ABILITY_HALLOWS_END] =
+    {
+        .name = _("Hallow's End"),
+        .description = COMPOUND_STRING("All ghost moves get priority."),
+        .aiRating = 4,
+    },
+
 };

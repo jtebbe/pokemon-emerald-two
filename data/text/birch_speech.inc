@@ -26,7 +26,7 @@ gText_Birch_MainSpeech::
 	.string "spinoff games Colisseum and XD.\p"
 	.string "There are level caps and other,\n"
 	.string "subtler ways of difficulty culling.\p"
-	.string "However, there are just as many QOL\n"
+	.string "However, there are just as many QoL\n"
 	.string "changes to help smooth things out.\p"
 	.string "There are new areas, hidden items,\n"
 	.string "and many more things to discover,\l"

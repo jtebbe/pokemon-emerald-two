@@ -4846,6 +4846,10 @@ s32 GetBattleMovePriority(u32 battler, u32 ability, u32 move)
     if (GetActiveGimmick(battler) == GIMMICK_DYNAMAX && GetMoveCategory(move) == DAMAGE_CATEGORY_STATUS)
         return GetMovePriority(MOVE_MAX_GUARD);
 
+    if (IsAbilityOnField(ABILITY_HALLOWS_END) && GetMoveType(move) == TYPE_GHOST) {
+        priority++; 
+    }
+
     if (gProtectStructs[battler].quash)
     {
         priority = -8;

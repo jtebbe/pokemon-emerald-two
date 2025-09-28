@@ -7113,7 +7113,7 @@ Jolly Nature
 - Low Sweep
 
 Gourgeist @ Leftovers  
-Ability: Pickup  
+Ability: Hallow's End  
 Tera Type: Fire  
 EVs: 252 HP / 252 SpA / 4 SpD  
 Modest Nature  
@@ -12719,244 +12719,143 @@ AI: Smart Trainer
 Party Size: 6
 Pool Rules: Doubles
 
-Dragapult @ Choice Band  
+Gourgeist @ Sitrus Berry  
+Ability: Hallow's End 
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature 
+Tags: Lead 
+- Poltergeist  
+- Protect  
+- Trick-or-Treat  
+- Trick Room
+
+Dragapult @ Power Herb  
 Ability: Clear Body    
 EVs: 252 Atk / 4 SpD / 252 Spe  
 Jolly Nature  
-- Dragon Darts  
-- U-turn  
-- Psychic Fangs  
-- Phantom Force
-
-Dragapult @ Choice Specs  
-Ability: Infiltrator  
-Tera Type: Fire  
-EVs: 252 SpA / 4 SpD / 252 Spe  
-Timid Nature  
-IVs: 0 Atk  
-Tags: Tera
-- Draco Meteor  
-- Shadow Ball  
-- Flamethrower  
-- Thunderbolt
-
-Dragapult @ Mental Herb  
-Ability: Cursed Body  
-EVs: 252 HP / 4 SpA / 252 Spe  
-Timid Nature  
-IVs: 0 Atk  
-- Draco Meteor  
+Tags: Lead
+- Phantom Force  
+- Acrobatics  
+- Light Screen  
 - Reflect  
-- Light Screen  
-- Will-O-Wisp
 
-Azumarill @ Assault Vest  
-Ability: Huge Power    
+Dhelmise @ Power Herb  
+Ability: Steelworker   
 EVs: 252 HP / 252 Atk / 4 SpD  
 Adamant Nature  
-- Aqua Jet  
-- Liquidation  
-- Play Rough  
-- Ice Spinner
-
-Azumarill @ Sitrus Berry  
-Ability: Huge Power  
-Tera Type: Poison  
-EVs: 252 HP / 252 Atk / 4 SpD  
-Adamant Nature  
-Tags: Tera
-- Belly Drum  
-- Liquidation  
-- Play Rough  
-- Facade
-
-Azumarill @ Leftovers  
-Ability: Sap Sipper   
-EVs: 252 HP / 4 SpA / 252 SpD  
-Calm Nature  
-IVs: 0 Atk  
-- Whirlpool  
+Tags: Lead
+- Phantom Force  
 - Protect  
-- Light Screen  
-- Toxic
+- Anchor Shot  
+- Synthesis
 
-Magearna @ Leftovers  
-Ability: Soul-Heart   
-EVs: 252 HP / 252 Atk / 4 SpA  
-Brave Nature  
-- Shift Gear  
-- Play Rough  
-- Iron Head  
-- Fleur Cannon
+Banette-Mega @ Banettite  
+Ability: Prankster  
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature 
+Tags: Mega 
+- Poltergeist  
+- Taunt  
+- Return  
+- Thunder Wave  
 
-Magearna @ Mental Herb  
-Ability: Soul-Heart  
-EVs: 252 HP / 252 SpA / 4 SpD  
-Quiet Nature  
-IVs: 0 Atk  
-- Trick Room  
-- Calm Mind  
-- Flash Cannon  
-- Fleur Cannon
-
-Magearna @ Assault Vest  
-Ability: Soul-Heart  
-Tera Type: Water  
+Aegislash @ Air Balloon  
+Ability: Stance Change  
 EVs: 252 HP / 252 SpA / 4 SpD  
 Modest Nature  
-Tags: Tera
-- Tera Blast  
-- Energy Ball  
+IVs: 0 Atk  
+- King's Shield  
+- Shadow Ball  
+- Wide Guard  
 - Flash Cannon  
-- Fleur Cannon
 
-Banette @ Banettite  
-Ability: Defiant 
-EVs: 252 HP / 252 Atk / 4 SpD  
-Adamant Nature  
-Tags: Mega
-- Destiny Bond  
-- Will-O-Wisp  
-- Poltergeist  
-- Giga Impact
-
-Banette @ Banettite  
-Ability: Defiant   
-EVs: 252 HP / 4 Atk / 252 SpD  
-Careful Nature  
-Tags: Mega
-- Protect  
-- Frigid Touch  
-- Shadow Sneak  
-- Disable
-
-Banette @ Banettite  
-Ability: Defiant   
-EVs: 252 HP / 252 Atk / 4 SpD  
-Brave Nature  
-IVs: 0 Spe  
-Tags: Mega
-- Double-Edge  
-- Poltergeist  
-- Protect  
-- Trick Room
-
-Basculegion @ Assault Vest  
-Ability: Adaptability  
-Tera Type: Fairy  
-EVs: 252 HP / 252 Atk / 4 SpD  
-Adamant Nature  
-Tags: Tera
-- Last Respects  
-- Aqua Jet  
-- Liquidation  
-- Tera Blast
-
-Basculegion @ Choice Band  
-Ability: Adaptability   
-EVs: 252 HP / 252 Atk / 4 SpD  
-Adamant Nature  
-- Last Respects  
-- Aqua Jet  
-- Liquidation  
-- Flip Turn
-
-Basculegion @ Life Orb  
-Ability: Adaptability   
-EVs: 252 Atk / 4 SpD / 252 Spe  
-Adamant Nature  
-- Rain Dance  
-- Liquidation  
-- Last Respects  
-- Head Smash
-
-Iron Valiant @ Booster Energy  
+Iron Hands @ Assault Vest  
 Ability: Quark Drive  
-Tera Type: Poison  
+EVs: 4 HP / 252 Atk / 252 SpD  
+Adamant Nature  
+- Fake Out  
+- Drain Punch  
+- Heavy Slam  
+- Wild Charge  
+
+Decidueye @ Life Orb  
+Ability: Ranger  
+EVs: 248 HP / 252 Atk  
+Adamant Nature  
+- Spirit Shackle  
+- Verdant Arrow  
+- Protect  
+- Tailwind  
+
+Sylveon @ Throat Spray  
+Ability: Pixilate  
+EVs: 84 HP / 252 Def / 172 SpA  
+Bold Nature  
+IVs: 0 Atk  
+- Hyper Voice  
+- Calm Mind  
+- Protect  
+- Baton Pass  
+
+Jirachi @ Choice Scarf  
+Ability: Serene Grace  
 EVs: 252 Atk / 4 SpD / 252 Spe  
 Jolly Nature  
-Tags: Tera
-- Swords Dance  
-- Close Combat  
-- Spirit Break  
-- Poison Jab
+- Follow Me  
+- Iron Head  
+- Body Slam  
+- Trick  
 
-Iron Valiant @ Focus Sash  
-Ability: Quark Drive  
-EVs: 4 Atk / 252 SpA / 252 Spe  
-Naive Nature  
-- Protect  
-- Close Combat  
-- Moonblast  
-- Vacuum Wave
-
-Iron Valiant @ Room Service  
-Ability: Quark Drive  
+Samurott-Hisui @ Assault Vest  
+Ability: Sharpness  
 Tera Type: Ghost  
 EVs: 248 HP / 252 Atk / 8 SpD  
-Brave Nature  
-IVs: 0 Spe  
+Adamant Nature  
 Tags: Tera
-- Trick Room  
-- Shadow Claw  
-- Close Combat  
-- Spirit Break
+- Ceaseless Edge  
+- Razor Shell  
+- Sacred Sword  
+- Knock Off  
 
-Iron Valiant @ Choice Scarf  
-Ability: Quark Drive  
-EVs: 252 Atk / 4 SpD / 252 Spe  
-Jolly Nature   
-- Close Combat  
-- Spirit Break  
-- Leaf Blade  
-- Poison Jab
+Malamar @ Leftovers  
+Ability: Contrary  
+Tera Type: Fighting  
+EVs: 252 HP / 4 Def / 252 SpD  
+Careful Nature  
+Tags: Tera
+- Superpower  
+- Psycho Cut  
+- Rest  
+- Sleep Talk  
 
-Iron Valiant @ Booster Energy  
-Ability: Quark Drive    
-EVs: 248 HP / 8 Atk / 252 Spe  
+Genesect @ Choice Band  
+Ability: Download  
+Tera Type: Water  
+EVs: 32 HP / 252 Atk / 224 Spe  
 Jolly Nature  
-- Taunt  
-- Encore  
-- Thunder Wave  
-- Close Combat
+Tags: Tera
+- U-turn  
+- Tera Blast  
+- Extreme Speed  
+- Iron Head  
 
-Iron Valiant @ Booster Energy  
-Ability: Quark Drive  
+Marshadow @ Expert Belt  
+Ability: Technician  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Spectral Thief  
+- Close Combat  
+- Shadow Sneak  
+- Protect  
+
+Zoroark-Hisui @ Focus Sash  
+Ability: Illusion  
 EVs: 252 SpA / 4 SpD / 252 Spe  
 Timid Nature  
-IVs: 0 Atk
-- Wide Guard  
-- Aura Sphere  
-- Moonblast  
-- Calm Mind
-
-Iron Valiant @ Booster Energy  
-Ability: Quark Drive   
-EVs: 252 Atk / 4 SpD / 252 Spe  
-Jolly Nature   
-- Destiny Bond  
-- Disable  
-- Close Combat  
-- Spirit Break
-
-Iron Valiant @ Covert Cloak  
-Ability: Quark Drive   
-EVs: 248 HP / 252 Atk / 8 SpD  
-Brave Nature  
-IVs: 0 Spe  
-- Trick Room  
-- Close Combat  
-- Spirit Break  
-- Liquidation
-
-Iron Valiant @ Life Orb  
-Ability: Quark Drive   
-EVs: 4 Atk / 252 SpA / 252 Spe  
-Rash Nature  
-- Agility  
-- Close Combat  
-- Moonblast  
-- Thunderbolt
+- Hex  
+- Will-O-Wisp  
+- Hyper Voice  
+- U-turn  
 
 === TRAINER_BRIDGETTE ===
 Name: BRIDGET
@@ -22620,7 +22519,7 @@ IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 - Defense Curl
 - Rock Throw
 
-Lileep @ Leftovers  
+Lileep @ Berry Juice  
 Ability: Storm Drain  
 EVs: 252 HP / 4 SpA / 252 SpD  
 Calm Nature  
@@ -24426,7 +24325,7 @@ EVs: 252 Atk / 4 SpD / 252 Spe
 Jolly Nature  
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
 - Comet Punch  
-- Swords Dance  
+- Leer  
 - Encore
 
 Sizzlipede @ Focus Sash  

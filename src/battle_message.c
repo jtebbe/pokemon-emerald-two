@@ -772,6 +772,8 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_CANTESCAPEBECAUSEOFCURRENTMOVE]       = COMPOUND_STRING("{B_DEF_NAME_WITH_PREFIX} can no longer escape because of Octolock!"),
     [STRINGID_NEUTRALIZINGGASENTERS]                = COMPOUND_STRING("Neutralizing gas filled the area!"),
     [STRINGID_NEUTRALIZINGGASOVER]                  = COMPOUND_STRING("The effects of the neutralizing gas wore off!"),
+    [STRINGID_HALLOWSENDENTERS]                     = COMPOUND_STRING("A spooky chill filled the area!"),
+    [STRINGID_HALLOWSENDOVER]                       = COMPOUND_STRING("The spooky chill went away!"),
     [STRINGID_TARGETTOOHEAVY]                       = COMPOUND_STRING("{B_DEF_NAME_WITH_PREFIX} is too heavy to be lifted!"),
     [STRINGID_PKMNTOOKTARGETHIGH]                   = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} took {B_DEF_NAME_WITH_PREFIX2} into the sky!"),
     [STRINGID_PKMNINSNAPTRAP]                       = COMPOUND_STRING("{B_DEF_NAME_WITH_PREFIX} got trapped by a snap trap!"),
@@ -1004,6 +1006,7 @@ const u16 gSwitchInAbilityStringIds[] =
     [B_MSG_SWITCHIN_PASTEL_VEIL] = STRINGID_PASTELVEILENTERS,
     [B_MSG_SWITCHIN_NEUTRALIZING_GAS] = STRINGID_NEUTRALIZINGGASENTERS,
     [B_MSG_SWITCHIN_SPACIALDOMINANCE] = STRINGID_SPACIALDOMINANCE,
+    [B_MSG_SWITCHIN_HALLOWS_END] = STRINGID_HALLOWSENDENTERS,
 };
 
 const u16 gMissStringIds[] =
