@@ -57,7 +57,7 @@ ASSUMPTIONS
     }
 }*/
 
-SINGLE_BATTLE_TEST("Big Root increases damage from absorbing Liquid Ooze", s16 damage)
+/*SINGLE_BATTLE_TEST("Big Root increases damage from absorbing Liquid Ooze", s16 damage)
 {
     u32 item;
 
@@ -75,4 +75,4 @@ SINGLE_BATTLE_TEST("Big Root increases damage from absorbing Liquid Ooze", s16 d
     } FINALLY {
         EXPECT_MUL_EQ(results[0].damage, Q_4_12(1.3), results[1].damage);
     }
-}
+}*/

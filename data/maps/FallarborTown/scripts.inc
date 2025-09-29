@@ -83,7 +83,7 @@ FallarborTown_Text_HaveYouChallengedFlannery:
 
 FallarborTown_Text_BattleTentSign:
 	.string "BATTLE TENT FALLARBOR SITE\n"
-	.string "“May the Greatest Teams Gather!”$"
+	.string "“Closed for breaking stuff!”$"
 
 FallarborTown_Text_TownSign:
 	.string "FALLARBOR TOWN\n"

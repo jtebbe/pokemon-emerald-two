@@ -6162,6 +6162,40 @@ BattleScript_AllStatsUpSpDef::
 BattleScript_AllStatsUpRet::
 	return
 
+BattleScript_AllStatsUpDouble::
+	jumpifstat BS_ATTACKER, CMP_LESS_THAN, STAT_ATK, MAX_STAT_STAGE, BattleScript_AllStatsUpDoubleAtk
+	jumpifstat BS_ATTACKER, CMP_LESS_THAN, STAT_DEF, MAX_STAT_STAGE, BattleScript_AllStatsUpDoubleAtk
+	jumpifstat BS_ATTACKER, CMP_LESS_THAN, STAT_SPEED, MAX_STAT_STAGE, BattleScript_AllStatsUpDoubleAtk
+	jumpifstat BS_ATTACKER, CMP_LESS_THAN, STAT_SPATK, MAX_STAT_STAGE, BattleScript_AllStatsUpDoubleAtk
+	jumpifstat BS_ATTACKER, CMP_EQUAL, STAT_SPDEF, MAX_STAT_STAGE, BattleScript_AllStatsUpDoubleRet
+BattleScript_AllStatsUpDoubleAtk::
+	setstatchanger STAT_ATK, 2, FALSE
+	statbuffchange BS_ATTACKER, STAT_CHANGE_ALLOW_PTR, BattleScript_AllStatsUpDoubleDef, BIT_DEF | BIT_SPEED | BIT_SPATK | BIT_SPDEF
+	printfromtable gStatUpStringIds
+	waitmessage B_WAIT_TIME_LONG
+BattleScript_AllStatsUpDoubleDef::
+	setstatchanger STAT_DEF, 2, FALSE
+	statbuffchange BS_ATTACKER, STAT_CHANGE_ALLOW_PTR, BattleScript_AllStatsUpDoubleSpeed, BIT_SPEED | BIT_SPATK | BIT_SPDEF
+	printfromtable gStatUpStringIds
+	waitmessage B_WAIT_TIME_LONG
+BattleScript_AllStatsUpDoubleSpeed::
+	setstatchanger STAT_SPEED, 2, FALSE
+	statbuffchange BS_ATTACKER, STAT_CHANGE_ALLOW_PTR, BattleScript_AllStatsUpDoubleSpAtk, BIT_SPATK | BIT_SPDEF
+	printfromtable gStatUpStringIds
+	waitmessage B_WAIT_TIME_LONG
+BattleScript_AllStatsUpDoubleSpAtk::
+	setstatchanger STAT_SPATK, 2, FALSE
+	statbuffchange BS_ATTACKER, STAT_CHANGE_ALLOW_PTR, BattleScript_AllStatsUpDoubleSpDef, BIT_SPDEF
+	printfromtable gStatUpStringIds
+	waitmessage B_WAIT_TIME_LONG
+BattleScript_AllStatsUpDoubleSpDef::
+	setstatchanger STAT_SPDEF, 2, FALSE
+	statbuffchange BS_ATTACKER, STAT_CHANGE_ALLOW_PTR, BattleScript_AllStatsUpDoubleRet
+	printfromtable gStatUpStringIds
+	waitmessage B_WAIT_TIME_LONG
+BattleScript_AllStatsUpDoubleRet::
+	return
+
 BattleScript_RapidSpinAway::
 	rapidspinfree
 	return
@@ -7258,7 +7292,7 @@ BattleScript_PowerHoardActivatesEnd:
 
 BattleScript_PhoneticMagicActivates::
 	call BattleScript_AbilityPopUp
-	call BattleScript_AllStatsUp
+	call BattleScript_AllStatsUpDouble
 	goto BattleScript_PhoneticMagicActivatesEnd
 BattleScript_PhoneticMagicActivatesEnd:
 	end3

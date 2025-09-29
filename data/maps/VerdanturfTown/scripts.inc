@@ -115,7 +115,7 @@ VerdanturfTown_Text_WandasHouse:
 
 VerdanturfTown_Text_BattleTentSign:
 	.string "BATTLE TENT VERDANTURF SITE\n"
-	.string "“Feast Your Eyes on Battles!”$"
+	.string "“Closed for breaking stuff!”$"
 
 VerdanturfTown_Text_RusturfTunnelSign:
 	.string "RUSTURF TUNNEL\n"

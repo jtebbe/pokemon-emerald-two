@@ -89,6 +89,7 @@ extern const u8 BattleScript_PerishSongTakesLife[];
 extern const u8 BattleScript_PerishSongCountGoesDown[];
 extern const u8 BattleScript_AllStatsUpZMove[];
 extern const u8 BattleScript_AllStatsUp[];
+extern const u8 BattleScript_AllStatsUpDouble[];
 extern const u8 BattleScript_RapidSpinAway[];
 extern const u8 BattleScript_WrapFree[];
 extern const u8 BattleScript_LeechSeedFree[];
