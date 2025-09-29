@@ -6525,8 +6525,28 @@ static void Cmd_moveend(void)
             gBattleScripting.moveendState++;
             break;
         case MOVEEND_ITEM_EFFECTS_ATTACKER:
+            // ITEMEFFECT_MOVE_END loops over all battlers, not just attacker.
+            // It will executre only the first mon with an applicable item.
+            // So presumably it is a bug
             if (ItemBattleEffects(ITEMEFFECT_MOVE_END, gBattlerAttacker))
                 effect = TRUE;
+            gBattleScripting.moveendState++;
+            break;
+        case MOVEEND_ITEM_THROAT_SPRAY:
+            if (IsSoundMove(gCurrentMove)
+             && !(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE)
+             && GetBattlerHoldEffect(gBattlerAttacker, TRUE) == HOLD_EFFECT_THROAT_SPRAY
+             && IsBattlerAlive(gBattlerAttacker)
+             && IsAnyTargetAffected(gBattlerAttacker)
+             && CompareStat(gBattlerAttacker, STAT_SPATK, MAX_STAT_STAGE, CMP_LESS_THAN)
+             && !NoAliveMonsForEitherParty())   // Don't activate if battle will end
+            {
+                gLastUsedItem = gBattleMons[gBattlerAttacker].item;
+                gBattleScripting.battler = gBattlerAttacker;
+                SET_STATCHANGER(STAT_SPATK, 1, FALSE);
+                effect = TRUE;
+                BattleScriptCall(BattleScript_AttackerItemStatRaise);
+            }
             gBattleScripting.moveendState++;
             break;
         case MOVEEND_ABILITY_BLOCK:
@@ -6913,20 +6933,19 @@ static void Cmd_moveend(void)
 
             if (gBattleStruct->savedAttackerCount > 0)
             {
-                // #if TESTING
-                // Test_ExitWithResult(TEST_RESULT_ERROR,  "savedAttackerCount is greater than 0! More calls to SaveBattlerAttacker than RestoreBattlerAttacker!");
-                // #else
-                DebugPrintfLevel(MGBA_LOG_WARN, "savedAttackerCount is greater than 0! More calls to SaveBattlerAttacker than RestoreBattlerAttacker!");
-                // #endif
+                if (TESTING)
+                    Test_ExitWithResult(TEST_RESULT_ERROR, 0, "savedAttackerCount is greater than 0! More calls to SaveBattlerAttacker than RestoreBattlerAttacker!", __FILE__, __LINE__);
+                else
+                    DebugPrintfLevel(MGBA_LOG_WARN, "savedAttackerCount is greater than 0! More calls to SaveBattlerAttacker than RestoreBattlerAttacker!");
             }
             if (gBattleStruct->savedTargetCount > 0)
             {
-                // #if TESTING
-                // Test_ExitWithResult(TEST_RESULT_ERROR, "savedTargetCount is greater than 0! More calls to SaveBattlerTarget than RestoreBattlerTarget!");
-                // #else
-                DebugPrintfLevel(MGBA_LOG_WARN, "savedTargetCount is greater than 0! More calls to SaveBattlerTarget than RestoreBattlerTarget!");
-                // #endif
+                if (TESTING)
+                    Test_ExitWithResult(TEST_RESULT_ERROR, 0, "savedTargetCount is greater than 0! More calls to SaveBattlerTarget than RestoreBattlerTarget!", __FILE__, __LINE__);
+                else
+                    DebugPrintfLevel(MGBA_LOG_WARN, "savedTargetCount is greater than 0! More calls to SaveBattlerTarget than RestoreBattlerTarget!");
             }
+
             gProtectStructs[gBattlerAttacker].shellTrap = FALSE;
             gBattleStruct->battlerState[gBattlerAttacker].ateBoost = FALSE;
             gSpecialStatuses[gBattlerAttacker].gemBoost = FALSE;
