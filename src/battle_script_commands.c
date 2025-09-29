@@ -14030,7 +14030,7 @@ static void Cmd_handleballthrow(void)
                 maxShakes = BALL_3_SHAKES_SUCCESS;
             }
 
-            if (ballId == BALL_MASTER || ballId == BALL_PARK || ballId == BALL_SAFARI)
+            if (FlagGet(FLAG_EASY_CATCH_MODE) || ballId == BALL_MASTER || ballId == BALL_PARK || ballId == BALL_SAFARI)
             {
                 shakes = maxShakes;
             }

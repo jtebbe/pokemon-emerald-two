@@ -10649,11 +10649,32 @@ Tags: Lead
 - Protect  
 - U-turn
 
+Milotic @ Adrenaline Orb  
+Ability: Competitive  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+Tags: Lead
+- Muddy Water  
+- Ice Beam  
+- Alluring Voice  
+- Protect
+
+Empoleon @ Adrenaline Orb  
+Ability: Competitive  
+EVs: 252 SpA / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+Tags: Lead
+- Flash Cannon  
+- Scald  
+- Protect  
+- Ice Beam
+
 Ludicolo @ Assault Vest  
 Ability: Swift Swim  
 EVs: 148 HP / 252 SpA / 108 Spe  
 Modest Nature  
-Tags: Lead
 - Ice Beam  
 - Weather Ball  
 - Energy Ball  
@@ -10664,7 +10685,7 @@ Ability: Swift Swim
 Tera Type: Water  
 EVs: 252 Atk / 4 SpD / 252 Spe  
 Adamant Nature  
-Tags: Lead / Tera
+Tags: Tera
 - Close Combat  
 - Flip Turn  
 - Liquidation  
@@ -16633,9 +16654,9 @@ Gender: Male
 Music: Suspicious
 Battle Type: Doubles
 
-Shedinja @ Air Balloon  
+Shedinja @ Safety Goggles  
 Ability: Wonder Guard  
-Tera Type: Electric  
+Tera Type: Dark  
 EVs: 252 Atk / 4 Def / 252 Spe  
 Jolly Nature  
 - Swords Dance  
@@ -30602,9 +30623,9 @@ Music: Cool
 Battle Type: Doubles
 AI: Smart Trainer
 
-Shedinja @ Safety Goggles  
+Shedinja @ Air Balloon  
 Ability: Wonder Guard  
-Tera Type: Electric  
+Tera Type: Poison  
 EVs: 252 Atk / 4 SpA / 252 Spe  
 Adamant Nature  
 - X-Scissor  

@@ -7248,6 +7248,14 @@ BattleScript_SpeedBoostActivates::
 BattleScript_SpeedBoostActivatesEnd:
 	end3
 
+BattleScript_PowerHoardActivates::
+	call BattleScript_AbilityPopUp
+	statbuffchange BS_ATTACKER, STAT_CHANGE_ALLOW_PTR, BattleScript_PowerHoardActivatesEnd
+	printstring STRINGID_PKMNRAISEDSPATK
+	waitmessage B_WAIT_TIME_LONG
+BattleScript_PowerHoardActivatesEnd:
+	end3
+
 BattleScript_PhoneticMagicActivates::
 	call BattleScript_AbilityPopUp
 	call BattleScript_AllStatsUp

@@ -1709,3 +1709,11 @@ SootopolisCity_Text_DazzledByMentor:
 	.string "WALLACE: I'm sure that you will be\n"
 	.string "dazzled by my mentor's breathtakingly\l"
 	.string "elegant battle style.$"
+
+SootopolisCity_EventScript_StupidHouse::
+	msgbox SootopolisCity_Text_StupidHouseSign, MSGBOX_SIGN
+	end
+
+SootopolisCity_Text_StupidHouseSign:
+	.string "Closed for being a game-crashing\n"
+	.string "area. Whoops!$"

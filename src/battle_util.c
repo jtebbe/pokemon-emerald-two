@@ -4490,6 +4490,15 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                     effect++;
                 }
                 break;
+            case ABILITY_POWER_HOARD:
+                if (CompareStat(battler, STAT_SPATK, MAX_STAT_STAGE, CMP_LESS_THAN) && gDisableStructs[battler].isFirstTurn != 2)
+                {
+                    SET_STATCHANGER(STAT_SPATK, 1, FALSE);
+                    BattleScriptPushCursorAndCallback(BattleScript_PowerHoardActivates);
+                    gBattleScripting.battler = battler;
+                    effect++;
+                }
+                break;
             case ABILITY_PHONETIC_MAGIC:
                 BattleScriptPushCursorAndCallback(BattleScript_PhoneticMagicActivates);
                 gBattleScripting.battler = battler;

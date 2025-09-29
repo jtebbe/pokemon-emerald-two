@@ -642,6 +642,23 @@ LittlerootTown_ProfessorBirchsLab_EventScript_Bookshelf::
 	msgbox LittlerootTown_ProfessorBirchsLab_Text_CrammedWithBooksOnPokemon, MSGBOX_SIGN
 	end
 
+LittlerootTown_ProfessorBirchsLab_EventScript_EasyCatchMode::
+	lockall
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_EasyCatchMode, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, YES, LittlerootTown_ProfessorBirchsLab_EventScript_EasyCatchModeOn
+	goto LittlerootTown_ProfessorBirchsLab_EventScript_EasyCatchModeOff
+	end
+
+LittlerootTown_ProfessorBirchsLab_EventScript_EasyCatchModeOn::
+	setflag FLAG_EASY_CATCH_MODE
+	releaseall
+	end
+
+LittlerootTown_ProfessorBirchsLab_EventScript_EasyCatchModeOff::
+	clearflag FLAG_EASY_CATCH_MODE
+	releaseall
+	end
+
 LittlerootTown_ProfessorBirchsLab_EventScript_NoEvMode::
 	lockall
 	msgbox LittlerootTown_ProfessorBirchsLab_Text_NoEvMode, MSGBOX_YESNO
@@ -685,6 +702,12 @@ LittlerootTown_ProfessorBirchsLab_Text_PerfectIvsMode:
 LittlerootTown_ProfessorBirchsLab_Text_NoEvMode:
 	.string "This switch toggles enemy evs off\n"
 	.string "and ev gains from battle off.\p"
+	.string "Saying yes will enable, no will\n"
+	.string "disable.$"
+
+LittlerootTown_ProfessorBirchsLab_Text_EasyCatchMode:
+	.string "This switch toggles easy catching\n"
+	.string "mode for wild pokemon on.\p"
 	.string "Saying yes will enable, no will\n"
 	.string "disable.$"
 

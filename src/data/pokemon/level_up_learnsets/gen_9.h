@@ -20065,6 +20065,7 @@ static const struct LevelUpMove sEternatusLevelUpLearnset[] = {
     LEVEL_UP_MOVE(72, MOVE_RECOVER),
     LEVEL_UP_MOVE(80, MOVE_HYPER_BEAM),
     LEVEL_UP_MOVE(88, MOVE_OUTRAGE),
+    LEVEL_UP_MOVE(96, MOVE_ETERNABEAM),
     LEVEL_UP_END
 };
 #endif //P_FAMILY_ETERNATUS

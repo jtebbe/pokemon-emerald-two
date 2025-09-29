@@ -681,6 +681,7 @@ extern const struct NatureInfo gNaturesInfo[];
 #if P_TUTOR_MOVES_ARRAY
 extern const u16 gTutorMoves[];
 #endif // P_TUTOR_MOVES_ARRAY
+extern const u16 gSmeargleMoves[];
 
 void ZeroBoxMonData(struct BoxPokemon *boxMon);
 void ZeroMonData(struct Pokemon *mon);

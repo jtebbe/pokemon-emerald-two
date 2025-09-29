@@ -2584,4 +2584,10 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .aiRating = 4,
     },
 
+    [ABILITY_POWER_HOARD] =
+    {
+        .name = _("Power Hoard"),
+        .description = COMPOUND_STRING("Raises SpAtk on turn end."),
+        .aiRating = 7,
+    },
 };

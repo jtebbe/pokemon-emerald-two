@@ -912,9 +912,11 @@ static void ChangeAndUpdateStat()
 }
 
 #define EDIT_INPUT_INCREASE_STATE           0
-#define EDIT_INPUT_MAX_INCREASE_STATE       1
-#define EDIT_INPUT_DECREASE_STATE           2
-#define EDIT_INPUT_MAX_DECREASE_STATE       3
+#define EDIT_INPUT_MEDIUM_INCREASE_STATE    1
+#define EDIT_INPUT_MAX_INCREASE_STATE       2
+#define EDIT_INPUT_DECREASE_STATE           3
+#define EDIT_INPUT_MEDIUM_DECREASE_STATE    4
+#define EDIT_INPUT_MAX_DECREASE_STATE       5
 
 #define STAT_MINIMUM          0  
 #define IV_MAX_SINGLE_STAT    31   
@@ -924,8 +926,8 @@ static void ChangeAndUpdateStat()
 #define EDITING_EVS     0
 #define EDITING_IVS     1
 
-#define CHECK_IF_STAT_CANT_INCREASE (((sStatEditorDataPtr->editingStat == ((sStatEditorDataPtr->selector_x == EDITING_EVS) ? (EV_MAX_SINGLE_STAT) : (IV_MAX_SINGLE_STAT))) \
-                                     || ((sStatEditorDataPtr->selector_x == EDITING_EVS) && (sStatEditorDataPtr->evTotal == EV_MAX_TOTAL))))
+#define CHECK_IF_STAT_CANT_INCREASE (((sStatEditorDataPtr->editingStat >= ((sStatEditorDataPtr->selector_x == EDITING_EVS) ? (EV_MAX_SINGLE_STAT) : (IV_MAX_SINGLE_STAT))) \
+                                     || ((sStatEditorDataPtr->selector_x == EDITING_EVS) && (sStatEditorDataPtr->evTotal >= EV_MAX_TOTAL))))
 
 static void HandleEditingStatInput(u32 input)
 {
@@ -942,7 +944,8 @@ static void HandleEditingStatInput(u32 input)
         return;
     }
 
-    #define INCREASE_DECREASE_AMOUNT 1
+    #define INCREASE_DECREASE_AMOUNT 4
+    #define MED_INCREASE_DECREASE_AMOUNT 32
 
     switch(input)
     {
@@ -953,13 +956,30 @@ static void HandleEditingStatInput(u32 input)
                     sStatEditorDataPtr->editingStat--;
                 else
                     if((sStatEditorDataPtr->selector_x == EDITING_EVS)) {
-                        sStatEditorDataPtr->editingStat = EV_MAX_SINGLE_STAT;
+                        sStatEditorDataPtr->editingStat = STAT_MINIMUM;
+                        break;
                     } else {
-                        sStatEditorDataPtr->editingStat = IV_MAX_SINGLE_STAT;
+                        sStatEditorDataPtr->editingStat = STAT_MINIMUM;
+                        break;
                     }
             }
             break;
-       case EDIT_INPUT_MAX_DECREASE_STATE:
+        case EDIT_INPUT_MEDIUM_DECREASE_STATE:
+            for (iterator = 0; iterator < MED_INCREASE_DECREASE_AMOUNT; iterator++)
+            {
+                if(!(sStatEditorDataPtr->editingStat == STAT_MINIMUM))
+                    sStatEditorDataPtr->editingStat--;
+                else
+                    if((sStatEditorDataPtr->selector_x == EDITING_EVS)) {
+                        sStatEditorDataPtr->editingStat = STAT_MINIMUM;
+                        break;
+                    } else {
+                        sStatEditorDataPtr->editingStat = STAT_MINIMUM;
+                        break;
+                    }
+            }
+            break;
+        case EDIT_INPUT_MAX_DECREASE_STATE:
             sStatEditorDataPtr->editingStat = STAT_MINIMUM;
             break;
         case EDIT_INPUT_INCREASE_STATE:
@@ -967,8 +987,20 @@ static void HandleEditingStatInput(u32 input)
             {
                 if(!CHECK_IF_STAT_CANT_INCREASE) {
                     sStatEditorDataPtr->editingStat++;
+                    sStatEditorDataPtr->evTotal++;
                 } else {
-                    sStatEditorDataPtr->editingStat = STAT_MINIMUM;
+                    break;
+                }
+            }
+            break;
+        case EDIT_INPUT_MEDIUM_INCREASE_STATE:
+            for (iterator = 0; iterator < MED_INCREASE_DECREASE_AMOUNT; iterator++)
+            {
+                if(!CHECK_IF_STAT_CANT_INCREASE) {
+                    sStatEditorDataPtr->editingStat++;
+                    sStatEditorDataPtr->evTotal++;
+                } else {
+                    break;
                 }
             }
             break;
@@ -1013,9 +1045,13 @@ static void Task_MenuEditingStat(u8 taskId) // This function should be refactore
         HandleEditingStatInput(EDIT_INPUT_DECREASE_STATE);
     else if (JOY_NEW(DPAD_RIGHT))
         HandleEditingStatInput(EDIT_INPUT_INCREASE_STATE);
-    else if (JOY_NEW(DPAD_UP) || JOY_NEW(R_BUTTON))
+    else if (JOY_NEW(L_BUTTON))
+        HandleEditingStatInput(EDIT_INPUT_MEDIUM_DECREASE_STATE);
+    else if (JOY_NEW(R_BUTTON))
+        HandleEditingStatInput(EDIT_INPUT_MEDIUM_INCREASE_STATE);
+    else if (JOY_NEW(DPAD_UP))
         HandleEditingStatInput(EDIT_INPUT_MAX_INCREASE_STATE);
-    else if (JOY_NEW(DPAD_DOWN) || JOY_NEW(L_BUTTON))
+    else if (JOY_NEW(DPAD_DOWN))
         HandleEditingStatInput(EDIT_INPUT_MAX_DECREASE_STATE);
 
 }

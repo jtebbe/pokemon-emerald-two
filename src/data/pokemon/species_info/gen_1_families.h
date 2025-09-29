@@ -1990,7 +1990,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .friendship = STANDARD_FRIENDSHIP,
         .growthRate = GROWTH_MEDIUM_SLOW,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_FLYING),
-        .abilities = { ABILITY_NO_GUARD, ABILITY_NO_GUARD, ABILITY_AERILATE },
+        .abilities = { ABILITY_AERILATE, ABILITY_AERILATE, ABILITY_AERILATE },
         .bodyColor = BODY_COLOR_BROWN,
         .speciesName = _("Pidgeot"),
         .cryId = CRY_PIDGEOT_MEGA,
@@ -4206,7 +4206,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .teachableLearnset = sSandshrewAlolaTeachableLearnset,
         .eggMoveLearnset = sSandshrewAlolaEggMoveLearnset,
         .formSpeciesIdTable = sSandshrewFormSpeciesIdTable,
-        .evolutions = EVOLUTION({EVO_ITEM, ITEM_ICE_STONE, SPECIES_SANDSLASH_ALOLA}),
+        .evolutions = EVOLUTION({EVO_LEVEL, 22, SPECIES_SANDSLASH_ALOLA}),
     },
 
     [SPECIES_SANDSLASH_ALOLA] =
@@ -4226,7 +4226,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .friendship = STANDARD_FRIENDSHIP,
         .growthRate = GROWTH_MEDIUM_FAST,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_FIELD),
-        .abilities = { ABILITY_SNOW_CLOAK, ABILITY_NONE, ABILITY_SNOW_BLOW },
+        .abilities = { ABILITY_SNOW_CLOAK, ABILITY_SLUSH_RUSH, ABILITY_SNOW_BLOW },
         .bodyColor = BODY_COLOR_BLUE,
         .speciesName = _("Sandslash"),
         .cryId = CRY_SANDSLASH,
@@ -5124,7 +5124,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .baseSpeed     = 65,
         .baseSpAttack  = 50,
         .baseSpDefense = 65,
-        .types = MON_TYPES(TYPE_ICE),
+        .types = MON_TYPES(TYPE_ICE, TYPE_FAIRY),
         .catchRate = 190,
         .expYield = (P_UPDATED_EXP_YIELDS >= GEN_5) ? 60 : 63,
         .evYield_Speed = 1,
@@ -6365,7 +6365,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .levelUpLearnset = sVenonatLevelUpLearnset,
         .teachableLearnset = sVenonatTeachableLearnset,
         .eggMoveLearnset = sVenonatEggMoveLearnset,
-        .evolutions = EVOLUTION({EVO_LEVEL, 31, SPECIES_VENOMOTH}),
+        .evolutions = EVOLUTION({EVO_LEVEL, 25, SPECIES_VENOMOTH}),
     },
 
     [SPECIES_VENOMOTH] =
@@ -15378,7 +15378,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .growthRate = GROWTH_MEDIUM_FAST,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_NO_EGGS_DISCOVERED),
     #if P_UPDATED_ABILITIES >= GEN_4
-        .abilities = { ABILITY_SOUNDPROOF, ABILITY_FILTER, ABILITY_TECHNICIAN },
+        .abilities = { ABILITY_MAGIC_SHOW, ABILITY_FILTER, ABILITY_TECHNICIAN },
     #else
         .abilities = { ABILITY_SOUNDPROOF, ABILITY_NONE, ABILITY_TECHNICIAN },
     #endif
@@ -15433,7 +15433,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .levelUpLearnset = sMimeJrLevelUpLearnset,
         .teachableLearnset = sMimeJrTeachableLearnset,
         .eggMoveLearnset = sMimeJrEggMoveLearnset,
-        .evolutions = EVOLUTION({EVO_LEVEL, 0, SPECIES_MR_MIME, CONDITIONS({IF_KNOWS_MOVE, MOVE_MIMIC})},
+        .evolutions = EVOLUTION({EVO_ITEM, ITEM_DAWN_STONE, SPECIES_MR_MIME},
                                 {EVO_ITEM, ITEM_ICE_STONE, SPECIES_MR_MIME_GALAR}),
     },
 #endif //P_GEN_4_CROSS_EVOS
@@ -15459,7 +15459,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .friendship = STANDARD_FRIENDSHIP,
         .growthRate = GROWTH_MEDIUM_FAST,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_HUMAN_LIKE),
-        .abilities = { ABILITY_MAGIC_SHOW, ABILITY_FILTER, ABILITY_TECHNICIAN },
+        .abilities = { ABILITY_MAGIC_SHOW, ABILITY_FILTER, ABILITY_PSYCHIC_SURGE },
         .bodyColor = BODY_COLOR_PINK,
         .speciesName = _("Mr. Mime"),
         .cryId = CRY_MR_MIME,

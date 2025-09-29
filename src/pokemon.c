@@ -101,6 +101,7 @@ EWRAM_DATA u16 gFollowerSteps = 0;
 #if P_TUTOR_MOVES_ARRAY
 #include "data/tutor_moves.h"
 #endif // P_TUTOR_MOVES_ARRAY
+#include "data/smeargle_moves.h"
 
 // Used in an unreferenced function in RS.
 // Unreferenced here and in FRLG.
@@ -5850,33 +5851,60 @@ u8 GetRelearnerTutorMoves(struct Pokemon *mon, u16 *moves)
 
     for (i = 0; i < MAX_MON_MOVES; i++)
         learnedMoves[i] = GetMonData(mon, MON_DATA_MOVE1 + i, 0);
+    
+    if (species == SPECIES_SMEARGLE) {
+         for (i = 0; gSmeargleMoves[i] != MOVE_UNAVAILABLE; i++) {
 
-    for (i = 0; gTutorMoves[i] != MOVE_UNAVAILABLE; i++) // -1 to ignore MOVE_UNAVAILABLE
-    {
-        u16 move = gTutorMoves[i];
+            u16 move = gSmeargleMoves[i];
 
-        if (!CanLearnTeachableMove(species, move))
-            continue;
+            for (j = 0; j < MAX_MON_MOVES; j++)
+            {
+                if (learnedMoves[j] == move)
+                    break;
+            }
 
-        for (j = 0; j < MAX_MON_MOVES; j++)
+            if (j < MAX_MON_MOVES)
+                continue;
+
+            for (j = 0; j < numMoves; j++)
+            {
+                if (moves[j] == move)
+                    break;
+            }
+            if (j < numMoves)
+                continue;
+            
+            moves[numMoves++] = move;
+
+         }
+    } else {
+        for (i = 0; gTutorMoves[i] != MOVE_UNAVAILABLE; i++) // -1 to ignore MOVE_UNAVAILABLE
         {
-            if (learnedMoves[j] == move)
-                break;
-        }
-        if (j < MAX_MON_MOVES)
-            continue;
+            u16 move = gTutorMoves[i];
 
-        for (j = 0; j < numMoves; j++)
-        {
-            if (moves[j] == move)
-                break;
-        }
-        if (j < numMoves)
-            continue;
+            if (!CanLearnTeachableMove(species, move))
+                continue;
 
-        moves[numMoves++] = move;
+            for (j = 0; j < MAX_MON_MOVES; j++)
+            {
+                if (learnedMoves[j] == move)
+                    break;
+            }
+            if (j < MAX_MON_MOVES)
+                continue;
+
+            for (j = 0; j < numMoves; j++)
+            {
+                if (moves[j] == move)
+                    break;
+            }
+            if (j < numMoves)
+                continue;
+
+            moves[numMoves++] = move;
+        }
     }
-
+    
     if (P_SORT_MOVES)
         SortMovesAlphabetically(moves, numMoves);
 

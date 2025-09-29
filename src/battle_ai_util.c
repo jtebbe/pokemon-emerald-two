@@ -2072,6 +2072,9 @@ bool32 CanLowerStat(u32 battlerAtk, u32 battlerDef, struct AiLogicData *aiData, 
         case ABILITY_MINDS_EYE:
             if (stat == STAT_ACC)
                 return FALSE;
+        case ABILITY_POWER_HOARD:
+            if (stat == STAT_SPATK)
+                return FALSE;
         case ABILITY_CONTRARY:
         case ABILITY_CLEAR_BODY:
         case ABILITY_WHITE_SMOKE:
