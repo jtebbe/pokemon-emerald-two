@@ -1008,6 +1008,13 @@ static const struct Fusion sNecrozmaFusionTable[] = {
     {FUSION_TERMINATOR},
 };
 
+static const struct FormChange sNecrozmaFormChangeTable[] = {
+#if P_ULTRA_BURST_FORMS
+    {FORM_CHANGE_BATTLE_ULTRA_BURST,    SPECIES_NECROZMA_ULTRA, ITEM_ULTRANECROZIUM_Z},
+#endif
+    {FORM_CHANGE_TERMINATOR},
+};
+
 static const struct FormChange sNecrozmaDuskManeFormChangeTable[] = {
 #if P_ULTRA_BURST_FORMS
     {FORM_CHANGE_BATTLE_ULTRA_BURST,    SPECIES_NECROZMA_ULTRA, ITEM_ULTRANECROZIUM_Z},

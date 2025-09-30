@@ -2590,4 +2590,46 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Raises SpAtk on turn end."),
         .aiRating = 7,
     },
+
+    [ABILITY_OVERWHELM] =
+    {
+        .name = _("Overwhelm"),
+        .description = COMPOUND_STRING("Attacks lower Sp/Atk."),
+        .aiRating = 7,
+    },
+
+    [ABILITY_MIND_ETERNAL] =
+    {
+        .name = _("Mind Eternal"),
+        .description = COMPOUND_STRING("Raises SpDef at end of turn."),
+        .aiRating = 5,
+    },
+
+    [ABILITY_HEART_ETERNAL] =
+    {
+        .name = _("Heart Eternal"),
+        .description = COMPOUND_STRING("All crits deal way more dmg."),
+        .aiRating = 3,
+    },
+
+    [ABILITY_BODY_ETERNAL] =
+    {
+        .name = _("Body Eternal"),
+        .description = COMPOUND_STRING("Increase damage at low hp."),
+        .aiRating = 5,
+    },
+
+    [ABILITY_SHOCKING_AMALGAM] =
+    {
+        .name = _("Shocking Amalgam"),
+        .description = COMPOUND_STRING("Mold Breaker + Teravolt."),
+        .aiRating = 6,
+    },
+
+    [ABILITY_BLAZING_AMALGAM] =
+    {
+        .name = _("Blazing Amalgam"),
+        .description = COMPOUND_STRING("Mold Breaker + Turboblaze."),
+        .aiRating = 6,
+    },
 };

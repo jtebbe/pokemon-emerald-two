@@ -676,6 +676,23 @@ LittlerootTown_ProfessorBirchsLab_EventScript_NoEvModeOff::
 	releaseall
 	end
 
+LittlerootTown_ProfessorBirchsLab_EventScript_AutoRunMode::
+	lockall
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_AutoRunMode, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, YES, LittlerootTown_ProfessorBirchsLab_EventScript_AutoRunModeOn
+	goto LittlerootTown_ProfessorBirchsLab_EventScript_AutoRunModeOff
+	end
+
+LittlerootTown_ProfessorBirchsLab_EventScript_AutoRunModeOn::
+	setflag FLAG_ALWAYS_RUN
+	releaseall
+	end
+
+LittlerootTown_ProfessorBirchsLab_EventScript_AutoRunModeOff::
+	clearflag FLAG_ALWAYS_RUN
+	releaseall
+	end
+
 LittlerootTown_ProfessorBirchsLab_EventScript_PerfectIvsMode::
 	lockall
 	msgbox LittlerootTown_ProfessorBirchsLab_Text_PerfectIvsMode, MSGBOX_YESNO
@@ -696,6 +713,12 @@ LittlerootTown_ProfessorBirchsLab_EventScript_PerfectIvModeOff::
 LittlerootTown_ProfessorBirchsLab_Text_PerfectIvsMode:
 	.string "This switch toggles perfect ivs\n"
 	.string "mode for wild pokemon on.\p"
+	.string "Saying yes will enable, no will\n"
+	.string "disable.$"
+
+LittlerootTown_ProfessorBirchsLab_Text_AutoRunMode:
+	.string "This switch toggles auto-run on\n"
+	.string "and off.\p"
 	.string "Saying yes will enable, no will\n"
 	.string "disable.$"
 

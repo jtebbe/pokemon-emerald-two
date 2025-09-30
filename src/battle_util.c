@@ -3673,6 +3673,8 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
             }
             break;
+        case ABILITY_BLAZING_AMALGAM:
+        case ABILITY_SHOCKING_AMALGAM:
         case ABILITY_MOLD_BREAKER:
             if (!gSpecialStatuses[battler].switchInAbilityDone)
             {
@@ -3682,7 +3684,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 effect++;
             }
             break;
-        case ABILITY_TERAVOLT:
+        /*case ABILITY_TERAVOLT:
             if (!gSpecialStatuses[battler].switchInAbilityDone)
             {
                 gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SWITCHIN_TERAVOLT;
@@ -3699,7 +3701,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
                 effect++;
             }
-            break;
+            break;*/
         case ABILITY_SLOW_START:
             if (!gSpecialStatuses[battler].switchInAbilityDone)
             {
@@ -4498,6 +4500,15 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                     effect++;
                 }
                 break;
+            case ABILITY_MIND_ETERNAL:
+                if (CompareStat(battler, STAT_SPDEF, MAX_STAT_STAGE, CMP_LESS_THAN) && gDisableStructs[battler].isFirstTurn != 2)
+                {
+                    SET_STATCHANGER(STAT_SPDEF, 1, FALSE);
+                    BattleScriptPushCursorAndCallback(BattleScript_MindEternalActivates);
+                    gBattleScripting.battler = battler;
+                    effect++;
+                }
+                break;
             case ABILITY_PHONETIC_MAGIC:
                 BattleScriptPushCursorAndCallback(BattleScript_PhoneticMagicActivates);
                 gBattleScripting.battler = battler;
@@ -5281,6 +5292,16 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 effect++;
             }
             break;
+        case ABILITY_OVERWHELM:
+            if (IsBattlerAlive(gBattlerTarget)
+                && !gProtectStructs[gBattlerAttacker].confusionSelfDmg
+                && IsBattlerTurnDamaged(gBattlerTarget)
+                /*&& !IsSpreadMove(gCurrentMove)*/) {
+                    gEffectBattler = gBattlerTarget;
+                    gBattleScripting.battler = gBattlerAttacker;
+                    BattleScriptCall(BattleScript_OverwhelmActivates);
+                    effect++;
+                }
         }
         break;
     case ABILITYEFFECT_MOVE_END_OTHER: // Abilities that activate on *another* battler's moveend: Dancer, Soul-Heart, Receiver, Symbiosis
@@ -8671,6 +8692,16 @@ static inline u32 CalcMoveBasePowerAfterModifiers(struct DamageContext *ctx)
         if (moveType == TYPE_STEEL)
            modifier = uq4_12_multiply(modifier, UQ_4_12(1.5));
         break;
+    case ABILITY_BLAZING_AMALGAM:
+    case ABILITY_TURBOBLAZE:
+        if (moveType == TYPE_FIRE)
+           modifier = uq4_12_multiply(modifier, UQ_4_12(1.5));
+        break;
+    case ABILITY_SHOCKING_AMALGAM:
+    case ABILITY_TERAVOLT:
+        if (moveType == TYPE_ELECTRIC)
+           modifier = uq4_12_multiply(modifier, UQ_4_12(1.5));
+        break;
     case ABILITY_PIXILATE:
         if (moveType == TYPE_FAIRY && gBattleStruct->battlerState[battlerAtk].ateBoost)
             modifier = uq4_12_multiply(modifier, UQ_4_12(GetGenConfig(GEN_CONFIG_ATE_MULTIPLIER) >= GEN_7 ? 1.2 : 1.3));
@@ -8960,6 +8991,10 @@ static inline u32 CalcAttackStat(struct DamageContext *ctx)
         break;
     case ABILITY_OVERGROW:
         if (moveType == TYPE_GRASS && gBattleMons[battlerAtk].hp <= (gBattleMons[battlerAtk].maxHP / 3))
+            modifier = uq4_12_multiply_half_down(modifier, UQ_4_12(1.5));
+        break;
+    case ABILITY_BODY_ETERNAL:
+        if (gBattleMons[battlerAtk].hp <= (gBattleMons[battlerAtk].maxHP / 3))
             modifier = uq4_12_multiply_half_down(modifier, UQ_4_12(1.5));
         break;
     case ABILITY_PLUS:
@@ -9391,6 +9426,8 @@ static inline uq4_12_t GetBurnOrFrostBiteModifier(struct DamageContext *ctx)
 
 static inline uq4_12_t GetCriticalModifier(bool32 isCrit, u32 battlerAtk)
 {
+    if (isCrit && IsAbilityOnField(ABILITY_HEART_ETERNAL))
+        return UQ_4_12(3.0);
     if (isCrit && GetBattlerAbility(battlerAtk) == ABILITY_SOUL_STRIKES)
         return UQ_4_12(1.3);
     if (isCrit)

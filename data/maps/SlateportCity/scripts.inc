@@ -144,6 +144,11 @@ SlateportCity_Pokemart_EnergyGuru:
 	.2byte ITEM_PIDGEOTITE
 	.2byte ITEM_DIANCITE
 	.2byte ITEM_BEEDRILLITE
+	.2byte ITEM_ULTRANECROZIUM_Z
+	.2byte ITEM_N_SOLARIZER
+	.2byte ITEM_N_LUNARIZER
+	.2byte ITEM_DNA_SPLICERS
+	.2byte ITEM_REINS_OF_UNITY
 	pokemartlistend
 
 SlateportCity_EventScript_ComeBackWithMegaRing::

@@ -9599,7 +9599,7 @@ AI: Smart Trainer
 Party Size: 6
 Pool Rules: Doubles
 
-Onix @ Eviolite  
+Onix @ Passho Berry  
 Ability: Intimidate  
 Level: 5  
 EVs: 252 HP / 252 Atk / 4 SpD  
@@ -9610,7 +9610,7 @@ Tags: Lead
 - Wide Guard  
 - Protect
 
-Dwebble @ Eviolite  
+Dwebble @ Passho Berry  
 Ability: Shell Armor  
 EVs: 248 HP / 8 Atk / 252 Def  
 Impish Nature  
@@ -9631,12 +9631,21 @@ Tags: Lead
 - Bug Bite  
 - String Shot
 
-Glimmet @ Focus Sash  
+Archen @ Focus Sash  
+Ability: Defeatist   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+Tags: Lead
+- Stealth Rock  
+- Wing Attack  
+- Rock Tomb  
+- Roost
+
+Glimmet @ Air Balloon  
 Ability: Toxic Debris  
 EVs: 252 SpA / 4 SpD / 252 Spe  
 Modest Nature  
 IVs: 0 Atk  
-Tags: Lead
 - Stealth Rock  
 - Acid Spray  
 - Ancient Power  
@@ -24310,7 +24319,7 @@ Music: Male
 Battle Type: Doubles
 AI: Smart Trainer
 
-Kricketot @ Bright Powder  
+Kricketot @ Clear Amulet  
 Ability: Concertmaster  
 Level: 5
 EVs: 220 HP / 236 Atk / 28 SpD / 24 Spe  

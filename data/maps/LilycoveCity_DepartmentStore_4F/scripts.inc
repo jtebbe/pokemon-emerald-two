@@ -42,6 +42,7 @@ LilycoveCity_DepartmentStore_4F_Pokemart_AttackTMs:
 	.2byte ITEM_TM_DOUBLE_EDGE
 	.2byte ITEM_TM_HARD_PRESS
 	.2byte ITEM_TM_PSYCHIC_NOISE
+	.2byte ITEM_TM_FLING
 	pokemartlistend
 
 LilycoveCity_DepartmentStore_4F_EventScript_ClerkRight::
@@ -57,6 +58,7 @@ LilycoveCity_DepartmentStore_4F_EventScript_ClerkRight::
 	.align 2
 LilycoveCity_DepartmentStore_4F_Pokemart_DefenseTMs:
 	.2byte ITEM_TM_PROTECT
+	.2byte ITEM_TM_CHARM
 	.2byte ITEM_TM_COACHING
 	.2byte ITEM_TM_REFLECT
 	.2byte ITEM_TM_LIGHT_SCREEN

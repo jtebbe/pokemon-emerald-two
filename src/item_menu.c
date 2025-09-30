@@ -63,7 +63,10 @@
                             max(BAG_BERRIES_COUNT,           \
                             max(BAG_ITEMS_COUNT,             \
                             max(BAG_KEYITEMS_COUNT,          \
-                                BAG_POKEBALLS_COUNT))))) + 1)
+                            max (BAG_BATTLE_ITEMS_COUNT,      \
+                            max (BAG_MEDICINE_COUNT,          \
+                            max (BAG_TRANSFORM_ITEMS_COUNT,   \
+                                BAG_POKEBALLS_COUNT)))))))) + 1)
 
 // Up to 8 item slots can be visible at a time
 #define MAX_ITEMS_SHOWN 8
@@ -777,6 +780,14 @@ static bool8 SetupBagMenu(void)
     case 13:
         PrintPocketNames(gPocketNamesStringsTable[gBagPosition.pocket], 0);
         CopyPocketNameToWindow(0);
+        DrawPocketIndicatorSquare(0, FALSE);
+        DrawPocketIndicatorSquare(1, FALSE);
+        DrawPocketIndicatorSquare(2, FALSE);
+        DrawPocketIndicatorSquare(3, FALSE);
+        DrawPocketIndicatorSquare(4, FALSE);
+        DrawPocketIndicatorSquare(5, FALSE);
+        DrawPocketIndicatorSquare(6, FALSE);
+        DrawPocketIndicatorSquare(7, FALSE);
         DrawPocketIndicatorSquare(gBagPosition.pocket, TRUE);
         gMain.state++;
         break;
@@ -1485,9 +1496,9 @@ static void DrawItemListBgRow(u8 y)
 static void DrawPocketIndicatorSquare(u8 x, bool8 isCurrentPocket)
 {
     if (!isCurrentPocket)
-        FillBgTilemapBufferRect_Palette0(2, 0x1017, x + 5, 3, 1, 1);
+        FillBgTilemapBufferRect_Palette0(2, 0x1017, x + 4, 3, 1, 1);
     else
-        FillBgTilemapBufferRect_Palette0(2, 0x102B, x + 5, 3, 1, 1);
+        FillBgTilemapBufferRect_Palette0(2, 0x102B, x + 4, 3, 1, 1);
     ScheduleBgCopyTilemapToVram(2);
 }
 
@@ -1684,6 +1695,9 @@ static void OpenContextMenu(u8 taskId)
         {
             switch (gBagPosition.pocket)
             {
+            case POCKET_BATTLE_ITEMS:
+            case POCKET_TRANSFORM_ITEMS:
+            case POCKET_MEDICINE:
             case POCKET_ITEMS:
                 gBagMenu->contextMenuItemsPtr = gBagMenu->contextMenuItemsBuffer;
                 gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_ItemsPocket);
@@ -2419,7 +2433,7 @@ void DoWallyTutorialBagMenu(void)
 }
 
 #define tTimer data[8]
-#define WALLY_BAG_DELAY 102 // The number of frames between each action Wally takes in the bag
+#define WALLY_BAG_DELAY 30 // The number of frames between each action Wally takes in the bag
 
 static void Task_WallyTutorialBagMenu(u8 taskId)
 {
@@ -2436,12 +2450,27 @@ static void Task_WallyTutorialBagMenu(u8 taskId)
             break;
         case WALLY_BAG_DELAY * 2:
             PlaySE(SE_SELECT);
+            SwitchBagPocket(taskId, MENU_CURSOR_DELTA_RIGHT, FALSE);
+            tTimer++;
+            break;
+        case WALLY_BAG_DELAY * 3:
+            PlaySE(SE_SELECT);
+            SwitchBagPocket(taskId, MENU_CURSOR_DELTA_RIGHT, FALSE);
+            tTimer++;
+            break;
+        case WALLY_BAG_DELAY * 4:
+            PlaySE(SE_SELECT);
+            SwitchBagPocket(taskId, MENU_CURSOR_DELTA_RIGHT, FALSE);
+            tTimer++;
+            break;
+        case WALLY_BAG_DELAY * 5:
+            PlaySE(SE_SELECT);
             BagMenu_PrintCursor(tListTaskId, COLORID_GRAY_CURSOR);
             gSpecialVar_ItemId = ITEM_POKE_BALL;
             OpenContextMenu(taskId);
             tTimer++;
             break;
-        case WALLY_BAG_DELAY * 3:
+        case WALLY_BAG_DELAY * 6:
             PlaySE(SE_SELECT);
             RemoveContextWindow();
             DestroyListMenuTask(tListTaskId, 0, 0);

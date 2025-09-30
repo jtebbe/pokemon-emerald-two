@@ -1058,6 +1058,9 @@ struct Pokevial
 struct Bag
 {
     struct ItemSlot items[BAG_ITEMS_COUNT];
+    struct ItemSlot battleItems[BAG_BATTLE_ITEMS_COUNT];
+    struct ItemSlot transformItems[BAG_TRANSFORM_ITEMS_COUNT];
+    struct ItemSlot medicine[BAG_MEDICINE_COUNT];
     struct ItemSlot keyItems[BAG_KEYITEMS_COUNT];
     struct ItemSlot pokeBalls[BAG_POKEBALLS_COUNT];
     struct ItemSlot TMsHMs[BAG_TMHM_COUNT];

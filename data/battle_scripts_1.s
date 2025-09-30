@@ -6108,6 +6108,24 @@ BattleScript_PrimordialShardsRet:
 	copybyte gBattlerAttacker, sBATTLER
 	return
 
+BattleScript_OverwhelmActivates::
+	call BattleScript_AbilityPopUp
+	pause B_WAIT_TIME_SHORT
+	jumpifstat BS_TARGET, CMP_GREATER_THAN, STAT_ATK, MIN_STAT_STAGE, BattleScript_OverwhelmTryAtk
+	jumpifstat BS_TARGET, CMP_EQUAL, STAT_SPATK, MIN_STAT_STAGE, BattleScript_CantLowerMultipleStats
+BattleScript_OverwhelmTryAtk:
+	setstatchanger STAT_ATK, 1, TRUE
+	statbuffchange BS_TARGET, STAT_CHANGE_ALLOW_PTR, BattleScript_OverwhelmTrySpAtk, BIT_SPATK
+	printfromtable gStatDownStringIds
+	waitmessage B_WAIT_TIME_LONG
+BattleScript_OverwhelmTrySpAtk:
+	setstatchanger STAT_SPATK, 1, TRUE
+	statbuffchange BS_TARGET, STAT_CHANGE_ALLOW_PTR, BattleScript_OverwhelmEnd
+	printfromtable gStatDownStringIds
+	waitmessage B_WAIT_TIME_LONG
+BattleScript_OverwhelmEnd:
+	return
+
 BattleScript_EarthEaterActivates::
 	call BattleScript_AbilityPopUp
 	pause B_WAIT_TIME_LONG
@@ -7288,6 +7306,14 @@ BattleScript_PowerHoardActivates::
 	printstring STRINGID_PKMNRAISEDSPATK
 	waitmessage B_WAIT_TIME_LONG
 BattleScript_PowerHoardActivatesEnd:
+	end3
+
+BattleScript_MindEternalActivates::
+	call BattleScript_AbilityPopUp
+	statbuffchange BS_ATTACKER, STAT_CHANGE_ALLOW_PTR, BattleScript_MindEternalActivatesEnd
+	printstring STRINGID_PKMNRAISEDSPDEF2
+	waitmessage B_WAIT_TIME_LONG
+BattleScript_MindEternalActivatesEnd:
 	end3
 
 BattleScript_PhoneticMagicActivates::

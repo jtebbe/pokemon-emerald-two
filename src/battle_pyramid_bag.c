@@ -1102,6 +1102,8 @@ static void BagAction_UseOnField(u8 taskId)
     if (pocketId == POCKET_KEY_ITEMS
         || pocketId == POCKET_POKE_BALLS
         || pocketId == POCKET_TM_HM
+        || pocketId == POCKET_BATTLE_ITEMS
+        || pocketId == POCKET_TRANSFORM_ITEMS
         || ItemIsMail(gSpecialVar_ItemId) == TRUE)
     {
         CloseMenuActionWindow();
@@ -1114,6 +1116,8 @@ static void BagAction_UseOnField(u8 taskId)
         ScheduleBgCopyTilemapToVram(0);
         GetItemFieldFunc(gSpecialVar_ItemId)(taskId);
     }
+    CloseMenuActionWindow();
+    DisplayItemMessageInBattlePyramid(taskId, gText_DadsAdvice, Task_CloseBattlePyramidBagMessage);
 }
 
 static void BagAction_Cancel(u8 taskId)

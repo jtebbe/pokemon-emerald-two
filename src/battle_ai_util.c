@@ -2068,6 +2068,9 @@ bool32 CanLowerStat(u32 battlerAtk, u32 battlerDef, struct AiLogicData *aiData, 
         case ABILITY_ILLUMINATE:
             if (GetGenConfig(GEN_ILLUMINATE_EFFECT) < GEN_9)
                 break;
+        case ABILITY_MIND_ETERNAL:
+            if (stat == STAT_SPDEF)
+                return FALSE;
         case ABILITY_KEEN_EYE:
         case ABILITY_MINDS_EYE:
             if (stat == STAT_ACC)
