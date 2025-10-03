@@ -45,11 +45,23 @@ EverGrandeCity_SidneysRoom_EventScript_WalkInCloseDoor::
 EverGrandeCity_SidneysRoom_EventScript_Sidney::
 	lock
 	faceplayer
+	goto_if_set FLAG_IS_CHAMPION, EverGrandeCity_SidneysRoom_EventScript_Sidney_Rematch
 	goto_if_set FLAG_DEFEATED_ELITE_4_SIDNEY, EverGrandeCity_SidneysRoom_EventScript_PostBattleSpeech
 	playbgm MUS_ENCOUNTER_ELITE_FOUR, FALSE
 	msgbox EverGrandeCity_SidneysRoom_Text_IntroSpeech, MSGBOX_DEFAULT
 	trainerbattle_no_intro TRAINER_SIDNEY, EverGrandeCity_SidneysRoom_Text_Defeat
 	goto EverGrandeCity_SidneysRoom_EventScript_Defeated
+	end
+
+EverGrandeCity_SidneysRoom_EventScript_Sidney_Rematch::
+	goto_if_set FLAG_DEFEATED_ELITE_4_SIDNEY, EverGrandeCity_SidneysRoom_EventScript_DefeatedRematch
+	playbgm MUS_ENCOUNTER_ELITE_FOUR, FALSE
+	msgbox EverGrandeCity_SidneysRoom_Text_IntroSpeechRematch, MSGBOX_DEFAULT
+	trainerbattle_no_intro TRAINER_SIDNEY_REMATCH, EverGrandeCity_SidneysRoom_Text_DefeatRematch
+	setflag FLAG_DEFEATED_ELITE_4_SIDNEY
+	setflag FLAG_SIDNEY_REMATCH_COMPLETE
+	call PokemonLeague_EliteFour_SetAdvanceToNextRoomMetatiles
+	goto EverGrandeCity_SidneysRoom_EventScript_DefeatedRematch
 	end
 
 EverGrandeCity_SidneysRoom_EventScript_PostBattleSpeech::
@@ -61,6 +73,11 @@ EverGrandeCity_SidneysRoom_EventScript_Defeated::
 	setflag FLAG_DEFEATED_ELITE_4_SIDNEY
 	call PokemonLeague_EliteFour_SetAdvanceToNextRoomMetatiles
 	msgbox EverGrandeCity_SidneysRoom_Text_PostBattleSpeech, MSGBOX_DEFAULT
+	release
+	end
+
+EverGrandeCity_SidneysRoom_EventScript_DefeatedRematch::
+	msgbox EverGrandeCity_SidneysRoom_Text_PostBattleSpeechRematch, MSGBOX_DEFAULT
 	release
 	end
 
@@ -85,3 +102,22 @@ EverGrandeCity_SidneysRoom_Text_PostBattleSpeech:
 	.string "Now, go on to the next room and enjoy\l"
 	.string "your next battle!$"
 
+EverGrandeCity_SidneysRoom_Text_IntroSpeechRematch:
+	.string "Well, well, well, our veritable\n"
+	.string "champ returns. Come to beat me\l"
+	.string "once more, have you?\p"
+	.string "Well I've got news for you, kid.\n"
+	.string "I'm stronger than I've ever been!\p"
+	.string "Now bring it! Show me what you're\n"
+	.string "made of!$"
+
+EverGrandeCity_SidneysRoom_Text_DefeatRematch:
+	.string "Damn... that title ain't for\n"
+	.string "show, is it?$"
+
+EverGrandeCity_SidneysRoom_Text_PostBattleSpeechRematch:
+	.string "Get going, kid. We both know you've\n"
+	.string "got more ahead of you.\p"
+	.string "And now more than ever, I'm sure you\n"
+	.string "can win. Go on, get going and win\l"
+	.string "your next battle!$"

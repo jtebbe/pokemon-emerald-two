@@ -4705,6 +4705,10 @@ void IncreasePoisonScore(u32 battlerAtk, u32 battlerDef, u32 move, s32 *score)
             ADJUST_SCORE_PTR(DECENT_EFFECT);
         else
             ADJUST_SCORE_PTR(WEAK_EFFECT);
+        
+        if (GetBattlerAbility(battlerAtk) == ABILITY_POISON_PUPPETEER) {
+            ADJUST_SCORE_PTR(GOOD_EFFECT);
+        }
     }
 }
 

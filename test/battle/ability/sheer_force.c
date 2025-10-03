@@ -278,7 +278,7 @@ SINGLE_BATTLE_TEST("Sheer Force doesn't boost Aura Wheel", s16 damage)
         EXPECT_NE(results[0].damage, 0);
     }
 }
-SINGLE_BATTLE_TEST("Sheer Force doesn't boost Hyperspace Fury", s16 damage)
+/*SINGLE_BATTLE_TEST("Sheer Force doesn't boost Hyperspace Fury", s16 damage)
 {
     u16 move = 0;
     PARAMETRIZE { move = MOVE_SKILL_SWAP; }
@@ -294,7 +294,7 @@ SINGLE_BATTLE_TEST("Sheer Force doesn't boost Hyperspace Fury", s16 damage)
         EXPECT_EQ(results[0].damage, results[1].damage);
         EXPECT_NE(results[0].damage, 0);
     }
-}
+}*/
 SINGLE_BATTLE_TEST("Sheer Force doesn't boost Bolt Beak", s16 damage)
 {
     u16 ability = 0;

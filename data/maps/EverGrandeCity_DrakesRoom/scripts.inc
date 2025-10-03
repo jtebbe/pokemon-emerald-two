@@ -1,10 +1,10 @@
 EverGrandeCity_DrakesRoom_MapScripts::
 	map_script MAP_SCRIPT_ON_FRAME_TABLE, EverGrandeCity_DrakesRoom_OnFrame
 	map_script MAP_SCRIPT_ON_LOAD, EverGrandeCity_DrakesRoom_OnLoad
-	map_script MAP_SCRIPT_ON_WARP_INTO_MAP_TABLE, EverGrandeCity_SidneysRoom_OnWarp
+	map_script MAP_SCRIPT_ON_WARP_INTO_MAP_TABLE, EverGrandeCity_DrakesRoom_OnWarp
 	.byte 0
 
-@ Unused, Drake uses Sidneys identical OnWarp for some reason
+@ Unused, Drake uses Drakes identical OnWarp for some reason
 EverGrandeCity_DrakesRoom_OnWarp:
 	map_script_2 VAR_TEMP_1, 0, EverGrandeCity_DrakesRoom_EventScript_PlayerTurnNorth
 	.2byte 0
@@ -40,11 +40,23 @@ EverGrandeCity_DrakesRoom_EventScript_CloseDoor::
 EverGrandeCity_DrakesRoom_EventScript_Drake::
 	lock
 	faceplayer
+	goto_if_set FLAG_IS_CHAMPION, EverGrandeCity_DrakesRoom_EventScript_Drake_Rematch
 	goto_if_set FLAG_DEFEATED_ELITE_4_DRAKE, EverGrandeCity_DrakesRoom_EventScript_PostBattleSpeech
 	playbgm MUS_ENCOUNTER_ELITE_FOUR, FALSE
 	msgbox EverGrandeCity_DrakesRoom_Text_IntroSpeech, MSGBOX_DEFAULT
 	trainerbattle_no_intro TRAINER_DRAKE, EverGrandeCity_DrakesRoom_Text_Defeat
 	goto EverGrandeCity_DrakesRoom_EventScript_Defeated
+	end
+
+EverGrandeCity_DrakesRoom_EventScript_Drake_Rematch::
+	goto_if_set FLAG_DEFEATED_ELITE_4_DRAKE, EverGrandeCity_DrakesRoom_EventScript_DefeatedRematch
+	playbgm MUS_ENCOUNTER_ELITE_FOUR, FALSE
+	msgbox EverGrandeCity_DrakesRoom_Text_IntroSpeechRematch, MSGBOX_DEFAULT
+	trainerbattle_no_intro TRAINER_DRAKE_REMATCH, EverGrandeCity_DrakesRoom_Text_DefeatRematch
+	setflag FLAG_DEFEATED_ELITE_4_DRAKE
+	setflag FLAG_DRAKE_REMATCH_COMPLETE
+	call PokemonLeague_EliteFour_SetAdvanceToNextRoomMetatiles
+	goto EverGrandeCity_DrakesRoom_EventScript_DefeatedRematch
 	end
 
 EverGrandeCity_DrakesRoom_EventScript_PostBattleSpeech::
@@ -58,6 +70,11 @@ EverGrandeCity_DrakesRoom_EventScript_Defeated::
 	setflag FLAG_DEFEATED_ELITE_4_DRAKE
 	call PokemonLeague_EliteFour_SetAdvanceToNextRoomMetatiles
 	msgbox EverGrandeCity_DrakesRoom_Text_PostBattleSpeech, MSGBOX_DEFAULT
+	release
+	end
+
+EverGrandeCity_DrakesRoom_EventScript_DefeatedRematch::
+	msgbox EverGrandeCity_DrakesRoom_Text_PostBattleSpeechRematch, MSGBOX_DEFAULT
 	release
 	end
 
@@ -90,3 +107,21 @@ EverGrandeCity_DrakesRoom_Text_PostBattleSpeech:
 	.string "Go! Go onwards!\n"
 	.string "The CHAMPION is waiting!$"
 
+	EverGrandeCity_DrakesRoom_Text_IntroSpeechRematch:
+	.string "So, you've returned. Welcome back,\n"
+	.string "young one.\p"
+	.string "I hope you've grown stronger, I am\n"
+	.string "a level above the previous three,\l"
+	.string "now more than ever.\p"
+	.string "Let us not delay. Beat me with all\n"
+	.string "your might!$"
+
+EverGrandeCity_DrakesRoom_Text_DefeatRematch:
+	.string "You remain worthy of your title,\n"
+	.string "after all...$"
+
+EverGrandeCity_DrakesRoom_Text_PostBattleSpeechRematch:
+	.string "One more fight standing between you\n"
+	.string "and your crown.\p"
+	.string "Seize it, as you did this fight, and\n"
+	.string "be victorious!$"

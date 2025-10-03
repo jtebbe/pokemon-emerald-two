@@ -39,11 +39,23 @@ EverGrandeCity_PhoebesRoom_EventScript_CloseDoor::
 EverGrandeCity_PhoebesRoom_EventScript_Phoebe::
 	lock
 	faceplayer
+	goto_if_set FLAG_IS_CHAMPION, EverGrandeCity_PhoebesRoom_EventScript_Phoebe_Rematch
 	goto_if_set FLAG_DEFEATED_ELITE_4_PHOEBE, EverGrandeCity_PhoebesRoom_EventScript_PostBattleSpeech
 	playbgm MUS_ENCOUNTER_ELITE_FOUR, FALSE
 	msgbox EverGrandeCity_PhoebesRoom_Text_IntroSpeech, MSGBOX_DEFAULT
 	trainerbattle_no_intro TRAINER_PHOEBE, EverGrandeCity_PhoebesRoom_Text_Defeat
 	goto EverGrandeCity_PhoebesRoom_EventScript_Defeated
+	end
+
+EverGrandeCity_PhoebesRoom_EventScript_Phoebe_Rematch::
+	goto_if_set FLAG_DEFEATED_ELITE_4_PHOEBE, EverGrandeCity_PhoebesRoom_EventScript_DefeatedRematch
+	playbgm MUS_ENCOUNTER_ELITE_FOUR, FALSE
+	msgbox EverGrandeCity_PhoebesRoom_Text_IntroSpeechRematch, MSGBOX_DEFAULT
+	trainerbattle_no_intro TRAINER_PHOEBE_REMATCH, EverGrandeCity_PhoebesRoom_Text_DefeatRematch
+	setflag FLAG_DEFEATED_ELITE_4_PHOEBE
+	setflag FLAG_PHOEBE_REMATCH_COMPLETE
+	call PokemonLeague_EliteFour_SetAdvanceToNextRoomMetatiles
+	goto EverGrandeCity_PhoebesRoom_EventScript_DefeatedRematch
 	end
 
 EverGrandeCity_PhoebesRoom_EventScript_PostBattleSpeech::
@@ -55,6 +67,11 @@ EverGrandeCity_PhoebesRoom_EventScript_Defeated::
 	setflag FLAG_DEFEATED_ELITE_4_PHOEBE
 	call PokemonLeague_EliteFour_SetAdvanceToNextRoomMetatiles
 	msgbox EverGrandeCity_PhoebesRoom_Text_PostBattleSpeech, MSGBOX_DEFAULT
+	release
+	end
+
+EverGrandeCity_PhoebesRoom_EventScript_DefeatedRematch::
+	msgbox EverGrandeCity_PhoebesRoom_Text_PostBattleSpeechRematch, MSGBOX_DEFAULT
 	release
 	end
 
@@ -82,3 +99,22 @@ EverGrandeCity_PhoebesRoom_Text_PostBattleSpeech:
 	.string "will carry you.\p"
 	.string "Go ahead, move on to the next room.$"
 
+EverGrandeCity_PhoebesRoom_Text_IntroSpeechRematch:
+	.string "Oh? Back so soon? Just kidding! the\n"
+	.string "spirits told me you beat SIDNEY\l"
+	.string "after all. Shame, he really improved!\p"
+	.string "But, he's not the only one.\n"
+	.string "I hope you're ready to see that!\p"
+	.string "Let us and our partners dance with\n"
+	.string "the dead once more!$"
+
+EverGrandeCity_PhoebesRoom_Text_DefeatRematch:
+	.string "Ehe... I suppose it was\n"
+	.string "inevitable after all!$"
+
+EverGrandeCity_PhoebesRoom_Text_PostBattleSpeechRematch:
+	.string "You're stronger than I ever could\n"
+	.string "imagined. Really!\p"
+	.string "Go on, GLACIA's waiting for you,\n"
+	.string "and though her pokemon may be cool,\l"
+	.string "her temper flares up if you're late!$"

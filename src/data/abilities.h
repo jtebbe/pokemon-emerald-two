@@ -2632,4 +2632,11 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Mold Breaker + Turboblaze."),
         .aiRating = 6,
     },
+
+    [ABILITY_OMNIPOTENCE] =
+    {
+        .name = _("Omnipotence"),
+        .description = COMPOUND_STRING("Bypassses immune and resist."),
+        .aiRating = 9,
+    },
 };

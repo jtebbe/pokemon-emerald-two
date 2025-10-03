@@ -54400,6 +54400,7 @@ static const u16 sScovillainTeachableLearnset[] = {
     MOVE_TEMPER_FLARE,
     MOVE_THIEF,
     MOVE_TRAILBLAZE,
+    MOVE_WEATHER_BALL,
     MOVE_WILL_O_WISP,
     MOVE_ZEN_HEADBUTT,
     MOVE_UNAVAILABLE,

@@ -39,9 +39,25 @@ EverGrandeCity_ChampionsRoom_Movement_PlayerApproachWallace:
 
 EverGrandeCity_ChampionsRoom_EventScript_Wallace::
 	playbgm MUS_ENCOUNTER_CHAMPION, FALSE
+	goto_if_set FLAG_IS_CHAMPION, EverGrandeCity_WallacesRoom_EventScript_Wallace_Rematch
 	msgbox EverGrandeCity_ChampionsRoom_Text_IntroSpeech, MSGBOX_DEFAULT
 	trainerbattle_no_intro TRAINER_WALLACE, EverGrandeCity_ChampionsRoom_Text_Defeat
 	goto EverGrandeCity_ChampionsRoom_EventScript_Defeated
+	end
+
+EverGrandeCity_WallacesRoom_EventScript_Wallace_Rematch::
+	msgbox EverGrandeCity_ChampionsRoom_Text_IntroSpeechRematch, MSGBOX_DEFAULT
+	trainerbattle_no_intro TRAINER_WALLACE, EverGrandeCity_ChampionsRoom_Text_DefeatRematch
+	setflag FLAG_WALLACE_REMATCH_COMPLETE
+	playse SE_DOOR
+	setmetatile 6, 1, METATILE_EliteFour_OpenDoorChampion_Frame, FALSE
+	setmetatile 6, 2, METATILE_EliteFour_OpenDoorChampion_Opening, FALSE
+	special DrawWholeMapView
+	msgbox EverGrandeCity_ChampionsRoom_Text_PostBattleSpeechRematch, MSGBOX_DEFAULT
+	closemessage
+	warp MAP_EVER_GRANDE_CITY_HALL_OF_FAME, 7, 16
+	waitstate
+	releaseall
 	end
 
 EverGrandeCity_ChampionsRoom_EventScript_Defeated::
@@ -338,3 +354,29 @@ EverGrandeCity_ChampionsRoom_Text_BrendanCongratulations:
 	.string "{PLAYER}, way to go!\n"
 	.string "Congratulations!$"
 
+EverGrandeCity_ChampionsRoom_Text_IntroSpeechRematch:
+	.string "I see you've returned, {PLAYER}.\n"
+	.string "Come to claim your throne once more?\p"
+	.string "That's fine by me, I've been itching\n"
+	.string "to let fully loose, no more holding\l"
+	.string "back with water-types only.\p"
+	.string "Beating me brings you one step\n"
+	.string "closer to the frontier, as well,\l"
+	.string "so I'm certain you know the stakes.\p"
+	.string "So, let's do this. One more time\n"
+	.string "Just us, our partners, and our\l"
+	.string "conviction. Bring it on!$"
+
+EverGrandeCity_ChampionsRoom_Text_DefeatRematch:
+	.string "Ha...Hahaha... Well done!$"
+
+EverGrandeCity_ChampionsRoom_Text_PostBattleSpeechRematch:
+	.string "You've proven that your last\n"
+	.string "attempt wasn't a fluke, well done.\p"
+	.string "Now, you've gained the league's\n"
+	.string "approval, as well as my own.\p"
+	.string "Congratulations, {PLAYER}.\n"
+	.string "Truly.\p"
+	.string "Now, let us go and cement your\n"
+	.string "partners' roles in this victory\l"
+	.string "as well.$"

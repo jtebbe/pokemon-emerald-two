@@ -1957,6 +1957,7 @@ static void DebugAction_FlagsVars_ToggleGameClear(u8 taskId)
     else
         PlaySE(SE_PC_LOGIN);
     FlagToggle(FLAG_SYS_GAME_CLEAR);
+    FlagToggle(FLAG_IS_CHAMPION);
 }
 
 static void DebugAction_FlagsVars_ToggleFrontierPass(u8 taskId)

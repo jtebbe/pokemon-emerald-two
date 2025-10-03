@@ -860,6 +860,7 @@ extern const u8 BattleScript_EffectDarkVoid[];
 extern const u8 BattleScript_EffectVictoryDance[];
 extern const u8 BattleScript_EffectTeatime[];
 extern const u8 BattleScript_EffectAttackUpUserAlly[];
+extern const u8 BattleScript_EffectAllyAttacksUp[];
 extern const u8 BattleScript_EffectShellTrap[];
 extern const u8 BattleScript_EffectRevivalBlessing[];
 extern const u8 BattleScript_EffectSnow[];

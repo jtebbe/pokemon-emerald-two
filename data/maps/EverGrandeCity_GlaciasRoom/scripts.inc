@@ -39,11 +39,23 @@ EverGrandeCity_GlaciasRoom_EventScript_CloseDoor::
 EverGrandeCity_GlaciasRoom_EventScript_Glacia::
 	lock
 	faceplayer
+	goto_if_set FLAG_IS_CHAMPION, EverGrandeCity_GlaciasRoom_EventScript_Glacia_Rematch
 	goto_if_set FLAG_DEFEATED_ELITE_4_GLACIA, EverGrandeCity_GlaciasRoom_EventScript_PostBattleSpeech
 	playbgm MUS_ENCOUNTER_ELITE_FOUR, FALSE
 	msgbox EverGrandeCity_GlaciasRoom_Text_IntroSpeech, MSGBOX_DEFAULT
 	trainerbattle_no_intro TRAINER_GLACIA, EverGrandeCity_GlaciasRoom_Text_Defeat
 	goto EverGrandeCity_GlaciasRoom_EventScript_Defeated
+	end
+
+EverGrandeCity_GlaciasRoom_EventScript_Glacia_Rematch::
+	goto_if_set FLAG_DEFEATED_ELITE_4_GLACIA, EverGrandeCity_GlaciasRoom_EventScript_DefeatedRematch
+	playbgm MUS_ENCOUNTER_ELITE_FOUR, FALSE
+	msgbox EverGrandeCity_GlaciasRoom_Text_IntroSpeechRematch, MSGBOX_DEFAULT
+	trainerbattle_no_intro TRAINER_GLACIA_REMATCH, EverGrandeCity_GlaciasRoom_Text_DefeatRematch
+	setflag FLAG_DEFEATED_ELITE_4_GLACIA
+	setflag FLAG_GLACIA_REMATCH_COMPLETE
+	call PokemonLeague_EliteFour_SetAdvanceToNextRoomMetatiles
+	goto EverGrandeCity_GlaciasRoom_EventScript_DefeatedRematch
 	end
 
 EverGrandeCity_GlaciasRoom_EventScript_PostBattleSpeech::
@@ -55,6 +67,11 @@ EverGrandeCity_GlaciasRoom_EventScript_Defeated::
 	setflag FLAG_DEFEATED_ELITE_4_GLACIA
 	call PokemonLeague_EliteFour_SetAdvanceToNextRoomMetatiles
 	msgbox EverGrandeCity_GlaciasRoom_Text_PostBattleSpeech, MSGBOX_DEFAULT
+	release
+	end
+
+EverGrandeCity_GlaciasRoom_EventScript_DefeatedRematch::
+	msgbox EverGrandeCity_GlaciasRoom_Text_PostBattleSpeechRematch, MSGBOX_DEFAULT
 	release
 	end
 
@@ -81,3 +98,22 @@ EverGrandeCity_GlaciasRoom_Text_PostBattleSpeech:
 	.string "And there, confirm the truly fearsome\n"
 	.string "side of the POKéMON LEAGUE.$"
 
+EverGrandeCity_GlaciasRoom_Text_IntroSpeechRematch:
+	.string "Welcome back, champion. It's been\n"
+	.string "a little bit, but I can assure you,\l"
+	.string "my partners and I are far stronger.\p"
+	.string "Are you ready? Can you feel the .\n"
+	.string "chills in your bones?\p"
+	.string "So be it. Come forth, and face me\n"
+	.string "with your full might!$"
+
+EverGrandeCity_GlaciasRoom_Text_DefeatRematch:
+	.string "Well, well, well... You've still got\n"
+	.string "it, don't you?$"
+
+EverGrandeCity_GlaciasRoom_Text_PostBattleSpeechRematch:
+	.string "Whew... that was exhilarating, dear.\n"
+	.string "Your strength knows no bounds.\p"
+	.string "Continue onwards. Only two more to\n"
+	.string "go, and you'll gain the league's\l"
+	.string "full acknowledgment.$"

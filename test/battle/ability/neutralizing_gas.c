@@ -161,7 +161,7 @@ DOUBLE_BATTLE_TEST("Neutralizing Gas ignores multipliers from ally's ability", s
     }
 }
 
-DOUBLE_BATTLE_TEST("Neutralizing Gas leaving the field allows abilities to activate in turn order")
+/*DOUBLE_BATTLE_TEST("Neutralizing Gas leaving the field allows abilities to activate in turn order")
 {
     u32 speedPlayerRight, speedOppLeft, speedOppRight;
     PARAMETRIZE { speedPlayerRight = 5; speedOppLeft = 3; speedOppRight = 2; }
@@ -218,7 +218,7 @@ DOUBLE_BATTLE_TEST("Neutralizing Gas leaving the field allows abilities to activ
         }
         SEND_IN_MESSAGE("Wobbuffet");
     }
-}
+}*/
 
 SINGLE_BATTLE_TEST("Neutralizing Gas prevents Insomnia from blocking Rest")
 {

@@ -18,7 +18,7 @@ LilycoveCity_DepartmentStore_2F_EventScript_ClerkRight::
 	faceplayer
 	message gText_HowMayIServeYou
 	waitmessage
-	goto_if_set FLAG_IS_CHAMPION, LilycoveCity_DepartmentStore_2F_Mart_Pokemart_BadgeChampion
+	goto_if_set FLAG_IS_CHAMPION, LilycoveCity_DepartmentStore_2F_Mart_Champion
 	goto_if_set FLAG_BADGE08_GET, LilycoveCity_DepartmentStore_2F_Mart_Badge8
 	goto_if_set FLAG_BADGE07_GET, LilycoveCity_DepartmentStore_2F_Mart_Badge7
 	goto_if_set FLAG_BADGE06_GET, LilycoveCity_DepartmentStore_2F_Mart_Badge6
@@ -38,7 +38,7 @@ LilycoveCity_DepartmentStore_2F_EventScript_ClerkLeft::
 	faceplayer
 	message gText_HowMayIServeYou
 	waitmessage
-	goto_if_set FLAG_IS_CHAMPION, LilycoveCity_DepartmentStore_2F_Mart_Pokemart_BadgeChampion
+	goto_if_set FLAG_IS_CHAMPION, LilycoveCity_DepartmentStore_2F_Mart_Champion
 	goto_if_set FLAG_BADGE08_GET, LilycoveCity_DepartmentStore_2F_Mart_Badge8
 	goto_if_set FLAG_BADGE07_GET, LilycoveCity_DepartmentStore_2F_Mart_Badge7
 	goto_if_set FLAG_BADGE06_GET, LilycoveCity_DepartmentStore_2F_Mart_Badge6

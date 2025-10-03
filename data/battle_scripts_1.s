@@ -525,6 +525,32 @@ BattleScript_EffectAttackUpUserAlly_TryAllyBlocked:
 	waitmessage B_WAIT_TIME_LONG
 	goto BattleScript_MoveEnd
 
+BattleScript_EffectAllyAttacksUp::
+	jumpifnoally BS_ATTACKER, BattleScript_EffectAllyAttacksUpEnd
+	attackcanceler
+	attackstring
+	ppreduce
+	jumpifstat BS_ATTACKER, CMP_LESS_THAN, STAT_ATK, MAX_STAT_STAGE, BattleScript_EffectAllyAttacksUpDoMoveAnim
+	jumpifstat BS_ATTACKER, CMP_EQUAL, STAT_SPATK, MAX_STAT_STAGE, BattleScript_CantRaiseMultipleStats
+BattleScript_EffectAllyAttacksUpDoMoveAnim::
+	attackanimation
+	waitanimation
+	setstatchanger STAT_ATK, 1, FALSE
+	statbuffchange BS_ATTACKER, STAT_CHANGE_ALLOW_PTR, BattleScript_EffectAllyAttacksUpTrySpAtk, BIT_SPATK
+	jumpifbyte CMP_EQUAL, cMULTISTRING_CHOOSER, B_MSG_STAT_WONT_INCREASE, BattleScript_EffectAllyAttacksUpTrySpAtk
+	printfromtable gStatUpStringIds
+	waitmessage B_WAIT_TIME_LONG
+BattleScript_EffectAllyAttacksUpTrySpAtk::
+	setstatchanger STAT_SPATK, 1, FALSE
+	statbuffchange BS_ATTACKER, STAT_CHANGE_ALLOW_PTR, BattleScript_EffectAllyAttacksUpEnd
+	jumpifbyte CMP_EQUAL, cMULTISTRING_CHOOSER, B_MSG_STAT_WONT_INCREASE, BattleScript_EffectAllyAttacksUpEnd
+	printfromtable gStatUpStringIds
+	waitmessage B_WAIT_TIME_LONG
+BattleScript_EffectAllyAttacksUpEnd:
+	jumpifnoally BS_ATTACKER, BattleScript_EffectAttackSpAttackUp
+	setallytonexttarget BattleScript_EffectAttackSpAttackUp
+	goto BattleScript_MoveEnd
+
 BattleScript_EffectTeatime::
 	attackcanceler
 	attackstring
@@ -7943,6 +7969,7 @@ BattleScript_UmbralGripActivates::
 BattleScript_UmbralGripLoop:
 	jumpiftargetally BattleScript_UmbralGripIncrement
 	jumpifability BS_TARGET, ABILITY_MAGIC_GUARD, BattleScript_UmbralGripIncrement
+	jumpifhasnohp BS_TARGET, BattleScript_UmbralGripIncrement
 BattleScript_UmbralGrip_Dmg:
 	jumpifbyteequal sFIXED_ABILITY_POPUP, sZero, BattleScript_UmbralGrip_ShowPopUp
 BattleScript_UmbralGrip_DmgAfterPopUp:

@@ -6,7 +6,7 @@ FallarborTown_Mart_EventScript_Clerk::
 	faceplayer
 	message gText_HowMayIServeYou
 	waitmessage
-	goto_if_set FLAG_IS_CHAMPION, FallarborTown_Mart_Pokemart_BadgeChampion
+	goto_if_set FLAG_IS_CHAMPION, FallarborTown_Mart_Champion
 	goto_if_set FLAG_BADGE08_GET, FallarborTown_Mart_Badge8
 	goto_if_set FLAG_BADGE07_GET, FallarborTown_Mart_Badge7
 	goto_if_set FLAG_BADGE06_GET, FallarborTown_Mart_Badge6
