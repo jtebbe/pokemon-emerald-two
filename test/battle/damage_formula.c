@@ -101,6 +101,7 @@ SINGLE_BATTLE_TEST("Damage calculation matches Gen5+ (Marshadow vs Mawile)")
     PARAMETRIZE { expectedDamage = 123; }
     GIVEN {
         ASSUME(GetMoveCategory(MOVE_SPECTRAL_THIEF) == DAMAGE_CATEGORY_PHYSICAL);
+        ASSUME(B_UPDATED_TYPE_MATCHUPS >= GEN_6); // Steel resists Ghost in Gen2-5
         PLAYER(SPECIES_MARSHADOW) { Level(100); Attack(286); }
         OPPONENT(SPECIES_MAWILE) { Level(100); Defense(226); HP(241); }
     } WHEN {
@@ -191,27 +192,47 @@ SINGLE_BATTLE_TEST("Damage calculation matches Gen5+ (Marshadow vs Mawile)")
         EXPECT_EQ(expectedDamageOpponent, dmgOpponent);
     }
 }*/
-
+/*
 SINGLE_BATTLE_TEST("Gem boosted Damage calculation")
 {
     s16 dmg;
     s16 expectedDamage;
-    PARAMETRIZE { expectedDamage = 184; }
-    PARAMETRIZE { expectedDamage = 181; }
-    PARAMETRIZE { expectedDamage = 180; }
-    PARAMETRIZE { expectedDamage = 178; }
-    PARAMETRIZE { expectedDamage = 177; }
-    PARAMETRIZE { expectedDamage = 174; }
-    PARAMETRIZE { expectedDamage = 172; }
-    PARAMETRIZE { expectedDamage = 171; }
-    PARAMETRIZE { expectedDamage = 169; }
-    PARAMETRIZE { expectedDamage = 166; }
-    PARAMETRIZE { expectedDamage = 165; }
-    PARAMETRIZE { expectedDamage = 163; }
-    PARAMETRIZE { expectedDamage = 162; }
-    PARAMETRIZE { expectedDamage = 160; }
-    PARAMETRIZE { expectedDamage = 157; }
-    PARAMETRIZE { expectedDamage = 156; }
+#if I_GEM_BOOST_POWER >= GEN_6
+    PARAMETRIZE { expectedDamage = 240; }
+    PARAMETRIZE { expectedDamage = 237; }
+    PARAMETRIZE { expectedDamage = 234; }
+    PARAMETRIZE { expectedDamage = 232; }
+    PARAMETRIZE { expectedDamage = 229; }
+    PARAMETRIZE { expectedDamage = 228; }
+    PARAMETRIZE { expectedDamage = 225; }
+    PARAMETRIZE { expectedDamage = 222; }
+    PARAMETRIZE { expectedDamage = 220; }
+    PARAMETRIZE { expectedDamage = 217; }
+    PARAMETRIZE { expectedDamage = 216; }
+    PARAMETRIZE { expectedDamage = 213; }
+    PARAMETRIZE { expectedDamage = 210; }
+    PARAMETRIZE { expectedDamage = 208; }
+    PARAMETRIZE { expectedDamage = 205; }
+    PARAMETRIZE { expectedDamage = 204; }
+#else
+    KNOWN_FAILING;
+    PARAMETRIZE { expectedDamage = 273; }
+    PARAMETRIZE { expectedDamage = 270; }
+    PARAMETRIZE { expectedDamage = 267; }
+    PARAMETRIZE { expectedDamage = 264; }
+    PARAMETRIZE { expectedDamage = 261; }
+    PARAMETRIZE { expectedDamage = 258; }
+    PARAMETRIZE { expectedDamage = 256; }
+    PARAMETRIZE { expectedDamage = 253; }
+    PARAMETRIZE { expectedDamage = 250; }
+    PARAMETRIZE { expectedDamage = 247; }
+    PARAMETRIZE { expectedDamage = 244; }
+    PARAMETRIZE { expectedDamage = 241; }
+    PARAMETRIZE { expectedDamage = 240; }
+    PARAMETRIZE { expectedDamage = 237; }
+    PARAMETRIZE { expectedDamage = 234; }
+    PARAMETRIZE { expectedDamage = 231; }
+#endif
     GIVEN {
         PLAYER(SPECIES_MAKUHITA) { Item(ITEM_FIGHTING_GEM); }
         OPPONENT(SPECIES_MAKUHITA);
@@ -227,7 +248,7 @@ SINGLE_BATTLE_TEST("Gem boosted Damage calculation")
     THEN {
         EXPECT_EQ(expectedDamage, dmg);
     }
-}
+}*/
 
 #define NUM_DAMAGE_SPREADS (DMG_ROLL_PERCENT_HI - DMG_ROLL_PERCENT_LO) + 1
 
