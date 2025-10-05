@@ -2,6 +2,7 @@
 #define GUARD_BATTLE_SCRIPTS_H
 
 extern const u8 BattleScript_SupersweetSyrupActivates[];
+extern const u8 Battlescript_CorrosiveOdorActivates[];
 extern const u8 BattleScript_OpportunistCopyStatChange[];
 extern const u8 BattleScript_MirrorHerbCopyStatChange[];
 extern const u8 BattleScript_MirrorHerbCopyStatChangeEnd2[];
@@ -495,6 +496,7 @@ extern const u8 BattleScript_ZeroToHeroActivates[];
 extern const u8 BattleScript_CommanderActivates[];
 extern const u8 BattleScript_HospitalityActivates[];
 extern const u8 BattleScript_ToxicDebrisActivates[];
+extern const u8 BattleScript_SharpScalesActivates[];
 extern const u8 BattleScript_PrimordialShardsActivates[];
 extern const u8 BattleScript_OverwhelmActivates[];
 extern const u8 BattleScript_EarthEaterActivates[];

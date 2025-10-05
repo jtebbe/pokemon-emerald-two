@@ -6122,6 +6122,18 @@ BattleScript_ToxicDebrisRet:
 	copybyte gBattlerAttacker, sBATTLER
 	return
 
+BattleScript_SharpScalesActivates::
+	call BattleScript_AbilityPopUp
+	pause B_WAIT_TIME_SHORT
+	trysetspikes BattleScript_SharpScalesRet
+	printstring STRINGID_SPIKESSCATTERED
+	waitmessage B_WAIT_TIME_LONG
+BattleScript_SharpScalesRet:
+	copybyte sBATTLER, gBattlerTarget
+	copybyte gBattlerTarget, gBattlerAttacker
+	copybyte gBattlerAttacker, sBATTLER
+	return
+
 BattleScript_PrimordialShardsActivates::
 	call BattleScript_AbilityPopUp
 	pause B_WAIT_TIME_SHORT
@@ -7566,6 +7578,32 @@ BattleScript_ActivateWeatherAbilities_Loop:
 	restoreattacker
 	restoretarget
 	return
+
+Battlescript_CorrosiveOdorActivates::
+	savetarget
+	call BattleScript_AbilityPopUp
+	printstring STRINGID_CORROSIVEODOR
+	waitmessage B_WAIT_TIME_LONG
+	setbyte gBattlerTarget, 0
+Battlescript_CorrosiveOdorLoop:
+	jumpifabsent BS_TARGET, Battlescript_CorrosiveOdorIncrement
+	jumpifnoitem BS_TARGET, Battlescript_CorrosiveOdorIncrement
+	jumpifcantloseitem BS_TARGET, Battlescript_CorrosiveOdorIncrement
+Battlescript_CorrosiveOdorEffect:
+	copybyte sBATTLER, gBattlerAttacker
+	setlastuseditem BS_TARGET
+	removeitem BS_TARGET
+	printstring STRINGID_PKMNITEMMELTED
+	waitmessage B_WAIT_TIME_LONG
+Battlescript_CorrosiveOdorIncrement:
+	addbyte gBattlerTarget, 1
+	jumpifbytenotequal gBattlerTarget, gBattlersCount, Battlescript_CorrosiveOdorLoop
+	copybyte sBATTLER, gBattlerAttacker
+	destroyabilitypopup
+	restoretarget
+	restoreattacker
+	pause B_WAIT_TIME_MED
+	end3
 
 BattleScript_TryIntimidateHoldEffects:
 	itemstatchangeeffects BS_TARGET

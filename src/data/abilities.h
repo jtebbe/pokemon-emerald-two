@@ -2639,4 +2639,25 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Bypassses immune and resist."),
         .aiRating = 9,
     },
+
+    [ABILITY_CORROSIVE_ODOR] =
+    {
+        .name = _("Corrosive Odor"),
+        .description = COMPOUND_STRING("Destroys most items."),
+        .aiRating = 2,
+    },
+
+    [ABILITY_TEN_STEPS_AHEAD] =
+    {
+        .name = _("Ten Steps Ahead"),
+        .description = COMPOUND_STRING("Gets Psychic priority."),
+        .aiRating = 3,
+    },
+
+    [ABILITY_SHARP_SCALES] =
+    {
+        .name = _("Sharp Scales"),
+        .description = COMPOUND_STRING("Sets spikes when hit."),
+        .aiRating = 6,
+    },
 };

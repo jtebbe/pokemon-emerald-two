@@ -133,12 +133,25 @@ DewfordTown_Gym_EventScript_StopCountingTrainers::
 	return
 
 DewfordTown_Gym_EventScript_Brawly::
+	goto_if_set FLAG_BRAWLY_REMATCH_COMPLETE, DewfordTown_Gym_EventScript_BrawlyPostRematchJorts
+	goto_if_set FLAG_IS_CHAMPION, DewfordTown_Gym_EventScript_BrawlyRematchJorts
 	trainerbattle_single TRAINER_BRAWLY_1, DewfordTown_Gym_Text_BrawlyIntro, DewfordTown_Gym_Text_BrawlyDefeat, DewfordTown_Gym_EventScript_BrawlyDefeated, NO_MUSIC
 	specialvar VAR_RESULT, ShouldTryRematchBattle
 	goto_if_eq VAR_RESULT, TRUE, DewfordTown_Gym_EventScript_BrawlyRematch
 	goto_if_unset FLAG_RECEIVED_TM_BULK_UP, DewfordTown_Gym_EventScript_GiveBulkUp2
 	msgbox DewfordTown_Gym_Text_BrawlyPostBattle, MSGBOX_DEFAULT
 	release
+	end
+
+DewfordTown_Gym_EventScript_BrawlyRematchJorts::
+	msgbox DewfordTown_Gym_Text_BrawlyPreRematch, MSGBOX_DEFAULT
+	trainerbattle_no_intro TRAINER_BRAWLY_2, DewfordTown_Gym_Text_BrawlyRematchDefeat
+	setflag FLAG_BRAWLY_REMATCH_COMPLETE
+	goto DewfordTown_Gym_EventScript_BrawlyPostRematchJorts
+	end
+
+DewfordTown_Gym_EventScript_BrawlyPostRematchJorts::
+	msgbox DewfordTown_Gym_Text_BrawlyPostRematch, MSGBOX_AUTOCLOSE
 	end
 
 DewfordTown_Gym_EventScript_BrawlyDefeated::

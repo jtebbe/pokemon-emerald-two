@@ -18,12 +18,25 @@ FortreeCity_Gym_EventScript_InitRotatingGates::
 	end
 
 FortreeCity_Gym_EventScript_Winona::
+	goto_if_set FLAG_WINONA_REMATCH_COMPLETE, FortreeCity_Gym_EventScript_WinonaPostRematchJorts
+	goto_if_set FLAG_IS_CHAMPION, FortreeCity_Gym_EventScript_WinonaRematchJorts
 	trainerbattle_single TRAINER_WINONA_1, FortreeCity_Gym_Text_WinonaIntro, FortreeCity_Gym_Text_WinonaDefeat, FortreeCity_Gym_EventScript_WinonaDefeated, NO_MUSIC
 	specialvar VAR_RESULT, ShouldTryRematchBattle
 	goto_if_eq VAR_RESULT, TRUE, FortreeCity_Gym_EventScript_WinonaRematch
 	goto_if_unset FLAG_RECEIVED_TM_AERIAL_ACE, FortreeCity_Gym_EventScript_GiveAerialAce2
 	msgbox FortreeCity_Gym_Text_WinonaPostBattle, MSGBOX_DEFAULT
 	release
+	end
+
+FortreeCity_Gym_EventScript_WinonaRematchJorts::
+	msgbox FortreeCity_Gym_Text_WinonaPreRematch, MSGBOX_DEFAULT
+	trainerbattle_no_intro TRAINER_WINONA_2, FortreeCity_Gym_Text_WinonaRematchDefeat
+	setflag FLAG_WINONA_REMATCH_COMPLETE
+	goto FortreeCity_Gym_EventScript_WinonaPostRematchJorts
+	end
+
+FortreeCity_Gym_EventScript_WinonaPostRematchJorts::
+	msgbox FortreeCity_Gym_Text_WinonaPostRematch, MSGBOX_AUTOCLOSE
 	end
 
 FortreeCity_Gym_EventScript_WinonaDefeated::

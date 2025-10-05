@@ -371,6 +371,8 @@ PetalburgCity_Gym_EventScript_GiveEnigmaBerry::
 	end
 
 PetalburgCity_Gym_EventScript_NormanBattle::
+	goto_if_set FLAG_NORMAN_REMATCH_COMPLETE, PetalburgCity_Gym_EventScript_NormanPostRematchJorts
+	goto_if_set FLAG_IS_CHAMPION, PetalburgCity_Gym_EventScript_NormanRematchJorts
 	msgbox PetalburgCity_Gym_Text_NormanIntro, MSGBOX_DEFAULT
 	trainerbattle_no_intro TRAINER_NORMAN_1, PetalburgCity_Gym_Text_NormanDefeat
 	message PetalburgCity_Gym_Text_ReceivedBalanceBadge
@@ -406,6 +408,17 @@ PetalburgCity_Gym_EventScript_NormanBattle::
 	case DIR_NORTH, PetalburgCity_Gym_EventScript_WallysDadArrivesNorth
 	case DIR_WEST, PetalburgCity_Gym_EventScript_WallysDadArrivesWest
 	case DIR_EAST, PetalburgCity_Gym_EventScript_WallysDadArrivesEast
+	end
+
+PetalburgCity_Gym_EventScript_NormanRematchJorts::
+	msgbox PetalburgCity_Gym_Text_NormanPreRematch, MSGBOX_DEFAULT
+	trainerbattle_no_intro TRAINER_NORMAN_2, PetalburgCity_Gym_Text_NormanRematchDefeat
+	setflag FLAG_NORMAN_REMATCH_COMPLETE
+	goto PetalburgCity_Gym_EventScript_NormanPostRematchJorts
+	end
+
+PetalburgCity_Gym_EventScript_NormanPostRematchJorts::
+	msgbox PetalburgCity_Gym_Text_NormanPostRematch, MSGBOX_AUTOCLOSE
 	end
 
 PetalburgCity_Gym_EventScript_GiveFacade::

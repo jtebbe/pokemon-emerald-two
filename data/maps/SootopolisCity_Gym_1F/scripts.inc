@@ -80,6 +80,8 @@ SootopolisCity_Gym_1F_Movement_FallThroughIce:
 	step_end
 
 SootopolisCity_Gym_1F_EventScript_Juan::
+	goto_if_set FLAG_JUAN_REMATCH_COMPLETE, SootopolisCity_Gym_1F_EventScript_JuanPostRematchJorts
+	goto_if_set FLAG_IS_CHAMPION, SootopolisCity_Gym_1F_EventScript_JuanRematchJorts
 	trainerbattle_single TRAINER_JUAN_1, SootopolisCity_Gym_1F_Text_JuanIntro, SootopolisCity_Gym_1F_Text_JuanDefeat, SootopolisCity_Gym_1F_EventScript_JuanDefeated, NO_MUSIC
 	specialvar VAR_RESULT, ShouldTryRematchBattle
 	goto_if_eq VAR_RESULT, TRUE, SootopolisCity_Gym_1F_EventScript_JuanRematch
@@ -87,6 +89,17 @@ SootopolisCity_Gym_1F_EventScript_Juan::
 	goto_if_unset FLAG_BADGE06_GET, SootopolisCity_Gym_1F_EventScript_GoGetFortreeBadge
 	msgbox SootopolisCity_Gym_1F_Text_JuanPostBattle, MSGBOX_DEFAULT
 	release
+	end
+
+SootopolisCity_Gym_1F_EventScript_JuanRematchJorts::
+	msgbox SootopolisCity_Gym_1F_Text_JuanPreRematch, MSGBOX_DEFAULT
+	trainerbattle_no_intro TRAINER_JUAN_2, SootopolisCity_Gym_1F_Text_JuanRematchDefeat
+	setflag FLAG_JUAN_REMATCH_COMPLETE
+	goto SootopolisCity_Gym_1F_EventScript_JuanPostRematchJorts
+	end
+
+SootopolisCity_Gym_1F_EventScript_JuanPostRematchJorts::
+	msgbox SootopolisCity_Gym_1F_Text_JuanPostRematch, MSGBOX_AUTOCLOSE
 	end
 
 SootopolisCity_Gym_1F_EventScript_JuanDefeated::
@@ -113,7 +126,7 @@ SootopolisCity_Gym_1F_EventScript_JuanDefeated::
 	waitfanfare
 	closemessage
 	delay 30
-	msgbox SootopolisCity_Gym_Text_LevelCapUp, MSGBOX_AUTOCLOSE
+	msgbox SootopolisCity_Gym_1F_Text_LevelCapUp, MSGBOX_AUTOCLOSE
 	pokevialincreasesize
 	setflag FLAG_ENABLE_JUAN_MATCH_CALL
 	release
@@ -321,7 +334,7 @@ SootopolisCity_Gym_1F_Text_JuanRematchNeedTwoMons:
 	.string "I wish that you would return with\n"
 	.string "two, perhaps more, POKéMON, please.$"
 
-SootopolisCity_Gym_Text_LevelCapUp:
+SootopolisCity_Gym_1F_Text_LevelCapUp:
 	.string "The level cap has been removed.\p"
 	.string "Also, the number of charges in\n"
 	.string "your pokevial has been increased.$"

@@ -17040,6 +17040,15 @@ void BS_JumpIfNotBerry(void)
         gBattlescriptCurrInstr = cmd->jumpInstr;
 }
 
+void BS_JumpIfNoItem(void)
+{
+    NATIVE_ARGS(u8 battler, const u8 *jumpInstr);
+    if (gBattleMons[GetBattlerForBattleScript(cmd->battler)].item == ITEM_NONE)
+        gBattlescriptCurrInstr = cmd->jumpInstr;
+    else
+        gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
 void BS_GravityOnAirborneMons(void)
 {
     NATIVE_ARGS();

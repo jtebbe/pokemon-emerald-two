@@ -4135,6 +4135,16 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 effect++;
             }
             break;
+        case ABILITY_CORROSIVE_ODOR:
+            if (!gSpecialStatuses[battler].switchInAbilityDone)
+            {
+                SaveBattlerAttacker(gBattlerAttacker);
+                gBattlerAttacker = battler;
+                gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                BattleScriptPushCursorAndCallback(Battlescript_CorrosiveOdorActivates);
+                effect++;
+            }
+            break;
         case ABILITY_CLOUD_NINE:
         case ABILITY_AIR_LOCK:
             if (!gSpecialStatuses[battler].switchInAbilityDone)
@@ -5228,6 +5238,17 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 effect++;
             }
             break;
+        case ABILITY_SHARP_SCALES:
+            if (!(gBattleStruct->moveResultFlags[gBattlerTarget] & MOVE_RESULT_NO_EFFECT)
+             && !gProtectStructs[gBattlerAttacker].confusionSelfDmg
+             && IsBattlerTurnDamaged(gBattlerTarget)
+             && IsBattleMovePhysical(gCurrentMove)
+            && (gSideTimers[GetBattlerSide(gBattlerAttacker)].spikesAmount != 3))
+            {
+                SWAP(gBattlerAttacker, gBattlerTarget, i);
+                BattleScriptCall(BattleScript_SharpScalesActivates);
+                effect++;
+            }
         }
         break;
     case ABILITYEFFECT_MOVE_END_ATTACKER: // Same as above, but for attacker

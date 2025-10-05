@@ -85,6 +85,32 @@ BattleFrontier_OutsideWest_EventScript_BattlePikeSign::
 	msgbox BattleFrontier_OutsideWest_Text_BattlePikeSign, MSGBOX_SIGN
 	end
 
+BattleFrontier_OutsideWest_EventScript_ScottCheck::
+	goto_if_unset FLAG_ROXANNE_REMATCH_COMPLETE, BattleFrontier_OutsideWest_EventScript_ScottBlock
+	goto_if_unset FLAG_BRAWLY_REMATCH_COMPLETE, BattleFrontier_OutsideWest_EventScript_ScottBlock
+	goto_if_unset FLAG_WATTSON_REMATCH_COMPLETE, BattleFrontier_OutsideWest_EventScript_ScottBlock
+	goto_if_unset FLAG_FLANNERY_REMATCH_COMPLETE, BattleFrontier_OutsideWest_EventScript_ScottBlock
+	goto_if_unset FLAG_NORMAN_REMATCH_COMPLETE, BattleFrontier_OutsideWest_EventScript_ScottBlock
+	goto_if_unset FLAG_WINONA_REMATCH_COMPLETE, BattleFrontier_OutsideWest_EventScript_ScottBlock
+	goto_if_unset FLAG_TATE_AND_LIZA_REMATCH_COMPLETE, BattleFrontier_OutsideWest_EventScript_ScottBlock
+	goto_if_unset FLAG_JUAN_REMATCH_COMPLETE, BattleFrontier_OutsideWest_EventScript_ScottBlock
+	goto_if_unset FLAG_SIDNEY_REMATCH_COMPLETE, BattleFrontier_OutsideWest_EventScript_ScottBlock
+	goto_if_unset FLAG_PHOEBE_REMATCH_COMPLETE, BattleFrontier_OutsideWest_EventScript_ScottBlock
+	goto_if_unset FLAG_GLACIA_REMATCH_COMPLETE, BattleFrontier_OutsideWest_EventScript_ScottBlock
+	goto_if_unset FLAG_DRAKE_REMATCH_COMPLETE, BattleFrontier_OutsideWest_EventScript_ScottBlock
+	goto_if_unset FLAG_WALLACE_REMATCH_COMPLETE, BattleFrontier_OutsideWest_EventScript_ScottBlock
+	msgbox BattleFrontier_OutsideWest_Text_FinishedRematches, MSGBOX_NPC
+	fadescreen FADE_TO_BLACK
+	delay 4
+	playse SE_EXIT
+	waitse
+	removeobject LOCALID_SCOTT_BLOCK
+	fadescreen FADE_FROM_BLACK
+	end
+BattleFrontier_OutsideWest_EventScript_ScottBlock::
+	msgbox BattleFrontier_OutsideWest_Text_FinishRematches, MSGBOX_NPC
+	end
+
 @ Unused. Of note, Battle Tower is in the East section in the final release
 BattleFrontier_OutsideWest_EventScript_UnusedNPC1::
 	msgbox BattleFrontier_OutsideWest_Text_ThisIsBattleTower, MSGBOX_NPC
@@ -297,6 +323,28 @@ BattleFrontier_OutsideWest_EventScript_Man4::
 BattleFrontier_OutsideWest_EventScript_PokefanF::
 	msgbox BattleFrontier_OutsideWest_Text_MonWithLongTailInFrontier, MSGBOX_NPC
 	end
+
+BattleFrontier_OutsideWest_Text_FinishRematches:
+	.string "Heya champ! Welcome to my little\n"
+	.string "passion project, the battle frontier!\p"
+	.string "Here, the strongest, smartest of\n"
+	.string "pokemon and trainers gather to see\l"
+	.string "who comes out on top.\p"
+	.string "While I'd love to see you get your\n"
+	.string "feet wet, there's one more test\l"
+	.string "you need to finish first!\p"
+	.string "The gym leaders and elite four you\n"
+	.string "trounced before are all ready to\l"
+	.string "fight you once more.\p"
+	.string "Defeat them and return, and the full\n"
+	.string "frontier will be yours to enjoy!$"
+
+BattleFrontier_OutsideWest_Text_FinishedRematches:
+	.string "Wow, not only did you make champ\n"
+	.string "on your first go, you went and \l"
+	.string "rebeat the gyms and elite four?\p"
+	.string "Color me impressed kid! Come on\n"
+	.string "in kid, you deserve it!$"
 
 BattleFrontier_OutsideWest_Text_BattleDomeSign:
 	.string "This is the BATTLE DOME!\n"

@@ -2025,6 +2025,12 @@
 	.4byte \jumpInstr
 	.endm
 
+	.macro jumpifnoitem battler:req, jumpInstr:req
+	callnative BS_JumpIfNoItem
+	.byte \battler
+	.4byte \jumpInstr
+	.endm
+
 	.macro gravityonairbornemons
 	callnative BS_GravityOnAirborneMons
 	.endm

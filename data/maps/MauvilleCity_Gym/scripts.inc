@@ -74,6 +74,8 @@ MauvilleCity_Gym_EventScript_DeactivatePuzzle::
 	end
 
 MauvilleCity_Gym_EventScript_Wattson::
+	goto_if_set FLAG_WATTSON_REMATCH_COMPLETE, MauvilleCity_Gym_EventScript_WattsonPostRematchJorts
+	goto_if_set FLAG_IS_CHAMPION, MauvilleCity_Gym_EventScript_WattsonRematchJorts
 	trainerbattle_single TRAINER_WATTSON_1, MauvilleCity_Gym_Text_WattsonIntro, MauvilleCity_Gym_Text_WattsonDefeat, MauvilleCity_Gym_EventScript_WattsonDefeated, NO_MUSIC
 	specialvar VAR_RESULT, ShouldTryRematchBattle
 	goto_if_eq VAR_RESULT, TRUE, MauvilleCity_Gym_EventScript_WattsonRematch
@@ -81,6 +83,17 @@ MauvilleCity_Gym_EventScript_Wattson::
 	goto_if_eq VAR_NEW_MAUVILLE_STATE, 2, MauvilleCity_Gym_EventScript_CompletedNewMauville
 	msgbox MauvilleCity_Gym_Text_WattsonPostBattle, MSGBOX_DEFAULT
 	release
+	end
+
+MauvilleCity_Gym_EventScript_WattsonRematchJorts::
+	msgbox MauvilleCity_Gym_Text_WattsonPreRematch, MSGBOX_DEFAULT
+	trainerbattle_no_intro TRAINER_WATTSON_2, MauvilleCity_Gym_Text_WattsonRematchDefeat
+	setflag FLAG_WATTSON_REMATCH_COMPLETE
+	goto MauvilleCity_Gym_EventScript_WattsonPostRematchJorts
+	end
+
+MauvilleCity_Gym_EventScript_WattsonPostRematchJorts::
+	msgbox MauvilleCity_Gym_Text_WattsonPostRematch, MSGBOX_AUTOCLOSE
 	end
 
 MauvilleCity_Gym_EventScript_WattsonDefeated::

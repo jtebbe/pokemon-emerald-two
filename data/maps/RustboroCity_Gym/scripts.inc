@@ -2,6 +2,8 @@ RustboroCity_Gym_MapScripts::
 	.byte 0
 
 RustboroCity_Gym_EventScript_Roxanne::
+	goto_if_set FLAG_ROXANNE_REMATCH_COMPLETE, RustboroCity_Gym_EventScript_RoxannePostRematchJorts
+	goto_if_set FLAG_IS_CHAMPION, RustboroCity_Gym_EventScript_RoxanneRematchJorts
 	trainerbattle_double TRAINER_ROXANNE_1, RustboroCity_Gym_Text_RoxanneIntro, RustboroCity_Gym_Text_RoxanneDefeat, RustboroCity_Gym_Text_NotEnoughMons, RustboroCity_Gym_EventScript_RoxanneDefeated, NO_MUSIC
 	specialvar VAR_RESULT, ShouldTryRematchBattle
 	goto_if_eq VAR_RESULT, TRUE, RustboroCity_Gym_EventScript_RoxanneRematch
@@ -40,6 +42,17 @@ RustboroCity_Gym_EventScript_GiveRockTomb::
 
 RustboroCity_Gym_EventScript_RoxanneRematch::
 	trainerbattle_rematch_double TRAINER_ROXANNE_1, RustboroCity_Gym_Text_RoxannePreRematch, RustboroCity_Gym_Text_RoxanneRematchDefeat, RustboroCity_Gym_Text_RoxanneRematchNeedTwoMons
+	msgbox RustboroCity_Gym_Text_RoxannePostRematch, MSGBOX_AUTOCLOSE
+	end
+
+RustboroCity_Gym_EventScript_RoxanneRematchJorts::
+	msgbox RustboroCity_Gym_Text_RoxannePreRematch, MSGBOX_DEFAULT
+	trainerbattle_no_intro TRAINER_ROXANNE_2, RustboroCity_Gym_Text_RoxanneRematchDefeat
+	setflag FLAG_ROXANNE_REMATCH_COMPLETE
+	goto RustboroCity_Gym_EventScript_RoxannePostRematchJorts
+	end
+
+RustboroCity_Gym_EventScript_RoxannePostRematchJorts::
 	msgbox RustboroCity_Gym_Text_RoxannePostRematch, MSGBOX_AUTOCLOSE
 	end
 

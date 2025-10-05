@@ -323,7 +323,7 @@ BattleFrontier_ReceptionGate_Text_EnjoyBattleFrontier:
 
 BattleFrontier_ReceptionGate_Text_IfItIsntPlayerYouCame:
 	.string "???: Well, if it isn't {PLAYER}{KUN}!\n"
-	.string "You came out here!$"
+	.string "You made it in okay!$"
 
 BattleFrontier_ReceptionGate_Text_OhMrScottGoodDay:
 	.string "GUIDE: Oh! MR. SCOTT, sir!\n"
