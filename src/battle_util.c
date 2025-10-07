@@ -6954,6 +6954,12 @@ u32 ItemBattleEffects(enum ItemCaseId caseID, u32 battler)
                 BattleScriptPushCursorAndCallback(BattleScript_AirBaloonMsgIn);
                 RecordItemEffectBattle(battler, HOLD_EFFECT_AIR_BALLOON);
                 break;
+            case HOLD_EFFECT_BURGLARY_KIT:
+                effect = ITEM_EFFECT_OTHER;
+                gBattleScripting.battler = battler;
+                BattleScriptPushCursorAndCallback(BattleScript_BurglaryKitMsgIn);
+                RecordItemEffectBattle(battler, HOLD_EFFECT_BURGLARY_KIT);
+                break;
             case HOLD_EFFECT_STRANGE_SWORD:
                 effect = ITEM_EFFECT_OTHER;
                 gBattleScripting.battler = battler;
@@ -7864,7 +7870,8 @@ bool32 IsBattlerProtected(u32 battlerAtk, u32 battlerDef, u32 move)
      && gProtectStructs[BATTLE_PARTNER(battlerDef)].protected == PROTECT_NONE)
         return FALSE;
     
-    if (GetBattlerAbility(battlerAtk) == ABILITY_LORD_OF_SPACE) {
+    if (GetBattlerAbility(battlerAtk) == ABILITY_LORD_OF_SPACE
+        || GetBattlerHoldEffect(battlerAtk, TRUE) == HOLD_EFFECT_BURGLARY_KIT) {
         return FALSE;
     }
 

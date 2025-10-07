@@ -12127,9 +12127,9 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
     [SPECIES_LATIAS_MEGA] =
     {
         .baseHP        = 80,
-        .baseAttack    = 100,
+        .baseAttack    = 90,
         .baseDefense   = 120,
-        .baseSpeed     = 110,
+        .baseSpeed     = 120,
         .baseSpAttack  = 140,
         .baseSpDefense = 150,
         .types = MON_TYPES(TYPE_DRAGON, TYPE_PSYCHIC),
@@ -12282,9 +12282,9 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
     [SPECIES_LATIOS_MEGA] =
     {
         .baseHP        = 80,
-        .baseAttack    = 130,
-        .baseDefense   = 100,
-        .baseSpeed     = 110,
+        .baseAttack    = 90,
+        .baseDefense   = 110,
+        .baseSpeed     = 130,
         .baseSpAttack  = 160,
         .baseSpDefense = 120,
         .types = MON_TYPES(TYPE_DRAGON, TYPE_PSYCHIC),

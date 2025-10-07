@@ -902,6 +902,7 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_SENDCAUGHTMONPARTYORBOX]              = COMPOUND_STRING("Add {B_DEF_NAME} to your party?"),
     [STRINGID_PKMNSENTTOPCAFTERCATCH]               = gText_PkmnSentToPCAfterCatch,
     [STRINGID_PKMNCUTSSPATTACKWITH]                 = COMPOUND_STRING("{B_SCR_NAME_WITH_PREFIX}'s {B_SCR_ABILITY} cuts {B_DEF_NAME_WITH_PREFIX2}'s SpAtk!"),
+    [STRINGID_BURGLARYKIT]                          = COMPOUND_STRING("{B_SCR_NAME_WITH_PREFIX} is ready to break in!"),
     [STRINGID_STRANGESWORDHELD]                     = COMPOUND_STRING("{B_SCR_NAME_WITH_PREFIX} holds a strange sword..."),
     [STRINGID_STRANGESHIELDHELD]                    = COMPOUND_STRING("{B_SCR_NAME_WITH_PREFIX} holds a strange shield..."),
     [STRINGID_PKMNDYNAMAXED]                        = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} grew huge into its Dynamax form!"),

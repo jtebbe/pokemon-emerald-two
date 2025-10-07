@@ -9012,7 +9012,7 @@ Adamant Nature
 - Gunk Shot
 
 Meowscarada @ Choice Band  
-Ability: Overgrow   
+Ability: Protean   
 EVs: 252 Atk / 4 SpD / 252 Spe  
 Jolly Nature  
 - Flower Trick  
@@ -9088,7 +9088,6 @@ Class: Elite Four
 Pic: Elite Four Phoebe
 Gender: Female
 Music: Elite Four
-Battle Type: Doubles
 Mugshot: Yellow
 AI: Smart Trainer
 Party Size: 6
@@ -9104,23 +9103,21 @@ Tags: Lead / Mega
 - Protect  
 - Destiny Bond
 
-Pecharunt @ Colbur Berry  
-Ability: Poison Puppeteer   
-EVs: 252 HP / 4 SpA / 252 SpD  
-Calm Nature  
-IVs: 0 Atk  
+Gourgeist @ Bright Powder  
+Ability: Hallow's End   
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
 Tags: Lead
-- Poison Gas  
-- Venoshock  
-- Recover  
-- Shadow Ball
+- Phantom Force  
+- Seed Bomb  
+- Protect  
+- Trick Room
 
 Zoroark-Hisui @ Focus Sash  
 Ability: Illusion    
 EVs: 4 Def / 252 SpA / 252 Spe  
 Timid Nature  
 IVs: 0 Atk 
-Tags: Lead 
 - Will-O-Wisp  
 - Protect  
 - Shadow Ball  
@@ -9131,7 +9128,6 @@ Ability: Prankster
 EVs: 248 HP / 252 Def / 8 SpD  
 Bold Nature  
 IVs: 0 Atk  
-Tags: Lead
 - Thunder Wave  
 - Reflect  
 - Light Screen  
@@ -9204,6 +9200,15 @@ IVs: 0 Atk
 - Fire Blast  
 - Dark Pulse  
 - Psyshock
+
+Marshadow @ Choice Band  
+Ability: Technician   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Close Combat  
+- Spectral Thief  
+- Iron Head  
+- Rock Slide
 
 Flutter Mane @ Booster Energy  
 Ability: Protosynthesis  
@@ -9293,6 +9298,15 @@ Tags: Lead
 - Protect  
 - Hurricane
 
+Arctozolt @ Air Balloon  
+Ability: Slush Rush  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Adamant Nature  
+- Bolt Beak  
+- Icicle Crash  
+- Protect  
+- Rock Slide
+
 Walrein @ Assault Vest  
 Ability: Oblivious   
 EVs: 248 HP / 252 Atk / 8 SpD  
@@ -9358,6 +9372,15 @@ IVs: 0 Spe
 - Gyro Ball  
 - High Horsepower  
 - Rock Slide
+
+Chien-Pao @ Life Orb  
+Ability: Sword of Ruin   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Protect  
+- Icicle Crash  
+- Sucker Punch  
+- Sacred Sword
 
 Dragonite @ Sitrus Berry  
 Ability: Inner Focus  
@@ -9754,7 +9777,7 @@ Tags: Lead
 - Fire Punch  
 - Ice Punch  
 - Thunder Punch  
-- Power-Up Punch
+- Payback
 
 Machoke @ Eviolite  
 Ability: No Guard  
@@ -9775,7 +9798,7 @@ Tags: Lead
 - Fake Out  
 - Mach Punch  
 - Thunder Punch  
-- Protect
+- Lash Out
 
 Throh (M) @ Leftovers  
 Ability: Guts  
@@ -9837,10 +9860,10 @@ Falinks @ Sitrus Berry
 Ability: Battle Armor   
 EVs: 252 HP / 252 Atk / 4 SpD  
 Adamant Nature  
-- Bulk Up  
-- First Impression  
+- No Retreat  
+- Knock Off  
 - Brick Break  
-- Protect
+- Rock Tomb
 
 Primeape @ Sitrus Berry  
 Ability: Vital Spirit  
@@ -9859,10 +9882,10 @@ Jolly Nature
 Tags: Tera
 - Accelerock  
 - Brick Break  
-- Protect  
+- Sucker Punch  
 - Stomping Tantrum
 
-Electabuzz @ Focus Sash  
+Electabuzz @ Roseli Berry  
 Ability: Static  
 Tera Type: Fighting  
 EVs: 252 Atk / 4 SpD / 252 Spe  
@@ -9871,7 +9894,7 @@ Tags: Tera
 - Bulk Up  
 - Low Sweep  
 - Thunder Punch  
-- Dual Chop
+- Thief
 
 === TRAINER_WATTSON_1 ===
 Name: WATTSON
@@ -9887,7 +9910,7 @@ Pool Rules: Doubles
 
 Pincurchin @ Terrain Extender  
 Ability: Electric Surge  
-EVs: 252 HP / 4 Atk / 252 Def  
+EVs: 252 HP / 252 Atk / 4 Def  
 Relaxed Nature  
 Tags: Lead
 - Protect  
@@ -9917,22 +9940,22 @@ Tags: Lead
 - Flame Burst  
 - Protect
 
-Eelektrik @ Eviolite  
+Eelektrik @ Assault Vest  
 Ability: Levitate  
 EVs: 252 HP / 252 Atk / 4 SpD  
 Adamant Nature  
-- Coil  
+- Aqua Tail  
 - Wild Charge  
-- Rest  
-- Sleep Talk
+- Flash Cannon  
+- Lunge
 
-Raichu @ Life Orb
-Ability: Static   
+Raichu-Alola @ Life Orb
+Ability: Surge Surfer   
 EVs: 4 Atk / 252 SpA / 252 Spe  
 Hasty Nature  
-- Fake Out  
+- Grass Knot  
 - Shock Wave  
-- Fake Tears  
+- Psychic Noise  
 - Alluring Voice
 
 Flaaffy @ Eviolite  
@@ -10212,14 +10235,14 @@ Tags: Lead
 - Drain Punch  
 - Play Rough
 
-Zoroark-Hisui @ Focus Sash  
+Zoroark-Hisui @ Life Orb  
 Ability: Illusion   
 EVs: 252 SpA / 4 SpD / 252 Spe  
 Timid Nature  
 IVs: 0 Atk  
 - Shadow Ball  
 - Hyper Voice  
-- Flamethrower  
+- Protect  
 - Psychic
 
 Drampa @ Leftovers  
@@ -10232,7 +10255,7 @@ IVs: 0 Atk
 - Protect  
 - Glare
 
-Fearow @ Scope Lens  
+Fearow @ Focus Sash  
 Ability: Sniper   
 EVs: 252 Atk / 4 SpD / 252 Spe  
 Jolly Nature  
@@ -10260,14 +10283,14 @@ IVs: 0 Atk
 - Protect  
 - Tailwind
 
-Spinda @ Chople Berry  
-Ability: Prankster  
-EVs: 252 HP / 4 Atk / 252 SpD  
-Careful Nature  
-- Teeter Dance  
-- Disable  
-- Encore  
-- Dizzy Punch
+Spinda @ Assault Vest  
+Ability: Ragebaiter  
+EVs: 252 HP / 252 Def / 4 SpD  
+Impish Nature  
+- Dizzy Punch  
+- Fake Out  
+- Sucker Punch  
+- Seismic Toss
 
 Audino @ Audinite  
 Ability: Regenerator   
@@ -10396,6 +10419,15 @@ Adamant Nature
 - Brave Bird  
 - Protect
 
+Gligar @ Eviolite  
+Ability: Hyper Cutter    
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+- Detect  
+- Tailwind  
+- Knock Off  
+- High Horsepower
+
 Swellow @ Flame Orb  
 Ability: Guts    
 EVs: 252 Atk / 4 SpD / 252 Spe  
@@ -10444,12 +10476,31 @@ Adamant Nature
 
 Fearow @ Heavy-Duty Boots  
 Ability: Intimidate    
-EVs: 252 Atk / 4 SpD / 252 Spe  
+EVs: 252 HP / 252 Def / 4 SpD  
 Jolly Nature  
 - Defog  
 - Tailwind  
 - U-turn  
 - Drill Peck
+
+Corviknight @ Leftovers  
+Ability: Mirror Armor  
+EVs: 252 HP / 4 Def / 252 SpD  
+Careful Nature  
+- Bulk Up  
+- Roost  
+- Brave Bird  
+- Iron Head
+
+Skarmory @ Wacan Berry  
+Ability: Keen Eye  
+EVs: 252 HP / 232 SpD / 24 Spe  
+Calm Nature  
+IVs: 0 Atk  
+- Tailwind  
+- Body Press  
+- Roost  
+- Iron Defense
 
 Decidueye @ Clear Amulet  
 Ability: Ranger  
@@ -10534,8 +10585,7 @@ Lunatone @ Leftovers
 Ability: Gravitation  
 EVs: 252 HP / 252 Def / 4 SpD  
 Calm Nature  
-IVs: 0 Atk 
-Tags: Lead 
+IVs: 0 Atk  
 - Cosmic Power  
 - Stored Power  
 - Hypnosis  
@@ -10545,7 +10595,6 @@ Solrock @ Leftovers
 Ability: Gravitation
 EVs: 252 HP / 252 Def / 4 SpD  
 Impish Nature  
-Tags: Lead
 - Rock Slide  
 - Hypnosis  
 - Protect  
@@ -10557,7 +10606,7 @@ EVs: 252 HP / 252 Def / 4 SpD
 Calm Nature  
 IVs: 0 Atk  
 - Protect  
-- Expanding Force  
+- Stored Power  
 - Calm Mind  
 - Dazzling Gleam
 
@@ -10618,22 +10667,11 @@ Ability: Synchronize
 EVs: 252 SpA / 4 SpD / 252 Spe  
 Timid Nature  
 IVs: 0 Atk  
-Tags: Mega
+Tags: Mega / Lead
 - Protect  
 - Expanding Force  
-- Psyshock  
+- Focus Blast  
 - Dazzling Gleam
-
-Gardevoir @ Gardevoirite  
-Ability: Synchronize    
-EVs: 252 HP / 252 SpA / 4 SpD  
-Quiet Nature  
-IVs: 0 Atk / 0 Spe  
-Tags: Mega
-- Moonblast  
-- Hyper Voice  
-- Expanding Force  
-- Protect
 
 === TRAINER_JUAN_1 ===
 Name: JUAN
@@ -10660,13 +10698,13 @@ Tags: Lead
 
 Pelipper @ Damp Rock  
 Ability: Drizzle   
-EVs: 248 HP / 252 Def / 8 SpA  
+EVs: 248 HP / 4 Def / 252 SpD  
 Bold Nature  
 Tags: Lead
 - Hurricane  
 - Weather Ball  
 - Protect  
-- U-turn
+- Tailwind
 
 Milotic @ Adrenaline Orb  
 Ability: Competitive  
@@ -13063,12 +13101,12 @@ Tags: Lead
 
 Pelipper @ Damp Rock  
 Ability: Drizzle   
-EVs: 248 HP / 252 Def / 8 SpA  
+EVs: 248 HP / 4 Def / 252 SpD  
 Bold Nature  
 IVs: 0 Atk  
 Tags: Lead
 - Weather Ball  
-- Hurricane  
+- Tailwind  
 - Protect  
 - Helping Hand
 
@@ -13110,6 +13148,35 @@ IVs: 0 Atk
 - Snarl  
 - Scald  
 - Calm Mind
+
+Ogerpon-Wellspring (F) @ Wellspring Mask  
+Ability: Water Absorb  
+Tera Type: Water
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+Tags: Tera
+- Power Whip  
+- Ivy Cudgel  
+- Spiky Shield  
+- Follow Me
+
+Urshifu-Rapid-Strike @ Mystic Water  
+Ability: Unseen Fist  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Surging Strikes  
+- Close Combat  
+- Protect  
+- Poison Jab
+
+Dondozo @ Assault Vest  
+Ability: Unaware  
+EVs: 252 HP / 4 Atk / 252 SpD  
+Careful Nature  
+- Fissure  
+- Wave Crash  
+- Heavy Slam  
+- Rock Slide
 
 Basculegion (M) @ Choice Band  
 Ability: Swift Swim  

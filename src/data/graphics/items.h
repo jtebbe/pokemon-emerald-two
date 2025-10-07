@@ -807,6 +807,9 @@ const u32 gItemIcon_RustedSword[] = INCBIN_U32("graphics/items/icons/rusted_swor
 const u32 gItemIcon_RustedShield[] = INCBIN_U32("graphics/items/icons/rusted_shield.4bpp.smol");
 const u16 gItemIconPalette_RustedWeapons[] = INCBIN_U16("graphics/items/icon_palettes/rusted_weapons.gbapal");
 
+const u32 gItemIcon_BurglaryKit[] = INCBIN_U32("graphics/items/icons/burglars_kit.4bpp.smol");
+const u16 gItemIconPalette_BurglaryKit[] = INCBIN_U16("graphics/items/icon_palettes/burglars_kit.gbapal");
+
 // Colored Orbs
 
 const u32 gItemIcon_RedOrb[] = INCBIN_U32("graphics/items/icons/red_orb.4bpp.smol");

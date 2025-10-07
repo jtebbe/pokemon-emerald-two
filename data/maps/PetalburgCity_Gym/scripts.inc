@@ -113,6 +113,8 @@ PetalburgCity_Gym_EventScript_Norman::
 	case 6, PetalburgCity_Gym_EventScript_NormanBattle
 	case 7, PetalburgCity_Gym_EventScript_NormanPostBattle
 	case 8, PetalburgCity_Gym_EventScript_NormanRematch
+	goto_if_set FLAG_NORMAN_REMATCH_COMPLETE, PetalburgCity_Gym_EventScript_NormanPostRematchJorts
+	goto_if_set FLAG_IS_CHAMPION, PetalburgCity_Gym_EventScript_NormanRematchJorts
 	msgbox PetalburgCity_Gym_Text_DadYoureHereWithYourPokemon, MSGBOX_DEFAULT
 	closemessage
 	switch VAR_FACING
@@ -329,6 +331,8 @@ PetalburgCity_Gym_EventScript_NormanFaceDoorEast::
 	return
 
 PetalburgCity_Gym_EventScript_NormanPostBattle::
+	goto_if_set FLAG_NORMAN_REMATCH_COMPLETE, PetalburgCity_Gym_EventScript_NormanPostRematchJorts
+	goto_if_set FLAG_IS_CHAMPION, PetalburgCity_Gym_EventScript_NormanRematchJorts
 	call PetalburgCity_Gym_EventScript_ShouldGiveEnigmaBerry
 	goto_if_eq VAR_RESULT, TRUE, PetalburgCity_Gym_EventScript_GiveEnigmaBerry
 	goto_if_unset FLAG_RECEIVED_TM_FACADE, PetalburgCity_Gym_EventScript_GiveFacade2
@@ -343,6 +347,8 @@ PetalburgCity_Gym_EventScript_GiveFacade2::
 	end
 
 PetalburgCity_Gym_EventScript_NormanRematch::
+	goto_if_set FLAG_NORMAN_REMATCH_COMPLETE, PetalburgCity_Gym_EventScript_NormanPostRematchJorts
+	goto_if_set FLAG_IS_CHAMPION, PetalburgCity_Gym_EventScript_NormanRematchJorts
 	trainerbattle_rematch_double TRAINER_NORMAN_1, PetalburgCity_Gym_Text_NormanPreRematch, PetalburgCity_Gym_Text_NormanRematchDefeat, PetalburgCity_Gym_Text_NormanRematchNeedTwoMons
 	msgbox PetalburgCity_Gym_Text_NormanPostRematch, MSGBOX_AUTOCLOSE
 	end

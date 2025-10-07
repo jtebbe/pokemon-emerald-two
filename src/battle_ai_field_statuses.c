@@ -454,6 +454,11 @@ static enum FieldEffectOutcome BenefitsFromTrickRoom(u32 battler)
         }
     }
 
+    //If dialga can set up nigh-infinite room, we likely want it to be able to do that
+    if (GetBattlerAbility(battler) == ABILITY_TEMPORAL_ASSERTION) {
+        return FIELD_EFFECT_POSITIVE;
+    }
+
     // If we are faster or tie, we don't want trick room.
     if ((gAiLogicData->speedStats[battler] >= gAiLogicData->speedStats[FOE(battler)]) || (gAiLogicData->speedStats[battler] >= gAiLogicData->speedStats[BATTLE_PARTNER(FOE(battler))]))
         return FIELD_EFFECT_NEGATIVE;

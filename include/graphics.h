@@ -898,6 +898,8 @@ extern const u16 gItemIconPalette_FairyMemory[];
 extern const u32 gItemIcon_RustedSword[];
 extern const u32 gItemIcon_RustedShield[];
 extern const u16 gItemIconPalette_RustedWeapons[];
+extern const u32 gItemIcon_BurglaryKit[];
+extern const u16 gItemIconPalette_BurglaryKit[];
 // Colored Orbs
 extern const u32 gItemIcon_RedOrb[];
 extern const u16 gItemIconPalette_RedOrb[];

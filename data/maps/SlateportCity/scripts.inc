@@ -149,6 +149,12 @@ SlateportCity_Pokemart_EnergyGuru:
 	.2byte ITEM_N_LUNARIZER
 	.2byte ITEM_DNA_SPLICERS
 	.2byte ITEM_REINS_OF_UNITY
+	.2byte ITEM_RED_ORB
+	.2byte ITEM_BLUE_ORB
+	.2byte ITEM_RUSTED_SHIELD
+	.2byte ITEM_RUSTED_SWORD
+	.2byte ITEM_SCROLL_OF_DARKNESS
+	.2byte ITEM_SCROLL_OF_WATERS
 	pokemartlistend
 
 SlateportCity_EventScript_ComeBackWithMegaRing::
@@ -579,6 +585,7 @@ SlateportCity_EventScript_PowerTMClerk::
 
 	.align 2
 SlateportCity_Pokemart_PowerTMs:
+	.2byte ITEM_TM_PROTECT
 	.2byte ITEM_ABILITY_CAPSULE
 	.2byte ITEM_ABILITY_PATCH
 	.2byte ITEM_SOUL_DEW

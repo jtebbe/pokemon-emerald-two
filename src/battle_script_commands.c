@@ -13608,6 +13608,8 @@ bool32 DoesSubstituteBlockMove(u32 battlerAtk, u32 battlerDef, u32 move)
 {
     if (!gBattleMons[battlerDef].volatiles.substitute)
         return FALSE;
+    else if (GetBattlerHoldEffect(battlerAtk, TRUE) == HOLD_EFFECT_BURGLARY_KIT)
+        return FALSE;
     else if (MoveIgnoresSubstitute(move))
         return FALSE;
     else if (IsAbilityAndRecord(battlerAtk, GetBattlerAbility(battlerAtk), ABILITY_INFILTRATOR))

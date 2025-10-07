@@ -886,6 +886,7 @@ extern const u8 BattleScript_EffectDeadlyKiss[];
 extern const u8 BattleScript_AtonalBellsActivates[];
 extern const u8 BattleScript_StrangeSwordHeld[];
 extern const u8 BattleScript_StrangeShieldHeld[];
+extern const u8 BattleScript_BurglaryKitMsgIn[];
 extern const u8 BattleScript_QuestionForfeitBattle[];
 extern const u8 BattleScript_ForfeitBattleGaveMoney[];
 extern const u8 BattleScript_AbilityPopUp[];
