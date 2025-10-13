@@ -426,8 +426,6 @@ const u8 *const gMatchCallFlavorTexts[REMATCH_TABLE_ENTRIES][CHECK_PAGE_ENTRY_CO
     [REMATCH_SHELBY] = MCFLAVOR(Expert_Shelby),
     [REMATCH_ISAIAH] = MCFLAVOR(Triathlete_Isaiah),
     [REMATCH_MARIA] = MCFLAVOR(Triathlete_Maria),
-    [REMATCH_ABIGAIL] = MCFLAVOR(Triathlete_Abigail),
-    [REMATCH_DYLAN] = MCFLAVOR(Triathlete_Dylan),
     [REMATCH_KATELYN] = MCFLAVOR(Triathlete_Katelyn),
     [REMATCH_PABLO] = MCFLAVOR(Triathlete_Pablo),
     [REMATCH_NICOLAS] = MCFLAVOR(DragonTamer_Nicolas),

@@ -439,7 +439,9 @@
     "Route119_Grotto",
     "EverGrandeGrotto",
     "Agartha_Entrance",
-    "PetalburgSanctum"
+    "PetalburgSanctum",
+    "Agartha_Hub",
+    "Agartha_Kanto"
   ],
   "gMapGroup_IndoorDynamic": [
     "SecretBase_RedCave1",

@@ -2,7 +2,7 @@
   "id": "MAP_EMPTY_HOUSE",
   "name": "EmptyHouse",
   "layout": "LAYOUT_EMPTY_HOUSE",
-  "music": "MUS_TEMPLE_OF_DROPLETS",
+  "music": "MUS_CAVE_OF_ORIGIN",
   "region_map_section": "MAPSEC_LITTLEROOT_TOWN",
   "requires_flash": false,
   "weather": "WEATHER_NONE",

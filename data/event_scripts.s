@@ -1173,3 +1173,7 @@ EventScript_VsSeekerChargingDone::
 	.include "data/maps/Agartha_Entrance/scripts.inc"
 
 	.include "data/maps/PetalburgSanctum/scripts.inc"
+
+	.include "data/maps/Agartha_Hub/scripts.inc"
+
+	.include "data/maps/Agartha_Kanto/scripts.inc"

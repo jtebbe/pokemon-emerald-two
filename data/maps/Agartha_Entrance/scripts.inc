@@ -27,6 +27,10 @@ Agartha_Entrance_EventScript_Nadroj::
 	msgbox Agartha_Entrance_Text_MyDefeat, MSGBOX_DEFAULT
 	giveitem ITEM_ASSAULT_VEST
 	msgbox Agartha_Entrance_Text_ItIsDone, MSGBOX_DEFAULT
+	giveitem ITEM_EON_TICKET
+	giveitem ITEM_MYSTIC_TICKET
+	giveitem ITEM_AURORA_TICKET
+	giveitem ITEM_OLD_SEA_MAP
 	fadescreen FADE_TO_BLACK
 	removeobject LOCALID_NADROJ
 	fadescreen FADE_FROM_BLACK
@@ -77,4 +81,5 @@ Agartha_Entrance_Text_ItIsDone:
 	.string "more, my partners and I...\p"
 	.string "We'll fight you with our true\n"
 	.string "strength. But until then...\p"
+	.string "Take these. They're yours.\n"
 	.string "Goodbye, {PLAYER}.$"

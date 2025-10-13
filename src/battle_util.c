@@ -11326,6 +11326,9 @@ bool32 IsBattlerWeatherAffected(u32 battler, u32 weatherFlags)
 u32 GetBattlerMoveTargetType(u32 battler, u32 move)
 {
     enum BattleMoveEffects effect = GetMoveEffect(move);
+    if (GetBattlerAbility(battler) == ABILITY_TWINCAST && GetMoveTarget(move) == MOVE_TARGET_SELECTED) {
+        return MOVE_TARGET_BOTH;
+    }
     if (effect == EFFECT_CURSE && !IS_BATTLER_OF_TYPE(battler, TYPE_GHOST))
         return MOVE_TARGET_USER;
     if (effect == EFFECT_EXPANDING_FORCE && IsBattlerTerrainAffected(battler, STATUS_FIELD_PSYCHIC_TERRAIN))

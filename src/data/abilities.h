@@ -2660,4 +2660,11 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Sets spikes when hit."),
         .aiRating = 6,
     },
+
+    [ABILITY_TWINCAST] =
+    {
+        .name = _("Twincast"),
+        .description = COMPOUND_STRING("Moves target both opps."),
+        .aiRating = 9,
+    },
 };

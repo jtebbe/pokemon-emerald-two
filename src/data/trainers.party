@@ -14812,54 +14812,386 @@ Tags: Mega
 - Protect  
 - Mystical Fire
 
-=== TRAINER_BENJAMIN_4 ===
-Name: BENJAMIN
-Class: Triathlete
-Pic: Cycling Triathlete M
-Gender: Male
-Music: Male
+=== TRAINER_NIKKI_REMATCH ===
+Name: DENEB
+Class: Occultist
+Pic: Hex Maniac
+Gender: Female
+Music: Female
 Battle Type: Doubles
+Mugshot: Purple
 AI: Smart Trainer
+Party Size: 6
+Pool Rules: Doubles
 
-Magneton
-Level: 36
-IVs: 3 HP / 3 Atk / 3 Def / 3 SpA / 3 SpD / 3 Spe
+Gourgeist @ Sitrus Berry  
+Ability: Hallow's End 
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature 
+Tags: Lead 
+- Poltergeist  
+- Protect  
+- Trick-or-Treat  
+- Trick Room
 
-=== TRAINER_BENJAMIN_5 ===
-Name: BENJAMIN
-Class: Triathlete
-Pic: Cycling Triathlete M
-Gender: Male
-Music: Male
-Battle Type: Doubles
-AI: Smart Trainer
+Dragapult @ Power Herb  
+Ability: Clear Body    
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+Tags: Lead
+- Phantom Force  
+- Acrobatics  
+- Light Screen  
+- Reflect  
 
-Piloswine @ Eviolite  
-Ability: Snow Cloak   
-EVs: 96 HP / 252 Atk / 160 SpD  
-Adamant Nature  
-- Rest  
-- Sleep Talk  
-- Icicle Crash  
-- High Horsepower
-
-Sandslash-Alola @ Focus Sash  
-Ability: Snow Blow  
+Dhelmise @ Power Herb  
+Ability: Steelworker   
 EVs: 252 HP / 252 Atk / 4 SpD  
 Adamant Nature  
-- Triple Axel  
-- Hone Claws  
-- Iron Head  
-- Ice Shard
-
-Arctovish @ Life Orb  
-Ability: Slush Rush  
-EVs: 252 Atk / 8 SpD / 248 Spe  
-Adamant Nature  
-- Fishious Rend  
+Tags: Lead
+- Phantom Force  
 - Protect  
-- Icicle Crash  
+- Anchor Shot  
+- Synthesis
+
+Banette @ Banettite  
+Ability: Defiant  
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature 
+Tags: Mega 
+- Poltergeist  
+- Taunt  
+- Return  
+- Thunder Wave  
+
+Aegislash @ Air Balloon  
+Ability: Stance Change  
+EVs: 252 HP / 252 SpA / 4 SpD  
+Modest Nature  
+IVs: 0 Atk  
+- King's Shield  
+- Shadow Ball  
+- Wide Guard  
+- Flash Cannon  
+
+Iron Hands @ Assault Vest  
+Ability: Quark Drive  
+EVs: 4 HP / 252 Atk / 252 SpD  
+Adamant Nature  
+- Fake Out  
+- Drain Punch  
+- Heavy Slam  
+- Wild Charge  
+
+Decidueye @ Life Orb  
+Ability: Ranger  
+EVs: 248 HP / 252 Atk  
+Adamant Nature  
+- Spirit Shackle  
+- Verdant Arrow  
+- Protect  
+- Tailwind  
+
+Sylveon @ Throat Spray  
+Ability: Pixilate  
+EVs: 84 HP / 252 Def / 172 SpA  
+Bold Nature  
+IVs: 0 Atk  
+- Hyper Voice  
+- Calm Mind  
+- Protect  
+- Baton Pass  
+
+Jirachi @ Choice Scarf  
+Ability: Serene Grace  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Follow Me  
+- Iron Head  
+- Body Slam  
+- Trick  
+
+Samurott-Hisui @ Assault Vest  
+Ability: Sharpness  
+Tera Type: Ghost  
+EVs: 248 HP / 252 Atk / 8 SpD  
+Adamant Nature  
+Tags: Tera
+- Ceaseless Edge  
+- Razor Shell  
+- Sacred Sword  
+- Knock Off  
+
+Malamar @ Leftovers  
+Ability: Contrary  
+Tera Type: Fighting  
+EVs: 252 HP / 4 Def / 252 SpD  
+Careful Nature  
+Tags: Tera
+- Superpower  
+- Psycho Cut  
+- Rest  
+- Sleep Talk  
+
+Genesect @ Choice Band  
+Ability: Download  
+Tera Type: Water  
+EVs: 32 HP / 252 Atk / 224 Spe  
+Jolly Nature  
+Tags: Tera
+- U-turn  
+- Tera Blast  
+- Extreme Speed  
+- Iron Head  
+
+Marshadow @ Expert Belt  
+Ability: Technician  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Spectral Thief  
+- Close Combat  
+- Shadow Sneak  
+- Protect  
+
+Zoroark-Hisui @ Focus Sash  
+Ability: Illusion  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+- Hex  
+- Will-O-Wisp  
+- Hyper Voice  
+- U-turn  
+
+=== TRAINER_NICO_REMATCH ===
+Name: NIRHAAST
+Class: Slayer
+Pic: Agarthan Slayer
+Gender: Male
+Music: Hiker
+Battle Type: Doubles
+Mugshot: Purple
+AI: Smart Trainer
+Party Size: 6
+Pool Rules: Doubles
+
+Tornadus (M) @ Covert Cloak  
+Ability: Prankster  
+EVs: 252 HP / 4 SpA / 252 SpD  
+Calm Nature  
+Tags: Lead
+IVs: 0 Atk  
+- Tailwind  
+- Rain Dance  
+- Bleakwind Storm  
+- Taunt
+
+Tornadus (M) @ Mental Herb  
+Ability: Prankster  
+EVs: 252 HP / 4 SpA / 252 SpD  
+Calm Nature  
+IVs: 0 Atk  
+Tags: Lead
+- Tailwind  
+- Rain Dance  
+- Bleakwind Storm  
+- Taunt
+
+Palafin @ Choice Band  
+Ability: Zero to Hero   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+Tags: Lead
+- Jet Punch  
+- Wave Crash  
+- Close Combat  
+- Flip Turn
+
+Buzzwole @ Choice Band  
+Ability: Beast Boost  
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+Tags: Lead
+- Drain Punch  
+- Leech Life  
+- Ice Punch  
+- High Horsepower
+
+Druddigon @ Choice Band  
+Ability: Mold Breaker    
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+Tags: Lead
+- Gunk Shot  
+- Fire Punch  
+- Thunder Punch  
+- Draconic Strike
+
+Tyrantrum @ Choice Band  
+Ability: Strong Jaw   
+EVs: 248 HP / 252 Atk / 8 SpD  
+Adamant Nature  
+Tags: Lead
+- Ice Fang  
+- Fire Fang  
+- Fire Fang  
 - Psychic Fangs
+
+Arcanine-Hisui @ Choice Band  
+Ability: Intimidate   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+Tags: Lead
+- Extreme Speed  
+- Flare Blitz  
+- Head Smash  
+- Wild Charge
+
+Sneasler @ Choice Band  
+Ability: Poison Touch  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+Tags: Lead
+- U-turn  
+- Close Combat  
+- Dire Claw  
+- Switcheroo
+
+Haxorus @ Life Orb  
+Ability: Mold Breaker  
+Tera Type: Ghost  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Adamant Nature 
+Tags: Tera 
+- Dragon Dance  
+- Dragon Claw  
+- Iron Head  
+- First Impression
+
+Drapion @ Assault Vest  
+Ability: Sniper    
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Scorpion Strike  
+- Knock Off  
+- X-Scissor  
+- Snarl
+
+Walking Wake @ Booster Energy  
+Ability: Protosynthesis   
+EVs: 244 SpA / 12 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Draco Meteor  
+- Hydro Steam  
+- Flamethrower  
+- Protect
+
+Roaring Moon @ Booster Energy  
+Ability: Protosynthesis    
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+- Tailwind  
+- Acrobatics  
+- Dragon Claw  
+- Jaw Lock
+
+Chandelure @ Choice Scarf  
+Ability: Shadow Tag   
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Shadow Ball  
+- Overheat  
+- Energy Ball  
+- Trick
+
+Kingambit @ Chople Berry  
+Ability: Defiant  
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+- Sucker Punch  
+- Iron Head  
+- Kowtow Cleave  
+- Protect
+
+Pecharunt @ Black Sludge  
+Ability: Poison Puppeteer  
+EVs: 252 HP / 252 Def / 4 SpA  
+Bold Nature  
+IVs: 0 Atk  
+- Poison Gas  
+- Protect  
+- Hex  
+- Parting Shot
+
+Gouging Fire @ Clear Amulet  
+Ability: Protosynthesis  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Adamant Nature  
+- Dragon Dance  
+- Burning Bulwark  
+- Heat Crash  
+- Breaking Swipe
+
+Alakazam @ Focus Sash  
+Ability: Inner Focus  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Psychic  
+- Dazzling Gleam  
+- Grass Knot  
+- Protect
+
+Serperior @ Leftovers  
+Ability: Contrary   
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Glare  
+- Leaf Storm  
+- Dragon Pulse  
+- Protect
+
+Annihilape @ Sitrus Berry  
+Ability: Defiant   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Rage Fist  
+- Close Combat  
+- Bulk Up  
+- Protect
+
+Archaludon @ Assault Vest  
+Ability: Stamina   
+EVs: 252 HP / 252 SpA / 4 SpD  
+Modest Nature  
+IVs: 0 Atk  
+- Snarl  
+- Electro Shot  
+- Flash Cannon  
+- Draco Meteor
+
+Lucario @ Lucarionite  
+Ability: Inner Focus   
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+Tags: Mega
+IVs: 0 Atk  
+- Nasty Plot  
+- Aura Sphere  
+- Flash Cannon  
+- Psychic
+
+Lucario @ Lucarionite  
+Ability: Inner Focus    
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature
+Tags: Mega  
+- Swords Dance  
+- Extreme Speed  
+- Close Combat  
+- Meteor Mash
 
 === TRAINER_ABIGAIL_1 ===
 Name: ABIGAIL
@@ -14936,7 +15268,7 @@ Careful Nature
 - Sleep Talk  
 - Shadow Punch
 
-=== TRAINER_ABIGAIL_2 ===
+=== TRAINER_SEB_REMATCH ===
 Name: ABIGAIL
 Class: Triathlete
 Pic: Cycling Triathlete F
@@ -14949,7 +15281,7 @@ Magnemite
 Level: 28
 IVs: 1 HP / 1 Atk / 1 Def / 1 SpA / 1 SpD / 1 Spe
 
-=== TRAINER_ABIGAIL_3 ===
+=== TRAINER_JAKE_REMATCH ===
 Name: ABIGAIL
 Class: Triathlete
 Pic: Cycling Triathlete F
@@ -14962,7 +15294,7 @@ Magnemite
 Level: 31
 IVs: 2 HP / 2 Atk / 2 Def / 2 SpA / 2 SpD / 2 Spe
 
-=== TRAINER_ABIGAIL_4 ===
+=== TRAINER_DANI_REMATCH ===
 Name: ABIGAIL
 Class: Triathlete
 Pic: Cycling Triathlete F
@@ -14975,7 +15307,7 @@ Magneton
 Level: 34
 IVs: 3 HP / 3 Atk / 3 Def / 3 SpA / 3 SpD / 3 Spe
 
-=== TRAINER_ABIGAIL_5 ===
+=== TRAINER_MADDY_REMATCH ===
 Name: ABIGAIL
 Class: Triathlete
 Pic: Cycling Triathlete F
@@ -15026,7 +15358,7 @@ IVs: 0 Atk
 - Power Gem  
 - Protect
 
-=== TRAINER_DYLAN_2 ===
+=== TRAINER_CARTER_REMATCH ===
 Name: DYLAN
 Class: Triathlete
 Pic: Running Triathlete M
@@ -15039,44 +15371,317 @@ Doduo
 Level: 28
 IVs: 1 HP / 1 Atk / 1 Def / 1 SpA / 1 SpD / 1 Spe
 
-=== TRAINER_DYLAN_3 ===
-Name: DYLAN
-Class: Triathlete
-Pic: Running Triathlete M
+=== TRAINER_EMEKA_REMATCH ===
+Name: EMWRECKA
+Class: Agarthan Psychic
+Pic: Expert M
 Gender: Male
 Music: Male
 Battle Type: Doubles
+Mugshot: Purple
 AI: Smart Trainer
+Party Size: 6
+Pool Rules: Doubles
 
-Doduo
-Level: 31
-IVs: 2 HP / 2 Atk / 2 Def / 2 SpA / 2 SpD / 2 Spe
+Mewtwo @ Choice Scarf  
+Ability: Overwhelm  
+Tera Type: Psychic  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Modest Nature  
+IVs: 0 Atk  
+Tags: Tera / Lead
+- Icy Wind  
+- Psystrike  
+- Expanding Force  
+- Aura Sphere
 
-=== TRAINER_DYLAN_4 ===
-Name: DYLAN
-Class: Triathlete
-Pic: Running Triathlete M
+Mr. Mime @ Focus Sash  
+Ability: Psychic Surge   
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+Tags: Lead
+- Expanding Force  
+- Protect  
+- Nasty Plot  
+- Thunderbolt
+
+Dugtrio @ Focus Sash  
+Ability: Arena Trap  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+Tags: Lead
+- Sucker Punch  
+- High Horsepower  
+- Protect  
+- Rock Slide
+
+Charizard @ Charizardite Y  
+Ability: Blaze  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+Tags: Mega
+- Tailwind  
+- Weather Ball  
+- Solar Beam  
+- Protect
+
+Venusaur @ Life Orb  
+Ability: Chlorophyll   
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Modest Nature  
+IVs: 0 Atk  
+- Weather Ball  
+- Sludge Bomb  
+- Solar Beam  
+- Protect
+
+Ninetales @ Eject Pack  
+Ability: Drought  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Overheat  
+- Solar Beam  
+- Protect  
+- Encore
+
+Zapdos @ Light Clay  
+Ability: Pressure  
+EVs: 248 HP / 8 Def / 252 SpD  
+Calm Nature  
+IVs: 0 Atk  
+- Tailwind  
+- Volt Switch  
+- Light Screen  
+- Reflect
+
+Mew @ Colbur Berry  
+Ability: Synchronize   
+EVs: 252 HP / 4 Def / 252 SpD  
+Careful Nature  
+- Coaching  
+- Fake Out  
+- Life Dew  
+- Foul Play
+
+Hypno @ Mental Herb  
+Ability: Hypnotist  
+EVs: 252 HP / 4 Def / 252 SpD  
+Calm Nature  
+IVs: 0 Atk  
+- Hypnosis  
+- Swagger  
+- Foul Play  
+- Protect
+
+Clefairy @ Eviolite  
+Ability: Friend Guard  
+EVs: 248 HP / 8 SpA / 252 SpD  
+Calm Nature  
+IVs: 0 Atk  
+- Follow Me  
+- Life Dew  
+- Moonblast  
+- Helping Hand
+
+Hitmonchan (M) @ Assault Vest  
+Ability: One-Two
+EVs: 248 HP / 252 Atk / 8 SpD  
+Adamant Nature  
+- Power-Up Punch  
+- Drain Punch  
+- Ice Punch  
+- Thunder Punch
+
+=== TRAINER_JORDAN_REMATCH ===
+Name: NADROJ
+Class: King
+Pic: Steven
 Gender: Male
 Music: Male
 Battle Type: Doubles
+Mugshot: Purple
 AI: Smart Trainer
+Party Size: 6
+Pool Rules: Doubles
 
-Dodrio
-Level: 34
-IVs: 3 HP / 3 Atk / 3 Def / 3 SpA / 3 SpD / 3 Spe
+Dialga-Origin @ Adamant Crystal  
+Ability: Temporal Assertion 
+EVs: 252 HP / 252 Def / 4 SpA  
+Relaxed Nature  
+IVs: 0 Atk / 0 Spe 
+Tags: Lead 
+- Trick Room  
+- Meteor Beam  
+- Roar of Time  
+- Solar Beam
 
-=== TRAINER_DYLAN_5 ===
-Name: DYLAN
-Class: Triathlete
-Pic: Running Triathlete M
+Pachirisu @ Covert Cloak  
+Ability: Volt Absorb    
+EVs: 252 HP / 252 Def / 4 SpD  
+Relaxed Nature  
+IVs: 0 Atk / 0 Spe  
+Tags: Lead
+- Follow Me  
+- Encore  
+- Super Fang  
+- Helping Hand
+
+Tangrowth @ Covert Cloak  
+Ability: Regenerator  
+EVs: 252 HP / 252 SpA / 4 SpD  
+Quiet Nature  
+IVs: 0 Atk / 0 Spe  
+Tags: Lead
+- Rage Powder  
+- Focus Blast  
+- Sludge Bomb  
+- Protect
+
+Arceus @ Silk Scarf  
+Ability: Omnipotence  
+Tera Type: Normal  
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+Tags: Tera
+- Extreme Speed  
+- Protect  
+- Swords Dance  
+- Recover
+
+Giratina @ Leftovers  
+Ability: Umbral Grip   
+EVs: 252 HP / 4 Def / 252 SpD  
+Sassy Nature  
+IVs: 0 Spe  
+- Will-O-Wisp  
+- Hex  
+- Protect  
+- Dragon Tail
+
+Carnivine @ Choice Band  
+Ability: Huge Power  
+Tera Type: Fire  
+EVs: 248 HP / 252 Atk / 8 SpD  
+Brave Nature  
+IVs: 0 Spe  
+Tags: Tera
+- Knock Off  
+- Fly Trap  
+- Giga Impact  
+- Tera Blast
+
+Palkia @ Assault Vest  
+Ability: Lord of Space    
+EVs: 252 HP / 4 Def / 252 SpA  
+Quiet Nature  
+IVs: 0 Atk / 0 Spe  
+- Hydro Pump  
+- Blizzard  
+- Spacial Rend  
+- Thunder
+
+Phione @ Black Sludge  
+Ability: Hydration  
+Tera Type: Poison  
+EVs: 252 HP / 252 Def / 4 SpD  
+Relaxed Nature  
+IVs: 0 Atk / 0 Spe  
+Tags: Tera
+- Take Heart  
+- Grass Knot  
+- Ice Beam  
+- Hydro Pump
+
+Heatran @ Chople Berry  
+Ability: Earth Eater   
+EVs: 252 HP / 4 Def / 252 SpA  
+Quiet Nature  
+IVs: 0 Atk / 0 Spe  
+- Flamethrower  
+- Flash Cannon  
+- Earth Power  
+- Protect
+
+Dusknoir @ Expert Belt  
+Ability: Soul Strikes  
+EVs: 252 HP / 252 Atk / 4 SpD  
+Brave Nature  
+IVs: 0 Spe  
+- Poltergeist  
+- Darkest Lariat  
+- Leech Life  
+- Rock Slide
+
+=== TRAINER_CLARK_REMATCH ===
+Name: CLARK
+Class: Cooltrainer
+Pic: Clark
 Gender: Male
-Music: Male
+Music: Cool
 Battle Type: Doubles
+Mugshot: Yellow
 AI: Smart Trainer
 
-Dodrio
-Level: 37
-IVs: 4 HP / 4 Atk / 4 Def / 4 SpA / 4 SpD / 4 Spe
+Grimmsnarl (M) @ Light Clay  
+Ability: Prankster  
+EVs: 252 HP / 4 Def / 252 SpD  
+Calm Nature  
+IVs: 0 Atk  
+- Reflect  
+- Light Screen  
+- Parting Shot  
+- Foul Play
+
+Ogerpon-Hearthflame (F) @ Hearthflame Mask  
+Ability: Mold Breaker  
+Tera Type: Fire  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Ivy Cudgel  
+- Follow Me  
+- Spiky Shield  
+- Wood Hammer
+
+Arceus @ Burglary Kit  
+Ability: Omnipotence   
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+- Swords Dance  
+- Extreme Speed  
+- Double-Edge  
+- Protect
+
+Zamazenta-Crowned @ Rusted Shield  
+Ability: Dauntless Shield  
+EVs: 252 HP / 4 Atk / 252 Spe  
+Jolly Nature  
+- Body Press  
+- Behemoth Bash  
+- Wide Guard  
+- Protect
+
+Incineroar @ Sitrus Berry  
+Ability: Intimidate    
+EVs: 252 HP / 64 Def / 192 SpD  
+Sassy Nature  
+IVs: 0 Spe  
+- Fake Out  
+- Snarl  
+- Flare Blitz  
+- Parting Shot
+
+Suicune @ Mental Herb  
+Ability: Inner Focus  
+EVs: 252 HP / 252 Def / 4 SpD  
+Bold Nature  
+IVs: 0 Atk  
+- Snarl  
+- Icy Wind  
+- Scald  
+- Tailwind
 
 === TRAINER_MARIA_1 ===
 Name: MARIA
@@ -28705,12 +29310,12 @@ IVs: 0 Atk
 - Psychic
 
 Scovillain @ Coba Berry  
-Ability: Moody   
-EVs: 252 HP / 4 Def / 252 SpD  
+Ability: Twincast   
+EVs: 252 HP / 252 SpA / 4 SpD  
 Calm Nature  
 IVs: 0 Atk  
 - Protect  
-- Leech Seed  
+- Energy Ball  
 - Ingrain  
 - Flamethrower
 

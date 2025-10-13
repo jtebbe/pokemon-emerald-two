@@ -4510,6 +4510,26 @@
       "secondary_tileset": "gTileset_Rustboro",
       "border_filepath": "data/layouts/PetalburgSanctum/border.bin",
       "blockdata_filepath": "data/layouts/PetalburgSanctum/map.bin"
+    },
+    {
+      "id": "LAYOUT_AGARTHA_HUB",
+      "name": "Agartha_Hub_Layout",
+      "width": 40,
+      "height": 40,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_MeteorFalls",
+      "border_filepath": "data/layouts/Agartha_Hub/border.bin",
+      "blockdata_filepath": "data/layouts/Agartha_Hub/map.bin"
+    },
+    {
+      "id": "LAYOUT_AGARTHA_KANTO",
+      "name": "Agartha_Kanto_Layout",
+      "width": 10,
+      "height": 20,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_Lab",
+      "border_filepath": "data/layouts/Agartha_Kanto/border.bin",
+      "blockdata_filepath": "data/layouts/Agartha_Kanto/map.bin"
     }
   ]
 }

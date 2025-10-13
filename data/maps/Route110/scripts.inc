@@ -207,25 +207,11 @@ Route110_EventScript_Anthony::
 	end
 
 Route110_EventScript_Benjamin::
-	trainerbattle_single TRAINER_BENJAMIN_1, Route110_Text_BenjaminIntro, Route110_Text_BenjaminDefeated, Route110_EventScript_BenjaminRegisterMatchCallAfterBattle
-	specialvar VAR_RESULT, ShouldTryRematchBattle
-	goto_if_eq VAR_RESULT, TRUE, Route110_EventScript_BenjaminRematch
+	trainerbattle_single TRAINER_BENJAMIN_1, Route110_Text_BenjaminIntro, Route110_Text_BenjaminDefeated
 	msgbox Route110_Text_BenjaminPostBattle, MSGBOX_DEFAULT
 	release
 	end
 
-Route110_EventScript_BenjaminRegisterMatchCallAfterBattle::
-	special PlayerFaceTrainerAfterBattle
-	waitmovement 0
-	msgbox Route110_Text_BenjaminRegister, MSGBOX_DEFAULT
-	register_matchcall TRAINER_BENJAMIN_1
-	release
-	end
-
-Route110_EventScript_BenjaminRematch::
-	trainerbattle_rematch TRAINER_BENJAMIN_1, Route110_Text_BenjaminRematchIntro, Route110_Text_BenjaminRematchDefeated
-	msgbox Route110_Text_BenjaminRematchPostBattle, MSGBOX_AUTOCLOSE
-	end
 
 Route110_EventScript_Jasmine::
 	trainerbattle_single TRAINER_JASMINE, Route110_Text_JasmineIntro, Route110_Text_JasmineDefeated
@@ -233,24 +219,9 @@ Route110_EventScript_Jasmine::
 	end
 
 Route110_EventScript_Abigail::
-	trainerbattle_single TRAINER_ABIGAIL_1, Route110_Text_AbigailIntro, Route110_Text_AbigailDefeated, Route110_EventScript_AbigailRegisterMatchCallAfterBattle
-	specialvar VAR_RESULT, ShouldTryRematchBattle
-	goto_if_eq VAR_RESULT, TRUE, Route110_EventScript_AbigailRematch
+	trainerbattle_single TRAINER_ABIGAIL_1, Route110_Text_AbigailIntro, Route110_Text_AbigailDefeated
 	msgbox Route110_Text_AbigailPostBattle, MSGBOX_DEFAULT
 	release
-	end
-
-Route110_EventScript_AbigailRegisterMatchCallAfterBattle::
-	special PlayerFaceTrainerAfterBattle
-	waitmovement 0
-	msgbox Route110_Text_AbigailRegister, MSGBOX_DEFAULT
-	register_matchcall TRAINER_ABIGAIL_1
-	release
-	end
-
-Route110_EventScript_AbigailRematch::
-	trainerbattle_rematch TRAINER_ABIGAIL_1, Route110_Text_AbigailRematchIntro, Route110_Text_AbigailRematchDefeated
-	msgbox Route110_Text_AbigailRematchPostBattle, MSGBOX_AUTOCLOSE
 	end
 
 Route110_EventScript_Isabel::
