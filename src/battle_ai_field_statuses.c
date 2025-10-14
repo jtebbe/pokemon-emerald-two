@@ -428,11 +428,6 @@ static enum FieldEffectOutcome BenefitsFromPsychicTerrain(u32 battler)
 
 static enum FieldEffectOutcome BenefitsFromTrickRoom(u32 battler)
 {
-
-    //If dialga can set up nigh-infinite room, we likely want it to be able to do that
-    if (GetBattlerAbility(battler) == ABILITY_TEMPORAL_ASSERTION) {
-        return FIELD_EFFECT_POSITIVE;
-    }
     
     // If we're in singles, we literally only care about speed.
     if (IsBattle1v1())
@@ -444,6 +439,11 @@ static enum FieldEffectOutcome BenefitsFromTrickRoom(u32 battler)
             return FIELD_EFFECT_NEUTRAL; 
         else
             return FIELD_EFFECT_NEGATIVE;
+    }
+
+    //If dialga can set up nigh-infinite room, we likely want it to be able to do that
+    if (GetBattlerAbility(battler) == ABILITY_TEMPORAL_ASSERTION) {
+        return FIELD_EFFECT_POSITIVE;
     }
 
     // First checking if we have enough priority for one pokemon to disregard Trick Room entirely.

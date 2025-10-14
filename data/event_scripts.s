@@ -1179,3 +1179,5 @@ EventScript_VsSeekerChargingDone::
 	.include "data/maps/Agartha_Kanto/scripts.inc"
 
 	.include "data/maps/Agartha_Sinnoh/scripts.inc"
+
+	.include "data/maps/Agartha_Unova/scripts.inc"

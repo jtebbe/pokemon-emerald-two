@@ -697,9 +697,9 @@
 #define FLAG_CAUGHT_GIRATINA  0x28F
 #define FLAG_CAUGHT_DIALGA  0x290
 #define FLAG_CAUGHT_PALKIA  0x291
-#define FLAG_UNUSED_0x292  0x292 // Unused Flag
-#define FLAG_UNUSED_0x293  0x293 // Unused Flag
-#define FLAG_UNUSED_0x294  0x294 // Unused Flag
+#define FLAG_CAUGHT_RESHIRAM  0x292
+#define FLAG_CAUGHT_ZEKROM  0x293
+#define FLAG_CAUGHT_KYUREM  0x294
 #define FLAG_UNUSED_0x295  0x295 // Unused Flag
 #define FLAG_UNUSED_0x296  0x296 // Unused Flag
 #define FLAG_UNUSED_0x297  0x297 // Unused Flag

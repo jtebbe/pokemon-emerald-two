@@ -4540,6 +4540,16 @@
       "secondary_tileset": "gTileset_AgarthaDistortion",
       "border_filepath": "data/layouts/Agartha_Sinnoh/border.bin",
       "blockdata_filepath": "data/layouts/Agartha_Sinnoh/map.bin"
+    },
+    {
+      "id": "LAYOUT_AGARTHA_UNOVA",
+      "name": "Agartha_Unova_Layout",
+      "width": 61,
+      "height": 20,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_Agartha_Unova",
+      "border_filepath": "data/layouts/Agartha_Unova/border.bin",
+      "blockdata_filepath": "data/layouts/Agartha_Unova/map.bin"
     }
   ]
 }

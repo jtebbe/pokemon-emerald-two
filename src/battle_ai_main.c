@@ -5166,9 +5166,10 @@ case EFFECT_GUARD_SPLIT:
     case EFFECT_TRICK_ROOM:
         if (!(gAiThinkingStruct->aiFlags[battlerAtk] & AI_FLAG_POWERFUL_STATUS))
         {
-            if (!(gFieldStatuses & STATUS_FIELD_TRICK_ROOM) && GetBattlerAbility(battlerAtk) == ABILITY_TEMPORAL_ASSERTION)
+            if (!(gFieldStatuses & STATUS_FIELD_TRICK_ROOM) && GetBattlerAbility(battlerAtk) == ABILITY_TEMPORAL_ASSERTION) {
                 ADJUST_SCORE(PERFECT_EFFECT);
                 break;
+            }
             if (!(gFieldStatuses & STATUS_FIELD_TRICK_ROOM) && ShouldSetFieldStatus(battlerAtk, STATUS_FIELD_TRICK_ROOM))
                 ADJUST_SCORE(GOOD_EFFECT);
             // Set it for next pokemon in singles.
