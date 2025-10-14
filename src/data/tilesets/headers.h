@@ -874,3 +874,14 @@ const struct Tileset gTileset_AgarthaDistortion =
     .metatileAttributes = gMetatileAttributes_AgarthaDistortion,
     .callback = NULL,
 };
+
+const struct Tileset gTileset_Agartha_Unova =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_Agartha_Unova,
+    .palettes = gTilesetPalettes_Agartha_Unova,
+    .metatiles = gMetatiles_Agartha_Unova,
+    .metatileAttributes = gMetatileAttributes_Agartha_Unova,
+    .callback = NULL,
+};

@@ -1708,3 +1708,22 @@ const u16 gTilesetPalettes_AgarthaDistortion[][16] =
 
 const u32 gTilesetTiles_AgarthaDistortion[] = INCBIN_U32("data/tilesets/secondary/agartha_distortion/tiles.4bpp.fastSmol");
 const u32 gTilesetTiles_UnionRoom[] = INCBIN_U32("data/tilesets/secondary/union_room/tiles.4bpp.fastSmol");
+
+const u16 gTilesetPalettes_Agartha_Unova[][16] =
+{
+    INCBIN_U16("data/tilesets/secondary/agartha_unova/palettes/00.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/agartha_unova/palettes/01.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/agartha_unova/palettes/02.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/agartha_unova/palettes/03.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/agartha_unova/palettes/04.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/agartha_unova/palettes/05.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/agartha_unova/palettes/06.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/agartha_unova/palettes/07.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/agartha_unova/palettes/08.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/agartha_unova/palettes/09.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/agartha_unova/palettes/10.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/agartha_unova/palettes/11.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/agartha_unova/palettes/12.gbapal"),
+};
+
+const u32 gTilesetTiles_Agartha_Unova[] = INCBIN_U32("data/tilesets/secondary/agartha_unova/tiles.4bpp.lz");
