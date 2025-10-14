@@ -15503,7 +15503,7 @@ Gender: Male
 Music: Male
 Battle Type: Doubles
 Mugshot: Purple
-AI: Smart Trainer
+AI: Smart Trainer / Force Setup First Turn
 Party Size: 6
 Pool Rules: Doubles
 
@@ -15514,9 +15514,9 @@ Relaxed Nature
 IVs: 0 Atk / 0 Spe 
 Tags: Lead 
 - Trick Room  
-- Meteor Beam  
-- Roar of Time  
-- Solar Beam
+- Draco Meteor  
+- Flash Cannon  
+- Earth Power
 
 Pachirisu @ Covert Cloak  
 Ability: Volt Absorb    

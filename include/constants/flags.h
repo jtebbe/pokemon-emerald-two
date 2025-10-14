@@ -693,10 +693,10 @@
 #define FLAG_JUAN_REMATCH_COMPLETE  0x28B
 #define FLAG_SCOTT_BLOCK  0x28C
 #define FLAG_CAUGHT_MEWTWO  0x28D
-#define FLAG_UNUSED_0x28E  0x28E // Unused Flag
-#define FLAG_UNUSED_0x28F  0x28F // Unused Flag
-#define FLAG_UNUSED_0x290  0x290 // Unused Flag
-#define FLAG_UNUSED_0x291  0x291 // Unused Flag
+#define FLAG_CAUGHT_ARCEUS  0x28E
+#define FLAG_CAUGHT_GIRATINA  0x28F
+#define FLAG_CAUGHT_DIALGA  0x290
+#define FLAG_CAUGHT_PALKIA  0x291
 #define FLAG_UNUSED_0x292  0x292 // Unused Flag
 #define FLAG_UNUSED_0x293  0x293 // Unused Flag
 #define FLAG_UNUSED_0x294  0x294 // Unused Flag

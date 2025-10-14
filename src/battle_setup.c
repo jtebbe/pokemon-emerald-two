@@ -495,6 +495,10 @@ void BattleSetup_StartLegendaryBattle(void)
         CreateBattleStartTask(B_TRANSITION_BLUR, MUS_RG_VS_DEOXYS);
         break;
     case SPECIES_MEWTWO:
+    case SPECIES_DIALGA:
+    case SPECIES_PALKIA:
+    case SPECIES_GIRATINA:
+    case SPECIES_ARCEUS:
     case SPECIES_LUGIA:
     case SPECIES_HO_OH:
         CreateBattleStartTask(B_TRANSITION_BLUR, MUS_RG_VS_LEGEND);
@@ -631,6 +635,9 @@ enum BattleEnvironments BattleSetup_GetEnvironmentId(void)
 
     tileBehavior = MapGridGetMetatileBehaviorAt(x, y);
     tileId = MapGridGetMetatileIdAt(x, y);
+
+    if (gMapHeader.regionMapSectionId == MAPSEC_AGARTHA)
+        return BATTLE_ENVIRONMENT_BUILDING;
 
     switch (gMapHeader.mapLayoutId) {
         case LAYOUT_RUSTBORO_CITY_GYM:

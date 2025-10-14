@@ -2547,7 +2547,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Temporal Stretch"),
         .description = COMPOUND_STRING("Lengthens its field changes."),
-        .aiRating = 2,
+        .aiRating = 4,
     },
 
     [ABILITY_DISTORTION] =

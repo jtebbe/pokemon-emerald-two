@@ -1,0 +1,98 @@
+{
+  "id": "MAP_AGARTHA_SINNOH",
+  "name": "Agartha_Sinnoh",
+  "layout": "LAYOUT_AGARTHA_SINNOH",
+  "music": "MUS_CAVE_OF_ORIGIN",
+  "region_map_section": "MAPSEC_AGARTHA",
+  "requires_flash": false,
+  "weather": "WEATHER_NONE",
+  "map_type": "MAP_TYPE_UNDERGROUND",
+  "allow_cycling": false,
+  "allow_escaping": false,
+  "allow_running": false,
+  "show_map_name": true,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": null,
+  "object_events": [
+    {
+      "local_id": "LOCALID_DIALGA",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(DIALGA)",
+      "x": 6,
+      "y": 44,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_FACE_LEFT",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "Agartha_Sinnoh_EventScript_Dialga",
+      "flag": "FLAG_CAUGHT_DIALGA"
+    },
+    {
+      "local_id": "LOCALID_PALKIA",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(PALKIA)",
+      "x": 27,
+      "y": 41,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_FACE_RIGHT",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "Agartha_Sinnoh_EventScript_Palkia",
+      "flag": "FLAG_CAUGHT_PALKIA"
+    },
+    {
+      "local_id": "LOCALID_GIRATINA",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(GIRATINA)",
+      "x": 17,
+      "y": 61,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "Agartha_Sinnoh_EventScript_Giratina",
+      "flag": "FLAG_CAUGHT_GIRATINA"
+    },
+    {
+      "local_id": "LOCALID_ARCEUS",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(ARCEUS)",
+      "x": 17,
+      "y": 13,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_FACE_UP",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "Agartha_Sinnoh_EventScript_Arceus",
+      "flag": "FLAG_CAUGHT_ARCEUS"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_STEVEN",
+      "x": 16,
+      "y": 48,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_FACE_LEFT",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "Agartha_Sinnoh_EventScript_Agarthan",
+      "flag": "0"
+    }
+  ],
+  "warp_events": [
+    {
+      "x": 17,
+      "y": 30,
+      "elevation": 0,
+      "dest_map": "MAP_AGARTHA_HUB",
+      "dest_warp_id": "2"
+    }
+  ],
+  "coord_events": [],
+  "bg_events": []
+}

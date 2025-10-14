@@ -4530,6 +4530,16 @@
       "secondary_tileset": "gTileset_Lab",
       "border_filepath": "data/layouts/Agartha_Kanto/border.bin",
       "blockdata_filepath": "data/layouts/Agartha_Kanto/map.bin"
+    },
+    {
+      "id": "LAYOUT_AGARTHA_SINNOH",
+      "name": "Agartha_Sinnoh_Layout",
+      "width": 35,
+      "height": 67,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_AgarthaDistortion",
+      "border_filepath": "data/layouts/Agartha_Sinnoh/border.bin",
+      "blockdata_filepath": "data/layouts/Agartha_Sinnoh/map.bin"
     }
   ]
 }
