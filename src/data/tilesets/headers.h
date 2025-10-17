@@ -885,3 +885,14 @@ const struct Tileset gTileset_Agartha_Unova =
     .metatileAttributes = gMetatileAttributes_Agartha_Unova,
     .callback = NULL,
 };
+
+const struct Tileset gTileset_AgarthaWeald =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_AgarthaWeald,
+    .palettes = gTilesetPalettes_AgarthaWeald,
+    .metatiles = gMetatiles_AgarthaWeald,
+    .metatileAttributes = gMetatileAttributes_AgarthaWeald,
+    .callback = NULL,
+};

@@ -368,11 +368,14 @@ SlateportCity_EventScript_PokefanF::
 	end
 
 SlateportCity_EventScript_Clark::
+	lockall
+	faceplayer
 	goto_if_set FLAG_DEFEATED_CLARK, SlateportCity_EventScript_ClarkPostDefeat
 	msgbox SlateportCity_Text_ClarkStart, MSGBOX_NPC
 	msgbox SlateportCity_Text_ClarkQuestion, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, YES, SlateportCity_EventScript_BattleClark
 	msgbox SlateportCity_Text_ClarkReject, MSGBOX_NPC
+	releaseall
 	end
 
 SlateportCity_EventScript_BattleClark::
@@ -382,9 +385,30 @@ SlateportCity_EventScript_BattleClark::
 	msgbox SlateportCity_Text_ClarkReward, MSGBOX_NPC
 	giveitem ITEM_TM_SNARL
 	goto SlateportCity_EventScript_ClarkPostDefeat
+	end
 
 SlateportCity_EventScript_ClarkPostDefeat::
+	goto_if_set FLAG_IS_CHAMPION, SlateportCity_EventScript_ClarkRematch
 	msgbox SlateportCity_Text_ClarkPostDefeat, MSGBOX_NPC
+	end
+
+SlateportCity_EventScript_ClarkRematch::
+	goto_if_set FLAG_CLARK_REMATCH_COMPLETE, SlateportCity_EventScript_ClarkPostRematch
+	msgbox SlateportCity_Text_ClarkRematchQuestion, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, SlateportCity_Eventscript_ClarkRejectRematch
+	trainerbattle_no_intro TRAINER_CLARK_REMATCH, SlateportCity_Text_ClarkRematchDefeat
+	msgbox SlateportCity_Text_ClarkRematchReward
+	giveitem ITEM_BURGLARY_KIT
+	goto SlateportCity_EventScript_ClarkPostRematch
+	end
+
+SlateportCity_Eventscript_ClarkRejectRematch::
+	msgbox SlateportCity_Text_ClarkReject, MSGBOX_NPC
+	releaseall
+	end
+SlateportCity_EventScript_ClarkPostRematch::
+	msgbox SlateportCity_Text_ClarkPostRematchDefeat
+	releaseall
 	end
 
 SlateportCity_EventScript_AquaGrunt1::
@@ -1175,6 +1199,28 @@ SlateportCity_Text_ClarkPostDefeat:
 	.string "powerful tool, to be sure.\p"
 	.string "Best not to let it be a crutch,\n"
 	.string "though.$"
+
+SlateportCity_Text_ClarkRematchQuestion:
+	.string "Well, well, well! Look who it is!\n"
+	.string "The one who trounced me before.\p"
+	.string "You wanna have a rematch? I'll make\n"
+	.string "It worth your while!$"
+
+SlateportCity_Text_ClarkPostRematchDefeat:
+	.string "Have you redefeated the gym leaders\n"
+	.string "and elite four?\p"
+	.string "I hear the battle frontier has more\n"
+	.string "Strict requirements now.$"
+
+SlateportCity_Text_ClarkRematchDefeat:
+	.string "Ouch! You're just too good!$"
+
+SlateportCity_Text_ClarkRematchReward:
+	.string "Sheesh, you took my down like it\n"
+	.string "was nothing! I'd say you've\l"
+	.string "earned this.\p"
+	.string "It's an item that bypasses sub and\n"
+	.string "protect.$"
 
 SlateportCity_Text_CaptSternBeingInterviewed:
 	.string "I was hoping that it was a famous star\n"

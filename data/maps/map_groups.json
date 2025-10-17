@@ -92,7 +92,8 @@
     "Underwater_Route128",
     "Underwater_Route129",
     "Underwater_Route105",
-    "Underwater_Route125"
+    "Underwater_Route125",
+    "Agartha_Kalos"
   ],
   "gMapGroup_IndoorLittleroot": [
     "LittlerootTown_BrendansHouse_1F",
@@ -443,7 +444,10 @@
     "Agartha_Hub",
     "Agartha_Kanto",
     "Agartha_Sinnoh",
-    "Agartha_Unova"
+    "Agartha_Unova",
+    "Agartha_Alola",
+    "Agartha_Galar",
+    "Agartha_Paldea"
   ],
   "gMapGroup_IndoorDynamic": [
     "SecretBase_RedCave1",

@@ -222,3 +222,6 @@ const u16 gMetatileAttributes_AgarthaDistortion[] = INCBIN_U16("data/tilesets/se
 
 const u16 gMetatiles_Agartha_Unova[] = INCBIN_U16("data/tilesets/secondary/agartha_unova/metatiles.bin");
 const u16 gMetatileAttributes_Agartha_Unova[] = INCBIN_U16("data/tilesets/secondary/agartha_unova/metatile_attributes.bin");
+
+const u16 gMetatiles_AgarthaWeald[] = INCBIN_U16("data/tilesets/secondary/agartha_weald/metatiles.bin");
+const u16 gMetatileAttributes_AgarthaWeald[] = INCBIN_U16("data/tilesets/secondary/agartha_weald/metatile_attributes.bin");

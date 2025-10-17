@@ -1,0 +1,84 @@
+{
+  "id": "MAP_AGARTHA_PALDEA",
+  "name": "Agartha_Paldea",
+  "layout": "LAYOUT_AGARTHA_PALDEA",
+  "music": "MUS_CAVE_OF_ORIGIN",
+  "region_map_section": "MAPSEC_AGARTHA",
+  "requires_flash": false,
+  "weather": "WEATHER_NONE",
+  "map_type": "MAP_TYPE_UNDERGROUND",
+  "allow_cycling": true,
+  "allow_escaping": false,
+  "allow_running": true,
+  "show_map_name": true,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": null,
+  "object_events": [
+    {
+      "local_id": "LOCALID_KORAIDON",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(KORAIDON)",
+      "x": 4,
+      "y": 4,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "Agartha_Paldea_EventScript_Koraidon",
+      "flag": "FLAG_CAUGHT_KORAIDON"
+    },
+    {
+      "local_id": "LOCALID_TERAPAGOS",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(TERAPAGOS)",
+      "x": 12,
+      "y": 26,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "Agartha_Paldea_EventScript_Terapagos",
+      "flag": "FLAG_CAUGHT_TERAPAGOS"
+    },
+    {
+      "local_id": "LOCALID_MIRAIDON",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(MIRAIDON)",
+      "x": 4,
+      "y": 46,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "Agartha_Paldea_EventScript_Miraidon",
+      "flag": "FLAG_CAUGHT_MIRAIDON"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_WOMAN_2",
+      "x": 7,
+      "y": 25,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_FACE_RIGHT",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "Agartha_Paldea_EventScript_Agarthan",
+      "flag": "0"
+    }
+  ],
+  "warp_events": [
+    {
+      "x": 2,
+      "y": 24,
+      "elevation": 0,
+      "dest_map": "MAP_AGARTHA_HUB",
+      "dest_warp_id": "7"
+    }
+  ],
+  "coord_events": [],
+  "bg_events": []
+}

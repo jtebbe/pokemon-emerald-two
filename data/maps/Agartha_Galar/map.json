@@ -1,0 +1,84 @@
+{
+  "id": "MAP_AGARTHA_GALAR",
+  "name": "Agartha_Galar",
+  "layout": "LAYOUT_AGARTHA_GALAR",
+  "music": "MUS_CAVE_OF_ORIGIN",
+  "region_map_section": "MAPSEC_AGARTHA",
+  "requires_flash": false,
+  "weather": "WEATHER_NONE",
+  "map_type": "MAP_TYPE_UNDERGROUND",
+  "allow_cycling": true,
+  "allow_escaping": false,
+  "allow_running": true,
+  "show_map_name": true,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": null,
+  "object_events": [
+    {
+      "graphics_id": "OBJ_EVENT_GFX_MAN_3",
+      "x": 6,
+      "y": 29,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_FACE_UP",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "Agartha_Galar_EventScript_Agarthan",
+      "flag": "0"
+    },
+    {
+      "local_id": "LOCALID_ZAMAZENTA",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(ZAMAZENTA)",
+      "x": 2,
+      "y": 7,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "Agartha_Galar_EventScript_Zamazenta",
+      "flag": "FLAG_CAUGHT_ZAMAZENTA"
+    },
+    {
+      "local_id": "LOCALID_ZACIAN",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(ZACIAN)",
+      "x": 40,
+      "y": 8,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "Agartha_Galar_EventScript_Zacian",
+      "flag": "FLAG_CAUGHT_ZACIAN"
+    },
+    {
+      "local_id": "LOCALID_ETERNATUS",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(ETERNATUS)",
+      "x": 25,
+      "y": 40,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "Agartha_Galar_EventScript_Eternatus",
+      "flag": "FLAG_CAUGHT_ETERNATUS"
+    }
+  ],
+  "warp_events": [
+    {
+      "x": 16,
+      "y": 20,
+      "elevation": 0,
+      "dest_map": "MAP_AGARTHA_HUB",
+      "dest_warp_id": "6"
+    }
+  ],
+  "coord_events": [],
+  "bg_events": []
+}

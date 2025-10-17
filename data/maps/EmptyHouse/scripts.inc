@@ -101,46 +101,47 @@ EmptyHouse_EventScript_9thSign::
 	call_if_unset FLAG_AGARTHANS_UNLOCKED, EmptyHouse_EventScript_UnlockAgartha
 	call_if_unset FLAG_ALL_AGARTHANS_DEFEATED, EmptyHouse_EventScript_1stCheck
 	msgbox EmptyHouse_Text_9thSign, MSGBOX_SIGN
+	releaseall
 	end
 
 EmptyHouse_EventScript_1stCheck::
 	call_if_set FLAG_AGARTHAN_1_DEFEATED, EmptyHouse_EventScript_2ndCheck
-	msgbox EmptyHouse_Text_1stCheck, MSGBOX_DEFAULT
+	msgbox EmptyHouse_Text_1stCheck, MSGBOX_SIGN
 	end
 
 EmptyHouse_EventScript_2ndCheck::
 	call_if_set FLAG_AGARTHAN_2_DEFEATED, EmptyHouse_EventScript_3rdCheck
-	msgbox EmptyHouse_Text_2ndCheck, MSGBOX_DEFAULT
+	msgbox EmptyHouse_Text_2ndCheck, MSGBOX_SIGN
 	end
 
 EmptyHouse_EventScript_3rdCheck::
 	call_if_set FLAG_AGARTHAN_3_DEFEATED, EmptyHouse_EventScript_4thCheck
-	msgbox EmptyHouse_Text_3rdCheck, MSGBOX_DEFAULT
+	msgbox EmptyHouse_Text_3rdCheck, MSGBOX_SIGN
 	end
 
 EmptyHouse_EventScript_4thCheck::
 	call_if_set FLAG_AGARTHAN_4_DEFEATED, EmptyHouse_EventScript_5thCheck
-	msgbox EmptyHouse_Text_4thCheck, MSGBOX_DEFAULT
+	msgbox EmptyHouse_Text_4thCheck, MSGBOX_SIGN
 	end
 
 EmptyHouse_EventScript_5thCheck::
 	call_if_set FLAG_AGARTHAN_5_DEFEATED, EmptyHouse_EventScript_6thCheck
-	msgbox EmptyHouse_Text_5thCheck, MSGBOX_DEFAULT
+	msgbox EmptyHouse_Text_5thCheck, MSGBOX_SIGN
 	end
 
 EmptyHouse_EventScript_6thCheck::
 	call_if_set FLAG_AGARTHAN_6_DEFEATED, EmptyHouse_EventScript_7thCheck
-	msgbox EmptyHouse_Text_6thCheck, MSGBOX_DEFAULT
+	msgbox EmptyHouse_Text_6thCheck, MSGBOX_SIGN
 	end
 
 EmptyHouse_EventScript_7thCheck::
 	call_if_set FLAG_AGARTHAN_7_DEFEATED, EmptyHouse_EventScript_8thCheck
-	msgbox EmptyHouse_Text_7thCheck, MSGBOX_DEFAULT
+	msgbox EmptyHouse_Text_7thCheck, MSGBOX_SIGN
 	end
 
 EmptyHouse_EventScript_8thCheck::
 	call_if_set FLAG_AGARTHAN_8_DEFEATED, EmptyHouse_EventScript_FinalCheck
-	msgbox EmptyHouse_Text_8thCheck, MSGBOX_DEFAULT
+	msgbox EmptyHouse_Text_8thCheck, MSGBOX_SIGN
 	end
 
 EmptyHouse_EventScript_FinalCheck::
@@ -169,6 +170,7 @@ EmptyHouse_EventScript_UnlockAgarthaLand::
 	setflag FLAG_SHOW_HOUSE_AGARTHAN_7
 	setflag FLAG_SHOW_HOUSE_AGARTHAN_8
 	fadescreen FADE_FROM_BLACK
+	releaseall
 	end
 
 EmptyHouse_Text_AgarthansUnison:

@@ -501,6 +501,17 @@ void BattleSetup_StartLegendaryBattle(void)
     case SPECIES_ARCEUS:
     case SPECIES_LUGIA:
     case SPECIES_HO_OH:
+    case SPECIES_ZYGARDE:
+    case SPECIES_XERNEAS:
+    case SPECIES_YVELTAL:
+    case SPECIES_COSMOG:
+    case SPECIES_NECROZMA:
+    case SPECIES_ZAMAZENTA:
+    case SPECIES_ZACIAN:
+    case SPECIES_ETERNATUS:
+    case SPECIES_TERAPAGOS:
+    case SPECIES_MIRAIDON:
+    case SPECIES_KORAIDON:
         CreateBattleStartTask(B_TRANSITION_BLUR, MUS_RG_VS_LEGEND);
         break;
     case SPECIES_MEW:

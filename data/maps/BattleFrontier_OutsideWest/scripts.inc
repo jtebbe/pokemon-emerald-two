@@ -563,3 +563,42 @@ BattleFrontier_OutsideWest_Text_MonWithLongTailInFrontier:
 	.string "Oh, challenges can wait. I feel driven\n"
 	.string "to find the delightful creature!$"
 
+BattleFrontier_OutsideWest_EventScript_Agarthan::
+	lockall
+	faceplayer
+	msgbox BattleFrontier_OutsideWest_Text_AgarthanIntro, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, BattleFrontier_OutsideWest_EventScript_AgarthanDenied
+	goto_if_eq VAR_RESULT, YES, BattleFrontier_OutsideWest_EventScript_AgarthanAccepted
+
+BattleFrontier_OutsideWest_EventScript_AgarthanDenied::
+	msgbox BattleFrontier_OutsideWest_Text_AgarthanDenied, MSGBOX_DEFAULT
+	releaseall
+	end
+
+BattleFrontier_OutsideWest_EventScript_AgarthanAccepted::
+	msgbox BattleFrontier_OutsideWest_Text_AgarthanAccepted, MSGBOX_DEFAULT
+	trainerbattle_no_intro TRAINER_NICO_REMATCH, BattleFrontier_OutsideWest_Text_AgarthanDefeat
+	msgbox BattleFrontier_OutsideWest_Text_AgarthanPostBattle, MSGBOX_DEFAULT
+	releaseall
+	end
+
+BattleFrontier_OutsideWest_Text_AgarthanIntro:
+	.string "If it isn't the prodigal trainer.\n"
+	.string "You've come far but...\p"
+	.string "Have you come far enough?$"
+
+BattleFrontier_OutsideWest_Text_AgarthanAccepted:
+	.string "Well then, prove it!$"
+
+BattleFrontier_OutsideWest_Text_AgarthanDenied:
+	.string "Hmm... I thought better of you.$"
+
+BattleFrontier_OutsideWest_Text_AgarthanDefeat:
+	.string "Guh!$"
+
+BattleFrontier_OutsideWest_Text_AgarthanPostBattle:
+	.string "Your strength is peerless indeed.\n"
+	.string "If you haven't done so, seek the\l"
+	.string "treasures of agartha.\p"
+	.string "With their help, you'll be able\n"
+	.string "to overcome any obstacle.$"

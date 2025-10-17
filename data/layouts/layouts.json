@@ -4550,6 +4550,46 @@
       "secondary_tileset": "gTileset_Agartha_Unova",
       "border_filepath": "data/layouts/Agartha_Unova/border.bin",
       "blockdata_filepath": "data/layouts/Agartha_Unova/map.bin"
+    },
+    {
+      "id": "LAYOUT_AGARTHA_KALOS",
+      "name": "Agartha_Kalos_Layout",
+      "width": 35,
+      "height": 35,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_EverGrande",
+      "border_filepath": "data/layouts/Agartha_Kalos/border.bin",
+      "blockdata_filepath": "data/layouts/Agartha_Kalos/map.bin"
+    },
+    {
+      "id": "LAYOUT_AGARTHA_ALOLA",
+      "name": "Agartha_Alola_Layout",
+      "width": 51,
+      "height": 30,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_AgarthaReef",
+      "border_filepath": "data/layouts/Agartha_Alola/border.bin",
+      "blockdata_filepath": "data/layouts/Agartha_Alola/map.bin"
+    },
+    {
+      "id": "LAYOUT_AGARTHA_GALAR",
+      "name": "Agartha_Galar_Layout",
+      "width": 45,
+      "height": 45,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_AgarthaWeald",
+      "border_filepath": "data/layouts/Agartha_Galar/border.bin",
+      "blockdata_filepath": "data/layouts/Agartha_Galar/map.bin"
+    },
+    {
+      "id": "LAYOUT_AGARTHA_PALDEA",
+      "name": "Agartha_Paldea_Layout",
+      "width": 21,
+      "height": 50,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_Cave",
+      "border_filepath": "data/layouts/Agartha_Paldea/border.bin",
+      "blockdata_filepath": "data/layouts/Agartha_Paldea/map.bin"
     }
   ]
 }

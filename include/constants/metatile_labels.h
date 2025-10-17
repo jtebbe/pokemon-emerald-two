@@ -357,11 +357,6 @@
 #define METATILE_MeteorFalls_CaveEntrance_Right   0x24F
 #define METATILE_MeteorFalls_CaveEntrance_Top     0x246
 
-#define METATILE_AgarthaTop 0x32E 
-#define METATILE_AgarthaBottom 0x336
-#define METATILE_AgarthaLeft 0x335
-#define METATILE_AgarthaRight 0x337
-
 // gTileset_Mossdeep
 #define METATILE_Mossdeep_Door              0x2A1
 #define METATILE_Mossdeep_Door_SpaceCenter  0x2ED
@@ -785,6 +780,10 @@
 #define METATILE_Underwater_RockWall     0x21E
 
 // Other
+#define METATILE_AgarthaBottom                 0x336
+#define METATILE_AgarthaLeft                   0x335
+#define METATILE_AgarthaRight                  0x337
+#define METATILE_AgarthaTop                    0x32E
 #define METATILE_RSMossdeepGym_RedArrow_Down   0x205
 #define METATILE_RSMossdeepGym_RedArrow_Left   0x20C
 #define METATILE_RSMossdeepGym_RedArrow_Right  0x204

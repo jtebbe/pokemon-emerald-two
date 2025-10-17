@@ -1181,3 +1181,11 @@ EventScript_VsSeekerChargingDone::
 	.include "data/maps/Agartha_Sinnoh/scripts.inc"
 
 	.include "data/maps/Agartha_Unova/scripts.inc"
+
+	.include "data/maps/Agartha_Kalos/scripts.inc"
+
+	.include "data/maps/Agartha_Alola/scripts.inc"
+
+	.include "data/maps/Agartha_Galar/scripts.inc"
+
+	.include "data/maps/Agartha_Paldea/scripts.inc"

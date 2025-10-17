@@ -700,19 +700,19 @@
 #define FLAG_CAUGHT_RESHIRAM  0x292
 #define FLAG_CAUGHT_ZEKROM  0x293
 #define FLAG_CAUGHT_KYUREM  0x294
-#define FLAG_UNUSED_0x295  0x295 // Unused Flag
-#define FLAG_UNUSED_0x296  0x296 // Unused Flag
-#define FLAG_UNUSED_0x297  0x297 // Unused Flag
-#define FLAG_UNUSED_0x298  0x298 // Unused Flag
-#define FLAG_UNUSED_0x299  0x299 // Unused Flag
-#define FLAG_UNUSED_0x29A  0x29A // Unused Flag
-#define FLAG_UNUSED_0x29B  0x29B // Unused Flag
-#define FLAG_UNUSED_0x29C  0x29C // Unused Flag
-#define FLAG_UNUSED_0x29D  0x29D // Unused Flag
-#define FLAG_UNUSED_0x29E  0x29E // Unused Flag
-#define FLAG_UNUSED_0x29F  0x29F // Unused Flag
-#define FLAG_UNUSED_0x2A0  0x2A0 // Unused Flag
-#define FLAG_UNUSED_0x2A1  0x2A1 // Unused Flag
+#define FLAG_CAUGHT_ZYGARDE  0x295
+#define FLAG_CAUGHT_XERNEAS  0x296
+#define FLAG_CAUGHT_YVELTAL  0x297
+#define FLAG_CAUGHT_COSMOG_1  0x298
+#define FLAG_CAUGHT_COSMOG_2  0x299
+#define FLAG_CAUGHT_NECROZMA  0x29A
+#define FLAG_CAUGHT_ZAMAZENTA  0x29B
+#define FLAG_CAUGHT_ZACIAN  0x29C
+#define FLAG_CAUGHT_ETERNATUS  0x29D
+#define FLAG_CAUGHT_TERAPAGOS  0x29E
+#define FLAG_CAUGHT_MIRAIDON  0x29F
+#define FLAG_CAUGHT_KORAIDON  0x2A0
+#define FLAG_CLARK_REMATCH_COMPLETE  0x2A1
 #define FLAG_UNUSED_0x2A2  0x2A2 // Unused Flag
 #define FLAG_UNUSED_0x2A3  0x2A3 // Unused Flag
 #define FLAG_UNUSED_0x2A4  0x2A4 // Unused Flag
