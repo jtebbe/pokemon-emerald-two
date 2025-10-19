@@ -3233,9 +3233,7 @@ BattleScript_EffectRest::
 	jumpifability BS_TARGET, ABILITY_INSOMNIA, BattleScript_InsomniaProtects
 	jumpifability BS_TARGET, ABILITY_VITAL_SPIRIT, BattleScript_InsomniaProtects
 	jumpifability BS_ATTACKER, ABILITY_PURIFYING_SALT, BattleScript_InsomniaProtects
-.if B_LEAF_GUARD_PREVENTS_REST >= GEN_5
-	jumpifleafguardprotected BS_TARGET, BattleScript_LeafGuardPreventsRest
-.endif
+	jumpifabilitypreventsrest BS_TARGET, BattleScript_AbilityPreventsRest
 	trysetrest BattleScript_AlreadyAtFullHp
 	pause B_WAIT_TIME_SHORT
 	printfromtable gRestUsedStringIds
@@ -3257,7 +3255,7 @@ BattleScript_RestIsAlreadyAsleep::
 	waitmessage B_WAIT_TIME_LONG
 	goto BattleScript_MoveEnd
 
-BattleScript_LeafGuardPreventsRest::
+BattleScript_AbilityPreventsRest::
 	pause B_WAIT_TIME_SHORT
 	printstring STRINGID_BUTITFAILED
 	waitmessage B_WAIT_TIME_LONG
