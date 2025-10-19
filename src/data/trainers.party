@@ -4415,9 +4415,35 @@ Music: Female
 Battle Type: Doubles
 AI: Smart Trainer
 
-Roselia @ Nugget
-Level: 45
-IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
+Serperior @ Leftovers  
+Ability: Contrary  
+EVs: 252 HP / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Glare  
+- Leaf Storm  
+- Substitute  
+- Dragon Pulse
+
+Volcarona @ Charti Berry  
+Ability: Flame Body  
+EVs: 248 HP / 208 SpD / 52 Spe  
+Calm Nature  
+IVs: 0 Atk  
+- Rage Powder  
+- Tailwind  
+- Fiery Dance  
+- Protect
+
+Hawlucha @ White Herb  
+Ability: Unburden  
+Tera Type: Steel  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Adamant Nature  
+- Swords Dance  
+- Brave Bird  
+- Close Combat  
+- Protect
 
 === TRAINER_CINDY_3 ===
 Name: CINDY
@@ -4941,9 +4967,35 @@ Music: Rich
 Battle Type: Doubles
 AI: Smart Trainer
 
-Azumarill @ Nugget
-Level: 45
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Girafarig @ Eviolite  
+Ability: Twincast   
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Nasty Plot  
+- Hyper Beam  
+- Psyshock  
+- Protect
+
+Audino @ Audinite  
+Ability: Healer  
+EVs: 252 HP / 4 SpA / 252 SpD  
+Calm Nature  
+IVs: 0 Atk  
+- Follow Me  
+- Protect  
+- Helping Hand  
+- Hyper Voice
+
+Squawkabilly-White @ Choice Band  
+Ability: Hustle  
+Tera Type: Normal  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Quick Attack  
+- Brave Bird  
+- Double-Edge  
+- Giga Impact
 
 === TRAINER_WINSTON_2 ===
 Name: WINSTON
@@ -8795,13 +8847,33 @@ Music: Rich
 Battle Type: Doubles
 AI: Smart Trainer
 
-Manectric
-Level: 44
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Gyarados @ Gyaradosite  
+Ability: Intimidate  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Adamant Nature  
+- Dragon Dance  
+- Crunch  
+- Waterfall  
+- Protect
 
-Manectric
-Level: 44
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Kilowattrel @ Focus Sash  
+Ability: Competitive  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Tailwind  
+- Protect  
+- Hurricane  
+- Thunderbolt
+
+Tapu Koko @ Choice Band  
+Ability: Electric Surge    
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- U-turn  
+- Play Rough  
+- Wild Charge  
+- Brave Bird
 
 === TRAINER_THOMAS ===
 Name: THOMAS
@@ -8812,9 +8884,34 @@ Music: Rich
 Battle Type: Doubles
 AI: Smart Trainer
 
-Zangoose
-Level: 45
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Zangoose @ Toxic Orb  
+Ability: Toxic Boost  
+Tera Type: Ghost  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Swords Dance  
+- Facade  
+- Quick Attack  
+- Close Combat
+
+Shiftry @ Focus Sash  
+Ability: Wind Rider  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Tailwind  
+- Sucker Punch  
+- Seed Bomb  
+- Fake Out
+
+Clefable @ Life Orb  
+Ability: Magic Guard  
+EVs: 252 HP / 252 SpA / 4 SpD  
+Modest Nature  
+IVs: 0 Atk  
+- Moonblast  
+- Fire Blast  
+- Grass Knot  
+- Ice Beam
 
 === TRAINER_WALTER_2 ===
 Name: WALTER
@@ -11437,53 +11534,36 @@ Music: Twins
 Battle Type: Doubles
 AI: Smart Trainer
 
-Skitty @ Oran Berry
-Level: 22
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
-- Assist
-- Charm
-- Feint Attack
-- Heal Bell
+Charizard @ Charizardite Y  
+Ability: Blaze  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Tailwind  
+- Protect  
+- Weather Ball  
+- Air Slash
 
-Skitty @ Oran Berry
-Level: 36
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
-- Assist
-- Charm
-- Feint Attack
-- Heal Bell
+Venusaur @ Life Orb  
+Ability: Chlorophyll   
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Modest Nature  
+IVs: 0 Atk  
+- Sludge Bomb  
+- Solar Beam  
+- Weather Ball  
+- Protect
 
-Skitty @ Oran Berry
-Level: 40
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
-- Assist
-- Charm
-- Feint Attack
-- Heal Bell
-
-Skitty @ Oran Berry
-Level: 12
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
-- Assist
-- Charm
-- Feint Attack
-- Heal Bell
-
-Skitty @ Oran Berry
-Level: 30
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
-- Assist
-- Charm
-- Feint Attack
-- Heal Bell
-
-Delcatty @ Oran Berry
-Level: 42
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
-- Assist
-- Charm
-- Feint Attack
-- Heal Bell
+Blastoise @ White Herb  
+Ability: Torrent  
+Tera Type: Dragon  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Modest Nature  
+IVs: 0 Atk  
+- Shell Smash  
+- Weather Ball  
+- Dark Pulse  
+- Aura Sphere
 
 === TRAINER_MIGUEL_2 ===
 Name: MIGUEL
@@ -20333,13 +20413,33 @@ Music: Male
 Battle Type: Doubles
 AI: Smart Trainer
 
-Tentacruel
-Level: 44
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Dracozolt @ Choice Band  
+Ability: Sand Rush   
+Tera Type: Electric
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Adamant Nature  
+- Bolt Beak  
+- Dragon Claw  
+- High Horsepower  
+- Rock Slide
 
-Machoke
-Level: 44
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Gigalith @ Leftovers  
+Ability: Sand Stream  
+EVs: 252 HP / 4 Atk / 252 SpD  
+Careful Nature  
+- Body Press  
+- Iron Defense  
+- Sand Tomb  
+- Wide Guard
+
+Dugtrio @ Focus Sash  
+Ability: Sand Force  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- High Horsepower  
+- Sucker Punch  
+- Protect  
+- Rock Slide
 
 === TRAINER_LEONARD ===
 Name: LEONARD
@@ -20350,17 +20450,35 @@ Music: Male
 Battle Type: Doubles
 AI: Smart Trainer
 
-Machop
-Level: 43
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Machamp @ Assault Vest  
+Ability: Inner Focus   
+EVs: 252 HP / 252 Atk / 4 Def  
+Adamant Nature  
+- Close Combat  
+- Knock Off  
+- Rock Slide  
+- Fire Punch
 
-Pelipper
-Level: 43
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Uxie @ Mental Herb  
+Ability: Mind Eternal  
+Tera Type: Ghost 
+EVs: 252 HP / 252 Def / 4 SpD  
+Relaxed Nature  
+IVs: 0 Atk / 0 Spe  
+- Trick Room  
+- Protect  
+- Calm Mind  
+- Stored Power
 
-Machoke
-Level: 43
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Sableye @ Sablenite  
+Ability: Prankster  
+EVs: 252 HP / 252 Atk / 4 SpD  
+Brave Nature  
+IVs: 0 Spe  
+- Foul Play  
+- Hone Claws  
+- Poltergeist  
+- Protect
 
 === TRAINER_DUNCAN ===
 Name: DUNCAN
@@ -26286,13 +26404,33 @@ Music: Girl
 Battle Type: Doubles
 AI: Smart Trainer
 
-Luvdisc
-Level: 45
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Rhyperior @ Rindo Berry  
+Ability: Lightning Rod   
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Rock Polish  
+- Rock Slide  
+- High Horsepower  
+- Megahorn
 
-Luvdisc
-Level: 45
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Lapras @ Leftovers  
+Ability: Storm Drain  
+EVs: 252 HP / 252 SpA / 4 SpD  
+Modest Nature  
+IVs: 0 Atk  
+- Freeze-Dry  
+- Alluring Voice  
+- Hydro Pump  
+- Protect
+
+Goodra-Hisui @ Assault Vest  
+Ability: Sap Sipper  
+EVs: 252 HP / 4 Atk / 252 SpA  
+Quiet Nature  
+- Draco Meteor  
+- Body Press  
+- Heavy Slam  
+- Flamethrower
 
 === TRAINER_KIRA_AND_DAN_1 ===
 Name: KIRA & DAN
