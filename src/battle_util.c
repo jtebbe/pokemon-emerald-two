@@ -4078,14 +4078,14 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             }
             break;
         case ABILITY_MAGIC_SHOW:
-            if (TryChangeBattleTerrain(battler, STATUS_FIELD_MAGIC_ROOM, &gFieldTimers.magicRoomTimer))
+            if (TryChangeBattleTerrain(battler, STATUS_FIELD_MAGIC_ROOM))
             {
                 BattleScriptPushCursorAndCallback(BattleScript_MagicShowActivates);
                 effect++;
             }
             break;
         case ABILITY_GRAVITATION:
-            if (TryChangeBattleTerrain(battler, STATUS_FIELD_GRAVITY, &gFieldTimers.gravityTimer))
+            if (TryChangeBattleTerrain(battler, STATUS_FIELD_GRAVITY))
             {
                 BattleScriptPushCursorAndCallback(BattleScript_GravitationActivates);
                 effect++;
