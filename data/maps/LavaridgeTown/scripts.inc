@@ -242,7 +242,37 @@ LavaridgeTown_EventScript_EggWoman::
 	playfanfare MUS_OBTAIN_ITEM
 	message LavaridgeTown_Text_ReceivedTheEgg
 	waitfanfare
+	random 4
+	call_if_eq VAR_RESULT, 0, LavaridgeTown_EventScript_GiveMon0
+	call_if_eq VAR_RESULT, 1, LavaridgeTown_EventScript_GiveMon1
+	call_if_eq VAR_RESULT, 2, LavaridgeTown_EventScript_GiveMon2
+	call_if_eq VAR_RESULT, 3, LavaridgeTown_EventScript_GiveMon3
+	call_if_eq VAR_RESULT, 4, LavaridgeTown_EventScript_GiveMon4
+	release
+	end
+
+LavaridgeTown_EventScript_GiveMon0::
 	giveegg SPECIES_TYROGUE
+	release
+	end
+
+LavaridgeTown_EventScript_GiveMon1::
+	giveegg SPECIES_CHINGLING
+	release
+	end
+
+LavaridgeTown_EventScript_GiveMon2::
+	giveegg SPECIES_CORSOLA
+	release
+	end
+
+LavaridgeTown_EventScript_GiveMon3::
+	giveegg SPECIES_PUMPKABOO
+	release
+	end
+
+LavaridgeTown_EventScript_GiveMon4::
+	giveegg SPECIES_SLUGMA
 	release
 	end
 

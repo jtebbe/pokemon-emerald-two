@@ -9094,6 +9094,10 @@ static inline u32 CalcAttackStat(struct DamageContext *ctx)
         if ((atkBaseSpeciesId == SPECIES_CUBONE || atkBaseSpeciesId == SPECIES_MAROWAK) && IsBattleMovePhysical(move))
             modifier = uq4_12_multiply_half_down(modifier, UQ_4_12(2.0));
         break;
+    case HOLD_EFFECT_HEART_SCALE:
+        if (gBattleMons[battlerAtk].species == SPECIES_LUVDISC)
+            modifier = uq4_12_multiply_half_down(modifier, UQ_4_12(1.3));
+        break;
     case HOLD_EFFECT_DEEP_SEA_TOOTH:
         if (gBattleMons[battlerAtk].species == SPECIES_CLAMPERL && IsBattleMoveSpecial(move))
             modifier = uq4_12_multiply_half_down(modifier, UQ_4_12(2.0));
@@ -9273,6 +9277,10 @@ static inline u32 CalcDefenseStat(struct DamageContext *ctx)
     case HOLD_EFFECT_EVIOLITE:
         if (CanEvolve(gBattleMons[battlerDef].species))
             modifier = uq4_12_multiply_half_down(modifier, UQ_4_12(1.5));
+        break;
+    case HOLD_EFFECT_HEART_SCALE:
+        if (gBattleMons[battlerDef].species == SPECIES_LUVDISC)
+            modifier = uq4_12_multiply_half_down(modifier, UQ_4_12(1.3));
         break;
     case HOLD_EFFECT_ASSAULT_VEST:
         if (!usesDefStat)

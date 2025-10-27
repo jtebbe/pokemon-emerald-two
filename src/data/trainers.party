@@ -1284,15 +1284,15 @@ IVs: 0 Atk
 - Ice Beam  
 - Thunder
 
-Luvdisc @ Leftovers  
-Ability: Hydration  
-EVs: 252 HP / 252 Def / 4 SpD  
-Bold Nature  
+Luvdisc @ Heart Scale
+Ability: Soul-Heart  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
 IVs: 0 Atk  
-- Whirlpool  
-- Toxic  
-- Endeavor  
-- Protect
+- Protect  
+- Ice Beam  
+- Hydro Pump  
+- Moonblast
 
 Ampharos @ Ampharosite  
 Ability: Static    
@@ -18992,15 +18992,15 @@ Music: Swimmer
 Battle Type: Doubles
 AI: Smart Trainer
 
-Luvdisc @ Covert Cloak  
-Ability: Swift Swim  
+Luvdisc @ Heart Scale
+Ability: Soul-Heart  
 EVs: 252 SpA / 4 SpD / 252 Spe  
-Modest Nature  
+Timid Nature  
 IVs: 0 Atk  
-- Icy Wind  
+- Protect  
+- Ice Beam  
 - Hydro Pump  
-- Blizzard  
-- Protect
+- Moonblast
 
 Castform @ Damp Rock  
 Ability: Forecast   

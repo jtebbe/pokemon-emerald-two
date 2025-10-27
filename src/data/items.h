@@ -2964,6 +2964,7 @@ const struct Item gItemsInfo[] =
         .pocket = POCKET_ITEMS,
         .sortType = ITEM_TYPE_SELLABLE,
         .type = ITEM_USE_BAG_MENU,
+        .holdEffect = HOLD_EFFECT_HEART_SCALE,
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
         .flingPower = 30,
         .iconPic = gItemIcon_HeartScale,

@@ -193,15 +193,22 @@ SlateportCity_EventScript_MonHasEffortRibbon::
 SlateportCity_EventScript_Cook::
 	lock
 	faceplayer
-	call_if_eq VAR_SLATEPORT_CITY_STATE, 1, SlateportCity_EventScript_CookSternInterview
-	msgbox SlateportCity_Text_SeaweedFullOfLife, MSGBOX_DEFAULT
+	message SlateportCity_Text_MrPPSellWhatYouNeed
+	waitmessage
+	pokemart SlateportCity_Pokemart_MrPP
+	msgbox gText_PleaseComeAgain, MSGBOX_DEFAULT
 	release
 	end
 
-SlateportCity_EventScript_CookSternInterview::
-	msgbox SlateportCity_Text_CaptainComeBackWithBigFish, MSGBOX_DEFAULT
-	release
-	end
+	.align 2
+SlateportCity_Pokemart_MrPP:
+	.2byte ITEM_PP_UP
+	.2byte ITEM_PP_MAX
+	pokemartlistend
+
+SlateportCity_Text_MrPPSellWhatYouNeed:
+	.string "Hello! I'm Mr. PP! Do you\n"
+	.string "need help with your PP?$"
 
 SlateportCity_EventScript_OldWoman::
 	lock

@@ -512,12 +512,28 @@ void ScrCmd_createmon(struct ScriptContext *ctx)
     u8 speedEv        = PARSE_FLAG(8, 0);
     u8 spAtkEv        = PARSE_FLAG(9, 0);
     u8 spDefEv        = PARSE_FLAG(10, 0);
-    u8 hpIv           = Random() % (MAX_PER_STAT_IVS + 1);
-    u8 atkIv          = Random() % (MAX_PER_STAT_IVS + 1);
-    u8 defIv          = Random() % (MAX_PER_STAT_IVS + 1);
-    u8 speedIv        = Random() % (MAX_PER_STAT_IVS + 1);
-    u8 spAtkIv        = Random() % (MAX_PER_STAT_IVS + 1);
-    u8 spDefIv        = Random() % (MAX_PER_STAT_IVS + 1);
+    u8 hpIv;
+    u8 atkIv;
+    u8 defIv;
+    u8 speedIv;
+    u8 spAtkIv;
+    u8 spDefIv;
+
+    if (FlagGet(FLAG_PERFECT_IVS_MODE)) {
+        hpIv = 31;
+        atkIv = 31;
+        defIv = 31;
+        speedIv = 31;
+        spAtkIv = 31;
+        spDefIv = 31;
+    } else {
+        hpIv = Random() % (MAX_PER_STAT_IVS + 1);
+        atkIv = Random() % (MAX_PER_STAT_IVS + 1);
+        defIv = Random() % (MAX_PER_STAT_IVS + 1);
+        speedIv = Random() % (MAX_PER_STAT_IVS + 1);
+        spAtkIv = Random() % (MAX_PER_STAT_IVS + 1);
+        spDefIv = Random() % (MAX_PER_STAT_IVS + 1);
+    }
 
     // Perfect IV calculation
     u32 i;

@@ -21386,6 +21386,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .pp = 5,
         .makesContact = TRUE,
         .target = MOVE_TARGET_SELECTED,
+        .argument = { .nonVolatileStatus = MOVE_EFFECT_TOXIC },
         .category = DAMAGE_CATEGORY_STATUS,
         .battleAnimScript = gBattleAnimMove_DeadlyKiss,
     },
