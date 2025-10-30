@@ -1,5 +1,19 @@
 SealedChamber_InnerRoom_MapScripts::
+	map_script MAP_SCRIPT_ON_LOAD, SealedChamber_InnerRoom_OnLoad
 	.byte 0
+
+SealedChamber_InnerRoom_OnLoad:
+	checkspecies SPECIES_REGICE, NO_PARTY_SCREEN
+	goto_if_eq VAR_RESULT, FALSE, SealedChamber_InnerRoom_DoNothing
+	checkspecies SPECIES_REGISTEEL, NO_PARTY_SCREEN
+	goto_if_eq VAR_RESULT, FALSE, SealedChamber_InnerRoom_DoNothing
+	checkspecies SPECIES_REGIROCK, NO_PARTY_SCREEN
+	goto_if_eq VAR_RESULT, FALSE, SealedChamber_InnerRoom_DoNothing
+	setmetatile 10, 12, METATILE_RegigigasLadder, FALSE
+	end
+
+SealedChamber_InnerRoom_DoNothing::
+	end
 
 SealedChamber_InnerRoom_EventScript_BrailleBackWall::
 	lockall

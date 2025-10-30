@@ -103,6 +103,108 @@ Agartha_Galar_EventScript_ZacianWaits::
 Agartha_Galar_Text_Zacian:
 	.string "Za...$"
 
+Agartha_Galar_EventScript_Spectrier::
+	lockall
+	faceplayer
+	playmoncry SPECIES_SPECTRIER, CRY_MODE_ENCOUNTER
+	msgbox Agartha_Galar_Text_Spectrier, MSGBOX_AUTOCLOSE
+	delay 40
+	waitmoncry
+	setwildbattle SPECIES_SPECTRIER, 70
+	setflag FLAG_SYS_CTRL_OBJ_DELETE
+	special BattleSetup_StartLegendaryBattle
+	waitstate
+	clearflag FLAG_SYS_CTRL_OBJ_DELETE
+	setvar VAR_TEMP_1, 0
+	specialvar VAR_RESULT, GetBattleOutcome
+	goto_if_ne VAR_RESULT, B_OUTCOME_CAUGHT, Agartha_Galar_EventScript_SpectrierWaits
+	fadescreen FADE_TO_BLACK
+	delay 30
+	setflag FLAG_CAUGHT_SPECTRIER
+	removeobject LOCALID_SPECTRIER
+	fadescreen FADE_FROM_BLACK
+	releaseall
+	end
+
+Agartha_Galar_EventScript_SpectrierWaits::
+	playmoncry SPECIES_SPECTRIER, CRY_MODE_ENCOUNTER
+	msgbox Agartha_Galar_Text_Spectrier, MSGBOX_AUTOCLOSE
+	delay 40
+	waitmoncry
+	releaseall
+	end
+
+Agartha_Galar_Text_Spectrier:
+	.string "Tri...$"
+
+Agartha_Galar_EventScript_Calyrex::
+	lockall
+	faceplayer
+	playmoncry SPECIES_CALYREX, CRY_MODE_ENCOUNTER
+	msgbox Agartha_Galar_Text_Calyrex, MSGBOX_AUTOCLOSE
+	delay 40
+	waitmoncry
+	setwildbattle SPECIES_CALYREX, 70
+	setflag FLAG_SYS_CTRL_OBJ_DELETE
+	special BattleSetup_StartLegendaryBattle
+	waitstate
+	clearflag FLAG_SYS_CTRL_OBJ_DELETE
+	setvar VAR_TEMP_1, 0
+	specialvar VAR_RESULT, GetBattleOutcome
+	goto_if_ne VAR_RESULT, B_OUTCOME_CAUGHT, Agartha_Galar_EventScript_CalyrexWaits
+	fadescreen FADE_TO_BLACK
+	delay 30
+	setflag FLAG_CAUGHT_CALYREX
+	removeobject LOCALID_CALYREX
+	fadescreen FADE_FROM_BLACK
+	releaseall
+	end
+
+Agartha_Galar_EventScript_CalyrexWaits::
+	playmoncry SPECIES_CALYREX, CRY_MODE_ENCOUNTER
+	msgbox Agartha_Galar_Text_Calyrex, MSGBOX_AUTOCLOSE
+	delay 40
+	waitmoncry
+	releaseall
+	end
+
+Agartha_Galar_Text_Calyrex:
+	.string "Fight me...$"
+
+Agartha_Galar_EventScript_Glastrier::
+	lockall
+	faceplayer
+	playmoncry SPECIES_GLASTRIER, CRY_MODE_ENCOUNTER
+	msgbox Agartha_Galar_Text_Glastrier, MSGBOX_AUTOCLOSE
+	delay 40
+	waitmoncry
+	setwildbattle SPECIES_GLASTRIER, 70
+	setflag FLAG_SYS_CTRL_OBJ_DELETE
+	special BattleSetup_StartLegendaryBattle
+	waitstate
+	clearflag FLAG_SYS_CTRL_OBJ_DELETE
+	setvar VAR_TEMP_1, 0
+	specialvar VAR_RESULT, GetBattleOutcome
+	goto_if_ne VAR_RESULT, B_OUTCOME_CAUGHT, Agartha_Galar_EventScript_GlastrierWaits
+	fadescreen FADE_TO_BLACK
+	delay 30
+	setflag FLAG_CAUGHT_GLASTRIER
+	removeobject LOCALID_GLASTRIER
+	fadescreen FADE_FROM_BLACK
+	releaseall
+	end
+
+Agartha_Galar_EventScript_GlastrierWaits::
+	playmoncry SPECIES_GLASTRIER, CRY_MODE_ENCOUNTER
+	msgbox Agartha_Galar_Text_Glastrier, MSGBOX_AUTOCLOSE
+	delay 40
+	waitmoncry
+	releaseall
+	end
+
+Agartha_Galar_Text_Glastrier:
+	.string "Gla...$"
+
 Agartha_Galar_EventScript_Agarthan::
 	lockall
 	faceplayer

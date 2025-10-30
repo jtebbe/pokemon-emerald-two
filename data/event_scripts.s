@@ -1189,3 +1189,5 @@ EventScript_VsSeekerChargingDone::
 	.include "data/maps/Agartha_Galar/scripts.inc"
 
 	.include "data/maps/Agartha_Paldea/scripts.inc"
+
+	.include "data/maps/SealedChamber_RegigigasRoom/scripts.inc"

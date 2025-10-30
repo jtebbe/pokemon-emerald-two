@@ -863,10 +863,12 @@ const struct TrainerMon gBattleFrontierMons[NUM_FRONTIER_MONS] =
     },
     [FRONTIER_MON_LUVDISC] = {
         .species = SPECIES_LUVDISC,
-        .moves = {MOVE_SWEET_KISS, MOVE_ATTRACT, MOVE_DIVE, MOVE_RAIN_DANCE},
-        .heldItem = ITEM_QUICK_CLAW,
-        .ev = TRAINER_PARTY_EVS(252, 0, 0, 0, 252, 0),
-        .nature = NATURE_RELAXED
+        .heldItem = ITEM_HEART_SCALE,
+        .ability = ABILITY_SOUL_HEART,
+        .ev = TRAINER_PARTY_EVS(0, 0, 0, 252, 252, 4),
+        .nature = NATURE_TIMID,
+        .iv = TRAINER_PARTY_IVS(31, 0, 31, 31, 31, 31),
+        .moves = {MOVE_PROTECT, MOVE_ICE_BEAM, MOVE_HYDRO_PUMP, MOVE_MOONBLAST},
     },
     [FRONTIER_MON_TENTACOOL] = {
         .species = SPECIES_TENTACOOL,

@@ -447,7 +447,8 @@
     "Agartha_Unova",
     "Agartha_Alola",
     "Agartha_Galar",
-    "Agartha_Paldea"
+    "Agartha_Paldea",
+    "SealedChamber_RegigigasRoom"
   ],
   "gMapGroup_IndoorDynamic": [
     "SecretBase_RedCave1",

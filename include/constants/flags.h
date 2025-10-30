@@ -713,10 +713,10 @@
 #define FLAG_CAUGHT_MIRAIDON  0x29F
 #define FLAG_CAUGHT_KORAIDON  0x2A0
 #define FLAG_CLARK_REMATCH_COMPLETE  0x2A1
-#define FLAG_UNUSED_0x2A2  0x2A2 // Unused Flag
-#define FLAG_UNUSED_0x2A3  0x2A3 // Unused Flag
-#define FLAG_UNUSED_0x2A4  0x2A4 // Unused Flag
-#define FLAG_UNUSED_0x2A5  0x2A5 // Unused Flag
+#define FLAG_CAUGHT_CALYREX  0x2A2
+#define FLAG_CAUGHT_SPECTRIER  0x2A3
+#define FLAG_CAUGHT_GLASTRIER  0x2A4
+#define FLAG_CAUGHT_REGIGIGAS  0x2A5
 #define FLAG_UNUSED_0x2A6  0x2A6 // Unused Flag
 #define FLAG_UNUSED_0x2A7  0x2A7 // Unused Flag
 #define FLAG_UNUSED_0x2A8  0x2A8 // Unused Flag

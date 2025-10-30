@@ -58,8 +58,8 @@
     {
       "local_id": "LOCALID_ETERNATUS",
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(ETERNATUS)",
-      "x": 25,
-      "y": 40,
+      "x": 6,
+      "y": 42,
       "elevation": 0,
       "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
       "movement_range_x": 0,
@@ -68,6 +68,48 @@
       "trainer_sight_or_berry_tree_id": "0",
       "script": "Agartha_Galar_EventScript_Eternatus",
       "flag": "FLAG_CAUGHT_ETERNATUS"
+    },
+    {
+      "local_id": "LOCALID_CALYREX",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(CALYREX)",
+      "x": 72,
+      "y": 38,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "Agartha_Galar_EventScript_Calyrex",
+      "flag": "FLAG_CAUGHT_CALYREX"
+    },
+    {
+      "local_id": "LOCALID_GLASTRIER",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(GLASTRIER)",
+      "x": 41,
+      "y": 38,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "Agartha_Galar_EventScript_Glastrier",
+      "flag": "FLAG_CAUGHT_GLASTRIER"
+    },
+    {
+      "local_id": "LOCALID_SPECTRIER",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(SPECTRIER)",
+      "x": 71,
+      "y": 7,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "Agartha_Galar_EventScript_Spectrier",
+      "flag": "FLAG_CAUGHT_SPECTRIER"
     }
   ],
   "warp_events": [
