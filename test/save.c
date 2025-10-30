@@ -34,4 +34,4 @@ TEST("PokemonStorage is backwards compatible")
 #undef T_SAVEBLOCK3_SIZE
 #undef T_POKEMONSTORAGE_SIZE
 
-/*
+*/
