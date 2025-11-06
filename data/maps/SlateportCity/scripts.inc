@@ -620,6 +620,8 @@ SlateportCity_Pokemart_PowerTMs:
 	.2byte ITEM_ABILITY_CAPSULE
 	.2byte ITEM_ABILITY_PATCH
 	.2byte ITEM_SOUL_DEW
+	.2byte ITEM_QUICK_POWDER
+	.2byte ITEM_METAL_POWDER
 	pokemartlistend
 
 @ Scene with Capt Sterns interview and Team Aqua announcing plans to steal Submarine

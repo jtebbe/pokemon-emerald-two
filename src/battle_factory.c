@@ -793,6 +793,8 @@ static u16 GetFactoryMonId(u8 lvlMode, u8 challengeNum, bool8 useBetterRange)
         monId += sInitialRentalMonRanges[adder + challenge][0];
     }
 
+    //monId = RandomUniform(RNG_NONE, 1, NUM_CUSTOM_FRONTIER_GENERIC_MONS) - 1;
+
     return monId;
 }
 

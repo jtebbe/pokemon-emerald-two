@@ -7438,7 +7438,7 @@ const struct Item gItemsInfo[] =
     {
         .name = ITEM_NAME("Metal Powder"),
         .pluralName = ITEM_PLURAL_NAME("Metal Powder"),
-        .price = (I_PRICE >= GEN_7) ? 1000 : 10,
+        .price = (I_PRICE >= GEN_7) ? 1000 : 1000,
         .holdEffect = HOLD_EFFECT_METAL_POWDER,
         .description = COMPOUND_STRING(
             "A hold item that\n"
@@ -7457,7 +7457,7 @@ const struct Item gItemsInfo[] =
     {
         .name = ITEM_NAME("Quick Powder"),
         .pluralName = ITEM_PLURAL_NAME("Quick Powder"),
-        .price = (I_PRICE >= GEN_7) ? 1000 : 10,
+        .price = (I_PRICE >= GEN_7) ? 1000 : 1000,
         .holdEffect = HOLD_EFFECT_QUICK_POWDER,
         .description = COMPOUND_STRING(
             "A hold item that\n"

@@ -1104,6 +1104,7 @@ static const struct LevelUpMove sOddishLevelUpLearnset[] = {
 };
 
 static const struct LevelUpMove sGloomLevelUpLearnset[] = {
+    LEVEL_UP_MOVE( 0, MOVE_INGRAIN),
     LEVEL_UP_MOVE( 1, MOVE_ACID),
     LEVEL_UP_MOVE( 1, MOVE_ABSORB),
     LEVEL_UP_MOVE( 1, MOVE_GROWTH),
@@ -1140,6 +1141,7 @@ static const struct LevelUpMove sVileplumeLevelUpLearnset[] = {
     LEVEL_UP_MOVE( 1, MOVE_MOONLIGHT),
     LEVEL_UP_MOVE( 1, MOVE_GRASSY_TERRAIN),
     LEVEL_UP_MOVE( 1, MOVE_MOONBLAST),
+    LEVEL_UP_MOVE( 1, MOVE_INGRAIN),
     LEVEL_UP_END
 };
 
@@ -1368,6 +1370,7 @@ static const struct LevelUpMove sMeowthAlolaLevelUpLearnset[] = {
     LEVEL_UP_MOVE(12, MOVE_PAY_DAY),
     LEVEL_UP_MOVE(16, MOVE_BITE),
     LEVEL_UP_MOVE(20, MOVE_TAUNT),
+    LEVEL_UP_MOVE(22, MOVE_TOXIC),
     LEVEL_UP_MOVE(24, MOVE_ASSURANCE),
     LEVEL_UP_MOVE(29, MOVE_FURY_SWIPES),
     LEVEL_UP_MOVE(32, MOVE_SCREECH),
@@ -1382,6 +1385,7 @@ static const struct LevelUpMove sPersianAlolaLevelUpLearnset[] = {
     LEVEL_UP_MOVE( 0, MOVE_COMEUPPANCE),
     LEVEL_UP_MOVE( 1, MOVE_SCRATCH),
     LEVEL_UP_MOVE( 1, MOVE_GROWL),
+    LEVEL_UP_MOVE( 1, MOVE_TOXIC),
     LEVEL_UP_MOVE( 1, MOVE_FAKE_OUT),
     LEVEL_UP_MOVE( 1, MOVE_FEINT),
     LEVEL_UP_MOVE( 1, MOVE_SWITCHEROO),
@@ -1900,6 +1904,7 @@ static const struct LevelUpMove sTentacruelLevelUpLearnset[] = {
     LEVEL_UP_MOVE( 1, MOVE_ACID),
     LEVEL_UP_MOVE( 1, MOVE_WATER_GUN),
     LEVEL_UP_MOVE( 1, MOVE_REFLECT_TYPE),
+    LEVEL_UP_MOVE( 1, MOVE_AQUA_RING),
     LEVEL_UP_MOVE(12, MOVE_SUPERSONIC),
     LEVEL_UP_MOVE(16, MOVE_WATER_PULSE),
     LEVEL_UP_MOVE(20, MOVE_SCREECH),
@@ -2752,6 +2757,7 @@ static const struct LevelUpMove sDrowzeeLevelUpLearnset[] = {
     LEVEL_UP_MOVE(25, MOVE_PSYCH_UP),
     LEVEL_UP_MOVE(29, MOVE_ZEN_HEADBUTT),
     LEVEL_UP_MOVE(33, MOVE_SWAGGER),
+    LEVEL_UP_MOVE(35, MOVE_DREAM_EATER),
     LEVEL_UP_MOVE(37, MOVE_PSYCHIC),
     LEVEL_UP_MOVE(41, MOVE_NASTY_PLOT),
     LEVEL_UP_MOVE(45, MOVE_PSYSHOCK),
@@ -2762,6 +2768,7 @@ static const struct LevelUpMove sDrowzeeLevelUpLearnset[] = {
 static const struct LevelUpMove sHypnoLevelUpLearnset[] = {
     LEVEL_UP_MOVE( 1, MOVE_POUND),
     LEVEL_UP_MOVE( 1, MOVE_DISABLE),
+    LEVEL_UP_MOVE( 1, MOVE_DREAM_EATER),
     LEVEL_UP_MOVE( 1, MOVE_CONFUSION),
     LEVEL_UP_MOVE( 1, MOVE_HYPNOSIS),
     LEVEL_UP_MOVE( 1, MOVE_SWITCHEROO),

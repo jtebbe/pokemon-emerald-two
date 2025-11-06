@@ -47,7 +47,7 @@ EverGrandeCity_ChampionsRoom_EventScript_Wallace::
 
 EverGrandeCity_WallacesRoom_EventScript_Wallace_Rematch::
 	msgbox EverGrandeCity_ChampionsRoom_Text_IntroSpeechRematch, MSGBOX_DEFAULT
-	trainerbattle_no_intro TRAINER_WALLACE, EverGrandeCity_ChampionsRoom_Text_DefeatRematch
+	trainerbattle_no_intro TRAINER_WALLACE_REMATCH, EverGrandeCity_ChampionsRoom_Text_DefeatRematch
 	setflag FLAG_WALLACE_REMATCH_COMPLETE
 	playse SE_DOOR
 	setmetatile 6, 1, METATILE_EliteFour_OpenDoorChampion_Frame, FALSE

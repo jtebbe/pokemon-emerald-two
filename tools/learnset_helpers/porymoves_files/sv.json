@@ -1574,7 +1574,9 @@
       "MOVE_TICKLE",
       "MOVE_WISH"
     ],
-    "TutorMoves": []
+    "TutorMoves": [
+      "MOVE_FOLLOW_ME"
+    ]
   },
   "RAICHU": {
     "LevelMoves": [
@@ -1725,7 +1727,9 @@
       "MOVE_TICKLE",
       "MOVE_WISH"
     ],
-    "TutorMoves": []
+    "TutorMoves": [
+      "MOVE_FOLLOW_ME"
+    ]
   },
   "SANDSHREW": {
     "LevelMoves": [
@@ -15154,7 +15158,9 @@
       "MOVE_TICKLE",
       "MOVE_WISH"
     ],
-    "TutorMoves": []
+    "TutorMoves": [
+      "MOVE_FOLLOW_ME"
+    ]
   },
   "CLEFFA": {
     "LevelMoves": [

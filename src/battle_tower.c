@@ -29,6 +29,7 @@
 #include "constants/battle_dome.h"
 #include "constants/battle_frontier.h"
 #include "constants/battle_frontier_mons.h"
+#include "constants/battle_frontier_custom_mons.h"
 #include "constants/battle_move_effects.h"
 #include "constants/battle_tent.h"
 #include "constants/battle_tent_mons.h"
@@ -84,6 +85,7 @@ static u8 SetTentPtrsGetLevel(void);
 #include "data/battle_frontier/battle_frontier_trainer_mons.h"
 #include "data/battle_frontier/battle_frontier_trainers.h"
 #include "data/battle_frontier/battle_frontier_mons.h"
+#include "data/battle_frontier/battle_frontier_custom_mons.h"
 
 const u8 gTowerMaleFacilityClasses[30] =
 {
@@ -1627,7 +1629,7 @@ void CreateFacilityMon(const struct TrainerMon *fmon, u16 level, u8 fixedIV, u32
     if (fmon->iv)
         SetMonData(dst, MON_DATA_IVS, &(fmon->iv));
 
-    if (fmon->isShiny)
+    if (RandomUniform(RNG_NONE, 1, 256) == 69)
     {
         u32 data = TRUE;
         SetMonData(dst, MON_DATA_IS_SHINY, &data);

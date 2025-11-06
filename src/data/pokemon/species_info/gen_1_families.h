@@ -10643,7 +10643,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .baseHP        = 52,
         .baseAttack    = FARFETCHD_ATTACK,
         .baseDefense   = 55,
-        .baseSpeed     = 80,
+        .baseSpeed     = 101,
         .baseSpAttack  = 58,
         .baseSpDefense = P_UPDATED_STATS >= GEN_2 ? 62 : 58,
         .types = MON_TYPES(TYPE_NORMAL, TYPE_FLYING),

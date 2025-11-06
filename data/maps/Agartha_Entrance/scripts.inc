@@ -31,6 +31,10 @@ Agartha_Entrance_EventScript_Nadroj::
 	giveitem ITEM_MYSTIC_TICKET
 	giveitem ITEM_AURORA_TICKET
 	giveitem ITEM_OLD_SEA_MAP
+	setflag FLAG_ENABLE_SHIP_BIRTH_ISLAND
+	setflag FLAG_ENABLE_SHIP_FARAWAY_ISLAND
+	setflag FLAG_ENABLE_SHIP_NAVEL_ROCK
+	setflag FLAG_ENABLE_SHIP_SOUTHERN_ISLAND
 	fadescreen FADE_TO_BLACK
 	removeobject LOCALID_NADROJ
 	fadescreen FADE_FROM_BLACK

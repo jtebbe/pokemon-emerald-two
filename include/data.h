@@ -306,9 +306,9 @@ static inline const struct TrainerMon *GetTrainerPartyFromId(u16 trainerId)
     return GetTrainerStructFromId(trainerId)->party;
 }
 
-static inline const u64 GetTrainerAIFlagsFromId(u16 trainerId)
+/*static inline const u64 GetTrainerAIFlagsFromId(u16 trainerId)
 {
     return GetTrainerStructFromId(trainerId)->aiFlags;
-}
+}*/
 
 #endif // GUARD_DATA_H
