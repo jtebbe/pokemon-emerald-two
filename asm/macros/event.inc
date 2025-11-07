@@ -2729,3 +2729,9 @@
     .endm
 
     @ End Pokevial Branch
+	
+@ VS Seeker
+	.macro vsseeker_rematchid rematchId:req
+	callnative NativeVsSeekerRematchId, requests_effects=1
+	.2byte \rematchId
+	.endm
