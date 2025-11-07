@@ -11,6 +11,7 @@
 #include "constants/battle_ai.h"
 #include "constants/battle_factory.h"
 #include "constants/battle_frontier.h"
+#include "constants/battle_frontier_custom_mons.h"
 #include "constants/battle_frontier_mons.h"
 #include "constants/battle_tent.h"
 #include "constants/frontier_util.h"
@@ -387,7 +388,7 @@ static void SetRentalsToOpponentParty(void)
     u8 i;
 
     if (gSaveBlock2Ptr->frontier.lvlMode != FRONTIER_LVL_TENT)
-        gFacilityTrainerMons = gBattleFrontierMons;
+        gFacilityTrainerMons = gCustomBattleFrontierGenericMons;
     else
         gFacilityTrainerMons = gSlateportBattleTentMons;
 
@@ -415,7 +416,7 @@ static void SetPlayerAndOpponentParties(void)
     }
     else
     {
-        gFacilityTrainerMons = gBattleFrontierMons;
+        gFacilityTrainerMons = gCustomBattleFrontierGenericMons;
         if (gSaveBlock2Ptr->frontier.lvlMode != FRONTIER_LVL_50)
             monLevel = FRONTIER_MAX_LEVEL_OPEN;
         else
@@ -479,7 +480,7 @@ static void GenerateInitialRentalMons(void)
     else
         factoryBattleMode = FRONTIER_MODE_SINGLES;
 
-    gFacilityTrainerMons = gBattleFrontierMons;
+    gFacilityTrainerMons = gCustomBattleFrontierGenericMons;
     if (gSaveBlock2Ptr->frontier.lvlMode != FRONTIER_LVL_50)
     {
         factoryLvlMode = FRONTIER_LVL_OPEN;
@@ -552,7 +553,7 @@ static void GetOpponentMostCommonMonType(void)
     u8 typeCounts[NUMBER_OF_MON_TYPES];
     u8 mostCommonTypes[2];
 
-    gFacilityTrainerMons = gBattleFrontierMons;
+    gFacilityTrainerMons = gCustomBattleFrontierGenericMons;
 
     // Count the number of times each type occurs in the opponent's party.
     for (i = TYPE_NORMAL; i < NUMBER_OF_MON_TYPES; i++)
@@ -602,7 +603,7 @@ static void GetOpponentBattleStyle(void)
     u8 stylePoints[FACTORY_NUM_STYLES];
 
     count = 0;
-    gFacilityTrainerMons = gBattleFrontierMons;
+    gFacilityTrainerMons = gCustomBattleFrontierGenericMons;
     for (i = 0; i < FACTORY_NUM_STYLES; i++)
         stylePoints[i] = 0;
 
@@ -658,7 +659,7 @@ static void RestorePlayerPartyHeldItems(void)
     u8 i;
 
     if (gSaveBlock2Ptr->frontier.lvlMode != FRONTIER_LVL_TENT)
-        gFacilityTrainerMons = gBattleFrontierMons;
+        gFacilityTrainerMons = gCustomBattleFrontierGenericMons;
     else
         gFacilityTrainerMons = gSlateportBattleTentMons;
 
@@ -793,7 +794,7 @@ static u16 GetFactoryMonId(u8 lvlMode, u8 challengeNum, bool8 useBetterRange)
         monId += sInitialRentalMonRanges[adder + challenge][0];
     }
 
-    //monId = RandomUniform(RNG_NONE, 1, NUM_CUSTOM_FRONTIER_GENERIC_MONS) - 1;
+    monId = RandomUniform(RNG_NONE, 1, NUM_CUSTOM_FRONTIER_GENERIC_MONS) - 1;
 
     return monId;
 }
@@ -825,7 +826,7 @@ u64 GetAiScriptsInBattleFactory(void)
 
     if (lvlMode == FRONTIER_LVL_TENT)
     {
-        return 0;
+        return AI_FLAG_SMART_TRAINER;
     }
     else
     {
@@ -833,13 +834,13 @@ u64 GetAiScriptsInBattleFactory(void)
         int challengeNum = gSaveBlock2Ptr->frontier.factoryWinStreaks[battleMode][lvlMode] / FRONTIER_STAGES_PER_CHALLENGE;
 
         if (TRAINER_BATTLE_PARAM.opponentA == TRAINER_FRONTIER_BRAIN)
-            return AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_TRY_TO_FAINT | AI_FLAG_CHECK_VIABILITY;
+            return AI_FLAG_SMART_TRAINER;
         else if (challengeNum < 2)
-            return 0;
+            return AI_FLAG_SMART_TRAINER;
         else if (challengeNum < 4)
-            return AI_FLAG_CHECK_BAD_MOVE;
+            return AI_FLAG_SMART_TRAINER;
         else
-            return AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_TRY_TO_FAINT | AI_FLAG_CHECK_VIABILITY;
+            return AI_FLAG_SMART_TRAINER;
     }
 }
 
