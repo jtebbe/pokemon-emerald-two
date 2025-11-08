@@ -1938,7 +1938,7 @@ static void RegisterTrainerInMatchCall(void)
             FlagSet(matchCallFlagId);
     }
 }
-
+/*
 static bool8 WasSecondRematchWon(const struct RematchTrainer *table, u16 firstBattleTrainerId)
 {
     s32 tableId = FirstBattleTrainerIdToRematchTableId(table, firstBattleTrainerId);
@@ -1953,7 +1953,7 @@ static bool8 WasSecondRematchWon(const struct RematchTrainer *table, u16 firstBa
             return FALSE;
     }
     return TRUE;
-}
+}*/
 
 #if FREE_MATCH_CALL == FALSE
 static bool32 HasEnoughBadgesForRematch(void)
@@ -2041,8 +2041,10 @@ bool8 ShouldTryRematchBattleForTrainerId(u16 trainerId)
 {
     if (IsFirstTrainerIdReadyForRematch(gRematchTable, trainerId))
         return TRUE;
+    
+    return FALSE;
 
-    return WasSecondRematchWon(gRematchTable, trainerId);
+    //return WasSecondRematchWon(gRematchTable, trainerId);
 }
 
 bool8 IsTrainerReadyForRematch(void)
