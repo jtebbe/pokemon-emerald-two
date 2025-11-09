@@ -1974,12 +1974,6 @@
 	.4byte \jumpInstr
 	.endm
 
-	.macro infatuatewithbattler battler:req, infatuateWith:req
-	callnative BS_InfatuateWithBattler
-	.byte \battler
-	.byte \infatuateWith
-	.endm
-
 	.macro setlastuseditem battler:req
 	callnative BS_SetLastUsedItem
 	.byte \battler
