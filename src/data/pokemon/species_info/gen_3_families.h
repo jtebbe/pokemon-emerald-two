@@ -7399,7 +7399,7 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
     #else
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_BUG),
     #endif
-        .abilities = { ABILITY_LEVITATE, ABILITY_STEADFAST, ABILITY_WIND_RIDER },
+        .abilities = { ABILITY_LEVITATE, ABILITY_WIND_RIDER, ABILITY_SANDSWORN },
         .bodyColor = BODY_COLOR_GREEN,
         .speciesName = _("Flygon"),
         .cryId = CRY_FLYGON,

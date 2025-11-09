@@ -21492,6 +21492,28 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .validApprenticeMove = TRUE,
     },
 
+    [MOVE_GROUND_SLAM] =
+    {
+        .name = COMPOUND_STRING("Ground Slam"),
+        .description = COMPOUND_STRING(
+            "Slams the foe hard into the\n"
+            "ground."),
+        .effect = EFFECT_HIT,
+        .power = 100,
+        .type = TYPE_GROUND,
+        .accuracy = 100,
+        .pp = 10,
+        .target = MOVE_TARGET_SELECTED,
+        .priority = 0,
+        .category = DAMAGE_CATEGORY_PHYSICAL,
+        .makesContact = TRUE,
+        .contestEffect = CONTEST_EFFECT_HIGHLY_APPEALING,
+        .contestCategory = CONTEST_CATEGORY_TOUGH,
+        .contestComboStarterId = 0,
+        .contestComboMoves = {0},
+        .battleAnimScript = gBattleAnimMove_Fissure,
+    },
+
     // Z-Moves
     [MOVE_BREAKNECK_BLITZ] =
     {

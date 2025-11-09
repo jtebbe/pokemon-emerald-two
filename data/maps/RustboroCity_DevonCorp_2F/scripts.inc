@@ -49,10 +49,19 @@ RustboroCity_DevonCorp_2F_EventScript_HasPokenav::
 RustboroCity_DevonCorp_2F_EventScript_PokemonDreamsScientist::
 	lock
 	faceplayer
-	call_if_eq VAR_FOSSIL_RESURRECTION_STATE, 1, RustboroCity_DevonCorp_2F_EventScript_SetFossilReady
+	call_if_set FLAG_DEXNAV_GET, RustboroCity_DevonCorp_2F_EventScript_YouHaveDexnav
 	msgbox RustboroCity_DevonCorp_2F_Text_DeviceToVisualizePokemonDreams, MSGBOX_DEFAULT
+	setflag FLAG_DEXNAV_GET
 	release
 	end
+
+RustboroCity_DevonCorp_2F_EventScript_YouHaveDexnav::
+	msgbox RustboroCity_DevonCorp_2F_Text_Dexnav, MSGBOX_DEFAULT
+	release
+	end
+
+RustboroCity_DevonCorp_2F_Text_Dexnav:
+	.string "Easy peasy! Enjoy!$"
 
 RustboroCity_DevonCorp_2F_EventScript_FossilScientist::
 	lock
@@ -306,10 +315,10 @@ RustboroCity_DevonCorp_2F_Text_WowThatsAPokenav:
 	.string "trying the POKéNAV out.$"
 
 RustboroCity_DevonCorp_2F_Text_DeviceToVisualizePokemonDreams:
-	.string "I'm trying to develop a device that\n"
-	.string "visually reproduces the dreams of\l"
-	.string "POKéMON…\p"
-	.string "But it's not going well.$"
+	.string "Hey! Have you tried Dexnav?\n"
+	.string "You haven't?! Here, let me\l"
+	.string "enable yours…\p"
+	.string "Okay! Just check your menu.$"
 
 RustboroCity_DevonCorp_2F_Text_DevelopDeviceToResurrectFossils:
 	.string "I've been trying to develop a device\n"

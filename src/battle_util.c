@@ -8660,6 +8660,10 @@ static inline u32 CalcMoveBasePowerAfterModifiers(struct DamageContext *ctx)
         if (moveType == TYPE_STEEL)
            modifier = uq4_12_multiply(modifier, UQ_4_12(1.5));
         break;
+    case ABILITY_SANDSWORN:
+        if (moveType == TYPE_GROUND)
+           modifier = uq4_12_multiply(modifier, UQ_4_12(1.5));
+        break;
     case ABILITY_BLAZING_AMALGAM:
     case ABILITY_TURBOBLAZE:
         if (moveType == TYPE_FIRE)
@@ -10067,6 +10071,14 @@ static inline uq4_12_t CalcTypeEffectivenessMultiplierInternal(struct DamageCont
     if (!IsBattlerGrounded(ctx->battlerDef)
      && MoveIgnoresTypeIfFlyingAndUngrounded(ctx->move)
      && IS_BATTLER_OF_TYPE(ctx->battlerDef, TYPE_FLYING))
+    {
+        modifier = UQ_4_12(1.0);
+    }
+
+    if (!IsBattlerGrounded(ctx->battlerDef)
+     && GetBattlerAbility(ctx->battlerAtk) == ABILITY_SANDSWORN
+     && (IS_BATTLER_OF_TYPE(ctx->battlerDef, TYPE_FLYING) || GetBattlerAbility(ctx->battlerDef) == ABILITY_LEVITATE)
+     && GetMoveType(ctx->move) == TYPE_GROUND)
     {
         modifier = UQ_4_12(1.0);
     }

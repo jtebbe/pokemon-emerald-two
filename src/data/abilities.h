@@ -2668,4 +2668,12 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Moves target both opps."),
         .aiRating = 9,
     },
+
+    [ABILITY_SANDSWORN] =
+    {
+        .name = _("Sandsworn"),
+        .description = COMPOUND_STRING("Ground STAB + Hits Fliers."),
+        .aiRating = 4,
+        .breakable = TRUE,
+    },
 };

@@ -9721,8 +9721,7 @@ Party Size: 6
 Pool Rules: Doubles
 
 Onix @ Passho Berry  
-Ability: Intimidate  
-Level: 5  
+Ability: Intimidate   
 EVs: 252 HP / 252 Atk / 4 SpD  
 Adamant Nature  
 Tags: Lead
@@ -9743,7 +9742,6 @@ Tags: Lead
 
 Anorith @ Focus Sash  
 Ability: Battle Armor  
-Level: 5  
 EVs: 252 Atk / 4 SpD / 252 Spe  
 Jolly Nature  
 Tags: Lead
@@ -9774,7 +9772,6 @@ IVs: 0 Atk
 
 Nosepass @ Rocky Helmet  
 Ability: Sturdy  
-Level: 5   
 EVs: 248 HP / 8 Atk / 252 SpD  
 Careful Nature  
 - Rock Tomb  
@@ -9784,7 +9781,6 @@ Careful Nature
 
 Tyrunt @ Hard Stone  
 Ability: Sturdy  
-Level: 5  
 EVs: 248 HP / 252 Atk / 8 SpD  
 Adamant Nature  
 - Rock Tomb  
@@ -9814,7 +9810,6 @@ IVs: 0 Atk
 
 Cranidos @ Assault Vest  
 Ability: Sheer Force  
-Level: 5    
 EVs: 252 Atk / 4 SpD / 252 Spe  
 Adamant Nature  
 - Rock Tomb  
@@ -9833,14 +9828,13 @@ Adamant Nature
 
 Cubone @ Thick Club  
 Ability: Battle Armor  
-Level: 5  
 Tera Type: Rock  
 EVs: 248 HP / 252 Atk / 8 SpD  
 Adamant Nature  
 Tags: Tera
 - Rock Tomb  
 - Protect  
-- Bonemerang  
+- Bone Rush  
 - Smack Down
 
 Sandygast @ Leftovers  
@@ -9851,9 +9845,9 @@ Modest Nature
 IVs: 0 Atk  
 Tags: Tera
 - Hex  
-- Scorching Sands  
+- Mud Shot  
 - Shore Up  
-- Double Team
+- Will-O-Wisp
 
 === TRAINER_BRAWLY_1 ===
 Name: BRAWLY
