@@ -388,7 +388,7 @@ static void SetRentalsToOpponentParty(void)
     u8 i;
 
     if (gSaveBlock2Ptr->frontier.lvlMode != FRONTIER_LVL_TENT)
-        gFacilityTrainerMons = gCustomBattleFrontierGenericMons;
+        gFacilityTrainerMons = gCustomBattleFrontierMons;
     else
         gFacilityTrainerMons = gSlateportBattleTentMons;
 
@@ -416,7 +416,7 @@ static void SetPlayerAndOpponentParties(void)
     }
     else
     {
-        gFacilityTrainerMons = gCustomBattleFrontierGenericMons;
+        gFacilityTrainerMons = gCustomBattleFrontierMons;
         if (gSaveBlock2Ptr->frontier.lvlMode != FRONTIER_LVL_50)
             monLevel = FRONTIER_MAX_LEVEL_OPEN;
         else
@@ -480,7 +480,7 @@ static void GenerateInitialRentalMons(void)
     else
         factoryBattleMode = FRONTIER_MODE_SINGLES;
 
-    gFacilityTrainerMons = gCustomBattleFrontierGenericMons;
+    gFacilityTrainerMons = gCustomBattleFrontierMons;
     if (gSaveBlock2Ptr->frontier.lvlMode != FRONTIER_LVL_50)
     {
         factoryLvlMode = FRONTIER_LVL_OPEN;
@@ -553,7 +553,7 @@ static void GetOpponentMostCommonMonType(void)
     u8 typeCounts[NUMBER_OF_MON_TYPES];
     u8 mostCommonTypes[2];
 
-    gFacilityTrainerMons = gCustomBattleFrontierGenericMons;
+    gFacilityTrainerMons = gCustomBattleFrontierMons;
 
     // Count the number of times each type occurs in the opponent's party.
     for (i = TYPE_NORMAL; i < NUMBER_OF_MON_TYPES; i++)
@@ -603,7 +603,7 @@ static void GetOpponentBattleStyle(void)
     u8 stylePoints[FACTORY_NUM_STYLES];
 
     count = 0;
-    gFacilityTrainerMons = gCustomBattleFrontierGenericMons;
+    gFacilityTrainerMons = gCustomBattleFrontierMons;
     for (i = 0; i < FACTORY_NUM_STYLES; i++)
         stylePoints[i] = 0;
 
@@ -659,7 +659,7 @@ static void RestorePlayerPartyHeldItems(void)
     u8 i;
 
     if (gSaveBlock2Ptr->frontier.lvlMode != FRONTIER_LVL_TENT)
-        gFacilityTrainerMons = gCustomBattleFrontierGenericMons;
+        gFacilityTrainerMons = gCustomBattleFrontierMons;
     else
         gFacilityTrainerMons = gSlateportBattleTentMons;
 
@@ -719,11 +719,6 @@ void FillFactoryBrainParty(void)
     while (i != FRONTIER_PARTY_SIZE)
     {
         u16 monId = GetFactoryMonId(lvlMode, challengeNum, FALSE);
-
-        if (gFacilityTrainerMons[monId].species == SPECIES_UNOWN)
-            continue;
-        if (monLevel == FRONTIER_MAX_LEVEL_50 && monId > FRONTIER_MONS_HIGH_TIER)
-            continue;
 
         for (j = 0; j < (int)ARRAY_COUNT(gSaveBlock2Ptr->frontier.rentalMons); j++)
         {

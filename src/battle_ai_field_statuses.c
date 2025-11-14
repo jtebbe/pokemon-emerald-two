@@ -175,9 +175,10 @@ static bool32 DoesAbilityBenefitFromFieldStatus(u32 ability, u32 fieldStatus)
         return (fieldStatus & STATUS_FIELD_ELECTRIC_TERRAIN);
     case ABILITY_GRASS_PELT:
         return (fieldStatus & STATUS_FIELD_GRASSY_TERRAIN);
-    // no abilities inherently benefit from Misty or Psychic Terrains
+    case ABILITY_PSYRIDER:
+        return (fieldStatus & STATUS_FIELD_PSYCHIC_TERRAIN);
+    // no abilities inherently benefit from Misty Terrain
     // return (fieldStatus & STATUS_FIELD_MISTY_TERRAIN);
-    // return (fieldStatus & STATUS_FIELD_PSYCHIC_TERRAIN);
     default:
         break;
     }

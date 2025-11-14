@@ -8908,6 +8908,14 @@ BattleScript_SelectingNotAllowedMoveAssaultVestInPalace::
 	printstring STRINGID_ASSAULTVESTDOESNTALLOW
 	goto BattleScript_SelectingUnusableMoveInPalace
 
+BattleScript_SelectingNotAllowedMoveHeavyArmor::
+	printselectionstring STRINGID_HEAVYARMORDOESNTALLOW
+	endselectionscript
+
+BattleScript_SelectingNotAllowedMoveHeavyArmorInPalace::
+	printstring STRINGID_HEAVYARMORDOESNTALLOW
+	goto BattleScript_SelectingUnusableMoveInPalace
+
 BattleScript_SelectingNotAllowedPlaceholder::
 	printselectionstring STRINGID_NOTDONEYET
 	endselectionscript

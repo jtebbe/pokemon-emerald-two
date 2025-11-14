@@ -5331,6 +5331,7 @@ static const u16 sOricorioEggMoveLearnset[] = {
     MOVE_TAILWIND,
     MOVE_SAFEGUARD,
     MOVE_CAPTIVATE,
+    MOVE_QUIVER_DANCE,
     MOVE_UNAVAILABLE,
 };
 #endif //P_FAMILY_ORICORIO

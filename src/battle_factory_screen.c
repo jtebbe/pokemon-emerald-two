@@ -1744,7 +1744,7 @@ static void CreateFrontierFactorySelectableMons(u8 firstMonId)
     u8 challengeNum = gSaveBlock2Ptr->frontier.factoryWinStreaks[battleMode][lvlMode] / 7;
     u8 rentalRank = 0;
 
-    gFacilityTrainerMons = gCustomBattleFrontierGenericMons;
+    gFacilityTrainerMons = gCustomBattleFrontierMons;
     if (gSaveBlock2Ptr->frontier.lvlMode != FRONTIER_LVL_50)
         level = FRONTIER_MAX_LEVEL_OPEN;
     else

@@ -3239,7 +3239,7 @@ IVs: 0 Spe
 - Rage Powder
 
 Typhlosion-Hisui @ Iron Ball  
-Ability: Frisk   
+Ability: Berserk   
 EVs: 252 HP / 4 Def / 252 SpA  
 Quiet Nature  
 IVs: 0 Atk / 0 Spe  
@@ -7176,7 +7176,7 @@ IVs: 0 Atk
 - Will-O-Wisp
 
 Charmeleon @ Eviolite  
-Ability: Blaze   
+Ability: Competitive   
 EVs: 252 SpA / 4 SpD / 252 Spe  
 Timid Nature  
 IVs: 0 Atk  
@@ -11530,7 +11530,7 @@ Battle Type: Doubles
 AI: Smart Trainer
 
 Charizard @ Charizardite Y  
-Ability: Blaze  
+Ability: Competitive
 EVs: 252 SpA / 4 SpD / 252 Spe  
 Timid Nature  
 IVs: 0 Atk  
@@ -12301,7 +12301,7 @@ Battle Type: Doubles
 AI: Smart Trainer
 
 Charizard @ Charizardite Y  
-Ability: Blaze    
+Ability: Competitive   
 EVs: 252 SpA / 4 SpD / 252 Spe  
 Timid Nature  
 IVs: 0 Atk  
@@ -12629,7 +12629,7 @@ IVs: 0 Atk
 - Dragon Pulse
 
 Typhlosion @ Choice Scarf  
-Ability: Flash Fire    
+Ability: Berserk    
 EVs: 252 SpA / 4 SpD / 252 Spe  
 Modest Nature  
 IVs: 0 Atk  
@@ -14338,7 +14338,7 @@ IVs: 0 Atk
 - Shadow Ball
 
 Torterra @ Loaded Dice  
-Ability: Shell Armor  
+Ability: Stamina  
 Tera Type: Rock  
 EVs: 252 Atk / 4 SpD / 252 Spe  
 Adamant Nature  
@@ -14856,7 +14856,7 @@ Tags: Tera
 - Dragon Pulse
 
 Charizard @ Charizardite Y  
-Ability: Blaze  
+Ability: Competitive 
 EVs: 252 SpA / 4 SpD / 252 Spe  
 Timid Nature  
 IVs: 0 Atk  
@@ -15990,7 +15990,7 @@ Tags: Lead
 - Rock Slide
 
 Charizard @ Charizardite Y  
-Ability: Blaze  
+Ability: Competitive
 EVs: 252 SpA / 4 SpD / 252 Spe  
 Timid Nature  
 IVs: 0 Atk  
@@ -19916,7 +19916,7 @@ Battle Type: Doubles
 AI: Smart Trainer
 
 Meganium @ Leftovers  
-Ability: Flower Veil    
+Ability: Friend Guard    
 EVs: 252 HP / 4 SpA / 252 SpD  
 Calm Nature  
 IVs: 0 Atk  
@@ -21909,7 +21909,7 @@ Party Size: 4
 Pool Rules: Doubles
 
 Marshtomp @ Rindo Berry  
-Ability: Damp    
+Ability: Regenerator    
 Tera Type: Water
 EVs: 248 HP / 252 Atk / 8 SpD  
 Adamant Nature  
@@ -22586,7 +22586,7 @@ Party Size: 4
 Pool Rules: Doubles
 
 Marshtomp @ Rindo Berry  
-Ability: Damp    
+Ability: Regenerator    
 Tera Type: Water
 EVs: 248 HP / 252 Atk / 8 SpD  
 Adamant Nature  
@@ -22802,7 +22802,7 @@ IVs: 0 Atk
 - Haze
 
 Charmeleon @ Iron Ball  
-Ability: Blaze  
+Ability: Competitive  
 EVs: 248 HP / 252 SpA / 8 SpD  
 Quiet Nature  
 IVs: 0 Atk / 0 Spe  
@@ -23909,7 +23909,7 @@ Battle Type: Doubles
 AI: Smart Trainer
 
 Monferno @ Expert Belt  
-Ability: Iron Fist  
+Ability: Adaptability  
 EVs: 252 Atk / 4 SpD / 252 Spe  
 Jolly Nature  
 - Mach Punch  
@@ -24395,7 +24395,7 @@ Adamant Nature
 - Iron Head
 
 Infernape @ Focus Sash  
-Ability: Blaze  
+Ability: Adaptability  
 EVs: 252 Atk / 4 SpD / 252 Spe  
 Jolly Nature  
 - Fake Out  
@@ -24943,7 +24943,7 @@ AI: Smart Trainer
 Mugshot: Blue
 
 Mudkip @ Assault Vest  
-Ability: Torrent  
+Ability: Regenerator  
 Tera Type: Water  
 EVs: 248 HP / 252 Atk / 8 SpD  
 Adamant Nature  
@@ -26840,7 +26840,7 @@ Adamant Nature
 - Poison Jab
 
 Torterra @ Yache Berry  
-Ability: Shell Armor  
+Ability: Stamina  
 EVs: 252 Atk / 4 SpD / 252 Spe  
 Adamant Nature  
 - Shell Smash  
@@ -27478,7 +27478,7 @@ Tags: Lead
 - Protect
 
 Grotle @ Eviolite  
-Ability: Shell Armor  
+Ability: Stamina  
 EVs: 252 HP / 4 Def / 252 SpD  
 Calm Nature  
 IVs: 0 Atk  
@@ -27911,7 +27911,7 @@ Tags: Lead
 - Protect
 
 Grotle @ Eviolite  
-Ability: Shell Armor  
+Ability: Stamina  
 EVs: 252 HP / 4 Def / 252 SpD  
 Calm Nature  
 IVs: 0 Atk  
@@ -29001,7 +29001,7 @@ IVs: 0 Atk
 - Protect
 
 Charizard @ Charizardite Y  
-Ability: Solar Power   
+Ability: Competitive 
 EVs: 252 SpA / 4 SpD / 252 Spe  
 Timid Nature  
 IVs: 0 Atk  
@@ -29834,7 +29834,7 @@ Careful Nature
 - U-turn
 
 Typhlosion-Hisui @ Choice Specs  
-Ability: Blaze   
+Ability: Berserk   
 EVs: 252 SpA / 4 SpD / 252 Spe  
 Timid Nature  
 IVs: 0 Atk  
@@ -30459,7 +30459,7 @@ Battle Type: Doubles
 AI: Smart Trainer
 
 Charizard @ Charizardite Y  
-Ability: Solar Power   
+Ability: Competitive  
 EVs: 252 SpA / 4 SpD / 252 Spe  
 Timid Nature  
 IVs: 0 Atk  
@@ -32033,7 +32033,7 @@ AI: Smart Trainer
 Mugshot: Blue
 
 Mudkip @ Assault Vest  
-Ability: Torrent  
+Ability: Regenerator  
 Tera Type: Water  
 EVs: 248 HP / 252 Atk / 8 SpD  
 Adamant Nature  

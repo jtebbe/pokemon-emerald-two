@@ -1524,6 +1524,22 @@ u32 TrySetCantSelectMoveBattleScript(u32 battler)
             gSelectionBattleScripts[battler] = BattleScript_SelectingNotAllowedMoveChoiceItem;
             limitations++;
         }
+    } else if (GetBattlerAbility(battler) == ABILITY_HEAVY_ARMOR && IsBattleMoveStatus(move) && moveEffect != EFFECT_ME_FIRST) {
+        if ((GetActiveGimmick(battler) == GIMMICK_DYNAMAX))
+            gCurrentMove = MOVE_MAX_GUARD;
+        else
+            gCurrentMove = move;
+            gLastUsedAbility = ABILITY_HEAVY_ARMOR;
+        if (gBattleTypeFlags & BATTLE_TYPE_PALACE)
+        {
+            gPalaceSelectionBattleScripts[battler] = BattleScript_SelectingNotAllowedMoveHeavyArmorInPalace;
+            gProtectStructs[battler].palaceUnableToUseMove = TRUE;
+        }
+        else
+        {
+            gSelectionBattleScripts[battler] = BattleScript_SelectingNotAllowedMoveHeavyArmor;
+            limitations++;
+        }
     }
     else if (holdEffect == HOLD_EFFECT_ASSAULT_VEST && IsBattleMoveStatus(move) && moveEffect != EFFECT_ME_FIRST)
     {
@@ -8594,6 +8610,10 @@ static inline u32 CalcMoveBasePowerAfterModifiers(struct DamageContext *ctx)
     // attacker's abilities
     switch (ctx->abilityAtk)
     {
+    case ABILITY_MYCELIUM_MIGHT:
+        if (moveType == TYPE_GRASS || moveType == TYPE_GROUND)
+            modifier = uq4_12_multiply(modifier, UQ_4_12(1.3));
+        break;
     case ABILITY_TECHNICIAN:
         if (basePower <= 60)
            modifier = uq4_12_multiply(modifier, UQ_4_12(1.5));
@@ -8967,6 +8987,11 @@ static inline u32 CalcAttackStat(struct DamageContext *ctx)
         if (gBattleMons[battlerAtk].hp <= (gBattleMons[battlerAtk].maxHP / 3))
             modifier = uq4_12_multiply_half_down(modifier, UQ_4_12(1.5));
         break;
+    case ABILITY_STICK_HOARDER:
+        u32 side = GetBattlerSide(battlerAtk);
+        if (GetItemHoldEffect(battlerAtk) != HOLD_EFFECT_LEEK && gBattleStruct->itemLost[side][gBattlerPartyIndexes[battlerAtk]].originalItem == ITEM_LEEK && !IsBattleMoveSpecial(move))
+            modifier = uq4_12_multiply_half_down(modifier, UQ_4_12(2.0));
+        break;
     case ABILITY_PLUS:
         if (IsBattleMoveSpecial(move) && IsBattlerAlive(BATTLE_PARTNER(battlerAtk)))
         {
@@ -9231,6 +9256,14 @@ static inline u32 CalcDefenseStat(struct DamageContext *ctx)
             modifier = uq4_12_multiply_half_down(modifier, UQ_4_12(2.0));
             if (ctx->updateFlags)
                 RecordAbilityBattle(battlerDef, ABILITY_FUR_COAT);
+        }
+        break;
+    case ABILITY_HEAVY_ARMOR:
+        if (!usesDefStat)
+        {
+            modifier = uq4_12_multiply_half_down(modifier, UQ_4_12(1.5));
+            if (ctx->updateFlags)
+                RecordAbilityBattle(battlerDef, ABILITY_HEAVY_ARMOR);
         }
         break;
     case ABILITY_GRASS_PELT:
@@ -12316,6 +12349,7 @@ u32 GetTotalAccuracy(u32 battlerAtk, u32 battlerDef, u32 move, u32 atkAbility, u
     switch (atkAbility)
     {
     case ABILITY_COMPOUND_EYES:
+    case ABILITY_GOLDEN_EYES:
         calc = (calc * 130) / 100; // 1.3 compound eyes boost
         break;
     case ABILITY_VICTORY_STAR:

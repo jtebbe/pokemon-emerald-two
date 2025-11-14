@@ -2288,7 +2288,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     [ABILITY_MYCELIUM_MIGHT] =
     {
         .name = _("Mycelium Might"),
-        .description = COMPOUND_STRING("Status moves never fail."),
+        .description = COMPOUND_STRING("Slow status, stab buff."),
         .aiRating = 2,
     },
 
@@ -2675,5 +2675,42 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Ground STAB + Hits Fliers."),
         .aiRating = 4,
         .breakable = TRUE,
+    },
+
+    [ABILITY_HEAVY_ARMOR] =
+    {
+        .name = _("Heavy Armor"),
+        .description = COMPOUND_STRING("Assault Vest the Ability."),
+        .aiRating = 1,
+        .breakable = TRUE,
+    },
+
+    [ABILITY_SWIFT_SLICES] =
+    {
+        .name = _("Swift Slices"),
+        .description = COMPOUND_STRING("Slicing move priority."),
+        .aiRating = 1,
+        .breakable = TRUE,
+    },
+
+    [ABILITY_PSYRIDER] =
+    {
+        .name = _("Psyrider"),
+        .description = COMPOUND_STRING("Faster on psyterrain."),
+        .aiRating = 4,
+    },
+
+    [ABILITY_GOLDEN_EYES] =
+    {
+        .name = _("Golden Eyes"),
+        .description = COMPOUND_STRING("Raises accuracy."),
+        .aiRating = 7,
+    },
+
+    [ABILITY_STICK_HOARDER] =
+    {
+        .name = _("Stick Hoarder"),
+        .description = COMPOUND_STRING("Stick loss infuriates."),
+        .aiRating = 1,
     },
 };

@@ -23452,7 +23452,8 @@
       "MOVE_DRAGON_BREATH",
       "MOVE_SYNTHESIS",
       "MOVE_WORRY_SEED",
-      "MOVE_NIGHT_SLASH"
+      "MOVE_NIGHT_SLASH",
+      "MOVE_PSYCHO_CUT"
     ],
     "TutorMoves": [
       "MOVE_FAKE_OUT"
@@ -23596,7 +23597,8 @@
       "MOVE_SLASH",
       "MOVE_SYNTHESIS",
       "MOVE_WORRY_SEED",
-      "MOVE_FAKE_OUT"
+      "MOVE_FAKE_OUT",
+      "MOVE_PSYCHO_CUT"
     ],
     "TutorMoves": []
   },
@@ -23759,7 +23761,8 @@
       "MOVE_SLASH",
       "MOVE_SYNTHESIS",
       "MOVE_WORRY_SEED",
-      "MOVE_FAKE_OUT"
+      "MOVE_FAKE_OUT",
+      "MOVE_PSYCHO_CUT"
     ],
     "TutorMoves": []
   },

@@ -1857,7 +1857,7 @@ static void FillFactoryFrontierTrainerParty(u16 trainerId, u8 firstMonId)
     for (i = 0; i < FRONTIER_PARTY_SIZE; i++)
     {
         u16 monId = gFrontierTempParty[i];
-        CreateFacilityMon(&gCustomBattleFrontierGenericMons[monId],
+        CreateFacilityMon(&gCustomBattleFrontierMons[monId],
                 level, fixedIV, otID, FLAG_FRONTIER_MON_FACTORY,
                 &gEnemyParty[firstMonId + i]);
     }

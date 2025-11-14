@@ -1687,6 +1687,16 @@ static void UpdateCursorPosition(void)
         y = ROW_LAND_TOP_ICON_Y;
         sDexNavUiDataPtr->environment = ENCOUNTER_TYPE_LAND;
         break;
+    case ROW_LAND_UPPER_MIDDLE: //land 1
+        x = ROW_LAND_ICON_X + (24 * sDexNavUiDataPtr->cursorCol);
+        y = ROW_LAND_UPPER_MID_ICON_Y;
+        sDexNavUiDataPtr->environment = ENCOUNTER_TYPE_LAND;
+        break;
+    case ROW_LAND_LOWER_MIDDLE: //land 1
+        x = ROW_LAND_ICON_X + (24 * sDexNavUiDataPtr->cursorCol);
+        y = ROW_LAND_LOWER_MID_ICON_Y;
+        sDexNavUiDataPtr->environment = ENCOUNTER_TYPE_LAND;
+        break;
     case ROW_LAND_BOT: //land 2
         x = ROW_LAND_ICON_X + (24 * sDexNavUiDataPtr->cursorCol);
         y = ROW_LAND_BOT_ICON_Y;
@@ -1792,7 +1802,7 @@ static bool8 CapturedAllWaterMons(u32 headerId)
     }
     else
     {
-        return TRUE;    //technically, no mon data means you caught them all
+        return FALSE;    //technically, no mon data means you caught them all
     }
 
     return FALSE;
@@ -1825,7 +1835,7 @@ static bool8 CapturedAllHiddenMons(u32 headerId)
     }
     else
     {
-        return TRUE;    //technically, no mon data means you caught them all
+        return FALSE;    //technically, no mon data means you caught them all
     }
 
     return FALSE;
@@ -2019,7 +2029,16 @@ static void DrawSpeciesIcons(void)
     {
         species = sDexNavUiDataPtr->landSpecies[i];
         x = ROW_LAND_ICON_X + (24 * (i % COL_LAND_COUNT));
-        y = ROW_LAND_TOP_ICON_Y + (i > COL_LAND_MAX ? 28 : 0);
+        if (i < 6) {
+            y = ROW_LAND_TOP_ICON_Y;
+        } else if (i < 12) {
+            y = ROW_LAND_TOP_ICON_Y + 24;
+        } else if (i < 18) {
+            y = ROW_LAND_TOP_ICON_Y + 48;
+        } else {
+            y = ROW_LAND_TOP_ICON_Y + 72;
+        }
+        //y = ROW_LAND_TOP_ICON_Y + (i > COL_LAND_MAX ? 28 : 0);
         TryDrawIconInSlot(species, x, y);
     }
 
@@ -2033,6 +2052,7 @@ static void DrawSpeciesIcons(void)
 
     for (i = 0; i < HIDDEN_WILD_COUNT; i++)
     {
+        break;
         species = sDexNavUiDataPtr->hiddenSpecies[i];
         x = ROW_HIDDEN_ICON_X + 24 * i;
         y = ROW_HIDDEN_ICON_Y;
@@ -2057,8 +2077,14 @@ static u16 DexNavGetSpecies(void)
     case ROW_LAND_TOP:
         species = sDexNavUiDataPtr->landSpecies[sDexNavUiDataPtr->cursorCol];
         break;
-    case ROW_LAND_BOT:
+    case ROW_LAND_UPPER_MIDDLE:
         species = sDexNavUiDataPtr->landSpecies[sDexNavUiDataPtr->cursorCol + COL_LAND_COUNT];
+        break;
+    case ROW_LAND_LOWER_MIDDLE:
+        species = sDexNavUiDataPtr->landSpecies[sDexNavUiDataPtr->cursorCol + COL_LAND_COUNT + COL_LAND_COUNT];
+        break;
+    case ROW_LAND_BOT:
+        species = sDexNavUiDataPtr->landSpecies[sDexNavUiDataPtr->cursorCol + COL_LAND_COUNT + COL_LAND_COUNT + COL_LAND_COUNT];
         break;
     case ROW_HIDDEN:
         if (!FlagGet(DN_FLAG_DETECTOR_MODE))
@@ -2379,9 +2405,9 @@ static void Task_DexNavMain(u8 taskId)
     {
         if (sDexNavUiDataPtr->cursorRow == ROW_WATER)
         {
-            sDexNavUiDataPtr->cursorRow = ROW_HIDDEN;
-            if (sDexNavUiDataPtr->cursorCol >= COL_HIDDEN_COUNT)
-                sDexNavUiDataPtr->cursorCol = COL_HIDDEN_MAX;
+            sDexNavUiDataPtr->cursorRow = ROW_LAND_BOT;
+            if (sDexNavUiDataPtr->cursorCol >= COL_LAND_COUNT)
+                sDexNavUiDataPtr->cursorCol = COL_LAND_MAX;
         }
         else
         {
@@ -2402,8 +2428,8 @@ static void Task_DexNavMain(u8 taskId)
         }
         else if (sDexNavUiDataPtr->cursorRow == ROW_LAND_BOT)
         {
-            if (sDexNavUiDataPtr->cursorCol >= COL_HIDDEN_COUNT)
-                sDexNavUiDataPtr->cursorCol = COL_HIDDEN_MAX;
+            if (sDexNavUiDataPtr->cursorCol >= COL_WATER_COUNT)
+                sDexNavUiDataPtr->cursorCol = COL_WATER_MAX;
 
             sDexNavUiDataPtr->cursorRow++;
         }
@@ -2681,7 +2707,7 @@ u32 CalculateDexNavShinyRolls(void)
     u32 chainBonus, rndBonus;
     u8 chain = gSaveBlock3Ptr->dexNavChain;
 
-    chainBonus = (chain >= 100) ? 10 : (chain >= 50) ? 5 : 0;
+    chainBonus = (chain >= 100) ? 512 : (chain >= 50) ? 256 : 0;
     rndBonus = (Random() % 100 < 4) ? 4 : 0;
     return chainBonus + rndBonus;
 }

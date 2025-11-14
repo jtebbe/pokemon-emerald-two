@@ -5726,6 +5726,7 @@ s32 BattlerBenefitsFromAbilityScore(u32 battler, u32 ability, struct AiLogicData
     case ABILITY_WHITE_SMOKE:
         return GOOD_EFFECT;
     // Conditional ability logic goes here.
+    case ABILITY_GOLDEN_EYES:
     case ABILITY_COMPOUND_EYES:
         if (HasMoveWithLowAccuracy(battler, FOE(battler), 90, TRUE, aiData->abilities[battler], aiData->abilities[FOE(battler)], aiData->holdEffects[battler], aiData->holdEffects[FOE(battler)]))
             return GOOD_EFFECT;

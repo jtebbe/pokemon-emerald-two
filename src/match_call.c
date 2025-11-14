@@ -1161,7 +1161,8 @@ bool32 TryStartMatchCall(void)
         && UpdateMatchCallMinutesCounter()
         && CheckMatchCallChance()
         && MapAllowsMatchCall()
-        && SelectMatchCallTrainer())
+        && SelectMatchCallTrainer()
+        && !FREE_MATCH_CALL)
     {
         StartMatchCall();
         return TRUE;

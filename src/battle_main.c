@@ -4780,9 +4780,14 @@ u32 GetBattlerTotalSpeedStatArgs(u32 battler, u32 ability, enum ItemHoldEffect h
     }
 
     // other abilities
+    u32 side = GetBattlerSide(battler);
     if (ability == ABILITY_QUICK_FEET && gBattleMons[battler].status1 & STATUS1_ANY)
         speed = (speed * 150) / 100;
+    else if (ability == ABILITY_STICK_HOARDER && GetItemHoldEffect(battler) != HOLD_EFFECT_LEEK && gBattleStruct->itemLost[side][gBattlerPartyIndexes[battler]].originalItem == ITEM_LEEK)
+        speed *= 2;
     else if (ability == ABILITY_SURGE_SURFER && gFieldStatuses & STATUS_FIELD_ELECTRIC_TERRAIN)
+        speed *= 2;
+    else if (ability == ABILITY_PSYRIDER && gFieldStatuses & STATUS_FIELD_PSYCHIC_TERRAIN)
         speed *= 2;
     else if (ability == ABILITY_SLOW_START && gDisableStructs[battler].slowStartTimer != 0)
         speed /= 2;
@@ -4879,6 +4884,9 @@ s32 GetBattleMovePriority(u32 battler, u32 ability, u32 move)
     }
     else if (ability == ABILITY_CONCERTMASTER && GetMoveType(move) == TYPE_BUG)
     {
+        priority++;
+    }
+    else if (ability == ABILITY_SWIFT_SLICES && IsSlicingMove(move)) {
         priority++;
     }
     else if (ability == ABILITY_TEN_STEPS_AHEAD && GetMoveType(move) == TYPE_PSYCHIC)
