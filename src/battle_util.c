@@ -2187,7 +2187,7 @@ static enum MoveCanceler CancelerRagebaited(void)
     if (GetActiveGimmick(gBattlerAttacker) != GIMMICK_Z_MOVE && IsAbilityOnField(ABILITY_RAGEBAITER) && IsBattleMoveStatus(gCurrentMove) && GetBattlerAbility(gBattlerAttacker) != ABILITY_OBLIVIOUS)
     {
         gProtectStructs[gBattlerAttacker].unableToUseMove = TRUE;
-        CancelMultiTurnMoves(gBattlerAttacker, SKY_DROP_ATTACKCANCELLER_CHECK);
+        CancelMultiTurnMoves(gBattlerAttacker, SKY_DROP_ATTACKCANCELER_CHECK);
         gBattlescriptCurrInstr = BattleScript_MoveUsedIsRagebaited;
         gHitMarker |= HITMARKER_UNABLE_TO_USE_MOVE;
         return MOVE_STEP_BREAK;
@@ -2195,7 +2195,7 @@ static enum MoveCanceler CancelerRagebaited(void)
     return MOVE_STEP_SUCCESS;
 }
 
-static enum MoveCanceller CancelerImprisoned(void)
+static enum MoveCanceler CancelerImprisoned(void)
 {
     if (GetActiveGimmick(gBattlerAttacker) != GIMMICK_Z_MOVE && GetImprisonedMovesCount(gBattlerAttacker, gCurrentMove))
     {
