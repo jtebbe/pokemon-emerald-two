@@ -5299,6 +5299,9 @@ static u32 AI_CalcMoveEffectScore(u32 battlerAtk, u32 battlerDef, u32 move)
             if (CountUsablePartyMons(battlerAtk) != 0)
                 ADJUST_SCORE(WEAK_EFFECT);
         }
+        else if (HasMove(battlerAtk, MOVE_SKY_ATTACK) || HasMove(GetPartnerBattler(battlerAtk), MOVE_SKY_ATTACK)) {
+            ADJUST_SCORE(PERFECT_EFFECT);
+        }
         else
         {
             u32 tailwindScore = 0;

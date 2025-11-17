@@ -585,6 +585,10 @@ SlateportCity_EventScript_DecorClerk::
 
 	.align 2
 SlateportCity_PokemartDecor:
+	.2byte ITEM_RED_NECTAR
+	.2byte ITEM_YELLOW_NECTAR
+	.2byte ITEM_PINK_NECTAR
+	.2byte ITEM_PURPLE_NECTAR
 	.2byte ITEM_BUG_MEMORY
 	.2byte ITEM_DARK_MEMORY
 	.2byte ITEM_DRAGON_MEMORY

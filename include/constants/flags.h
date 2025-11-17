@@ -720,8 +720,8 @@
 #define FLAG_DEXNAV_SEARCHING  0x2A6
 #define FLAG_DEXNAV_GET  0x2A7
 #define FLAG_DETECTOR_MODE  0x2A8
-#define FLAG_UNUSED_0x2A9  0x2A9 // Unused Flag
-#define FLAG_UNUSED_0x2AA  0x2AA // Unused Flag
+#define FLAG_ITEM_ROUTE_123_FLAMETHROWER  0x2A9
+#define FLAG_DEBUG_ENABLED  0x2AA
 #define FLAG_UNUSED_0x2AB  0x2AB // Unused Flag
 #define FLAG_UNUSED_0x2AC  0x2AC // Unused Flag
 #define FLAG_UNUSED_0x2AD  0x2AD // Unused Flag

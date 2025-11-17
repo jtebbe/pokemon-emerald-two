@@ -99,6 +99,9 @@ bool32 CanTerastallize(u32 battler)
     // Check if battler has another gimmick active.
     if (GetActiveGimmick(battler) != GIMMICK_NONE)
         return FALSE;
+    
+    if (gBattleTypeFlags & BATTLE_TYPE_FACTORY)
+        return FALSE;
 
     // Check if battler is holding a Z-Crystal or Mega Stone.
     if (!TESTING && (holdEffect == HOLD_EFFECT_Z_CRYSTAL || holdEffect == HOLD_EFFECT_MEGA_STONE)) // tests make this check already

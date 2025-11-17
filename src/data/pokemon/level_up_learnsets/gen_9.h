@@ -8178,6 +8178,7 @@ static const struct LevelUpMove sSableyeLevelUpLearnset[] = {
     LEVEL_UP_MOVE(39, MOVE_POWER_GEM),
     LEVEL_UP_MOVE(42, MOVE_ZEN_HEADBUTT),
     LEVEL_UP_MOVE(45, MOVE_SHADOW_BALL),
+    LEVEL_UP_MOVE(47, MOVE_PARTING_SHOT),
     LEVEL_UP_MOVE(48, MOVE_FOUL_PLAY),
     LEVEL_UP_END
 };
@@ -9862,6 +9863,7 @@ static const struct LevelUpMove sRegiceLevelUpLearnset[] = {
     LEVEL_UP_MOVE(66, MOVE_ZAP_CANNON),
     LEVEL_UP_MOVE(72, MOVE_HYPER_BEAM),
     LEVEL_UP_MOVE(78, MOVE_EXPLOSION),
+    LEVEL_UP_MOVE(84, MOVE_SHEER_COLD),
     LEVEL_UP_END
 };
 #endif //P_FAMILY_REGICE

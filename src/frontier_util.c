@@ -1658,13 +1658,9 @@ u8 GetFrontierBrainStatus(void)
 {
     s32 status = FRONTIER_BRAIN_NOT_READY;
     s32 facility = VarGet(VAR_FRONTIER_FACILITY);
-    s32 battleMode = VarGet(VAR_FRONTIER_BATTLE_MODE);
     u16 winStreakNoModifier = GetCurrentFacilityWinStreak();
     s32 winStreak = winStreakNoModifier + gFrontierBrainInfo[facility].streakAppearances[3];
     s32 symbolsCount;
-
-    if (battleMode != FRONTIER_MODE_SINGLES)
-        return FRONTIER_BRAIN_NOT_READY;
 
     symbolsCount = GetPlayerSymbolCountForFacility(facility);
     switch (symbolsCount)

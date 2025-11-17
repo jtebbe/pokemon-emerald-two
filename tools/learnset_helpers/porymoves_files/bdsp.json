@@ -25966,7 +25966,8 @@
       "MOVE_SUBSTITUTE",
       "MOVE_CUT",
       "MOVE_SURF",
-      "MOVE_ROCK_SMASH"
+      "MOVE_ROCK_SMASH",
+      "MOVE_FOUL_PLAY"
     ],
     "EggMoves": [
       "MOVE_CHARM",
@@ -25977,7 +25978,9 @@
       "MOVE_TICKLE",
       "MOVE_TRICK"
     ],
-    "TutorMoves": []
+    "TutorMoves": [
+      "MOVE_FAKE_OUT"
+    ]
   },
   "LINOONE": {
     "LevelMoves": [
@@ -26097,7 +26100,8 @@
       "MOVE_CUT",
       "MOVE_SURF",
       "MOVE_STRENGTH",
-      "MOVE_ROCK_SMASH"
+      "MOVE_ROCK_SMASH",
+      "MOVE_FOUL_PLAY"
     ],
     "EggMoves": [
       "MOVE_CHARM",
@@ -26108,7 +26112,9 @@
       "MOVE_TICKLE",
       "MOVE_TRICK"
     ],
-    "TutorMoves": []
+    "TutorMoves": [
+      "MOVE_FAKE_OUT"
+    ]
   },
   "WURMPLE": {
     "LevelMoves": [
@@ -28860,7 +28866,8 @@
       "MOVE_SLEEP_TALK",
       "MOVE_SWAGGER",
       "MOVE_SUBSTITUTE",
-      "MOVE_CUT"
+      "MOVE_CUT",
+      "MOVE_TAILWIND"
     ],
     "EggMoves": [
       "MOVE_BUG_BITE",
@@ -31144,7 +31151,8 @@
       "MOVE_SLEEP_TALK",
       "MOVE_SWAGGER",
       "MOVE_SUBSTITUTE",
-      "MOVE_STRENGTH"
+      "MOVE_STRENGTH",
+      "MOVE_NASTY_PLOT"
     ],
     "EggMoves": [
       "MOVE_CRUNCH",
@@ -31254,7 +31262,8 @@
       "MOVE_SLEEP_TALK",
       "MOVE_SWAGGER",
       "MOVE_SUBSTITUTE",
-      "MOVE_STRENGTH"
+      "MOVE_STRENGTH",
+      "MOVE_NASTY_PLOT"
     ],
     "EggMoves": [
       "MOVE_CRUNCH",
@@ -32186,6 +32195,7 @@
       "MOVE_DARK_PULSE",
       "MOVE_SLEEP_TALK",
       "MOVE_SWAGGER",
+      "MOVE_SWORDS_DANCE",
       "MOVE_SUBSTITUTE",
       "MOVE_SURF",
       "MOVE_WATERFALL"
@@ -32302,6 +32312,7 @@
       "MOVE_SURF",
       "MOVE_STRENGTH",
       "MOVE_ROCK_SMASH",
+      "MOVE_SWORDS_DANCE",
       "MOVE_WATERFALL"
     ],
     "EggMoves": [
@@ -37839,6 +37850,7 @@
       "MOVE_SWAGGER",
       "MOVE_SUBSTITUTE",
       "MOVE_SURF",
+      "MOVE_PSYCHIC_FANGS",
       "MOVE_WATERFALL"
     ],
     "EggMoves": [

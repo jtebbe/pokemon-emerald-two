@@ -24694,7 +24694,8 @@
       "MOVE_UPROAR",
       "MOVE_LASH_OUT",
       "MOVE_DOUBLE_EDGE",
-      "MOVE_ENDEAVOR"
+      "MOVE_ENDEAVOR",
+      "MOVE_HIGH_HORSEPOWER"
     ],
     "EggMoves": [
       "MOVE_ASTONISH",
@@ -24833,7 +24834,8 @@
       "MOVE_LASH_OUT",
       "MOVE_DOUBLE_EDGE",
       "MOVE_ENDEAVOR",
-      "MOVE_THROAT_CHOP"
+      "MOVE_THROAT_CHOP",
+      "MOVE_HIGH_HORSEPOWER"
     ],
     "EggMoves": [
       "MOVE_ASTONISH",
@@ -25108,6 +25110,7 @@
       "MOVE_GIGA_DRAIN",
       "MOVE_HYPER_VOICE",
       "MOVE_ENERGY_BALL",
+      "MOVE_HELPING_HAND",
       "MOVE_ENCORE",
       "MOVE_SURF",
       "MOVE_ICE_BEAM",
@@ -25219,6 +25222,7 @@
     "TMMoves": [
       "MOVE_TAKE_DOWN",
       "MOVE_PROTECT",
+      "MOVE_HELPING_HAND",
       "MOVE_WATER_PULSE",
       "MOVE_THIEF",
       "MOVE_DISARMING_VOICE",
@@ -33601,6 +33605,7 @@
       "MOVE_DOUBLE_EDGE",
       "MOVE_FUTURE_SIGHT",
       "MOVE_EXPANDING_FORCE",
+      "MOVE_TRICK_ROOM",
       "MOVE_METEOR_BEAM",
       "MOVE_HARD_PRESS",
       "MOVE_PSYCHIC_NOISE"

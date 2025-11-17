@@ -87,7 +87,12 @@ EverGrandeCity_HallOfFame_Text_HereWeHonorLeagueChampions:
 	.string "POKéMON that prevailed through\l"
 	.string "harsh battles.\p"
 	.string "It is here that the LEAGUE CHAMPIONS\n"
-	.string "are honored.$"
+	.string "are honored.\p"
+	.string "By the way, you've earned access to\n"
+	.string "the debug menu.\p"
+	.string "Go to oldale town, one of the\n"
+	.string "houses there hides a button in its\l"
+	.string "sink.$"
 
 EverGrandeCity_HallOfFame_Text_LetsRecordYouAndYourPartnersNames:
 	.string "WALLACE: Come on, let's record your\n"

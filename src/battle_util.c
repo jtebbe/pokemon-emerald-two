@@ -4107,18 +4107,23 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             }
             break;
         case ABILITY_ILEX_WHIMSY:
+            bool8 worked = FALSE;
             if (!(gSideStatuses[GetBattlerSide(battler)] & SIDE_STATUS_SAFEGUARD))
             {
                 gSideStatuses[GetBattlerSide(battler)] |= SIDE_STATUS_SAFEGUARD;
                 gSideTimers[GetBattlerSide(battler)].safeguardTimer = gBattleTurnCounter + 5;
+                worked = TRUE;
             }
             if (!(gSideStatuses[GetBattlerSide(battler)] & SIDE_STATUS_MIST)) 
             {
                 gSideTimers[GetBattlerSide(battler)].mistTimer = gBattleTurnCounter + 5;
                 gSideStatuses[GetBattlerSide(battler)] |= SIDE_STATUS_MIST;
+                worked = TRUE;
             }
-            BattleScriptPushCursorAndCallback(BattleScript_IlexWhimsyActivates);
-            effect++;
+            if (worked) {
+                BattleScriptPushCursorAndCallback(BattleScript_IlexWhimsyActivates);
+                effect++;
+            }
             break;
         case ABILITY_INTIMIDATE:
             if (!gSpecialStatuses[battler].switchInAbilityDone && !IsOpposingSideEmpty(battler))
@@ -10083,7 +10088,7 @@ static inline uq4_12_t CalcTypeEffectivenessMultiplierInternal(struct DamageCont
     else if (ctx->moveType == TYPE_GROUND && !IsBattlerGroundedInverseCheck(ctx->battlerDef, ctx->abilityDef, INVERSE_BATTLE, CHECK_IRON_BALL, ctx->isAnticipation) && !(MoveIgnoresTypeIfFlyingAndUngrounded(ctx->move)))
     {
         modifier = UQ_4_12(0.0);
-        if (ctx->updateFlags && ctx->abilityDef == ABILITY_LEVITATE)
+        if (ctx->updateFlags && ctx->abilityDef == ABILITY_LEVITATE && ctx->abilityAtk != ABILITY_SANDSWORN)
         {
             gBattleStruct->moveResultFlags[ctx->battlerDef] |= (MOVE_RESULT_MISSED | MOVE_RESULT_DOESNT_AFFECT_FOE);
             gLastUsedAbility = ABILITY_LEVITATE;
@@ -10337,6 +10342,10 @@ bool32 CanMegaEvolve(u32 battler)
     if (!TESTING
         && (GetBattlerPosition(battler) == B_POSITION_PLAYER_LEFT || (!(gBattleTypeFlags & BATTLE_TYPE_MULTI) && GetBattlerPosition(battler) == B_POSITION_PLAYER_RIGHT))
         && !CheckBagHasItem(ITEM_MEGA_RING, 1))
+        return FALSE;
+    
+    // DO NOT DOUBLE MEGA
+    if (HasPartner(battler) && GetBattlerHoldEffect(GetPartnerBattler(battler), TRUE) == HOLD_EFFECT_MEGA_STONE)
         return FALSE;
 
     // Check if Trainer has already Mega Evolved.
