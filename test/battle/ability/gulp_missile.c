@@ -143,7 +143,7 @@ SINGLE_BATTLE_TEST("(Gulp Missile) triggers even if the user is fainted by oppos
     PARAMETRIZE { species = SPECIES_CHATOT; ability = ABILITY_BIG_PECKS; }
     GIVEN {
         PLAYER(SPECIES_CRAMORANT) { Ability(ABILITY_GULP_MISSILE); }
-        OPPONENT(species) { Ability(ability); }
+        OPPONENT(species) { Ability(ability); HP(9999); MaxHP(9999); } // In Gen 5 data, Surf would be enough to knock out Chatot
     } WHEN {
         TURN { MOVE(player, MOVE_SURF); MOVE(opponent, MOVE_SCRATCH); }
     } SCENE {
