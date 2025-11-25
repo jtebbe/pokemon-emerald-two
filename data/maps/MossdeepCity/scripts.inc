@@ -435,6 +435,7 @@ MossdeepCity_EventScript_Carter::
 	giveitem ITEM_CLEAR_AMULET
 	fadescreen FADE_TO_BLACK
 	removeobject LOCALID_CARTER
+	delay 30
 	fadescreen FADE_FROM_BLACK
 	setflag FLAG_AGARTHAN_7_DEFEATED
 	clearflag FLAG_SHOW_HOUSE_AGARTHAN_7

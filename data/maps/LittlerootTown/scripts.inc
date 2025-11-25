@@ -1037,6 +1037,7 @@ LittlerootTown_EventScript_Seb::
 	giveitem ITEM_COVERT_CLOAK
 	fadescreen FADE_TO_BLACK
 	removeobject LOCALID_SEB
+	delay 30
 	fadescreen FADE_FROM_BLACK
 	setflag FLAG_AGARTHAN_3_DEFEATED
 	clearflag FLAG_SHOW_HOUSE_AGARTHAN_3

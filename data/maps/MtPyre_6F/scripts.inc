@@ -36,6 +36,7 @@ MtPyre_6F_EventScript_Nikki::
 	giveitem ITEM_CHOICE_SPECS
 	fadescreen FADE_TO_BLACK
 	removeobject LOCALID_NIKKI
+	delay 30
 	fadescreen FADE_FROM_BLACK
 	setflag FLAG_AGARTHAN_1_DEFEATED
 	clearflag FLAG_SHOW_HOUSE_AGARTHAN_1

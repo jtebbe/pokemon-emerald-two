@@ -618,6 +618,7 @@ Route119_EventScript_Maddy::
 	giveitem ITEM_CHOICE_SCARF
 	fadescreen FADE_TO_BLACK
 	removeobject LOCALID_MADDY
+	delay 30
 	fadescreen FADE_FROM_BLACK
 	setflag FLAG_AGARTHAN_6_DEFEATED
 	clearflag FLAG_SHOW_HOUSE_AGARTHAN_6

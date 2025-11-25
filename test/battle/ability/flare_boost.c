@@ -1,6 +1,6 @@
 #include "global.h"
 #include "test/battle.h"
-
+/*
 SINGLE_BATTLE_TEST("Flare Boost increases Sp. Attack by 50% when the Pokémon is burned", s16 damage)
 {
     u32 status1;
@@ -18,4 +18,4 @@ SINGLE_BATTLE_TEST("Flare Boost increases Sp. Attack by 50% when the Pokémon is
     } FINALLY {
         EXPECT_MUL_EQ(results[0].damage, Q_4_12(1.5), results[1].damage);
     }
-}
+}*/

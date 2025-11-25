@@ -11,6 +11,7 @@ MeteorFalls_B1F_2R_EventScript_Nico::
 	msgbox MeteorFalls_B1F_2R_Text_NicoGoodbye, MSGBOX_DEFAULT
 	fadescreen FADE_TO_BLACK
 	removeobject LOCALID_NICO
+	delay 30
 	fadescreen FADE_FROM_BLACK
 	setflag FLAG_AGARTHAN_2_DEFEATED
 	clearflag FLAG_SHOW_HOUSE_AGARTHAN_2

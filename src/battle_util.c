@@ -9534,6 +9534,10 @@ static inline uq4_12_t GetAttackerAbilitiesModifier(u32 battlerAtk, uq4_12_t typ
         if (typeEffectivenessModifier >= UQ_4_12(2.0))
             return UQ_4_12(1.25);
         break;
+    case ABILITY_MARTIAL_EXPERT:
+        if (typeEffectivenessModifier >= UQ_4_12(2.0))
+            return UQ_4_12(1.3);
+        break;
     case ABILITY_SNIPER:
         if (isCrit)
             return UQ_4_12(1.5);
@@ -9663,8 +9667,11 @@ static inline uq4_12_t GetDefenderItemsModifier(struct DamageContext *ctx)
         }
         break;
     default:
+        if (ctx->holdEffectDef != HOLD_EFFECT_NONE && GetBattlerAbility(ctx->battlerAtk) == ABILITY_COVETOUS)
+            return UQ_4_12_FLOORED(1.5);
         break;
     }
+
     return UQ_4_12(1.0);
 }
 

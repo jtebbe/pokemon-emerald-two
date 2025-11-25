@@ -271,6 +271,7 @@ NewMauville_Inside_EventScript_Wren::
 	giveitem ITEM_CHOICE_BAND
 	fadescreen FADE_TO_BLACK
 	removeobject LOCALID_WREN
+	delay 30
 	fadescreen FADE_FROM_BLACK
 	setflag FLAG_AGARTHAN_8_DEFEATED
 	clearflag FLAG_SHOW_HOUSE_AGARTHAN_8

@@ -37,6 +37,7 @@ Agartha_Entrance_EventScript_Nadroj::
 	setflag FLAG_ENABLE_SHIP_SOUTHERN_ISLAND
 	fadescreen FADE_TO_BLACK
 	removeobject LOCALID_NADROJ
+	delay 30
 	fadescreen FADE_FROM_BLACK
 	setflag FLAG_AGARTHAN_KING_DEFEATED
 	releaseall

@@ -444,6 +444,7 @@ SlateportCity_OceanicMuseum_2F_EventScript_Daani::
 	giveitem ITEM_WEAKNESS_POLICY
 	fadescreen FADE_TO_BLACK
 	removeobject LOCALID_DAANI
+	delay 30
 	fadescreen FADE_FROM_BLACK
 	setflag FLAG_AGARTHAN_5_DEFEATED
 	clearflag FLAG_SHOW_HOUSE_AGARTHAN_5

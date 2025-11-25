@@ -2713,4 +2713,18 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Stick loss infuriates."),
         .aiRating = 1,
     },
+
+    [ABILITY_MARTIAL_EXPERT] =
+    {
+        .name = _("Martial Expert"),
+        .description = COMPOUND_STRING("Super-effective amp."),
+        .aiRating = 6,
+    },
+
+    [ABILITY_COVETOUS] =
+    {
+        .name = _("Covetous"),
+        .description = COMPOUND_STRING("Hates item-holders."),
+        .aiRating = 7,
+    },
 };
