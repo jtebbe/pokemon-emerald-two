@@ -32,7 +32,7 @@ LavaridgeTown_House_EventScript_ChangeTeraType::
 	specialvar VAR_RESULT, ScriptGetPartyMonSpecies
 	goto_if_eq VAR_RESULT, SPECIES_EGG, LavaridgeTown_House_EventScript_Egg
 	msgbox LavaridgeTown_House_Text_WhichType, MSGBOX_DEFAULT
-	dynmultichoice 1, 1, TRUE, 4, 0, DYN_MULTICHOICE_CB_NONE, LavaridgeTown_House_ChangeTeraType_Text_0, LavaridgeTown_House_ChangeTeraType_Text_1, LavaridgeTown_House_ChangeTeraType_Text_2, LavaridgeTown_House_ChangeTeraType_Text_3, LavaridgeTown_House_ChangeTeraType_Text_4, LavaridgeTown_House_ChangeTeraType_Text_5, LavaridgeTown_House_ChangeTeraType_Text_6, LavaridgeTown_House_ChangeTeraType_Text_7, LavaridgeTown_House_ChangeTeraType_Text_8, LavaridgeTown_House_ChangeTeraType_Text_9, LavaridgeTown_House_ChangeTeraType_Text_10, LavaridgeTown_House_ChangeTeraType_Text_11, LavaridgeTown_House_ChangeTeraType_Text_12, LavaridgeTown_House_ChangeTeraType_Text_13, LavaridgeTown_House_ChangeTeraType_Text_14, LavaridgeTown_House_ChangeTeraType_Text_15, LavaridgeTown_House_ChangeTeraType_Text_16, LavaridgeTown_House_ChangeTeraType_Text_17
+	dynmultichoice 1, 1, TRUE, 4, 0, DYN_MULTICHOICE_CB_NONE, LavaridgeTown_House_ChangeTeraType_Text_0, LavaridgeTown_House_ChangeTeraType_Text_1, LavaridgeTown_House_ChangeTeraType_Text_2, LavaridgeTown_House_ChangeTeraType_Text_3, LavaridgeTown_House_ChangeTeraType_Text_4, LavaridgeTown_House_ChangeTeraType_Text_5, LavaridgeTown_House_ChangeTeraType_Text_6, LavaridgeTown_House_ChangeTeraType_Text_7, LavaridgeTown_House_ChangeTeraType_Text_8, LavaridgeTown_House_ChangeTeraType_Text_9, LavaridgeTown_House_ChangeTeraType_Text_10, LavaridgeTown_House_ChangeTeraType_Text_11, LavaridgeTown_House_ChangeTeraType_Text_12, LavaridgeTown_House_ChangeTeraType_Text_13, LavaridgeTown_House_ChangeTeraType_Text_14, LavaridgeTown_House_ChangeTeraType_Text_15, LavaridgeTown_House_ChangeTeraType_Text_16, LavaridgeTown_House_ChangeTeraType_Text_17, LavaridgeTown_House_ChangeTeraType_Text_18
 	switch VAR_RESULT
 	case 0, LavaridgeTown_House_EventScript_Normal
 	case 1, LavaridgeTown_House_EventScript_Fighting
@@ -52,6 +52,7 @@ LavaridgeTown_House_EventScript_ChangeTeraType::
 	case 15, LavaridgeTown_House_EventScript_Dragon
 	case 16, LavaridgeTown_House_EventScript_Dark
 	case 17, LavaridgeTown_House_EventScript_Fairy
+	case 18, LavaridgeTown_House_EventScript_Stellar
 	end
 
 LavaridgeTown_House_EventScript_Normal::
@@ -144,6 +145,11 @@ LavaridgeTown_House_EventScript_Fairy::
 	goto LavaridgeTown_House_EventScript_AndDone
 	end
 
+LavaridgeTown_House_EventScript_Stellar::
+	setteratype TYPE_STELLAR, VAR_0x8004
+	goto LavaridgeTown_House_EventScript_AndDone
+	end
+
 LavaridgeTown_House_ChangeTeraType_Text_0:
 	.string "Normal$"
 
@@ -197,6 +203,9 @@ LavaridgeTown_House_ChangeTeraType_Text_16:
 
 LavaridgeTown_House_ChangeTeraType_Text_17:
 	.string "Fairy$"
+
+LavaridgeTown_House_ChangeTeraType_Text_18:
+	.string "Stellar$"
 
 LavaridgeTown_House_EventScript_Egg::
 	msgbox LavaridgeTown_House_Text_CantRateEgg MSGBOX_DEFAULT
