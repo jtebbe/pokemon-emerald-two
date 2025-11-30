@@ -693,6 +693,23 @@ LittlerootTown_ProfessorBirchsLab_EventScript_AutoRunModeOff::
 	releaseall
 	end
 
+LittlerootTown_ProfessorBirchsLab_EventScript_InstantTextMode::
+	lockall
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_InstantTextMode, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, YES, LittlerootTown_ProfessorBirchsLab_EventScript_InstantTextModeOn
+	goto LittlerootTown_ProfessorBirchsLab_EventScript_InstantTextModeOff
+	end
+
+LittlerootTown_ProfessorBirchsLab_EventScript_InstantTextModeOn::
+	setflag FLAG_INSTANT_TEXT
+	releaseall
+	end
+
+LittlerootTown_ProfessorBirchsLab_EventScript_InstantTextModeOff::
+	clearflag FLAG_INSTANT_TEXT
+	releaseall
+	end
+
 LittlerootTown_ProfessorBirchsLab_EventScript_PerfectIvsMode::
 	lockall
 	msgbox LittlerootTown_ProfessorBirchsLab_Text_PerfectIvsMode, MSGBOX_YESNO
@@ -709,6 +726,12 @@ LittlerootTown_ProfessorBirchsLab_EventScript_PerfectIvModeOff::
 	clearflag FLAG_PERFECT_IVS_MODE
 	releaseall
 	end
+
+LittlerootTown_ProfessorBirchsLab_Text_InstantTextMode:
+	.string "This switch toggles instant text\n"
+	.string "to be on.\p"
+	.string "Saying yes will enable, no will\n"
+	.string "disable.$"
 
 LittlerootTown_ProfessorBirchsLab_Text_PerfectIvsMode:
 	.string "This switch toggles perfect ivs\n"

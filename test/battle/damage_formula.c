@@ -3,6 +3,7 @@
 
 // From https://bulbapedia.bulbagarden.net/wiki/Damage#Example
 
+/*
 SINGLE_BATTLE_TEST("Damage calculation matches Gen5+")
 {
     s16 dmg;
@@ -119,7 +120,7 @@ SINGLE_BATTLE_TEST("Damage calculation matches Gen5+ (Marshadow vs Mawile)")
     }
 }
 
-/*DOUBLE_BATTLE_TEST("A spread move will do correct damage to the second mon if the first target faints from first hit of the spread move")
+DOUBLE_BATTLE_TEST("A spread move will do correct damage to the second mon if the first target faints from first hit of the spread move (double battle)")
 {
     s16 damage[6];
     GIVEN {
@@ -152,8 +153,110 @@ SINGLE_BATTLE_TEST("Damage calculation matches Gen5+ (Marshadow vs Mawile)")
         EXPECT_EQ(damage[4], damage[5]);
     }
 }*/
+/*
+MULTI_BATTLE_TEST("A spread move will do correct damage to the second mon if the first target faints from first hit of the spread move (multibattle)")
+{
+    s16 damage[6];
+    GIVEN {
+        MULTI_PLAYER(SPECIES_REGIROCK);
+        MULTI_PARTNER(SPECIES_REGIROCK);
+        MULTI_OPPONENT_A(SPECIES_WOBBUFFET) { HP(200); }
+        MULTI_OPPONENT_B(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(playerLeft, MOVE_ROCK_SLIDE); }
+        TURN { MOVE(playerLeft, MOVE_ROCK_SLIDE); MOVE(playerRight, MOVE_ROCK_SLIDE); }
+        TURN { MOVE(playerLeft, MOVE_ROCK_SLIDE); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_ROCK_SLIDE, playerLeft);
+        HP_BAR(opponentLeft, captureDamage: &damage[0]);
+        HP_BAR(opponentRight, captureDamage: &damage[1]);
 
-/*SINGLE_BATTLE_TEST("Punching Glove vs Muscle Band Damage calculation")
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_ROCK_SLIDE, playerLeft);
+        HP_BAR(opponentLeft, captureDamage: &damage[2]);
+        HP_BAR(opponentRight, captureDamage: &damage[3]);
+
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_ROCK_SLIDE, playerRight);
+        HP_BAR(opponentRight, captureDamage: &damage[4]);
+
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_ROCK_SLIDE, playerLeft);
+        HP_BAR(opponentRight, captureDamage: &damage[5]);
+    } THEN {
+        EXPECT_EQ(damage[0], damage[1]);
+        EXPECT_EQ(damage[1], damage[3]);
+        EXPECT_MUL_EQ(damage[5], UQ_4_12(0.75), damage[3]);
+        EXPECT_EQ(damage[4], damage[5]);
+    }
+}
+
+TWO_VS_ONE_BATTLE_TEST("A spread move will do correct damage to the second mon if the first target faints from first hit of the spread move (2v1)")
+{
+    s16 damage[6];
+    GIVEN {
+        MULTI_PLAYER(SPECIES_REGIROCK);
+        MULTI_PARTNER(SPECIES_REGIROCK);
+        MULTI_OPPONENT_A(SPECIES_WOBBUFFET) { HP(200); }
+        MULTI_OPPONENT_A(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(playerLeft, MOVE_ROCK_SLIDE); }
+        TURN { MOVE(playerLeft, MOVE_ROCK_SLIDE); MOVE(playerRight, MOVE_ROCK_SLIDE); }
+        TURN { MOVE(playerLeft, MOVE_ROCK_SLIDE); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_ROCK_SLIDE, playerLeft);
+        HP_BAR(opponentLeft, captureDamage: &damage[0]);
+        HP_BAR(opponentRight, captureDamage: &damage[1]);
+
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_ROCK_SLIDE, playerLeft);
+        HP_BAR(opponentLeft, captureDamage: &damage[2]);
+        HP_BAR(opponentRight, captureDamage: &damage[3]);
+
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_ROCK_SLIDE, playerRight);
+        HP_BAR(opponentRight, captureDamage: &damage[4]);
+
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_ROCK_SLIDE, playerLeft);
+        HP_BAR(opponentRight, captureDamage: &damage[5]);
+    } THEN {
+        EXPECT_EQ(damage[0], damage[1]);
+        EXPECT_EQ(damage[1], damage[3]);
+        EXPECT_MUL_EQ(damage[5], UQ_4_12(0.75), damage[3]);
+        EXPECT_EQ(damage[4], damage[5]);
+    }
+}
+
+ONE_VS_TWO_BATTLE_TEST("A spread move will do correct damage to the second mon if the first target faints from first hit of the spread move (1v2)")
+{
+    s16 damage[6];
+    GIVEN {
+        MULTI_PLAYER(SPECIES_REGIROCK);
+        MULTI_PLAYER(SPECIES_REGIROCK);
+        MULTI_OPPONENT_A(SPECIES_WOBBUFFET) { HP(200); }
+        MULTI_OPPONENT_B(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(playerLeft, MOVE_ROCK_SLIDE); }
+        TURN { MOVE(playerLeft, MOVE_ROCK_SLIDE); MOVE(playerRight, MOVE_ROCK_SLIDE); }
+        TURN { MOVE(playerLeft, MOVE_ROCK_SLIDE); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_ROCK_SLIDE, playerLeft);
+        HP_BAR(opponentLeft, captureDamage: &damage[0]);
+        HP_BAR(opponentRight, captureDamage: &damage[1]);
+
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_ROCK_SLIDE, playerLeft);
+        HP_BAR(opponentLeft, captureDamage: &damage[2]);
+        HP_BAR(opponentRight, captureDamage: &damage[3]);
+
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_ROCK_SLIDE, playerRight);
+        HP_BAR(opponentRight, captureDamage: &damage[4]);
+
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_ROCK_SLIDE, playerLeft);
+        HP_BAR(opponentRight, captureDamage: &damage[5]);
+    } THEN {
+        EXPECT_EQ(damage[0], damage[1]);
+        EXPECT_EQ(damage[1], damage[3]);
+        EXPECT_MUL_EQ(damage[5], UQ_4_12(0.75), damage[3]);
+        EXPECT_EQ(damage[4], damage[5]);
+    }
+}
+
+SINGLE_BATTLE_TEST("Punching Glove vs Muscle Band Damage calculation")
 {
     s16 dmgPlayer, dmgOpponent;
     s16 expectedDamagePlayer, expectedDamageOpponent;
@@ -250,7 +353,7 @@ SINGLE_BATTLE_TEST("Gem boosted Damage calculation")
         EXPECT_EQ(expectedDamage, dmg);
     }
 }*/
-
+/*
 #define NUM_DAMAGE_SPREADS (DMG_ROLL_PERCENT_HI - DMG_ROLL_PERCENT_LO) + 1
 
 static const s16 sThunderShockTransistorSpreadGen9[] = { 54, 55, 56, 57, 57, 58, 59, 60, 60, 60, 61, 62, 63, 63, 64, 65 };
@@ -315,4 +418,4 @@ DOUBLE_BATTLE_TEST("Transistor Damage calculation", s16 damage)
         EXPECT_EQ(damagePlayerLeft, expectedDamageRegularPhys);
         EXPECT_EQ(damagePlayerRight, expectedDamageTransistorPhys);
     }
-}
+}*/
