@@ -9722,6 +9722,23 @@ const struct Item gItemsInfo[] =
         .iconPalette = gItemIconPalette_BurglaryKit,
     },
 
+    [ITEM_ETERNAL_PROMISE] =
+    {
+        .name = ITEM_NAME("Eternal Promise"),
+        .price = 0,
+        .holdEffect = HOLD_EFFECT_ETERNAL_PROMISE,
+        .description = COMPOUND_STRING(
+            "Holder consumes this\n"
+            "when its ally faints\n"
+            "and gains power."),
+        .pocket = POCKET_BATTLE_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 150,
+        .iconPic = gItemIcon_FlyingGem,
+        .iconPalette = gItemIconPalette_FlyingGem,
+    },
+
     [ITEM_STRANGE_SHIELD] =
     {
         .name = ITEM_NAME("Strange Shield"),

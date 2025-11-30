@@ -140,8 +140,6 @@ Route117_EventScript_Maria::
 Route117_EventScript_RegisterMaria::
 	special PlayerFaceTrainerAfterBattle
 	waitmovement 0
-	msgbox Route117_Text_MariaRegister, MSGBOX_DEFAULT
-	register_matchcall TRAINER_MARIA_1
 	release
 	end
 

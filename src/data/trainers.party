@@ -16293,18 +16293,61 @@ IVs: 0 Atk
 - Hex  
 - Will-O-Wisp
 
-=== TRAINER_MARIA_2 ===
-Name: MARIA
-Class: Triathlete
-Pic: Running Triathlete F
+=== TRAINER_CLAR ===
+Name: CLAR
+Class: Lady
+Pic: Lady
 Gender: Female
 Music: Female
 Battle Type: Doubles
 AI: Smart Trainer
+Mugshot: Purple
 
-Doduo
-Level: 28
-IVs: 1 HP / 1 Atk / 1 Def / 1 SpA / 1 SpD / 1 Spe
+Pichu @ Mental Herb  
+Ability: Lightning Rod   
+EVs: 252 Atk / 4 SpA / 252 Spe  
+Hasty Nature  
+IVs: 0 Def / 0 SpD  
+- Follow Me  
+
+Cramorant @ Eternal Promise
+Ability: Gulp Missile   
+EVs: 252 HP / 4 Def / 252 SpA  
+Modest Nature  
+IVs: 0 Atk  
+- Tailwind  
+- Surf  
+- Icy Wind  
+- Air Slash  
+
+Linoone @ Assault Vest  
+Ability: Fur Coat  
+Tera Type: Ghost  
+EVs: 252 Atk / 4 SpD / 252 Spe  
+Jolly Nature  
+- Fake Out  
+- Extreme Speed  
+- Shadow Claw  
+- Stomping Tantrum  
+
+Beautifly @ Focus Sash  
+Ability: Simple   
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Modest Nature  
+IVs: 0 Atk  
+- Quiver Dance  
+- Bug Buzz  
+- Air Cutter  
+- Giga Drain  
+
+Pachirisu @ Covert Cloak  
+Ability: Volt Absorb  
+EVs: 252 HP / 4 Atk / 252 Spe  
+Jolly Nature  
+- Follow Me  
+- Nuzzle  
+- Super Fang  
+- Encore  
 
 === TRAINER_MARIA_3 ===
 Name: MARIA

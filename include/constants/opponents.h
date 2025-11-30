@@ -373,7 +373,7 @@
 #define TRAINER_JORDAN_REMATCH              367
 #define TRAINER_CLARK_REMATCH               368
 #define TRAINER_MARIA_1                     369
-#define TRAINER_MARIA_2                     370
+#define TRAINER_CLAR                        370
 #define TRAINER_MARIA_3                     371
 #define TRAINER_MARIA_4                     372
 #define TRAINER_MARIA_5                     373

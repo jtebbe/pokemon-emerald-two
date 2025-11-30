@@ -2178,6 +2178,11 @@
 	.byte \battler
 	.endm
 
+	.macro tryactivateeternalpromise battler:req
+	callnative BS_TryActivateEternalPromise
+	.byte \battler
+	.endm
+
 	.macro tryactivatesoulheart
 	callnative BS_TryActivateSoulheart
 	.endm

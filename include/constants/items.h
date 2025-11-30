@@ -1128,13 +1128,14 @@
 #define ITEM_POKEVIAL 961
 #define ITEM_INFINITE_REPEL 962
 #define ITEM_BURGLARY_KIT 963
+#define ITEM_ETERNAL_PROMISE 964
 
-#define ITEM_STRANGE_BALL 964
+#define ITEM_STRANGE_BALL 965
 
 // HOPO BERRY
 // LEGEND PLATE
 
-#define ITEMS_COUNT 965
+#define ITEMS_COUNT 966
 #define ITEM_FIELD_ARROW ITEMS_COUNT
 
 // A special item id associated with "Cancel"/"Exit" etc. in a list of items or decorations

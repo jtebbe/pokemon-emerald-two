@@ -12,8 +12,9 @@ Route114_LanettesHouse_EventScript_Lanette::
 	goto_if_set FLAG_RECEIVED_DOLL_LANETTE, Route114_LanettesHouse_EventScript_OfferAdvice
 	setflag FLAG_SYS_PC_LANETTE
 	msgbox Route114_LanettesHouse_Text_EverythingClutteredKeepThis, MSGBOX_DEFAULT
-	givedecoration DECOR_LOTAD_DOLL
-	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowNoRoomForDecor
+	trainerbattle_no_intro TRAINER_CLAR, Route114_LanettesHouse_Text_Defeat
+	giveitem ITEM_ETERNAL_PROMISE
+	msgbox Route114_LanettesHouse_Text_Post, MSGBOX_DEFAULT
 	setflag FLAG_RECEIVED_DOLL_LANETTE
 	release
 	end
@@ -46,12 +47,13 @@ Route114_LanettesHouse_EventScript_PC::
 	end
 
 Route114_LanettesHouse_Text_EverythingClutteredKeepThis:
-	.string "LANETTE: Oh! {PLAYER}{KUN}!\p"
+	.string "CLAR: Oh! {PLAYER}{KUN}!\p"
 	.string "I'm sorry everything is so cluttered…\n"
 	.string "When I get engrossed in research,\l"
 	.string "things end up this way…\p"
 	.string "This is embarrassing… Please keep\n"
-	.string "this a secret in exchange for this.$"
+	.string "this a secret! Tell you what, if\l"
+	.string "you can beat me, I'll reward you!$"
 
 Route114_LanettesHouse_Text_OrganizeYourBoxes:
 	.string "May I offer advice about my POKéMON\n"
@@ -60,7 +62,7 @@ Route114_LanettesHouse_Text_OrganizeYourBoxes:
 	.string "can tell which POKéMON are in them.$"
 
 Route114_LanettesHouse_Text_ResearchNotesPage1:
-	.string "It's LANETTE's research notes.\n"
+	.string "It's CLAR's research notes.\n"
 	.string "There's information about BOXES.\p"
 	.string "Design BOXES to hold 30 POKéMON each.\p"
 	.string "Each TRAINER should be able to store\n"
@@ -102,3 +104,13 @@ Route114_LanettesHouse_Text_EmailFromBill:
 	.string "“From BILL\n"
 	.string "… … … … … … … …”$"
 
+Route114_LanettesHouse_Text_Defeat:
+	.string "You're strong. You could even take on\n"
+	.string "my husband!$"
+
+Route114_LanettesHouse_Text_Post:
+	.string "That item should help you on your\n"
+	.string "journey. If the holder's partner\l"
+	.string "falls, the holder gains strength.\p"
+	.string "it's almost like the one my husband\n"
+	.string "gave me!$"

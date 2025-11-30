@@ -17523,6 +17523,22 @@ void BS_RestoreMovePp(void)
     gBattlescriptCurrInstr = cmd->nextInstr;
 }
 
+void BS_TryActivateEternalPromise(void)
+{
+    NATIVE_ARGS(u8 battler);
+    u32 battler = GetBattlerForBattleScript(cmd->battler);
+    if (IsBattlerAlive(BATTLE_PARTNER(battler))
+        && GetBattlerHoldEffect(BATTLE_PARTNER(battler), TRUE) == HOLD_EFFECT_ETERNAL_PROMISE)
+    {
+        gBattleScripting.battler = BATTLE_PARTNER(battler);
+        gLastUsedItem = gBattleMons[BATTLE_PARTNER(battler)].item;
+        BattleScriptPush(cmd->nextInstr);
+        gBattlescriptCurrInstr = BattleScript_EternalPromiseActivates;
+    } else {
+        gBattlescriptCurrInstr = cmd->nextInstr;
+    }
+}
+
 void BS_TryActivateReceiver(void)
 {
     NATIVE_ARGS(u8 battler);

@@ -5139,6 +5139,7 @@ BattleScript_FaintAttacker::
 	waitanimation
 	tryactivatereceiver BS_ATTACKER
 	tryactivatesoulheart
+	tryactivateeternalpromise BS_ATTACKER
 	trytrainerslidemsgfirstoff BS_ATTACKER
 	return
 
@@ -5157,6 +5158,7 @@ BattleScript_FaintTarget::
 	waitanimation
 	tryactivatereceiver BS_TARGET
 	tryactivatesoulheart
+	tryactivateeternalpromise BS_TARGET
 	trytrainerslidemsgfirstoff BS_TARGET
 	return
 
@@ -10104,3 +10106,28 @@ BattleScript_ForfeitBattleGaveMoney::
 .endif
 	waitmessage B_WAIT_TIME_LONG
 	end2
+
+BattleScript_EternalPromiseActivates::
+	savetarget
+	copybyte gBattlerTarget, sBATTLER
+	jumpifstat BS_TARGET, CMP_LESS_THAN, STAT_ATK, MAX_STAT_STAGE, BattleScript_EternalPromiseAtk
+	jumpifstat BS_TARGET, CMP_EQUAL, STAT_SPATK, MAX_STAT_STAGE, BattleScript_EternalPromiseEnd
+BattleScript_EternalPromiseAtk:
+	playanimation BS_TARGET, B_ANIM_HELD_ITEM_EFFECT
+	waitanimation
+	setstatchanger STAT_ATK, 1, FALSE
+	statbuffchange BS_TARGET, STAT_CHANGE_ALLOW_PTR, BattleScript_EternalPromiseSpAtk, BIT_SPATK
+	jumpifbyte CMP_EQUAL, cMULTISTRING_CHOOSER, B_MSG_STAT_WONT_INCREASE, BattleScript_EternalPromiseSpAtk
+	printstring STRINGID_USINGITEMSTATOFPKMNROSE
+	waitmessage B_WAIT_TIME_LONG
+BattleScript_EternalPromiseSpAtk:
+	setstatchanger STAT_SPATK, 1, FALSE
+	statbuffchange BS_TARGET, STAT_CHANGE_ALLOW_PTR, BattleScript_EternalPromiseRemoveItem
+	jumpifbyte CMP_EQUAL, cMULTISTRING_CHOOSER, B_MSG_STAT_WONT_INCREASE, BattleScript_EternalPromiseRemoveItem
+	printstring STRINGID_USINGITEMSTATOFPKMNROSE
+	waitmessage B_WAIT_TIME_LONG
+BattleScript_EternalPromiseRemoveItem:
+	removeitem BS_TARGET
+BattleScript_EternalPromiseEnd:
+	restoretarget
+	return
