@@ -1961,8 +1961,8 @@ bool32 NoMovesAvailableToRelearn(void)
 
 bool32 CheckRelearnerStateFlag(enum MoveRelearnerStates state)
 {
-    if (P_ENABLE_MOVE_RELEARNERS)
-        return TRUE;
+    /*if (P_ENABLE_MOVE_RELEARNERS)
+        return TRUE;*/
 
     switch (state)
     {

@@ -722,8 +722,8 @@
 #define FLAG_ITEM_ROUTE_123_FLAMETHROWER  0x2A9
 #define FLAG_DEBUG_ENABLED  0x2AA
 #define FLAG_INSTANT_TEXT  0x2AB
-#define FLAG_UNUSED_0x2AC  0x2AC // Unused Flag
-#define FLAG_UNUSED_0x2AD  0x2AD // Unused Flag
+#define FLAG_EGG_MOVES  0x2AC
+#define FLAG_TUTOR_MOVES  0x2AD
 #define FLAG_UNUSED_0x2AE  0x2AE // Unused Flag
 #define FLAG_UNUSED_0x2AF  0x2AF // Unused Flag
 #define FLAG_UNUSED_0x2B0  0x2B0 // Unused Flag

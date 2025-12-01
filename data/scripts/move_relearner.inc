@@ -13,9 +13,9 @@ Common_EventScript_MoveRelearnerDynMultiChoice::
 	dynmultipush MoveRelearner_Text_TMMoves, 2
 	dynmultipush MoveRelearner_Text_TutormoveMoves, 3
 .else
-	call_if_set P_FLAG_EGG_MOVES, MoveRelearner_EventScript_PushEggMoves
+	call MoveRelearner_EventScript_PushEggMoves
 	istmrelearneractive MoveRelearner_EventScript_PushTMMoves
-	call_if_set P_FLAG_TUTOR_MOVES, MoveRelearner_EventScript_PushTutorMoves
+	call MoveRelearner_EventScript_PushTutorMoves
 .endif @ P_ENABLE_MOVE_RELEARNERS
 	dynmultipush MoveRelearner_Text_SeeYa, 4
 	dynmultistack 0, 0, FALSE, 5, 0, 0, DYN_MULTICHOICE_CB_NONE
