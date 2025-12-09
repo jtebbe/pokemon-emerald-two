@@ -3614,7 +3614,6 @@ static void DebugAction_DestroyFollowerNPC(u8 taskId)
     X(MUS_VS_RIVAL)                 \
     X(MUS_VS_ELITE_FOUR)            \
     X(MUS_VS_AQUA_MAGMA_LEADER)     \
-    X(MUS_TEMPLE_OF_DROPLETS)       \
     X(MUS_RG_FOLLOW_ME)             \
     X(MUS_RG_GAME_CORNER)           \
     X(MUS_RG_ROCKET_HIDEOUT)        \
