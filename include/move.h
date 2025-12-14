@@ -553,6 +553,7 @@ static inline u32 GetMoveNonVolatileStatus(u32 move)
     {
     case EFFECT_NON_VOLATILE_STATUS:
     case EFFECT_YAWN:
+    case EFFECT_DEADLY_KISS:
     case EFFECT_DARK_VOID:
         return gMovesInfo[move].argument.nonVolatileStatus;
     default:

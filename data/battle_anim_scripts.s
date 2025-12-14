@@ -18720,6 +18720,12 @@ gBattleAnimMove_DeadlyKiss::
 	createsprite gRedHeartBurstSpriteTemplate, ANIM_TARGET, 3, 416, -38
 	createsprite gRedHeartBurstSpriteTemplate, ANIM_TARGET, 3, -128, -22
 	createsprite gRedHeartBurstSpriteTemplate, ANIM_TARGET, 3, -384, -31
+	loadspritegfx ANIM_TAG_TOXIC_BUBBLE
+	loadspritegfx ANIM_TAG_POISON_BUBBLE
+	call ToxicBubbles
+	call ToxicBubbles
+	waitforvisualfinish
+	delay 15
 	call PoisonBubblesEffect
 	waitforvisualfinish
 	end
