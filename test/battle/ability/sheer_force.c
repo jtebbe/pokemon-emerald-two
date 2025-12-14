@@ -1537,3 +1537,4 @@ AI_SINGLE_BATTLE_TEST("AI sees Sheer Force skips additional effects")
         TURN { EXPECT_MOVE(opponent, expectedMove); }
     }
 }
+*/
