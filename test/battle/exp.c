@@ -27,8 +27,6 @@ WILD_BATTLE_TEST("Pokemon gain experience after catching a Pokemon (Gen6+)")
     }
 }
 
-#endif // B_EXP_CATCH
-
 /*
 WILD_BATTLE_TEST("Higher leveled Pokemon give more exp", s32 exp)
 {
