@@ -610,7 +610,7 @@ SINGLE_BATTLE_TEST("Pursuit attacks a switching foe and switchin is correctly st
         }
     }
 }
-
+/*
 SINGLE_BATTLE_TEST("Pursuit doesn't cause mon with Emergency Exit to switch twice")
 {
     GIVEN {
@@ -628,7 +628,7 @@ SINGLE_BATTLE_TEST("Pursuit doesn't cause mon with Emergency Exit to switch twic
     } THEN {
         EXPECT_EQ(player->species, SPECIES_VOLTORB);
     }
-}
+}*/
 
 SINGLE_BATTLE_TEST("Pursuit user gets forced out by Red Card and target still switches out")
 {

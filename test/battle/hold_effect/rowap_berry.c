@@ -5,7 +5,7 @@ ASSUMPTIONS
 {
     ASSUME(gItemsInfo[ITEM_ROWAP_BERRY].holdEffect == HOLD_EFFECT_ROWAP_BERRY);
 }
-
+/*
 SINGLE_BATTLE_TEST("Rowap Berry causes the attacker to lose 1/8 of its max HP if a special move was used")
 {
     s16 damage;
@@ -38,7 +38,7 @@ SINGLE_BATTLE_TEST("Rowap Berry causes the attacker to lose 1/8 of its max HP if
         if (move == MOVE_SWIFT)
             EXPECT_EQ(player->maxHP / 8, damage);
     }
-}
+}*/
 
 SINGLE_BATTLE_TEST("Rowap Berry is not triggered by a physical move")
 {

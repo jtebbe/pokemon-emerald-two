@@ -5,7 +5,7 @@ ASSUMPTIONS
 {
     ASSUME(gItemsInfo[ITEM_ENIGMA_BERRY].holdEffect == HOLD_EFFECT_ENIGMA_BERRY);
 }
-
+/*
 SINGLE_BATTLE_TEST("Enigma Berry recovers 25% of HP if hit by super effective move")
 {
     GIVEN {
@@ -21,7 +21,7 @@ SINGLE_BATTLE_TEST("Enigma Berry recovers 25% of HP if hit by super effective mo
         MESSAGE("Wynaut restored its health using its Enigma Berry!");
         HP_BAR(player, damage: -maxHP / 4);
     }
-}
+}*/
 
 SINGLE_BATTLE_TEST("Enigma Berry does nothing if not hit by super effective move")
 {

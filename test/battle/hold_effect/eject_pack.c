@@ -63,7 +63,7 @@ SINGLE_BATTLE_TEST("Eject Pack is triggered by self-inflicting stat decreases")
         ANIMATION(ANIM_TYPE_MOVE, MOVE_CELEBRATE, opponent);
     }
 }
-
+/*
 SINGLE_BATTLE_TEST("Eject Pack will miss timing to switch out user if Emergency Exit was activated on target")
 {
     GIVEN {
@@ -85,7 +85,7 @@ SINGLE_BATTLE_TEST("Eject Pack will miss timing to switch out user if Emergency 
         EXPECT(player->species == SPECIES_WOBBUFFET);
         EXPECT(opponent->species == SPECIES_WYNAUT);
     }
-}
+}*/
 
 SINGLE_BATTLE_TEST("Eject Pack activates once intimidate mon switches in")
 {

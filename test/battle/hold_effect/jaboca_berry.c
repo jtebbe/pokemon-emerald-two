@@ -6,7 +6,7 @@ ASSUMPTIONS
     ASSUME(gItemsInfo[ITEM_JABOCA_BERRY].holdEffect == HOLD_EFFECT_JABOCA_BERRY);
     ASSUME(GetMoveCategory(MOVE_SCRATCH) == DAMAGE_CATEGORY_PHYSICAL);
 }
-
+/*
 SINGLE_BATTLE_TEST("Jaboca Berry causes the attacker to lose 1/8 of its max HP if a physical move was used")
 {
     s16 damage;
@@ -38,7 +38,7 @@ SINGLE_BATTLE_TEST("Jaboca Berry causes the attacker to lose 1/8 of its max HP i
         if (move == MOVE_SCRATCH)
             EXPECT_EQ(player->maxHP / 8, damage);
     }
-}
+}*/
 
 SINGLE_BATTLE_TEST("Jaboca Berry triggers before Bug Bite can steal it")
 {

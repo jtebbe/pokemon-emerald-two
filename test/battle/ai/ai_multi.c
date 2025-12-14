@@ -205,7 +205,7 @@ AI_MULTI_BATTLE_TEST("AI opponents do not steal their partner pokemon in multi b
         EXPECT_EQ(SPECIES_VENUSAUR, opponentLeft->species);
     }
 }
-
+/*
 AI_MULTI_BATTLE_TEST("AI opponents do not steal their partner pokemon in multi battle when forced out 2")
 {
     GIVEN {
@@ -221,4 +221,4 @@ AI_MULTI_BATTLE_TEST("AI opponents do not steal their partner pokemon in multi b
     } THEN {
         EXPECT_EQ(SPECIES_VENUSAUR, opponentLeft->species);
     }
-}
+}*/

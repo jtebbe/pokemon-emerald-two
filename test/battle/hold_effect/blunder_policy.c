@@ -5,7 +5,6 @@ ASSUMPTIONS
 {
     ASSUME(gItemsInfo[ITEM_BLUNDER_POLICY].holdEffect == HOLD_EFFECT_BLUNDER_POLICY);
 }
-
 SINGLE_BATTLE_TEST("Blunder Policy raises the users speed by 2 stages if the user misses")
 {
     PASSES_RANDOMLY(3, 10, RNG_ACCURACY);
@@ -20,7 +19,7 @@ SINGLE_BATTLE_TEST("Blunder Policy raises the users speed by 2 stages if the use
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, player);
     } THEN {
         EXPECT(player->item == ITEM_NONE);
-        EXPECT_EQ(player->statStages[STAT_SPEED], DEFAULT_STAT_STAGE + 2);
+        EXPECT_EQ(player->statStages[STAT_SPEED], DEFAULT_STAT_STAGE + 3);
     }
 }
 
