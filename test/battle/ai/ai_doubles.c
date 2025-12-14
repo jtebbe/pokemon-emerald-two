@@ -87,6 +87,86 @@ AI_DOUBLE_BATTLE_TEST("AI will not use a status move if partner already chose He
 }
 
 /*AI_DOUBLE_BATTLE_TEST("AI will not choose Earthquake if it damages the partner without a positive effect")
+TO_DO_BATTLE_TEST("AI understands Instruct")
+
+TO_DO_BATTLE_TEST("AI understands Quick Guard")
+TO_DO_BATTLE_TEST("AI understands Wide Guard")
+
+AI_DOUBLE_BATTLE_TEST("AI won't use the same nondamaging move as its partner for no reason")
+{
+    u32 move;
+    PARAMETRIZE { move = MOVE_AROMATHERAPY; }
+    PARAMETRIZE { move = MOVE_ELECTRIC_TERRAIN; }
+    PARAMETRIZE { move = MOVE_FOLLOW_ME; }
+    PARAMETRIZE { move = MOVE_GRASSY_TERRAIN; }
+    PARAMETRIZE { move = MOVE_GRAVITY; }
+    PARAMETRIZE { move = MOVE_HAIL; }
+    PARAMETRIZE { move = MOVE_HEAL_BELL; }
+    PARAMETRIZE { move = MOVE_LIGHT_SCREEN; }
+    PARAMETRIZE { move = MOVE_LUCKY_CHANT; }
+    PARAMETRIZE { move = MOVE_MAGIC_ROOM; }
+    PARAMETRIZE { move = MOVE_MISTY_TERRAIN; }
+    PARAMETRIZE { move = MOVE_MUD_SPORT; }
+    PARAMETRIZE { move = MOVE_PSYCHIC_TERRAIN; }
+    PARAMETRIZE { move = MOVE_RAIN_DANCE; }
+    PARAMETRIZE { move = MOVE_REFLECT; }
+    PARAMETRIZE { move = MOVE_SAFEGUARD; }
+    PARAMETRIZE { move = MOVE_SANDSTORM; }
+    PARAMETRIZE { move = MOVE_SNOWSCAPE; }
+    PARAMETRIZE { move = MOVE_SPOTLIGHT; }
+    PARAMETRIZE { move = MOVE_STEALTH_ROCK; }
+    PARAMETRIZE { move = MOVE_SUNNY_DAY; }
+    PARAMETRIZE { move = MOVE_TAILWIND; }
+    PARAMETRIZE { move = MOVE_TEETER_DANCE; }
+    PARAMETRIZE { move = MOVE_TRICK_ROOM; }
+    PARAMETRIZE { move = MOVE_WATER_SPORT; }
+    PARAMETRIZE { move = MOVE_COURT_CHANGE; }
+    PARAMETRIZE { move = MOVE_PERISH_SONG; }
+    PARAMETRIZE { move = MOVE_STICKY_WEB; }
+    PARAMETRIZE { move = MOVE_TEATIME; }
+    PARAMETRIZE { move = MOVE_WONDER_ROOM; }
+    GIVEN {
+        AI_FLAGS(AI_FLAG_CHECK_BAD_MOVE);
+        PLAYER(SPECIES_WOBBUFFET);
+        PLAYER(SPECIES_WOBBUFFET);
+        PLAYER(SPECIES_WOBBUFFET);
+        PLAYER(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_WOBBUFFET) { Moves(move, MOVE_TACKLE); Status1(STATUS1_BURN); }
+        OPPONENT(SPECIES_WOBBUFFET) { Moves(move, MOVE_TACKLE); }
+        OPPONENT(SPECIES_WOBBUFFET) { Moves(move, MOVE_TACKLE); }
+        OPPONENT(SPECIES_WOBBUFFET) { Moves(move, MOVE_TACKLE); }
+    } WHEN {
+        TURN { EXPECT_MOVE(opponentLeft, move); EXPECT_MOVE(opponentRight, MOVE_TACKLE); }
+    }
+}
+
+AI_DOUBLE_BATTLE_TEST("Heal Bell and Jungle Healing skip curing a partner that benefits from burn")
+{
+    u32 move;
+
+    PARAMETRIZE { move = MOVE_HEAL_BELL; }
+    PARAMETRIZE { move = MOVE_JUNGLE_HEALING; }
+
+    GIVEN {
+        ASSUME(GetMoveEffect(MOVE_HEAL_BELL) == EFFECT_HEAL_BELL);
+        ASSUME(GetMoveEffect(MOVE_JUNGLE_HEALING) == EFFECT_JUNGLE_HEALING);
+        AI_FLAGS(AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_CHECK_VIABILITY | AI_FLAG_TRY_TO_FAINT);
+        PLAYER(SPECIES_WOBBUFFET) { Moves(MOVE_MEMENTO); Speed(1); }
+        PLAYER(SPECIES_WOBBUFFET) { Moves(MOVE_MEMENTO); Speed(1); }
+        OPPONENT(SPECIES_WOBBUFFET) { Moves(move, MOVE_SCRATCH); Speed(20); }
+        OPPONENT(SPECIES_WOBBUFFET) { Ability(ABILITY_GUTS); Moves(MOVE_TACKLE); Status1(STATUS1_BURN); MaxHP(200); HP(200); Speed(10); }
+    } WHEN {
+        TURN {
+            NOT_EXPECT_MOVE(opponentLeft, move);
+            EXPECT_MOVE(opponentLeft, MOVE_SCRATCH, target: playerLeft);
+            EXPECT_MOVE(opponentRight, MOVE_TACKLE, target: playerLeft);
+            MOVE(playerLeft, MOVE_MEMENTO);
+            MOVE(playerRight, MOVE_MEMENTO);
+        }
+    }
+}
+
+AI_DOUBLE_BATTLE_TEST("AI will not choose Earthquake if it damages the partner without a positive effect")
 {
     ASSUME(GetMoveTarget(MOVE_EARTHQUAKE) == MOVE_TARGET_FOES_AND_ALLY);
 
