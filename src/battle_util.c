@@ -3280,6 +3280,8 @@ bool32 TryChangeBattleWeather(u32 battler, u32 battleWeatherId, u32 ability)
         gBattleWeather = sBattleWeatherInfo[battleWeatherId].flag;
         if (gBattleWeather & B_WEATHER_PRIMAL_ANY)
             gWishFutureKnock.weatherDuration = 0;
+        else if (GetBattlerAbility(battler) == ABILITY_TEMPORAL_ASSERTION)
+            gWishFutureKnock.weatherDuration = 250;
         else if (rock != 0 && GetBattlerHoldEffect(battler) == rock)
             gWishFutureKnock.weatherDuration = 8;
         else
