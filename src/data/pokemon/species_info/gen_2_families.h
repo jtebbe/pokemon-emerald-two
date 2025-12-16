@@ -8080,7 +8080,7 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
             gOverworldPalette_Raikou,
             gShinyOverworldPalette_Raikou
         )
-        .isLegendary = TRUE,
+        .isSubLegendary = TRUE,
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sRaikouLevelUpLearnset,
         .teachableLearnset = sRaikouTeachableLearnset,
@@ -8161,7 +8161,7 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
             gOverworldPalette_Entei,
             gShinyOverworldPalette_Entei
         )
-        .isLegendary = TRUE,
+        .isSubLegendary = TRUE,
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sEnteiLevelUpLearnset,
         .teachableLearnset = sEnteiTeachableLearnset,
@@ -8242,7 +8242,7 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
             gOverworldPalette_Suicune,
             gShinyOverworldPalette_Suicune
         )
-        .isLegendary = TRUE,
+        .isSubLegendary = TRUE,
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sSuicuneLevelUpLearnset,
         .teachableLearnset = sSuicuneTeachableLearnset,
@@ -8615,7 +8615,7 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
             gOverworldPalette_Lugia,
             gShinyOverworldPalette_Lugia
         )
-        .isLegendary = TRUE,
+        .isRestrictedLegendary = TRUE,
         .isFrontierBanned = TRUE,
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sLugiaLevelUpLearnset,
@@ -8693,7 +8693,7 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
             gOverworldPalette_HoOh,
             gShinyOverworldPalette_HoOh
         )
-        .isLegendary = TRUE,
+        .isRestrictedLegendary = TRUE,
         .isFrontierBanned = TRUE,
         .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sHoOhLevelUpLearnset,

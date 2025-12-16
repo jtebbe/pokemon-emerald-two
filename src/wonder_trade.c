@@ -131,11 +131,11 @@ static u32 GenerateSurpriseTradeSpecies(void)
         if (newSpecies == prevSpecies)
             continue;
 
-        if ((gSpeciesInfo[newSpecies].isRestrictedLegendary && !WT_USE_RESTRICTEDS)
-        ||  (gSpeciesInfo[newSpecies].isSubLegendary && !WT_USE_SUBLEGENDARIES)
-        ||  (gSpeciesInfo[newSpecies].isMythical && !WT_USE_MYTHICALS)
-        ||  (gSpeciesInfo[newSpecies].isUltraBeast && !WT_USE_ULTRA_BEASTS)
-        ||  (gSpeciesInfo[newSpecies].isParadox && !WT_USE_PARADOXES)
+        if (((gSpeciesInfo[newSpecies].isRestrictedLegendary && !WT_USE_RESTRICTEDS) && !FlagGet(FLAG_IS_CHAMPION))
+        ||  ((gSpeciesInfo[newSpecies].isSubLegendary && !WT_USE_SUBLEGENDARIES) && !FlagGet(FLAG_IS_CHAMPION)) 
+        ||  ((gSpeciesInfo[newSpecies].isMythical && !WT_USE_MYTHICALS) && !FlagGet(FLAG_IS_CHAMPION))
+        ||  ((gSpeciesInfo[newSpecies].isUltraBeast && !WT_USE_ULTRA_BEASTS) && !FlagGet(FLAG_IS_CHAMPION))
+        ||  ((gSpeciesInfo[newSpecies].isParadox && !WT_USE_PARADOXES) && !FlagGet(FLAG_IS_CHAMPION))
         ||   gSpeciesInfo[newSpecies].isWonderTradeBanned)
         {
             prevSpecies = newSpecies;

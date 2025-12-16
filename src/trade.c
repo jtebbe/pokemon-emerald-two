@@ -3329,10 +3329,7 @@ static void BufferTradeSceneStrings(void)
         GetMonData(&gEnemyParty[0], MON_DATA_NICKNAME, name);
         StringCopy_Nickname(gStringVar3, name);
         //End surpriseTrade
-        if(gSpecialVar_MonBoxId == 0xFF)
-            GetMonData(&gPlayerParty[gSpecialVar_0x8005], MON_DATA_NICKNAME, name);
-        else
-            GetMonData(&gEnemyParty[1], MON_DATA_NICKNAME, name);
+        GetMonData(&gPlayerParty[gSpecialVar_0x8005], MON_DATA_NICKNAME, name);
         StringCopy_Nickname(gStringVar2, name);
     }
 }
