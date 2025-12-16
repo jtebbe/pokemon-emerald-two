@@ -1448,14 +1448,14 @@ const struct AbilityInfo gAbilitiesInfo[ABILITIES_COUNT] =
     [ABILITY_WIMP_OUT] =
     {
         .name = _("Wimp Out"),
-        .description = COMPOUND_STRING("Flees at half HP."),
+        .description = COMPOUND_STRING("Flees at 1/4 HP."),
         .aiRating = 3,
     },
 
     [ABILITY_EMERGENCY_EXIT] =
     {
         .name = _("Emergency Exit"),
-        .description = COMPOUND_STRING("Flees at half HP."),
+        .description = COMPOUND_STRING("Flees at 1/4 HP."),
         .aiRating = 3,
     },
 
