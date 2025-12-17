@@ -2225,6 +2225,7 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         .isWonderTradeBanned = TRUE,
         .levelUpLearnset = sFloetteEternalLevelUpLearnset,
         .teachableLearnset = sFloetteEternalTeachableLearnset,
+        .formChangeTable = sFloetteEternalFormChangeTable,
     },
 
 #define FLORGES_MISC_INFO(Form, iconPal)                                        \
