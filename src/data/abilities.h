@@ -2730,4 +2730,17 @@ const struct AbilityInfo gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Hates item-holders."),
         .aiRating = 7,
     },
+
+    [ABILITY_STORMDANCER] =
+    {
+        .name = _("Stormdancer"),
+        .description = COMPOUND_STRING("Flying moves bring rain."),
+        .aiRating = 2,
+    },
+    [ABILITY_CONTACT_SHOCK] =
+    {
+        .name = _("Contact Shock"),
+        .description = COMPOUND_STRING("Para and dmg on contact."),
+        .aiRating = 4,
+    },
 };

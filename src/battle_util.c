@@ -2915,6 +2915,21 @@ static enum MoveCanceler CancelerProtean(struct BattleContext *ctx)
     return MOVE_STEP_SUCCESS;
 }
 
+static enum MoveCanceler CancelerStormdancer(struct BattleContext *ctx)
+{
+    enum Type moveType = GetBattleMoveType(ctx->currentMove);
+    if (moveType == TYPE_FLYING && GetBattlerAbility(ctx->battlerAtk) == ABILITY_STORMDANCER)
+    {
+        if (TryChangeBattleWeather(ctx->battlerAtk, BATTLE_WEATHER_RAIN, ABILITY_STORMDANCER)) {
+            gLastUsedAbility = ABILITY_STORMDANCER;
+            gBattleScripting.battler = ctx->battlerAtk;
+            BattleScriptCall(BattleScript_StormdancerActivates);
+            return MOVE_STEP_BREAK;
+        }
+    }
+    return MOVE_STEP_SUCCESS;
+}
+
 static enum MoveCanceler CancelerExplodingDamp(struct BattleContext *ctx)
 {
     u32 dampBattler = IsAbilityOnField(ABILITY_DAMP);
@@ -3086,6 +3101,7 @@ static enum MoveCanceler (*const sMoveSuccessOrderCancelers[])(struct BattleCont
     [CANCELER_EXPLODING_DAMP] = CancelerExplodingDamp,
     [CANCELER_MULTIHIT_MOVES] = CancelerMultihitMoves,
     [CANCELER_MULTI_TARGET_MOVES] = CancelerMultiTargetMoves,
+    [CANCELER_STORMDANCER] = CancelerStormdancer,
 };
 
 enum MoveCanceler AtkCanceler_MoveSuccessOrder(struct BattleContext *ctx)
@@ -5442,6 +5458,23 @@ u32 AbilityBattleEffects(enum AbilityEffect caseID, u32 battler, enum Ability ab
                     effect++;
                 }
             }
+            }
+            break;
+        case ABILITY_CONTACT_SHOCK:
+            enum Ability abilityAtk = GetBattlerAbility(gBattlerAttacker);
+            if (IsBattlerAlive(gBattlerAttacker)
+            && !gProtectStructs[gBattlerAttacker].confusionSelfDmg
+            && IsBattlerTurnDamaged(gBattlerTarget)
+            && CanBeParalyzed(gBattlerTarget, gBattlerAttacker, abilityAtk)
+            && !CanBattlerAvoidContactEffects(gBattlerAttacker, gBattlerTarget, abilityAtk, GetBattlerHoldEffect(gBattlerAttacker), move))
+            {
+                SetPassiveDamageAmount(gBattlerAttacker, GetNonDynamaxMaxHP(gBattlerAttacker) / 8);
+                gEffectBattler = gBattlerAttacker;
+                gBattleScripting.battler = gBattlerTarget;
+                gBattleScripting.moveEffect = MOVE_EFFECT_PARALYSIS;
+                PREPARE_ABILITY_BUFFER(gBattleTextBuff1, gLastUsedAbility);
+                BattleScriptCall(BattleScript_AbilityContactShock);
+                effect++;
             }
             break;
         case ABILITY_FLAME_BODY:
