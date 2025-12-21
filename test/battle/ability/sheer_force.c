@@ -689,10 +689,15 @@ static inline bool32 IsMoveSheerForceBoosted(u32 move)
             HP_BAR(opponentRight, captureDamage: &damage1);
         }
     } THEN {
-        if (IsMoveSheerForceBoosted(move))
+        if (IsMoveSheerForceBoosted(move)) {
+            if (!(damage1 > damage2))
+                DebugPrintf("Move that failed: %S", gMovesInfo[move].name);
             EXPECT_GT(damage1, damage2);
-        else
+        } else {
+            if (damage1 != damage2)
+                DebugPrintf("Move that failed: %S", gMovesInfo[move].name);
             EXPECT_EQ(damage2, damage1);
+        }
     }
 }*/
 /*DOUBLE_BATTLE_TEST("Sheer Force only boosts the damage of moves it's supposed to boost 2")
@@ -932,10 +937,15 @@ static inline bool32 IsMoveSheerForceBoosted(u32 move)
             HP_BAR(opponentRight, captureDamage: &damage1);
         }
     } THEN {
-        if (IsMoveSheerForceBoosted(move))
+        if (IsMoveSheerForceBoosted(move)) {
+            if (!(damage1 > damage2))
+                DebugPrintf("Move that failed: %S", gMovesInfo[move].name);
             EXPECT_GT(damage1, damage2);
-        else
+        } else {
+            if (damage1 != damage2)
+                DebugPrintf("Move that failed: %S", gMovesInfo[move].name);
             EXPECT_EQ(damage2, damage1);
+        }
     }
 }
 
@@ -1015,10 +1025,15 @@ DOUBLE_BATTLE_TEST("Sheer Force only boosts the damage of moves it's supposed to
             HP_BAR(opponentRight, captureDamage: &damage1);
         }
     } THEN {
-        if (IsMoveSheerForceBoosted(move))
+        if (IsMoveSheerForceBoosted(move)) {
+            if (!(damage1 > damage2))
+                DebugPrintf("Move that failed: %S", gMovesInfo[move].name);
             EXPECT_GT(damage1, damage2);
-        else
+        } else {
+            if (damage1 != damage2)
+                DebugPrintf("Move that failed: %S", gMovesInfo[move].name);
             EXPECT_EQ(damage2, damage1);
+        }
     }
 }
 
@@ -1098,10 +1113,15 @@ DOUBLE_BATTLE_TEST("Sheer Force only boosts the damage of moves it's supposed to
             HP_BAR(opponentRight, captureDamage: &damage1);
         }
     } THEN {
-        if (IsMoveSheerForceBoosted(move))
+        if (IsMoveSheerForceBoosted(move)) {
+            if (!(damage1 > damage2))
+                DebugPrintf("Move that failed: %S", gMovesInfo[move].name);
             EXPECT_GT(damage1, damage2);
-        else
+        } else {
+            if (damage1 != damage2)
+                DebugPrintf("Move that failed: %S", gMovesInfo[move].name);
             EXPECT_EQ(damage2, damage1);
+        }
     }
 }
 
@@ -1181,10 +1201,15 @@ DOUBLE_BATTLE_TEST("Sheer Force only boosts the damage of moves it's supposed to
             HP_BAR(opponentRight, captureDamage: &damage1);
         }
     } THEN {
-        if (IsMoveSheerForceBoosted(move))
+        if (IsMoveSheerForceBoosted(move)) {
+            if (!(damage1 > damage2))
+                DebugPrintf("Move that failed: %S", gMovesInfo[move].name);
             EXPECT_GT(damage1, damage2);
-        else
+        } else {
+            if (damage1 != damage2)
+                DebugPrintf("Move that failed: %S", gMovesInfo[move].name);
             EXPECT_EQ(damage2, damage1);
+        }
     }
 }
 
@@ -1264,10 +1289,15 @@ DOUBLE_BATTLE_TEST("Sheer Force only boosts the damage of moves it's supposed to
             HP_BAR(opponentRight, captureDamage: &damage1);
         }
     } THEN {
-        if (IsMoveSheerForceBoosted(move))
+        if (IsMoveSheerForceBoosted(move)) {
+            if (!(damage1 > damage2))
+                DebugPrintf("Move that failed: %S", gMovesInfo[move].name);
             EXPECT_GT(damage1, damage2);
-        else
+        } else {
+            if (damage1 != damage2)
+                DebugPrintf("Move that failed: %S", gMovesInfo[move].name);
             EXPECT_EQ(damage2, damage1);
+        }
     }
 }
 
@@ -1347,10 +1377,15 @@ DOUBLE_BATTLE_TEST("Sheer Force only boosts the damage of moves it's supposed to
             HP_BAR(opponentRight, captureDamage: &damage1);
         }
     } THEN {
-        if (IsMoveSheerForceBoosted(move))
+        if (IsMoveSheerForceBoosted(move)) {
+            if (!(damage1 > damage2))
+                DebugPrintf("Move that failed: %S", gMovesInfo[move].name);
             EXPECT_GT(damage1, damage2);
-        else
+        } else {
+            if (damage1 != damage2)
+                DebugPrintf("Move that failed: %S", gMovesInfo[move].name);
             EXPECT_EQ(damage2, damage1);
+        }
     }
 }
 
@@ -1430,10 +1465,15 @@ DOUBLE_BATTLE_TEST("Sheer Force only boosts the damage of moves it's supposed to
             HP_BAR(opponentRight, captureDamage: &damage1);
         }
     } THEN {
-        if (IsMoveSheerForceBoosted(move))
+        if (IsMoveSheerForceBoosted(move)) {
+            if (!(damage1 > damage2))
+                DebugPrintf("Move that failed: %S", gMovesInfo[move].name);
             EXPECT_GT(damage1, damage2);
-        else
+        } else {
+            if (damage1 != damage2)
+                DebugPrintf("Move that failed: %S", gMovesInfo[move].name);
             EXPECT_EQ(damage2, damage1);
+        }
     }
 }
 
@@ -1514,10 +1554,15 @@ DOUBLE_BATTLE_TEST("Sheer Force only boosts the damage of moves it's supposed to
             HP_BAR(opponentRight, captureDamage: &damage1);
         }
     } THEN {
-        if (IsMoveSheerForceBoosted(move))
+        if (IsMoveSheerForceBoosted(move)) {
+            if (!(damage1 > damage2))
+                DebugPrintf("Move that failed: %S", gMovesInfo[move].name);
             EXPECT_GT(damage1, damage2);
-        else
+        } else {
+            if (damage1 != damage2)
+                DebugPrintf("Move that failed: %S", gMovesInfo[move].name);
             EXPECT_EQ(damage2, damage1);
+        }
     }
 }
 
