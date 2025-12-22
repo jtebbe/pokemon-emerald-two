@@ -341,7 +341,7 @@ OldaleTown_Movement_ReturnToOriginalPosition:
 
 OldaleTown_Text_SavingMyProgress:
 	.string "Heya! Wanna know what version you're\n"
-	.string "playing? Looks like... 2.4.4!$"
+	.string "playing? Looks like... 2.4.6!$"
 
 OldaleTown_Text_IWorkAtPokemonMart:
 	.string "Hi!\n"
