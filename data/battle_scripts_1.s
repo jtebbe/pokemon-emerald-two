@@ -5209,6 +5209,7 @@ BattleScript_DmgHazardsOnAttackerFainted::
 	setbyte sGIVEEXP_STATE, 0
 	getexp BS_ATTACKER
 	moveendall
+	tryabsorbtoxicspikesonfaint
 	goto BattleScript_HandleFaintedMon
 
 BattleScript_DmgHazardsOnTarget::
@@ -5223,6 +5224,7 @@ BattleScript_DmgHazardsOnTargetFainted::
 	setbyte sGIVEEXP_STATE, 0
 	getexp BS_TARGET
 	moveendall
+	tryabsorbtoxicspikesonfaint
 	goto BattleScript_HandleFaintedMon
 
 BattleScript_DmgHazardsOnBattlerScripting::
@@ -5237,6 +5239,7 @@ BattleScript_DmgHazardsOnBattlerScriptingFainted::
 	setbyte sGIVEEXP_STATE, 0
 	getexp BS_SCRIPTING
 	moveendall
+	tryabsorbtoxicspikesonfaint
 	goto BattleScript_HandleFaintedMon
 
 BattleScript_DmgHazardsOnFaintedBattler::
@@ -5251,6 +5254,7 @@ BattleScript_DmgHazardsOnFaintedBattlerFainted::
 	setbyte sGIVEEXP_STATE, 0
 	getexp BS_FAINTED
 	moveendall
+	tryabsorbtoxicspikesonfaint
 	goto BattleScript_HandleFaintedMon
 
 BattleScript_PrintHurtByDmgHazards::
