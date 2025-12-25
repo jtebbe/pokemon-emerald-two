@@ -6554,10 +6554,10 @@ const struct SpeciesInfo gSpeciesInfoGen7[] =
     {
         .baseHP        = 223,
         .baseAttack    = 101,
-        .baseDefense   = 53,
-        .baseSpeed     = 43,
+        .baseDefense   = 63,
+        .baseSpeed     = 23,
         .baseSpAttack  = 97,
-        .baseSpDefense = 53,
+        .baseSpDefense = 63,
         .types = MON_TYPES(TYPE_DARK, TYPE_DRAGON),
         .catchRate = 45,
         .expYield = (P_UPDATED_EXP_YIELDS >= GEN_8) ? 285 : 257,
