@@ -85,7 +85,8 @@ lt_o_SoundInfo_pcmBuffer: .word o_SoundInfo_pcmBuffer
 lt_PCM_DMA_BUF_SIZE:      .word PCM_DMA_BUF_SIZE
 	thumb_func_end SoundMain
 
-	.section .iwram.code
+	/*.section .iwram.code*/
+	.section .iwram.code, "ax", %progbits
 
 /* HQ-Mixer rev 4.0 created by ipatix (c) 2021
  * licensed under GPLv3, see LICENSE.txt for details */
@@ -159,7 +160,6 @@ lt_PCM_DMA_BUF_SIZE:      .word PCM_DMA_BUF_SIZE
 	.align	2
 	.syntax divided
 
-	.section .iwram.code, "ax", %progbits
 	thumb_func_start SoundMainRAM
 SoundMainRAM:
 	/* load Reverb level and check if we need to apply it */
