@@ -21271,12 +21271,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "Makes the target flinch if\n"
             "readying a priority move."),
-        .power = 65,
+        .power = 70,
         .type = TYPE_FIGHTING,
         .accuracy = 100,
         .pp = 15,
         .target = MOVE_TARGET_SELECTED,
-        .priority = 3,
+        .priority = 4,
         .category = DAMAGE_CATEGORY_PHYSICAL,
         .makesContact = TRUE,
         .additionalEffects = ADDITIONAL_EFFECTS({

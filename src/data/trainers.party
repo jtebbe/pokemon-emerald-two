@@ -12863,7 +12863,7 @@ Tags: Mega
 === TRAINER_IKKIN ===
 Name: DENEB
 Class: Occultist
-Pic: Hex Maniac
+Pic: Agarthan Occultist
 Gender: Female
 Music: Female
 Battle Type: Doubles
@@ -14238,7 +14238,7 @@ Tags: Mega
 === TRAINER_MADDY ===
 Name: ADDYM
 Class: Scout
-Pic: Pokemon Ranger F
+Pic: Agarthan Scout
 Gender: Female
 Music: Hiker
 Battle Type: Doubles
@@ -14890,7 +14890,7 @@ Tags: Mega
 === TRAINER_NIKKI_REMATCH ===
 Name: DENEB
 Class: Occultist
-Pic: Hex Maniac
+Pic: Agarthan Occultist
 Gender: Female
 Music: Female
 Battle Type: Doubles
@@ -15654,7 +15654,7 @@ IVs: 0 Atk / 0 Spe
 === TRAINER_MADDY_REMATCH ===
 Name: ADDYM
 Class: Scout
-Pic: Pokemon Ranger F
+Pic: Agarthan Scout
 Gender: Female
 Music: Hiker
 Battle Type: Doubles

@@ -1363,7 +1363,7 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
     [SPECIES_OBSTAGOON] =
     {
         .baseHP        = 93,
-        .baseAttack    = 90,
+        .baseAttack    = 110,
         .baseDefense   = 101,
         .baseSpeed     = 95,
         .baseSpAttack  = 60,
