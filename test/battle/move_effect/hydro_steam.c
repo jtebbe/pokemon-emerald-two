@@ -35,8 +35,8 @@ SINGLE_BATTLE_TEST("Hydro Steam deals 1.5x damage under both Sunlight and Rain",
     PARAMETRIZE { itemPlayer = ITEM_NONE;             itemOpponent = ITEM_UTILITY_UMBRELLA; }
     PARAMETRIZE { itemPlayer = ITEM_UTILITY_UMBRELLA; itemOpponent = ITEM_UTILITY_UMBRELLA; }
     GIVEN {
-        PLAYER(SPECIES_WOBBUFFET) { Item(itemPlayer); };
-        OPPONENT(SPECIES_WOBBUFFET) {Item(itemOpponent); };
+        PLAYER(SPECIES_WOBBUFFET) { Item(itemPlayer); }
+        OPPONENT(SPECIES_WOBBUFFET) { Item(itemOpponent); }
     } WHEN {
         TURN { MOVE(player, MOVE_SUNNY_DAY); }
         TURN { MOVE(player, MOVE_HYDRO_STEAM); }
