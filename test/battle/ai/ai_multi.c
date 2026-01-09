@@ -249,4 +249,4 @@ AI_MULTI_BATTLE_TEST("Pollen Puff: AI correctly scores moves with EFFECT_HIT_ENE
             SCORE_EQ_VAL(opponentRight, MOVE_POLLEN_PUFF, AI_SCORE_DEFAULT + BEST_DAMAGE_MOVE + FAST_KILL, target:playerRight);
         }
     }
-}/*
+}*/

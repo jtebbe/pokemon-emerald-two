@@ -2737,6 +2737,7 @@ const struct AbilityInfo gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Flying moves bring rain."),
         .aiRating = 2,
     },
+    
     [ABILITY_CONTACT_SHOCK] =
     {
         .name = _("Contact Shock"),

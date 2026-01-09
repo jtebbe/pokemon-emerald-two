@@ -5663,7 +5663,7 @@ static void VblankCb_TourneyTree(void)
 
 static void SetFacilityTrainerAndMonPtrs(void)
 {
-    gFacilityTrainerMons = gBattleFrontierMons;
+    gFacilityTrainerMons = gCustomBattleFrontierMons;
     gFacilityTrainers = gBattleFrontierTrainers;
 }
 

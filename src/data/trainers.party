@@ -37118,53 +37118,65 @@ Music: Male
 Battle Type: Doubles
 AI: Smart Trainer
 
-Skarmory
-Level: 77
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-- Toxic
-- Aerial Ace
-- Spikes
-- Steel Wing
+Aggron @ Aggronite  
+Ability: Sturdy   
+EVs: 252 HP / 4 Def / 252 SpD  
+Calm Nature  
+IVs: 0 Atk  
+- Iron Defense  
+- Body Press  
+- Rest  
+- Sleep Talk  
 
-Claydol
-Level: 75
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-- Reflect
-- Light Screen
-- Ancient Power
-- Earthquake
+Stakataka @ Mental Herb  
+Ability: Beast Boost  
+Tera Type: Ghost  
+EVs: 252 HP / 252 Atk / 4 Def  
+Adamant Nature  
+IVs: 0 Spe  
+- Trick Room  
+- Gyro Ball  
+- Body Press  
+- Protect  
 
-Aggron
-Level: 76
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-- Thunder
-- Earthquake
-- Solar Beam
-- Dragon Claw
+Genesect @ Chill Drive  
+Ability: Download  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
+- Techno Blast  
+- Thunderbolt  
+- Bug Buzz  
+- Steel Beam  
 
-Cradily
-Level: 76
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-- Giga Drain
-- Ancient Power
-- Ingrain
-- Confuse Ray
+Goodra-Hisui @ Assault Vest  
+Ability: Shell Armor  
+Tera Type: Steel  
+EVs: 252 HP / 4 Def / 252 SpA  
+Quiet Nature  
+IVs: 0 Atk / 0 Spe  
+- Flash Cannon  
+- Draco Meteor  
+- Flamethrower  
+- Thunderbolt  
 
-Armaldo
-Level: 76
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-- Water Pulse
-- Ancient Power
-- Aerial Ace
-- Slash
+Kingambit @ Chople Berry  
+Ability: Supreme Overlord  
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+- Swords Dance  
+- Sucker Punch  
+- Iron Head  
+- Protect  
 
-Metagross @ Sitrus Berry
-Level: 78
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-- Earthquake
-- Psychic
-- Meteor Mash
-- Shadow Ball
+Melmetal @ Choice Band  
+Ability: Iron Fist  
+EVs: 252 HP / 252 Atk / 4 SpD  
+Adamant Nature  
+- Double Iron Bash  
+- Ice Punch  
+- Thunder Punch  
+- High Horsepower  
 
 === TRAINER_ANABEL ===
 Name: ANABEL

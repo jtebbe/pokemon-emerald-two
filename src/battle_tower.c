@@ -23,6 +23,7 @@
 #include "field_message_box.h"
 #include "tv.h"
 #include "battle_factory.h"
+#include "random.h"
 #include "constants/abilities.h"
 #include "constants/apprentice.h"
 #include "constants/battle_ai.h"
@@ -1734,10 +1735,7 @@ static void FillTrainerParty(u16 trainerId, u8 firstMonId, u8 monCount)
     {
         u16 monId = monSet[Random() % bfMonCount];
 
-        // "High tier" Pokémon are only allowed on open level mode
-        // 20 is not a possible value for level here
-        if ((level == FRONTIER_MAX_LEVEL_50 || level == 20) && monId > FRONTIER_MONS_HIGH_TIER)
-            continue;
+        monId = RandomUniform(RNG_NONE, CUSTOM_FRONTIER_MON_GENERIC_START, CUSTOM_FRONTIER_MON_GENERIC_END);
 
         // Ensure this Pokémon species isn't a duplicate.
         for (j = 0; j < i + firstMonId; j++)
@@ -1752,7 +1750,7 @@ static void FillTrainerParty(u16 trainerId, u8 firstMonId, u8 monCount)
         for (j = 0; j < i + firstMonId; j++)
         {
             if (GetMonData(&gEnemyParty[j], MON_DATA_HELD_ITEM, NULL) != ITEM_NONE
-             && GetMonData(&gEnemyParty[j], MON_DATA_HELD_ITEM, NULL) == gFacilityTrainerMons[monId].heldItem)
+             && GetItemHoldEffect(GetMonData(&gEnemyParty[j], MON_DATA_HELD_ITEM, NULL)) == GetItemHoldEffect(gFacilityTrainerMons[monId].heldItem))
                 break;
         }
         if (j != i + firstMonId)
@@ -1781,25 +1779,11 @@ static void FillTrainerParty(u16 trainerId, u8 firstMonId, u8 monCount)
 
 u16 GetRandomFrontierMonFromSet(u16 trainerId)
 {
-    u8 level = SetFacilityPtrsGetLevel();
     const u16 *monSet = gFacilityTrainers[trainerId].monSet;
     u8 numMons = 0;
     u32 monId = monSet[numMons];
 
-    while (monId != 0xFFFF)
-    {
-        numMons++;
-        monId = monSet[numMons];
-        if (monId == 0xFFFF)
-            break;
-    }
-
-    do
-    {
-        // "High tier" Pokémon are only allowed on open level mode
-        // 20 is not a possible value for level here
-        monId = monSet[Random() % numMons];
-    } while((level == FRONTIER_MAX_LEVEL_50 || level == 20) && monId > FRONTIER_MONS_HIGH_TIER);
+    monId = RandomUniform(RNG_NONE, CUSTOM_FRONTIER_MON_GENERIC_START, CUSTOM_FRONTIER_MON_GENERIC_END);
 
     return monId;
 }
@@ -3303,7 +3287,7 @@ u8 SetFacilityPtrsGetLevel(void)
     else
     {
         gFacilityTrainers = gBattleFrontierTrainers;
-        gFacilityTrainerMons = gBattleFrontierMons;
+        gFacilityTrainerMons = gCustomBattleFrontierMons;
         return GetFrontierEnemyMonLevel(gSaveBlock2Ptr->frontier.lvlMode);
     }
 }
@@ -3412,7 +3396,7 @@ static u8 SetTentPtrsGetLevel(void)
     else
     {
         gFacilityTrainers = gBattleFrontierTrainers;
-        gFacilityTrainerMons = gBattleFrontierMons;
+        gFacilityTrainerMons = gCustomBattleFrontierMons;
     }
 
     level = GetHighestLevelInPlayerParty();
