@@ -5832,7 +5832,7 @@ u32 GetRelearnerEggMoves(struct Pokemon *mon, u16 *moves)
 
 u32 GetRelearnerTMMoves(struct Pokemon *mon, u16 *moves)
 {
-    if (!P_TM_MOVES_RELEARNER)
+    if (!FlagGet(FLAG_BADGE08_GET) || !P_TM_MOVES_RELEARNER || gSpeciesInfo[GetMonData(mon, MON_DATA_SPECIES)].tmIlliterate)
         return 0;
 
     u32 learnedMoves[MAX_MON_MOVES] = {0};
@@ -5843,13 +5843,12 @@ u32 GetRelearnerTMMoves(struct Pokemon *mon, u16 *moves)
 
     for (u32 i = 0; i < NUM_ALL_MACHINES; i++)
     {
-        enum TMHMItemId item = GetTMHMItemId(i + 1);
         u32 move = GetTMHMMoveId(i + 1);
 
         if (move == MOVE_NONE)
             continue;
 
-        if ((P_ENABLE_ALL_TM_MOVES || CheckBagHasItem(item, 1)) && CanLearnTeachableMove(species, move) && move != MOVE_NONE)
+        if (CanLearnTeachableMove(species, move) && move != MOVE_NONE)
             allMoves[totalMoveCount++] = move;
     }
 
@@ -6010,7 +6009,7 @@ bool32 HasRelearnerEggMoves(struct Pokemon *mon)
 
 bool32 HasRelearnerTMMoves(struct Pokemon *mon)
 {
-    if (!P_TM_MOVES_RELEARNER)
+    if (!FlagGet(FLAG_BADGE08_GET) || !P_TM_MOVES_RELEARNER || gSpeciesInfo[GetMonData(mon, MON_DATA_SPECIES)].tmIlliterate)
         return FALSE;
 
     u32 species = GetMonData(mon, MON_DATA_SPECIES_OR_EGG, 0);
@@ -6031,7 +6030,7 @@ bool32 HasRelearnerTMMoves(struct Pokemon *mon)
         if (move == MOVE_NONE)
             continue;
 
-        if (!P_ENABLE_ALL_TM_MOVES && !CheckBagHasItem(item, 1))
+        if (!FlagGet(FLAG_BADGE08_GET) && !CheckBagHasItem(item, 1))
             continue;
 
         if (!CanLearnTeachableMove(species, move))
