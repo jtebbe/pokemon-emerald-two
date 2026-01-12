@@ -84,6 +84,7 @@ static void MoveSelectionDisplayMoveNames(u32 battler);
 static void TryMoveSelectionDisplayMoveDescription(u32 battler);
 static void MoveSelectionDisplayMoveDescription(u32 battler);
 static void WaitForMonSelection(u32 battler);
+static void WaitForOpponentSelection(u32 battler);
 static void CompleteWhenChoseItem(u32 battler);
 static void Task_LaunchLvlUpAnim(u8);
 static void Task_PrepareToGiveExpWithExpBar(u8);
@@ -91,6 +92,8 @@ static void Task_SetControllerToWaitForString(u8);
 static void Task_GiveExpWithExpBar(u8);
 static void Task_UpdateLvlInHealthbox(u8);
 static void PrintLinkStandbyMsg(void);
+static void CheckOpponentParty(u32 battler);
+static void OpenOpponentParty(u32 battler);
 
 static void ReloadMoveNames(u32 battler);
 static u32 CheckTypeEffectiveness(u32 battlerAtk, u32 battlerDef);
@@ -844,6 +847,9 @@ void HandleInputChooseMove(u32 battler)
             TryChangeZTrigger(battler, gMoveSelectionCursor[battler]);
         }
     }
+    else if (JOY_NEW(SELECT_BUTTON)) {
+        CheckOpponentParty(battler);
+    }
     else if (B_MOVE_REARRANGEMENT_IN_BATTLE < GEN_4 && JOY_NEW(SELECT_BUTTON) && !gBattleStruct->zmove.viewing && !gBattleStruct->descriptionSubmenu)
     {
         if (gNumberOfMovesToChoose > 1 && !(gBattleTypeFlags & BATTLE_TYPE_LINK))
@@ -1550,6 +1556,23 @@ static void OpenPartyMenuToChooseMon(u32 battler)
     }
 }
 
+static void CheckOpponentParty(u32 battler)
+{
+        BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
+        gBattlerControllerFuncs[battler] = OpenOpponentParty;
+}
+
+static void OpenOpponentParty(u32 battler)
+{
+    if (!gPaletteFade.active)
+    {
+        gBattlerControllerFuncs[battler] = WaitForOpponentSelection;
+        DestroyTask(gBattleControllerData[battler]);
+        FreeAllWindowBuffers();
+        ShowOpponentPartyMenuInBattle();
+    }
+} 
+
 static void WaitForMonSelection(u32 battler)
 {
     if (gMain.callback2 == BattleMainCB2 && !gPaletteFade.active)
@@ -1563,6 +1586,14 @@ static void WaitForMonSelection(u32 battler)
             PrintLinkStandbyMsg();
 
         BtlController_Complete(battler);
+    }
+}
+
+static void WaitForOpponentSelection(u32 battler)
+{
+    if (gMain.callback2 == BattleMainCB2 && !gPaletteFade.active)
+    {
+        gBattlerControllerFuncs[battler] = PlayerHandleChooseMove;
     }
 }
 
