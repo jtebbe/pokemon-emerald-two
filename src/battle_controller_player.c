@@ -848,6 +848,7 @@ void HandleInputChooseMove(u32 battler)
         }
     }
     else if (JOY_NEW(SELECT_BUTTON)) {
+        PlaySE(SE_SELECT);
         CheckOpponentParty(battler);
     }
     else if (B_MOVE_REARRANGEMENT_IN_BATTLE < GEN_4 && JOY_NEW(SELECT_BUTTON) && !gBattleStruct->zmove.viewing && !gBattleStruct->descriptionSubmenu)

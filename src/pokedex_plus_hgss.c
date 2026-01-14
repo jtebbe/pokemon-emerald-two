@@ -295,6 +295,9 @@ static EWRAM_DATA struct PokedexListItem *sPokedexListItem = NULL;
 EWRAM_DATA static u16 sStatsMoves[MOVES_COUNT_TOTAL] = {0};
 EWRAM_DATA static u16 sStatsMovesTMHM_ID[NUM_ALL_MACHINES] = {0};
 
+//For Direct access from Summary Screen
+EWRAM_DATA u16 gSpeciesToLoad = SPECIES_NONE;
+
 
 struct SearchOptionText
 {
@@ -453,8 +456,11 @@ static void Task_WaitForScroll(u8);
 static void Task_HandlePokedexStartMenuInput(u8);
 static void Task_OpenInfoScreenAfterMonMovement(u8);
 static void Task_WaitForExitInfoScreen(u8);
+static void Task_LoadStatsScreenDirectFromSummary(u8);
+static void Task_WaitForExitStatsScreenBackToSummary(u8);
 static void Task_WaitForExitSearch(u8);
 static void Task_ClosePokedex(u8);
+static void Task_ClosePokedexToSummaryScreen(u8);
 static void Task_OpenSearchResults(u8);
 static void Task_HandleSearchResultsInput(u8);
 static void Task_WaitForSearchResultsScroll(u8);
@@ -489,6 +495,7 @@ static void SpriteCB_SeenOwnInfo(struct Sprite *sprite);
 static void SpriteCB_DexListStartMenuCursor(struct Sprite *sprite);
 static void SpriteCB_PokedexListMonSprite(struct Sprite *sprite);
 static u8 LoadInfoScreen(struct PokedexListItem *, u8 monSpriteId);
+static u8 LoadStatsScreen(struct PokedexListItem *item);
 static bool8 IsInfoScreenScrolling(u8);
 static u8 StartInfoScreenScroll(struct PokedexListItem *, u8);
 static void Task_LoadInfoScreen(u8);
@@ -2068,6 +2075,63 @@ void CB2_OpenPokedexPlusHGSS(void)
     }
 }
 
+void CB2_OpenPokedexPlusHGSSToMon()
+{
+    if (!POKEDEX_PLUS_HGSS) return; // prevents the compiler from emitting static .rodata
+                                    // if the feature is disabled
+    switch (gMain.state)
+    {
+    case 0:
+    default:
+        SetVBlankCallback(NULL);
+        ResetOtherVideoRegisters(0);
+        DmaFillLarge16(3, 0, (u8 *)VRAM, VRAM_SIZE, 0x1000);
+        DmaClear32(3, OAM, OAM_SIZE);
+        DmaClear16(3, PLTT, PLTT_SIZE);
+        gMain.state = 1;
+        break;
+    case 1:
+        ScanlineEffect_Stop();
+        ResetTasks();
+        ResetSpriteData();
+        ResetPaletteFade();
+        FreeAllSpritePalettes();
+        gReservedSpritePaletteCount = 8;
+        ResetAllPicSprites();
+        gMain.state++;
+        break;
+    case 2:
+        u16 species = gSpeciesToLoad;
+        sPokedexView = AllocZeroed(sizeof(struct PokedexView));
+        ResetPokedexView(sPokedexView);
+        u16 dexNum = SpeciesToNationalPokedexNum(species);
+        sPokedexView->pokedexList[0].dexNum = dexNum;
+        sPokedexView->pokedexList[0].seen = GetSetPokedexFlag(dexNum, FLAG_GET_SEEN);
+        sPokedexView->pokedexList[0].owned = GetSetPokedexFlag(dexNum, FLAG_GET_CAUGHT);
+        sPokedexView->dexMode = gSaveBlock2Ptr->pokedex.mode;
+        if (!IsNationalPokedexEnabled())
+            sPokedexView->dexMode = DEX_MODE_HOENN;
+        if (GetSpeciesFormTable(gSpeciesToLoad) != NULL)
+            sPokedexView->formSpecies = gSpeciesToLoad;
+        else
+            sPokedexView->formSpecies = 0;
+        sPokedexView->pokemonListCount = 1;
+        sPokedexView->selectedPokemon = 0;
+        sPokedexView->currentPage = STATS_SCREEN;
+        sPokedexView->selectedScreen = STATS_SCREEN;
+        CreateTask(Task_LoadStatsScreenDirectFromSummary, 0);
+        gMain.state++;
+        break;
+
+    case 3:
+        EnableInterrupts(1);
+        SetVBlankCallback(VBlankCB_Pokedex);
+        SetMainCallback2(CB2_Pokedex);
+        m4aMPlayVolumeControl(&gMPlayInfo_BGM, TRACKS_ALL, 0x80);
+        break;
+    }
+}
+
 static void ResetPokedexView(struct PokedexView *pokedexView)
 {
     u16 i;
@@ -2145,6 +2209,22 @@ static void Task_OpenPokedexMainPage(u8 taskId)
 }
 
 #define tLoadScreenTaskId data[0]
+
+static void Task_LoadStatsScreenDirectFromSummary(u8 taskId)
+{
+    // Create Pokemon sprite
+    // u8 spriteId = CreateMonSpriteFromNationalDexNumberHGSS(
+    //     sPokedexView->pokedexList[0].dexNum, 
+    //     MON_PAGE_X, MON_PAGE_Y, 0
+    // );
+
+    // Load info screen
+    u8 statsTaskId = LoadStatsScreen(&sPokedexView->pokedexList[0]);
+
+    gTasks[taskId].tLoadScreenTaskId = statsTaskId;
+    // gSpeciesToLoad = SPECIES_NONE;
+    gTasks[taskId].func = Task_WaitForExitStatsScreenBackToSummary;
+}
 
 static void Task_HandlePokedexInput(u8 taskId)
 {
@@ -2323,6 +2403,27 @@ static void Task_ClosePokedex(u8 taskId)
         FreeWindowAndBgBuffers();
         DestroyTask(taskId);
         SetMainCallback2(CB2_ReturnToFieldWithOpenMenu);
+        m4aMPlayVolumeControl(&gMPlayInfo_BGM, TRACKS_ALL, 0x100);
+        Free(sPokedexView);
+    }
+}
+
+static void Task_ClosePokedexToSummaryScreen(u8 taskId)
+{
+    if (!gPaletteFade.active)
+    {
+        FreeMonIconPalettes();                                          //Destroy pokemon icon sprite
+        FreeAndDestroyMonIconSprite(&gSprites[gTasks[taskId].data[4]]); //Destroy pokemon icon sprite
+        u8 i;
+        for (i = 1; i <= gTasks[taskId].data[3]; i++)
+        {
+            FreeAndDestroyMonIconSprite(&gSprites[gTasks[taskId].data[4+i]]); //Destroy pokemon icon sprite
+        }
+        FreeAndDestroyMonPicSprite(gTasks[taskId].data[1]);
+        ClearMonSprites();
+        FreeWindowAndBgBuffers();
+        DestroyTask(taskId);
+        SetMainCallback2(CB2_ReturnToSummaryFromPokedex);
         m4aMPlayVolumeControl(&gMPlayInfo_BGM, TRACKS_ALL, 0x100);
         Free(sPokedexView);
     }
@@ -3735,6 +3836,29 @@ static u8 LoadInfoScreen(struct PokedexListItem *item, u8 monSpriteId)
     return taskId;
 }
 
+static u8 LoadStatsScreen(struct PokedexListItem *item)
+{
+    u8 taskId;
+
+    sPokedexListItem = item;
+    taskId = CreateTask(Task_LoadStatsScreen, 0);
+    gTasks[taskId].tScrolling = FALSE;
+    gTasks[taskId].tMonSpriteDone = FALSE;
+    gTasks[taskId].tBgLoaded = FALSE;
+    gTasks[taskId].tSkipCry = FALSE;
+    gTasks[taskId].tTrainerSpriteId = SPRITE_NONE;
+    ResetBgsAndClearDma3BusyFlags(0);
+    InitBgsFromTemplates(0, sInfoScreen_BgTemplate, ARRAY_COUNT(sInfoScreen_BgTemplate));
+    SetBgTilemapBuffer(3, AllocZeroed(BG_SCREEN_SIZE));
+    SetBgTilemapBuffer(2, AllocZeroed(BG_SCREEN_SIZE));
+    SetBgTilemapBuffer(1, AllocZeroed(BG_SCREEN_SIZE));
+    SetBgTilemapBuffer(0, AllocZeroed(BG_SCREEN_SIZE));
+    InitWindows(sStatsScreen_WindowTemplates);
+    DeactivateAllTextPrinters();
+
+    return taskId;
+}
+
 static bool8 IsInfoScreenScrolling(u8 taskId)
 {
     if (!gTasks[taskId].tScrolling && gTasks[taskId].func == Task_HandleInfoScreenInput)
@@ -3889,7 +4013,16 @@ static void Task_HandleInfoScreenInput(u8 taskId)
     if (JOY_NEW(B_BUTTON))
     {
         BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
-        gTasks[taskId].func = Task_ExitInfoScreen;
+        if(gSpeciesToLoad != SPECIES_NONE)
+        {
+            FreeAndDestroyMonPicSprite(gTasks[taskId].tMonSpriteId);
+            gTasks[taskId].func = Task_ClosePokedexToSummaryScreen;
+            gSpeciesToLoad = SPECIES_NONE;
+        }
+        else 
+        {
+            gTasks[taskId].func = Task_ExitInfoScreen;
+        }
         PlaySE(SE_PC_OFF);
         return;
     }
@@ -3901,6 +4034,39 @@ static void Task_HandleInfoScreenInput(u8 taskId)
         sPokedexView->screenSwitchState = 1;
         gTasks[taskId].func = Task_SwitchScreensFromInfoScreen;
         PlaySE(SE_PIN);
+    }
+
+}
+
+static void Task_WaitForExitStatsScreenBackToSummary(u8 taskId)
+{
+
+    if (!gTasks[gTasks[taskId].tLoadScreenTaskId].isActive)
+
+    {
+
+        FreeInfoScreenWindowAndBgBuffers();
+        Free(GetBgTilemapBuffer(3));
+        Free(GetBgTilemapBuffer(2));
+        Free(GetBgTilemapBuffer(1));
+        Free(GetBgTilemapBuffer(0));
+
+        SetBgTilemapBuffer(3, NULL);
+        SetBgTilemapBuffer(2, NULL);
+        SetBgTilemapBuffer(1, NULL);
+        SetBgTilemapBuffer(0, NULL);
+
+        FreeSpriteTilesByTag(0xFDF3);                         //Destroy item icon
+        FreeSpritePaletteByTag(0xFDF3);                       //Destroy item icon
+        FreeSpriteOamMatrix(&gSprites[gTasks[taskId].data[3]]); //Destroy item icon
+        DestroySprite(&gSprites[gTasks[taskId].data[3]]);       //Destroy item icon
+        FreeMonIconPalettes();                                          //Destroy pokemon icon sprite
+        FreeAndDestroyMonIconSprite(&gSprites[gTasks[taskId].data[4]]); //Destroy pokemon icon sprite
+
+        FreeAndDestroyMonPicSprite(gTasks[taskId].tMonSpriteId);
+        FreeInfoScreenWindowAndBgBuffers();
+
+        gTasks[taskId].func = Task_ClosePokedexToSummaryScreen;
     }
 
 }
@@ -4989,7 +5155,15 @@ static void Task_HandleStatsScreenInput(u8 taskId)
     if (JOY_NEW(B_BUTTON))
     {
         BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB_BLACK);
-        gTasks[taskId].func = Task_ExitStatsScreen;
+        if (gSpeciesToLoad != SPECIES_NONE)
+        {
+            gTasks[taskId].func = Task_ClosePokedexToSummaryScreen;
+            gSpeciesToLoad = SPECIES_NONE;
+        }
+        else
+        {
+            gTasks[taskId].func = Task_ExitStatsScreen;
+        }
         PlaySE(SE_PC_OFF);
         return;
     }
@@ -6218,7 +6392,14 @@ static void Task_HandleEvolutionScreenInput(u8 taskId)
     if (JOY_NEW(B_BUTTON))
     {
         BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB_BLACK);
-        gTasks[taskId].func = Task_ExitEvolutionScreen;
+        if(gSpeciesToLoad != SPECIES_NONE)
+        {
+            gTasks[taskId].func = Task_ClosePokedexToSummaryScreen;
+            gSpeciesToLoad = SPECIES_NONE;
+        }
+       else{
+         gTasks[taskId].func = Task_ExitEvolutionScreen;
+       }
         PlaySE(SE_PC_OFF);
         return;
     }
@@ -7073,7 +7254,15 @@ static void Task_HandleFormsScreenInput(u8 taskId)
         if (JOY_NEW(B_BUTTON))
         {
             BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB_BLACK);
-            gTasks[taskId].func = Task_ExitFormsScreen;
+            if (gSpeciesToLoad != SPECIES_NONE)
+            {
+                gTasks[taskId].func = Task_ClosePokedexToSummaryScreen;
+                gSpeciesToLoad = SPECIES_NONE;
+            }
+            else
+            {
+                gTasks[taskId].func = Task_ExitFormsScreen;
+            }
             PlaySE(SE_PC_OFF);
             return;
         }

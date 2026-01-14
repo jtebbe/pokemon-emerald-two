@@ -29,6 +29,7 @@
 #include "party_menu.h"
 #include "palette.h"
 #include "pokeball.h"
+#include "pokedex_plus_hgss.h"
 #include "pokemon.h"
 #include "pokemon_sprite_visualizer.h"
 #include "pokemon_storage_system.h"
@@ -120,6 +121,38 @@ enum
 #define TILE_FILLED_APPEAL_HEART 0x103A
 #define TILE_FILLED_JAM_HEART    0x103C
 #define TILE_EMPTY_JAM_HEART     0x103D
+
+// For saving summary screen before showing Pokedex
+struct SummaryScreenState
+{
+    u8 mode;
+    u8 monIndex;
+    u8 maxIndex;
+    struct Pokemon *mons;
+    void (*callback)(void);
+};
+
+static struct SummaryScreenState sSummaryState;
+
+void SaveSummaryScreenState(u8 mode, u8 monIndex, u8 maxIndex, struct Pokemon *mons, void (*callback)(void))
+{
+    sSummaryState.mode = mode;
+    sSummaryState.monIndex = monIndex;
+    sSummaryState.maxIndex = maxIndex;
+    sSummaryState.mons = mons;
+    sSummaryState.callback = callback;
+}
+
+void CB2_ReturnToSummaryFromPokedex(void)
+{
+    ShowPokemonSummaryScreen(
+        sSummaryState.mode,
+        sSummaryState.mons,
+        sSummaryState.monIndex,
+        sSummaryState.maxIndex,
+        sSummaryState.callback
+    );
+}
 
 static EWRAM_DATA struct PokemonSummaryScreenData
 {
@@ -1776,6 +1809,23 @@ static void Task_HandleInput(u8 taskId)
             sMonSummaryScreen->callback = CB2_InitLearnMove;
             gSpecialVar_0x8004 = sMonSummaryScreen->curMonIndex;
             gRelearnMode = sMonSummaryScreen->currPageIndex;
+            StopPokemonAnimations();
+            PlaySE(SE_SELECT);
+            BeginCloseSummaryScreen(taskId);
+        }
+        else if (JOY_NEW(START_BUTTON) && !gMain.inBattle && !sMonSummaryScreen->summary.isEgg)
+        {
+            u16 species = sMonSummaryScreen->summary.species;
+
+            sSummaryState.mode = sMonSummaryScreen->mode;
+            sSummaryState.monIndex = sMonSummaryScreen->curMonIndex;
+            sSummaryState.maxIndex = sMonSummaryScreen->maxMonIndex;
+            sSummaryState.mons = sMonSummaryScreen->monList.mons;
+            sSummaryState.callback = sMonSummaryScreen->callback;
+
+            gSpeciesToLoad = species;
+            sMonSummaryScreen->callback = CB2_OpenPokedexPlusHGSSToMon;
+
             StopPokemonAnimations();
             PlaySE(SE_SELECT);
             BeginCloseSummaryScreen(taskId);
