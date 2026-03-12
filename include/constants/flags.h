@@ -724,7 +724,7 @@
 #define FLAG_INSTANT_TEXT  0x2AB
 #define FLAG_EGG_MOVES  0x2AC
 #define FLAG_TUTOR_MOVES  0x2AD
-#define FLAG_UNUSED_0x2AE  0x2AE // Unused Flag
+#define FLAG_TM_IN_MENU  0x2AE
 #define FLAG_UNUSED_0x2AF  0x2AF // Unused Flag
 #define FLAG_UNUSED_0x2B0  0x2B0 // Unused Flag
 #define FLAG_UNUSED_0x2B1  0x2B1 // Unused Flag

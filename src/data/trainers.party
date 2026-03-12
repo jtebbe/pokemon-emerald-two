@@ -498,7 +498,6 @@ AI: Smart Trainer
 
 Carvanha @ Black Glasses  
 Ability: Speed Boost  
-Level: 5  
 EVs: 252 Atk / 4 SpD / 252 Spe  
 Adamant Nature  
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
@@ -507,8 +506,7 @@ IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 - Focus Energy
 
 Zubat @ Rocky Helmet  
-Ability: Inner Focus  
-Level: 5  
+Ability: Inner Focus   
 EVs: 252 Atk / 4 SpD / 252 Spe  
 Jolly Nature  
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
@@ -4267,7 +4265,6 @@ AI: Smart Trainer
 
 Cottonee @ Lum Berry  
 Ability: Prankster  
-Level: 5   
 EVs: 196 HP / 36 Def / 140 SpA / 56 SpD  
 Modest Nature  
 IVs: 0 Atk  
@@ -4278,7 +4275,6 @@ IVs: 0 Atk
 
 Swirlix @ Safety Goggles  
 Ability: Sweet Veil  
-Level: 5  
 EVs: 180 HP / 44 SpA / 220 SpD / 64 Spe  
 Calm Nature  
 IVs: 0 Atk  
@@ -4892,7 +4888,6 @@ AI: Smart Trainer
 
 Zigzagoon @ Assault Vest  
 Ability: Fur Coat  
-Level: 5  
 EVs: 8 HP / 196 Atk / 108 SpD / 196 Spe  
 Adamant Nature  
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
@@ -4902,7 +4897,6 @@ IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 Zigzagoon-Galar @ Toxic Orb  
 Ability: Quick Feet  
-Level: 5  
 EVs: 16 HP / 240 Atk / 12 SpD / 240 Spe  
 Adamant Nature  
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
@@ -11140,7 +11134,6 @@ AI: Smart Trainer
 
 Shroomish @ Rocky Helmet  
 Ability: Effect Spore  
-Level: 5  
 EVs: 252 HP / 4 SpA / 252 SpD  
 Calm Nature  
 IVs: 0 Atk  
@@ -11151,7 +11144,6 @@ IVs: 0 Atk
 
 Poltchageist @ Berry Juice  
 Ability: Heatproof  
-Level: 5  
 EVs: 252 HP / 252 Def / 4 SpA  
 Bold Nature  
 IVs: 0 Atk  
@@ -12056,7 +12048,6 @@ AI: Smart Trainer
 
 Poochyena @ Oran Berry  
 Ability: Intimidate  
-Level: 5
 EVs: 236 Atk / 36 SpD / 236 Spe
 IVs: 31 HP / 31 Atk / 31 Def / 0 SpA / 31 SpD / 31 Spe 
 Jolly Nature  
@@ -12066,7 +12057,6 @@ Jolly Nature
 
 Cherubi @ Lum Berry  
 Ability: Chlorophyll  
-Level: 5
 EVs: 236 HP / 180 SpA / 92 SpD  
 Modest Nature  
 IVs: 31 HP / 0 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe 
@@ -12085,7 +12075,6 @@ AI: Smart Trainer
 
 Bidoof @ Normal Gem  
 Ability: Simple  
-Level: 5  
 EVs: 204 HP / 236 Atk / 36 SpD / 28 Spe  
 Adamant Nature  
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
@@ -12096,7 +12085,6 @@ IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 Clobbopus @ Punching Glove  
 Ability: Technician  
-Level: 5  
 EVs: 100 HP / 212 Atk / 196 Def  
 Adamant Nature  
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
@@ -12115,7 +12103,6 @@ AI: Smart Trainer
 
 Amaura @ Assault Vest  
 Ability: Refrigerate  
-Level: 5  
 EVs: 252 HP / 252 SpA / 4 Spe  
 Modest Nature  
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
@@ -12126,7 +12113,6 @@ IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 Rolycoly @ Rocky Helmet  
 Ability: Steam Engine  
-Level: 5  
 EVs: 4 Atk / 252 SpA / 252 Spe  
 Naive Nature  
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
@@ -12137,7 +12123,6 @@ IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 Larvitar @ Flame Orb  
 Ability: Guts  
-Level: 5  
 EVs: 252 Atk / 4 SpD / 252 Spe  
 Adamant Nature  
 - Rock Polish  
@@ -12155,8 +12140,7 @@ Battle Type: Doubles
 AI: Smart Trainer
 
 Geodude @ Metronome  
-Ability: Rock Head  
-Level: 5  
+Ability: Rock Head   
 EVs: 252 HP / 252 Atk / 4 Def  
 Adamant Nature  
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
@@ -12167,7 +12151,6 @@ IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 Geodude-Alola @ Air Balloon  
 Ability: Galvanize  
-Level: 5  
 EVs: 252 HP / 252 Atk / 4 Def  
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
 - Tackle  
@@ -12176,8 +12159,7 @@ IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 - Protect
 
 Shieldon @ Air Balloon  
-Ability: Sturdy  
-Level: 5    
+Ability: Sturdy     
 EVs: 248 HP / 252 Atk / 8 SpA  
 Brave Nature  
 - Mud-Slap  
@@ -12196,7 +12178,6 @@ AI: Smart Trainer
 
 Rattata @ Flame Orb  
 Ability: Guts  
-Level: 5  
 EVs: 252 Atk / 4 SpD / 252 Spe  
 Jolly Nature  
 - Quick Attack  
@@ -12206,7 +12187,6 @@ Jolly Nature
 
 Rattata-Alola @ Focus Sash  
 Ability: Hustle  
-Level: 5  
 EVs: 252 Atk / 4 SpD / 252 Spe  
 Jolly Nature  
 - Bite  
@@ -13084,8 +13064,7 @@ Battle Type: Doubles
 AI: Smart Trainer
 
 Chingling @ Grassy Seed  
-Ability: Atonal Bells  
-Level: 5  
+Ability: Atonal Bells   
 EVs: 236 HP / 36 Def / 236 SpA  
 Modest Nature  
 IVs: 0 Atk  
@@ -13095,7 +13074,6 @@ IVs: 0 Atk
 
 Skiddo @ Berry Juice  
 Ability: Grass Pelt  
-Level: 5  
 EVs: 228 HP / 236 Atk / 20 SpA / 4 SpD / 20 Spe  
 Adamant Nature  
 - Grassy Terrain  
@@ -13392,7 +13370,6 @@ AI: Smart Trainer
 
 Arrokuda @ Mystic Water  
 Ability: Swift Swim  
-Level: 5  
 EVs: 252 Atk / 4 SpD / 252 Spe  
 Adamant Nature  
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
@@ -13403,7 +13380,6 @@ IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 Mantyke @ Oran Berry  
 Ability: Water Veil  
-Level: 5  
 EVs: 252 HP / 4 SpA / 252 SpD  
 Calm Nature  
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
@@ -13414,7 +13390,6 @@ IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 Barboach @ Focus Sash  
 Ability: Earth Eater  
-Level: 5  
 EVs: 252 HP / 252 Atk / 4 Def  
 Adamant Nature  
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
@@ -20135,7 +20110,6 @@ AI: Smart Trainer
 
 Slowpoke @ Iron Ball  
 Ability: Oblivious  
-Level: 5  
 EVs: 252 HP / 4 Def / 252 SpA  
 Modest Nature  
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
@@ -20145,7 +20119,6 @@ IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 Bonsly @ Clear Amulet  
 Ability: Sturdy  
-Level: 5   
 EVs: 252 HP / 252 Atk / 4 Def  
 Adamant Nature  
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
@@ -21482,8 +21455,7 @@ Mugshot: Blue
 AI: Smart Trainer
 
 Treecko  
-Ability: Overgrow  
-Level: 5   
+Ability: Overgrow   
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
 - Pound  
 - Leer
@@ -21705,7 +21677,6 @@ AI: Smart Trainer
 
 Torchic  
 Ability: Blaze  
-Level: 5   
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
 - Scratch  
 - Growl
@@ -21927,8 +21898,7 @@ Mugshot: Blue
 AI: Smart Trainer
 
 Mudkip  
-Ability: Torrent  
-Level: 5   
+Ability: Torrent   
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
 - Tackle  
 - Growl
@@ -22159,8 +22129,7 @@ Mugshot: Blue
 AI: Smart Trainer
 
 Treecko  
-Ability: Overgrow  
-Level: 5   
+Ability: Overgrow    
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
 - Pound  
 - Leer
@@ -22382,7 +22351,6 @@ AI: Smart Trainer
 
 Torchic  
 Ability: Blaze  
-Level: 5   
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
 - Scratch  
 - Growl
@@ -22604,8 +22572,7 @@ Mugshot: Blue
 AI: Smart Trainer
 
 Mudkip  
-Ability: Torrent  
-Level: 5   
+Ability: Torrent   
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
 - Tackle  
 - Growl
@@ -23896,8 +23863,7 @@ IVs: 0 Atk
 - Protect
 
 Nacli @ Chople Berry  
-Ability: Purifying Salt  
-Level: 5  
+Ability: Purifying Salt   
 EVs: 252 HP / 4 Atk / 252 Def  
 Impish Nature  
 - Rock Throw  
@@ -25357,7 +25323,6 @@ AI: Smart Trainer
 
 Lotad @ Eviolite  
 Ability: Swift Swim  
-Level: 5  
 EVs: 196 HP / 116 SpA / 196 SpD  
 Calm Nature  
 IVs: 0 Atk  
@@ -25367,7 +25332,6 @@ IVs: 0 Atk
 
 Drowzee @ Leftovers  
 Ability: Hypnotist  
-Level: 5  
 EVs: 196 HP / 76 Def / 40 SpA / 196 SpD  
 Calm Nature  
 IVs: 0 Atk  
@@ -25386,7 +25350,6 @@ AI: Smart Trainer
 
 Skitty @ Silk Scarf  
 Ability: Normalize  
-Level: 5  
 EVs: 252 SpA / 4 SpD / 252 Spe  
 Timid Nature  
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
@@ -25396,7 +25359,6 @@ IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 Glameow @ Red Card  
 Ability: Limber  
-Level: 5  
 EVs: 252 Atk / 4 Def / 252 Spe  
 Jolly Nature  
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
@@ -25415,7 +25377,6 @@ AI: Smart Trainer
 
 Meditite @ Bright Powder  
 Ability: Pure Power  
-Level: 5  
 EVs: 248 HP / 252 Atk / 8 SpA  
 Lonely Nature  
 - Fake Out  
@@ -25425,7 +25386,6 @@ Lonely Nature
 
 Crocalor @ Leftovers  
 Ability: Unaware  
-Level: 16   
 EVs: 252 HP / 4 Def / 252 SpA  
 Modest Nature  
 IVs: 0 Atk  
@@ -25657,7 +25617,6 @@ AI: Smart Trainer
 
 Kricketot @ Clear Amulet  
 Ability: Concertmaster  
-Level: 5
 EVs: 220 HP / 236 Atk / 28 SpD / 24 Spe  
 Adamant Nature  
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
@@ -25667,7 +25626,6 @@ IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 Dewpider @ Oran Berry  
 Ability: Water Bubble  
-Level: 5
 EVs: 212 HP / 20 Def / 240 SpA / 20 SpD / 16 Spe  
 Modest Nature  
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
@@ -25686,7 +25644,6 @@ AI: Smart Trainer
 
 Ledyba @ Loaded Dice  
 Ability: Iron Fist  
-Level: 5  
 EVs: 252 Atk / 4 SpD / 252 Spe  
 Jolly Nature  
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
@@ -25696,7 +25653,6 @@ IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 Sizzlipede @ Focus Sash  
 Ability: Flame Body  
-Level: 5  
 EVs: 68 HP / 200 Atk / 40 Def / 200 Spe  
 Naive Nature  
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
@@ -25715,7 +25671,6 @@ AI: Smart Trainer
 
 Paras @ Focus Sash  
 Ability: Analytic  
-Level: 5  
 EVs: 252 HP / 252 Atk / 4 SpD  
 Brave Nature  
 IVs: 0 Spe  
@@ -25886,7 +25841,6 @@ AI: Smart Trainer
 
 Applin @ Yache Berry  
 Ability: Ripen  
-Level: 5  
 EVs: 252 HP / 252 Atk / 4 Def  
 Adamant Nature  
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
@@ -25896,7 +25850,6 @@ IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 Grookey @ Miracle Seed  
 Ability: Grassy Surge  
-Level: 5  
 EVs: 252 Atk / 4 SpD / 252 Spe  
 Jolly Nature  
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
@@ -26139,7 +26092,6 @@ AI: Smart Trainer
 
 Kabuto @ Focus Sash  
 Ability: Swift Swim  
-Level: 5  
 EVs: 252 Atk / 4 SpD / 252 Spe  
 Adamant Nature  
 - Rain Dance  
@@ -26149,7 +26101,6 @@ Adamant Nature
 
 Stufful @ Silk Scarf  
 Ability: Fluffy  
-Level: 5  
 EVs: 248 HP / 252 Atk / 8 SpD  
 Adamant Nature  
 - Bulk Up  
@@ -29179,7 +29130,6 @@ AI: Smart Trainer
 
 Magikarp @ Flying Gem  
 Ability: Rattled  
-Level: 5  
 EVs: 252 Atk / 4 Def / 252 Spe  
 Adamant Nature  
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
@@ -29187,7 +29137,6 @@ IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 Sandygast @ Colbur Berry  
 Ability: Water Compaction  
-Level: 5  
 EVs: 236 HP / 196 Def / 76 SpA  
 Bold Nature  
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe  
@@ -31359,7 +31308,6 @@ AI: Smart Trainer
 
 Kubfu @ Rocky Helmet  
 Ability: Inner Focus  
-Level: 5  
 EVs: 252 Atk / 4 SpD / 252 Spe  
 Jolly Nature  
 - Coaching  
@@ -31369,7 +31317,6 @@ Jolly Nature
 
 Zorua @ Focus Sash  
 Ability: Illusion  
-Level: 5  
 EVs: 252 SpA / 4 SpD / 252 Spe  
 Modest Nature  
 IVs: 0 Atk  
@@ -31380,7 +31327,6 @@ IVs: 0 Atk
 
 Sandygast @ Leftovers  
 Ability: Water Compaction
-Level: 5  
 EVs: 252 HP / 4 Def / 252 SpA  
 Modest Nature  
 IVs: 0 Atk  
@@ -31388,10 +31334,6 @@ IVs: 0 Atk
 - Night Shade  
 - Protect  
 - Mega Drain
-
-Geodude
-Level: 8
-IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 === TRAINER_JOHNSON ===
 Name: JOHNSON
@@ -31404,7 +31346,6 @@ AI: Smart Trainer
 
 Maschiff @ Eviolite  
 Ability: Intimidate  
-Level: 5  
 EVs: 252 HP / 252 Atk / 4 SpD  
 Adamant Nature  
 - Bite  
@@ -31414,7 +31355,6 @@ Adamant Nature
 
 Shellos @ Berry Juice  
 Ability: Storm Drain  
-Level: 5  
 EVs: 252 HP / 252 SpA / 4 SpD  
 Modest Nature  
 IVs: 0 Atk  

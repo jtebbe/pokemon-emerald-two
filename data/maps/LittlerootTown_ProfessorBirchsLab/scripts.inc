@@ -693,6 +693,23 @@ LittlerootTown_ProfessorBirchsLab_EventScript_AutoRunModeOff::
 	releaseall
 	end
 
+LittlerootTown_ProfessorBirchsLab_EventScript_TmsInMenuMode::
+	lockall
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_TmsInMenuMode, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, YES, LittlerootTown_ProfessorBirchsLab_EventScript_TmsInMenuModeOn
+	goto LittlerootTown_ProfessorBirchsLab_EventScript_TmsInMenuModeOff
+	end
+
+LittlerootTown_ProfessorBirchsLab_EventScript_TmsInMenuModeOn::
+	setflag FLAG_TM_IN_MENU
+	releaseall
+	end
+
+LittlerootTown_ProfessorBirchsLab_EventScript_TmsInMenuModeOff::
+	clearflag FLAG_TM_IN_MENU
+	releaseall
+	end
+
 LittlerootTown_ProfessorBirchsLab_EventScript_InstantTextMode::
 	lockall
 	msgbox LittlerootTown_ProfessorBirchsLab_Text_InstantTextMode, MSGBOX_YESNO
@@ -742,6 +759,12 @@ LittlerootTown_ProfessorBirchsLab_Text_PerfectIvsMode:
 LittlerootTown_ProfessorBirchsLab_Text_AutoRunMode:
 	.string "This switch toggles auto-run on\n"
 	.string "and off.\p"
+	.string "Saying yes will enable, no will\n"
+	.string "disable.$"
+
+LittlerootTown_ProfessorBirchsLab_Text_TmsInMenuMode:
+	.string "This switch toggles tm tutor in\n"
+	.string "the summary screen on (L and R).\p"
 	.string "Saying yes will enable, no will\n"
 	.string "disable.$"
 
