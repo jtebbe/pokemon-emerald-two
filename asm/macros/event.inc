@@ -1056,6 +1056,43 @@
 	.2byte \option
 	.endm
 
+	@ Starts a trainer battle where both sides are generated from random species and sets VAR_RESULT to TRUE on success.
+	@ trainer_pic defaults to a random pic. trainer_name defaults to a random generated name.
+	.macro truerandombattle num_player_mons:req, num_opponent_mons:req, trainer_pic=0xFFFF, trainer_name=0, is_double=FALSE, pre_evos=FALSE, no_species_clause=FALSE, no_item_clause=FALSE, no_type_diversity=FALSE, no_legendaries=FALSE, preselected_moves=FALSE, items_off=FALSE, items_preselected=FALSE, tera_types_off=FALSE, z_crystals_off=FALSE, mega_stones_off=FALSE
+	callnative ScrCmd_truerandombattle, requests_effects=1
+	.2byte \num_player_mons
+	.2byte \num_opponent_mons
+	.2byte \trainer_pic
+	.4byte \trainer_name
+	.2byte \is_double
+	.2byte \pre_evos
+	.2byte \no_species_clause
+	.2byte \no_item_clause
+	.2byte \no_type_diversity
+	.2byte \no_legendaries
+	.2byte \preselected_moves
+	.2byte \items_off
+	.2byte \items_preselected
+	.2byte \tera_types_off
+	.2byte \z_crystals_off
+	.2byte \mega_stones_off
+	.endm
+
+	@ Starts a trainer battle where both sides are selected from random_battle_mons.pool.
+	.macro poolrandombattle num_player_mons:req, num_opponent_mons:req, trainer_pic=0xFFFF, trainer_name=0, is_double=FALSE, pre_evos=FALSE, no_species_clause=FALSE, no_item_clause=FALSE, no_type_diversity=FALSE, no_legendaries=FALSE
+	callnative ScrCmd_poolrandombattle, requests_effects=1
+	.2byte \num_player_mons
+	.2byte \num_opponent_mons
+	.2byte \trainer_pic
+	.4byte \trainer_name
+	.2byte \is_double
+	.2byte \pre_evos
+	.2byte \no_species_clause
+	.2byte \no_item_clause
+	.2byte \no_type_diversity
+	.2byte \no_legendaries
+	.endm
+
 	@ Gives the player a Pokémon of the specified species and level, and allows to customize extra parameters.
 	@ VAR_RESULT will be set to MON_GIVEN_TO_PARTY, MON_GIVEN_TO_PC, or MON_CANT_GIVE depending on the outcome.
 	.macro givemon species:req, level:req, item, ball, nature, abilityNum, gender, hpEv, atkEv, defEv, speedEv, spAtkEv, spDefEv, hpIv, atkIv, defIv, speedIv, spAtkIv, spDefIv, move1, move2, move3, move4, shinyMode, gmaxFactor, teraType, dmaxLevel

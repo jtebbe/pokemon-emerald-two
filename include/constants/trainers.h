@@ -16,6 +16,7 @@
 #define TRAINER_SECRET_BASE                 0xFF00
 #define TRAINER_LINK_OPPONENT               0xFF01
 #define TRAINER_UNION_ROOM                  0xFF02
+#define TRAINER_RANDOM_BATTLE               0xFF03
 
 enum __attribute__((packed)) TrainerPicID
 {

@@ -14,6 +14,7 @@
 #include "fieldmap.h"
 #include "follower_npc.h"
 #include "random.h"
+#include "random_battle.h"
 #include "starter_choose.h"
 #include "script_pokemon_util.h"
 #include "palette.h"
@@ -81,6 +82,7 @@ static void CB2_EndFirstBattle(void);
 static void SaveChangesToPlayerParty(void);
 static void HandleBattleVariantEndParty(void);
 static void CB2_EndTrainerBattle(void);
+static void CB2_EndRandomBattle(void);
 static bool32 IsPlayerDefeated(u32 battleOutcome);
 #if FREE_MATCH_CALL == FALSE
 static u16 GetRematchTrainerId(u16 trainerId);
@@ -1376,6 +1378,23 @@ void BattleSetup_StartTrainerBattle(void)
     ScriptContext_Stop();
 }
 
+void BattleSetup_StartRandomBattle(bool32 isDouble)
+{
+    TRAINER_BATTLE_PARAM.opponentA = TRAINER_RANDOM_BATTLE;
+    TRAINER_BATTLE_PARAM.opponentB = TRAINER_NONE;
+    gBattleTypeFlags = BATTLE_TYPE_TRAINER;
+    if (isDouble)
+        gBattleTypeFlags |= BATTLE_TYPE_DOUBLE;
+
+    sNoOfPossibleTrainerRetScripts = 0;
+    gNoOfApproachingTrainers = 0;
+    sShouldCheckTrainerBScript = FALSE;
+    gWhichTrainerToFaceAfterBattle = 0;
+    gMain.savedCallback = CB2_EndRandomBattle;
+    DoTrainerBattle();
+    ScriptContext_Stop();
+}
+
 static void CB2_EndDebugBattle(void)
 {
     if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER)
@@ -1493,6 +1512,13 @@ static void CB2_EndTrainerBattle(void)
             SetBattledTrainersFlags();
         }
     }
+}
+
+static void CB2_EndRandomBattle(void)
+{
+    RandomBattle_RestorePlayerParty();
+    gSpecialVar_Result = gBattleOutcome;
+    SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
 }
 
 static void CB2_EndRematchBattle(void)

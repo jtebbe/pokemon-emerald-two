@@ -224,6 +224,9 @@ extern const struct TrainerClass gTrainerClasses[TRAINER_CLASS_COUNT];
 
 extern const struct EggData gEggDatas[EGG_ID_COUNT];
 
+bool32 IsRandomBattleTrainer(u16 trainerId);
+const struct Trainer *RandomBattle_GetTrainerStruct(void);
+
 // Follower text messages
 extern const struct FollowerMsgInfo gFollowerHappyMessages[];
 extern const struct FollowerMsgInfo gFollowerNeutralMessages[];
@@ -248,7 +251,8 @@ static inline bool32 IsSpecialTrainer(u16 trainerId)
 {
     if (trainerId == TRAINER_SECRET_BASE ||
         trainerId == TRAINER_LINK_OPPONENT ||
-        trainerId == TRAINER_UNION_ROOM)
+        trainerId == TRAINER_UNION_ROOM ||
+        IsRandomBattleTrainer(trainerId))
     {
         return TRUE;
     }
@@ -285,6 +289,10 @@ static inline const struct Trainer *GetTrainerStructFromId(u16 trainerId)
     {
         difficulty = GetBattlePartnerDifficultyLevel(trainerId);
         return &gBattlePartners[difficulty][GetPartnerIdFromTrainerId(trainerId)];
+    }
+    else if (IsRandomBattleTrainer(trainerId))
+    {
+        return RandomBattle_GetTrainerStruct();
     }
     else
     {
