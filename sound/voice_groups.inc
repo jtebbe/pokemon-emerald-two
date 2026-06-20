@@ -5,6 +5,7 @@
 .include "sound/voicegroups/drumsets/frlg.inc"
 .include "sound/voicegroups/drumsets/emerald_1.inc"
 .include "sound/voicegroups/drumsets/emerald_2.inc"
+.include "sound/voicegroups/drumsets/bingo_board.inc"
 
 @ key splits
 .include "sound/voicegroups/keysplits/piano.inc"
@@ -137,6 +138,7 @@
 .include "sound/voicegroups/frlg_sfx.inc"
 .include "sound/voicegroups/bard.inc"
 .include "sound/voicegroups/unused_2.inc" @ used by unused GSC radio tower takeover test track in RS
+.include "sound/voicegroups/bingo_board.inc"
 
 @ FRLG
 .include "sound/voicegroups/rg_follow_me.inc"
