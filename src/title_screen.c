@@ -37,6 +37,7 @@ enum {
 #define VERSION_BANNER_Y 2
 #define VERSION_BANNER_Y_GOAL 66
 #define START_BANNER_X 128
+#define VERSION_PALETTE_SWAP_INTERVAL (1 * 60)
 
 #define CLEAR_SAVE_BUTTON_COMBO (B_BUTTON | SELECT_BUTTON | DPAD_UP)
 #define RESET_RTC_BUTTON_COMBO (B_BUTTON | SELECT_BUTTON | DPAD_LEFT)
@@ -53,6 +54,7 @@ static void CB2_GoToResetRtcScreen(void);
 static void CB2_GoToBerryFixScreen(void);
 static void CB2_GoToCopyrightScreen(void);
 static void UpdateLegendaryMarkingColor(u8);
+static void UpdateVersionBannerPalette(u8);
 
 static void SpriteCB_VersionBannerLeft(struct Sprite *sprite);
 static void SpriteCB_VersionBannerRight(struct Sprite *sprite);
@@ -360,6 +362,27 @@ static const struct CompressedSpriteSheet sPokemonLogoShineSpriteSheet[] =
 #define tPointless  data[2] // Incremented but never used to do anything.
 #define tBg2Y       data[3]
 #define tBg1Y       data[4]
+#define tVersionPaletteTimer data[7]
+
+static void UpdateVersionBannerPalette(u8 taskId)
+{
+    u16 color;
+    u16 colorIndex1 = OBJ_PLTT_ID(0) + 1;
+    u16 colorIndex15 = OBJ_PLTT_ID(0) + 15;
+
+    if (++gTasks[taskId].tVersionPaletteTimer < VERSION_PALETTE_SWAP_INTERVAL)
+        return;
+
+    gTasks[taskId].tVersionPaletteTimer = 0;
+
+    color = gPlttBufferUnfaded[colorIndex1];
+    gPlttBufferUnfaded[colorIndex1] = gPlttBufferUnfaded[colorIndex15];
+    gPlttBufferUnfaded[colorIndex15] = color;
+
+    color = gPlttBufferFaded[colorIndex1];
+    gPlttBufferFaded[colorIndex1] = gPlttBufferFaded[colorIndex15];
+    gPlttBufferFaded[colorIndex15] = color;
+}
 
 // Sprite data for sVersionBannerLeftSpriteTemplate / sVersionBannerRightSpriteTemplate
 #define sAlphaBlendIdx data[0]
@@ -624,6 +647,7 @@ void CB2_InitTitleScreen(void)
         gTasks[taskId].tSkipToNext = FALSE;
         gTasks[taskId].tPointless = -16;
         gTasks[taskId].tBg2Y = -32;
+        gTasks[taskId].tVersionPaletteTimer = 0;
         gMain.state = 3;
         break;
     }
@@ -657,7 +681,7 @@ void CB2_InitTitleScreen(void)
                                     | DISPCNT_OBJ_ON
                                     | DISPCNT_WIN0_ON
                                     | DISPCNT_OBJWIN_ON);
-        m4aSongNumStart(MUS_TITLE);
+        m4aSongNumStart(MUS_BINGO_BOARD);
         gMain.state = 5;
         break;
     case 5:
@@ -732,6 +756,8 @@ static void Task_TitleScreenPhase2(u8 taskId)
 {
     u32 yPos;
 
+    UpdateVersionBannerPalette(taskId);
+
     // Skip to next phase when A, B, Start, or Select is pressed
     if (JOY_NEW(A_B_START_SELECT) || gTasks[taskId].tSkipToNext)
     {
@@ -780,6 +806,8 @@ static void Task_TitleScreenPhase2(u8 taskId)
 // Show Rayquaza silhouette and process main title screen input
 static void Task_TitleScreenPhase3(u8 taskId)
 {
+    UpdateVersionBannerPalette(taskId);
+
     if (QUICKSTART && JOY_NEW(SELECT_BUTTON))
         Quickstart();
 
