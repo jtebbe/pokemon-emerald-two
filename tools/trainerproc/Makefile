@@ -1,4 +1,4 @@
-.PHONY: all clean
+.PHONY: all clean test
 
 CFLAGS := -Wall -O2
 
@@ -18,3 +18,6 @@ trainerproc$(EXE): $(SRCS)
 
 clean:
 	$(RM) trainerproc$(EXE)
+
+test: trainerproc$(EXE)
+	sh tests/test_bingomons.sh ./trainerproc$(EXE)

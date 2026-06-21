@@ -1,6 +1,7 @@
 #include "global.h"
 #include "malloc.h"
 #include "battle.h"
+#include "bingo_mons.h"
 #include "data.h"
 #include "graphics.h"
 #include "trainer_pools.h"
@@ -236,5 +237,7 @@ const struct Trainer gTrainers[DIFFICULTY_COUNT][TRAINERS_COUNT] =
 #endif
 };
 #endif
+
+#include "data/bingo_mons.h"
 
 #include "data/text/follower_messages.h"

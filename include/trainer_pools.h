@@ -38,7 +38,8 @@ enum PoolTags {
     POOL_TAG_WEATHER_SETTER = 2,
     POOL_TAG_WEATHER_ABUSER = 3,
     POOL_TAG_SUPPORT = 4,
-    POOL_TAG_TAG6 = 5,
+    POOL_TAG_TERA = 5,
+    POOL_TAG_TAG6 = POOL_TAG_TERA,
     POOL_TAG_TAG7 = 6,
     POOL_TAG_TAG8 = 7,
     //  Must be the last element
@@ -50,6 +51,7 @@ enum PoolTags {
 #define MON_POOL_TAG_WEATHER_SETTER 1 << POOL_TAG_WEATHER_SETTER
 #define MON_POOL_TAG_WEATHER_ABUSER 1 << POOL_TAG_WEATHER_ABUSER
 #define MON_POOL_TAG_SUPPORT        1 << POOL_TAG_SUPPORT
+#define MON_POOL_TAG_TERA           1 << POOL_TAG_TERA
 #define MON_POOL_TAG_TAG6           1 << POOL_TAG_TAG6
 #define MON_POOL_TAG_TAG7           1 << POOL_TAG_TAG7
 #define MON_POOL_TAG_TAG8           1 << POOL_TAG_TAG8

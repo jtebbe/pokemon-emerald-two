@@ -5,7 +5,7 @@
 /* To add a new member to 'TrainerMon':
  * 1. Add the same member to 'Pokemon'.
  * 2. Parse that member in 'parse_trainer', probably in the 'parse_attribute' loop.
- * 3. Format that member in 'fprint_trainers'. */
+ * 3. Format that member in 'fprint_trainers' and 'fprint_bingo_pokemon'. */
 #include <assert.h>
 #include <limits.h>
 #include <stdbool.h>
@@ -49,6 +49,13 @@ enum MultiParty
 {
     MULTI_PARTY_FULL,
     MULTI_PARTY_HALF,
+};
+
+enum OutputFormat
+{
+    OUTPUT_TRAINERS,
+    OUTPUT_BINGO_DATA,
+    OUTPUT_BINGO_CONSTANTS,
 };
 
 // TODO: Support Hidden Power.
@@ -186,10 +193,10 @@ static bool is_literal_string(struct String s1, const char *s2)
     }
 }
 
-static bool __attribute__((unused)) starts_with(struct String s, const char *prefix)
+static bool starts_with(struct String s, const char *prefix)
 {
     int n = strlen(prefix);
-    return strncmp((const char *)s.string, prefix, n) == 0;
+    return s.string_n >= n && strncmp((const char *)s.string, prefix, n) == 0;
 }
 
 static bool ends_with(struct String s, const char *suffix)
@@ -1173,7 +1180,7 @@ static const struct {
     { NULL, NULL, NULL }
 };
 
-static bool parse_trainer(struct Parser *p, const struct Parsed *parsed, struct Trainer *trainer)
+static bool parse_trainer(struct Parser *p, const struct Parsed *parsed, struct Trainer *trainer, bool bingo_mon)
 {
     bool any_error = false;
     *trainer = (struct Trainer) {};
@@ -1191,9 +1198,12 @@ static bool parse_trainer(struct Parser *p, const struct Parsed *parsed, struct 
     trainer->id = token_string(&id);
     trainer->id_line = id.location.line;
 
+    if (bingo_mon && !starts_with(trainer->id, "BINGO_MON_"))
+        any_error = !set_show_parse_error(p, id.location, "bingo mon ID must start with 'BINGO_MON_'");
+
     // Parse trainer attributes.
     struct Token key, value;
-    while (parse_attribute(p, &key, &value))
+    while (!bingo_mon && parse_attribute(p, &key, &value))
     {
         if (is_literal_token(&key, "AI"))
         {
@@ -1342,11 +1352,11 @@ static bool parse_trainer(struct Parser *p, const struct Parsed *parsed, struct 
             any_error = !set_show_parse_error(p, key.location, "expected one of 'Name', 'Class', 'Pic', 'Back Pic', 'Gender', 'Music', 'Items', 'Battle Type', 'Difficulty', 'Party Size', 'Multi Party', 'Pool Rules', 'Pool Pick Functions', 'Pool Prune' or 'AI'");
         }
     }
-    if (!trainer->pic_line && !trainer->macro_line)
+    if (!bingo_mon && !trainer->pic_line && !trainer->macro_line)
         any_error = !set_show_parse_error(p, p->location, "expected 'Pic' before Pokemon");
-    if (!trainer->name_line && !trainer->macro_line)
+    if (!bingo_mon && !trainer->name_line && !trainer->macro_line)
         any_error = !set_show_parse_error(p, p->location, "expected 'Name' before Pokemon");
-    if (!match_empty_line(p))
+    if (!bingo_mon && !match_empty_line(p))
     {
         set_show_parse_error(p, p->location, "expected empty line");
 
@@ -1356,7 +1366,7 @@ static bool parse_trainer(struct Parser *p, const struct Parsed *parsed, struct 
             return false;
     }
 
-    for (int i = 0; i < PARTY_SIZE; i++)
+    for (int i = 0; i < (bingo_mon ? 1 : PARTY_SIZE); i++)
     {
         struct Pokemon *pokemon = &trainer->pokemon[i];
 
@@ -1582,7 +1592,12 @@ static bool parse_trainer(struct Parser *p, const struct Parsed *parsed, struct 
         }
     }
 
-    if (trainer->party_size_line && trainer->party_size > trainer->pokemon_n && is_empty_string(trainer->copy_pool))
+    if (bingo_mon && trainer->pokemon_n != 1)
+    {
+        set_show_parse_error(p, p->location, "expected exactly one Pokemon in bingo mon section");
+        any_error = true;
+    }
+    else if (trainer->party_size_line && trainer->party_size > trainer->pokemon_n && is_empty_string(trainer->copy_pool))
     {
         set_show_parse_error(p, p->location, "partySize larger than supplied pool");
     }
@@ -1590,7 +1605,7 @@ static bool parse_trainer(struct Parser *p, const struct Parsed *parsed, struct 
     return !any_error;
 }
 
-static void parse(struct Parser *p, struct Parsed *parsed)
+static void parse(struct Parser *p, struct Parsed *parsed, bool bingo_mons)
 {
     parsed->source = p->source;
     int trainers_c = 256;
@@ -1616,7 +1631,7 @@ static void parse(struct Parser *p, struct Parsed *parsed)
         while (match_empty_line(p)) {}
         if (match_eof(p))
             break;
-        if (!parse_trainer(p, parsed, trainer))
+        if (!parse_trainer(p, parsed, trainer, bingo_mons))
         {
             struct Token t;
             // Skip to the next trainer.
@@ -1795,6 +1810,186 @@ static void fprint_species(FILE *f, const char *prefix, struct String s)
             }
         }
     }
+}
+
+static void fprint_bingo_pokemon(FILE *f, struct Pokemon *pokemon)
+{
+    if (!is_empty_string(pokemon->nickname))
+    {
+        fprintf(f, "#line %d\n", pokemon->header_line);
+        fprintf(f, "        .nickname = COMPOUND_STRING(\"");
+        fprint_string(f, pokemon->nickname);
+        fprintf(f, "\"),\n");
+    }
+
+    fprintf(f, "#line %d\n", pokemon->header_line);
+    fprintf(f, "        .species = ");
+    fprint_species(f, "SPECIES", pokemon->species);
+    fprintf(f, ",\n");
+
+    switch (pokemon->gender)
+    {
+    case GENDER_ANY:
+        fprintf(f, "        .gender = TRAINER_MON_RANDOM_GENDER,\n");
+        break;
+    case GENDER_MALE:
+        fprintf(f, "        .gender = TRAINER_MON_MALE,\n");
+        break;
+    case GENDER_FEMALE:
+        fprintf(f, "        .gender = TRAINER_MON_FEMALE,\n");
+        break;
+    }
+
+    if (!is_empty_string(pokemon->item))
+    {
+        fprintf(f, "        .heldItem = ");
+        fprint_constant(f, "ITEM", pokemon->item);
+        fprintf(f, ",\n");
+    }
+    if (pokemon->evs_line)
+    {
+        fprintf(f, "#line %d\n", pokemon->evs_line);
+        fprintf(f, "        .ev = ");
+        fprint_stats(f, "TRAINER_PARTY_EVS", pokemon->evs);
+        fprintf(f, ",\n");
+    }
+    if (pokemon->ivs_line)
+    {
+        fprintf(f, "#line %d\n", pokemon->ivs_line);
+        fprintf(f, "        .iv = ");
+        fprint_stats(f, "TRAINER_PARTY_IVS", pokemon->ivs);
+        fprintf(f, ",\n");
+    }
+    if (pokemon->ability_line)
+    {
+        fprintf(f, "#line %d\n", pokemon->ability_line);
+        fprintf(f, "        .ability = ");
+        fprint_constant(f, "ABILITY", pokemon->ability);
+        fprintf(f, ",\n");
+    }
+    if (pokemon->level_line)
+    {
+        fprintf(f, "#line %d\n", pokemon->level_line);
+        fprintf(f, "        .lvl = %d,\n", pokemon->level);
+    }
+    if (pokemon->ball_line)
+    {
+        fprintf(f, "#line %d\n", pokemon->ball_line);
+        fprintf(f, "        .ball = ");
+        fprint_constant(f, "BALL", pokemon->ball);
+        fprintf(f, ",\n");
+    }
+    else
+    {
+        fprintf(f, "        .ball = POKEBALL_COUNT,\n");
+    }
+    if (pokemon->friendship_line)
+    {
+        fprintf(f, "#line %d\n", pokemon->friendship_line);
+        fprintf(f, "        .friendship = %d,\n", pokemon->friendship);
+    }
+    if (pokemon->nature_line)
+    {
+        fprintf(f, "#line %d\n", pokemon->nature_line);
+        fprintf(f, "        .nature = ");
+        fprint_constant(f, "NATURE", pokemon->nature);
+        fprintf(f, ",\n");
+    }
+    else
+    {
+        fprintf(f, "        .nature = NATURE_HARDY,\n");
+    }
+    if (pokemon->shiny_line)
+    {
+        fprintf(f, "#line %d\n", pokemon->shiny_line);
+        fprintf(f, "        .isShiny = ");
+        fprint_bool(f, pokemon->shiny);
+        fprintf(f, ",\n");
+    }
+    if (pokemon->dynamax_level_line)
+    {
+        fprintf(f, "#line %d\n", pokemon->dynamax_level_line);
+        fprintf(f, "        .dynamaxLevel = %d,\n", pokemon->dynamax_level);
+    }
+    else
+    {
+        fprintf(f, "        .dynamaxLevel = MAX_DYNAMAX_LEVEL,\n");
+    }
+    if (pokemon->gigantamax_factor_line)
+    {
+        fprintf(f, "#line %d\n", pokemon->gigantamax_factor_line);
+        fprintf(f, "        .gigantamaxFactor = ");
+        fprint_bool(f, pokemon->gigantamax_factor);
+        fprintf(f, ",\n");
+    }
+    if (pokemon->dynamax_level_line || pokemon->gigantamax_factor_line)
+    {
+        fprintf(f, "        .shouldUseDynamax = TRUE,\n");
+    }
+    else if (pokemon->tera_type_line)
+    {
+        fprintf(f, "#line %d\n", pokemon->tera_type_line);
+        fprintf(f, "        .teraType = ");
+        fprint_constant(f, "TYPE", pokemon->tera_type);
+        fprintf(f, ",\n");
+    }
+    if (pokemon->tags_line)
+    {
+        fprintf(f, "#line %d\n", pokemon->tags_line);
+        fprintf(f, "        .tags = ");
+        for (int i = 0; i < pokemon->tags_n; i++)
+        {
+            if (i > 0)
+                fprintf(f, " | ");
+            fprint_constant(f, "MON_POOL_TAG", pokemon->tags[i]);
+        }
+        fprintf(f, ",\n");
+    }
+    if (pokemon->moves_n > 0)
+    {
+        fprintf(f, "        .moves = {\n");
+        fprintf(f, "#line %d\n", pokemon->move1_line);
+        for (int i = 0; i < pokemon->moves_n; i++)
+        {
+            fprintf(f, "            ");
+            fprint_constant(f, "MOVE", pokemon->moves[i]);
+            fprintf(f, ",\n");
+        }
+        fprintf(f, "        },\n");
+    }
+}
+
+static void fprint_bingo_constants(FILE *f, struct Parsed *parsed)
+{
+    fprintf(f, "// Auto-generated from %s. Do not modify.\n\n", parsed->source->path);
+    fprintf(f, "#ifndef GUARD_CONSTANTS_BINGO_MONS_H\n");
+    fprintf(f, "#define GUARD_CONSTANTS_BINGO_MONS_H\n\n");
+    fprintf(f, "enum BingoMonId\n{\n");
+    for (int i = 0; i < parsed->trainers_n; i++)
+    {
+        fprintf(f, "    ");
+        fprint_string(f, parsed->trainers[i].id);
+        fprintf(f, ",\n");
+    }
+    fprintf(f, "    BINGO_MON_COUNT,\n");
+    fprintf(f, "};\n\n#endif // GUARD_CONSTANTS_BINGO_MONS_H\n");
+}
+
+static void fprint_bingo_data(FILE *f, struct Parsed *parsed)
+{
+    fprintf(f, "// Auto-generated from %s. Do not modify.\n\n", parsed->source->path);
+    fprintf(f, "const struct TrainerMon gBingoMons[BINGO_MON_COUNT] =\n{\n");
+    for (int i = 0; i < parsed->trainers_n; i++)
+    {
+        struct Trainer *entry = &parsed->trainers[i];
+        fprintf(f, "#line %d \"%s\"\n", entry->id_line, parsed->source->path);
+        fprintf(f, "    [");
+        fprint_string(f, entry->id);
+        fprintf(f, "] =\n    {\n");
+        fprint_bingo_pokemon(f, &entry->pokemon[0]);
+        fprintf(f, "    },\n");
+    }
+    fprintf(f, "};\n");
 }
 
 static void fprint_trainers(const char *output_path, FILE *f, struct Parsed *parsed)
@@ -2170,7 +2365,7 @@ static void fprint_trainers(const char *output_path, FILE *f, struct Parsed *par
 
 static void usage(FILE *file, char *argv0)
 {
-    fprintf(file, "Usage: %s -o <output> <source>\n", argv0);
+    fprintf(file, "Usage: %s [-f trainers|bingo-data|bingo-constants] -o <output> <source>\n", argv0);
 }
 
 int main(int argc, char *argv[])
@@ -2183,16 +2378,31 @@ int main(int argc, char *argv[])
         .default_ivs = { 31, 31, 31, 31, 31, 31 },
         .default_level = 100,
     };
+    enum OutputFormat output_format = OUTPUT_TRAINERS;
 
     const char *source_path = NULL;
     const char *output_path = NULL;
     const char *real_source_path = NULL;
 
     int opt;
-    while ((opt = getopt(argc, argv, "i:o:")) != -1)
+    while ((opt = getopt(argc, argv, "f:i:o:")) != -1)
     {
         switch (opt)
         {
+        case 'f':
+            if (strcmp(optarg, "trainers") == 0)
+                output_format = OUTPUT_TRAINERS;
+            else if (strcmp(optarg, "bingo-data") == 0)
+                output_format = OUTPUT_BINGO_DATA;
+            else if (strcmp(optarg, "bingo-constants") == 0)
+                output_format = OUTPUT_BINGO_CONSTANTS;
+            else
+            {
+                fprintf(stderr, "unknown output format '%s'\n", optarg);
+                usage(stderr, argv[0]);
+                goto exit;
+            }
+            break;
         case 'i':
             real_source_path = optarg;
             break;
@@ -2284,7 +2494,7 @@ int main(int argc, char *argv[])
         .location = { .line = 1, .column = 1 },
         .offset = 0,
     };
-    parse(&parser, &parsed);
+    parse(&parser, &parsed, output_format != OUTPUT_TRAINERS);
     if (parser.fatal_error)
     {
         goto exit;
@@ -2292,7 +2502,7 @@ int main(int argc, char *argv[])
 
     if (strcmp(output_path, "-") == 0)
     {
-        source_file = stdout;
+        output_file = stdout;
         output_path = "<stdout>";
     }
     else
@@ -2304,7 +2514,18 @@ int main(int argc, char *argv[])
             goto exit;
         }
     }
-    fprint_trainers(output_path, output_file, &parsed);
+    switch (output_format)
+    {
+    case OUTPUT_TRAINERS:
+        fprint_trainers(output_path, output_file, &parsed);
+        break;
+    case OUTPUT_BINGO_DATA:
+        fprint_bingo_data(output_file, &parsed);
+        break;
+    case OUTPUT_BINGO_CONSTANTS:
+        fprint_bingo_constants(output_file, &parsed);
+        break;
+    }
 
     status = 0;
 
