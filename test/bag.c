@@ -1,10 +1,12 @@
 #include "global.h"
 #include "battle.h"
 #include "event_data.h"
+#include "item_use.h"
 #include "item_menu.h"
 #include "pokemon.h"
 #include "test/overworld_script.h"
 #include "test/test.h"
+#include "constants/layouts.h"
 
 TEST("TMs and HMs are sorted correctly in the bag")
 {
@@ -162,4 +164,28 @@ TEST("Items are correctly sorted and compacted in the bag")
     EXPECT_EQ(pocket->itemSlots[4].itemId, ITEM_NONE);
     EXPECT_EQ(pocket->itemSlots[5].itemId, ITEM_NONE);
     EXPECT_EQ(pocket->itemSlots[6].itemId, ITEM_NONE);
+}
+
+TEST("Infinite Repel can be used outside the Battle Pyramid")
+{
+    u16 oldLayoutId = gMapHeader.mapLayoutId;
+    bool8 canUse;
+
+    gMapHeader.mapLayoutId = LAYOUT_LITTLEROOT_TOWN;
+    canUse = CanUseInfiniteRepel();
+    gMapHeader.mapLayoutId = oldLayoutId;
+
+    EXPECT(canUse);
+}
+
+TEST("Infinite Repel cannot be used in the Battle Pyramid")
+{
+    u16 oldLayoutId = gMapHeader.mapLayoutId;
+    bool8 canUse;
+
+    gMapHeader.mapLayoutId = LAYOUT_BATTLE_FRONTIER_BATTLE_PYRAMID_FLOOR;
+    canUse = CanUseInfiniteRepel();
+    gMapHeader.mapLayoutId = oldLayoutId;
+
+    EXPECT(!canUse);
 }

@@ -1114,9 +1114,13 @@ static void BagAction_UseOnField(u8 taskId)
         FillWindowPixelBuffer(WIN_INFO, PIXEL_FILL(0));
         ScheduleBgCopyTilemapToVram(0);
         GetItemFieldFunc(gSpecialVar_ItemId)(taskId);
+        return;
     }
-    CloseMenuActionWindow();
-    DisplayItemMessageInBattlePyramid(taskId, gText_DadsAdvice, Task_CloseBattlePyramidBagMessage);
+    else
+    {
+        CloseMenuActionWindow();
+        DisplayItemMessageInBattlePyramid(taskId, gText_DadsAdvice, Task_CloseBattlePyramidBagMessage);
+    }
 }
 
 static void BagAction_Cancel(u8 taskId)

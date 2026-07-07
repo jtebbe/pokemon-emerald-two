@@ -795,29 +795,45 @@ void ItemUseOutOfBattle_PowderJar(u8 taskId)
     }
 }
 
+bool8 CanUseInfiniteRepel(void)
+{
+    return CurrentBattlePyramidLocation() == PYRAMID_LOCATION_NONE;
+}
+
 void ItemUseOutOfBattle_InfiniteRepel(u8 taskId)
 {
     bool8 infiniteRepelOn = FlagGet(OW_FLAG_NO_ENCOUNTER);
+
+    if (!CanUseInfiniteRepel())
+    {
+        ItemUseOutOfBattle_CannotUse(taskId);
+        return;
+    }
+
     if (!infiniteRepelOn)
     {
         FlagToggle(OW_FLAG_NO_ENCOUNTER);
         PlaySE(SE_REPEL);
-        if(gTasks[taskId].tUsingRegisteredKeyItem){
+        if (gTasks[taskId].tUsingRegisteredKeyItem)
+        {
             DisplayItemMessageOnField(taskId, gText_InfiniteRepelOn, Task_CloseCantUseKeyItemMessage);
         }
-        else{
-            DisplayItemMessage(taskId, 1, gText_InfiniteRepelOn, CloseItemMessage);
+        else
+        {
+            DisplayItemMessage(taskId, FONT_NORMAL, gText_InfiniteRepelOn, CloseItemMessage);
         }
     }
     else
     {
         FlagToggle(OW_FLAG_NO_ENCOUNTER);
         PlaySE(SE_PC_OFF);
-        if (gTasks[taskId].tUsingRegisteredKeyItem){
+        if (gTasks[taskId].tUsingRegisteredKeyItem)
+        {
             DisplayItemMessageOnField(taskId, gText_InfiniteRepelOff, Task_CloseCantUseKeyItemMessage);
         }
-        else{
-            DisplayItemMessage(taskId, 1, gText_InfiniteRepelOff, CloseItemMessage);
+        else
+        {
+            DisplayItemMessage(taskId, FONT_NORMAL, gText_InfiniteRepelOff, CloseItemMessage);
         }
     }
 }

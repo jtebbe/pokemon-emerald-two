@@ -5706,6 +5706,16 @@ static bool32 HandleMoveEndAbilityBlock(u32 battlerAtk, u32 battlerDef, u32 move
             }
         }
         break;
+    case ABILITY_ECHOING_CHIMES:
+        if (IsSoundMove(move)
+        &&  IsBattlerAlive(battlerAtk)) {
+            SET_STATCHANGER(STAT_SPATK, 2, FALSE);
+            BattleScriptCall(BattleScript_AttackerAbilityStatRaise);
+            effect = TRUE;
+            break;
+        }
+        effect = FALSE;
+        break;
     case ABILITY_MOXIE:
     case ABILITY_CHILLING_NEIGH:
     case ABILITY_AS_ONE_ICE_RIDER:
@@ -9518,7 +9528,7 @@ u32 IsFlowerVeilProtected(u32 battler)
 
 u32 IsLeafGuardProtected(u32 battler, enum Ability ability)
 {
-    if (IsBattlerWeatherAffected(battler, B_WEATHER_SUN))
+    if (IsBattlerWeatherAffected(GetBattlerHoldEffect(battler), GetWeather(), B_WEATHER_SUN))
         return ability == ABILITY_LEAF_GUARD;
     else
         return 0;
@@ -9968,7 +9978,7 @@ static void Cmd_trysetrest(void)
     enum Ability ability = GetBattlerAbility(gBattlerTarget);
     enum HoldEffect holdEffect = GetBattlerHoldEffect(gBattlerTarget);
 
-    if (IsBattlerTerrainAffected(gBattlerTarget, ability, holdEffect, STATUS_FIELD_ELECTRIC_TERRAIN))
+    if (IsBattlerTerrainAffected(gBattlerTarget, ability, holdEffect, STATUS_FIELD_ELECTRIC_TERRAIN) || GetBattlerAbility(gBattlerTarget) == ABILITY_STORMBREAKER)
     {
         gBattlescriptCurrInstr = BattleScript_ElectricTerrainPrevents;
     }
@@ -10286,7 +10296,7 @@ static u32 ChangeStatBuffs(u32 battler, s8 statValue, enum Stat statId, union St
     battlerHoldEffect = GetBattlerHoldEffect(battler);
     gSpecialStatuses[battler].changedStatsBattlerId = gBattlerAttacker;
 
-    if (battlerAbility == ABILITY_CONTRARY)
+    if (battlerAbility == ABILITY_CONTRARY || battlerAbility == ABILITY_CONTRARIAN)
     {
         statValue ^= STAT_BUFF_NEGATIVE;
         if (!flags.onlyChecking)
@@ -10297,7 +10307,7 @@ static u32 ChangeStatBuffs(u32 battler, s8 statValue, enum Stat statId, union St
                 gBattleScripting.moveEffect = ReverseStatChangeMoveEffect(gBattleScripting.moveEffect);
         }
     }
-    else if (battlerAbility == ABILITY_SIMPLE && !flags.onlyChecking)
+    else if ((battlerAbility == ABILITY_SIMPLE || battlerAbility == ABILITY_CONTRARIAN) && !flags.onlyChecking)
     {
         statValue = (SET_STAT_BUFF_VALUE(GET_STAT_BUFF_VALUE(statValue) * 2)) | ((statValue <= -1) ? STAT_BUFF_NEGATIVE : 0);
         RecordAbilityBattle(battler, battlerAbility);
@@ -12360,19 +12370,20 @@ static void Cmd_recoverbasedonsunlight(void)
     if (gBattleMons[gBattlerAttacker].hp != gBattleMons[gBattlerAttacker].maxHP)
     {
         s32 recoverAmount = 0;
+        u32 weather = GetAttackerWeather(GetBattlerHoldEffect(gBattlerAttacker), GetBattlerAbility(gBattlerAttacker), GetWeather());
         if (GetMoveEffect(gCurrentMove) == EFFECT_SHORE_UP)
         {
-            if (HasWeatherEffect() && gBattleWeather & B_WEATHER_SANDSTORM)
+            if (weather & B_WEATHER_SANDSTORM)
                 recoverAmount = 20 * GetNonDynamaxMaxHP(gBattlerAttacker) / 30;
             else
                 recoverAmount = GetNonDynamaxMaxHP(gBattlerAttacker) / 2;
         }
         else if (GetConfig(CONFIG_TIME_OF_DAY_HEALING_MOVES) != GEN_2)
         {
-            if (!(gBattleWeather & B_WEATHER_ANY) || !HasWeatherEffect() || GetBattlerHoldEffect(gBattlerAttacker) == HOLD_EFFECT_UTILITY_UMBRELLA)
-                recoverAmount = GetNonDynamaxMaxHP(gBattlerAttacker) / 2;
-            else if (gBattleWeather & B_WEATHER_SUN)
+            if (weather & B_WEATHER_SUN)
                 recoverAmount = 20 * GetNonDynamaxMaxHP(gBattlerAttacker) / 30;
+            else if (!(gBattleWeather & B_WEATHER_ANY) || !HasWeatherEffect() || GetBattlerHoldEffect(gBattlerAttacker) == HOLD_EFFECT_UTILITY_UMBRELLA)
+                recoverAmount = GetNonDynamaxMaxHP(gBattlerAttacker) / 2;
             else // not sunny weather
                 recoverAmount = GetNonDynamaxMaxHP(gBattlerAttacker) / 4;
         }
@@ -12401,10 +12412,10 @@ static void Cmd_recoverbasedonsunlight(void)
                 break;
             }
 
-            if (!(gBattleWeather & B_WEATHER_ANY) || !HasWeatherEffect() || GetBattlerHoldEffect(gBattlerAttacker) == HOLD_EFFECT_UTILITY_UMBRELLA)
-                recoverAmount = healingModifier * GetNonDynamaxMaxHP(gBattlerAttacker) / 4;
-            else if (gBattleWeather & B_WEATHER_SUN)
+            if (weather & B_WEATHER_SUN)
                 recoverAmount = healingModifier * GetNonDynamaxMaxHP(gBattlerAttacker) / 2;
+            else if (!(gBattleWeather & B_WEATHER_ANY) || !HasWeatherEffect() || GetBattlerHoldEffect(gBattlerAttacker) == HOLD_EFFECT_UTILITY_UMBRELLA)
+                recoverAmount = healingModifier * GetNonDynamaxMaxHP(gBattlerAttacker) / 4;
             else // not sunny weather
                 recoverAmount = healingModifier * GetNonDynamaxMaxHP(gBattlerAttacker) / 8;
 
@@ -12522,12 +12533,12 @@ static bool32 CheckIfCanFireTwoTurnMoveNow(u8 battler, bool8 checkChargeTurnEffe
     if (gCurrentMove == MOVE_METEOR_BEAM && gFieldStatuses & STATUS_FIELD_GRAVITY)
         return TRUE;
     
-    if ((gCurrentMove == MOVE_FLY || gCurrentMove == MOVE_SKY_ATTACK) && gSideStatuses[GetBattlerSide(battler)] & SIDE_STATUS_TAILWIND)
+    if ((gCurrentMove == MOVE_FLY || gCurrentMove == MOVE_SKY_ATTACK) && gSideStatuses[GetBattlerSide(gBattlerAttacker)] & SIDE_STATUS_TAILWIND)
         return TRUE;
 
     // Certain two-turn moves may fire on the first turn in the right weather (Solar Beam, Electro Shot)
     // By default, all two-turn moves have the option of adding weather to their argument
-    if (IsBattlerWeatherAffected(battler, GetMoveTwoTurnAttackWeather(gCurrentMove)))
+    if (GetAttackerWeather(GetBattlerHoldEffect(gBattlerAttacker), GetBattlerAbility(gBattlerAttacker), GetWeather()) & GetMoveTwoTurnAttackWeather(gCurrentMove))
         return TRUE;
 
     return FALSE;
@@ -12949,7 +12960,7 @@ static void Cmd_setyawn(void)
     {
         gBattlescriptCurrInstr = cmd->failInstr;
     }
-    else if (IsBattlerTerrainAffected(gBattlerTarget, ability, holdEffect, STATUS_FIELD_ELECTRIC_TERRAIN))
+    else if (IsBattlerTerrainAffected(gBattlerTarget, ability, holdEffect, STATUS_FIELD_ELECTRIC_TERRAIN) || GetBattlerAbility(gBattlerTarget) == ABILITY_STORMBREAKER)
     {
         // When Yawn is used while Electric Terrain is set and drowsiness is set from Yawn being used against target in the previous turn:
         // "But it failed" will display first.
@@ -16113,7 +16124,7 @@ void BS_TrySpectralThiefSteal(void)
         return;
     }
 
-    bool32 contrary = GetBattlerAbility(gBattlerAttacker) == ABILITY_CONTRARY;
+    bool32 contrary = (GetBattlerAbility(gBattlerAttacker) == ABILITY_CONTRARY || GetBattlerAbility(gBattlerAttacker) == ABILITY_CONTRARIAN);
     gBattleStruct->stolenStats[0] = 0; // Stats to steal.
     gBattleScripting.animArg1 = 0;
     for (enum Stat stat = STAT_ATK; stat < NUM_BATTLE_STATS; stat++)
@@ -18074,7 +18085,7 @@ void BS_JumpIfWeatherAffected(void)
 {
     NATIVE_ARGS(u16 flags, const u8 *jumpInstr);
     u32 weather = cmd->flags;
-    if (IsBattlerWeatherAffected(gBattlerAttacker, weather))
+    if (GetAttackerWeather(GetBattlerHoldEffect(gBattlerAttacker), GetBattlerAbility(gBattlerAttacker), GetWeather()) & weather)
         gBattlescriptCurrInstr = cmd->jumpInstr;
     else
         gBattlescriptCurrInstr = cmd->nextInstr;

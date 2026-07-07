@@ -6820,6 +6820,13 @@ BattleScript_RagebaiterActivates::
 	waitanimation
 	end3
 
+BattleScript_MagicWindsActivates::
+	pause B_WAIT_TIME_SHORT
+	call BattleScript_AbilityPopUp
+	printstring STRINGID_ATAILWINDBLEW
+	waitstate
+	end3
+
 BattleScript_ActivateWeatherAbilities:
 	saveattacker
 	savetarget

@@ -1455,14 +1455,14 @@ Music: Aqua
 Battle Type: Doubles
 AI: Smart Trainer
 
-Absol @ Absolite  
+Absol @ Absolite Z  
 Ability: Defiant  
 EVs: 252 Atk / 4 SpD / 252 Spe  
 Jolly Nature  
 - Night Slash  
 - Close Combat  
-- Play Rough  
-- Hone Claws
+- Shadow Claw  
+- Protect
 
 Illumise (F) @ Covert Cloak  
 Ability: Prankster    
@@ -9163,15 +9163,15 @@ Tags: Mega
 - Crunch  
 - Protect
 
-Absol @ Absolite  
+Absol @ Absolite Z
 Ability: Defiant  
 EVs: 252 Atk / 4 SpD / 252 Spe  
 Jolly Nature  
 Tags: Mega
-- Knock Off  
-- Play Rough  
+- Night Slash  
+- Shadow Claw  
 - Protect  
-- Sucker Punch
+- Sacred Sword
 
 === TRAINER_PHOEBE ===
 Name: PHOEBE
@@ -13949,14 +13949,14 @@ IVs: 0 Atk
 - Reflect  
 - Foul Play
 
-Absol @ Absolite  
+Absol @ Absolite Z
 Ability: Defiant  
 EVs: 252 Atk / 4 SpD / 252 Spe  
 Jolly Nature  
 Tags: Mega
-- Sucker Punch  
-- Knock Off  
-- Play Rough  
+- Sacred Sword 
+- Night Slash  
+- Shadow Claw  
 - Detect
 
 Aerodactyl @ Aerodactylite  
@@ -23109,12 +23109,12 @@ Jolly Nature
 
 Absol @ Absolite  
 Ability: Justified   
-EVs: 252 Atk / 4 SpD / 252 Spe  
-Jolly Nature  
-- Sucker Punch  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+- Moonblast  
 - Protect  
-- Play Rough  
-- Close Combat
+- Dark Pulse  
+- Ice Beam
 
 Melmetal @ Assault Vest  
 Ability: Iron Fist  
@@ -38318,15 +38318,15 @@ Tags: Mega
 - Psychic Fangs  
 - Liquidation
 
-Absol @ Absolite  
-Ability: Pressure  
+Absol @ Absolite Z
+Ability: Defiant  
 EVs: 252 Atk / 4 SpD / 252 Spe  
 Jolly Nature  
 Tags: Mega
-- Sucker Punch  
-- Play Rough  
-- Swords Dance  
-- Rock Slide
+- Shadow Claw  
+- Night Slash  
+- Sacred Sword  
+- Psycho Cut
 
 === TRAINER_PHOEBE_REMATCH ===
 Name: PHOEBE

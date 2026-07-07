@@ -8,7 +8,7 @@ Agartha_Kalos_EventScript_Zygarde::
 	msgbox Agartha_Kalos_Text_Zygarde, MSGBOX_AUTOCLOSE
 	delay 40
 	waitmoncry
-	setwildbattle SPECIES_ZYGARDE, 70
+	setwildbattle SPECIES_ZYGARDE_50_POWER_CONSTRUCT, 70
 	setflag FLAG_SYS_CTRL_OBJ_DELETE
 	special BattleSetup_StartLegendaryBattle
 	waitstate

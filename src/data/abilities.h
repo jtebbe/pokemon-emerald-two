@@ -2744,4 +2744,60 @@ const struct AbilityInfo gAbilitiesInfo[ABILITIES_COUNT] =
         .description = COMPOUND_STRING("Para and dmg on contact."),
         .aiRating = 4,
     },
+
+    [ABILITY_MEGA_SOL] =
+    {
+        .name = _("Mega Sol"),
+        .description = COMPOUND_STRING("Acts like under sun."),
+        .aiRating = 2,
+    },
+
+    [ABILITY_DRAGONIZE] =
+    {
+        .name = _("Dragonize"),
+        .description = COMPOUND_STRING("Moves become dragon."),
+        .aiRating = 6,
+    },
+
+    [ABILITY_SPICY_SPRAY] = {
+        .name = _("Spicy Spray"),
+        .description = COMPOUND_STRING("Burns attackers."),
+        .aiRating = 8,
+    },
+
+    [ABILITY_PIERCING_DRILL] = {
+        .name = _("Piercing Drill"),
+        .description = COMPOUND_STRING("Bypasses Protect."),
+        .aiRating = 6,
+    },
+
+    [ABILITY_STORMBREAKER] {
+        .name = _("Stormbreaker"),
+        .description = COMPOUND_STRING("Acts like under storm."),
+        .aiRating = 4,
+    },
+
+    [ABILITY_CHLOROTOXIN] = {
+        .name = _("Chlorotoxin"),
+        .description = COMPOUND_STRING("Sun boosts toxins + speed."),
+        .aiRating = 2,
+    },
+
+    [ABILITY_MAGIC_WINDS] = {
+        .name = _("Magic Winds"),
+        .description = COMPOUND_STRING("Serene Grace + Tailwind."),
+        .aiRating = 8,
+    },
+
+    [ABILITY_ECHOING_CHIMES] = {
+        .name = _("Echoing Chimes"),
+        .description = COMPOUND_STRING("Raises SpAtk using sounds."),
+        .aiRating = 1,
+    },
+
+    [ABILITY_CONTRARIAN] = {
+        .name = _("Contrarian"),
+        .description = COMPOUND_STRING("Contrary + Simple."),
+        .aiRating = 3,
+    },
 };

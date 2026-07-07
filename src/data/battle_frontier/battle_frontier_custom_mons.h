@@ -11193,7 +11193,7 @@ const struct TrainerMon gCustomBattleFrontierMons[NUM_CUSTOM_FRONTIER_MONS] = {
     },
     [CUSTOM_FRONTIER_MON_MEGA_ABSOL_GENERIC_1] = {
         .species = SPECIES_ABSOL,
-        .heldItem = ITEM_ABSOLITE,
+        .heldItem = ITEM_ABSOLITE_Z,
         .ability = ABILITY_DEFIANT,
         .ev = TRAINER_PARTY_EVS(0, 252, 0, 252, 0, 4),
         .nature = NATURE_JOLLY,
@@ -11202,7 +11202,7 @@ const struct TrainerMon gCustomBattleFrontierMons[NUM_CUSTOM_FRONTIER_MONS] = {
     },
     [CUSTOM_FRONTIER_MON_MEGA_ABSOL_GENERIC_2] = {
         .species = SPECIES_ABSOL,
-        .heldItem = ITEM_ABSOLITE,
+        .heldItem = ITEM_ABSOLITE_Z,
         .ability = ABILITY_DEFIANT,
         .ev = TRAINER_PARTY_EVS(0, 252, 0, 252, 0, 4),
         .nature = NATURE_JOLLY,

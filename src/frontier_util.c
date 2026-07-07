@@ -63,6 +63,8 @@ struct FrontierBrain
     u8 streakAppearances[4];
 };
 
+#define FRONTIER_BRAIN_MAX_PARTY_SIZE FRONTIER_DOUBLES_PARTY_SIZE
+
 // This file's functions.
 static void GetChallengeStatus(void);
 static void GetFrontierData(void);
@@ -99,6 +101,7 @@ static void CopyFrontierBrainText(bool8 playerWonText);
 static u16 *MakeCaughtBannesSpeciesList(u32 totalBannedSpecies);
 static void PrintBannedSpeciesName(u8 windowId, u32 itemId, u8 y);
 static void Task_BannedSpeciesWindowInput(u8 taskId);
+static u8 GetFrontierBrainPartySize(u8 facility, u8 requestedPartySize);
 
 // battledBit: Flags to change the conversation when the Frontier Brain is encountered for a battle
 // First bit is has battled them before and not won yet, second bit is has battled them and won (obtained a Symbol)
@@ -254,7 +257,7 @@ const struct FrontierBrain gFrontierBrainInfo[NUM_FRONTIER_FACILITIES] =
     },
 };
 
-static const struct FrontierBrainMon sFrontierBrainsMons[][2][FRONTIER_PARTY_SIZE] =
+static const struct FrontierBrainMon sFrontierBrainsMons[][2][FRONTIER_BRAIN_MAX_PARTY_SIZE] =
 {
     [FRONTIER_FACILITY_TOWER] =
     {
@@ -288,6 +291,16 @@ static const struct FrontierBrainMon sFrontierBrainsMons[][2][FRONTIER_PARTY_SIZ
                 .iv = TRAINER_PARTY_IVS(31, 0, 31, 31, 31, 31),
                 .moves = {MOVE_EXPANDING_FORCE, MOVE_PROTECT, MOVE_NASTY_PLOT, MOVE_DAZZLING_GLEAM}
             },
+            {
+                .species = SPECIES_METAGROSS,
+                .heldItem = ITEM_LIFE_ORB,
+                .ability = ABILITY_CLEAR_BODY,
+                .teraType = TYPE_STEEL,
+                .ev = TRAINER_PARTY_EVS(252, 252, 0, 0, 0, 4),
+                .nature = NATURE_ADAMANT,
+                .moves = {MOVE_METEOR_MASH, MOVE_ZEN_HEADBUTT, MOVE_EARTHQUAKE, MOVE_PROTECT},
+                .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31)
+            },
         },
         // Gold Symbol.
         {
@@ -318,6 +331,15 @@ static const struct FrontierBrainMon sFrontierBrainsMons[][2][FRONTIER_PARTY_SIZ
                 .nature = NATURE_JOLLY,
                 .moves = {MOVE_TRIPLE_AXEL, MOVE_CLOSE_COMBAT, MOVE_LUNGE, MOVE_THROAT_CHOP},
                 .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31)
+            },
+            {
+                .species = SPECIES_LATIOS,
+                .heldItem = ITEM_SOUL_DEW,
+                .ability = ABILITY_LEVITATE,
+                .ev = TRAINER_PARTY_EVS(0, 0, 0, 252, 252, 4),
+                .nature = NATURE_TIMID,
+                .iv = TRAINER_PARTY_IVS(31, 0, 31, 31, 31, 31),
+                .moves = {MOVE_DRACO_METEOR, MOVE_PSYCHIC, MOVE_AURA_SPHERE, MOVE_PROTECT}
             },
         },
     },
@@ -2622,7 +2644,14 @@ void SetFrontierBrainObjEventGfx_2(void)
 
 #define FRONTIER_BRAIN_OTID 61226
 
-void CreateFrontierBrainPokemon(void)
+static u8 GetFrontierBrainPartySize(u8 facility, u8 requestedPartySize)
+{
+    if (facility == FRONTIER_FACILITY_TOWER && requestedPartySize >= FRONTIER_DOUBLES_PARTY_SIZE)
+        return FRONTIER_DOUBLES_PARTY_SIZE;
+    return FRONTIER_PARTY_SIZE;
+}
+
+void CreateFrontierBrainPokemon(u8 requestedPartySize)
 {
     s32 i, j;
     s32 selectedMonBits;
@@ -2630,17 +2659,18 @@ void CreateFrontierBrainPokemon(void)
     s32 monLevel = 0;
     s32 facility = VarGet(VAR_FRONTIER_FACILITY);
     s32 symbol = GetFronterBrainSymbol();
+    s32 partySize = GetFrontierBrainPartySize(facility, requestedPartySize);
     enum Ability ability;
 
     if (facility == FRONTIER_FACILITY_DOME)
         selectedMonBits = GetDomeTrainerSelectedMons(TrainerIdToDomeTournamentId(TRAINER_FRONTIER_BRAIN));
     else
-        selectedMonBits = (1 << FRONTIER_PARTY_SIZE) - 1; // all 3 mons selected
+        selectedMonBits = (1 << partySize) - 1;
 
     ZeroEnemyPartyMons();
     monPartyId = 0;
     monLevel = SetFacilityPtrsGetLevel();
-    for (i = 0; i < FRONTIER_PARTY_SIZE; selectedMonBits >>= 1, i++)
+    for (i = 0; i < partySize; selectedMonBits >>= 1, i++)
     {
         if (!(selectedMonBits & 1))
             continue;

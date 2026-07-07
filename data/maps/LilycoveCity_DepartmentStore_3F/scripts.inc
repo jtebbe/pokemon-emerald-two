@@ -27,20 +27,6 @@ LilycoveCity_DepartmentStore_3F_Pokemart_Vitamins:
 	.2byte ITEM_SNOWBALL
 	.2byte ITEM_SPELL_TAG
 	.2byte ITEM_FLOAT_STONE
-	pokemartlistend
-
-LilycoveCity_DepartmentStore_3F_EventScript_ClerkRight::
-	lock
-	faceplayer
-	message gText_HowMayIServeYou
-	waitmessage
-	pokemart LilycoveCity_DepartmentStore_3F_Pokemart_StatBoosters
-	msgbox gText_PleaseComeAgain, MSGBOX_DEFAULT
-	release
-	end
-
-	.align 2
-LilycoveCity_DepartmentStore_3F_Pokemart_StatBoosters:
 	.2byte ITEM_ABILITY_SHIELD
 	.2byte ITEM_BIG_ROOT
 	.2byte ITEM_BINDING_BAND
@@ -59,6 +45,65 @@ LilycoveCity_DepartmentStore_3F_Pokemart_StatBoosters:
 	.2byte ITEM_UTILITY_UMBRELLA
 	.2byte ITEM_ZOOM_LENS
 	.2byte ITEM_ADRENALINE_ORB
+	pokemartlistend
+
+LilycoveCity_DepartmentStore_3F_EventScript_ClerkRight::
+	lock
+	faceplayer
+	message gText_HowMayIServeYou
+	waitmessage
+	pokemart LilycoveCity_DepartmentStore_3F_Pokemart_StatBoosters
+	msgbox gText_PleaseComeAgain, MSGBOX_DEFAULT
+	release
+	end
+
+	.align 2
+LilycoveCity_DepartmentStore_3F_Pokemart_StatBoosters:
+	.2byte ITEM_CLEFABLITE
+	.2byte ITEM_VICTREEBELITE
+	.2byte ITEM_STARMINITE
+	.2byte ITEM_DRAGONINITE
+	.2byte ITEM_MEGANIUMITE
+	.2byte ITEM_FERALIGITE
+	.2byte ITEM_SKARMORITE
+	.2byte ITEM_FROSLASSITE
+	.2byte ITEM_EMBOARITE
+	.2byte ITEM_EXCADRITE
+	.2byte ITEM_SCOLIPITE
+	.2byte ITEM_SCRAFTINITE
+	.2byte ITEM_EELEKTROSSITE
+	.2byte ITEM_CHANDELURITE
+	.2byte ITEM_CHESNAUGHTITE
+	.2byte ITEM_DELPHOXITE
+	.2byte ITEM_GRENINJITE
+	.2byte ITEM_PYROARITE
+	.2byte ITEM_FLOETTITE
+	.2byte ITEM_MALAMARITE
+	.2byte ITEM_BARBARACITE
+	.2byte ITEM_DRAGALGITE
+	.2byte ITEM_HAWLUCHANITE
+	.2byte ITEM_ZYGARDITE
+	.2byte ITEM_DRAMPANITE
+	.2byte ITEM_FALINKSITE
+	.2byte ITEM_HEATRANITE
+	.2byte ITEM_DARKRANITE
+	.2byte ITEM_ZERAORITE
+	.2byte ITEM_RAICHUNITE_X
+	.2byte ITEM_RAICHUNITE_Y
+	.2byte ITEM_CHIMECHITE
+	.2byte ITEM_ABSOLITE_Z
+	.2byte ITEM_STARAPTITE
+	.2byte ITEM_GARCHOMPITE_Z
+	.2byte ITEM_LUCARIONITE_Z
+	.2byte ITEM_GOLURKITE
+	.2byte ITEM_MEOWSTICITE
+	.2byte ITEM_CRABOMINITE
+	.2byte ITEM_GOLISOPITE
+	.2byte ITEM_MAGEARNITE
+	.2byte ITEM_SCOVILLAINITE
+	.2byte ITEM_BAXCALIBRITE
+	.2byte ITEM_TATSUGIRINITE
+	.2byte ITEM_GLIMMORANITE 
 	pokemartlistend
 
 LilycoveCity_DepartmentStore_3F_EventScript_TriathleteM::

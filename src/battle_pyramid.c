@@ -6,6 +6,7 @@
 #include "battle.h"
 #include "battle_setup.h"
 #include "battle_tower.h"
+#include "pokemon.h"
 #include "save.h"
 #include "strings.h"
 #include "fieldmap.h"
@@ -1421,6 +1422,11 @@ void GenerateBattlePyramidWildMon(void)
     {
         species = Random() % NUM_SPECIES;
 
+        // The random pool includes SPECIES_NONE, and placeholder species can
+        // pass broad filters like universal TMs unless explicitly skipped.
+        if (species == SPECIES_NONE || !IsSpeciesEnabled(species))
+            continue;
+
         // check if base species
         if (GET_BASE_SPECIES_ID(species) != species)
             continue;
@@ -1534,21 +1540,14 @@ void GenerateBattlePyramidWildMon(void)
     // Try to replace with desired ability
     if (abilities != NULL)
     {
-        i = 0;
-        while (1)
+        id = abilities[Random() % abilityCount];
+        for (j = 0; j < NUM_ABILITY_SLOTS; j++)
         {
-            id = abilities[Random() % abilityCount];
-            for (j = 0; j < NUM_ABILITY_SLOTS; j++)
+            if (id == GetSpeciesAbility(species, j))
             {
-                if (id == GetSpeciesAbility(species, j))
-                {
-                    // Set this ability num
-                    SetMonData(&gEnemyParty[0], MON_DATA_ABILITY_NUM, &id);
-                    break;
-                }
-            }
-            if (id >= NUM_ABILITY_SLOTS - 1)
+                SetMonData(&gEnemyParty[0], MON_DATA_ABILITY_NUM, &j);
                 break;
+            }
         }
         Free(abilities);
     }

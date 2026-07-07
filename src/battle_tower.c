@@ -1699,7 +1699,7 @@ static void FillTrainerParty(u16 trainerId, u8 firstMonId, u8 monCount)
     }
     else if (trainerId == TRAINER_FRONTIER_BRAIN)
     {
-        CreateFrontierBrainPokemon();
+        CreateFrontierBrainPokemon(monCount);
         return;
     }
     else if (trainerId < TRAINER_RECORD_MIXING_APPRENTICE)
