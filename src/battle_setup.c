@@ -652,6 +652,8 @@ enum BattleEnvironments BattleSetup_GetEnvironmentId(void)
         return BATTLE_ENVIRONMENT_BUILDING;
 
     switch (gMapHeader.mapLayoutId) {
+        case LAYOUT_AGARTHA_ENTRANCE:
+            return BATTLE_ENVIRONMENT_CAVE;
         case LAYOUT_RUSTBORO_CITY_GYM:
         case LAYOUT_DEWFORD_TOWN_GYM:
         case LAYOUT_MAUVILLE_CITY_GYM:

@@ -6146,18 +6146,24 @@ u16 GetBattleBGM(void)
         else
             trainerClass = GetTrainerClassFromId(TRAINER_BATTLE_PARAM.opponentA);
 
+        if (TRAINER_BATTLE_PARAM.opponentA == TRAINER_CLARK || TRAINER_BATTLE_PARAM.opponentA == TRAINER_CLARK_REMATCH)
+            return MUS_MEGALOVANIA;
+
         switch (trainerClass)
         {
         case TRAINER_CLASS_OCCULTIST:
+            return MUS_CAMEL_BY_CAMEL;
         case TRAINER_CLASS_JESTER:
+            return MUS_MIRROR_B_OG;
         case TRAINER_CLASS_KING:
+            return MUS_MOLGERA;
         case TRAINER_CLASS_SCRIBE:
         case TRAINER_CLASS_SLAYER:
         case TRAINER_CLASS_DOCTOR:
         case TRAINER_CLASS_SCOUT:
         case TRAINER_CLASS_AGARTHAN_PSYCHIC:
         case TRAINER_CLASS_SAGE:
-            return MUS_VS_FRONTIER_BRAIN;
+            return MUS_CIPHER_ADMIN_BATTLE;
         case TRAINER_CLASS_AQUA_LEADER:
         case TRAINER_CLASS_MAGMA_LEADER:
             return MUS_VS_AQUA_MAGMA_LEADER;

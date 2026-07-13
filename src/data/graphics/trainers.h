@@ -304,6 +304,9 @@ const u16 gTrainerPalette_AgarthanScout[] = INCBIN_U16("graphics/trainers/front_
 const u32 gTrainerFrontPic_AgarthanOccultist[] = INCBIN_U32("graphics/trainers/front_pics/agarthan_occultist.4bpp.smol");
 const u16 gTrainerPalette_AgarthanOccultist[] = INCBIN_U16("graphics/trainers/front_pics/agarthan_occultist.gbapal");
 
+const u32 gTrainerFrontPic_AgarthanKing[] = INCBIN_U32("graphics/trainers/front_pics/agarthan_king.4bpp.smol");
+const u16 gTrainerPalette_AgarthanKing[] = INCBIN_U16("graphics/trainers/front_pics/agarthan_king.gbapal");
+
 const u32 gTrainerFrontPic_Clark[] = INCBIN_U32("graphics/trainers/front_pics/clark.4bpp.smol");
 const u16 gTrainerPalette_Clark[] = INCBIN_U16("graphics/trainers/front_pics/clark.gbapal");
 
@@ -421,6 +424,7 @@ const struct TrainerSprite gTrainerSprites[] =
     TRAINER_SPRITE(TRAINER_PIC_CLARK, gTrainerFrontPic_Clark, gTrainerPalette_Clark),
     TRAINER_SPRITE(TRAINER_PIC_AGARTHAN_SCOUT, gTrainerFrontPic_AgarthanScout, gTrainerPalette_AgarthanScout),
     TRAINER_SPRITE(TRAINER_PIC_AGARTHAN_OCCULTIST, gTrainerFrontPic_AgarthanOccultist, gTrainerPalette_AgarthanOccultist),
+    TRAINER_SPRITE(TRAINER_PIC_AGARTHAN_KING, gTrainerFrontPic_AgarthanKing, gTrainerPalette_AgarthanKing),
 };
 
 static const union AnimCmd sAnimCmd_Hoenn[] =

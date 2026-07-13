@@ -2,7 +2,7 @@
   "id": "MAP_DRILBUR_CAVE",
   "name": "DrilburCave",
   "layout": "LAYOUT_DRILBUR_CAVE",
-  "music": "MUS_ABANDONED_SHIP",
+  "music": "MUS_GAIA_GATE",
   "region_map_section": "MAPSEC_DRILBUR_CAVE",
   "requires_flash": false,
   "weather": "WEATHER_NONE",

@@ -1820,6 +1820,18 @@ extern const u32 gItemIcon_LustrousGlobe[];
 extern const u16 gItemIconPalette_LustrousGlobe[];
 extern const u32 gItemIcon_BerserkGene[];
 extern const u16 gItemIconPalette_BerserkGene[];
+extern const u32 gItemIcon_PuzzleBox[];
+extern const u16 gItemIconPalette_PuzzleBox[];
+extern const u32 gItemIcon_Crowbar[];
+extern const u16 gItemIconPalette_Crowbar[];
+extern const u32 gItemIcon_StrangeAmulet[];
+extern const u16 gItemIconPalette_StrangeAmulet[];
+extern const u32 gItemIcon_GlassArmor[];
+extern const u16 gItemIconPalette_GlassArmor[];
+extern const u32 gItemIcon_Thesaurus[];
+extern const u16 gItemIconPalette_Thesaurus[];
+extern const u32 gItemIcon_Paintbrush[];
+extern const u16 gItemIconPalette_Paintbrush[];
 
 extern const u32 gItemIcon_FairyFeather[];
 extern const u16 gItemIconPalette_FairyFeather[];

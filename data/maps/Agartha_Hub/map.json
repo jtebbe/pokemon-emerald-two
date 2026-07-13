@@ -2,7 +2,7 @@
   "id": "MAP_AGARTHA_HUB",
   "name": "Agartha_Hub",
   "layout": "LAYOUT_AGARTHA_HUB",
-  "music": "MUS_CAVE_OF_ORIGIN",
+  "music": "MUS_CORRIDORS_OF_TIME",
   "region_map_section": "MAPSEC_AGARTHA",
   "requires_flash": false,
   "weather": "WEATHER_NONE",

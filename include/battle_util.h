@@ -128,6 +128,7 @@ enum MoveSuccessOrder
     CANCELER_POWDER_STATUS,
     CANCELER_PRIORITY_BLOCK,
     CANCELER_PROTEAN,
+    CANCELER_PAINTBRUSH,
     CANCELER_EXPLODING_DAMP,
     CANCELER_MULTIHIT_MOVES,
     CANCELER_MULTI_TARGET_MOVES,
@@ -282,6 +283,7 @@ u32 IsAbilityPreventingEscape(u32 battler);
 bool32 IsBattlerProtected(u32 battlerAtk, u32 battlerDef, u32 move);
 u32 GetProtectType(enum ProtectMethod method);
 bool32 CanBattlerEscape(u32 battler); // no ability check
+bool32 CanGhostTypeAlwaysEscape(u32 battler);
 void BattleScriptExecute(const u8 *BS_ptr);
 void BattleScriptPushCursorAndCallback(const u8 *BS_ptr);
 void ClearVariousBattlerFlags(u32 battler);
@@ -335,6 +337,9 @@ u32 TryImmunityAbilityHealStatus(u32 battler, enum AbilityEffect caseID);
 bool32 ShouldGetStatBadgeBoost(u16 flagId, u32 battler);
 uq4_12_t GetBadgeBoostModifier(void);
 enum DamageCategory GetBattleMoveCategory(u32 move);
+enum DamageCategory GetBattlerBattleMoveCategory(u32 battler, u32 move);
+bool32 IsBattlerBattleMovePhysical(u32 battler, u32 move);
+bool32 IsBattlerBattleMoveSpecial(u32 battler, u32 move);
 void SetDynamicMoveCategory(u32 battlerAtk, u32 battlerDef, u32 move);
 bool32 CanFling(u32 battler);
 bool32 IsTelekinesisBannedSpecies(u16 species);
@@ -444,5 +449,7 @@ bool32 IsDazzlingAbility(enum Ability ability);
 bool32 IsAllowedToUseBag(void);
 bool32 IsAnyTargetTurnDamaged(u32 battlerAtk);
 bool32 IsMimikyuDisguised(u32 battler);
+bool32 IsMoveValidForThesaurus(u32 selectedMove, u32 candidateMove);
+u32 GetThesaurusMove(u32 selectedMove);
 
 #endif // GUARD_BATTLE_UTIL_H

@@ -13,5 +13,7 @@
 	.include "sound/music_player_table.inc"
 	.include "sound/song_table.inc"
 	.include "sound/direct_sound_data.inc"
+	.include "sound/custom_keysplit_tables.inc"
+	.include "sound/custom_voice_groups.inc"
 
 	.align 2

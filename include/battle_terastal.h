@@ -3,6 +3,7 @@
 
 void ActivateTera(u32 battler);
 void ApplyBattlerVisualsForTeraAnim(u32 battler);
+void ApplyBattlerTeraPalette(u32 battler, u32 paletteNum);
 bool32 CanTerastallize(u32 battler);
 enum Type GetBattlerTeraType(u32 battler);
 void ExpendTypeStellarBoost(u32 battler, enum Type type);

@@ -2,7 +2,7 @@
   "id": "MAP_ROUTE102_GROTTO",
   "name": "Route102_Grotto",
   "layout": "LAYOUT_ROUTE102_GROTTO",
-  "music": "MUS_PETALBURG_WOODS",
+  "music": "MUS_GAIA_GATE",
   "region_map_section": "MAPSEC_FOREST_GROTTO",
   "requires_flash": false,
   "weather": "WEATHER_SHADE",

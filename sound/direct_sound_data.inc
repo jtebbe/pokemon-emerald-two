@@ -6451,3 +6451,23 @@ DirectSoundWaveData_sd90_classical_whistle::
 	.align 2
 DirectSoundWaveData_sd90_enhanced_delay_shaku::
 	.incbin "sound/direct_sound_samples/sd90_enhanced_delay_shaku.bin"
+
+	.align 2
+DirectSoundWaveData_dp_altosax_c3_16::
+	.incbin "sound/direct_sound_samples/dp_altosax_c3_16.bin"
+
+	.align 2
+DirectSoundWaveData_hg_024clarie4::
+	.incbin "sound/direct_sound_samples/hg_024clarie4.bin"
+
+	.align 2
+DirectSoundWaveData_kawai_k1r_pan_flute_c5::
+	.incbin "sound/direct_sound_samples/kawai_k1r_pan_flute_c5.bin"
+
+	.align 2
+DirectSoundWaveData_megalovania_orchestra_cymbal_crash_quiet::
+	.incbin "sound/direct_sound_samples/megalovania_orchestra_cymbal_crash_quiet.bin"
+
+	.align 2
+DirectSoundWaveData_megalovania_open_hihat_quiet::
+	.incbin "sound/direct_sound_samples/megalovania_open_hihat_quiet.bin"

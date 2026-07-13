@@ -258,6 +258,7 @@ static const u8* const sBattleAnims_General[NUM_B_ANIMS_GENERAL] =
     [B_ANIM_GRAVITY]                = gBattleAnimGeneral_Gravity,
     [B_ANIM_SAFEGUARD]              = gBattleAnimGeneral_Safeguard,
     [B_ANIM_UPROAR]                 = gBattleAnimGeneral_Uproar,
+    [B_ANIM_GLASS_ARMOR_SPIKES]     = gBattleAnimGeneral_GlassArmorSpikes,
     [B_ANIM_SWAP_TO_SUBSTITUTE]     = gBattleAnimGeneral_SwapToSubstitute,
     [B_ANIM_SWAP_FROM_SUBSTITUTE]   = gBattleAnimGeneral_SwapFromSubstitute,
 };
@@ -366,6 +367,7 @@ void LaunchBattleAnimation(u32 animType, u32 animId)
         case B_ANIM_SEA_OF_FIRE:
         case B_ANIM_SWAMP:
         case B_ANIM_TERA_CHARGE:
+        case B_ANIM_GLASS_ARMOR_SPIKES:
             sAnimHideHpBoxes = TRUE;
             break;
         default:

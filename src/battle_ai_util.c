@@ -5270,7 +5270,7 @@ bool32 ShouldUseZMove(u32 battlerAtk, u32 battlerDef, u32 chosenMove)
             return FALSE; // Don't waste a Z-Move busting disguise
         if (gBattleMons[battlerDef].ability == ABILITY_ICE_FACE
             && !MoveIgnoresTargetAbility(zMove)
-            && gBattleMons[battlerDef].species == SPECIES_EISCUE_ICE && IsBattleMovePhysical(chosenMove))
+            && gBattleMons[battlerDef].species == SPECIES_EISCUE_ICE && IsBattlerBattleMovePhysical(battlerAtk, chosenMove))
             return FALSE; // Don't waste a Z-Move busting Ice Face
 
         dmg = AI_CalcDamageSaveBattlers(chosenMove, battlerAtk, battlerDef, &effectiveness, NO_GIMMICK, NO_GIMMICK);

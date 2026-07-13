@@ -3,6 +3,7 @@
 #include "battle_controllers.h"
 #include "battle_ai_main.h"
 #include "battle_anim.h"
+#include "battle_terastal.h"
 #include "constants/battle_anim.h"
 #include "battle_interface.h"
 #include "main.h"
@@ -519,8 +520,16 @@ bool8 TryHandleLaunchBattleTableAnimation(u8 activeBattler, u8 atkBattler, u8 de
     if (tableId == B_ANIM_ILLUSION_OFF)
         gBattleStruct->illusion[activeBattler].state = ILLUSION_OFF;
 
-    gBattleAnimAttacker = atkBattler;
-    gBattleAnimTarget = defBattler;
+    if (tableId == B_ANIM_GLASS_ARMOR_SPIKES)
+    {
+        gBattleAnimAttacker = gBattlerAttacker;
+        gBattleAnimTarget = gBattlerTarget;
+    }
+    else
+    {
+        gBattleAnimAttacker = atkBattler;
+        gBattleAnimTarget = defBattler;
+    }
     gBattleSpritesDataPtr->animationData->animArg = argument;
     LaunchBattleAnimation(ANIM_TYPE_GENERAL, tableId);
     taskId = CreateTask(Task_ClearBitWhenBattleTableAnimDone, 10);
@@ -678,10 +687,7 @@ void BattleLoadMonSpriteGfx(struct Pokemon *mon, u32 battler)
 
     // Terastallization's tint
     if (GetActiveGimmick(battler) == GIMMICK_TERA)
-    {
-        BlendPalette(paletteOffset, 16, 8, GetTeraTypeRGB(GetBattlerTeraType(battler)));
-        CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, PLTT_SIZEOF(16));
-    }
+        ApplyBattlerTeraPalette(battler, battler);
 }
 
 void BattleGfxSfxDummy2(u16 species)
@@ -995,10 +1001,7 @@ void HandleSpeciesGfxDataChange(u8 battlerAtk, u8 battlerDef, u8 changeType)
 
     // Terastallization's tint
     if (changeType != SPECIES_GFX_CHANGE_ILLUSION_OFF && GetActiveGimmick(battlerAtk) == GIMMICK_TERA)
-    {
-        BlendPalette(paletteOffset, 16, 8, GetTeraTypeRGB(GetBattlerTeraType(battlerAtk)));
-        CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, PLTT_SIZEOF(16));
-    }
+        ApplyBattlerTeraPalette(battlerAtk, battlerAtk);
 
     gSprites[gBattlerSpriteIds[battlerAtk]].y = GetBattlerSpriteDefault_Y(battlerAtk);
     StartSpriteAnim(&gSprites[gBattlerSpriteIds[battlerAtk]], 0);

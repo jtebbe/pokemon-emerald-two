@@ -2,7 +2,7 @@
   "id": "MAP_AGARTHA_GALAR",
   "name": "Agartha_Galar",
   "layout": "LAYOUT_AGARTHA_GALAR",
-  "music": "MUS_CAVE_OF_ORIGIN",
+  "music": "MUS_CORRIDORS_OF_TIME",
   "region_map_section": "MAPSEC_AGARTHA",
   "requires_flash": false,
   "weather": "WEATHER_NONE",

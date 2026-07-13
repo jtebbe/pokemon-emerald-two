@@ -1179,7 +1179,14 @@
 #define ITEM_TATSUGIRINITE 1009
 #define ITEM_GLIMMORANITE 1010
 
-#define ITEMS_COUNT 1011
+#define ITEM_PUZZLE_BOX 1011
+#define ITEM_CROWBAR 1012
+#define ITEM_STRANGE_AMULET 1013
+#define ITEM_GLASS_ARMOR 1014
+#define ITEM_THESAURUS 1015
+#define ITEM_PAINTBRUSH 1016
+
+#define ITEMS_COUNT 1017
 #define ITEM_FIELD_ARROW ITEMS_COUNT
 
 // A special item id associated with "Cancel"/"Exit" etc. in a list of items or decorations

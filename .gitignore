@@ -21,6 +21,8 @@
 *.hwjpnfont
 *.fwjpnfont
 sound/**/*.bin
+!sound/direct_sound_samples/megalovania_orchestra_cymbal_crash_quiet.wav
+!sound/direct_sound_samples/megalovania_open_hihat_quiet.wav
 sound/songs/midi/*.s
 tools/agbcc
 *.map

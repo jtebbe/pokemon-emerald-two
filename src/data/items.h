@@ -18126,6 +18126,114 @@ const struct Item gItemsInfo[] =
         .iconPic = gItemIcon_PokeshiDoll,
         .iconPalette = gItemIconPalette_PokeshiDoll,
     },
+    [ITEM_PUZZLE_BOX] =
+    {
+        .name = ITEM_NAME("Puzzle Box"),
+        .pluralName = ITEM_PLURAL_NAME("Puzzle Boxes"),
+        .price = 10000 * ITEM_SELL_FACTOR,
+        .holdEffect = HOLD_EFFECT_PUZZLE_BOX,
+        .description = COMPOUND_STRING(
+            "Swaps offensive,\n"
+            "defensive stats\n"
+            "for damage calcs."),
+        .pocket = POCKET_BATTLE_ITEMS,
+        .sortType = ITEM_TYPE_HELD_ITEM,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 80,
+        .iconPic = gItemIcon_PuzzleBox,
+        .iconPalette = gItemIconPalette_PuzzleBox,
+    },
+    [ITEM_CROWBAR] =
+    {
+        .name = ITEM_NAME("Crowbar"),
+        .pluralName = ITEM_PLURAL_NAME("Crowbars"),
+        .price = 10000 * ITEM_SELL_FACTOR,
+        .holdEffect = HOLD_EFFECT_CROWBAR,
+        .description = COMPOUND_STRING(
+            "Contact moves\n"
+            "ignore raised Def\n"
+            "and Sp. Def."),
+        .pocket = POCKET_BATTLE_ITEMS,
+        .sortType = ITEM_TYPE_HELD_ITEM,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 120,
+        .iconPic = gItemIcon_Crowbar,
+        .iconPalette = gItemIconPalette_Crowbar,
+    },
+    [ITEM_STRANGE_AMULET] =
+    {
+        .name = ITEM_NAME("Strange Amulet"),
+        .pluralName = ITEM_PLURAL_NAME("Strange Amulets"),
+        .price = 10000 * ITEM_SELL_FACTOR,
+        .holdEffect = HOLD_EFFECT_STRANGE_AMULET,
+        .description = COMPOUND_STRING(
+            "Swaps physical\n"
+            "and special move\n"
+            "categories."),
+        .pocket = POCKET_BATTLE_ITEMS,
+        .sortType = ITEM_TYPE_HELD_ITEM,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 40,
+        .iconPic = gItemIcon_StrangeAmulet,
+        .iconPalette = gItemIconPalette_StrangeAmulet,
+    },
+    [ITEM_GLASS_ARMOR] =
+    {
+        .name = ITEM_NAME("Glass Armor"),
+        .pluralName = ITEM_PLURAL_NAME("Glass Armor"),
+        .price = 10000 * ITEM_SELL_FACTOR,
+        .holdEffect = HOLD_EFFECT_GLASS_ARMOR,
+        .description = COMPOUND_STRING(
+            "Softens one hit,\n"
+            "then shatters.\n"
+            "Spikes both sides."),
+        .pocket = POCKET_BATTLE_ITEMS,
+        .sortType = ITEM_TYPE_HELD_ITEM,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 100,
+        .iconPic = gItemIcon_GlassArmor,
+        .iconPalette = gItemIconPalette_GlassArmor,
+    },
+    [ITEM_THESAURUS] =
+    {
+        .name = ITEM_NAME("Thesaurus"),
+        .pluralName = ITEM_PLURAL_NAME("Thesauruses"),
+        .price = 10000 * ITEM_SELL_FACTOR,
+        .holdEffect = HOLD_EFFECT_THESAURUS,
+        .description = COMPOUND_STRING(
+            "Replaces a chosen\n"
+            "move with one of\n"
+            "the same kind."),
+        .pocket = POCKET_BATTLE_ITEMS,
+        .sortType = ITEM_TYPE_HELD_ITEM,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 80,
+        .iconPic = gItemIcon_Thesaurus,
+        .iconPalette = gItemIconPalette_Thesaurus,
+    },
+    [ITEM_PAINTBRUSH] =
+    {
+        .name = ITEM_NAME("Paintbrush"),
+        .pluralName = ITEM_PLURAL_NAME("Paintbrushes"),
+        .price = 10000 * ITEM_SELL_FACTOR,
+        .holdEffect = HOLD_EFFECT_PAINTBRUSH,
+        .description = COMPOUND_STRING(
+            "Once per switch-\n"
+            "in, paints on\n"
+            "a move's type."),
+        .pocket = POCKET_BATTLE_ITEMS,
+        .sortType = ITEM_TYPE_HELD_ITEM,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 20,
+        .iconPic = gItemIcon_Paintbrush,
+        .iconPalette = gItemIconPalette_Paintbrush,
+    },
 };
 
 #undef ITEM_NAME

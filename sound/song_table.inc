@@ -565,6 +565,15 @@ gSongTable::
 	song mus_rg_trainer_tower, MUSIC_PLAYER_BGM, 0
 	song mus_rg_slow_pallet, MUSIC_PLAYER_BGM, 0
 	song mus_rg_teachy_tv_menu, MUSIC_PLAYER_BGM, 0
+	song mus_corridors_of_time, MUSIC_PLAYER_BGM, 0
+	song mus_cipher_admin_battle, MUSIC_PLAYER_BGM, 0
+	song mus_molgera, MUSIC_PLAYER_BGM, 0
+	song mus_mirror_b_og, MUSIC_PLAYER_BGM, 0
+	song mus_scars_of_time, MUSIC_PLAYER_BGM, 0
+	song mus_camel_by_camel, MUSIC_PLAYER_BGM, 0
+	song mus_moonlight_sonata_3rd_movement, MUSIC_PLAYER_BGM, 0
+	song mus_megalovania, MUSIC_PLAYER_BGM, 0
+	song mus_gaia_gate, MUSIC_PLAYER_BGM, 0
 	song ph_trap_blend, MUSIC_PLAYER_SE2, 2
 	song ph_trap_held, MUSIC_PLAYER_SE2, 2
 	song ph_trap_solo, MUSIC_PLAYER_SE2, 2

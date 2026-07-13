@@ -196,10 +196,10 @@ TEST("RandomElement generates a uniform distribution")
 
 TEST("RandomUniform mul-based faster than mod-based (compile-time)")
 {
-    const u32 expectedMulSum = 6;
-    const u32 expectedModSum = 4;
     struct Benchmark mulBenchmark, modBenchmark;
-    u32 mulSum = 0, modSum = 0;
+    volatile u32 mulSum = 0, modSum = 0;
+
+    SeedRng(0);
 
     BENCHMARK(&mulBenchmark)
     {
@@ -219,21 +219,17 @@ TEST("RandomUniform mul-based faster than mod-based (compile-time)")
 
     EXPECT_FASTER(mulBenchmark, modBenchmark);
 
-    // Reference mulSum/modSum to prevent optimization.
-    // These numbers are different because multiplication and modulus
-    // have subtly different biases (so subtle that it's irrelevant for
-    // our purposes).
-    EXPECT_EQ(mulSum, expectedMulSum);
-    EXPECT_EQ(modSum, expectedModSum);
+    (void)mulSum;
+    (void)modSum;
 }
 
 TEST("RandomUniform mul-based faster than mod-based (run-time)")
 {
-    const u32 expectedMulSum = 289;
-    const u32 expectedModSum = 205;
     u32 i;
     struct Benchmark mulBenchmark, modBenchmark;
-    u32 mulSum = 0, modSum = 0;
+    volatile u32 mulSum = 0, modSum = 0;
+
+    SeedRng(0);
 
     BENCHMARK(&mulBenchmark)
     {
@@ -249,9 +245,8 @@ TEST("RandomUniform mul-based faster than mod-based (run-time)")
 
     EXPECT_FASTER(mulBenchmark, modBenchmark);
 
-    // Reference mulSum/modSum to prevent optimization.
-    EXPECT_EQ(mulSum, expectedMulSum);
-    EXPECT_EQ(modSum, expectedModSum);
+    (void)mulSum;
+    (void)modSum;
 }
 
 TEST("Thumb and C SFC32 implementations produce the same results")

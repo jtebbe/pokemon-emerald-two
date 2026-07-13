@@ -2,6 +2,7 @@
 #include "item_use.h"
 #include "battle.h"
 #include "battle_anim.h"
+#include "battle_pike.h"
 #include "battle_pyramid.h"
 #include "battle_pyramid_bag.h"
 #include "berry.h"
@@ -797,7 +798,7 @@ void ItemUseOutOfBattle_PowderJar(u8 taskId)
 
 bool8 CanUseInfiniteRepel(void)
 {
-    return CurrentBattlePyramidLocation() == PYRAMID_LOCATION_NONE;
+    return CurrentBattlePyramidLocation() == PYRAMID_LOCATION_NONE && !InBattlePike();
 }
 
 void ItemUseOutOfBattle_InfiniteRepel(u8 taskId)

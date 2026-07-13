@@ -255,6 +255,17 @@ static enum ItemEffect TryAirBalloon(u32 battler, ActivationTiming timing)
     return effect;
 }
 
+static enum ItemEffect TryGlassArmor(u32 battler)
+{
+    if (IsBattlerTurnDamaged(battler))
+    {
+        BattleScriptCall(BattleScript_GlassArmorShatters);
+        return ITEM_EFFECT_OTHER;
+    }
+
+    return ITEM_NO_EFFECT;
+}
+
 static enum ItemEffect TryBurglaryKit(u32 battler, ActivationTiming timing) {
     enum ItemEffect effect = ITEM_NO_EFFECT;
     gSpecialStatuses[battler].switchInItemDone = TRUE;
@@ -396,7 +407,7 @@ static enum ItemEffect TryJabocaBerry(u32 battlerDef, u32 battlerAtk, u32 item)
     if (IsBattlerAlive(battlerAtk)
      && IsBattlerTurnDamaged(battlerDef)
      && !DoesSubstituteBlockMove(battlerAtk, battlerDef, gCurrentMove)
-     && IsBattleMovePhysical(gCurrentMove)
+     && IsBattlerBattleMovePhysical(battlerAtk, gCurrentMove)
      && !IsAbilityAndRecord(battlerAtk, GetBattlerAbility(battlerAtk), ABILITY_MAGIC_GUARD))
     {
         s32 jabocaDamage = GetNonDynamaxMaxHP(battlerAtk) / 3;
@@ -418,7 +429,7 @@ static enum ItemEffect TryRowapBerry(u32 battlerDef, u32 battlerAtk, u32 item)
     if (IsBattlerAlive(battlerAtk)
      && IsBattlerTurnDamaged(battlerDef)
      && !DoesSubstituteBlockMove(battlerAtk, battlerDef, gCurrentMove)
-     && IsBattleMoveSpecial(gCurrentMove)
+     && IsBattlerBattleMoveSpecial(battlerAtk, gCurrentMove)
      && !IsAbilityAndRecord(battlerAtk, GetBattlerAbility(battlerAtk), ABILITY_MAGIC_GUARD))
     {
         s32 rowapDamage = GetNonDynamaxMaxHP(battlerAtk) / 3;
@@ -559,7 +570,7 @@ static enum ItemEffect DamagedStatBoostBerryEffect(u32 battlerDef, u32 battlerAt
 
     if (gBattleScripting.overrideBerryRequirements
      || (!DoesSubstituteBlockMove(battlerAtk, battlerDef, gCurrentMove)
-         && GetBattleMoveCategory(gCurrentMove) == category
+         && GetBattlerBattleMoveCategory(battlerAtk, gCurrentMove) == category
          && IsBattlerTurnDamaged(battlerDef)))
     {
         if (GetBattlerAbility(battlerDef) == ABILITY_RIPEN)
@@ -1119,7 +1130,8 @@ enum ItemEffect ItemBattleEffects(u32 itemBattler, u32 battler, enum HoldEffect 
     if (!IsBattlerAlive(itemBattler)
      && holdEffect != HOLD_EFFECT_ROWAP_BERRY // Hacky workaround for them right now
      && holdEffect != HOLD_EFFECT_JABOCA_BERRY
-     && holdEffect != HOLD_EFFECT_ROCKY_HELMET)
+     && holdEffect != HOLD_EFFECT_ROCKY_HELMET
+     && holdEffect != HOLD_EFFECT_GLASS_ARMOR)
         return effect;
 
     switch (holdEffect)
@@ -1150,6 +1162,9 @@ enum ItemEffect ItemBattleEffects(u32 itemBattler, u32 battler, enum HoldEffect 
         break;
     case HOLD_EFFECT_AIR_BALLOON:
         effect = TryAirBalloon(itemBattler, timing);
+        break;
+    case HOLD_EFFECT_GLASS_ARMOR:
+        effect = TryGlassArmor(itemBattler);
         break;
     case HOLD_EFFECT_BURGLARY_KIT:
         effect = TryBurglaryKit(itemBattler, timing);

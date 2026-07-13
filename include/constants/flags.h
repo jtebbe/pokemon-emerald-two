@@ -725,12 +725,12 @@
 #define FLAG_EGG_MOVES  0x2AC
 #define FLAG_TUTOR_MOVES  0x2AD
 #define FLAG_TM_IN_MENU  0x2AE
-#define FLAG_UNUSED_0x2AF  0x2AF // Unused Flag
-#define FLAG_UNUSED_0x2B0  0x2B0 // Unused Flag
-#define FLAG_UNUSED_0x2B1  0x2B1 // Unused Flag
-#define FLAG_UNUSED_0x2B2  0x2B2 // Unused Flag
-#define FLAG_UNUSED_0x2B3  0x2B3 // Unused Flag
-#define FLAG_UNUSED_0x2B4  0x2B4 // Unused Flag
+#define FLAG_PUZZLE_BOX  0x2AF // Unused Flag
+#define FLAG_CROWBAR  0x2B0 // Unused Flag
+#define FLAG_GLASS_ARMOR  0x2B1 // Unused Flag
+#define FLAG_STRANGE_AMULET  0x2B2 // Unused Flag
+#define FLAG_THESAURUS  0x2B3 // Unused Flag
+#define FLAG_PAINTBRUSH  0x2B4 // Unused Flag
 #define FLAG_UNUSED_0x2B5  0x2B5 // Unused Flag
 #define FLAG_UNUSED_0x2B6  0x2B6 // Unused Flag
 #define FLAG_UNUSED_0x2B7  0x2B7 // Unused Flag

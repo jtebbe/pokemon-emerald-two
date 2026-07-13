@@ -80,6 +80,8 @@ static void FillTentTrainerParty_(u16 trainerId, u8 firstMonId, u8 monCount);
 static void FillFactoryFrontierTrainerParty(u16 trainerId, u8 firstMonId);
 static void FillFactoryTentTrainerParty(u16 trainerId, u8 firstMonId);
 static u8 GetFrontierTrainerFixedIvs(u16 trainerId);
+static u32 GenerateFacilityMonPersonality(const struct TrainerMon *fmon);
+static bool32 IsBattleArenaBannedMoveEffect(enum BattleMoveEffects effect);
 #if FREE_BATTLE_TOWER_E_READER == FALSE
 static void SetEReaderTrainerChecksum(struct BattleTowerEReaderTrainer *ereaderTrainer);
 #endif //FREE_BATTLE_TOWER_E_READER
@@ -1574,32 +1576,11 @@ void CreateFacilityMon(const struct TrainerMon *fmon, u16 level, u8 fixedIV, u32
 {
     u8 ball = (fmon->ball == 0xFF) ? Random() % POKEBALL_COUNT : fmon->ball;
     u16 move;
-    u32 personality = 0, friendship, j;
+    u32 personality, friendship, j;
     u32 hiddenNature = fmon->nature;
     enum Ability ability;
 
-    if (fmon->gender == TRAINER_MON_MALE)
-    {
-        personality = (personality & 0xFFFFFF00) | GeneratePersonalityForGender(MON_MALE, fmon->species);
-    }
-    else if (fmon->gender == TRAINER_MON_FEMALE)
-    {
-        personality = (personality & 0xFFFFFF00) | GeneratePersonalityForGender(MON_FEMALE, fmon->species);
-    } else if (fmon->gender == TRAINER_MON_RANDOM_GENDER) {
-        personality = (personality & 0xFFFFFF00) | GeneratePersonalityForGender(Random() & 1 ? MON_MALE : MON_FEMALE, fmon->species);
-    }
-
-    /*
-    if (partyData[monIndex].gender == TRAINER_MON_MALE)
-                personalityValue = (personalityValue & 0xFFFFFF00) | GeneratePersonalityForGender(MON_MALE, partyData[monIndex].species);
-            else if (partyData[monIndex].gender == TRAINER_MON_FEMALE)
-                personalityValue = (personalityValue & 0xFFFFFF00) | GeneratePersonalityForGender(MON_FEMALE, partyData[monIndex].species);
-            else if (partyData[monIndex].gender == TRAINER_MON_RANDOM_GENDER)
-                personalityValue = (personalityValue & 0xFFFFFF00) | GeneratePersonalityForGender(Random() & 1 ? MON_MALE : MON_FEMALE, partyData[monIndex].species);
-            ModifyPersonalityForNature(&personalityValue, partyData[monIndex].nature);
-    */
-
-    ModifyPersonalityForNature(&personality, fmon->nature);
+    personality = GenerateFacilityMonPersonality(fmon);
     CreateMon(dst, fmon->species, level, fixedIV, TRUE, personality, OT_ID_PRESET, otID);
 
     friendship = MAX_FRIENDSHIP;
@@ -1671,6 +1652,60 @@ void CreateFacilityMon(const struct TrainerMon *fmon, u16 level, u8 fixedIV, u32
     if (ball != BALL_STRANGE)
         SetMonData(dst, MON_DATA_POKEBALL, &ball);
     CalculateMonStats(dst);
+}
+
+static u32 GenerateFacilityMonPersonality(const struct TrainerMon *fmon)
+{
+    u32 personality = Random32();
+    u32 personalityNature;
+    u32 natureOffset;
+
+    switch (fmon->gender)
+    {
+    case TRAINER_MON_MALE:
+        personality = (personality & 0xFFFFFF00) | GeneratePersonalityForGender(MON_MALE, fmon->species);
+        break;
+    case TRAINER_MON_FEMALE:
+        personality = (personality & 0xFFFFFF00) | GeneratePersonalityForGender(MON_FEMALE, fmon->species);
+        break;
+    case TRAINER_MON_RANDOM_GENDER:
+        personality = (personality & 0xFFFFFF00) | (Random() & 0xFF);
+        break;
+    }
+
+    personalityNature = GetNatureFromPersonality(personality);
+    natureOffset = (fmon->nature + NUM_NATURES - personalityNature) % NUM_NATURES;
+    personality += ((natureOffset * 21) % NUM_NATURES) << 8;
+    return personality;
+}
+
+static bool32 IsBattleArenaBannedMoveEffect(enum BattleMoveEffects effect)
+{
+    switch (effect)
+    {
+    case EFFECT_TELEPORT:
+    case EFFECT_HIT_ESCAPE:
+    case EFFECT_PARTING_SHOT:
+    case EFFECT_BATON_PASS:
+    case EFFECT_CHILLY_RECEPTION:
+    case EFFECT_SHED_TAIL:
+        return TRUE;
+    default:
+        return FALSE;
+    }
+}
+
+bool32 IsBattleArenaBannedTrainerMon(const struct TrainerMon *fmon)
+{
+    u32 i;
+
+    for (i = 0; i < MAX_MON_MOVES; i++)
+    {
+        if (IsBattleArenaBannedMoveEffect(GetMoveEffect(fmon->moves[i])))
+            return TRUE;
+    }
+
+    return FALSE;
 }
 
 static void FillTrainerParty(u16 trainerId, u8 firstMonId, u8 monCount)
@@ -1764,6 +1799,10 @@ static void FillTrainerParty(u16 trainerId, u8 firstMonId, u8 monCount)
                 break;
         }
         if (j != i)
+            continue;
+
+        if (VarGet(VAR_FRONTIER_FACILITY) == FRONTIER_FACILITY_ARENA
+         && IsBattleArenaBannedTrainerMon(&gFacilityTrainerMons[monId]))
             continue;
 
         chosenMonIndices[i] = monId;

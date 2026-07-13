@@ -3679,7 +3679,16 @@ static void DebugAction_DestroyFollowerNPC(u8 taskId)
     X(MUS_RG_ENCOUNTER_DEOXYS)      \
     X(MUS_RG_TRAINER_TOWER)         \
     X(MUS_RG_SLOW_PALLET)           \
-    X(MUS_RG_TEACHY_TV_MENU)
+    X(MUS_RG_TEACHY_TV_MENU)        \
+    X(MUS_CORRIDORS_OF_TIME)        \
+    X(MUS_CIPHER_ADMIN_BATTLE)      \
+    X(MUS_MOLGERA)                  \
+    X(MUS_MIRROR_B_OG)              \
+    X(MUS_SCARS_OF_TIME)            \
+    X(MUS_CAMEL_BY_CAMEL)           \
+    X(MUS_MOONLIGHT_SONATA_3RD_MOVEMENT) \
+    X(MUS_MEGALOVANIA)              \
+    X(MUS_GAIA_GATE)
 
 #define SOUND_LIST_SE               \
     X(SE_USE_ITEM)                  \

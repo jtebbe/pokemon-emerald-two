@@ -14,6 +14,7 @@
 #include "battle_scripts.h"
 #include "battle_setup.h"
 #include "battle_tower.h"
+#include "battle_util.h"
 #include "battle_z_move.h"
 #include "battle_gimmick.h"
 #include "berry.h"
@@ -4127,7 +4128,7 @@ u8 IsRunningFromBattleImpossible(u32 battler)
 
     if (holdEffect == HOLD_EFFECT_CAN_ALWAYS_RUN)
         return BATTLE_RUN_SUCCESS;
-    if (B_GHOSTS_ESCAPE >= GEN_6 && IS_BATTLER_OF_TYPE(battler, TYPE_GHOST))
+    if (CanGhostTypeAlwaysEscape(battler))
         return BATTLE_RUN_SUCCESS;
     if (gBattleTypeFlags & BATTLE_TYPE_LINK)
         return BATTLE_RUN_SUCCESS;
@@ -5277,6 +5278,19 @@ static bool32 TryDoMoveEffectsBeforeMoves(void)
             {
                 gBattleStruct->battlerState[battlers[i]].focusPunchBattlers = TRUE;
                 gBattlerAttacker = battlers[i];
+                if (gChosenActionByBattler[gBattlerAttacker] == B_ACTION_USE_MOVE
+                 && GetBattlerHoldEffect(gBattlerAttacker) == HOLD_EFFECT_THESAURUS)
+                {
+                    u32 thesaurusMove = GetThesaurusMove(gChosenMoveByBattler[gBattlerAttacker]);
+
+                    if (thesaurusMove != MOVE_NONE)
+                    {
+                        gBattleStruct->thesaurusMove[gBattlerAttacker] = thesaurusMove;
+                        RecordItemEffectBattle(gBattlerAttacker, HOLD_EFFECT_THESAURUS);
+                        BattleScriptExecute(BattleScript_ThesaurusSetUp);
+                        return TRUE;
+                    }
+                }
                 switch (GetMoveEffect(gChosenMoveByBattler[gBattlerAttacker]))
                 {
                 case EFFECT_FOCUS_PUNCH:
@@ -5410,6 +5424,7 @@ static void CheckChangingTurnOrderEffects(void)
     for (i = 0; i < MAX_BATTLERS_COUNT; i++)
     {
         gBattleStruct->battlerState[i].focusPunchBattlers = FALSE;
+        gBattleStruct->thesaurusMove[i] = MOVE_NONE;
         gBattleStruct->battlerState[i].ateBoost = FALSE;
         gSpecialStatuses[i].gemBoost = FALSE;
     }

@@ -1756,7 +1756,7 @@ static void MoveSelectionDisplayMoveDescription(u32 battler)
     u16 move = moveInfo->moves[gMoveSelectionCursor[battler]];
     u16 pwr = GetMovePower(move);
     u16 acc = GetMoveAccuracy(move);
-    enum DamageCategory cat = GetBattleMoveCategory(move);
+    enum DamageCategory cat = GetBattlerBattleMoveCategory(battler, move);
 
     if (GetActiveGimmick(battler) == GIMMICK_DYNAMAX || IsGimmickSelected(battler, GIMMICK_DYNAMAX))
     {

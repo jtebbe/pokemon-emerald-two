@@ -2,6 +2,7 @@
 #include "battle_dome.h"
 #include "battle.h"
 #include "battle_ai_util.h"
+#include "battle_util.h"
 #include "battle_main.h"
 #include "battle_setup.h"
 #include "battle_tower.h"
@@ -3888,23 +3889,194 @@ static u8 Task_GetInfoCardInput(u8 taskId)
 
 static bool32 IsDomeHealingMove(u32 move)
 {
+    if (move == MOVE_NONE || move == MOVE_UNAVAILABLE || GetMoveEffect(move) == EFFECT_PLACEHOLDER)
+        return FALSE;
+
     if (IsHealingMove(move))
         return TRUE;
     // Check extra effects not considered plain healing by AI
     switch (GetMoveEffect(move))
     {
-        case EFFECT_INGRAIN:
-        case EFFECT_REFRESH:
-        case EFFECT_AQUA_RING:
+    case EFFECT_ABSORB:
+    case EFFECT_DREAM_EATER:
+    case EFFECT_HEALING_WISH:
+    case EFFECT_LUNAR_DANCE:
+    case EFFECT_RESTORE_HP:
+    case EFFECT_REST:
+    case EFFECT_HEAL_BELL:
+    case EFFECT_MORNING_SUN:
+    case EFFECT_SYNTHESIS:
+    case EFFECT_MOONLIGHT:
+    case EFFECT_WISH:
+    case EFFECT_INGRAIN:
+    case EFFECT_REFRESH:
+    case EFFECT_AQUA_RING:
+    case EFFECT_SWALLOW:
+    case EFFECT_SOFTBOILED:
+    case EFFECT_ROOST:
+    case EFFECT_HEAL_PULSE:
+    case EFFECT_HIT_ENEMY_HEAL_ALLY:
+    case EFFECT_STRENGTH_SAP:
+    case EFFECT_PURIFY:
+    case EFFECT_SHORE_UP:
+    case EFFECT_JUNGLE_HEALING:
+    case EFFECT_REVIVAL_BLESSING:
+    case EFFECT_TAKE_HEART:
+    case EFFECT_LIFE_DEW:
         return TRUE;
     default:
         return FALSE;
     }
 }
 
-static bool32 IsDomeDefensiveMoveEffect(enum BattleMoveEffects effect)
+static bool32 IsDomeGuaranteedAdditionalEffect(u32 move, enum MoveEffect moveEffect)
 {
-    switch(effect)
+    u32 i;
+
+    for (i = 0; i < GetMoveAdditionalEffectCount(move); i++)
+    {
+        const struct AdditionalEffect *additionalEffect = GetMoveAdditionalEffectById(move, i);
+
+        if (additionalEffect->moveEffect == moveEffect && (additionalEffect->chance == 0 || additionalEffect->chance == 100))
+            return TRUE;
+    }
+
+    return FALSE;
+}
+
+static bool32 IsDomeTargetStatLoweringAdditionalEffect(u32 move)
+{
+    u32 i;
+
+    for (i = 0; i < GetMoveAdditionalEffectCount(move); i++)
+    {
+        const struct AdditionalEffect *additionalEffect = GetMoveAdditionalEffectById(move, i);
+
+        if (additionalEffect->self || (additionalEffect->chance != 0 && additionalEffect->chance != 100))
+            continue;
+
+        switch (additionalEffect->moveEffect)
+        {
+        case MOVE_EFFECT_ATK_MINUS_1:
+        case MOVE_EFFECT_DEF_MINUS_1:
+        case MOVE_EFFECT_SPD_MINUS_1:
+        case MOVE_EFFECT_SP_ATK_MINUS_1:
+        case MOVE_EFFECT_SP_DEF_MINUS_1:
+        case MOVE_EFFECT_ACC_MINUS_1:
+        case MOVE_EFFECT_EVS_MINUS_1:
+        case MOVE_EFFECT_ATK_DEF_DOWN:
+        case MOVE_EFFECT_ATK_MINUS_2:
+        case MOVE_EFFECT_DEF_MINUS_2:
+        case MOVE_EFFECT_SPD_MINUS_2:
+        case MOVE_EFFECT_SP_ATK_MINUS_2:
+        case MOVE_EFFECT_SP_DEF_MINUS_2:
+        case MOVE_EFFECT_ACC_MINUS_2:
+        case MOVE_EFFECT_EVS_MINUS_2:
+        case MOVE_EFFECT_DEF_SPDEF_DOWN:
+        case MOVE_EFFECT_SYRUP_BOMB:
+            return TRUE;
+        default:
+            break;
+        }
+    }
+
+    return FALSE;
+}
+
+static bool32 IsDomeSelfOrAllyStatRaisingAdditionalEffect(u32 move)
+{
+    u32 i;
+
+    for (i = 0; i < GetMoveAdditionalEffectCount(move); i++)
+    {
+        const struct AdditionalEffect *additionalEffect = GetMoveAdditionalEffectById(move, i);
+
+        if (!additionalEffect->self)
+            continue;
+
+        switch (additionalEffect->moveEffect)
+        {
+        case MOVE_EFFECT_ATK_PLUS_1:
+        case MOVE_EFFECT_DEF_PLUS_1:
+        case MOVE_EFFECT_SPD_PLUS_1:
+        case MOVE_EFFECT_SP_ATK_PLUS_1:
+        case MOVE_EFFECT_SP_DEF_PLUS_1:
+        case MOVE_EFFECT_ACC_PLUS_1:
+        case MOVE_EFFECT_EVS_PLUS_1:
+        case MOVE_EFFECT_ATK_PLUS_2:
+        case MOVE_EFFECT_DEF_PLUS_2:
+        case MOVE_EFFECT_SPD_PLUS_2:
+        case MOVE_EFFECT_SP_ATK_PLUS_2:
+        case MOVE_EFFECT_SP_DEF_PLUS_2:
+        case MOVE_EFFECT_ACC_PLUS_2:
+        case MOVE_EFFECT_EVS_PLUS_2:
+            return TRUE;
+        default:
+            break;
+        }
+    }
+
+    return FALSE;
+}
+
+static bool32 IsDomeStatRaisingMove(u32 move)
+{
+    if (move == MOVE_NONE || move == MOVE_UNAVAILABLE || GetMoveEffect(move) == EFFECT_PLACEHOLDER)
+        return FALSE;
+
+    switch (GetMoveEffect(move))
+    {
+    case EFFECT_ATTACK_UP_USER_ALLY:
+    case EFFECT_DECORATE:
+    case EFFECT_AROMATIC_MIST:
+    case EFFECT_GEAR_UP:
+    case EFFECT_MAGNETIC_FLUX:
+    case EFFECT_COACHING:
+    case EFFECT_TAKE_HEART:
+    case EFFECT_CLANGOROUS_SOUL:
+    case EFFECT_STUFF_CHEEKS:
+    case EFFECT_ALLY_ATTACKS_UP:
+        return TRUE;
+    default:
+        break;
+    }
+
+    return IsStatRaisingEffect(GetMoveEffect(move)) || IsDomeSelfOrAllyStatRaisingAdditionalEffect(move);
+}
+
+static bool32 IsDomeStatLoweringMove(u32 move)
+{
+    if (move == MOVE_NONE || move == MOVE_UNAVAILABLE || GetMoveEffect(move) == EFFECT_PLACEHOLDER)
+        return FALSE;
+
+    switch (GetMoveEffect(move))
+    {
+    case EFFECT_NOBLE_ROAR:
+    case EFFECT_VENOM_DRENCH:
+    case EFFECT_TOXIC_THREAD:
+    case EFFECT_PARTING_SHOT:
+    case EFFECT_STRENGTH_SAP:
+    case EFFECT_OCTOLOCK:
+    case EFFECT_TAR_SHOT:
+    case EFFECT_GRAV_APPLE:
+    case EFFECT_SPICY_EXTRACT:
+        return TRUE;
+    default:
+        break;
+    }
+
+    return IsStatLoweringEffect(GetMoveEffect(move)) || IsDomeTargetStatLoweringAdditionalEffect(move);
+}
+
+static bool32 IsDomeDefensiveMove(u32 move)
+{
+    if (move == MOVE_NONE || move == MOVE_UNAVAILABLE || GetMoveEffect(move) == EFFECT_PLACEHOLDER)
+        return FALSE;
+
+    if (GetMoveProtectMethod(move) != PROTECT_NONE)
+        return TRUE;
+
+    switch (GetMoveEffect(move))
     {
     case EFFECT_COUNTER:
     case EFFECT_EVASION_UP:
@@ -3918,6 +4090,7 @@ static bool32 IsDomeDefensiveMoveEffect(enum BattleMoveEffects effect)
     case EFFECT_LIGHT_SCREEN:
     case EFFECT_REFLECT:
     case EFFECT_AURORA_VEIL:
+    case EFFECT_MIST:
     case EFFECT_CONVERSION:
     case EFFECT_PROTECT:
     case EFFECT_MAT_BLOCK:
@@ -3928,21 +4101,49 @@ static bool32 IsDomeDefensiveMoveEffect(enum BattleMoveEffects effect)
     case EFFECT_INGRAIN:
     case EFFECT_AQUA_RING:
     case EFFECT_SUBSTITUTE:
+    case EFFECT_ROOST:
+    case EFFECT_MAGNET_RISE:
+    case EFFECT_GUARD_SWAP:
+    case EFFECT_GUARD_SPLIT:
+    case EFFECT_LUCKY_CHANT:
+    case EFFECT_DEFOG:
+    case EFFECT_FLOWER_SHIELD:
+    case EFFECT_MISTY_TERRAIN:
+    case EFFECT_MAGNETIC_FLUX:
+    case EFFECT_COURT_CHANGE:
+    case EFFECT_TAKE_HEART:
+    case EFFECT_COACHING:
         return TRUE;
     default:
-        return FALSE;
+        break;
     }
+
+    return IsDomeGuaranteedAdditionalEffect(move, MOVE_EFFECT_DEF_PLUS_1)
+        || IsDomeGuaranteedAdditionalEffect(move, MOVE_EFFECT_DEF_PLUS_2)
+        || IsDomeGuaranteedAdditionalEffect(move, MOVE_EFFECT_SP_DEF_PLUS_1)
+        || IsDomeGuaranteedAdditionalEffect(move, MOVE_EFFECT_SP_DEF_PLUS_2)
+        || IsDomeGuaranteedAdditionalEffect(move, MOVE_EFFECT_EVS_PLUS_1)
+        || IsDomeGuaranteedAdditionalEffect(move, MOVE_EFFECT_EVS_PLUS_2)
+        || IsDomeGuaranteedAdditionalEffect(move, MOVE_EFFECT_ACC_MINUS_1)
+        || IsDomeGuaranteedAdditionalEffect(move, MOVE_EFFECT_ACC_MINUS_2)
+        || IsDomeGuaranteedAdditionalEffect(move, MOVE_EFFECT_CLEAR_SMOG)
+        || IsDomeGuaranteedAdditionalEffect(move, MOVE_EFFECT_DEFOG);
 }
 
 static bool32 IsDomeRiskyMoveEffect(enum BattleMoveEffects effect)
 {
-    switch(effect)
+    switch (effect)
     {
     case EFFECT_EXPLOSION:
     case EFFECT_MISTY_EXPLOSION:
     case EFFECT_SPITE:
     case EFFECT_DESTINY_BOND:
     case EFFECT_PERISH_SONG:
+    case EFFECT_MEMENTO:
+    case EFFECT_GRUDGE:
+    case EFFECT_HEALING_WISH:
+    case EFFECT_LUNAR_DANCE:
+    case EFFECT_FINAL_GAMBIT:
         return TRUE;
     default:
         return FALSE;
@@ -3951,9 +4152,16 @@ static bool32 IsDomeRiskyMoveEffect(enum BattleMoveEffects effect)
 
 static bool32 IsDomeLuckyMove(u32 move)
 {
-    if (GetMoveAccuracy(move) <= 50)
+    if (move == MOVE_NONE || move == MOVE_UNAVAILABLE || GetMoveEffect(move) == EFFECT_PLACEHOLDER)
+        return FALSE;
+
+    if (GetMoveAccuracy(move) != 0 && GetMoveAccuracy(move) <= 50)
         return TRUE;
-    switch(GetMoveEffect(move))
+
+    if (move == MOVE_COMEUPPANCE)
+        return TRUE;
+
+    switch (GetMoveEffect(move))
     {
     case EFFECT_COUNTER:
     case EFFECT_OHKO:
@@ -3968,6 +4176,11 @@ static bool32 IsDomeLuckyMove(u32 move)
     case EFFECT_REVENGE:
     case EFFECT_IMPRISON:
     case EFFECT_SNATCH:
+    case EFFECT_ACUPRESSURE:
+    case EFFECT_ME_FIRST:
+    case EFFECT_COPYCAT:
+    case EFFECT_METAL_BURST:
+    case EFFECT_FICKLE_BEAM:
         return TRUE;
     default:
         return FALSE;
@@ -3977,24 +4190,46 @@ static bool32 IsDomeLuckyMove(u32 move)
 static bool32 IsDomePopularMove(u32 move)
 {
     u8 i;
+    bool32 isMachineMove = FALSE;
+
+    if (move == MOVE_NONE || move == MOVE_UNAVAILABLE || GetMoveEffect(move) == EFFECT_PLACEHOLDER)
+        return FALSE;
+
     for (i = 0; i < NUM_ALL_MACHINES; i++)
     {
         if (GetTMHMMoveId(i + 1) == move)
-            return TRUE;
+        {
+            isMachineMove = TRUE;
+            break;
+        }
     }
-    if (i == NUM_ALL_MACHINES)
-        return FALSE;
+
     // Filter in TMs/HMs
-    if (GetMovePower(move) >= 90)
+    if (isMachineMove && GetMovePower(move) >= 90)
         return TRUE;
 
-    switch(GetMoveEffect(move))
+    if (GetMoveProtectMethod(move) != PROTECT_NONE)
+        return TRUE;
+
+    switch (GetMoveEffect(move))
     {
     case EFFECT_PROTECT:
     case EFFECT_MAT_BLOCK:
+    case EFFECT_TAILWIND:
     case EFFECT_ATTACK_UP_2:
     case EFFECT_SPECIAL_ATTACK_UP_2:
     case EFFECT_SPECIAL_ATTACK_UP_3:
+    case EFFECT_ATTACK_SPATK_UP:
+    case EFFECT_DRAGON_DANCE:
+    case EFFECT_BULK_UP:
+    case EFFECT_CALM_MIND:
+    case EFFECT_QUIVER_DANCE:
+    case EFFECT_COIL:
+    case EFFECT_SHELL_SMASH:
+    case EFFECT_SHIFT_GEAR:
+    case EFFECT_CLANGOROUS_SOUL:
+    case EFFECT_VICTORY_DANCE:
+    case EFFECT_FILLET_AWAY:
         return TRUE;
     default:
         return FALSE;
@@ -4003,8 +4238,34 @@ static bool32 IsDomePopularMove(u32 move)
 
 static bool32 IsDomeStatusMoveEffect(u32 move)
 {
-    switch(GetMoveEffect(move))
+    if (move == MOVE_NONE || move == MOVE_UNAVAILABLE || GetMoveEffect(move) == EFFECT_PLACEHOLDER)
+        return FALSE;
+
+    switch (move)
     {
+    case MOVE_THROAT_CHOP:
+    case MOVE_JAW_LOCK:
+    case MOVE_PSYCHIC_NOISE:
+    case MOVE_NUZZLE:
+    case MOVE_BUZZY_BUZZ:
+    case MOVE_SIZZLY_SLIDE:
+    case MOVE_SAPPY_SEED:
+    case MOVE_INFESTATION:
+    case MOVE_MAGMA_STORM:
+    case MOVE_SPIRIT_SHACKLE:
+    case MOVE_ANCHOR_SHOT:
+    case MOVE_THOUSAND_WAVES:
+    case MOVE_SNAP_TRAP:
+    case MOVE_THUNDER_CAGE:
+    case MOVE_MORTAL_SPIN:
+        return TRUE;
+    default:
+        break;
+    }
+
+    switch (GetMoveEffect(move))
+    {
+    case EFFECT_NON_VOLATILE_STATUS:
     case EFFECT_CONFUSE:
     case EFFECT_DISABLE:
     case EFFECT_LEECH_SEED:
@@ -4014,6 +4275,24 @@ static bool32 IsDomeStatusMoveEffect(u32 move)
     case EFFECT_ATTRACT:
     case EFFECT_NIGHTMARE:
     case EFFECT_CURSE:
+    case EFFECT_HEAL_BLOCK:
+    case EFFECT_MEAN_LOOK:
+    case EFFECT_YAWN:
+    case EFFECT_EMBARGO:
+    case EFFECT_GASTRO_ACID:
+    case EFFECT_TELEKINESIS:
+    case EFFECT_ENTRAINMENT:
+    case EFFECT_QUASH:
+    case EFFECT_ELECTRIFY:
+    case EFFECT_SOAK:
+    case EFFECT_THIRD_TYPE:
+    case EFFECT_FAIRY_LOCK:
+    case EFFECT_POWDER:
+    case EFFECT_TOXIC_THREAD:
+    case EFFECT_TAR_SHOT:
+    case EFFECT_OCTOLOCK:
+    case EFFECT_DARK_VOID:
+    case EFFECT_OVERWRITE_ABILITY:
         return TRUE;
     default:
         break;
@@ -4021,7 +4300,16 @@ static bool32 IsDomeStatusMoveEffect(u32 move)
 
     if (GetMoveNonVolatileStatus(move) != MOVE_EFFECT_NONE)
         return TRUE;
-    if (MoveHasAdditionalEffect(move, MOVE_EFFECT_WRAP))
+    if (IsDomeGuaranteedAdditionalEffect(move, MOVE_EFFECT_BURN)
+     || IsDomeGuaranteedAdditionalEffect(move, MOVE_EFFECT_PARALYSIS)
+     || IsDomeGuaranteedAdditionalEffect(move, MOVE_EFFECT_TOXIC)
+     || IsDomeGuaranteedAdditionalEffect(move, MOVE_EFFECT_FROSTBITE)
+     || IsDomeGuaranteedAdditionalEffect(move, MOVE_EFFECT_CONFUSION)
+     || IsDomeGuaranteedAdditionalEffect(move, MOVE_EFFECT_WRAP)
+     || IsDomeGuaranteedAdditionalEffect(move, MOVE_EFFECT_PREVENT_ESCAPE)
+     || IsDomeGuaranteedAdditionalEffect(move, MOVE_EFFECT_PREVENT_ESCAPE_SIDE)
+     || IsDomeGuaranteedAdditionalEffect(move, MOVE_EFFECT_SALT_CURE)
+     || IsDomeGuaranteedAdditionalEffect(move, MOVE_EFFECT_SYRUP_BOMB))
         return TRUE;
 
     return FALSE;
@@ -4031,6 +4319,10 @@ static bool32 IsDomeRareMove(u32 move)
 {
     u16 i, j;
     u16 species = 0;
+
+    if (move == MOVE_NONE || move == MOVE_UNAVAILABLE || GetMoveEffect(move) == EFFECT_PLACEHOLDER)
+        return FALSE;
+
     for(i = 0; i < NUM_SPECIES; i++)
     {
         const struct LevelUpMove *learnset = GetSpeciesLevelUpLearnset(i);
@@ -4051,7 +4343,33 @@ static bool32 IsDomeRareMove(u32 move)
 static bool32 IsDomeComboMove(u32 move)
 {
     enum BattleMoveEffects effect = GetMoveEffect(move);
-    switch(effect)
+
+    if (move == MOVE_NONE || move == MOVE_UNAVAILABLE || effect == EFFECT_PLACEHOLDER)
+        return FALSE;
+
+    switch (move)
+    {
+    case MOVE_WAKE_UP_SLAP:
+    case MOVE_SOLAR_BLADE:
+    case MOVE_ELECTRO_SHOT:
+    case MOVE_SPOTLIGHT:
+        return TRUE;
+    default:
+        break;
+    }
+
+    switch (GetMoveProtectMethod(move))
+    {
+    case PROTECT_WIDE_GUARD:
+    case PROTECT_QUICK_GUARD:
+    case PROTECT_CRAFTY_SHIELD:
+    case PROTECT_MAT_BLOCK:
+        return TRUE;
+    default:
+        break;
+    }
+
+    switch (effect)
     {
     // Weather moves
     case EFFECT_SUNNY_DAY:
@@ -4070,16 +4388,20 @@ static bool32 IsDomeComboMove(u32 move)
     case EFFECT_MOONLIGHT:
     case EFFECT_SHORE_UP:
     case EFFECT_SOLAR_BEAM:
+    case EFFECT_HYDRO_STEAM:
+    case EFFECT_TWO_TURNS_ATTACK:
     case EFFECT_GROWTH:
     case EFFECT_AURORA_VEIL:
     case EFFECT_WEATHER_BALL:
     // Moves dependent on terrain
     case EFFECT_EXPANDING_FORCE:
     case EFFECT_GRASSY_GLIDE:
-    //case EFFECT_MISTY_EXPLOSION: (needs a unique effect in gMovesInfo!)
+    case EFFECT_MISTY_EXPLOSION:
     case EFFECT_PSYBLADE:
     case EFFECT_RISING_VOLTAGE:
     case EFFECT_TERRAIN_PULSE:
+    case EFFECT_STEEL_ROLLER:
+    case EFFECT_ICE_SPINNER:
     // Stockpile group
     case EFFECT_STOCKPILE:
     case EFFECT_SPIT_UP:
@@ -4089,6 +4411,13 @@ static bool32 IsDomeComboMove(u32 move)
     case EFFECT_TOXIC_SPIKES:
     case EFFECT_STEALTH_ROCK:
     case EFFECT_STICKY_WEB:
+    case EFFECT_STONE_AXE:
+    case EFFECT_CEASELESS_EDGE:
+    case EFFECT_DEFOG:
+    case EFFECT_TIDY_UP:
+    case EFFECT_RAPID_SPIN:
+    case EFFECT_ROAR:
+    case EFFECT_HIT_SWITCH_TARGET:
     case EFFECT_YAWN:
     case EFFECT_DREAM_EATER:
     case EFFECT_NIGHTMARE:
@@ -4109,15 +4438,53 @@ static bool32 IsDomeComboMove(u32 move)
     case EFFECT_BULK_UP:
     case EFFECT_ATTACK_ACCURACY_UP:
     case EFFECT_FILLET_AWAY:
+    case EFFECT_QUIVER_DANCE:
+    case EFFECT_COIL:
+    case EFFECT_SHELL_SMASH:
+    case EFFECT_SHIFT_GEAR:
+    case EFFECT_CLANGOROUS_SOUL:
+    case EFFECT_VICTORY_DANCE:
+    case EFFECT_NO_RETREAT:
+    case EFFECT_TAKE_HEART:
+    case EFFECT_GEOMANCY:
     // Others
     case EFFECT_FOCUS_ENERGY:
     case EFFECT_LOCK_ON:
     case EFFECT_FLAIL:
     case EFFECT_BATON_PASS:
+    case EFFECT_SHED_TAIL:
     case EFFECT_INGRAIN:
     case EFFECT_AQUA_RING:
     case EFFECT_LEECH_SEED:
-    case EFFECT_ROAR:
+    case EFFECT_GRAVITY:
+    case EFFECT_TAILWIND:
+    case EFFECT_TRICK_ROOM:
+    case EFFECT_WONDER_ROOM:
+    case EFFECT_MAGIC_ROOM:
+    case EFFECT_MAT_BLOCK:
+    case EFFECT_FUSION_COMBO:
+    case EFFECT_PLEDGE:
+    case EFFECT_ROUND:
+    case EFFECT_ECHOED_VOICE:
+    case EFFECT_STORED_POWER:
+    case EFFECT_RAGE_FIST:
+    case EFFECT_LAST_RESPECTS:
+    case EFFECT_AFTER_YOU:
+    case EFFECT_ALLY_SWITCH:
+    case EFFECT_QUASH:
+    case EFFECT_ROTOTILLER:
+    case EFFECT_AROMATIC_MIST:
+    case EFFECT_FLOWER_SHIELD:
+    case EFFECT_HIT_ENEMY_HEAL_ALLY:
+    case EFFECT_GEAR_UP:
+    case EFFECT_MAGNETIC_FLUX:
+    case EFFECT_INSTRUCT:
+    case EFFECT_COURT_CHANGE:
+    case EFFECT_DECORATE:
+    case EFFECT_COACHING:
+    case EFFECT_CHILLY_RECEPTION:
+    case EFFECT_DOODLE:
+    case EFFECT_DRAGON_CHEER:
         return TRUE;
     default:
         break;
@@ -4130,15 +4497,35 @@ static bool32 IsDomeComboMove(u32 move)
         return TRUE;
 
     // Inflicting sleep & related effects
-    switch(GetMoveNonVolatileStatus(move))
+    switch (GetMoveNonVolatileStatus(move))
     {
     case MOVE_EFFECT_SLEEP:
         return TRUE;
     default:
-        return FALSE;
+        break;
     }
 
-    return FALSE;
+    return IsDomeTargetStatLoweringAdditionalEffect(move);
+}
+
+static bool32 IsDomeDamagingMove(u32 move)
+{
+    if (move == MOVE_NONE || move == MOVE_UNAVAILABLE || GetMoveEffect(move) == EFFECT_PLACEHOLDER)
+        return FALSE;
+
+    switch (GetMoveEffect(move))
+    {
+    case EFFECT_OHKO:
+    case EFFECT_SHEER_COLD:
+    case EFFECT_FIXED_PERCENT_DAMAGE:
+    case EFFECT_FIXED_HP_DAMAGE:
+    case EFFECT_COUNTER:
+    case EFFECT_MIRROR_COAT:
+    case EFFECT_METAL_BURST:
+        return TRUE;
+    default:
+        return !IsBattleMoveStatus(move);
+    }
 }
 
 // allocatedArray below needs to be large enough to hold stat totals for each mon, or totals of each type of move points
@@ -4321,56 +4708,57 @@ static void DisplayTrainerInfoOnCard(u8 flags, u8 trainerTourneyId)
                     move = gFacilityTrainerMons[DOME_MONS[trainerTourneyId][i]].moves[j];
                 enum BattleMoveEffects effect = GetMoveEffect(move);
                 u32 accuracy = GetMoveAccuracy(move);
+                bool32 isValidMove = move != MOVE_NONE && move != MOVE_UNAVAILABLE && effect != EFFECT_PLACEHOLDER;
 
                 switch (k)
                 {
                 case MOVE_POINTS_COMBO:
-                    allocatedArray[k] = IsDomeComboMove(move) ? 1 : 0;
+                    allocatedArray[k] += IsDomeComboMove(move) ? 1 : 0;
                     break;
                 case MOVE_POINTS_STAT_RAISE:
-                    allocatedArray[k] = IsStatRaisingEffect(effect) ? 1 : 0;
+                    allocatedArray[k] += IsDomeStatRaisingMove(move) ? 1 : 0;
                     break;
                 case MOVE_POINTS_STAT_LOWER:
-                    allocatedArray[k] = IsStatLoweringEffect(effect) ? 1 : 0;
+                    allocatedArray[k] += IsDomeStatLoweringMove(move) ? 1 : 0;
                     break;
                 case MOVE_POINTS_RARE:
-                    allocatedArray[k] = IsDomeRareMove(move) ? 1 : 0;
+                    allocatedArray[k] += IsDomeRareMove(move) ? 1 : 0;
                     break;
                 case MOVE_POINTS_HEAL:
-                    allocatedArray[k] = IsDomeHealingMove(move) ? 1 : 0;
+                    allocatedArray[k] += IsDomeHealingMove(move) ? 1 : 0;
                     break;
                 case MOVE_POINTS_RISKY:
-                    allocatedArray[k] = IsDomeRiskyMoveEffect(effect) ? 1 : 0;
+                    allocatedArray[k] += IsDomeRiskyMoveEffect(effect) ? 1 : 0;
                     break;
                 case MOVE_POINTS_STATUS:
-                    allocatedArray[k] = IsDomeStatusMoveEffect(move);
+                    allocatedArray[k] += IsDomeStatusMoveEffect(move) ? 1 : 0;
                     break;
                 case MOVE_POINTS_DMG:
-                    allocatedArray[k] = (!IsBattleMoveStatus(move)) ? 1 : 0;
+                    allocatedArray[k] += IsDomeDamagingMove(move) ? 1 : 0;
                     break;
                 case MOVE_POINTS_DEF:
-                    allocatedArray[k] = IsDomeDefensiveMoveEffect(effect) ? 1 : 0;
+                    allocatedArray[k] += IsDomeDefensiveMove(move) ? 1 : 0;
                     break;
                 case MOVE_POINTS_ACCURATE:
-                    allocatedArray[k] = (accuracy == 0 || accuracy == 100) ? 1 : 0;
+                    allocatedArray[k] += (isValidMove && (accuracy == 0 || accuracy == 100)) ? 1 : 0;
                     break;
                 case MOVE_POINTS_POWERFUL:
-                    allocatedArray[k] = (GetMovePower(move) >= 100) ? 1 : 0;
+                    allocatedArray[k] += (isValidMove && GetMovePower(move) >= 100) ? 1 : 0;
                     break;
                 case MOVE_POINTS_POPULAR:
-                    allocatedArray[k] = IsDomePopularMove(move) ? 1 : 0;
+                    allocatedArray[k] += IsDomePopularMove(move) ? 1 : 0;
                     break;
                 case MOVE_POINTS_LUCK:
-                    allocatedArray[k] = IsDomeLuckyMove(move) ? 1 : 0;
+                    allocatedArray[k] += IsDomeLuckyMove(move) ? 1 : 0;
                     break;
                 case MOVE_POINTS_STRONG:
-                    allocatedArray[k] = (GetMovePower(move) >= 90) ? 1 : 0;
+                    allocatedArray[k] += (isValidMove && GetMovePower(move) >= 90) ? 1 : 0;
                     break;
                 case MOVE_POINTS_LOW_PP:
-                    allocatedArray[k] = (GetMovePP(move) <= 5) ? 1 : 0;
+                    allocatedArray[k] += (isValidMove && GetMovePP(move) <= 5) ? 1 : 0;
                     break;
                 case MOVE_POINTS_EFFECT:
-                    allocatedArray[k] = MoveIsAffectedBySheerForce(move);
+                    allocatedArray[k] += (isValidMove && MoveIsAffectedBySheerForce(move)) ? 1 : 0;
                     break;
                 }
             }

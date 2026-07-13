@@ -1913,7 +1913,7 @@ static void Cmd_adjustdamage(void)
             continue;
         }
 
-        if (GetBattlerAbility(battlerDef) == ABILITY_ICE_FACE && IsBattleMovePhysical(gCurrentMove) && gBattleMons[battlerDef].species == SPECIES_EISCUE)
+        if (GetBattlerAbility(battlerDef) == ABILITY_ICE_FACE && IsBattlerBattleMovePhysical(gBattlerAttacker, gCurrentMove) && gBattleMons[battlerDef].species == SPECIES_EISCUE)
         {
             // Damage deals typeless 0 HP.
             gBattleStruct->moveResultFlags[battlerDef] &= ~(MOVE_RESULT_SUPER_EFFECTIVE | MOVE_RESULT_NOT_VERY_EFFECTIVE);
@@ -2036,7 +2036,7 @@ static inline bool32 DoesBattlerNegateDamage(u32 battler)
         return FALSE;
     if (ability == ABILITY_DISGUISE && species == SPECIES_MIMIKYU)
         return TRUE;
-    if (ability == ABILITY_ICE_FACE && species == SPECIES_EISCUE && GetBattleMoveCategory(gCurrentMove) == DAMAGE_CATEGORY_PHYSICAL)
+    if (ability == ABILITY_ICE_FACE && species == SPECIES_EISCUE && GetBattlerBattleMoveCategory(gBattlerAttacker, gCurrentMove) == DAMAGE_CATEGORY_PHYSICAL)
         return TRUE;
 
     return FALSE;
@@ -2463,7 +2463,7 @@ static void MoveDamageDataHpUpdate(u32 battler, u32 scriptBattler, const u8 *nex
 
     // Note: While physicalDmg/specialDmg below are only distinguished between for Counter/Mirror Coat,
     //       they are used in combination as general damage trackers for other purposes.
-    if (IsBattleMovePhysical(gCurrentMove))
+    if (IsBattlerBattleMovePhysical(gBattlerAttacker, gCurrentMove))
     {
         gProtectStructs[battler].physicalDmg = gBattleStruct->moveDamage[battler] + 1;
         gSpecialStatuses[battler].physicalDmg = gBattleStruct->moveDamage[battler] + 1;
@@ -3034,6 +3034,56 @@ static void SetNonVolatileStatus(u32 effectBattler, enum MoveEffect effect, cons
         gBattleStruct->poisonPuppeteerConfusion = TRUE;
 }
 
+static bool32 ShouldStrangeAmuletSwapStatChangingEffect(u32 battler)
+{
+    return GetBattlerHoldEffect(battler) == HOLD_EFFECT_STRANGE_AMULET
+        && GetBattlerBattleMoveCategory(battler, gCurrentMove) != DAMAGE_CATEGORY_STATUS;
+}
+
+static enum MoveEffect GetStrangeAmuletStatChangingEffect(u32 battler, enum MoveEffect moveEffect)
+{
+    if (!ShouldStrangeAmuletSwapStatChangingEffect(battler))
+        return moveEffect;
+
+    switch (moveEffect)
+    {
+    case MOVE_EFFECT_ATK_PLUS_1:
+        return MOVE_EFFECT_SP_ATK_PLUS_1;
+    case MOVE_EFFECT_SP_ATK_PLUS_1:
+        return MOVE_EFFECT_ATK_PLUS_1;
+    case MOVE_EFFECT_DEF_PLUS_1:
+        return MOVE_EFFECT_SP_DEF_PLUS_1;
+    case MOVE_EFFECT_SP_DEF_PLUS_1:
+        return MOVE_EFFECT_DEF_PLUS_1;
+    case MOVE_EFFECT_ATK_PLUS_2:
+        return MOVE_EFFECT_SP_ATK_PLUS_2;
+    case MOVE_EFFECT_SP_ATK_PLUS_2:
+        return MOVE_EFFECT_ATK_PLUS_2;
+    case MOVE_EFFECT_DEF_PLUS_2:
+        return MOVE_EFFECT_SP_DEF_PLUS_2;
+    case MOVE_EFFECT_SP_DEF_PLUS_2:
+        return MOVE_EFFECT_DEF_PLUS_2;
+    case MOVE_EFFECT_ATK_MINUS_1:
+        return MOVE_EFFECT_SP_ATK_MINUS_1;
+    case MOVE_EFFECT_SP_ATK_MINUS_1:
+        return MOVE_EFFECT_ATK_MINUS_1;
+    case MOVE_EFFECT_DEF_MINUS_1:
+        return MOVE_EFFECT_SP_DEF_MINUS_1;
+    case MOVE_EFFECT_SP_DEF_MINUS_1:
+        return MOVE_EFFECT_DEF_MINUS_1;
+    case MOVE_EFFECT_ATK_MINUS_2:
+        return MOVE_EFFECT_SP_ATK_MINUS_2;
+    case MOVE_EFFECT_SP_ATK_MINUS_2:
+        return MOVE_EFFECT_ATK_MINUS_2;
+    case MOVE_EFFECT_DEF_MINUS_2:
+        return MOVE_EFFECT_SP_DEF_MINUS_2;
+    case MOVE_EFFECT_SP_DEF_MINUS_2:
+        return MOVE_EFFECT_DEF_MINUS_2;
+    default:
+        return moveEffect;
+    }
+}
+
 // To avoid confusion the arguments are naned battler/effectBattler since they can be different from gBattlerAttacker/gBattlerTarget
 void SetMoveEffect(u32 battler, u32 effectBattler, enum MoveEffect moveEffect, const u8 *battleScript, enum SetMoveEffectFlags effectFlags)
 {
@@ -3086,6 +3136,7 @@ void SetMoveEffect(u32 battler, u32 effectBattler, enum MoveEffect moveEffect, c
     else if (DoesSubstituteBlockMove(gBattlerAttacker, gEffectBattler, gCurrentMove) && !affectsUser)
         moveEffect = MOVE_EFFECT_NONE;
 
+    moveEffect = GetStrangeAmuletStatChangingEffect(battler, moveEffect);
     gBattleScripting.moveEffect = moveEffect; // ChangeStatBuffs still needs the global moveEffect
 
     switch (moveEffect)
@@ -3399,7 +3450,7 @@ void SetMoveEffect(u32 battler, u32 effectBattler, enum MoveEffect moveEffect, c
         if (!NoAliveMonsForEitherParty())
         {
             BattleScriptPush(battleScript);
-            gBattlescriptCurrInstr = BattleScript_AtkDefDown;
+            gBattlescriptCurrInstr = ShouldStrangeAmuletSwapStatChangingEffect(battler) ? BattleScript_SpAtkSpDefDown : BattleScript_AtkDefDown;
         }
         break;
     case MOVE_EFFECT_DEF_SPDEF_DOWN: // Close Combat
@@ -6435,7 +6486,7 @@ static void Cmd_moveend(void)
 
             // Set ShellTrap to activate after the attacker's turn if target was hit by a physical move.
             if (GetMoveEffect(gChosenMoveByBattler[gBattlerTarget]) == EFFECT_SHELL_TRAP
-                && IsBattleMovePhysical(gCurrentMove)
+                && IsBattlerBattleMovePhysical(gBattlerAttacker, gCurrentMove)
                 && IsBattlerTurnDamaged(gBattlerTarget)
                 && gBattlerTarget != gBattlerAttacker
                 && !IsBattlerAlly(gBattlerTarget, gBattlerAttacker)

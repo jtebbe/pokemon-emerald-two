@@ -12663,7 +12663,7 @@ Tags: Mega
 === TRAINER_NADROJ ===
 Name: NADROJ
 Class: King
-Pic: Steven
+Pic: Agarthan King
 Gender: Male
 Music: Male
 Battle Type: Doubles
@@ -16046,7 +16046,7 @@ Adamant Nature
 === TRAINER_JORDAN_REMATCH ===
 Name: NADROJ
 Class: King
-Pic: Steven
+Pic: Agarthan King
 Gender: Male
 Music: Male
 Battle Type: Doubles
@@ -29911,7 +29911,7 @@ Music: Magma
 Battle Type: Doubles
 AI: Smart Trainer
 
-Blissey @ Leftovers  
+Blissey @ Puzzle Box  
 Ability: Healer  
 Tera Type: Ghost  
 EVs: 252 HP / 4 Def / 252 SpD  

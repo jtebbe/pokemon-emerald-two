@@ -286,6 +286,11 @@ static inline u32 GetIndicatorSpriteId(u32 healthboxId)
     return gBattleStruct->gimmick.indicatorSpriteId[gSprites[healthboxId].hMain_Battler];
 }
 
+static bool32 IsIndicatorSpriteValid(u32 battler, u32 spriteId)
+{
+    return spriteId < MAX_SPRITES && gSprites[spriteId].template == &sSpriteTemplate_BattlerIndicators[battler];
+}
+
 const u32 *GetIndicatorSpriteSrc(u32 battler)
 {
     u32 gimmick = GetActiveGimmick(battler);
@@ -322,28 +327,64 @@ u32 GetIndicatorPalTag(u32 battler)
         return TAG_NONE;
 }
 
+static const u16 *GetIndicatorPalSrc(u32 palTag)
+{
+    switch (palTag)
+    {
+    case TAG_MISC_INDICATOR_PAL:
+        return sMiscIndicatorPal;
+    case TAG_MEGA_INDICATOR_PAL:
+        return sMegaIndicatorPal;
+    case TAG_TERA_INDICATOR_PAL:
+        return sTeraIndicatorPal;
+    default:
+        return NULL;
+    }
+}
+
+static bool32 RestoreIndicatorPalette(u32 palTag, u32 *paletteNum)
+{
+    const u16 *palette = GetIndicatorPalSrc(palTag);
+    u32 index = IndexOfSpritePaletteTag(palTag);
+
+    if (palette == NULL)
+        return FALSE;
+
+    if (index == 0xFF)
+        index = LoadSpritePaletteWithTag(palette, palTag);
+
+    if (index == 0xFF)
+        return FALSE;
+
+    LoadPalette(palette, OBJ_PLTT_ID(index), PLTT_SIZE_4BPP);
+    *paletteNum = index;
+    return TRUE;
+}
+
 #define INDICATOR_SIZE (8 * 16 / 2)
 
 void UpdateIndicatorVisibilityAndType(u32 healthboxId, bool32 invisible)
 {
     u32 battler = gSprites[healthboxId].hMain_Battler;
     u32 palTag = GetIndicatorPalTag(battler);
-    struct Sprite *sprite = &gSprites[GetIndicatorSpriteId(healthboxId)];
+    u32 paletteNum, spriteId = GetIndicatorSpriteId(healthboxId);
+    struct Sprite *sprite;
 
-    if (GetIndicatorSpriteId(healthboxId) == 0) // safari zone means the player doesn't have an indicator sprite id
+    if (!IsIndicatorSpriteValid(battler, spriteId))
         return;
 
-    if (palTag != TAG_NONE)
+    sprite = &gSprites[spriteId];
+
+    if (palTag != TAG_NONE && RestoreIndicatorPalette(palTag, &paletteNum))
     {
-        sprite->oam.paletteNum = IndexOfSpritePaletteTag(palTag);
-        sprite->invisible = invisible;
-
         u32 *dst = (u32 *)(OBJ_VRAM0 + TILE_SIZE_4BPP * GetSpriteTileStartByTag(BATTLER_INDICATOR_TAG + battler));
-
         const u32 *src = GetIndicatorSpriteSrc(battler);
 
         for (u32 i = 0; i < INDICATOR_SIZE / 4; i++)
             dst[i] = src[i];
+
+        sprite->oam.paletteNum = paletteNum;
+        sprite->invisible = invisible;
     }
     else // in case of error
     {
@@ -355,19 +396,28 @@ void UpdateIndicatorVisibilityAndType(u32 healthboxId, bool32 invisible)
 
 void UpdateIndicatorOamPriority(u32 healthboxId, u32 oamPriority)
 {
-    gSprites[GetIndicatorSpriteId(healthboxId)].oam.priority = oamPriority;
+    u32 battler = gSprites[healthboxId].hMain_Battler;
+    u32 spriteId = GetIndicatorSpriteId(healthboxId);
+
+    if (IsIndicatorSpriteValid(battler, spriteId))
+        gSprites[spriteId].oam.priority = oamPriority;
 }
 
 void UpdateIndicatorLevelData(u32 healthboxId, u32 level)
 {
     s32 xDelta = 0;
+    u32 battler = gSprites[healthboxId].hMain_Battler;
+    u32 spriteId = GetIndicatorSpriteId(healthboxId);
+
+    if (!IsIndicatorSpriteValid(battler, spriteId))
+        return;
 
     if (level >= 100)
         xDelta -= 4;
     else if (level < 10)
         xDelta += 5;
 
-    gSprites[GetIndicatorSpriteId(healthboxId)].tLevelXDelta = xDelta;
+    gSprites[spriteId].tLevelXDelta = xDelta;
 }
 
 static const s8 sIndicatorPositions[][2] =
@@ -391,10 +441,13 @@ void CreateIndicatorSprite(u32 battler)
 
     LoadSpriteSheet(&sBattler_GimmickSpritesheets[battler]);
     spriteId = CreateSprite(&(sSpriteTemplate_BattlerIndicators[battler]), 0, y, 0);
+    if (spriteId == MAX_SPRITES)
+        return;
+
     gBattleStruct->gimmick.indicatorSpriteId[battler] = spriteId;
     gSprites[spriteId].tBattler = battler;
     gSprites[spriteId].tPosX = x;
-    gSprites[spriteId].invisible = FALSE;
+    gSprites[spriteId].invisible = TRUE;
 }
 
 #undef tBattler

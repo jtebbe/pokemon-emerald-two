@@ -113,7 +113,8 @@
 #define TRAINER_PIC_CLARK                 95
 #define TRAINER_PIC_AGARTHAN_SCOUT        96
 #define TRAINER_PIC_AGARTHAN_OCCULTIST    97
-#define TRAINER_PIC_COUNT                 98
+#define TRAINER_PIC_AGARTHAN_KING         98
+#define TRAINER_PIC_COUNT                 99
 
 // The player back pics are assumed to alternate according to the gender values (MALE/FEMALE)
 #define TRAINER_BACK_PIC_BRENDAN                0

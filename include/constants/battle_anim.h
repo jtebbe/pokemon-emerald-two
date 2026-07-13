@@ -597,7 +597,8 @@
 #define B_ANIM_GRAVITY                  56
 #define B_ANIM_SAFEGUARD                57
 #define B_ANIM_UPROAR                   58
-#define NUM_B_ANIMS_GENERAL             59
+#define B_ANIM_GLASS_ARMOR_SPIKES       59
+#define NUM_B_ANIMS_GENERAL             60
 
 // special animations table (sBattleAnims_Special)
 #define B_ANIM_LVL_UP                   0

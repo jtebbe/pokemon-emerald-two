@@ -1146,15 +1146,25 @@ bool32 OnStep_DexNavSearch(void)
         && sDexNavSearchDataPtr->proximity < GetMovementProximityBySearchLevel() && sDexNavSearchDataPtr->movementCount < 2
         && !sDexNavSearchDataPtr->hiddenSearch)
     {
-        FieldEffectStop(&gSprites[sDexNavSearchDataPtr->fldEffSpriteId], sDexNavSearchDataPtr->fldEffId);
+        s16 oldTileX = sDexNavSearchDataPtr->tileX;
+        s16 oldTileY = sDexNavSearchDataPtr->tileY;
+        u8 oldFldEffSpriteId = sDexNavSearchDataPtr->fldEffSpriteId;
+        u8 oldFldEffId = sDexNavSearchDataPtr->fldEffId;
 
         if (!TryStartHiddenMonFieldEffect(sDexNavSearchDataPtr->environment, 10, 10, TRUE))
         {
-            EndDexNavSearchSetupScript(EventScript_PokemonGotAway);
-            return TRUE;
+            // Keep the existing encounter in place if tight terrain leaves nowhere to move.
+            sDexNavSearchDataPtr->tileX = oldTileX;
+            sDexNavSearchDataPtr->tileY = oldTileY;
+            sDexNavSearchDataPtr->fldEffSpriteId = oldFldEffSpriteId;
+            sDexNavSearchDataPtr->fldEffId = oldFldEffId;
+            sDexNavSearchDataPtr->movementCount = 2;
         }
-
-        sDexNavSearchDataPtr->movementCount++;
+        else
+        {
+            FieldEffectStop(&gSprites[oldFldEffSpriteId], oldFldEffId);
+            sDexNavSearchDataPtr->movementCount++;
+        }
     }
     return FALSE;
 }

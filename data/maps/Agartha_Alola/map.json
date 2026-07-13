@@ -2,7 +2,7 @@
   "id": "MAP_AGARTHA_ALOLA",
   "name": "Agartha_Alola",
   "layout": "LAYOUT_AGARTHA_ALOLA",
-  "music": "MUS_CAVE_OF_ORIGIN",
+  "music": "MUS_CORRIDORS_OF_TIME",
   "region_map_section": "MAPSEC_AGARTHA",
   "requires_flash": false,
   "weather": "WEATHER_UNDERWATER",

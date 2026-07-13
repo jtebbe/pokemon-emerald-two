@@ -2203,6 +2203,19 @@ const u16 gItemIconPalette_LustrousGlobe[] = INCBIN_U16("graphics/items/icon_pal
 const u32 gItemIcon_BerserkGene[] = INCBIN_U32("graphics/items/icons/berserk_gene.4bpp.smol");
 const u16 gItemIconPalette_BerserkGene[] = INCBIN_U16("graphics/items/icon_palettes/berserk_gene.gbapal");
 
+const u32 gItemIcon_PuzzleBox[] = INCBIN_U32("graphics/items/icons/puzzle_box.4bpp.smol");
+const u16 gItemIconPalette_PuzzleBox[] = INCBIN_U16("graphics/items/icon_palettes/puzzle_box.gbapal");
+const u32 gItemIcon_Crowbar[] = INCBIN_U32("graphics/items/icons/crowbar.4bpp.smol");
+const u16 gItemIconPalette_Crowbar[] = INCBIN_U16("graphics/items/icon_palettes/crowbar.gbapal");
+const u32 gItemIcon_StrangeAmulet[] = INCBIN_U32("graphics/items/icons/strange_amulet.4bpp.smol");
+const u16 gItemIconPalette_StrangeAmulet[] = INCBIN_U16("graphics/items/icon_palettes/strange_amulet.gbapal");
+const u32 gItemIcon_GlassArmor[] = INCBIN_U32("graphics/items/icons/glass_armor.4bpp.smol");
+const u16 gItemIconPalette_GlassArmor[] = INCBIN_U16("graphics/items/icon_palettes/glass_armor.gbapal");
+const u32 gItemIcon_Thesaurus[] = INCBIN_U32("graphics/items/icons/thesaurus.4bpp.smol");
+const u16 gItemIconPalette_Thesaurus[] = INCBIN_U16("graphics/items/icon_palettes/thesaurus.gbapal");
+const u32 gItemIcon_Paintbrush[] = INCBIN_U32("graphics/items/icons/paintbrush.4bpp.smol");
+const u16 gItemIconPalette_Paintbrush[] = INCBIN_U16("graphics/items/icon_palettes/paintbrush.gbapal");
+
 const u32 gItemIcon_FairyFeather[] = INCBIN_U32("graphics/items/icons/fairy_feather.4bpp.smol");
 const u16 gItemIconPalette_FairyFeather[] = INCBIN_U16("graphics/items/icon_palettes/fairy_feather.gbapal");
 

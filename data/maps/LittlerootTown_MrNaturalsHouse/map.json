@@ -2,7 +2,7 @@
   "id": "MAP_LITTLEROOT_TOWN_MR_NATURALS_HOUSE",
   "name": "LittlerootTown_MrNaturalsHouse",
   "layout": "LAYOUT_LITTLEROOT_TOWN_MR_NATURALS_HOUSE",
-  "music": "MUS_TRICK_HOUSE",
+  "music": "MUS_CAMEL_BY_CAMEL",
   "region_map_section": "MAPSEC_LITTLEROOT_TOWN",
   "requires_flash": false,
   "weather": "WEATHER_NONE",

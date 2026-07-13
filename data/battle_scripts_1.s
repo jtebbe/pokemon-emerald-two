@@ -5843,6 +5843,21 @@ BattleScript_DefSpDefDownTrySpDef::
 BattleScript_DefSpDefDownRet::
 	return
 
+BattleScript_SpAtkSpDefDown::
+	setstatchanger STAT_SPATK, 1, TRUE
+	statbuffchange BS_ATTACKER, STAT_CHANGE_CERTAIN | STAT_CHANGE_ALLOW_PTR, BattleScript_SpAtkSpDefDownTrySpDef, BIT_SPDEF
+	jumpifbyte CMP_EQUAL, cMULTISTRING_CHOOSER, B_MSG_STAT_WONT_CHANGE, BattleScript_SpAtkSpDefDownTrySpDef
+	printfromtable gStatDownStringIds
+	waitmessage B_WAIT_TIME_LONG
+BattleScript_SpAtkSpDefDownTrySpDef:
+	setstatchanger STAT_SPDEF, 1, TRUE
+	statbuffchange BS_ATTACKER, STAT_CHANGE_CERTAIN | STAT_CHANGE_ALLOW_PTR, BattleScript_SpAtkSpDefDownRet
+	jumpifbyte CMP_EQUAL, cMULTISTRING_CHOOSER, B_MSG_STAT_WONT_CHANGE, BattleScript_SpAtkSpDefDownRet
+	printfromtable gStatDownStringIds
+	waitmessage B_WAIT_TIME_LONG
+BattleScript_SpAtkSpDefDownRet:
+	return
+
 BattleScript_DefDownSpeedUp::
 	jumpifstat BS_ATTACKER, CMP_GREATER_THAN, STAT_DEF, MIN_STAT_STAGE, BattleScript_DefDownSpeedUpTryDef
 	jumpifstat BS_ATTACKER, CMP_EQUAL, STAT_SPEED, MAX_STAT_STAGE, BattleScript_DefDownSpeedUpRet
@@ -5943,6 +5958,12 @@ BattleScript_FocusPunchSetUp::
 	flushtextbox
 	playanimation BS_ATTACKER, B_ANIM_FOCUS_PUNCH_SETUP
 	printstring STRINGID_PKMNTIGHTENINGFOCUS
+	waitmessage B_WAIT_TIME_LONG
+	end3
+
+BattleScript_ThesaurusSetUp::
+	flushtextbox
+	printstring STRINGID_THESAURUSCHECK
 	waitmessage B_WAIT_TIME_LONG
 	end3
 
@@ -7455,6 +7476,18 @@ BattleScript_ProteanActivates::
 	waitmessage B_WAIT_TIME_LONG
 	return
 
+BattleScript_PaintbrushAddsType::
+	pause B_WAIT_TIME_SHORTEST
+	printstring STRINGID_PAINTBRUSHADDEDTYPE
+	waitmessage B_WAIT_TIME_LONG
+	return
+
+BattleScript_PaintbrushReplacesType::
+	pause B_WAIT_TIME_SHORTEST
+	printstring STRINGID_PAINTBRUSHREPLACEDTYPE
+	waitmessage B_WAIT_TIME_LONG
+	return
+
 BattleScript_StormdancerActivates::
 	pause B_WAIT_TIME_SHORTEST
 	call BattleScript_AbilityPopUp
@@ -8042,6 +8075,19 @@ BattleScript_AirBalloonMsgPop::
 	printstring STRINGID_AIRBALLOONPOP
 	waitmessage B_WAIT_TIME_LONG
 	removeitem BS_TARGET
+	return
+
+BattleScript_GlassArmorShatters::
+	printstring STRINGID_GLASSARMORSHATTER
+	waitmessage B_WAIT_TIME_LONG
+	playanimation BS_ATTACKER, B_ANIM_GLASS_ARMOR_SPIKES
+	removeitem BS_TARGET
+	trysetspikes BattleScript_GlassArmorTryAttackerSide
+BattleScript_GlassArmorTryAttackerSide:
+	swapattackerwithtarget
+	trysetspikes BattleScript_GlassArmorRestoreBattlers
+BattleScript_GlassArmorRestoreBattlers:
+	swapattackerwithtarget
 	return
 
 BattleScript_ItemHurtRet::

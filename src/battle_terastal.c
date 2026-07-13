@@ -51,11 +51,21 @@ void ApplyBattlerVisualsForTeraAnim(u32 battler)
 
     // Show indicator and do palette blend.
     UpdateHealthboxAttribute(gHealthboxSpriteIds[battler], &party[index], HEALTHBOX_ALL);
-    BlendPalette(OBJ_PLTT_ID(battler), 16, 8, GetTeraTypeRGB(GetBattlerTeraType(battler)));
-    CpuCopy32(gPlttBufferFaded + OBJ_PLTT_ID(battler), gPlttBufferUnfaded + OBJ_PLTT_ID(battler), PLTT_SIZEOF(16));
+    UpdateIndicatorVisibilityAndType(gHealthboxSpriteIds[battler], FALSE);
+    if (gBattlerSpriteIds[battler] < MAX_SPRITES)
+        gSprites[gBattlerSpriteIds[battler]].oam.paletteNum = battler;
+    ApplyBattlerTeraPalette(battler, battler);
 
     // We apply the animation behind a white screen, so restore the blended color here to avoid a pop
     BlendPalette(OBJ_PLTT_ID(battler), 16, 16, RGB_WHITEALPHA);
+}
+
+void ApplyBattlerTeraPalette(u32 battler, u32 paletteNum)
+{
+    u32 paletteOffset = OBJ_PLTT_ID(paletteNum);
+
+    BlendPalette(paletteOffset, 16, 8, GetTeraTypeRGB(GetBattlerTeraType(battler)));
+    CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, PLTT_SIZEOF(16));
 }
 
 // Returns whether a battler can Terastallize.

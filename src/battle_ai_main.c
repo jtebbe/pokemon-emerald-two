@@ -4987,6 +4987,7 @@ static s32 AI_CalcMoveEffectScore(u32 battlerAtk, u32 battlerDef, u32 move, stru
             break;
         case HOLD_EFFECT_LAGGING_TAIL:
         case HOLD_EFFECT_STICKY_BARB:
+        case HOLD_EFFECT_THESAURUS:
             ADJUST_SCORE(DECENT_EFFECT);
             break;
         case HOLD_EFFECT_UTILITY_UMBRELLA:

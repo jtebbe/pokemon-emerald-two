@@ -26916,6 +26916,32 @@ gBattleAnimMove_Spikes::
 	clearmonbg ANIM_DEF_PARTNER
 	end
 
+gBattleAnimGeneral_GlassArmorSpikes::
+	loadspritegfx ANIM_TAG_SPIKES
+	playsewithpan SE_M_JUMP_KICK, SOUND_PAN_TARGET
+	waitplaysewithpan SE_M_HORN_ATTACK, SOUND_PAN_TARGET, 28
+	createsprite gGlassArmorSpikesSpriteTemplate, ANIM_TARGET, 2, ANIM_TARGET, ANIM_TARGET, 20, 0, 0, 24, 30
+	delay 10
+	playsewithpan SE_M_JUMP_KICK, SOUND_PAN_TARGET
+	waitplaysewithpan SE_M_HORN_ATTACK, SOUND_PAN_TARGET, 28
+	createsprite gGlassArmorSpikesSpriteTemplate, ANIM_TARGET, 2, ANIM_TARGET, ANIM_TARGET, 20, 0, -24, 24, 30
+	delay 10
+	waitplaysewithpan SE_M_HORN_ATTACK, SOUND_PAN_TARGET, 28
+	createsprite gGlassArmorSpikesSpriteTemplate, ANIM_TARGET, 2, ANIM_TARGET, ANIM_TARGET, 20, 0, 24, 24, 30
+	delay 10
+	playsewithpan SE_M_JUMP_KICK, SOUND_PAN_TARGET
+	waitplaysewithpan SE_M_HORN_ATTACK, SOUND_PAN_ATTACKER, 28
+	createsprite gGlassArmorSpikesSpriteTemplate, ANIM_ATTACKER, 2, ANIM_ATTACKER, ANIM_TARGET, 20, 0, 0, 24, 30
+	delay 10
+	playsewithpan SE_M_JUMP_KICK, SOUND_PAN_TARGET
+	waitplaysewithpan SE_M_HORN_ATTACK, SOUND_PAN_ATTACKER, 28
+	createsprite gGlassArmorSpikesSpriteTemplate, ANIM_ATTACKER, 2, ANIM_ATTACKER, ANIM_TARGET, 20, 0, -24, 24, 30
+	delay 10
+	waitplaysewithpan SE_M_HORN_ATTACK, SOUND_PAN_ATTACKER, 28
+	createsprite gGlassArmorSpikesSpriteTemplate, ANIM_ATTACKER, 2, ANIM_ATTACKER, ANIM_TARGET, 20, 0, 24, 24, 30
+	waitforvisualfinish
+	end
+
 gBattleAnimMove_Megahorn::
 	loadspritegfx ANIM_TAG_HORN_HIT_2
 	loadspritegfx ANIM_TAG_IMPACT

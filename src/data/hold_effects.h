@@ -646,4 +646,29 @@ const struct HoldEffectInfo gHoldEffectsInfo[HOLD_EFFECT_COUNT] =
         .onSwitchIn = TRUE,
         .onSwitchInFirstTurn = TRUE,
     },
+
+    [HOLD_EFFECT_PUZZLE_BOX] =
+    {
+    },
+
+    [HOLD_EFFECT_CROWBAR] =
+    {
+    },
+
+    [HOLD_EFFECT_STRANGE_AMULET] =
+    {
+    },
+
+    [HOLD_EFFECT_GLASS_ARMOR] =
+    {
+        .onTargetAfterHit = TRUE,
+    },
+
+    [HOLD_EFFECT_THESAURUS] =
+    {
+    },
+
+    [HOLD_EFFECT_PAINTBRUSH] =
+    {
+    },
 };

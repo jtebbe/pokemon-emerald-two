@@ -36,6 +36,7 @@ static void AnimMeanLookEye_Step2(struct Sprite *);
 static void AnimMeanLookEye_Step3(struct Sprite *);
 static void AnimMeanLookEye_Step4(struct Sprite *);
 static void AnimSpikes(struct Sprite *);
+static void AnimGlassArmorSpikes(struct Sprite *);
 static void AnimSpikes_Step1(struct Sprite *);
 static void AnimSpikes_Step2(struct Sprite *);
 static void AnimLeer(struct Sprite *);
@@ -250,6 +251,17 @@ const struct SpriteTemplate gSpikesSpriteTemplate =
     .images = NULL,
     .affineAnims = gDummySpriteAffineAnimTable,
     .callback = AnimSpikes,
+};
+
+const struct SpriteTemplate gGlassArmorSpikesSpriteTemplate =
+{
+    .tileTag = ANIM_TAG_SPIKES,
+    .paletteTag = ANIM_TAG_SPIKES,
+    .oam = &gOamData_AffineOff_ObjNormal_16x16,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = AnimGlassArmorSpikes,
 };
 
 const struct SpriteTemplate gToxicSpikesSpriteTemplate =
@@ -1660,6 +1672,44 @@ static void AnimSpikes(struct Sprite *sprite)
     sprite->data[0] = gBattleAnimArgs[4];
     sprite->data[2] = x + gBattleAnimArgs[2];
     sprite->data[4] = y + gBattleAnimArgs[3];
+    sprite->data[5] = -50;
+
+    InitAnimArcTranslation(sprite);
+    sprite->callback = AnimSpikes_Step1;
+}
+
+static void AnimGlassArmorSpikes(struct Sprite *sprite)
+{
+    u32 destAnimBattler = gBattleAnimArgs[0];
+    u32 srcAnimBattler = gBattleAnimArgs[1];
+    u32 destBattler = GetAnimBattlerId(destAnimBattler);
+    u32 srcBattler = GetAnimBattlerId(srcAnimBattler);
+    s16 x, y;
+    s16 initialX = gBattleAnimArgs[2];
+    s16 targetX = gBattleAnimArgs[4];
+
+    if (GetAnimBattlerSpriteId(srcAnimBattler) == SPRITE_NONE || !IsBattlerSpriteVisible(srcBattler)
+     || GetAnimBattlerSpriteId(destAnimBattler) == SPRITE_NONE || !IsBattlerSpriteVisible(destBattler))
+    {
+        DestroyAnimSprite(sprite);
+        return;
+    }
+
+    sprite->x = GetBattlerSpriteCoord2(srcBattler, BATTLER_COORD_X_2);
+    sprite->y = GetBattlerSpriteCoord2(srcBattler, BATTLER_COORD_Y_PIC_OFFSET);
+    SetAverageBattlerPositions(destBattler, FALSE, &x, &y);
+
+    if (!IsOnPlayerSide(srcBattler))
+    {
+        initialX = -initialX;
+        targetX = -targetX;
+    }
+
+    sprite->x += initialX;
+    sprite->y += gBattleAnimArgs[3];
+    sprite->data[0] = gBattleAnimArgs[6];
+    sprite->data[2] = x + targetX;
+    sprite->data[4] = y + gBattleAnimArgs[5];
     sprite->data[5] = -50;
 
     InitAnimArcTranslation(sprite);

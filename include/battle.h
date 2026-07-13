@@ -126,7 +126,7 @@ struct DisableStruct
     u8 usedProteanLibero:1;
     u8 flashFireBoosted:1;
     u8 boosterEnergyActivated:1;
-    u8 padding1:1;
+    u8 usedPaintbrush:1;
     u16 overwrittenAbility;   // abilities overwritten during battle (keep separate from battle history in case of switching)
     u8 roostActive:1;
     u8 unburdenActive:1;
@@ -685,6 +685,7 @@ struct BattleStruct
     void (*savedCallback)(void);
     u16 chosenItem[MAX_BATTLERS_COUNT];
     u16 choicedMove[MAX_BATTLERS_COUNT];
+    u16 thesaurusMove[MAX_BATTLERS_COUNT];
     u16 changedItems[MAX_BATTLERS_COUNT];
     u8 switchInBattlerCounter;
     u16 lastTakenMoveFrom[MAX_BATTLERS_COUNT][MAX_BATTLERS_COUNT]; // a 2-D array [target][attacker]

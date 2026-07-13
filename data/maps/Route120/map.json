@@ -616,6 +616,19 @@
       "trainer_sight_or_berry_tree_id": "ITEM_TM_PSYCHIC_TERRAIN",
       "script": "Common_EventScript_FindItem",
       "flag": "FLAG_ITEM_PSYCHIC_TERRAIN"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_BATTLE_BALL",
+      "x": 13,
+      "y": 51,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
+      "movement_range_x": 1,
+      "movement_range_y": 1,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "ITEM_PAINTBRUSH",
+      "script": "Common_EventScript_FindItem",
+      "flag": "FLAG_PAINTBRUSH"
     }
   ],
   "warp_events": [

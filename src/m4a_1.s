@@ -79,16 +79,16 @@ SoundMain_5:
 	.align 2, 0
 lt_SOUND_INFO_PTR:        .word SOUND_INFO_PTR
 lt_ID_NUMBER:             .word ID_NUMBER
-lt_SoundMainRAM:   .word SoundMainRAM + 1
+lt_SoundMainRAM:          .word SoundMainRAM + 1
 lt_REG_VCOUNT:            .word REG_VCOUNT
 lt_o_SoundInfo_pcmBuffer: .word o_SoundInfo_pcmBuffer
 lt_PCM_DMA_BUF_SIZE:      .word PCM_DMA_BUF_SIZE
 	thumb_func_end SoundMain
 
+	.section .iwram.code, "ax", %progbits
+
 /* HQ-Mixer rev 4.0 created by ipatix (c) 2021
  * licensed under GPLv3, see LICENSE.txt for details */
-
- .section .iwram.code
 
 	.equ ENABLE_REVERB, 1                        @ <-- if you want faster code or don't like reverb, set this to '0', set to '1' otherwise
 	.equ ENABLE_DMA, 1                           @ <-- Using DMA produces smaller code and has better performance. Disable it if your case does not allow to use DMA.
@@ -143,8 +143,8 @@ lt_PCM_DMA_BUF_SIZE:      .word PCM_DMA_BUF_SIZE
 	.equ VAR_EXT_NOISE_SHAPE_LEFT, 0xE       @ [byte] normally unused, used here for noise shaping
 	.equ VAR_EXT_NOISE_SHAPE_RIGHT, 0xF      @ [byte] normally unused, used here for noise shaping
 	.equ VAR_DEF_PITCH_FAC, 0x18             @ [word] this value get's multiplied with the samplerate for the inter sample distance
-	.equ VAR_FIRST_CHN, 0x50                 @ [CHN struct] relative offset to channel array
-	.equ VAR_PCM_BUFFER, 0x350
+	.equ VAR_FIRST_CHN, o_SoundInfo_chans    @ [CHN struct] relative offset to channel array
+	.equ VAR_PCM_BUFFER, o_SoundInfo_pcmBuffer
 
 	/* just some more defines */
 	.equ ARM_OP_LEN, 0x4
@@ -747,7 +747,7 @@ fast_mixing_instructions:
 	/* mix the first 4 stereo samples, then the next 4. */
 	.rept 2
 	  ldmia r5, {r0, r1, r10, lr}       @ load the next 4 stereo samples
-	  .irp reg, r0, r1, r10, lr			
+	  .irp reg, r0, r1, r10, lr
 	    mulne r9, r7, r12
 	    nop                               @ Block #1
 	    nop
@@ -1901,7 +1901,7 @@ _081DD9F6:
 	cmp r6, 0
 	beq _081DDA14
 	ldrb r0, [r4, o_CgbChannel_modify]
-	movs r1, 0x1
+	movs r1, CGB_CHANNEL_MO_VOL
 	orrs r0, r1
 	strb r0, [r4, o_CgbChannel_modify]
 _081DDA14:
