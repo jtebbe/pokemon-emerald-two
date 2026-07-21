@@ -14,6 +14,20 @@
 EWRAM_DATA u8 *gItemIconDecompressionBuffer = NULL;
 EWRAM_DATA u8 *gItemIcon4x4Buffer = NULL;
 
+#if TESTING
+EWRAM_DATA u16 gTestLastItemIconSpriteItemId = ITEM_NONE;
+EWRAM_DATA u16 gTestLastItemIconSpriteTilesTag = 0;
+EWRAM_DATA u16 gTestLastItemIconSpritePaletteTag = 0;
+EWRAM_DATA const void *gTestLastItemIconSpritePic = NULL;
+EWRAM_DATA const u16 *gTestLastItemIconSpritePalette = NULL;
+EWRAM_DATA u8 gTestItemIconSpriteCount = 0;
+EWRAM_DATA u16 gTestItemIconSpriteItemIds[TEST_ITEM_ICON_RECORD_COUNT] = {0};
+EWRAM_DATA u16 gTestItemIconSpriteTilesTags[TEST_ITEM_ICON_RECORD_COUNT] = {0};
+EWRAM_DATA u16 gTestItemIconSpritePaletteTags[TEST_ITEM_ICON_RECORD_COUNT] = {0};
+EWRAM_DATA const void *gTestItemIconSpritePics[TEST_ITEM_ICON_RECORD_COUNT] = {0};
+EWRAM_DATA const u16 *gTestItemIconSpritePalettes[TEST_ITEM_ICON_RECORD_COUNT] = {0};
+#endif
+
 // const rom data
 #include "data/item_icon_table.h"
 
@@ -87,6 +101,30 @@ void CopyItemIconPicTo4x4Buffer(const void *src, void *dest)
         CpuCopy16(src + i * 96, dest + i * 128, 0x60);
 }
 
+#if TESTING
+static void RecordItemIconSpriteForTest(u16 tilesTag, u16 paletteTag, u16 itemId)
+{
+    u8 index = gTestItemIconSpriteCount;
+
+    gTestLastItemIconSpriteItemId = itemId;
+    gTestLastItemIconSpriteTilesTag = tilesTag;
+    gTestLastItemIconSpritePaletteTag = paletteTag;
+    gTestLastItemIconSpritePic = GetItemIconPic(itemId);
+    gTestLastItemIconSpritePalette = GetItemIconPalette(itemId);
+
+    if (index < TEST_ITEM_ICON_RECORD_COUNT)
+    {
+        gTestItemIconSpriteItemIds[index] = itemId;
+        gTestItemIconSpriteTilesTags[index] = tilesTag;
+        gTestItemIconSpritePaletteTags[index] = paletteTag;
+        gTestItemIconSpritePics[index] = gTestLastItemIconSpritePic;
+        gTestItemIconSpritePalettes[index] = gTestLastItemIconSpritePalette;
+    }
+    if (gTestItemIconSpriteCount < 0xFF)
+        gTestItemIconSpriteCount++;
+}
+#endif
+
 u8 AddItemIconSprite(u16 tilesTag, u16 paletteTag, u16 itemId)
 {
     if (!AllocItemIconTemporaryBuffers())
@@ -100,6 +138,9 @@ u8 AddItemIconSprite(u16 tilesTag, u16 paletteTag, u16 itemId)
         struct SpritePalette spritePalette;
         struct SpriteTemplate *spriteTemplate;
 
+#if TESTING
+        RecordItemIconSpriteForTest(tilesTag, paletteTag, itemId);
+#endif
         DecompressDataWithHeaderWram(GetItemIconPic(itemId), gItemIconDecompressionBuffer);
         CopyItemIconPicTo4x4Buffer(gItemIconDecompressionBuffer, gItemIcon4x4Buffer);
         spriteSheet.data = gItemIcon4x4Buffer;
@@ -137,6 +178,9 @@ u8 AddCustomItemIconSprite(const struct SpriteTemplate *customSpriteTemplate, u1
         struct SpritePalette spritePalette;
         struct SpriteTemplate *spriteTemplate;
 
+#if TESTING
+        RecordItemIconSpriteForTest(tilesTag, paletteTag, itemId);
+#endif
         DecompressDataWithHeaderWram(GetItemIconPic(itemId), gItemIconDecompressionBuffer);
         CopyItemIconPicTo4x4Buffer(gItemIconDecompressionBuffer, gItemIcon4x4Buffer);
         spriteSheet.data = gItemIcon4x4Buffer;

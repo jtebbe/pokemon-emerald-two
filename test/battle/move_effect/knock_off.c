@@ -1,9 +1,86 @@
 #include "global.h"
+#include "battle_anim.h"
+#include "item_icon.h"
+#include "sprite.h"
+#include "task.h"
 #include "test/battle.h"
 
 ASSUMPTIONS
 {
     ASSUME(GetMoveEffect(MOVE_KNOCK_OFF) == EFFECT_KNOCK_OFF);
+}
+
+static void ResetKnockOffItemAnimTest(void)
+{
+    ResetTasks();
+    ResetSpriteData();
+    FreeAllSpritePalettes();
+    gReservedSpritePaletteCount = 0;
+    gAnimVisualTaskCount = 0;
+    gLastUsedItem = ITEM_NONE;
+    gTestLastKnockOffItemAnimUsedFallback = FALSE;
+    gTestLastItemIconSpriteItemId = ITEM_NONE;
+    gTestLastItemIconSpriteTilesTag = TAG_NONE;
+    gTestLastItemIconSpritePaletteTag = TAG_NONE;
+    gTestLastItemIconSpritePic = NULL;
+    gTestLastItemIconSpritePalette = NULL;
+    gTestItemIconSpriteCount = 0;
+}
+
+static void CreateKnockOffItemAnimSprite(u16 item)
+{
+    u8 taskId;
+
+    ResetKnockOffItemAnimTest();
+    gLastUsedItem = item;
+    gAnimVisualTaskCount = 1;
+    taskId = CreateTask(TaskDummy, 0);
+    AnimTask_CreateKnockOffItem(taskId);
+}
+
+static void ExpectKnockOffItemAnimLoadsItemIcon(u16 item)
+{
+    CreateKnockOffItemAnimSprite(item);
+
+    EXPECT(!gTestLastKnockOffItemAnimUsedFallback);
+    EXPECT_EQ(gTestLastItemIconSpriteItemId, item);
+    EXPECT_EQ(gTestLastItemIconSpriteTilesTag, ANIM_TAG_ITEM_BAG);
+    EXPECT_EQ(gTestLastItemIconSpritePaletteTag, ANIM_TAG_ITEM_BAG);
+    EXPECT(gTestLastItemIconSpritePic == GetItemIconPic(item));
+    EXPECT(gTestLastItemIconSpritePalette == GetItemIconPalette(item));
+    EXPECT(GetSpriteTileStartByTag(ANIM_TAG_ITEM_BAG) != TAG_NONE);
+    EXPECT(IndexOfSpritePaletteTag(ANIM_TAG_ITEM_BAG) != 0xFF);
+
+    ResetKnockOffItemAnimTest();
+}
+
+TEST("Knock Off item animation loads Grass Gem's icon and palette")
+{
+    ExpectKnockOffItemAnimLoadsItemIcon(ITEM_GRASS_GEM);
+}
+
+TEST("Knock Off item animation loads Choice Specs' icon and palette")
+{
+    ExpectKnockOffItemAnimLoadsItemIcon(ITEM_CHOICE_SPECS);
+}
+
+TEST("Knock Off item animation loads Thesaurus's icon and palette")
+{
+    ExpectKnockOffItemAnimLoadsItemIcon(ITEM_THESAURUS);
+}
+
+TEST("Knock Off item animation falls back to the stock item bag for ITEM_NONE")
+{
+    CreateKnockOffItemAnimSprite(ITEM_NONE);
+
+    EXPECT(gTestLastKnockOffItemAnimUsedFallback);
+    EXPECT_EQ(gTestLastItemIconSpriteItemId, ITEM_NONE);
+    EXPECT(gTestLastItemIconSpritePic == NULL);
+    EXPECT(gTestLastItemIconSpritePalette == NULL);
+    EXPECT(GetSpriteTileStartByTag(ANIM_TAG_ITEM_BAG) != TAG_NONE);
+    EXPECT(IndexOfSpritePaletteTag(ANIM_TAG_ITEM_BAG) != 0xFF);
+
+    ResetKnockOffItemAnimTest();
 }
 
 WILD_BATTLE_TEST("Knock Off does not remove item when used by Wild Pokemon (Gen 5+)")

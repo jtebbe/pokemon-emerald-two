@@ -386,6 +386,20 @@ void AnimPsychoBoost(struct Sprite *sprite);
 // battle_anim_smokescreen.c
 u8 SmokescreenImpact(s16 x, s16 y, bool8 persist);
 
+void AnimTask_CreateKnockOffItem(u8 taskId);
+void AnimTask_CreateFlingItem(u8 taskId);
+void AnimTask_CreateStealItem(u8 taskId);
+void AnimTask_CreateTrickItems(u8 taskId);
+void AnimTask_CreateBestowItem(u8 taskId);
+
+extern u16 gBattleAnimItem1;
+extern u16 gBattleAnimItem2;
+
+#if TESTING
+extern bool8 gTestLastKnockOffItemAnimUsedFallback;
+extern u8 gTestBattleAnimItemFallbackCount;
+#endif
+
 u32 UnpackSelectedBattlePalettes(s16 selector);
 
 u8 GetBattlerSpriteFinal_Y(u8 battler, u16 species, bool8 a3);

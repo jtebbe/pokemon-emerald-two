@@ -5,6 +5,7 @@
 #include "decompress.h"
 #include "gpu_regs.h"
 #include "graphics.h"
+#include "item_icon.h"
 #include "main.h"
 #include "math_util.h"
 #include "palette.h"
@@ -18,7 +19,11 @@
 #include "constants/battle_move_effects.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
+#include "constants/items.h"
 #include "constants/moves.h"
+
+#define ANIM_TAG_ITEM_ICON_1 0xD930
+#define ANIM_TAG_ITEM_ICON_2 0xD931
 
 static void AnimMovePowderParticle_Step(struct Sprite *);
 static void AnimSolarBeamSmallOrb(struct Sprite *);
@@ -56,6 +61,8 @@ static void AnimTrickBag(struct Sprite *);
 static void AnimTrickBag_Step1(struct Sprite *);
 static void AnimTrickBag_Step2(struct Sprite *);
 static void AnimTrickBag_Step3(struct Sprite *);
+static void DestroyAnimItemSprite(struct Sprite *);
+static u8 CreateBattleAnimItemSprite(const struct SpriteTemplate *, u16, u16, u16, u8);
 static void AnimFlyingParticle(struct Sprite *);
 static void AnimFlyingParticle_Step(struct Sprite *);
 static void AnimSlidingHit(struct Sprite *);
@@ -78,6 +85,11 @@ static void AnimSleepLetterZ_Step(struct Sprite *);
 static void AnimLockOnTarget(struct Sprite *);
 static void AnimLockOnTarget_Step1(struct Sprite *);
 static void AnimLockOnTarget_Step2(struct Sprite *);
+
+#if TESTING
+EWRAM_DATA bool8 gTestLastKnockOffItemAnimUsedFallback = FALSE;
+EWRAM_DATA u8 gTestBattleAnimItemFallbackCount = 0;
+#endif
 static void AnimLockOnTarget_Step3(struct Sprite *);
 static void AnimLockOnTarget_Step4(struct Sprite *);
 static void AnimLockOnTarget_Step5(struct Sprite *);
@@ -1148,6 +1160,17 @@ const struct SpriteTemplate gTrickBagSpriteTemplate =
     .images = NULL,
     .affineAnims = gTrickBagAffineAnimTable,
     .callback = AnimTrickBag,
+};
+
+static const struct SpriteTemplate sFlingItemSpriteTemplate =
+{
+    .tileTag = ANIM_TAG_ITEM_BAG,
+    .paletteTag = ANIM_TAG_ITEM_BAG,
+    .oam = &gOamData_AffineOff_ObjNormal_32x32,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = AnimThrowProjectile,
 };
 
 const s8 gTrickBagCoordinates[][3] =
@@ -4610,6 +4633,103 @@ static void AnimKnockOffOpponentsItem(struct Sprite *sprite)
     }
 }
 
+static void LoadBattleAnimItemBagGfx(u16 tilesTag, u16 paletteTag)
+{
+    struct CompressedSpriteSheet sheet = gBattleAnimPicTable[GET_TRUE_SPRITE_INDEX(ANIM_TAG_ITEM_BAG)];
+    struct SpritePalette palette = gBattleAnimPaletteTable[GET_TRUE_SPRITE_INDEX(ANIM_TAG_ITEM_BAG)];
+
+    sheet.tag = tilesTag;
+    palette.tag = paletteTag;
+    LoadCompressedSpriteSheetUsingHeap(&sheet);
+    LoadSpritePalette(&palette);
+}
+
+static void DestroyAnimItemSprite(struct Sprite *sprite)
+{
+    FreeSpriteTilesByTag((u16)sprite->data[5]);
+    FreeSpritePaletteByTag((u16)sprite->data[6]);
+    DestroyAnimSprite(sprite);
+}
+
+static u8 CreateBattleAnimItemSprite(const struct SpriteTemplate *template, u16 item, u16 tilesTag, u16 paletteTag, u8 subpriority)
+{
+    u8 spriteId = MAX_SPRITES;
+
+    if (item != ITEM_NONE)
+        spriteId = AddCustomItemIconSprite(template, tilesTag, paletteTag, item);
+    if (spriteId == MAX_SPRITES)
+    {
+#if TESTING
+        gTestBattleAnimItemFallbackCount++;
+#endif
+        LoadBattleAnimItemBagGfx(tilesTag, paletteTag);
+        spriteId = CreateSprite(template, 0, 0, subpriority);
+    }
+
+    if (spriteId != MAX_SPRITES)
+    {
+        gSprites[spriteId].subpriority = subpriority;
+        gSprites[spriteId].data[5] = tilesTag;
+        gSprites[spriteId].data[6] = paletteTag;
+        gSprites[spriteId].callback(&gSprites[spriteId]);
+        if (gSprites[spriteId].inUse)
+            AnimateSprite(&gSprites[spriteId]);
+        gAnimVisualTaskCount++;
+    }
+
+    return spriteId;
+}
+
+void AnimTask_CreateKnockOffItem(u8 taskId)
+{
+#if TESTING
+    u8 fallbackCount = gTestBattleAnimItemFallbackCount;
+    gTestLastKnockOffItemAnimUsedFallback = FALSE;
+#endif
+
+    CreateBattleAnimItemSprite(&gKnockOffItemSpriteTemplate, gLastUsedItem, ANIM_TAG_ITEM_BAG, ANIM_TAG_ITEM_BAG, 2);
+
+#if TESTING
+    if (gTestBattleAnimItemFallbackCount != fallbackCount)
+        gTestLastKnockOffItemAnimUsedFallback = TRUE;
+#endif
+
+    DestroyAnimVisualTask(taskId);
+}
+
+void AnimTask_CreateFlingItem(u8 taskId)
+{
+    CreateBattleAnimItemSprite(&sFlingItemSpriteTemplate, gLastUsedItem, ANIM_TAG_ITEM_BAG, ANIM_TAG_ITEM_BAG, 2);
+    DestroyAnimVisualTask(taskId);
+}
+
+void AnimTask_CreateStealItem(u8 taskId)
+{
+    CreateBattleAnimItemSprite(&gItemStealSpriteTemplate, gLastUsedItem, ANIM_TAG_ITEM_BAG, ANIM_TAG_ITEM_BAG, 2);
+    DestroyAnimVisualTask(taskId);
+}
+
+void AnimTask_CreateTrickItems(u8 taskId)
+{
+    s16 y = gBattleAnimArgs[0];
+
+    if (gBattleAnimItem1 != ITEM_NONE)
+    {
+        gBattleAnimArgs[0] = y;
+        gBattleAnimArgs[1] = 80;
+        CreateBattleAnimItemSprite(&gTrickBagSpriteTemplate, gBattleAnimItem1, ANIM_TAG_ITEM_ICON_1, ANIM_TAG_ITEM_ICON_1, 2);
+    }
+
+    if (gBattleAnimItem2 != ITEM_NONE)
+    {
+        gBattleAnimArgs[0] = y;
+        gBattleAnimArgs[1] = 208;
+        CreateBattleAnimItemSprite(&gTrickBagSpriteTemplate, gBattleAnimItem2, ANIM_TAG_ITEM_ICON_2, ANIM_TAG_ITEM_ICON_2, 2);
+    }
+
+    DestroyAnimVisualTask(taskId);
+}
+
 static void AnimKnockOffItem(struct Sprite *sprite)
 {
     s16 targetY = GetBattlerSpriteCoord(gBattleAnimTarget, BATTLER_COORD_Y);
@@ -4806,7 +4926,7 @@ static void AnimTrickBag_Step2(struct Sprite *sprite)
 static void AnimTrickBag_Step3(struct Sprite *sprite)
 {
     if (sprite->data[0] > 20)
-        DestroyAnimSprite(sprite);
+        DestroyAnimItemSprite(sprite);
 
     sprite->invisible = sprite->data[0] % 2;
     sprite->data[0]++;

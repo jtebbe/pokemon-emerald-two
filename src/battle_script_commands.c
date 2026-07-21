@@ -12843,6 +12843,8 @@ static void Cmd_tryswapitems(void)
             newItemAtk = &gBattleStruct->changedItems[gBattlerAttacker];
             oldItemAtk = gBattleMons[gBattlerAttacker].item;
             *newItemAtk = gBattleMons[gBattlerTarget].item;
+            gBattleAnimItem1 = oldItemAtk;
+            gBattleAnimItem2 = *newItemAtk;
 
             gBattleMons[gBattlerAttacker].item = ITEM_NONE;
             gBattleMons[gBattlerTarget].item = oldItemAtk;

@@ -65,6 +65,74 @@ SINGLE_BATTLE_TEST("Thesaurus replaces a status move and recalculates its target
     }
 }
 
+DOUBLE_BATTLE_TEST("Thesaurus preserves the selected target when replacing a single-target move with another single-target move")
+{
+    GIVEN {
+        ASSUME(IsMoveValidForThesaurus(MOVE_WATER_GUN, MOVE_HYDRO_PUMP));
+        ASSUME(GetMoveTarget(MOVE_WATER_GUN) == MOVE_TARGET_SELECTED);
+        ASSUME(GetMoveTarget(MOVE_HYDRO_PUMP) == MOVE_TARGET_SELECTED);
+        PLAYER(SPECIES_WOBBUFFET) { Item(ITEM_THESAURUS); Moves(MOVE_WATER_GUN); }
+        PLAYER(SPECIES_WYNAUT);
+        OPPONENT(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_WYNAUT);
+    } WHEN {
+        TURN { MOVE(playerLeft, MOVE_WATER_GUN, target: opponentRight, WITH_RNG(RNG_THESAURUS, MOVE_HYDRO_PUMP)); }
+    } SCENE {
+        MESSAGE("Wobbuffet is checking its thesaurus!");
+        MESSAGE("Wobbuffet used Hydro Pump!");
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_HYDRO_PUMP, playerLeft, target: opponentRight);
+        NOT HP_BAR(opponentLeft);
+        HP_BAR(opponentRight);
+    }
+}
+
+DOUBLE_BATTLE_TEST("Thesaurus recalculates targeting when replacing a single-target move with a spread move")
+{
+    GIVEN {
+        ASSUME(IsMoveValidForThesaurus(MOVE_WATER_GUN, MOVE_MUDDY_WATER));
+        ASSUME(GetMoveTarget(MOVE_WATER_GUN) == MOVE_TARGET_SELECTED);
+        ASSUME(GetMoveTarget(MOVE_MUDDY_WATER) == MOVE_TARGET_BOTH);
+        PLAYER(SPECIES_WOBBUFFET) { Item(ITEM_THESAURUS); Moves(MOVE_WATER_GUN); }
+        PLAYER(SPECIES_WYNAUT);
+        OPPONENT(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_WYNAUT);
+    } WHEN {
+        TURN { MOVE(playerLeft, MOVE_WATER_GUN, target: opponentRight, WITH_RNG(RNG_THESAURUS, MOVE_MUDDY_WATER)); }
+    } SCENE {
+        MESSAGE("Wobbuffet is checking its thesaurus!");
+        MESSAGE("Wobbuffet used Muddy Water!");
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_MUDDY_WATER, playerLeft);
+        HP_BAR(opponentLeft);
+        HP_BAR(opponentRight);
+    }
+}
+
+DOUBLE_BATTLE_TEST("Thesaurus chooses a random opposing target when replacing a spread move with a single-target move")
+{
+    GIVEN {
+        ASSUME(IsMoveValidForThesaurus(MOVE_MUDDY_WATER, MOVE_HYDRO_PUMP));
+        ASSUME(GetMoveTarget(MOVE_MUDDY_WATER) == MOVE_TARGET_BOTH);
+        ASSUME(GetMoveTarget(MOVE_HYDRO_PUMP) == MOVE_TARGET_SELECTED);
+        PLAYER(SPECIES_WOBBUFFET) { Item(ITEM_THESAURUS); Moves(MOVE_MUDDY_WATER); }
+        PLAYER(SPECIES_WYNAUT);
+        OPPONENT(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_WYNAUT);
+    } WHEN {
+        TURN { MOVE(playerLeft, MOVE_MUDDY_WATER, WITH_RNG(RNG_THESAURUS, MOVE_HYDRO_PUMP)); }
+    } SCENE {
+        MESSAGE("Wobbuffet is checking its thesaurus!");
+        MESSAGE("Wobbuffet used Hydro Pump!");
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_HYDRO_PUMP, playerLeft);
+    } THEN {
+        u32 battler = GetBattlerAtPosition(B_POSITION_PLAYER_LEFT);
+        u32 target = gBattleStruct->moveTarget[battler];
+
+        EXPECT_EQ(target == GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT)
+               || target == GetBattlerAtPosition(B_POSITION_OPPONENT_RIGHT), TRUE);
+        EXPECT_EQ((opponentLeft->hp < opponentLeft->maxHP) + (opponentRight->hp < opponentRight->maxHP), 1);
+    }
+}
+
 SINGLE_BATTLE_TEST("Thesaurus works when held by an opposing Pokemon")
 {
     GIVEN {

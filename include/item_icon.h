@@ -14,4 +14,20 @@ u8 AddCustomItemIconSprite(const struct SpriteTemplate *customSpriteTemplate, u1
 const void *GetItemIconPic(u16 itemId);
 const u16 *GetItemIconPalette(u16 itemId);
 
+#if TESTING
+#define TEST_ITEM_ICON_RECORD_COUNT 8
+
+extern u16 gTestLastItemIconSpriteItemId;
+extern u16 gTestLastItemIconSpriteTilesTag;
+extern u16 gTestLastItemIconSpritePaletteTag;
+extern const void *gTestLastItemIconSpritePic;
+extern const u16 *gTestLastItemIconSpritePalette;
+extern u8 gTestItemIconSpriteCount;
+extern u16 gTestItemIconSpriteItemIds[TEST_ITEM_ICON_RECORD_COUNT];
+extern u16 gTestItemIconSpriteTilesTags[TEST_ITEM_ICON_RECORD_COUNT];
+extern u16 gTestItemIconSpritePaletteTags[TEST_ITEM_ICON_RECORD_COUNT];
+extern const void *gTestItemIconSpritePics[TEST_ITEM_ICON_RECORD_COUNT];
+extern const u16 *gTestItemIconSpritePalettes[TEST_ITEM_ICON_RECORD_COUNT];
+#endif
+
 #endif //GUARD_ITEM_ICON_H

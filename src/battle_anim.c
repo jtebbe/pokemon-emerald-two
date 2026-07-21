@@ -110,6 +110,8 @@ EWRAM_DATA static u16 sAnimSpriteIndexArray[ANIM_SPRITE_INDEX_COUNT] = {0};
 EWRAM_DATA u8 gAnimFriendship = 0;
 EWRAM_DATA u16 gWeatherMoveAnim = 0;
 EWRAM_DATA s16 gBattleAnimArgs[ANIM_ARGS_COUNT] = {0};
+EWRAM_DATA u16 gBattleAnimItem1 = 0;
+EWRAM_DATA u16 gBattleAnimItem2 = 0;
 EWRAM_DATA static u16 sSoundAnimFramesToWait = 0;
 EWRAM_DATA static u8 sMonAnimTaskIdArray[2] = {0};
 EWRAM_DATA u8 gAnimMoveTurn = 0;
@@ -295,6 +297,8 @@ void ClearBattleAnimationVars(void)
     // Clear anim args.
     for (i = 0; i < ANIM_ARGS_COUNT; i++)
         gBattleAnimArgs[i] = 0;
+    gBattleAnimItem1 = 0;
+    gBattleAnimItem2 = 0;
 
     sMonAnimTaskIdArray[0] = TASK_NONE;
     sMonAnimTaskIdArray[1] = TASK_NONE;

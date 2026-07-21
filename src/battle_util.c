@@ -81,6 +81,7 @@ static u32 GetSleepTalkMove(void);
 static u32 GetCopyCatMove(void);
 static u32 GetMeFirstMove(void);
 static bool32 IsInvalidThesaurusMove(u32 move);
+static bool32 ShouldThesaurusRetarget(u32 selectedMove, u32 thesaurusMove);
 
 static u32 sThesaurusSelectedMove;
 
@@ -511,8 +512,11 @@ void HandleAction_UseMove(void)
 
     if (gBattleStruct->thesaurusMove[gBattlerAttacker] != MOVE_NONE)
     {
+        u32 selectedMove = gCurrentMove;
+
         gCurrentMove = gBattleStruct->thesaurusMove[gBattlerAttacker];
-        gBattleStruct->moveTarget[gBattlerAttacker] = GetBattleMoveTarget(gCurrentMove, NO_TARGET_OVERRIDE);
+        if (ShouldThesaurusRetarget(selectedMove, gCurrentMove))
+            gBattleStruct->moveTarget[gBattlerAttacker] = GetBattleMoveTarget(gCurrentMove, NO_TARGET_OVERRIDE);
     }
 
     if (IsBattlerAlive(gBattlerAttacker))
@@ -11862,6 +11866,16 @@ bool32 IsMoveValidForThesaurus(u32 selectedMove, u32 candidateMove)
 static bool32 IsInvalidThesaurusMove(u32 move)
 {
     return !IsMoveValidForThesaurus(sThesaurusSelectedMove, move);
+}
+
+static bool32 ShouldThesaurusRetarget(u32 selectedMove, u32 thesaurusMove)
+{
+    u32 selectedTarget = GetBattlerMoveTargetType(gBattlerAttacker, selectedMove);
+    u32 thesaurusTarget = GetBattlerMoveTargetType(gBattlerAttacker, thesaurusMove);
+    bool32 selectedMoveTargetsOpponent = selectedTarget == MOVE_TARGET_SELECTED || selectedTarget == MOVE_TARGET_OPPONENT;
+    bool32 thesaurusMoveTargetsOpponent = thesaurusTarget == MOVE_TARGET_SELECTED || thesaurusTarget == MOVE_TARGET_OPPONENT;
+
+    return !selectedMoveTargetsOpponent || !thesaurusMoveTargetsOpponent;
 }
 
 u32 GetThesaurusMove(u32 selectedMove)

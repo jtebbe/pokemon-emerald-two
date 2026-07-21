@@ -523,13 +523,13 @@ EmbargoOrbs1:
 
 gBattleAnimMove_Fling::
 	loadspritegfx ANIM_TAG_IMPACT
-	loadspritegfx ANIM_TAG_BLACK_BALL
 	monbg ANIM_DEF_PARTNER
 	splitbgprio ANIM_TARGET
 	setalpha 12, 8
-	createsprite gBlackBallSpriteTemplate, ANIM_TARGET, 2, 20, 0, 0, 0, 35, -25
+	createvisualtask AnimTask_CreateFlingItem, 2, 20, 0, 0, 0, 35, -25
 	playsewithpan SE_M_SWAGGER, -64
 	waitforvisualfinish
+	unloadspritegfx ANIM_TAG_ITEM_BAG
 	createsprite gBasicHitSplatSpriteTemplate, ANIM_ATTACKER, 2, 0, 0, ANIM_TARGET, 2
 	createvisualtask AnimTask_ShakeMon, 2, ANIM_TARGET, 3, 0, 6, 1
 	playsewithpan SE_M_VITAL_THROW, +63
@@ -1786,10 +1786,8 @@ gBattleAnimMove_EarthPower::
 gBattleAnimMove_Switcheroo::
 	fadetobg BG_DARK
 	waitbgfadein
-	loadspritegfx ANIM_TAG_ITEM_BAG
 	loadspritegfx ANIM_TAG_SPEED_DUST
-	createsprite gTrickBagSpriteTemplate, ANIM_ATTACKER, 2, -39, 80
-	createsprite gTrickBagSpriteTemplate, ANIM_ATTACKER, 2, -39, 208
+	createvisualtask AnimTask_CreateTrickItems, 2, -39
 	delay 16
 	playsewithpan SE_M_SKETCH, 0
 	createvisualtask AnimTask_StretchTargetUp, 3
@@ -28965,10 +28963,8 @@ gBattleAnimMove_Encore::
 	end
 
 gBattleAnimMove_Trick::
-	loadspritegfx ANIM_TAG_ITEM_BAG
 	loadspritegfx ANIM_TAG_SPEED_DUST
-	createsprite gTrickBagSpriteTemplate, ANIM_ATTACKER, 2, -40, 80
-	createsprite gTrickBagSpriteTemplate, ANIM_ATTACKER, 2, -40, 208
+	createvisualtask AnimTask_CreateTrickItems, 2, -40
 	delay 16
 	playsewithpan SE_M_SKETCH, 0
 	createvisualtask AnimTask_StretchTargetUp, 3
@@ -31255,8 +31251,9 @@ gBattleAnimGeneral_PokeblockThrow::
 	end
 
 gBattleAnimGeneral_ItemKnockoff::
-	loadspritegfx ANIM_TAG_ITEM_BAG
-	createsprite gKnockOffItemSpriteTemplate, ANIM_TARGET, 2
+	createvisualtask AnimTask_CreateKnockOffItem, 2
+	waitforvisualfinish
+	unloadspritegfx ANIM_TAG_ITEM_BAG
 	end
 
 gBattleAnimGeneral_TurnTrap::
@@ -31512,11 +31509,12 @@ gBattleAnimGeneral_MonHit::
 	end
 
 gBattleAnimGeneral_ItemSteal::
-	loadspritegfx ANIM_TAG_ITEM_BAG
 	createvisualtask AnimTask_SetAnimAttackerAndTargetForEffectAtk, 2
 	createvisualtask AnimTask_SetTargetToEffectBattler, 2  @ Redundant with above
 	delay 1
-	createsprite gItemStealSpriteTemplate, ANIM_ATTACKER, 2, 0, -5, 10, 2, -1
+	createvisualtask AnimTask_CreateStealItem, 2, 0, -5, 10, 2, -1
+	waitforvisualfinish
+	unloadspritegfx ANIM_TAG_ITEM_BAG
 	end
 
 gBattleAnimGeneral_SnatchMove::
