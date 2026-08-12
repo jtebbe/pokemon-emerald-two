@@ -6818,9 +6818,11 @@ u32 GiveScriptedMonToPlayer(struct Pokemon *mon, u8 slot)
 void ChangePokemonNicknameWithCallback(void (*callback)(void))
 {
     struct BoxPokemon *boxMon = GetSelectedBoxMonFromPcOrParty();
+
     GetBoxMonData(boxMon, MON_DATA_NICKNAME, gStringVar3);
     GetBoxMonData(boxMon, MON_DATA_NICKNAME, gStringVar2);
-    DoNamingScreen(NAMING_SCREEN_NICKNAME, gStringVar2, GetBoxMonData(boxMon, MON_DATA_SPECIES), GetBoxMonGender(boxMon), GetBoxMonData(boxMon, MON_DATA_PERSONALITY), callback);
+    if (callback != NULL)
+        callback();
 }
 
 bool32 HasShedinjaHPHandling(enum Species species)

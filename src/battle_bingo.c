@@ -40,8 +40,8 @@
 #include "constants/songs.h"
 
 #define TAG_BINGO_SQUARE_GFX_START  0x3000
-#define TAG_BINGO_SQUARE_PAL_1      0x3015
-#define TAG_BINGO_SQUARE_PAL_2      0x3016
+#define TAG_BINGO_SQUARE_PAL_1      0x3040
+#define TAG_BINGO_SQUARE_PAL_2      0x3041
 #define TAG_BINGO_HP_BAR_PAL_GREEN  0x3017
 #define TAG_BINGO_HP_BAR_PAL_YELLOW 0x3018
 #define TAG_BINGO_HP_BAR_PAL_RED    0x3019
@@ -109,6 +109,7 @@ enum
 {
     BINGO_SQUARE_BOSS,
     BINGO_SQUARE_BUG,
+    BINGO_SQUARE_COMPLETE,
     BINGO_SQUARE_DARK,
     BINGO_SQUARE_DRAGON,
     BINGO_SQUARE_ELECTRIC,
@@ -217,6 +218,7 @@ static void LoadBattleBingoCursorSprite(void);
 static void LoadBattleBingoLineSprites(void);
 static void InitBattleBingoHpBarPalette(u16 *dest, u8 colorBase);
 static void CreateBattleBingoBoardSprites(void);
+static u8 CreateBattleBingoSquareSprite(u8 row, u8 col, u8 squareId);
 static void CreateBattleBingoCompletedLineSprites(void);
 static void CreateBattleBingoLineSprites(u8 line);
 static void CreateBattleBingoLineChunk(s16 x, s16 y, u8 lineGfx);
@@ -286,6 +288,7 @@ static EWRAM_DATA u16 sBattleBingoLastPrizeMoney = 0;
 
 static const u32 sBattleBingoSquareBoss_Gfx[] = INCGFX_U32("graphics/bingo/squares/bingo_boss.png", ".4bpp");
 static const u32 sBattleBingoSquareBug_Gfx[] = INCGFX_U32("graphics/bingo/squares/bingo_bug.png", ".4bpp");
+static const u32 sBattleBingoSquareComplete_Gfx[] = INCGFX_U32("graphics/bingo/squares/bingo_complete.png", ".4bpp");
 static const u32 sBattleBingoSquareDark_Gfx[] = INCGFX_U32("graphics/bingo/squares/bingo_dark.png", ".4bpp");
 static const u32 sBattleBingoSquareDragon_Gfx[] = INCGFX_U32("graphics/bingo/squares/bingo_dragon.png", ".4bpp");
 static const u32 sBattleBingoSquareElectric_Gfx[] = INCGFX_U32("graphics/bingo/squares/bingo_electric.png", ".4bpp");
@@ -502,6 +505,7 @@ static const u32 *const sBattleBingoSquareGfx[BINGO_SQUARE_COUNT] =
 {
     [BINGO_SQUARE_BOSS] = sBattleBingoSquareBoss_Gfx,
     [BINGO_SQUARE_BUG] = sBattleBingoSquareBug_Gfx,
+    [BINGO_SQUARE_COMPLETE] = sBattleBingoSquareComplete_Gfx,
     [BINGO_SQUARE_DARK] = sBattleBingoSquareDark_Gfx,
     [BINGO_SQUARE_DRAGON] = sBattleBingoSquareDragon_Gfx,
     [BINGO_SQUARE_ELECTRIC] = sBattleBingoSquareElectric_Gfx,
@@ -535,6 +539,7 @@ static const u16 sBattleBingoSquarePaletteTags[BINGO_SQUARE_COUNT] =
 {
     [BINGO_SQUARE_BOSS] = TAG_BINGO_SQUARE_PAL_1,
     [BINGO_SQUARE_BUG] = TAG_BINGO_SQUARE_PAL_1,
+    [BINGO_SQUARE_COMPLETE] = TAG_BINGO_SQUARE_PAL_1,
     [BINGO_SQUARE_DARK] = TAG_BINGO_SQUARE_PAL_2,
     [BINGO_SQUARE_DRAGON] = TAG_BINGO_SQUARE_PAL_2,
     [BINGO_SQUARE_ELECTRIC] = TAG_BINGO_SQUARE_PAL_2,
@@ -1827,7 +1832,7 @@ static void ClearBattleBingoSelectedSquare(bool8 drawNewLines)
     if (square->spriteId != MAX_SPRITES)
     {
         DestroySprite(&gSprites[square->spriteId]);
-        square->spriteId = MAX_SPRITES;
+        square->spriteId = CreateBattleBingoSquareSprite(sBattleBingo.selectedRow, sBattleBingo.selectedCol, BINGO_SQUARE_COMPLETE);
     }
 
     UpdateBattleBingoLines(drawNewLines);
@@ -2088,24 +2093,26 @@ static void CreateBattleBingoBoardSprites(void)
         for (col = 0; col < BINGO_BOARD_SIZE; col++)
         {
             struct BattleBingoSquareState *square = &sBattleBingo.squares[row][col];
-            u32 squareId = square->visibleSquare;
-            const struct SpriteTemplate template =
-            {
-                .tileTag = TAG_BINGO_SQUARE_GFX_START + squareId,
-                .paletteTag = sBattleBingoSquarePaletteTags[squareId],
-                .oam = &sBattleBingoSquareOam,
-                .anims = sBattleBingoSquareAnimTable,
-                .images = NULL,
-                .affineAnims = gDummySpriteAffineAnimTable,
-                .callback = SpriteCallbackDummy,
-            };
 
-            if (square->cleared)
-                continue;
-
-            square->spriteId = CreateSprite(&template, sBattleBingoSquareSpriteX[col], sBattleBingoSquareSpriteY[row], 8);
+            square->spriteId = CreateBattleBingoSquareSprite(row, col, square->cleared ? BINGO_SQUARE_COMPLETE : square->visibleSquare);
         }
     }
+}
+
+static u8 CreateBattleBingoSquareSprite(u8 row, u8 col, u8 squareId)
+{
+    const struct SpriteTemplate template =
+    {
+        .tileTag = TAG_BINGO_SQUARE_GFX_START + squareId,
+        .paletteTag = sBattleBingoSquarePaletteTags[squareId],
+        .oam = &sBattleBingoSquareOam,
+        .anims = sBattleBingoSquareAnimTable,
+        .images = NULL,
+        .affineAnims = gDummySpriteAffineAnimTable,
+        .callback = SpriteCallbackDummy,
+    };
+
+    return CreateSprite(&template, sBattleBingoSquareSpriteX[col], sBattleBingoSquareSpriteY[row], 8);
 }
 
 static void CreateBattleBingoCompletedLineSprites(void)

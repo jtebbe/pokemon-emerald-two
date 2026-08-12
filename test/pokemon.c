@@ -4,11 +4,19 @@
 #include "event_data.h"
 #include "new_game.h"
 #include "pokemon.h"
+#include "string_util.h"
 #include "test/overworld_script.h"
 #include "test/test.h"
 #include "constants/characters.h"
 #include "constants/daycare.h"
 #include "constants/move_relearner.h"
+
+static bool32 sNicknameChangeCallbackRan;
+
+static void TestNicknameChangeCallback(void)
+{
+    sNicknameChangeCallbackRan = TRUE;
+}
 
 TEST("Nature independent from Hidden Nature")
 {
@@ -27,6 +35,26 @@ TEST("Nature independent from Hidden Nature")
     SetMonData(&mon, MON_DATA_HIDDEN_NATURE, &hiddenNature);
     EXPECT_EQ(GetNature(&mon), nature);
     EXPECT_EQ(GetMonData(&mon, MON_DATA_HIDDEN_NATURE), hiddenNature);
+}
+
+TEST("Pokemon nickname changes are disabled")
+{
+    const u8 nickname[] = _("FIXED");
+    const u8 attemptedNickname[] = _("CHANGED");
+    u8 currentNickname[POKEMON_NAME_LENGTH + 1];
+
+    CreateMon(&gParties[B_TRAINER_PLAYER][0], SPECIES_WOBBUFFET, 50, USE_RANDOM_IVS, OTID_STRUCT_PLAYER_ID);
+    SetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_NICKNAME, nickname);
+    gSpecialVar_0x8004 = 0;
+    StringCopy(gStringVar2, attemptedNickname);
+    sNicknameChangeCallbackRan = FALSE;
+
+    ChangePokemonNicknameWithCallback(TestNicknameChangeCallback);
+    GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_NICKNAME, currentNickname);
+
+    EXPECT(sNicknameChangeCallbackRan);
+    EXPECT_EQ(StringCompare(currentNickname, nickname), 0);
+    EXPECT_EQ(StringCompare(gStringVar2, nickname), 0);
 }
 
 TEST("Terastallization type defaults to primary or secondary type")
