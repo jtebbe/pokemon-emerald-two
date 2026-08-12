@@ -60,6 +60,10 @@ gSpecials::
 	def_special SavePlayerParty
 	def_special LoadPlayerParty
 	def_special ChooseHalfPartyForBattle, waitstate=1
+	def_special ShowBattleBingoStarterSelect, requests_effects=1, waitstate=1
+	def_special ShowBattleBingoBoard, requests_effects=1, waitstate=1
+	def_special BattleBingoGetLastResult
+	def_special BattleBingoGetLastPrizeMoney
 	def_special Script_ShowLinkTrainerCard, waitstate=1
 	def_special ObjectEventInteractionGetBerryTreeData
 	def_special ObjectEventInteractionGetBerryName

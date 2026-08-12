@@ -5871,6 +5871,9 @@ bool32 CanPlayerForfeitNormalTrainerBattle(void)
     if (gBattleTypeFlags & BATTLE_TYPE_FRONTIER)
         return FALSE;
 
+    if (gBattleTypeFlags & BATTLE_TYPE_BINGO)
+        return FALSE;
+
     if (gBattleTypeFlags & BATTLE_TYPE_RECORDED_INVALID)
         return FALSE;
 

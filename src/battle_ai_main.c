@@ -2,6 +2,7 @@
 #include "main.h"
 #include "malloc.h"
 #include "battle.h"
+#include "battle_bingo.h"
 #include "battle_anim.h"
 #include "battle_ai_util.h"
 #include "battle_ai_items.h"
@@ -247,7 +248,7 @@ static bool32 IsSmartBattle(void)
     if (IsSpecialTrainer(TRAINER_BATTLE_PARAM.opponentA))
         return FALSE; // Don't set flags for link battle unless Battle Tower link multi mode
 
-    return gBattleTypeFlags & BATTLE_TYPE_HAS_AI || IsWildMonSmart();
+    return (gBattleTypeFlags & BATTLE_TYPE_HAS_AI) || IsWildMonSmart() || (gBattleTypeFlags & BATTLE_TYPE_BINGO);
 }
 
 static u64 GetAiFlags(u16 trainerId, enum BattlerId battler)
@@ -260,7 +261,10 @@ static u64 GetAiFlags(u16 trainerId, enum BattlerId battler)
     }
     if (trainerId == 0xFFFF)
     {
-        flags = GetWildAiFlags();
+        if (gBattleTypeFlags & BATTLE_TYPE_BINGO)
+            flags = BattleBingoGetWildPokemonAiFlags();
+        else
+            flags = GetWildAiFlags();
     }
     else
     {
@@ -276,6 +280,8 @@ static u64 GetAiFlags(u16 trainerId, enum BattlerId battler)
             flags = GetAiScriptsInBattleFactory();
         else if (gBattleTypeFlags & (BATTLE_TYPE_FRONTIER | BATTLE_TYPE_EREADER_TRAINER | BATTLE_TYPE_TRAINER_HILL | BATTLE_TYPE_SECRET_BASE))
             flags = AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_CHECK_VIABILITY | AI_FLAG_TRY_TO_FAINT;
+        else if (gBattleTypeFlags & BATTLE_TYPE_BINGO)
+            flags = BattleBingoGetBossPokemonAiFlags();
         else
             flags = GetTrainerAIFlagsFromId(trainerId);
     }
@@ -313,7 +319,7 @@ void BattleAI_SetupFlags(void)
         return;
     }
 
-    if (IsWildMonSmart() && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_TRAINER)))
+    if ((IsWildMonSmart() || (gBattleTypeFlags & BATTLE_TYPE_BINGO)) && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_TRAINER)))
     {
         // smart wild AI
         gAiThinkingStruct->aiFlags[B_BATTLER_1] = GetAiFlags(0xFFFF, B_BATTLER_1);

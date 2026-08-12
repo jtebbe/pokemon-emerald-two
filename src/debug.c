@@ -5060,7 +5060,46 @@ static void DebugAction_DestroyFollowerNPC(u8 taskId)
     X(MUS_RG_TRAINER_TOWER)         \
     X(MUS_RG_SLOW_PALLET)           \
     X(MUS_RG_TEACHY_TV_MENU)        \
-    X(MUS_BINGO_BOARD)
+    X(MUS_BINGO_BOARD)              \
+    X(MUS_WINDFALL_ISLAND)          \
+    X(MUS_PIRATE_SHIP_INTERIOR)     \
+    X(MUS_CIPHER_ADMIN_BATTLE)      \
+    X(MUS_MIRROR_B_OG)              \
+    X(MUS_PINK_AND_WHITE)           \
+    X(MUS_CORRIDORS_OF_TIME)        \
+    X(MUS_FLY_ME_TO_THE_MOON)       \
+    X(MUS_BENEATH_THE_MASK)         \
+    X(MUS_OUTSET_ISLAND)            \
+    X(MUS_BEEDLE_SHOP)              \
+    X(MUS_CAMEL_BY_CAMEL)           \
+    X(MUS_ASTRAL_OBSERVATORY)       \
+    X(MUS_FOUR_GIANTS)              \
+    X(MUS_CLOCKTOWN_DAY_1)          \
+    X(MUS_STONE_TOWER_TEMPLE)       \
+    X(MUS_MIPHAS_GRACE)             \
+    X(MUS_ECHOES_SUTHORN_BEACH)     \
+    X(MUS_GERUDO_DESERT)            \
+    X(MUS_DRAGON_ROOST_ISLAND)      \
+    X(MUS_GREAT_FAIRY_FOUNTAIN)     \
+    X(MUS_THE_LEGENDARY_HERO)       \
+    X(MUS_MARKET_OOT)               \
+    X(MUS_MARKET_MINISH_CAP)        \
+    X(MUS_FAREWELL_HYRULE_KING)     \
+    X(MUS_GRANDPAS_HOUSE)           \
+    X(MUS_HERO_OF_THE_WINDS)        \
+    X(MUS_FOREST_HAVEN)             \
+    X(MUS_SCARS_OF_TIME)            \
+    X(MUS_OOT_TITLE_THEME)          \
+    X(MUS_GERUDO_VALLEY)            \
+    X(MUS_MINISH_VILLAGE)           \
+    X(MUS_A_FIFTH_OF_BEETHOVEN)     \
+    X(MUS_ORDON_VILLAGE)            \
+    X(MUS_GET_LUCKY)                \
+    X(MUS_BIOLIZARD)                \
+    X(MUS_MOLGERA)                  \
+    X(MUS_FIS_FAREWELL)             \
+    X(MUS_SIMPLE_AND_CLEAN)         \
+    X(MUS_BENEATH_THE_SEA)
 
 #define SOUND_LIST_SE               \
     X(SE_USE_ITEM)                  \

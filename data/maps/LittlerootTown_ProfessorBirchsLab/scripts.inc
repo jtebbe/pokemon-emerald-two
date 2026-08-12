@@ -2,6 +2,10 @@ LittlerootTown_ProfessorBirchsLab_MapScripts::
 	map_script MAP_SCRIPT_ON_TRANSITION, LittlerootTown_ProfessorBirchsLab_OnTransition
 	map_script MAP_SCRIPT_ON_WARP_INTO_MAP_TABLE, LittlerootTown_ProfessorBirchsLab_OnWarp
 	map_script MAP_SCRIPT_ON_FRAME_TABLE, LittlerootTown_ProfessorBirchsLab_OnFrame
+
+.set BATTLE_BINGO_RESULT_LOSS, 0
+.set BATTLE_BINGO_RESULT_PRIZE, 1
+.set BATTLE_BINGO_RESULT_COMPLETE, 2
 	.byte 0
 
 	@ State descriptions for VAR_DEX_UPGRADE_JOHTO_STARTER_STATE
@@ -269,6 +273,38 @@ LittlerootTown_ProfessorBirchsLab_Movement_PlayerEnterLabForJohtoStarter:
 LittlerootTown_ProfessorBirchsLab_EventScript_Aide::
 	lock
 	faceplayer
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_BattleBingoAttendantWelcome, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, YES, LittlerootTown_ProfessorBirchsLab_EventScript_AideStartBattleBingo
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_BattleBingoAttendantDecline, MSGBOX_DEFAULT
+	release
+	end
+
+LittlerootTown_ProfessorBirchsLab_EventScript_AideStartBattleBingo::
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_BattleBingoAttendantFireBoard, MSGBOX_DEFAULT
+	special ShowBattleBingoStarterSelect
+	special ShowBattleBingoBoard
+	specialvar VAR_RESULT, BattleBingoGetLastResult
+	goto_if_eq VAR_RESULT, BATTLE_BINGO_RESULT_PRIZE, LittlerootTown_ProfessorBirchsLab_EventScript_AideBattleBingoPrize
+	goto_if_eq VAR_RESULT, BATTLE_BINGO_RESULT_COMPLETE, LittlerootTown_ProfessorBirchsLab_EventScript_AideBattleBingoPrize
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_BattleBingoAttendantLossTryAgain, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, YES, LittlerootTown_ProfessorBirchsLab_EventScript_AideStartBattleBingo
+	release
+	end
+
+LittlerootTown_ProfessorBirchsLab_EventScript_AideBattleBingoPrize::
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_BattleBingoAttendantPrize, MSGBOX_DEFAULT
+	specialvar VAR_RESULT, BattleBingoGetLastPrizeMoney
+	buffernumberstring STR_VAR_1, VAR_RESULT
+	playfanfare MUS_OBTAIN_ITEM
+	message LittlerootTown_ProfessorBirchsLab_Text_BattleBingoAttendantReceivedPrizeMoney
+	waitmessage
+	waitfanfare
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_BattleBingoAttendantPlayAgain, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, YES, LittlerootTown_ProfessorBirchsLab_EventScript_AideStartBattleBingo
+	release
+	end
+
+LittlerootTown_ProfessorBirchsLab_EventScript_AideVanilla::
 	goto_if_ge VAR_BIRCH_LAB_STATE, 3, LittlerootTown_ProfessorBirchsLab_EventScript_AideReceivedStarter
 	goto_if_set FLAG_BIRCH_AIDE_MET, LittlerootTown_ProfessorBirchsLab_EventScript_AideAlreadyMet
 	msgbox LittlerootTown_ProfessorBirchsLab_Text_BirchAwayOnFieldwork, MSGBOX_DEFAULT
@@ -680,6 +716,32 @@ LittlerootTown_ProfessorBirchsLab_Text_BirchEnjoysRivalsHelpToo:
 	.string "and distribution of POKéMON.\p"
 	.string "The PROF enjoys {RIVAL}'s help, too.\n"
 	.string "There's a lot of love there.$"
+
+LittlerootTown_ProfessorBirchsLab_Text_BattleBingoAttendantWelcome:
+	.string "Welcome to BATTLE BINGO!\p"
+	.string "Would you like to play a card?$"
+
+LittlerootTown_ProfessorBirchsLab_Text_BattleBingoAttendantDecline:
+	.string "No worries. Come back whenever\n"
+	.string "you want to play.$"
+
+LittlerootTown_ProfessorBirchsLab_Text_BattleBingoAttendantFireBoard:
+	.string "For now, I'll set up the FWG BOARD.$"
+
+LittlerootTown_ProfessorBirchsLab_Text_BattleBingoAttendantLossTryAgain:
+	.string "Nice try! You'll get 'em next time.\p"
+	.string "Would you like to try again?$"
+
+LittlerootTown_ProfessorBirchsLab_Text_BattleBingoAttendantPrize:
+	.string "Congratulations! Here's your prize\n"
+	.string "money based on your efforts.$"
+
+LittlerootTown_ProfessorBirchsLab_Text_BattleBingoAttendantReceivedPrizeMoney:
+	.string "{PLAYER} received ¥{STR_VAR_1}!$"
+
+LittlerootTown_ProfessorBirchsLab_Text_BattleBingoAttendantPlayAgain:
+	.string "Would you like to play another\n"
+	.string "round of BATTLE BINGO?$"
 
 LittlerootTown_ProfessorBirchsLab_Text_LikeYouToHavePokemon:
 	.string "PROF. BIRCH: So, {PLAYER}{KUN}.\p"

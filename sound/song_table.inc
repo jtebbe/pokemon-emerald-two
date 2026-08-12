@@ -566,6 +566,45 @@ gSongTable::
 	song mus_rg_slow_pallet, MUSIC_PLAYER_BGM, 0
 	song mus_rg_teachy_tv_menu, MUSIC_PLAYER_BGM, 0
 	song mus_bingo_board, MUSIC_PLAYER_BGM, 0
+	song mus_windfall_island, MUSIC_PLAYER_BGM, 0
+	song mus_pirate_ship_interior, MUSIC_PLAYER_BGM, 0
+	song mus_cipher_admin_battle, MUSIC_PLAYER_BGM, 0
+	song mus_mirror_b_og, MUSIC_PLAYER_BGM, 0
+	song mus_pink_and_white, MUSIC_PLAYER_BGM, 0
+	song mus_corridors_of_time, MUSIC_PLAYER_BGM, 0
+	song mus_fly_me_to_the_moon, MUSIC_PLAYER_BGM, 0
+	song mus_beneath_the_mask, MUSIC_PLAYER_BGM, 0
+	song mus_outset_island, MUSIC_PLAYER_BGM, 0
+	song mus_beedle_shop, MUSIC_PLAYER_BGM, 0
+	song mus_camel_by_camel, MUSIC_PLAYER_BGM, 0
+	song mus_astral_observatory, MUSIC_PLAYER_BGM, 0
+	song mus_four_giants, MUSIC_PLAYER_BGM, 0
+	song mus_clocktown_day_1, MUSIC_PLAYER_BGM, 0
+	song mus_stone_tower_temple, MUSIC_PLAYER_BGM, 0
+	song mus_miphas_grace, MUSIC_PLAYER_BGM, 0
+	song mus_echoes_suthorn_beach, MUSIC_PLAYER_BGM, 0
+	song mus_gerudo_desert, MUSIC_PLAYER_BGM, 0
+	song mus_dragon_roost_island, MUSIC_PLAYER_BGM, 0
+	song mus_great_fairy_fountain, MUSIC_PLAYER_BGM, 0
+	song mus_the_legendary_hero, MUSIC_PLAYER_BGM, 0
+	song mus_market_oot, MUSIC_PLAYER_BGM, 0
+	song mus_market_minish_cap, MUSIC_PLAYER_BGM, 0
+	song mus_farewell_hyrule_king, MUSIC_PLAYER_BGM, 0
+	song mus_grandpas_house, MUSIC_PLAYER_BGM, 0
+	song mus_hero_of_the_winds, MUSIC_PLAYER_BGM, 0
+	song mus_forest_haven, MUSIC_PLAYER_BGM, 0
+	song mus_scars_of_time, MUSIC_PLAYER_BGM, 0
+	song mus_oot_title_theme, MUSIC_PLAYER_BGM, 0
+	song mus_gerudo_valley, MUSIC_PLAYER_BGM, 0
+	song mus_minish_village, MUSIC_PLAYER_BGM, 0
+	song mus_a_fifth_of_beethoven, MUSIC_PLAYER_BGM, 0
+	song mus_ordon_village, MUSIC_PLAYER_BGM, 0
+	song mus_get_lucky, MUSIC_PLAYER_BGM, 0
+	song mus_biolizard, MUSIC_PLAYER_BGM, 0
+	song mus_molgera, MUSIC_PLAYER_BGM, 0
+	song mus_fis_farewell, MUSIC_PLAYER_BGM, 0
+	song simple_and_clean, MUSIC_PLAYER_BGM, 0
+	song mus_beneath_the_sea, MUSIC_PLAYER_BGM, 0
 	song ph_trap_blend, MUSIC_PLAYER_SE2, 2
 	song ph_trap_held, MUSIC_PLAYER_SE2, 2
 	song ph_trap_solo, MUSIC_PLAYER_SE2, 2

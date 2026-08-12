@@ -21,6 +21,28 @@ keysplit strings, 36
 	split 1, 81
 	split 2, 108
 
+keysplit farewell_hyrule_king_piano
+	split 0, 55
+	split 1, 70
+	split 2, 91
+	split 3, 128
+
+keysplit farewell_hyrule_king_strings
+	split 0, 69
+	split 1, 81
+	split 2, 128
+
+keysplit fis_farewell_piano
+	split 0, 55
+	split 1, 70
+	split 2, 91
+	split 3, 128
+
+keysplit fis_farewell_strings
+	split 0, 69
+	split 1, 81
+	split 2, 128
+
 keysplit trumpet, 36
 	split 0, 66
 	split 1, 84

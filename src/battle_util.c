@@ -663,7 +663,14 @@ void HandleAction_Run(void)
     {
         if (IsOnPlayerSide(gBattlerAttacker))
         {
-            if (!TryRunFromBattle(gBattlerAttacker)) // failed to run away
+            if (gBattleTypeFlags & BATTLE_TYPE_BINGO)
+            {
+                ClearVariousBattlerFlags(gBattlerAttacker);
+                gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_BINGO_CANT_RUN;
+                gBattlescriptCurrInstr = BattleScript_PrintFailedToRunString;
+                gCurrentActionFuncId = B_ACTION_EXEC_SCRIPT;
+            }
+            else if (!TryRunFromBattle(gBattlerAttacker)) // failed to run away
             {
                 ClearVariousBattlerFlags(gBattlerAttacker);
                 gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_CANT_ESCAPE_2;

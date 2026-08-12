@@ -815,7 +815,7 @@ static void Task_TitleScreenPhase3(u8 taskId)
     if (JOY_NEW(A_BUTTON) || JOY_NEW(START_BUTTON))
     {
         FadeOutBGM(4);
-        BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_WHITEALPHA);
+        BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
         SetMainCallback2(CB2_AutoLoadGame);
     }
     else if (JOY_HELD(CLEAR_SAVE_BUTTON_COMBO) == CLEAR_SAVE_BUTTON_COMBO)
@@ -858,6 +858,9 @@ static void CB2_AutoLoadGame(void)
 {
     if (!UpdatePaletteFade())
     {
+        gPlttBufferUnfaded[0] = RGB_BLACK;
+        gPlttBufferFaded[0] = RGB_BLACK;
+
         if (gSaveFileStatus == SAVE_STATUS_OK || gSaveFileStatus == SAVE_STATUS_ERROR)
             SetMainCallback2(CB2_ContinueSavedGame);
         else

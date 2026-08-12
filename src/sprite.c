@@ -8,7 +8,7 @@
 #include "battle_anim.h"
 #include "test/test.h"
 
-#define MAX_SPRITE_COPY_REQUESTS 64
+#define MAX_SPRITE_COPY_REQUESTS MAX_SPRITES
 
 #define sAnchorX data[6]
 #define sAnchorY data[7]
@@ -280,7 +280,7 @@ void ResetSpriteData(void)
     ClearSpriteCopyRequests();
     ResetAffineAnimData();
     FreeSpriteTileRanges();
-    gOamLimit = 64;
+    gOamLimit = MAX_SPRITES;
     gReservedSpriteTileCount = 0;
     AllocSpriteTiles(0);
     gSpriteCoordOffsetX = 0;

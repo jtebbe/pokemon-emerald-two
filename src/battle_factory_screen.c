@@ -1,7 +1,9 @@
 #include "global.h"
 #include "battle.h"
+#include "battle_bingo.h"
 #include "battle_factory_screen.h"
 #include "battle_factory.h"
+#include "bingo_mons.h"
 #include "sprite.h"
 #include "event_data.h"
 #include "overworld.h"
@@ -24,11 +26,14 @@
 #include "pokedex.h"
 #include "util.h"
 #include "trainer_pokemon_sprites.h"
+#include "trainer_util.h"
 #include "starter_choose.h"
 #include "strings.h"
 #include "graphics.h"
+#include "pokemon.h"
 #include "constants/battle_frontier.h"
 #include "constants/battle_tent.h"
+#include "constants/pokemon.h"
 #include "constants/songs.h"
 #include "constants/rgb.h"
 
@@ -107,6 +112,9 @@ struct FactorySelectScreen
     u8 cursorPos;
     u8 cursorSpriteId;
     u8 selectingMonsState;
+    u8 selectableMonsCount;
+    u8 monsToSelect;
+    bool8 isBattleBingoStarterSelect;
     bool8 fromSummaryScreen;
     u8 yesNoCursorPos;
     u8 unused;
@@ -189,6 +197,7 @@ static void Select_Task_HandleChooseMons(u8);
 static void Select_Task_HandleMenu(u8);
 static void CreateFrontierFactorySelectableMons(u8);
 static void CreateSlateportTentSelectableMons(u8);
+static void CreateBattleBingoStarterSelectableMons(u8);
 static void Select_SetBallSpritePaletteNum(u8);
 static void Select_ErasePopupMenu(u8);
 static u8 Select_RunMenuOptionFunc(void);
@@ -255,8 +264,14 @@ static EWRAM_DATA u8 *sSwapMonPicBgTilemapBuffer = NULL;
 static struct FactorySelectScreen *sFactorySelectScreen;
 static TaskFunc sSwap_CurrentOptionFunc;
 static struct FactorySwapScreen *sFactorySwapScreen;
+static bool8 sBattleBingoStarterSelect;
 
 COMMON_DATA u8 (*gFactorySelect_CurrentOptionFunc)(void) = NULL;
+
+static const u8 sText_BattleBingoStarter[] = _("BINGO STARTER");
+static const u8 sText_SelectStarterPkmn[] = _("Select a starter POKéMON.");
+static const u8 sText_StarterOkay[] = _("This POKéMON okay?");
+static const u8 sText_Choose[] = _("CHOOSE");
 
 static const u16 sPokeballGray_Pal[]         = INCGFX_U16("graphics/battle_frontier/factory_screen/pokeball_gray.pal", ".gbapal");
 static const u16 sPokeballSelected_Pal[]     = INCGFX_U16("graphics/battle_frontier/factory_screen/pokeball_selected.pal", ".gbapal");
@@ -1082,6 +1097,14 @@ static void VBlankCB_SelectScreen(void)
 void DoBattleFactorySelectScreen(void)
 {
     sFactorySelectScreen = NULL;
+    sBattleBingoStarterSelect = FALSE;
+    SetMainCallback2(CB2_InitSelectScreen);
+}
+
+void DoBattleBingoStarterSelectScreen(void)
+{
+    sFactorySelectScreen = NULL;
+    sBattleBingoStarterSelect = TRUE;
     SetMainCallback2(CB2_InitSelectScreen);
 }
 
@@ -1270,14 +1293,27 @@ static void Select_InitMonsData(void)
     sFactorySelectScreen = AllocZeroed(sizeof(*sFactorySelectScreen));
     sFactorySelectScreen->cursorPos = 0;
     sFactorySelectScreen->selectingMonsState = 1;
+    sFactorySelectScreen->selectableMonsCount = SELECTABLE_MONS_COUNT;
+    sFactorySelectScreen->monsToSelect = FRONTIER_PARTY_SIZE;
+    sFactorySelectScreen->isBattleBingoStarterSelect = sBattleBingoStarterSelect;
     sFactorySelectScreen->fromSummaryScreen = FALSE;
     for (i = 0; i < SELECTABLE_MONS_COUNT; i++)
         sFactorySelectScreen->mons[i].selectedId = 0;
 
-    if (gSaveBlock2Ptr->frontier.lvlMode != FRONTIER_LVL_TENT)
+    if (sFactorySelectScreen->isBattleBingoStarterSelect)
+    {
+        sFactorySelectScreen->selectableMonsCount = BATTLE_BINGO_MAX_STARTERS;
+        sFactorySelectScreen->monsToSelect = 1;
+        CreateBattleBingoStarterSelectableMons(0);
+    }
+    else if (gSaveBlock2Ptr->frontier.lvlMode != FRONTIER_LVL_TENT)
+    {
         CreateFrontierFactorySelectableMons(0);
+    }
     else
+    {
         CreateSlateportTentSelectableMons(0);
+    }
 }
 
 static void Select_InitAllSprites(void)
@@ -1285,9 +1321,10 @@ static void Select_InitAllSprites(void)
     u8 i, cursorPos;
     s16 x;
 
-    for (i = 0; i < SELECTABLE_MONS_COUNT; i++)
+    for (i = 0; i < sFactorySelectScreen->selectableMonsCount; i++)
     {
-        sFactorySelectScreen->mons[i].ballSpriteId = CreateSprite(&sSpriteTemplate_Select_Pokeball, (35 * i) + 32, 64, 1);
+        x = (35 * i) + (sFactorySelectScreen->isBattleBingoStarterSelect ? 85 : 32);
+        sFactorySelectScreen->mons[i].ballSpriteId = CreateSprite(&sSpriteTemplate_Select_Pokeball, x, 64, 1);
         gSprites[sFactorySelectScreen->mons[i].ballSpriteId].data[0] = 0;
         Select_SetBallSpritePaletteNum(i);
     }
@@ -1310,7 +1347,7 @@ static void Select_DestroyAllSprites(void)
 {
     u8 i;
 
-    for (i = 0; i < SELECTABLE_MONS_COUNT; i++)
+    for (i = 0; i < sFactorySelectScreen->selectableMonsCount; i++)
         DestroySprite(&gSprites[sFactorySelectScreen->mons[i].ballSpriteId]);
 
     DestroySprite(&gSprites[sFactorySelectScreen->cursorSpriteId]);
@@ -1323,7 +1360,7 @@ static void Select_UpdateBallCursorPosition(s8 direction)
     u8 cursorPos;
     if (direction > 0) // Move cursor right.
     {
-        if (sFactorySelectScreen->cursorPos != SELECTABLE_MONS_COUNT - 1)
+        if (sFactorySelectScreen->cursorPos != sFactorySelectScreen->selectableMonsCount - 1)
             sFactorySelectScreen->cursorPos++;
         else
             sFactorySelectScreen->cursorPos = 0;
@@ -1333,7 +1370,7 @@ static void Select_UpdateBallCursorPosition(s8 direction)
         if (sFactorySelectScreen->cursorPos != 0)
             sFactorySelectScreen->cursorPos--;
         else
-            sFactorySelectScreen->cursorPos = SELECTABLE_MONS_COUNT - 1;
+            sFactorySelectScreen->cursorPos = sFactorySelectScreen->selectableMonsCount - 1;
     }
 
     cursorPos = sFactorySelectScreen->cursorPos;
@@ -1458,10 +1495,10 @@ static void Select_Task_OpenSummaryScreen(u8 taskId)
         DestroyTask(taskId);
         sFactorySelectScreen->fromSummaryScreen = TRUE;
         currMonId = sFactorySelectScreen->cursorPos;
-        sFactorySelectMons = AllocZeroed(sizeof(struct Pokemon) * SELECTABLE_MONS_COUNT);
-        for (i = 0; i < SELECTABLE_MONS_COUNT; i++)
+        sFactorySelectMons = AllocZeroed(sizeof(struct Pokemon) * sFactorySelectScreen->selectableMonsCount);
+        for (i = 0; i < sFactorySelectScreen->selectableMonsCount; i++)
             sFactorySelectMons[i] = sFactorySelectScreen->mons[i].monData;
-        ShowPokemonSummaryScreen(SUMMARY_MODE_LOCK_MOVES, sFactorySelectMons, currMonId, SELECTABLE_MONS_COUNT - 1, CB2_InitSelectScreen);
+        ShowPokemonSummaryScreen(SUMMARY_MODE_LOCK_MOVES, sFactorySelectMons, currMonId, sFactorySelectScreen->selectableMonsCount - 1, CB2_InitSelectScreen);
         break;
     }
 }
@@ -1484,10 +1521,12 @@ static void Select_Task_Exit(u8 taskId)
             DestroyTask(sFactorySelectScreen->fadeSpeciesNameTaskId);
             Select_DestroyAllSprites();
             FREE_AND_SET_NULL(sSelectMenuTilesetBuffer);
+            FREE_AND_SET_NULL(sSelectMonPicBgTilesetBuffer);
             FREE_AND_SET_NULL(sSelectMenuTilemapBuffer);
             FREE_AND_SET_NULL(sSelectMonPicBgTilemapBuffer);
             FREE_AND_SET_NULL(sFactorySelectScreen);
             FreeAllWindowBuffers();
+            sBattleBingoStarterSelect = FALSE;
             SetMainCallback2(CB2_ReturnToFieldContinueScript);
             DestroyTask(taskId);
         }
@@ -1504,7 +1543,8 @@ static void Select_Task_HandleYesNo(u8 taskId)
     switch (gTasks[taskId].tState)
     {
     case STATE_YESNO_SHOW_MONS:
-        Select_ShowChosenMons();
+        if (!sFactorySelectScreen->isBattleBingoStarterSelect)
+            Select_ShowChosenMons();
         gTasks[taskId].tState = STATE_YESNO_SHOW_OPTIONS;
         break;
     case STATE_YESNO_SHOW_OPTIONS:
@@ -1518,7 +1558,8 @@ static void Select_Task_HandleYesNo(u8 taskId)
             if (sFactorySelectScreen->yesNoCursorPos == 0)
             {
                 // Selected Yes, confirmed selected Pokémon
-                Select_HideChosenMons();
+                if (!sFactorySelectScreen->isBattleBingoStarterSelect)
+                    Select_HideChosenMons();
                 gTasks[taskId].tState = 0;
                 gTasks[taskId].func = Select_Task_Exit;
             }
@@ -1526,7 +1567,10 @@ static void Select_Task_HandleYesNo(u8 taskId)
             {
                 // Selected No, continue choosing Pokémon
                 Select_ErasePopupMenu(SELECT_WIN_YES_NO);
-                Select_DeclineChosenMons();
+                if (sFactorySelectScreen->isBattleBingoStarterSelect)
+                    Select_HandleMonSelectionChange();
+                else
+                    Select_DeclineChosenMons();
                 sFactorySelectScreen->fadeSpeciesNameActive = TRUE;
                 gTasks[taskId].tState = STATE_CHOOSE_MONS_HANDLE_INPUT;
                 gTasks[taskId].func = Select_Task_HandleChooseMons;
@@ -1537,7 +1581,10 @@ static void Select_Task_HandleYesNo(u8 taskId)
             // Pressed B, Continue choosing Pokémon
             PlaySE(SE_SELECT);
             Select_ErasePopupMenu(SELECT_WIN_YES_NO);
-            Select_DeclineChosenMons();
+            if (sFactorySelectScreen->isBattleBingoStarterSelect)
+                Select_HandleMonSelectionChange();
+            else
+                Select_DeclineChosenMons();
             sFactorySelectScreen->fadeSpeciesNameActive = TRUE;
             gTasks[taskId].tState = STATE_CHOOSE_MONS_HANDLE_INPUT;
             gTasks[taskId].func = Select_Task_HandleChooseMons;
@@ -1760,21 +1807,57 @@ static void CreateSlateportTentSelectableMons(u8 firstMonId)
     }
 }
 
+static void CreateBattleBingoStarterSelectableMons(u8 firstMonId)
+{
+    u8 i;
+    const struct BattleBingoBoardRules *rules = GetBattleBingoBoardRules(BATTLE_BINGO_BOARD_FWG);
+    struct TrainerGenerator trainerGen =
+    {
+        .gender = gSaveBlock2Ptr->playerGender,
+        .isFrontier = FALSE,
+        .trainerClass = 0,
+        .otID = OTID_STRUCT_PLAYER_ID,
+        .localRngState = LocalRandomSeed(Random32()),
+    };
+
+    StringCopyN(trainerGen.name, gSaveBlock2Ptr->playerName, TRAINER_NAME_LENGTH + 1);
+
+    for (i = 0; i < rules->starterCount; i++)
+    {
+        u16 bingoMonId = rules->starters[i];
+
+        sFactorySelectScreen->mons[i + firstMonId].monId = bingoMonId;
+        GenerateMonFromTrainerMon(&sFactorySelectScreen->mons[i + firstMonId].monData, &gBingoMons[bingoMonId], &trainerGen);
+    }
+}
+
 static void Select_CopyMonsToPlayerParty(void)
 {
     u8 i, j;
+    u8 monsToCopy = sFactorySelectScreen->monsToSelect;
 
-    for (i = 0; i < FRONTIER_PARTY_SIZE; i++)
+    if (sFactorySelectScreen->isBattleBingoStarterSelect)
     {
-        for (j = 0; j < SELECTABLE_MONS_COUNT; j++)
+        for (i = 0; i < PARTY_SIZE; i++)
+            ZeroMonData(&gParties[B_TRAINER_PLAYER][i]);
+    }
+
+    for (i = 0; i < monsToCopy; i++)
+    {
+        for (j = 0; j < sFactorySelectScreen->selectableMonsCount; j++)
         {
             if (sFactorySelectScreen->mons[j].selectedId == i + 1)
             {
                 gParties[B_TRAINER_PLAYER][i] = sFactorySelectScreen->mons[j].monData;
-                gSaveBlock2Ptr->frontier.rentalMons[i].monId = sFactorySelectScreen->mons[j].monId;
-                gSaveBlock2Ptr->frontier.rentalMons[i].personality = GetMonData(&gParties[B_TRAINER_PLAYER][i], MON_DATA_PERSONALITY);
-                gSaveBlock2Ptr->frontier.rentalMons[i].abilityNum = GetBoxMonData(&gParties[B_TRAINER_PLAYER][i].box, MON_DATA_ABILITY_NUM);
-                gSaveBlock2Ptr->frontier.rentalMons[i].ivs = GetBoxMonData(&gParties[B_TRAINER_PLAYER][i].box, MON_DATA_ATK_IV);
+
+                if (!sFactorySelectScreen->isBattleBingoStarterSelect)
+                {
+                    gSaveBlock2Ptr->frontier.rentalMons[i].monId = sFactorySelectScreen->mons[j].monId;
+                    gSaveBlock2Ptr->frontier.rentalMons[i].personality = GetMonData(&gParties[B_TRAINER_PLAYER][i], MON_DATA_PERSONALITY);
+                    gSaveBlock2Ptr->frontier.rentalMons[i].abilityNum = GetBoxMonData(&gParties[B_TRAINER_PLAYER][i].box, MON_DATA_ABILITY_NUM);
+                    gSaveBlock2Ptr->frontier.rentalMons[i].ivs = GetBoxMonData(&gParties[B_TRAINER_PLAYER][i].box, MON_DATA_ATK_IV);
+                }
+
                 break;
             }
         }
@@ -1825,7 +1908,9 @@ static void Select_ErasePopupMenu(u8 windowId)
 static void Select_PrintRentalPkmnString(void)
 {
     FillWindowPixelBuffer(SELECT_WIN_TITLE, PIXEL_FILL(0));
-    AddTextPrinterParameterized(SELECT_WIN_TITLE, FONT_NORMAL, gText_RentalPkmn2, 2, 1, 0, NULL);
+    AddTextPrinterParameterized(SELECT_WIN_TITLE, FONT_NORMAL,
+                                sFactorySelectScreen->isBattleBingoStarterSelect ? sText_BattleBingoStarter : gText_RentalPkmn2,
+                                2, 1, 0, NULL);
     CopyWindowToVram(SELECT_WIN_TITLE, COPYWIN_FULL);
 }
 
@@ -1848,7 +1933,11 @@ static void Select_PrintSelectMonString(void)
     const u8 *str = NULL;
 
     FillWindowPixelBuffer(SELECT_WIN_INFO, PIXEL_FILL(0));
-    if (sFactorySelectScreen->selectingMonsState == 1)
+    if (sFactorySelectScreen->isBattleBingoStarterSelect && sFactorySelectScreen->selectingMonsState == 1)
+        str = sText_SelectStarterPkmn;
+    else if (sFactorySelectScreen->isBattleBingoStarterSelect)
+        str = sText_StarterOkay;
+    else if (sFactorySelectScreen->selectingMonsState == 1)
         str = gText_SelectFirstPkmn;
     else if (sFactorySelectScreen->selectingMonsState == 2)
         str = gText_SelectSecondPkmn;
@@ -1877,6 +1966,8 @@ static void Select_PrintMenuOptions(void)
     AddTextPrinterParameterized3(SELECT_WIN_OPTIONS, FONT_NORMAL, 7, 1, sMenuOptionTextColors, 0, gText_Summary);
     if (selectedId != 0)
         AddTextPrinterParameterized3(SELECT_WIN_OPTIONS, FONT_NORMAL, 7, 17, sMenuOptionTextColors, 0, gText_Deselect);
+    else if (sFactorySelectScreen->isBattleBingoStarterSelect)
+        AddTextPrinterParameterized3(SELECT_WIN_OPTIONS, FONT_NORMAL, 7, 17, sMenuOptionTextColors, 0, sText_Choose);
     else
         AddTextPrinterParameterized3(SELECT_WIN_OPTIONS, FONT_NORMAL, 7, 17, sMenuOptionTextColors, 0, gText_Rent);
 
@@ -1915,7 +2006,7 @@ static u8 Select_OptionRentDeselect(void)
         Select_HandleMonSelectionChange();
         Select_PrintSelectMonString();
         Select_ErasePopupMenu(SELECT_WIN_OPTIONS);
-        if (sFactorySelectScreen->selectingMonsState > FRONTIER_PARTY_SIZE)
+        if (sFactorySelectScreen->selectingMonsState > sFactorySelectScreen->monsToSelect)
             return SELECT_CONFIRM_MONS;
         else
             return SELECT_CONTINUE_CHOOSING;
@@ -2209,8 +2300,13 @@ static void Select_SetWinRegs(s16 mWin0H, s16 nWin0H, s16 mWin0V, s16 nWin0V)
 static bool32 Select_AreSpeciesValid(u16 monId)
 {
     u8 i, j;
-    enum Species species = gFacilityTrainerMons[monId].species;
+    enum Species species;
     u8 selectState = sFactorySelectScreen->selectingMonsState;
+
+    if (sFactorySelectScreen->isBattleBingoStarterSelect)
+        return TRUE;
+
+    species = gFacilityTrainerMons[monId].species;
 
     for (i = 1; i < selectState; i++)
     {
