@@ -238,6 +238,7 @@ static u8 GetBattleBingoTypeSquare(u8 type);
 static void UpdateBattleBingoLines(bool8 drawNewLines);
 static bool8 IsBattleBingoLineCleared(u8 line);
 static bool8 IsBattleBingoBoardComplete(void);
+static u32 GetBattleBingoClearedSquareMask(void);
 static void UpdateBattleBingoPointText(void);
 static void StartBattleBingoPartnerPick(u8 taskId, bool8 locked);
 static void CancelBattleBingoPartnerPick(u8 taskId);
@@ -1304,8 +1305,6 @@ static void HandleBattleBingoCursorSelect(u8 taskId)
     enum Species species;
     struct BattleBingoSquareState *square;
 
-    PlaySE(SE_SELECT);
-
     switch (gTasks[taskId].tCursorArea)
     {
     case BINGO_CURSOR_AREA_PARTY:
@@ -1314,16 +1313,19 @@ static void HandleBattleBingoCursorSelect(u8 taskId)
         species = GetMonData(&gParties[B_TRAINER_PLAYER][partyIndex], MON_DATA_SPECIES_OR_EGG);
         if (partyIndex < partyCount && species != SPECIES_NONE && species != SPECIES_EGG)
         {
+            PlaySE(SE_SELECT);
             gTasks[taskId].tSelectedPartyIndex = partyIndex;
             BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
             gTasks[taskId].func = Task_BattleBingoBoardFadeToSummary;
         }
         break;
     case BINGO_CURSOR_AREA_BAG:
+        PlaySE(SE_SELECT);
         BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
         gTasks[taskId].func = Task_BattleBingoBoardFadeToBag;
         break;
     case BINGO_CURSOR_AREA_QUIT:
+        PlaySE(SE_SELECT);
         StartBattleBingoRunExit(taskId, GetBattleBingoExitResultByScore());
         break;
     case BINGO_CURSOR_AREA_BOARD:
@@ -1331,7 +1333,13 @@ static void HandleBattleBingoCursorSelect(u8 taskId)
         square = &sBattleBingo.squares[gTasks[taskId].tCursorY][gTasks[taskId].tCursorX];
         if (square->cleared)
             break;
+        if (!BattleBingoSquareIsReachable(GetBattleBingoClearedSquareMask(), gTasks[taskId].tCursorY, gTasks[taskId].tCursorX))
+        {
+            PlaySE(SE_FAILURE);
+            break;
+        }
 
+        PlaySE(SE_SELECT);
         sBattleBingo.selectedRow = gTasks[taskId].tCursorY;
         sBattleBingo.selectedCol = gTasks[taskId].tCursorX;
         gTasks[taskId].tSelectedSquareRow = sBattleBingo.selectedRow;
@@ -1759,6 +1767,24 @@ static bool8 IsBattleBingoBoardComplete(void)
     }
 
     return TRUE;
+}
+
+static u32 GetBattleBingoClearedSquareMask(void)
+{
+    u32 row;
+    u32 col;
+    u32 mask = 0;
+
+    for (row = 0; row < BINGO_BOARD_SIZE; row++)
+    {
+        for (col = 0; col < BINGO_BOARD_SIZE; col++)
+        {
+            if (sBattleBingo.squares[row][col].cleared)
+                mask |= 1 << (row * BINGO_BOARD_SIZE + col);
+        }
+    }
+
+    return mask;
 }
 
 static void UpdateBattleBingoPointText(void)

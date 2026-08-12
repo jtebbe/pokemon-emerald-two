@@ -84,6 +84,7 @@ u8 BattleBingoCountBoardRuleSquares(const struct BattleBingoBoardRules *rules);
 u8 BattleBingoCountPossibleLines(void);
 u32 BattleBingoGetPrizeMoney(u8 bingoCount, u16 multiplierQ8_8);
 bool32 BattleBingoBoardRulesAreValid(const struct BattleBingoBoardRules *rules);
+bool32 BattleBingoSquareIsReachable(u32 clearedMask, u8 row, u8 col);
 u64 BattleBingoGetWildPokemonAiFlags(void);
 u64 BattleBingoGetBossPokemonAiFlags(void);
 u16 BattleBingoGetLastResult(void);

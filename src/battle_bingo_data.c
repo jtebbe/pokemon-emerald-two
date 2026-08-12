@@ -140,6 +140,24 @@ u32 BattleBingoGetPrizeMoney(u8 bingoCount, u16 multiplierQ8_8)
     return (prize * multiplierQ8_8) / BATTLE_BINGO_PRIZE_MULTIPLIER_1X;
 }
 
+bool32 BattleBingoSquareIsReachable(u32 clearedMask, u8 row, u8 col)
+{
+    if (row >= BATTLE_BINGO_BOARD_SIZE || col >= BATTLE_BINGO_BOARD_SIZE)
+        return FALSE;
+    if (clearedMask == 0)
+        return TRUE;
+    if (row > 0 && (clearedMask & (1 << ((row - 1) * BATTLE_BINGO_BOARD_SIZE + col))))
+        return TRUE;
+    if (row + 1 < BATTLE_BINGO_BOARD_SIZE && (clearedMask & (1 << ((row + 1) * BATTLE_BINGO_BOARD_SIZE + col))))
+        return TRUE;
+    if (col > 0 && (clearedMask & (1 << (row * BATTLE_BINGO_BOARD_SIZE + col - 1))))
+        return TRUE;
+    if (col + 1 < BATTLE_BINGO_BOARD_SIZE && (clearedMask & (1 << (row * BATTLE_BINGO_BOARD_SIZE + col + 1))))
+        return TRUE;
+
+    return FALSE;
+}
+
 bool32 BattleBingoBoardRulesAreValid(const struct BattleBingoBoardRules *rules)
 {
     u32 i;
