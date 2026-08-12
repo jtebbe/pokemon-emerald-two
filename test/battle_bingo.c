@@ -26,6 +26,11 @@ static u32 CountBingoMonsWithTag(u64 tag)
     return count;
 }
 
+static u32 BingoSquareMask(u8 row, u8 col)
+{
+    return 1 << (row * BATTLE_BINGO_BOARD_SIZE + col);
+}
+
 TEST("Battle Bingo has 12 possible 5x5 bingo lines")
 {
     EXPECT_EQ(BattleBingoCountPossibleLines(), 12);
@@ -44,6 +49,40 @@ TEST("Battle Bingo prize money supports board multipliers")
 {
     EXPECT_EQ(BattleBingoGetPrizeMoney(2, BATTLE_BINGO_PRIZE_MULTIPLIER_1X / 2), 1000);
     EXPECT_EQ(BattleBingoGetPrizeMoney(2, BATTLE_BINGO_PRIZE_MULTIPLIER_1X * 2), 4000);
+}
+
+TEST("Battle Bingo can start on any square when none are cleared")
+{
+    EXPECT(BattleBingoSquareIsReachable(0, 0, 0));
+    EXPECT(BattleBingoSquareIsReachable(0, 2, 2));
+    EXPECT(BattleBingoSquareIsReachable(0, 4, 4));
+}
+
+TEST("Battle Bingo only unlocks orthogonally adjacent squares after the first clear")
+{
+    u32 clearedMask = BingoSquareMask(2, 2);
+
+    EXPECT(BattleBingoSquareIsReachable(clearedMask, 1, 2));
+    EXPECT(BattleBingoSquareIsReachable(clearedMask, 2, 1));
+    EXPECT(BattleBingoSquareIsReachable(clearedMask, 2, 3));
+    EXPECT(BattleBingoSquareIsReachable(clearedMask, 3, 2));
+    EXPECT(!BattleBingoSquareIsReachable(clearedMask, 1, 1));
+    EXPECT(!BattleBingoSquareIsReachable(clearedMask, 1, 3));
+    EXPECT(!BattleBingoSquareIsReachable(clearedMask, 3, 1));
+    EXPECT(!BattleBingoSquareIsReachable(clearedMask, 3, 3));
+    EXPECT(!BattleBingoSquareIsReachable(clearedMask, 4, 4));
+}
+
+TEST("Battle Bingo reachability respects board edges")
+{
+    u32 clearedMask = BingoSquareMask(0, 0);
+
+    EXPECT(BattleBingoSquareIsReachable(clearedMask, 0, 1));
+    EXPECT(BattleBingoSquareIsReachable(clearedMask, 1, 0));
+    EXPECT(!BattleBingoSquareIsReachable(clearedMask, 1, 1));
+    EXPECT(!BattleBingoSquareIsReachable(clearedMask, 4, 4));
+    EXPECT(!BattleBingoSquareIsReachable(clearedMask, BATTLE_BINGO_BOARD_SIZE, 0));
+    EXPECT(!BattleBingoSquareIsReachable(clearedMask, 0, BATTLE_BINGO_BOARD_SIZE));
 }
 
 TEST("Battle Bingo Fire Board has valid square counts and starter choice")

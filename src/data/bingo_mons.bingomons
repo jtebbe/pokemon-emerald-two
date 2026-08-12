@@ -20,7 +20,7 @@ Tags: Fire
 - Flamethrower
 - Air Slash
 - Dragon Pulse
-- Protect
+- Scorching Sands
 
 === BINGO_MON_ARCANINE_FIRE_1 ===
 Arcanine
@@ -31,7 +31,7 @@ Tags: Fire
 - Flare Blitz
 - Crunch
 - Extreme Speed
-- Protect
+- Wild Charge
 
 === BINGO_MON_TYPHLOSION_FIRE_1 ===
 Typhlosion
@@ -42,18 +42,18 @@ Tags: Fire
 - Flamethrower
 - Extrasensory
 - Focus Blast
-- Protect
+- Will-O-Wisp
 
 === BINGO_MON_BLAZIKEN_FIRE_1 ===
 Blaziken
 Level: 50
-Ability: Blaze
+Ability: Speed Boost
 Tera Type: Fire
 Tags: Fire
 - Blaze Kick
 - Close Combat
-- Thunder Punch
 - Protect
+- Acrobatics
 
 === BINGO_MON_INFERNAPE_FIRE_1 ===
 Infernape
@@ -64,7 +64,7 @@ Tags: Fire
 - Flamethrower
 - Close Combat
 - Grass Knot
-- Protect
+- Fake Out
 
 === BINGO_MON_MAGMORTAR_FIRE_1 ===
 Magmortar
@@ -75,7 +75,7 @@ Tags: Fire
 - Flamethrower
 - Thunderbolt
 - Focus Blast
-- Protect
+- Psychic
 
 === BINGO_MON_VOLCARONA_FIRE_1 ===
 Volcarona
@@ -86,7 +86,7 @@ Tags: Fire
 - Fiery Dance
 - Bug Buzz
 - Giga Drain
-- Protect
+- Quiver Dance
 
 === BINGO_MON_TALONFLAME_FIRE_1 ===
 Talonflame
@@ -97,7 +97,7 @@ Tags: Fire
 - Flare Blitz
 - Acrobatics
 - Quick Attack
-- Protect
+- Swords Dance
 
 === BINGO_MON_SALAZZLE_FIRE_1 ===
 Salazzle
@@ -108,51 +108,51 @@ Tags: Fire
 - Flamethrower
 - Sludge Bomb
 - Nasty Plot
-- Protect
+- Substitute
 
 === BINGO_MON_CINDERACE_FIRE_1 ===
 Cinderace
 Level: 50
-Ability: Blaze
+Ability: Libero
 Tera Type: Fire
 Tags: Fire
 - Pyro Ball
-- Double Kick
+- High Jump Kick
 - Quick Attack
-- Protect
+- Gunk Shot
 
 === BINGO_MON_SKELEDIRGE_FIRE_1 ===
 Skeledirge
 Level: 50
-Ability: Blaze
+Ability: Unaware
 Tera Type: Fire
 Tags: Fire
 - Torch Song
 - Shadow Ball
 - Slack Off
-- Protect
+- Will-O-Wisp
 
 === BINGO_MON_ARMAROUGE_FIRE_1 ===
 Armarouge
 Level: 50
-Ability: Flash Fire
+Ability: Weak Armor
 Tera Type: Fire
 Tags: Fire
 - Armor Cannon
 - Psychic
 - Energy Ball
-- Protect
+- Calm Mind
 
 === BINGO_MON_CERULEDGE_FIRE_1 ===
 Ceruledge
 Level: 50
-Ability: Flash Fire
+Ability: Weak Armor
 Tera Type: Fire
 Tags: Fire
 - Bitter Blade
 - Shadow Claw
 - Psycho Cut
-- Protect
+- Swords Dance
 
 === BINGO_MON_HOUNDOOM_FIRE_1 ===
 Houndoom
@@ -163,18 +163,18 @@ Tags: Fire
 - Flamethrower
 - Dark Pulse
 - Nasty Plot
-- Protect
+- Sludge Bomb
 
 === BINGO_MON_NINETALES_FIRE_1 ===
 Ninetales
 Level: 50
-Ability: Flash Fire
+Ability: Drought
 Tera Type: Fire
 Tags: Fire
 - Flamethrower
 - Extrasensory
 - Will-O-Wisp
-- Protect
+- Solar Beam
 
 === BINGO_MON_CHANDELURE_FIRE_1 ===
 Chandelure
@@ -185,7 +185,7 @@ Tags: Fire
 - Flamethrower
 - Shadow Ball
 - Energy Ball
-- Protect
+- Calm Mind
 
 === BINGO_MON_SWAMPERT_WATER_1 ===
 Swampert
@@ -193,10 +193,10 @@ Level: 50
 Ability: Torrent
 Tera Type: Water
 Tags: Water
-- Surf
+- Flip Turn
 - Earthquake
-- Ice Beam
-- Protect
+- Wave Crash
+- Ice Punch
 
 === BINGO_MON_GYARADOS_WATER_1 ===
 Gyarados
@@ -207,18 +207,18 @@ Tags: Water
 - Waterfall
 - Crunch
 - Ice Fang
-- Protect
+- Dragon Dance
 
 === BINGO_MON_MILOTIC_WATER_1 ===
 Milotic
 Level: 50
-Ability: Marvel Scale
+Ability: Competitive
 Tera Type: Water
 Tags: Water
 - Surf
 - Ice Beam
 - Recover
-- Protect
+- Alluring Voice
 
 === BINGO_MON_LUDICOLO_WATER_1 ===
 Ludicolo
@@ -229,18 +229,18 @@ Tags: Water
 - Surf
 - Giga Drain
 - Ice Beam
-- Protect
+- Rain Dance
 
 === BINGO_MON_GRENINJA_WATER_1 ===
 Greninja
 Level: 50
-Ability: Torrent
+Ability: Protean
 Tera Type: Water
 Tags: Water
 - Surf
 - Dark Pulse
 - Ice Beam
-- Protect
+- Sludge Wave
 
 === BINGO_MON_VAPOREON_WATER_1 ===
 Vaporeon
@@ -248,9 +248,9 @@ Level: 50
 Ability: Water Absorb
 Tera Type: Water
 Tags: Water
-- Surf
+- Wish
+- Scald
 - Ice Beam
-- Recover
 - Protect
 
 === BINGO_MON_LAPRAS_WATER_1 ===
@@ -262,7 +262,7 @@ Tags: Water
 - Surf
 - Ice Beam
 - Thunderbolt
-- Protect
+- Psychic Noise
 
 === BINGO_MON_STARMIE_WATER_1 ===
 Starmie
@@ -281,10 +281,10 @@ Level: 50
 Ability: Swift Swim
 Tera Type: Water
 Tags: Water
-- Surf
-- Dragon Pulse
-- Flash Cannon
-- Protect
+- Dragon Dance
+- Outrage
+- Wave Crash
+- Iron Head
 
 === BINGO_MON_AZUMARILL_WATER_1 ===
 Azumarill
@@ -292,43 +292,43 @@ Level: 50
 Ability: Huge Power
 Tera Type: Water
 Tags: Water
-- Waterfall
+- Aqua Jet
 - Play Rough
 - Ice Punch
-- Protect
+- Belly Drum
 
 === BINGO_MON_CLOYSTER_WATER_1 ===
 Cloyster
 Level: 50
-Ability: Shell Armor
+Ability: Skill Link
 Tera Type: Water
 Tags: Water
-- Waterfall
-- Icicle Crash
-- Ice Beam
-- Protect
+- Shell Smash
+- Icicle Spear
+- Rock Blast
+- Liquidation
 
 === BINGO_MON_WALREIN_WATER_1 ===
 Walrein
 Level: 50
-Ability: Ice Body
+Ability: Thick Fat
 Tera Type: Water
 Tags: Water
 - Surf
 - Ice Beam
 - Earthquake
-- Protect
+- Crunch
 
 === BINGO_MON_EMPOLEON_WATER_1 ===
 Empoleon
 Level: 50
-Ability: Torrent
+Ability: Competitive
 Tera Type: Water
 Tags: Water
 - Surf
 - Flash Cannon
 - Ice Beam
-- Protect
+- Yawn
 
 === BINGO_MON_SAMUROTT_WATER_1 ===
 Samurott
@@ -339,7 +339,7 @@ Tags: Water
 - Razor Shell
 - Megahorn
 - Aqua Jet
-- Protect
+- Sacred Sword
 
 === BINGO_MON_PRIMARINA_WATER_1 ===
 Primarina
@@ -350,7 +350,7 @@ Tags: Water
 - Sparkling Aria
 - Moonblast
 - Energy Ball
-- Protect
+- Ice Beam
 
 === BINGO_MON_SCEPTILE_GRASS_1 ===
 Sceptile
@@ -359,20 +359,20 @@ Ability: Overgrow
 Tera Type: Grass
 Tags: Grass
 - Leaf Blade
-- Dragon Pulse
+- Rock Slide
 - Quick Attack
-- Protect
+- Earthquake
 
 === BINGO_MON_TORTERRA_GRASS_1 ===
 Torterra
 Level: 50
-Ability: Overgrow
+Ability: Shell Armor
 Tera Type: Grass
 Tags: Grass
-- Wood Hammer
+- Shell Smash
 - Earthquake
 - Rock Slide
-- Protect
+- Seed Bomb
 
 === BINGO_MON_ROSERADE_GRASS_1 ===
 Roserade
@@ -383,7 +383,7 @@ Tags: Grass
 - Giga Drain
 - Sludge Bomb
 - Sleep Powder
-- Protect
+- Extrasensory
 
 === BINGO_MON_DECIDUEYE_GRASS_1 ===
 Decidueye
@@ -394,51 +394,51 @@ Tags: Grass
 - Spirit Shackle
 - Leaf Blade
 - Shadow Sneak
-- Protect
+- Swords Dance
 
 === BINGO_MON_MEOWSCARADA_GRASS_1 ===
 Meowscarada
 Level: 50
-Ability: Overgrow
+Ability: Protean
 Tera Type: Grass
 Tags: Grass
 - Flower Trick
-- Seed Bomb
-- Quick Attack
-- Protect
+- Throat Chop
+- Sucker Punch
+- Play Rough
 
 === BINGO_MON_BRELOOM_GRASS_1 ===
 Breloom
 Level: 50
-Ability: Effect Spore
+Ability: Technician
 Tera Type: Grass
 Tags: Grass
-- Seed Bomb
-- Drain Punch
+- Spore
+- Rock Tomb
 - Mach Punch
-- Protect
+- Bullet Seed
 
 === BINGO_MON_SHIFTRY_GRASS_1 ===
 Shiftry
 Level: 50
-Ability: Chlorophyll
+Ability: Wind Rider
 Tera Type: Grass
 Tags: Grass
 - Leaf Blade
-- Dark Pulse
+- Tailwind
 - Fake Out
-- Protect
+- Night Slash
 
 === BINGO_MON_CRADILY_GRASS_1 ===
 Cradily
 Level: 50
-Ability: Suction Cups
+Ability: Storm Drain
 Tera Type: Grass
 Tags: Grass
 - Giga Drain
-- Ancient Power
+- Power Gem
 - Recover
-- Protect
+- Ingrain
 
 === BINGO_MON_LEAFEON_GRASS_1 ===
 Leafeon
@@ -449,7 +449,7 @@ Tags: Grass
 - Leaf Blade
 - X-Scissor
 - Quick Attack
-- Protect
+- Synthesis
 
 === BINGO_MON_WHIMSICOTT_GRASS_1 ===
 Whimsicott
@@ -459,8 +459,8 @@ Tera Type: Grass
 Tags: Grass
 - Giga Drain
 - Moonblast
-- Tailwind
-- Protect
+- Encore
+- Growth
 
 === BINGO_MON_LILLIGANT_GRASS_1 ===
 Lilligant
@@ -471,7 +471,7 @@ Tags: Grass
 - Giga Drain
 - Quiver Dance
 - Sleep Powder
-- Protect
+- Alluring Voice
 
 === BINGO_MON_TSAREENA_GRASS_1 ===
 Tsareena
@@ -482,18 +482,18 @@ Tags: Grass
 - Power Whip
 - High Jump Kick
 - U-turn
-- Protect
+- Triple Axel
 
 === BINGO_MON_RILLABOOM_GRASS_1 ===
 Rillaboom
 Level: 50
-Ability: Overgrow
+Ability: Grassy Surge
 Tera Type: Grass
 Tags: Grass
 - Wood Hammer
-- Knock Off
-- Drain Punch
-- Protect
+- Grassy Glide
+- Fake Out
+- High Horsepower
 
 === BINGO_MON_FERROTHORN_GRASS_1 ===
 Ferrothorn
@@ -501,10 +501,10 @@ Level: 50
 Ability: Iron Barbs
 Tera Type: Grass
 Tags: Grass
-- Power Whip
-- Gyro Ball
 - Leech Seed
+- Gyro Ball
 - Protect
+- Substitute
 
 === BINGO_MON_ABOMASNOW_GRASS_1 ===
 Abomasnow
@@ -512,10 +512,10 @@ Level: 50
 Ability: Snow Warning
 Tera Type: Grass
 Tags: Grass
-- Energy Ball
+- Aurora Veil
 - Ice Beam
-- Earthquake
-- Protect
+- Energy Ball
+- Earth Power
 
 === BINGO_MON_CHARIZARD_KANTO_STARTER_1 ===
 Charizard @ Charcoal

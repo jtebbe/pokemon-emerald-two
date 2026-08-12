@@ -1,4 +1,6 @@
 #include "global.h"
+#include "money.h"
+#include "new_game.h"
 #include "pokemon_storage_system.h"
 #include "test/test.h"
 
@@ -27,6 +29,12 @@ TEST("SaveBlock3 is backwards compatible")
 TEST("PokemonStorage is backwards compatible")
 {
     EXPECT_EQ(sizeof(struct PokemonStorage), T_POKEMONSTORAGE_SIZE);
+}
+
+TEST("New games start with no money")
+{
+    NewGameInitData();
+    EXPECT_EQ(GetMoney(&gSaveBlock1Ptr->money), 0);
 }
 
 #undef T_SAVEBLOCK1_SIZE

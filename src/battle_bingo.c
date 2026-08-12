@@ -561,7 +561,7 @@ static const u8 sBattleBingoSquareSpriteY[BINGO_BOARD_SIZE] = {16, 48, 80, 112, 
 static const u8 sBattleBingoPartyIconX[BATTLE_BINGO_MAX_PARTY_SIZE] = {17, 17, 17, 17};
 static const u8 sBattleBingoPartyIconY[BATTLE_BINGO_MAX_PARTY_SIZE] = {41, 65, 89, 113};
 static const u8 sBattleBingoPartyHpBarY[BATTLE_BINGO_MAX_PARTY_SIZE] = {48, 72, 96, 120};
-static const u8 sBattleBingoPartyStatusY[BATTLE_BINGO_MAX_PARTY_SIZE] = {43, 67, 91, 115};
+static const u8 sBattleBingoPartyStatusY[BATTLE_BINGO_MAX_PARTY_SIZE] = {45, 69, 93, 117};
 static const u8 sBattleBingoPartyCursorY[BATTLE_BINGO_MAX_PARTY_SIZE] = {42, 66, 90, 114};
 static const u8 sBattleBingoActionCursorX[] = {35, 75};
 static const u8 sBattleBingoBossEdgePositions[16] =
@@ -1143,7 +1143,7 @@ static void CreateBattleBingoPartyStatusIcons(void)
         if (ailment == AILMENT_NONE || ailment == AILMENT_PKRS)
             continue;
 
-        spriteId = CreateSprite(&gSpriteTemplate_StatusIcons, 52, sBattleBingoPartyStatusY[i], 8);
+        spriteId = CreateSprite(&gSpriteTemplate_StatusIcons, 47, sBattleBingoPartyStatusY[i], 8);
         if (spriteId != MAX_SPRITES)
         {
             StartSpriteAnim(&gSprites[spriteId], ailment - 1);

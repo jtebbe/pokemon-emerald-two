@@ -10,11 +10,11 @@ static const struct BattleBingoItemRule sBattleBingoFWGBoardItems[] =
 {
     {ITEM_MASTER_BALL, 2},
     {ITEM_MAX_ELIXIR, 1},
-    {ITEM_FULL_RESTORE, 1},
-    {ITEM_REVIVE, 1},
-    {ITEM_SUPER_POTION, 2},
+    {ITEM_FULL_RESTORE, 2},
+    {ITEM_MAX_REVIVE, 1},
     {ITEM_FOCUS_SASH, 1},
-    {ITEM_CHARTI_BERRY, 1},
+    {ITEM_CHOICE_SCARF, 1},
+    {ITEM_LIFE_ORB, 1},
 };
 
 static const struct BattleBingoWildRule sBattleBingoFWGBoardWilds[] =
