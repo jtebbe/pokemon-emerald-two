@@ -24,6 +24,7 @@ static void (*sSecondaryTilesetAnimCallback)(u16);
 static void _InitPrimaryTilesetAnimation(void);
 static void _InitSecondaryTilesetAnimation(void);
 static void TilesetAnim_General(u16);
+static void TilesetAnim_Desert(u16);
 static void TilesetAnim_Building(u16);
 static void TilesetAnim_Rustboro(u16);
 static void TilesetAnim_Dewford(u16);
@@ -48,6 +49,7 @@ static void QueueAnimTiles_General_Water(u16);
 static void QueueAnimTiles_General_SandWaterEdge(u16);
 static void QueueAnimTiles_General_Waterfall(u16);
 static void QueueAnimTiles_General_LandWaterEdge(u16);
+static void QueueAnimTiles_Desert_Water(u16);
 static void QueueAnimTiles_Building_TVTurnedOn(u16);
 static void QueueAnimTiles_Rustboro_WindyWater(u16, u8);
 static void QueueAnimTiles_Rustboro_Fountain(u16);
@@ -104,6 +106,17 @@ const u16 *const gTilesetAnims_General_Water[] = {
     gTilesetAnims_General_Water_Frame5,
     gTilesetAnims_General_Water_Frame6,
     gTilesetAnims_General_Water_Frame7
+};
+
+const u16 gTilesetAnims_Desert_Water_Frame0[] = INCGFX_U16("data/tilesets/primary/desert/anim/water/1.png", ".4bpp");
+const u16 gTilesetAnims_Desert_Water_Frame1[] = INCGFX_U16("data/tilesets/primary/desert/anim/water/2.png", ".4bpp");
+const u16 gTilesetAnims_Desert_Water_Frame2[] = INCGFX_U16("data/tilesets/primary/desert/anim/water/3.png", ".4bpp");
+
+const u16 *const gTilesetAnims_Desert_Water[] = {
+    gTilesetAnims_Desert_Water_Frame0,
+    gTilesetAnims_Desert_Water_Frame1,
+    gTilesetAnims_Desert_Water_Frame2,
+    gTilesetAnims_Desert_Water_Frame1,
 };
 
 const u16 gTilesetAnims_General_SandWaterEdge_Frame0[] = INCGFX_U16("data/tilesets/primary/general/anim/sand_water_edge/0.png", ".4bpp");
@@ -622,6 +635,13 @@ void InitTilesetAnim_General(void)
     sPrimaryTilesetAnimCallback = TilesetAnim_General;
 }
 
+void InitTilesetAnim_Desert(void)
+{
+    sPrimaryTilesetAnimCounter = 0;
+    sPrimaryTilesetAnimCounterMax = 64;
+    sPrimaryTilesetAnimCallback = TilesetAnim_Desert;
+}
+
 void InitTilesetAnim_Building(void)
 {
     sPrimaryTilesetAnimCounter = 0;
@@ -643,6 +663,12 @@ static void TilesetAnim_General(u16 timer)
         QueueAnimTiles_General_LandWaterEdge(timer / 16);
 }
 
+static void TilesetAnim_Desert(u16 timer)
+{
+    if (timer % 16 == 0)
+        QueueAnimTiles_Desert_Water(timer / 16);
+}
+
 static void TilesetAnim_Building(u16 timer)
 {
     if (timer % 8 == 0)
@@ -659,6 +685,12 @@ static void QueueAnimTiles_General_Water(u16 timer)
 {
     u8 i = timer % ARRAY_COUNT(gTilesetAnims_General_Water);
     AppendTilesetAnimToBuffer(gTilesetAnims_General_Water[i], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(432)), 30 * TILE_SIZE_4BPP);
+}
+
+static void QueueAnimTiles_Desert_Water(u16 timer)
+{
+    u8 i = timer % ARRAY_COUNT(gTilesetAnims_Desert_Water);
+    AppendTilesetAnimToBuffer(gTilesetAnims_Desert_Water[i], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(480)), 4 * TILE_SIZE_4BPP);
 }
 
 static void QueueAnimTiles_General_SandWaterEdge(u16 timer)
@@ -1431,4 +1463,3 @@ void InitTilesetAnim_CeladonGym(void)
     sSecondaryTilesetAnimCounterMax = 256;
     sSecondaryTilesetAnimCallback = TilesetAnim_CeladonGym;
 }
-

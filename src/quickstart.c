@@ -125,3 +125,8 @@ void Quickstart(void)
     }
 }
 
+void QuickstartFromBlack(void)
+{
+    if (!gPaletteFade.active)
+        SetMainCallback2(CB2_SkipToNewGame);
+}

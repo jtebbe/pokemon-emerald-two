@@ -864,7 +864,7 @@ static void CB2_AutoLoadGame(void)
         if (gSaveFileStatus == SAVE_STATUS_OK || gSaveFileStatus == SAVE_STATUS_ERROR)
             SetMainCallback2(CB2_ContinueSavedGame);
         else
-            Quickstart();
+            QuickstartFromBlack();
     }
 }
 

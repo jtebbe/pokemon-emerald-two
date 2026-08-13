@@ -11,5 +11,6 @@
 
 void CreateQuickstartHud(void);
 void Quickstart(void);
+void QuickstartFromBlack(void);
 
 #endif // GUARD_QUICKSTART_H

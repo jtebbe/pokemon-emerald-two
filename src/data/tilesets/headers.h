@@ -217,6 +217,28 @@ const struct Tileset gTileset_Building =
     .callback = InitTilesetAnim_Building,
 };
 
+const struct Tileset gTileset_Desert =
+{
+    .isCompressed = TRUE,
+    .isSecondary = FALSE,
+    .tiles = gTilesetTiles_Desert,
+    .palettes = gTilesetPalettes_Desert,
+    .metatiles = gMetatiles_Desert,
+    .metatileAttributes = gMetatileAttributes_Desert,
+    .callback = InitTilesetAnim_Desert,
+};
+
+const struct Tileset gTileset_DesertExtra =
+{
+    .isCompressed = FALSE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_DesertExtra,
+    .palettes = gTilesetPalettes_DesertExtra,
+    .metatiles = gMetatiles_DesertExtra,
+    .metatileAttributes = gMetatileAttributes_DesertExtra,
+    .callback = NULL,
+};
+
 const struct Tileset gTileset_Shop =
 {
     .isCompressed = TRUE,

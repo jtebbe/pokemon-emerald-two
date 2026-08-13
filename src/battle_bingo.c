@@ -173,6 +173,9 @@ struct BattleBingoRuntime
     u8 selectedRow;
     u8 selectedCol;
     u8 selectedPartyIndex;
+    u8 cursorArea;
+    u8 cursorX;
+    u8 cursorY;
     u8 originalPartyCount;
     u8 bingoCount;
     u8 lineSpriteCount;
@@ -227,6 +230,8 @@ static void CreateBattleBingoPartyHpBars(void);
 static void CreateBattleBingoPartyStatusIcons(void);
 static void CreateBattleBingoHpBar(u8 x, u8 y, u8 hpPercent);
 static u8 CreateBattleBingoCursorSprite(void);
+static void RememberBattleBingoCursor(u8 area, u8 x, u8 y);
+static void RestoreBattleBingoCursor(u8 taskId);
 static void MoveBattleBingoCursor(u8 taskId, s8 deltaX, s8 deltaY);
 static void UpdateBattleBingoCursorSpritePosition(u8 taskId);
 static void HandleBattleBingoCursorSelect(u8 taskId);
@@ -663,11 +668,8 @@ static void CB2_InitBattleBingoBoard(void)
     SetVBlankCallback(VBlankCB_BattleBingoBoard);
     {
         u8 taskId = CreateTask(Task_BattleBingoBoard, 0);
-        gTasks[taskId].tCursorArea = BINGO_CURSOR_AREA_BOARD;
-        gTasks[taskId].tCursorX = 0;
-        gTasks[taskId].tCursorY = 0;
         gTasks[taskId].tCursorSpriteId = CreateBattleBingoCursorSprite();
-        UpdateBattleBingoCursorSpritePosition(taskId);
+        RestoreBattleBingoCursor(taskId);
         if (sBattleBingo.boardCompletePending)
             TryStartBattleBingoBoardComplete(taskId);
     }
@@ -1271,6 +1273,50 @@ static void MoveBattleBingoCursor(u8 taskId, s8 deltaX, s8 deltaY)
     gTasks[taskId].tCursorArea = area;
     gTasks[taskId].tCursorX = x;
     gTasks[taskId].tCursorY = y;
+    if (!sBattleBingo.pickingPartner)
+        RememberBattleBingoCursor(area, x, y);
+    UpdateBattleBingoCursorSpritePosition(taskId);
+}
+
+static void RememberBattleBingoCursor(u8 area, u8 x, u8 y)
+{
+    sBattleBingo.cursorArea = area;
+    sBattleBingo.cursorX = x;
+    sBattleBingo.cursorY = y;
+}
+
+static void RestoreBattleBingoCursor(u8 taskId)
+{
+    u8 area = sBattleBingo.cursorArea;
+    u8 x = sBattleBingo.cursorX;
+    u8 y = sBattleBingo.cursorY;
+
+    switch (area)
+    {
+    case BINGO_CURSOR_AREA_PARTY:
+        x = 0;
+        if (y >= BATTLE_BINGO_MAX_PARTY_SIZE)
+            y = BATTLE_BINGO_MAX_PARTY_SIZE - 1;
+        break;
+    case BINGO_CURSOR_AREA_BAG:
+    case BINGO_CURSOR_AREA_QUIT:
+        x = 0;
+        y = 0;
+        break;
+    case BINGO_CURSOR_AREA_BOARD:
+    default:
+        area = BINGO_CURSOR_AREA_BOARD;
+        if (x >= BINGO_BOARD_SIZE)
+            x = 0;
+        if (y >= BINGO_BOARD_SIZE)
+            y = 0;
+        break;
+    }
+
+    gTasks[taskId].tCursorArea = area;
+    gTasks[taskId].tCursorX = x;
+    gTasks[taskId].tCursorY = y;
+    RememberBattleBingoCursor(area, x, y);
     UpdateBattleBingoCursorSpritePosition(taskId);
 }
 
@@ -1320,12 +1366,14 @@ static void HandleBattleBingoCursorSelect(u8 taskId)
         {
             PlaySE(SE_SELECT);
             gTasks[taskId].tSelectedPartyIndex = partyIndex;
+            RememberBattleBingoCursor(BINGO_CURSOR_AREA_PARTY, 0, partyIndex);
             BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
             gTasks[taskId].func = Task_BattleBingoBoardFadeToSummary;
         }
         break;
     case BINGO_CURSOR_AREA_BAG:
         PlaySE(SE_SELECT);
+        RememberBattleBingoCursor(BINGO_CURSOR_AREA_BAG, 0, 0);
         BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
         gTasks[taskId].func = Task_BattleBingoBoardFadeToBag;
         break;
@@ -1349,6 +1397,7 @@ static void HandleBattleBingoCursorSelect(u8 taskId)
         sBattleBingo.selectedCol = gTasks[taskId].tCursorX;
         gTasks[taskId].tSelectedSquareRow = sBattleBingo.selectedRow;
         gTasks[taskId].tSelectedSquareCol = sBattleBingo.selectedCol;
+        RememberBattleBingoCursor(BINGO_CURSOR_AREA_BOARD, sBattleBingo.selectedCol, sBattleBingo.selectedRow);
 
         switch (square->kind)
         {
@@ -1391,6 +1440,7 @@ static void HandleBattleBingoPartnerPickInput(u8 taskId)
             PlaySE(SE_SELECT);
             sBattleBingo.selectedPartyIndex = partyIndex;
             gTasks[taskId].tSelectedPartyIndex = partyIndex;
+            RememberBattleBingoCursor(BINGO_CURSOR_AREA_BOARD, sBattleBingo.selectedCol, sBattleBingo.selectedRow);
             StartBattleBingoWildBattle(taskId);
         }
     }
@@ -1488,6 +1538,7 @@ static void InitBattleBingoRuntime(enum BattleBingoBoardId boardId)
     memset(&sBattleBingo, 0, sizeof(sBattleBingo));
     sBattleBingo.initialized = TRUE;
     sBattleBingo.boardId = boardId;
+    RememberBattleBingoCursor(BINGO_CURSOR_AREA_BOARD, 0, 0);
     BackupBattleBingoBag();
     GiveBattleBingoStartingItems(rules);
     for (i = 0; i < BINGO_TEXT_COUNT; i++)
@@ -1818,6 +1869,7 @@ static void CancelBattleBingoPartnerPick(u8 taskId)
     HideBattleBingoPrompt();
     sBattleBingo.pickingPartner = FALSE;
     sBattleBingo.partnerPickLocked = FALSE;
+    RememberBattleBingoCursor(BINGO_CURSOR_AREA_BOARD, sBattleBingo.selectedCol, sBattleBingo.selectedRow);
     gTasks[taskId].tCursorArea = BINGO_CURSOR_AREA_BOARD;
     gTasks[taskId].tCursorX = sBattleBingo.selectedCol;
     gTasks[taskId].tCursorY = sBattleBingo.selectedRow;
