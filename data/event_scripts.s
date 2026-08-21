@@ -1741,3 +1741,5 @@ EventScript_PalletTown_PlayersHouse_2F_TurnOnPC::
 	.include "data/maps/REALGAM_DESERT/scripts.inc"
 
 	.include "data/maps/REALGAM_TOWER_HUB/scripts.inc"
+
+	.include "data/maps/REALGAM_MART/scripts.inc"

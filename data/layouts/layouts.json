@@ -9343,6 +9343,16 @@
       "secondary_tileset": "gTileset_Contest",
       "border_filepath": "data/layouts/REALGAM_TOWER_HUB/border.bin",
       "blockdata_filepath": "data/layouts/REALGAM_TOWER_HUB/map.bin"
+    },
+    {
+      "id": "LAYOUT_REALGAM_MART",
+      "name": "REALGAM_MART_Layout",
+      "width": 12,
+      "height": 7,
+      "primary_tileset": "gTileset_Building",
+      "secondary_tileset": "gTileset_Shop",
+      "border_filepath": "data/layouts/REALGAM_MART/border.bin",
+      "blockdata_filepath": "data/layouts/REALGAM_MART/map.bin"
     }
   ]
 }
