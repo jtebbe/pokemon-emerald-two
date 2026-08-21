@@ -4,6 +4,9 @@
 #include "bingo_mons.h"
 #include "data.h"
 #include "constants/battle_ai.h"
+#include "constants/abilities.h"
+#include "constants/items.h"
+#include "constants/moves.h"
 #include "constants/species.h"
 #include "test/test.h"
 
@@ -160,4 +163,75 @@ TEST("Battle Bingo Fire Board boss is Lance with grass fire water trio")
     EXPECT_EQ(trainer->party[0].species, SPECIES_SERPERIOR);
     EXPECT_EQ(trainer->party[1].species, SPECIES_CHARIZARD);
     EXPECT_EQ(trainer->party[2].species, SPECIES_FERALIGATR);
+}
+
+TEST("Battle Bingo Normal Board has valid square counts and fixed Tauros starter")
+{
+    const struct BattleBingoBoardRules *rules = GetBattleBingoBoardRules(BATTLE_BINGO_BOARD_NORMAL);
+    u32 itemCount = 0;
+    u32 healCount = 0;
+    u32 wildCount = 0;
+    u32 i;
+
+    EXPECT(rules != NULL);
+    EXPECT(BattleBingoBoardRulesAreValid(rules));
+    EXPECT_EQ(BattleBingoCountBoardRuleSquares(rules), BATTLE_BINGO_NUM_SQUARES);
+    for (i = 0; i < rules->itemRuleCount; i++)
+        itemCount += rules->items[i].count;
+    for (i = 0; i < rules->healRuleCount; i++)
+        healCount += rules->heals[i].count;
+    for (i = 0; i < rules->wildRuleCount; i++)
+        wildCount += rules->wilds[i].count;
+
+    EXPECT_EQ(wildCount, 15);
+    EXPECT_EQ(rules->mysteryWildCount, 5);
+    EXPECT_EQ(itemCount, 8);
+    EXPECT_EQ(healCount, 1);
+    EXPECT_EQ(rules->mysteryItemCount, 5);
+    EXPECT_EQ(rules->bossCount, 1);
+    EXPECT_EQ(rules->bosses[0], TRAINER_NORMAN_3);
+    EXPECT_EQ(rules->starterMode, BATTLE_BINGO_STARTER_FIXED);
+    EXPECT_EQ(rules->starterCount, 1);
+    EXPECT_EQ(rules->starters[0], BINGO_MON_TAUROS_NORMAL_STARTER_1);
+    EXPECT_EQ(gBingoMons[rules->starters[0]].species, SPECIES_TAUROS);
+    EXPECT_EQ(gBingoMons[rules->starters[0]].heldItem, ITEM_CHOPLE_BERRY);
+}
+
+TEST("Battle Bingo Normal Board uses Normal encounter tags and has enough unique mons")
+{
+    const struct BattleBingoBoardRules *rules = GetBattleBingoBoardRules(BATTLE_BINGO_BOARD_NORMAL);
+
+    EXPECT(rules != NULL);
+    EXPECT_EQ(rules->wildRuleCount, 1);
+    EXPECT_EQ(rules->wilds[0].count, 15);
+    EXPECT(rules->wilds[0].requiredTags & MON_POOL_TAG_NORMAL);
+    EXPECT_EQ(rules->wilds[0].type, TYPE_NORMAL);
+    EXPECT(CountBingoMonsWithTag(MON_POOL_TAG_NORMAL) >= 16);
+}
+
+TEST("Battle Bingo Normal Board boss is Norman with level 50 singles team")
+{
+    const struct Trainer *trainer = &sBattleBingoTestTrainers[DIFFICULTY_NORMAL][TRAINER_NORMAN_3];
+    u32 i, j;
+
+    EXPECT(trainer != NULL);
+    EXPECT_EQ((u32)trainer->battleType, TRAINER_BATTLE_TYPE_SINGLES);
+    EXPECT_EQ((u32)trainer->partySize, 3);
+    EXPECT_EQ(trainer->party[0].species, SPECIES_SNORLAX);
+    EXPECT_EQ(trainer->party[0].lvl, 50);
+    EXPECT_EQ(trainer->party[0].heldItem, ITEM_LEFTOVERS);
+    EXPECT_EQ(trainer->party[0].ability, ABILITY_THICK_FAT);
+    EXPECT_EQ(trainer->party[0].moves[2], MOVE_SLEEP_TALK);
+    EXPECT_EQ(trainer->party[1].species, SPECIES_EXPLOUD);
+    EXPECT_EQ(trainer->party[1].lvl, 50);
+    EXPECT_EQ(trainer->party[1].heldItem, ITEM_CHOICE_SPECS);
+    EXPECT_EQ(trainer->party[1].ability, ABILITY_SCRAPPY);
+    EXPECT_EQ(trainer->party[2].species, SPECIES_SLAKING);
+    EXPECT_EQ(trainer->party[2].lvl, 50);
+    EXPECT_EQ(trainer->party[2].heldItem, ITEM_CHOICE_BAND);
+    EXPECT_EQ(trainer->party[2].ability, ABILITY_TRUANT);
+
+    for (i = 0; i < trainer->partySize; i++)
+        for (j = 0; j < MAX_MON_MOVES; j++)
+            EXPECT_NE(trainer->party[i].moves[j], MOVE_PROTECT);
 }

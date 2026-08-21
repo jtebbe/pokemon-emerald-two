@@ -18,6 +18,7 @@
 enum BattleBingoBoardId
 {
     BATTLE_BINGO_BOARD_FWG,
+    BATTLE_BINGO_BOARD_NORMAL,
     BATTLE_BINGO_BOARD_COUNT,
 };
 
@@ -99,5 +100,8 @@ u64 BattleBingoGetWildPokemonAiFlags(void);
 u64 BattleBingoGetBossPokemonAiFlags(void);
 u16 BattleBingoGetLastResult(void);
 u16 BattleBingoGetLastPrizeMoney(void);
+u16 BattleBingoGetSelectedBoardId(void);
+u16 BattleBingoPrepareCardSelection(void);
+void BattleBingoSetSelectedBoard(void);
 
 #endif // GUARD_BATTLE_BINGO_H

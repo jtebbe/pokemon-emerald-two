@@ -64,6 +64,8 @@ gSpecials::
 	def_special ShowBattleBingoBoard, requests_effects=1, waitstate=1
 	def_special BattleBingoGetLastResult
 	def_special BattleBingoGetLastPrizeMoney
+	def_special BattleBingoPrepareCardSelection
+	def_special BattleBingoSetSelectedBoard
 	def_special Script_ShowLinkTrainerCard, waitstate=1
 	def_special ObjectEventInteractionGetBerryTreeData
 	def_special ObjectEventInteractionGetBerryName

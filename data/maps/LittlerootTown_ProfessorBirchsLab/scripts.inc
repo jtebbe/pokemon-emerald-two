@@ -280,7 +280,12 @@ LittlerootTown_ProfessorBirchsLab_EventScript_Aide::
 	end
 
 LittlerootTown_ProfessorBirchsLab_EventScript_AideStartBattleBingo::
-	msgbox LittlerootTown_ProfessorBirchsLab_Text_BattleBingoAttendantFireBoard, MSGBOX_DEFAULT
+	specialvar VAR_RESULT, BattleBingoPrepareCardSelection
+	goto_if_eq VAR_RESULT, 0, LittlerootTown_ProfessorBirchsLab_EventScript_AideBattleBingoNoCards
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_BattleBingoAttendantChooseCard, MSGBOX_DEFAULT
+	dynmultistack 17, 1, FALSE, 6, FALSE, 0, DYN_MULTICHOICE_CB_NONE
+	goto_if_eq VAR_RESULT, MULTI_B_PRESSED, LittlerootTown_ProfessorBirchsLab_EventScript_AideBattleBingoCancel
+	special BattleBingoSetSelectedBoard
 	special ShowBattleBingoStarterSelect
 	special ShowBattleBingoBoard
 	specialvar VAR_RESULT, BattleBingoGetLastResult
@@ -288,6 +293,16 @@ LittlerootTown_ProfessorBirchsLab_EventScript_AideStartBattleBingo::
 	goto_if_eq VAR_RESULT, BATTLE_BINGO_RESULT_COMPLETE, LittlerootTown_ProfessorBirchsLab_EventScript_AideBattleBingoPrize
 	msgbox LittlerootTown_ProfessorBirchsLab_Text_BattleBingoAttendantLossTryAgain, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, YES, LittlerootTown_ProfessorBirchsLab_EventScript_AideStartBattleBingo
+	release
+	end
+
+LittlerootTown_ProfessorBirchsLab_EventScript_AideBattleBingoCancel::
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_BattleBingoAttendantDecline, MSGBOX_DEFAULT
+	release
+	end
+
+LittlerootTown_ProfessorBirchsLab_EventScript_AideBattleBingoNoCards::
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_BattleBingoAttendantNoCards, MSGBOX_DEFAULT
 	release
 	end
 
@@ -725,8 +740,13 @@ LittlerootTown_ProfessorBirchsLab_Text_BattleBingoAttendantDecline:
 	.string "No worries. Come back whenever\n"
 	.string "you want to play.$"
 
-LittlerootTown_ProfessorBirchsLab_Text_BattleBingoAttendantFireBoard:
-	.string "For now, I'll set up the FWG BOARD.$"
+LittlerootTown_ProfessorBirchsLab_Text_BattleBingoAttendantChooseCard:
+	.string "Which BATTLE BINGO card\n"
+	.string "would you like to play?$"
+
+LittlerootTown_ProfessorBirchsLab_Text_BattleBingoAttendantNoCards:
+	.string "You don't have any BATTLE BINGO\n"
+	.string "cards right now.$"
 
 LittlerootTown_ProfessorBirchsLab_Text_BattleBingoAttendantLossTryAgain:
 	.string "Nice try! You'll get 'em next time.\p"

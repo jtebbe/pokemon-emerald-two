@@ -1455,4 +1455,482 @@ const struct TrainerMon gBingoMons[BINGO_MON_COUNT] =
             MOVE_GIGA_DRAIN,
         },
     },
+#line 595 "src/data/bingo_mons.bingomons"
+    [BINGO_MON_TAUROS_NORMAL_STARTER_1] =
+    {
+#line 596
+        .species = SPECIES_TAUROS,
+        .gender = TRAINER_MON_RANDOM_GENDER,
+        .heldItem = ITEM_CHOPLE_BERRY,
+#line 600
+        .ev = TRAINER_PARTY_EVS(0, 252, 0, 252, 0, 4),
+#line 603
+        .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
+#line 598
+        .ability = ABILITY_INTIMIDATE,
+#line 597
+        .lvl = 50,
+        .ball = POKEBALL_COUNT,
+#line 601
+        .nature = NATURE_JOLLY,
+        .dynamaxLevel = MAX_DYNAMAX_LEVEL,
+#line 599
+        .teraType = TYPE_NORMAL,
+#line 602
+        .tags = MON_POOL_TAG_NORMAL,
+        .moves = {
+#line 603
+            MOVE_BODY_SLAM,
+            MOVE_EARTHQUAKE,
+            MOVE_CLOSE_COMBAT,
+            MOVE_ROCK_SLIDE,
+        },
+    },
+#line 608 "src/data/bingo_mons.bingomons"
+    [BINGO_MON_BLISSEY_NORMAL_1] =
+    {
+#line 609
+        .species = SPECIES_BLISSEY,
+        .gender = TRAINER_MON_RANDOM_GENDER,
+#line 613
+        .ev = TRAINER_PARTY_EVS(252, 0, 252, 0, 0, 4),
+#line 616
+        .iv = TRAINER_PARTY_IVS(31, 0, 31, 31, 31, 31),
+#line 611
+        .ability = ABILITY_NATURAL_CURE,
+#line 610
+        .lvl = 50,
+        .ball = POKEBALL_COUNT,
+#line 614
+        .nature = NATURE_BOLD,
+        .dynamaxLevel = MAX_DYNAMAX_LEVEL,
+#line 612
+        .teraType = TYPE_FAIRY,
+#line 615
+        .tags = MON_POOL_TAG_NORMAL,
+        .moves = {
+#line 617
+            MOVE_SOFT_BOILED,
+            MOVE_SEISMIC_TOSS,
+            MOVE_THUNDER_WAVE,
+            MOVE_STEALTH_ROCK,
+        },
+    },
+#line 622 "src/data/bingo_mons.bingomons"
+    [BINGO_MON_SNORLAX_NORMAL_1] =
+    {
+#line 623
+        .species = SPECIES_SNORLAX,
+        .gender = TRAINER_MON_RANDOM_GENDER,
+#line 627
+        .ev = TRAINER_PARTY_EVS(252, 4, 0, 0, 0, 252),
+#line 630
+        .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
+#line 625
+        .ability = ABILITY_THICK_FAT,
+#line 624
+        .lvl = 50,
+        .ball = POKEBALL_COUNT,
+#line 628
+        .nature = NATURE_CAREFUL,
+        .dynamaxLevel = MAX_DYNAMAX_LEVEL,
+#line 626
+        .teraType = TYPE_NORMAL,
+#line 629
+        .tags = MON_POOL_TAG_NORMAL,
+        .moves = {
+#line 630
+            MOVE_CURSE,
+            MOVE_BODY_SLAM,
+            MOVE_EARTHQUAKE,
+            MOVE_BODY_PRESS,
+        },
+    },
+#line 635 "src/data/bingo_mons.bingomons"
+    [BINGO_MON_PORYGON2_NORMAL_1] =
+    {
+#line 636
+        .species = SPECIES_PORYGON2,
+        .gender = TRAINER_MON_RANDOM_GENDER,
+#line 640
+        .ev = TRAINER_PARTY_EVS(252, 0, 252, 0, 4, 0),
+#line 643
+        .iv = TRAINER_PARTY_IVS(31, 0, 31, 31, 31, 31),
+#line 638
+        .ability = ABILITY_DOWNLOAD,
+#line 637
+        .lvl = 50,
+        .ball = POKEBALL_COUNT,
+#line 641
+        .nature = NATURE_BOLD,
+        .dynamaxLevel = MAX_DYNAMAX_LEVEL,
+#line 639
+        .teraType = TYPE_NORMAL,
+#line 642
+        .tags = MON_POOL_TAG_NORMAL,
+        .moves = {
+#line 644
+            MOVE_RECOVER,
+            MOVE_TRI_ATTACK,
+            MOVE_ICE_BEAM,
+            MOVE_THUNDERBOLT,
+        },
+    },
+#line 649 "src/data/bingo_mons.bingomons"
+    [BINGO_MON_PORYGON_Z_NORMAL_1] =
+    {
+#line 650
+        .species = SPECIES_PORYGON_Z,
+        .gender = TRAINER_MON_RANDOM_GENDER,
+#line 654
+        .ev = TRAINER_PARTY_EVS(0, 0, 4, 252, 252, 0),
+#line 657
+        .iv = TRAINER_PARTY_IVS(31, 0, 31, 31, 31, 31),
+#line 652
+        .ability = ABILITY_ADAPTABILITY,
+#line 651
+        .lvl = 50,
+        .ball = POKEBALL_COUNT,
+#line 655
+        .nature = NATURE_TIMID,
+        .dynamaxLevel = MAX_DYNAMAX_LEVEL,
+#line 653
+        .teraType = TYPE_NORMAL,
+#line 656
+        .tags = MON_POOL_TAG_NORMAL,
+        .moves = {
+#line 658
+            MOVE_NASTY_PLOT,
+            MOVE_TRI_ATTACK,
+            MOVE_SHADOW_BALL,
+            MOVE_THUNDERBOLT,
+        },
+    },
+#line 663 "src/data/bingo_mons.bingomons"
+    [BINGO_MON_STARAPTOR_NORMAL_1] =
+    {
+#line 664
+        .species = SPECIES_STARAPTOR,
+        .gender = TRAINER_MON_RANDOM_GENDER,
+#line 668
+        .ev = TRAINER_PARTY_EVS(0, 252, 4, 252, 0, 0),
+#line 671
+        .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
+#line 666
+        .ability = ABILITY_RECKLESS,
+#line 665
+        .lvl = 50,
+        .ball = POKEBALL_COUNT,
+#line 669
+        .nature = NATURE_JOLLY,
+        .dynamaxLevel = MAX_DYNAMAX_LEVEL,
+#line 667
+        .teraType = TYPE_FLYING,
+#line 670
+        .tags = MON_POOL_TAG_NORMAL | MON_POOL_TAG_FLYING,
+        .moves = {
+#line 671
+            MOVE_BRAVE_BIRD,
+            MOVE_DOUBLE_EDGE,
+            MOVE_CLOSE_COMBAT,
+            MOVE_U_TURN,
+        },
+    },
+#line 676 "src/data/bingo_mons.bingomons"
+    [BINGO_MON_SLAKING_NORMAL_1] =
+    {
+#line 677
+        .species = SPECIES_SLAKING,
+        .gender = TRAINER_MON_RANDOM_GENDER,
+#line 681
+        .ev = TRAINER_PARTY_EVS(0, 252, 4, 252, 0, 0),
+#line 684
+        .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
+#line 679
+        .ability = ABILITY_TRUANT,
+#line 678
+        .lvl = 50,
+        .ball = POKEBALL_COUNT,
+#line 682
+        .nature = NATURE_JOLLY,
+        .dynamaxLevel = MAX_DYNAMAX_LEVEL,
+#line 680
+        .teraType = TYPE_NORMAL,
+#line 683
+        .tags = MON_POOL_TAG_NORMAL,
+        .moves = {
+#line 684
+            MOVE_FACADE,
+            MOVE_EARTHQUAKE,
+            MOVE_KNOCK_OFF,
+            MOVE_PLAY_ROUGH,
+        },
+    },
+#line 689 "src/data/bingo_mons.bingomons"
+    [BINGO_MON_KANGASKHAN_NORMAL_1] =
+    {
+#line 690
+        .species = SPECIES_KANGASKHAN,
+        .gender = TRAINER_MON_RANDOM_GENDER,
+#line 694
+        .ev = TRAINER_PARTY_EVS(0, 252, 4, 252, 0, 0),
+#line 697
+        .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
+#line 692
+        .ability = ABILITY_SCRAPPY,
+#line 691
+        .lvl = 50,
+        .ball = POKEBALL_COUNT,
+#line 695
+        .nature = NATURE_JOLLY,
+        .dynamaxLevel = MAX_DYNAMAX_LEVEL,
+#line 693
+        .teraType = TYPE_NORMAL,
+#line 696
+        .tags = MON_POOL_TAG_NORMAL,
+        .moves = {
+#line 697
+            MOVE_FAKE_OUT,
+            MOVE_DOUBLE_EDGE,
+            MOVE_EARTHQUAKE,
+            MOVE_SUCKER_PUNCH,
+        },
+    },
+#line 702 "src/data/bingo_mons.bingomons"
+    [BINGO_MON_DITTO_NORMAL_1] =
+    {
+#line 703
+        .species = SPECIES_DITTO,
+        .gender = TRAINER_MON_RANDOM_GENDER,
+#line 707
+        .ev = TRAINER_PARTY_EVS(252, 0, 4, 252, 0, 0),
+#line 710
+        .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
+#line 705
+        .ability = ABILITY_IMPOSTER,
+#line 704
+        .lvl = 50,
+        .ball = POKEBALL_COUNT,
+#line 708
+        .nature = NATURE_JOLLY,
+        .dynamaxLevel = MAX_DYNAMAX_LEVEL,
+#line 706
+        .teraType = TYPE_NORMAL,
+#line 709
+        .tags = MON_POOL_TAG_NORMAL,
+        .moves = {
+#line 710
+            MOVE_TRANSFORM,
+        },
+    },
+#line 712 "src/data/bingo_mons.bingomons"
+    [BINGO_MON_AMBIPOM_NORMAL_1] =
+    {
+#line 713
+        .species = SPECIES_AMBIPOM,
+        .gender = TRAINER_MON_RANDOM_GENDER,
+#line 717
+        .ev = TRAINER_PARTY_EVS(0, 252, 4, 252, 0, 0),
+#line 720
+        .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
+#line 715
+        .ability = ABILITY_TECHNICIAN,
+#line 714
+        .lvl = 50,
+        .ball = POKEBALL_COUNT,
+#line 718
+        .nature = NATURE_JOLLY,
+        .dynamaxLevel = MAX_DYNAMAX_LEVEL,
+#line 716
+        .teraType = TYPE_NORMAL,
+#line 719
+        .tags = MON_POOL_TAG_NORMAL,
+        .moves = {
+#line 720
+            MOVE_FAKE_OUT,
+            MOVE_DOUBLE_HIT,
+            MOVE_KNOCK_OFF,
+            MOVE_U_TURN,
+        },
+    },
+#line 725 "src/data/bingo_mons.bingomons"
+    [BINGO_MON_BRAVIARY_NORMAL_1] =
+    {
+#line 726
+        .species = SPECIES_BRAVIARY,
+        .gender = TRAINER_MON_RANDOM_GENDER,
+#line 730
+        .ev = TRAINER_PARTY_EVS(0, 252, 4, 252, 0, 0),
+#line 733
+        .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
+#line 728
+        .ability = ABILITY_DEFIANT,
+#line 727
+        .lvl = 50,
+        .ball = POKEBALL_COUNT,
+#line 731
+        .nature = NATURE_JOLLY,
+        .dynamaxLevel = MAX_DYNAMAX_LEVEL,
+#line 729
+        .teraType = TYPE_FLYING,
+#line 732
+        .tags = MON_POOL_TAG_NORMAL | MON_POOL_TAG_FLYING,
+        .moves = {
+#line 733
+            MOVE_BRAVE_BIRD,
+            MOVE_CLOSE_COMBAT,
+            MOVE_U_TURN,
+            MOVE_ROOST,
+        },
+    },
+#line 738 "src/data/bingo_mons.bingomons"
+    [BINGO_MON_HELIOLISK_NORMAL_1] =
+    {
+#line 739
+        .species = SPECIES_HELIOLISK,
+        .gender = TRAINER_MON_RANDOM_GENDER,
+#line 743
+        .ev = TRAINER_PARTY_EVS(0, 0, 4, 252, 252, 0),
+#line 746
+        .iv = TRAINER_PARTY_IVS(31, 0, 31, 31, 31, 31),
+#line 741
+        .ability = ABILITY_DRY_SKIN,
+#line 740
+        .lvl = 50,
+        .ball = POKEBALL_COUNT,
+#line 744
+        .nature = NATURE_TIMID,
+        .dynamaxLevel = MAX_DYNAMAX_LEVEL,
+#line 742
+        .teraType = TYPE_NORMAL,
+#line 745
+        .tags = MON_POOL_TAG_NORMAL | MON_POOL_TAG_ELECTRIC,
+        .moves = {
+#line 747
+            MOVE_VOLT_SWITCH,
+            MOVE_HYPER_VOICE,
+            MOVE_GRASS_KNOT,
+            MOVE_SURF,
+        },
+    },
+#line 752 "src/data/bingo_mons.bingomons"
+    [BINGO_MON_BEWEAR_NORMAL_1] =
+    {
+#line 753
+        .species = SPECIES_BEWEAR,
+        .gender = TRAINER_MON_RANDOM_GENDER,
+#line 757
+        .ev = TRAINER_PARTY_EVS(0, 252, 4, 252, 0, 0),
+#line 760
+        .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
+#line 755
+        .ability = ABILITY_FLUFFY,
+#line 754
+        .lvl = 50,
+        .ball = POKEBALL_COUNT,
+#line 758
+        .nature = NATURE_JOLLY,
+        .dynamaxLevel = MAX_DYNAMAX_LEVEL,
+#line 756
+        .teraType = TYPE_NORMAL,
+#line 759
+        .tags = MON_POOL_TAG_NORMAL | MON_POOL_TAG_FIGHTING,
+        .moves = {
+#line 760
+            MOVE_SWORDS_DANCE,
+            MOVE_DRAIN_PUNCH,
+            MOVE_DOUBLE_EDGE,
+            MOVE_EARTHQUAKE,
+        },
+    },
+#line 765 "src/data/bingo_mons.bingomons"
+    [BINGO_MON_DUBWOOL_NORMAL_1] =
+    {
+#line 766
+        .species = SPECIES_DUBWOOL,
+        .gender = TRAINER_MON_RANDOM_GENDER,
+#line 770
+        .ev = TRAINER_PARTY_EVS(252, 0, 252, 0, 0, 4),
+#line 773
+        .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
+#line 768
+        .ability = ABILITY_FLUFFY,
+#line 767
+        .lvl = 50,
+        .ball = POKEBALL_COUNT,
+#line 771
+        .nature = NATURE_IMPISH,
+        .dynamaxLevel = MAX_DYNAMAX_LEVEL,
+#line 769
+        .teraType = TYPE_FIGHTING,
+#line 772
+        .tags = MON_POOL_TAG_NORMAL,
+        .moves = {
+#line 773
+            MOVE_COTTON_GUARD,
+            MOVE_BODY_PRESS,
+            MOVE_BODY_SLAM,
+            MOVE_THUNDER_WAVE,
+        },
+    },
+#line 778 "src/data/bingo_mons.bingomons"
+    [BINGO_MON_INDEEDEE_F_NORMAL_1] =
+    {
+#line 779
+        .species = SPECIES_INDEEDEE_F,
+        .gender = TRAINER_MON_RANDOM_GENDER,
+#line 783
+        .ev = TRAINER_PARTY_EVS(252, 0, 252, 0, 0, 4),
+#line 786
+        .iv = TRAINER_PARTY_IVS(31, 0, 31, 31, 31, 31),
+#line 781
+        .ability = ABILITY_PSYCHIC_SURGE,
+#line 780
+        .lvl = 50,
+        .ball = POKEBALL_COUNT,
+#line 784
+        .nature = NATURE_BOLD,
+        .dynamaxLevel = MAX_DYNAMAX_LEVEL,
+#line 782
+        .teraType = TYPE_FAIRY,
+#line 785
+        .tags = MON_POOL_TAG_NORMAL | MON_POOL_TAG_PSYCHIC | MON_POOL_TAG_SUPPORT,
+        .moves = {
+#line 787
+            MOVE_PSYCHIC,
+            MOVE_HYPER_VOICE,
+            MOVE_HEALING_WISH,
+            MOVE_TRICK_ROOM,
+        },
+    },
+#line 792 "src/data/bingo_mons.bingomons"
+    [BINGO_MON_MAUSHOLD_NORMAL_1] =
+    {
+#line 793
+        .species = SPECIES_MAUSHOLD,
+        .gender = TRAINER_MON_RANDOM_GENDER,
+#line 797
+        .ev = TRAINER_PARTY_EVS(0, 252, 4, 252, 0, 0),
+#line 800
+        .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
+#line 795
+        .ability = ABILITY_TECHNICIAN,
+#line 794
+        .lvl = 50,
+        .ball = POKEBALL_COUNT,
+#line 798
+        .nature = NATURE_JOLLY,
+        .dynamaxLevel = MAX_DYNAMAX_LEVEL,
+#line 796
+        .teraType = TYPE_NORMAL,
+#line 799
+        .tags = MON_POOL_TAG_NORMAL,
+        .moves = {
+#line 800
+            MOVE_TIDY_UP,
+            MOVE_POPULATION_BOMB,
+            MOVE_ENCORE,
+            MOVE_BITE,
+        },
+    },
 };

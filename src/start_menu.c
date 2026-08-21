@@ -24,6 +24,7 @@
 #include "load_save.h"
 #include "main.h"
 #include "menu.h"
+#include "money.h"
 #include "new_game.h"
 #include "option_menu.h"
 #include "overworld.h"
@@ -90,6 +91,8 @@ EWRAM_DATA static u8 sStartMenuCursorPos = 0;
 EWRAM_DATA static u8 sNumStartMenuActions = 0;
 EWRAM_DATA static u8 sCurrentStartMenuActions[9] = {0};
 EWRAM_DATA static s8 sInitStartMenuData[2] = {0};
+EWRAM_DATA static u8 sStartMenuMoneyWindowId = 0;
+EWRAM_DATA static bool8 sStartMenuMoneyWindowShown = FALSE;
 
 EWRAM_DATA static u8 (*sSaveDialogCallback)(void) = NULL;
 EWRAM_DATA static u8 sSaveDialogTimer = 0;
@@ -187,6 +190,16 @@ static const struct WindowTemplate sWindowTemplate_PyramidPeak = {
     .baseBlock = 0x8
 };
 
+static const struct WindowTemplate sWindowTemplate_Money = {
+    .bg = 0,
+    .tilemapLeft = 1,
+    .tilemapTop = 1,
+    .width = 10,
+    .height = 4,
+    .paletteNum = 15,
+    .baseBlock = 0x70
+};
+
 static const u8 sText_MenuDebug[] = _("DEBUG");
 
 static const struct MenuAction sStartMenuItems[] =
@@ -256,6 +269,7 @@ static void BuildUnionRoomStartMenu(void);
 static void BuildBattlePikeStartMenu(void);
 static void BuildBattlePyramidStartMenu(void);
 static void BuildMultiPartnerRoomStartMenu(void);
+static void ShowStartMenuMoneyWindow(void);
 static void ShowSafariBallsWindow(void);
 static void ShowPyramidFloorWindow(void);
 static void RemoveExtraStartMenuWindows(void);
@@ -409,6 +423,19 @@ static void BuildMultiPartnerRoomStartMenu(void)
     AddStartMenuAction(MENU_ACTION_EXIT);
 }
 
+static void ShowStartMenuMoneyWindow(void)
+{
+    u32 money = GetMoney(&gSaveBlock1Ptr->money);
+
+    sStartMenuMoneyWindowId = AddWindow(&sWindowTemplate_Money);
+    sStartMenuMoneyWindowShown = TRUE;
+    PutWindowTilemap(sStartMenuMoneyWindowId);
+    DrawStdWindowFrame(sStartMenuMoneyWindowId, FALSE);
+    AddTextPrinterParameterized(sStartMenuMoneyWindowId, FONT_NORMAL, gText_TrainerCardMoney, 8, 1, TEXT_SKIP_DRAW, NULL);
+    PrintMoneyAmount(sStartMenuMoneyWindowId, CalculateMoneyTextHorizontalPosition(money), 17, money, TEXT_SKIP_DRAW);
+    CopyWindowToVram(sStartMenuMoneyWindowId, COPYWIN_GFX);
+}
+
 static void ShowSafariBallsWindow(void)
 {
     sSafariBallsWindowId = AddWindow(&sWindowTemplate_SafariBalls);
@@ -448,6 +475,14 @@ static void ShowPyramidFloorWindow(void)
 
 static void RemoveExtraStartMenuWindows(void)
 {
+    if (sStartMenuMoneyWindowShown)
+    {
+        ClearStdWindowAndFrameToTransparent(sStartMenuMoneyWindowId, FALSE);
+        CopyWindowToVram(sStartMenuMoneyWindowId, COPYWIN_GFX);
+        RemoveWindow(sStartMenuMoneyWindowId);
+        sStartMenuMoneyWindowShown = FALSE;
+    }
+
     if (GetSafariZoneFlag())
     {
         ClearStdWindowAndFrameToTransparent(sSafariBallsWindowId, FALSE);
@@ -512,6 +547,7 @@ static bool32 InitStartMenuStep(void)
         sInitStartMenuData[0]++;
         break;
     case 3:
+        ShowStartMenuMoneyWindow();
         if (GetSafariZoneFlag())
             ShowSafariBallsWindow();
         if (CurrentBattlePyramidLocation() != PYRAMID_LOCATION_NONE)

@@ -1302,7 +1302,9 @@ static void Select_InitMonsData(void)
 
     if (sFactorySelectScreen->isBattleBingoStarterSelect)
     {
-        sFactorySelectScreen->selectableMonsCount = BATTLE_BINGO_MAX_STARTERS;
+        const struct BattleBingoBoardRules *rules = GetBattleBingoBoardRules(BattleBingoGetSelectedBoardId());
+
+        sFactorySelectScreen->selectableMonsCount = rules != NULL ? rules->starterCount : BATTLE_BINGO_MAX_STARTERS;
         sFactorySelectScreen->monsToSelect = 1;
         CreateBattleBingoStarterSelectableMons(0);
     }
@@ -1810,7 +1812,7 @@ static void CreateSlateportTentSelectableMons(u8 firstMonId)
 static void CreateBattleBingoStarterSelectableMons(u8 firstMonId)
 {
     u8 i;
-    const struct BattleBingoBoardRules *rules = GetBattleBingoBoardRules(BATTLE_BINGO_BOARD_FWG);
+    const struct BattleBingoBoardRules *rules = GetBattleBingoBoardRules(BattleBingoGetSelectedBoardId());
     struct TrainerGenerator trainerGen =
     {
         .gender = gSaveBlock2Ptr->playerGender,
@@ -1821,6 +1823,8 @@ static void CreateBattleBingoStarterSelectableMons(u8 firstMonId)
     };
 
     StringCopyN(trainerGen.name, gSaveBlock2Ptr->playerName, TRAINER_NAME_LENGTH + 1);
+    if (rules == NULL)
+        rules = GetBattleBingoBoardRules(BATTLE_BINGO_BOARD_FWG);
 
     for (i = 0; i < rules->starterCount; i++)
     {

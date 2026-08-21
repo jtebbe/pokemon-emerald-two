@@ -1665,6 +1665,8 @@ extern const u16 gItemIconPalette_Sapphire[];
 // Battle Bingo Cards
 extern const u32 gItemIcon_FwgBingoCard[];
 extern const u16 gItemIconPalette_FwgBingoCard[];
+extern const u32 gItemIcon_NormalBingoCard[];
+extern const u16 gItemIconPalette_NormalBingoCard[];
 
 // GEN IX ITEMS
 extern const u32 gItemIcon_AbilityShield[];

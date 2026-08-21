@@ -14864,6 +14864,21 @@ const struct ItemInfo gItemsInfo[] =
         .iconPalette = gItemIconPalette_FwgBingoCard,
     },
 
+    [ITEM_NORMAL_BINGO_CARD] =
+    {
+        .name = ITEM_NAME("Normal Bingo Card"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "A card to be used\n"
+            "in battle bingo."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_NormalBingoCard,
+        .iconPalette = gItemIconPalette_NormalBingoCard,
+    },
+
 // Gen 9 Items
 
     [ITEM_ABILITY_SHIELD] =

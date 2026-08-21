@@ -7,6 +7,7 @@
 #include "bg.h"
 #include "bingo_mons.h"
 #include "data.h"
+#include "event_data.h"
 #include "gpu_regs.h"
 #include "item.h"
 #include "item_menu.h"
@@ -22,6 +23,8 @@
 #include "pokemon_summary_screen.h"
 #include "random.h"
 #include "scanline_effect.h"
+#include "script.h"
+#include "script_menu.h"
 #include "sound.h"
 #include "sprite.h"
 #include "string_util.h"
@@ -201,6 +204,7 @@ static void CB2_RunBattleBingoBoard(void);
 static void CB2_ReturnToBattleBingoBoard(void);
 static void CB2_ReturnToBattleBingoBoardAfterBattle(void);
 static void VBlankCB_BattleBingoBoard(void);
+static void Task_BattleBingoResumeScript(u8 taskId);
 static void Task_BattleBingoBoard(u8 taskId);
 static void Task_BattleBingoBoardFadeOut(u8 taskId);
 static void Task_BattleBingoBoardFadeToBag(u8 taskId);
@@ -276,6 +280,15 @@ static bool8 BattleBingoPlayerHasUsableMons(void);
 static void CreateBattleBingoTextLabels(void);
 static u8 CreateBattleBingoTextLabel(u8 labelId, s16 x, s16 y, const u8 *text);
 static u8 CreateBattleBingoTitleTextLabel(u8 labelId, s16 x, s16 y, const u8 *text);
+static void CreateFixedBattleBingoStarter(u16 bingoMonId);
+static bool8 BattleBingoPlayerHasCardForBoard(enum BattleBingoBoardId boardId);
+
+struct BattleBingoCardDefinition
+{
+    u16 item;
+    enum BattleBingoBoardId boardId;
+    const u8 *name;
+};
 
 static const u32 sBattleBingoBoard_Gfx[] = INCGFX_U32("graphics/bingo/board/board_tiles.png", ".4bpp.smol");
 static const u16 sBattleBingoBoard_Pal[] = INCGFX_U16("graphics/bingo/board/board_tiles.png", ".gbapal");
@@ -298,9 +311,17 @@ static const u8 sBattleBingoText_GotItem[] = _("You got a {STR_VAR_1}!");
 static const u8 sBattleBingoText_BoardComplete[] = _("Board Complete!");
 static const u8 sBattleBingoText_BossIntro[] = _("The Bingo Boss blocks your path!");
 static const u8 sBattleBingoText_BossDefeat[] = _("The Bingo Boss was defeated!");
+static const u8 sBattleBingoText_FWGCard[] = _("FWG Bingo Card");
+static const u8 sBattleBingoText_NormalCard[] = _("Normal Bingo Card");
+static const struct BattleBingoCardDefinition sBattleBingoCards[] =
+{
+    {ITEM_FWG_BINGO_CARD, BATTLE_BINGO_BOARD_FWG, sBattleBingoText_FWGCard},
+    {ITEM_NORMAL_BINGO_CARD, BATTLE_BINGO_BOARD_NORMAL, sBattleBingoText_NormalCard},
+};
 static EWRAM_DATA struct BattleBingoRuntime sBattleBingo = {0};
 static EWRAM_DATA u16 sBattleBingoLastResult = BATTLE_BINGO_RESULT_LOSS;
 static EWRAM_DATA u16 sBattleBingoLastPrizeMoney = 0;
+static EWRAM_DATA enum BattleBingoBoardId sBattleBingoSelectedBoardId = BATTLE_BINGO_BOARD_FWG;
 
 static const u32 sBattleBingoSquareBoss_Gfx[] = INCGFX_U32("graphics/bingo/squares/bingo_boss.png", ".4bpp");
 static const u32 sBattleBingoSquareBug_Gfx[] = INCGFX_U32("graphics/bingo/squares/bingo_bug.png", ".4bpp");
@@ -600,7 +621,7 @@ static const u8 sBattleBingoBossEdgePositions[16] =
 void ShowBattleBingoBoard(void)
 {
     if (!sBattleBingo.initialized)
-        InitBattleBingoRuntime(BATTLE_BINGO_BOARD_FWG);
+        InitBattleBingoRuntime(sBattleBingoSelectedBoardId);
 
     sBattleBingo.playBoardMusic = TRUE;
     BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
@@ -734,6 +755,12 @@ static void VBlankCB_BattleBingoBoard(void)
     LoadOam();
     ProcessSpriteCopyRequests();
     TransferPlttBuffer();
+}
+
+static void Task_BattleBingoResumeScript(u8 taskId)
+{
+    ScriptContext_Enable();
+    DestroyTask(taskId);
 }
 
 static void Task_BattleBingoBoard(u8 taskId)
@@ -1022,7 +1049,7 @@ static void LoadBattleBingoLineSprites(void)
 
 static void CreateBattleBingoTextLabels(void)
 {
-    const struct BattleBingoBoardRules *rules = GetBattleBingoBoardRules(BATTLE_BINGO_BOARD_FWG);
+    const struct BattleBingoBoardRules *rules = GetBattleBingoBoardRules(sBattleBingo.boardId);
 
     sBattleBingo.textSpriteIds[BINGO_TEXT_CARD_TITLE] = CreateBattleBingoTitleTextLabel(BINGO_TEXT_CARD_TITLE, 40, 16, rules->title);
     sBattleBingo.textSpriteIds[BINGO_TEXT_BAG] = CreateBattleBingoTextLabel(BINGO_TEXT_BAG, 20, 140, sBattleBingoText_Bag);
@@ -1097,8 +1124,45 @@ static u8 CreateBattleBingoTitleTextLabel(u8 labelId, s16 x, s16 y, const u8 *te
 
 void ShowBattleBingoStarterSelect(void)
 {
+    const struct BattleBingoBoardRules *rules = GetBattleBingoBoardRules(sBattleBingoSelectedBoardId);
+
     sBattleBingo.initialized = FALSE;
+    if (rules != NULL && rules->starterMode != BATTLE_BINGO_STARTER_CHOICE && rules->starterCount != 0)
+    {
+        u16 starter = rules->starters[0];
+
+        if (rules->starterMode == BATTLE_BINGO_STARTER_RANDOM)
+            starter = rules->starters[Random() % rules->starterCount];
+
+        CreateFixedBattleBingoStarter(starter);
+        CreateTask(Task_BattleBingoResumeScript, 0);
+        return;
+    }
+
     DoBattleBingoStarterSelectScreen();
+}
+
+static void CreateFixedBattleBingoStarter(u16 bingoMonId)
+{
+    u32 i;
+    struct TrainerGenerator trainerGen =
+    {
+        .gender = gSaveBlock2Ptr->playerGender,
+        .isFrontier = FALSE,
+        .trainerClass = 0,
+        .otID = OTID_STRUCT_PLAYER_ID,
+        .localRngState = LocalRandomSeed(Random32()),
+    };
+
+    if (bingoMonId >= BINGO_MON_COUNT)
+        return;
+
+    StringCopyN(trainerGen.name, gSaveBlock2Ptr->playerName, TRAINER_NAME_LENGTH + 1);
+    for (i = 0; i < PARTY_SIZE; i++)
+        ZeroMonData(&gParties[B_TRAINER_PLAYER][i]);
+
+    GenerateMonFromTrainerMon(&gParties[B_TRAINER_PLAYER][0], &gBingoMons[bingoMonId], &trainerGen);
+    CalculatePlayerPartyCount();
 }
 
 static void CreateBattleBingoPartyIcons(void)
@@ -1595,8 +1659,8 @@ static void InitBattleBingoRuntime(enum BattleBingoBoardId boardId)
     u32 i;
     u32 pos;
     const struct BattleBingoBoardRules *rules = GetBattleBingoBoardRules(boardId);
-    u8 totalItemCount = CountBattleBingoItemRules(rules);
-    u8 totalHealCount = CountBattleBingoHealRules(rules);
+    u8 totalItemCount;
+    u8 totalHealCount;
     struct BattleBingoLayoutSlot
     {
         u8 visibleSquare;
@@ -1613,6 +1677,14 @@ static void InitBattleBingoRuntime(enum BattleBingoBoardId boardId)
     u8 itemIndex = 0;
     u8 mysteryWildCount = 0;
     u8 mysteryItemCount = 0;
+
+    if (!BattleBingoBoardRulesAreValid(rules))
+    {
+        boardId = BATTLE_BINGO_BOARD_FWG;
+        rules = GetBattleBingoBoardRules(boardId);
+    }
+    totalItemCount = CountBattleBingoItemRules(rules);
+    totalHealCount = CountBattleBingoHealRules(rules);
 
     memset(&sBattleBingo, 0, sizeof(sBattleBingo));
     sBattleBingo.initialized = TRUE;
@@ -2230,6 +2302,54 @@ u16 BattleBingoGetLastResult(void)
 u16 BattleBingoGetLastPrizeMoney(void)
 {
     return sBattleBingoLastPrizeMoney;
+}
+
+u16 BattleBingoGetSelectedBoardId(void)
+{
+    return sBattleBingoSelectedBoardId;
+}
+
+u16 BattleBingoPrepareCardSelection(void)
+{
+    u32 i;
+    u16 count = 0;
+
+    for (i = 0; i < ARRAY_COUNT(sBattleBingoCards); i++)
+    {
+        if (CheckBagHasItem(sBattleBingoCards[i].item, 1))
+        {
+            u8 *nameBuffer = Alloc(100);
+            struct ListMenuItem item;
+
+            StringExpandPlaceholders(nameBuffer, sBattleBingoCards[i].name);
+            item.name = nameBuffer;
+            item.id = sBattleBingoCards[i].boardId;
+            MultichoiceDynamic_PushElement(item);
+            count++;
+        }
+    }
+
+    return count;
+}
+
+void BattleBingoSetSelectedBoard(void)
+{
+    if (gSpecialVar_Result < BATTLE_BINGO_BOARD_COUNT
+     && BattleBingoPlayerHasCardForBoard(gSpecialVar_Result))
+        sBattleBingoSelectedBoardId = gSpecialVar_Result;
+}
+
+static bool8 BattleBingoPlayerHasCardForBoard(enum BattleBingoBoardId boardId)
+{
+    u32 i;
+
+    for (i = 0; i < ARRAY_COUNT(sBattleBingoCards); i++)
+    {
+        if (sBattleBingoCards[i].boardId == boardId)
+            return CheckBagHasItem(sBattleBingoCards[i].item, 1);
+    }
+
+    return FALSE;
 }
 
 u64 BattleBingoGetWildPokemonAiFlags(void)

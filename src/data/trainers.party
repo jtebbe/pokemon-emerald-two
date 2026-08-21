@@ -15006,48 +15006,39 @@ Pic: Leader Norman
 Gender: Male
 Music: Male
 Items: Full Restore / Full Restore / Full Restore
-Double Battle: Yes
+Double Battle: No
 AI: Basic Trainer
 
-Slaking @ Sitrus Berry
-Level: 47
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-- Blizzard
-- Shadow Ball
-- Double Edge
-- Fire Blast
-
-Chansey
-Level: 47
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-- Light Screen
-- Sing
-- Skill Swap
-- Focus Punch
-
-Kangaskhan
-Level: 45
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-- Fake Out
-- Dizzy Punch
-- Endure
-- Reversal
-
-Spinda
-Level: 48
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-- Teeter Dance
-- Skill Swap
-- Facade
-- Hypnosis
-
-Slaking @ Sitrus Berry
+Snorlax @ Leftovers
 Level: 50
+Ability: Thick Fat
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-- Hyper Beam
-- Flamethrower
-- Thunderbolt
+EVs: 252 HP / 4 Def / 252 SpD
+Careful Nature
+- Curse
+- Body Slam
+- Sleep Talk
+- Rest
+
+Exploud @ Choice Specs
+Level: 50
+Ability: Scrappy
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Boomburst
+- Focus Blast
+- Fire Blast
 - Shadow Ball
+
+Slaking @ Choice Band
+Level: 50
+Ability: Truant
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+- Double-Edge
+- Earthquake
+- Gunk Shot
+- Fire Punch
 
 === TRAINER_NORMAN_4 ===
 Name: NORMAN

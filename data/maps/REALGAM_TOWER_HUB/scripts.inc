@@ -22,7 +22,12 @@ REALGAM_TOWER_HUB_EventScript_BattleBingoPrompt::
 	end
 
 REALGAM_TOWER_HUB_EventScript_StartBattleBingo::
-	msgbox REALGAM_TOWER_HUB_Text_BattleBingoFireBoard, MSGBOX_DEFAULT
+	specialvar VAR_RESULT, BattleBingoPrepareCardSelection
+	goto_if_eq VAR_RESULT, 0, REALGAM_TOWER_HUB_EventScript_BattleBingoNoCards
+	msgbox REALGAM_TOWER_HUB_Text_BattleBingoChooseCard, MSGBOX_DEFAULT
+	dynmultistack 17, 1, FALSE, 6, FALSE, 0, DYN_MULTICHOICE_CB_NONE
+	goto_if_eq VAR_RESULT, MULTI_B_PRESSED, REALGAM_TOWER_HUB_EventScript_BattleBingoPrompt
+	special BattleBingoSetSelectedBoard
 	special ShowBattleBingoStarterSelect
 	special ShowBattleBingoBoard
 	specialvar VAR_RESULT, BattleBingoGetLastResult
@@ -30,6 +35,11 @@ REALGAM_TOWER_HUB_EventScript_StartBattleBingo::
 	goto_if_eq VAR_RESULT, BATTLE_BINGO_RESULT_COMPLETE, REALGAM_TOWER_HUB_EventScript_BattleBingoPrize
 	msgbox REALGAM_TOWER_HUB_Text_BattleBingoLossTryAgain, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, YES, REALGAM_TOWER_HUB_EventScript_StartBattleBingo
+	release
+	end
+
+REALGAM_TOWER_HUB_EventScript_BattleBingoNoCards::
+	msgbox REALGAM_TOWER_HUB_Text_BattleBingoNoCards, MSGBOX_DEFAULT
 	release
 	end
 
@@ -43,6 +53,13 @@ REALGAM_TOWER_HUB_EventScript_BattleBingoPrize::
 	waitfanfare
 	msgbox REALGAM_TOWER_HUB_Text_BattleBingoPlayAgain, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, YES, REALGAM_TOWER_HUB_EventScript_StartBattleBingo
+	release
+	end
+
+REALGAM_TOWER_HUB_EventScript_OldMan::
+	faceplayer
+	lock
+	msgbox REALGAM_TOWER_HUB_Text_OldMan
 	release
 	end
 
@@ -76,8 +93,13 @@ REALGAM_TOWER_HUB_Text_BattleBingoDecline:
 	.string "No worries. Come back whenever\n"
 	.string "you want to play.$"
 
-REALGAM_TOWER_HUB_Text_BattleBingoFireBoard:
-	.string "For now, I'll set up the FWG BOARD.$"
+REALGAM_TOWER_HUB_Text_BattleBingoChooseCard:
+	.string "Which BATTLE BINGO card\n"
+	.string "would you like to play?$"
+
+REALGAM_TOWER_HUB_Text_BattleBingoNoCards:
+	.string "You don't have any BATTLE BINGO\n"
+	.string "cards right now, come back later.$"
 
 REALGAM_TOWER_HUB_Text_BattleBingoLossTryAgain:
 	.string "Nice try! You'll get 'em next time.\p"
@@ -93,3 +115,9 @@ REALGAM_TOWER_HUB_Text_BattleBingoReceivedPrizeMoney:
 REALGAM_TOWER_HUB_Text_BattleBingoPlayAgain:
 	.string "Would you like to play another\n"
 	.string "round of BATTLE BINGO?$"
+
+REALGAM_TOWER_HUB_Text_OldMan:
+	.string "Back in my day, bingo was just\n"
+	.string "numbers and lines.\p"
+	.string "Why do we always have to\n"
+	.string "overcomplicate things nowadays?$"

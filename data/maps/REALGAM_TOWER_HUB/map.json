@@ -16,7 +16,7 @@
   "object_events": [
     {
       "graphics_id": "OBJ_EVENT_GFX_BEAUTY",
-      "x": 9,
+      "x": 14,
       "y": 2,
       "elevation": 0,
       "movement_type": "MOVEMENT_TYPE_NONE",
@@ -26,18 +26,31 @@
       "trainer_sight_or_berry_tree_id": "0",
       "script": "REALGAM_TOWER_HUB_EventScript_BattleBingoAttendant",
       "flag": "0"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_OLD_MAN",
+      "x": 20,
+      "y": 9,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_FACE_LEFT",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "REALGAM_TOWER_HUB_EventScript_OldMan",
+      "flag": "0"
     }
   ],
   "warp_events": [
     {
-      "x": 9,
+      "x": 14,
       "y": 19,
       "elevation": 0,
       "dest_map": "MAP_REALGAM_DESERT",
       "dest_warp_id": "0"
     },
     {
-      "x": 10,
+      "x": 15,
       "y": 19,
       "elevation": 0,
       "dest_map": "MAP_REALGAM_DESERT",

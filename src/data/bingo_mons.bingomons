@@ -591,3 +591,213 @@ Tags: Fire / Bug
 - Flamethrower
 - Bug Buzz
 - Giga Drain
+
+=== BINGO_MON_TAUROS_NORMAL_STARTER_1 ===
+Tauros @ Chople Berry
+Level: 50
+Ability: Intimidate
+Tera Type: Normal
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+Tags: Normal
+- Body Slam
+- Earthquake
+- Close Combat
+- Rock Slide
+
+=== BINGO_MON_BLISSEY_NORMAL_1 ===
+Blissey
+Level: 50
+Ability: Natural Cure
+Tera Type: Fairy
+EVs: 252 HP / 252 Def / 4 SpD
+Bold Nature
+Tags: Normal
+IVs: 0 Atk
+- Soft-Boiled
+- Seismic Toss
+- Thunder Wave
+- Stealth Rock
+
+=== BINGO_MON_SNORLAX_NORMAL_1 ===
+Snorlax
+Level: 50
+Ability: Thick Fat
+Tera Type: Normal
+EVs: 252 HP / 4 Atk / 252 SpD
+Careful Nature
+Tags: Normal
+- Curse
+- Body Slam
+- Earthquake
+- Body Press
+
+=== BINGO_MON_PORYGON2_NORMAL_1 ===
+Porygon2
+Level: 50
+Ability: Download
+Tera Type: Normal
+EVs: 252 HP / 252 Def / 4 SpA
+Bold Nature
+Tags: Normal
+IVs: 0 Atk
+- Recover
+- Tri Attack
+- Ice Beam
+- Thunderbolt
+
+=== BINGO_MON_PORYGON_Z_NORMAL_1 ===
+Porygon-Z
+Level: 50
+Ability: Adaptability
+Tera Type: Normal
+EVs: 4 Def / 252 SpA / 252 Spe
+Timid Nature
+Tags: Normal
+IVs: 0 Atk
+- Nasty Plot
+- Tri Attack
+- Shadow Ball
+- Thunderbolt
+
+=== BINGO_MON_STARAPTOR_NORMAL_1 ===
+Staraptor
+Level: 50
+Ability: Reckless
+Tera Type: Flying
+EVs: 252 Atk / 4 Def / 252 Spe
+Jolly Nature
+Tags: Normal / Flying
+- Brave Bird
+- Double-Edge
+- Close Combat
+- U-turn
+
+=== BINGO_MON_SLAKING_NORMAL_1 ===
+Slaking
+Level: 50
+Ability: Truant
+Tera Type: Normal
+EVs: 252 Atk / 4 Def / 252 Spe
+Jolly Nature
+Tags: Normal
+- Facade
+- Earthquake
+- Knock Off
+- Play Rough
+
+=== BINGO_MON_KANGASKHAN_NORMAL_1 ===
+Kangaskhan
+Level: 50
+Ability: Scrappy
+Tera Type: Normal
+EVs: 252 Atk / 4 Def / 252 Spe
+Jolly Nature
+Tags: Normal
+- Fake Out
+- Double-Edge
+- Earthquake
+- Sucker Punch
+
+=== BINGO_MON_DITTO_NORMAL_1 ===
+Ditto
+Level: 50
+Ability: Imposter
+Tera Type: Normal
+EVs: 252 HP / 4 Def / 252 Spe
+Jolly Nature
+Tags: Normal
+- Transform
+
+=== BINGO_MON_AMBIPOM_NORMAL_1 ===
+Ambipom
+Level: 50
+Ability: Technician
+Tera Type: Normal
+EVs: 252 Atk / 4 Def / 252 Spe
+Jolly Nature
+Tags: Normal
+- Fake Out
+- Double Hit
+- Knock Off
+- U-turn
+
+=== BINGO_MON_BRAVIARY_NORMAL_1 ===
+Braviary
+Level: 50
+Ability: Defiant
+Tera Type: Flying
+EVs: 252 Atk / 4 Def / 252 Spe
+Jolly Nature
+Tags: Normal / Flying
+- Brave Bird
+- Close Combat
+- U-turn
+- Roost
+
+=== BINGO_MON_HELIOLISK_NORMAL_1 ===
+Heliolisk
+Level: 50
+Ability: Dry Skin
+Tera Type: Normal
+EVs: 4 Def / 252 SpA / 252 Spe
+Timid Nature
+Tags: Normal / Electric
+IVs: 0 Atk
+- Volt Switch
+- Hyper Voice
+- Grass Knot
+- Surf
+
+=== BINGO_MON_BEWEAR_NORMAL_1 ===
+Bewear
+Level: 50
+Ability: Fluffy
+Tera Type: Normal
+EVs: 252 Atk / 4 Def / 252 Spe
+Jolly Nature
+Tags: Normal / Fighting
+- Swords Dance
+- Drain Punch
+- Double-Edge
+- Earthquake
+
+=== BINGO_MON_DUBWOOL_NORMAL_1 ===
+Dubwool
+Level: 50
+Ability: Fluffy
+Tera Type: Fighting
+EVs: 252 HP / 252 Def / 4 SpD
+Impish Nature
+Tags: Normal
+- Cotton Guard
+- Body Press
+- Body Slam
+- Thunder Wave
+
+=== BINGO_MON_INDEEDEE_F_NORMAL_1 ===
+Indeedee-F
+Level: 50
+Ability: Psychic Surge
+Tera Type: Fairy
+EVs: 252 HP / 252 Def / 4 SpD
+Bold Nature
+Tags: Normal / Psychic / Support
+IVs: 0 Atk
+- Psychic
+- Hyper Voice
+- Healing Wish
+- Trick Room
+
+=== BINGO_MON_MAUSHOLD_NORMAL_1 ===
+Maushold
+Level: 50
+Ability: Technician
+Tera Type: Normal
+EVs: 252 Atk / 4 Def / 252 Spe
+Jolly Nature
+Tags: Normal
+- Tidy Up
+- Population Bomb
+- Encore
+- Bite
