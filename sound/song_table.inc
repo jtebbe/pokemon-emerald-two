@@ -605,6 +605,8 @@ gSongTable::
 	song mus_fis_farewell, MUSIC_PLAYER_BGM, 0
 	song simple_and_clean, MUSIC_PLAYER_BGM, 0
 	song mus_beneath_the_sea, MUSIC_PLAYER_BGM, 0
+	song mus_bloody_tears, MUSIC_PLAYER_BGM, 0
+	song mus_fourside_swing, MUSIC_PLAYER_BGM, 0
 	song ph_trap_blend, MUSIC_PLAYER_SE2, 2
 	song ph_trap_held, MUSIC_PLAYER_SE2, 2
 	song ph_trap_solo, MUSIC_PLAYER_SE2, 2

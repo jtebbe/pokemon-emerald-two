@@ -21,6 +21,11 @@ keysplit strings, 36
 	split 1, 81
 	split 2, 108
 
+keysplit bloody_tears_strings, 24
+	split 0, 69
+	split 1, 81
+	split 2, 108
+
 keysplit farewell_hyrule_king_piano
 	split 0, 55
 	split 1, 70

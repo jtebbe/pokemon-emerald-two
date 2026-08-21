@@ -9333,6 +9333,16 @@
       "secondary_tileset": "gTileset_DesertExtra",
       "border_filepath": "data/layouts/REALGAM_DESERT/border.bin",
       "blockdata_filepath": "data/layouts/REALGAM_DESERT/map.bin"
+    },
+    {
+      "id": "LAYOUT_REALGAM_TOWER_HUB",
+      "name": "REALGAM_TOWER_HUB_Layout",
+      "width": 20,
+      "height": 20,
+      "primary_tileset": "gTileset_Building",
+      "secondary_tileset": "gTileset_Contest",
+      "border_filepath": "data/layouts/REALGAM_TOWER_HUB/border.bin",
+      "blockdata_filepath": "data/layouts/REALGAM_TOWER_HUB/map.bin"
     }
   ]
 }

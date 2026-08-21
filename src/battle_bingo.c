@@ -120,6 +120,7 @@ enum
     BINGO_SQUARE_GHOST,
     BINGO_SQUARE_GRASS,
     BINGO_SQUARE_GROUND,
+    BINGO_SQUARE_HEAL,
     BINGO_SQUARE_ICE,
     BINGO_SQUARE_ITEM,
     BINGO_SQUARE_MYSTERY,
@@ -136,6 +137,7 @@ enum
 {
     BINGO_RUNTIME_WILD,
     BINGO_RUNTIME_ITEM,
+    BINGO_RUNTIME_HEAL,
     BINGO_RUNTIME_BOSS,
 };
 
@@ -185,6 +187,9 @@ struct BattleBingoRuntime
     struct Bag bagBackup;
     struct Pokemon wildBattleMon;
     bool8 wildBattleMonValid;
+    u8 partyIconSpriteIds[BATTLE_BINGO_MAX_PARTY_SIZE];
+    u8 partyHpBarSpriteIds[BATTLE_BINGO_MAX_PARTY_SIZE][BINGO_HP_BAR_SEGMENTS];
+    u8 partyStatusSpriteIds[BATTLE_BINGO_MAX_PARTY_SIZE];
     u8 textSpriteIds[BINGO_TEXT_COUNT];
     u8 lineSpriteIds[BINGO_MAX_LINE_SPRITES];
     u8 message[64];
@@ -228,7 +233,10 @@ static void CreateBattleBingoLineChunk(s16 x, s16 y, u8 lineGfx);
 static void CreateBattleBingoPartyIcons(void);
 static void CreateBattleBingoPartyHpBars(void);
 static void CreateBattleBingoPartyStatusIcons(void);
-static void CreateBattleBingoHpBar(u8 x, u8 y, u8 hpPercent);
+static void CreateBattleBingoHpBar(u8 x, u8 y, u8 hpPercent, u8 *spriteIds);
+static void InitBattleBingoPartySpriteIds(void);
+static void DestroyBattleBingoPartySprites(void);
+static void RefreshBattleBingoPartySprites(void);
 static u8 CreateBattleBingoCursorSprite(void);
 static void RememberBattleBingoCursor(u8 area, u8 x, u8 y);
 static void RestoreBattleBingoCursor(u8 taskId);
@@ -241,6 +249,7 @@ static u16 FindBattleBingoMonByTags(u64 requiredTags, u64 forbiddenTags, u16 ski
 static u16 GetBattleBingoItemByIndex(const struct BattleBingoBoardRules *rules, u8 itemIndex);
 static u16 GetBattleBingoBoardMusic(const struct BattleBingoBoardRules *rules);
 static u8 CountBattleBingoItemRules(const struct BattleBingoBoardRules *rules);
+static u8 CountBattleBingoHealRules(const struct BattleBingoBoardRules *rules);
 static u8 GetBattleBingoTypeSquare(u8 type);
 static void UpdateBattleBingoLines(bool8 drawNewLines);
 static bool8 IsBattleBingoLineCleared(u8 line);
@@ -254,6 +263,8 @@ static void TryStartBattleBingoBoardComplete(u8 taskId);
 static void ShowBattleBingoPrompt(const u8 *text);
 static void HideBattleBingoPrompt(void);
 static void GiveBattleBingoSelectedItem(u8 taskId);
+static void UseBattleBingoHealSquare(u8 taskId);
+static void HealBattleBingoParty(void);
 static void StartBattleBingoWildBattle(u8 taskId);
 static void StartBattleBingoBossBattle(u8 taskId);
 static void PrepareBattleBingoWildParty(u16 bingoMonId);
@@ -304,6 +315,7 @@ static const u32 sBattleBingoSquareFlying_Gfx[] = INCGFX_U32("graphics/bingo/squ
 static const u32 sBattleBingoSquareGhost_Gfx[] = INCGFX_U32("graphics/bingo/squares/bingo_ghost.png", ".4bpp");
 static const u32 sBattleBingoSquareGrass_Gfx[] = INCGFX_U32("graphics/bingo/squares/bingo_grass.png", ".4bpp");
 static const u32 sBattleBingoSquareGround_Gfx[] = INCGFX_U32("graphics/bingo/squares/bingo_ground.png", ".4bpp");
+static const u32 sBattleBingoSquareHeal_Gfx[] = INCGFX_U32("graphics/bingo/squares/bingo_heal.png", ".4bpp");
 static const u32 sBattleBingoSquareIce_Gfx[] = INCGFX_U32("graphics/bingo/squares/bingo_ice.png", ".4bpp");
 static const u32 sBattleBingoSquareItem_Gfx[] = INCGFX_U32("graphics/bingo/squares/bingo_item.png", ".4bpp");
 static const u32 sBattleBingoSquareMystery_Gfx[] = INCGFX_U32("graphics/bingo/squares/bingo_mystery.png", ".4bpp");
@@ -521,6 +533,7 @@ static const u32 *const sBattleBingoSquareGfx[BINGO_SQUARE_COUNT] =
     [BINGO_SQUARE_GHOST] = sBattleBingoSquareGhost_Gfx,
     [BINGO_SQUARE_GRASS] = sBattleBingoSquareGrass_Gfx,
     [BINGO_SQUARE_GROUND] = sBattleBingoSquareGround_Gfx,
+    [BINGO_SQUARE_HEAL] = sBattleBingoSquareHeal_Gfx,
     [BINGO_SQUARE_ICE] = sBattleBingoSquareIce_Gfx,
     [BINGO_SQUARE_ITEM] = sBattleBingoSquareItem_Gfx,
     [BINGO_SQUARE_MYSTERY] = sBattleBingoSquareMystery_Gfx,
@@ -555,6 +568,7 @@ static const u16 sBattleBingoSquarePaletteTags[BINGO_SQUARE_COUNT] =
     [BINGO_SQUARE_GHOST] = TAG_BINGO_SQUARE_PAL_1,
     [BINGO_SQUARE_GRASS] = TAG_BINGO_SQUARE_PAL_1,
     [BINGO_SQUARE_GROUND] = TAG_BINGO_SQUARE_PAL_1,
+    [BINGO_SQUARE_HEAL] = TAG_BINGO_SQUARE_PAL_1,
     [BINGO_SQUARE_ICE] = TAG_BINGO_SQUARE_PAL_2,
     [BINGO_SQUARE_ITEM] = TAG_BINGO_SQUARE_PAL_1,
     [BINGO_SQUARE_MYSTERY] = TAG_BINGO_SQUARE_PAL_1,
@@ -625,6 +639,7 @@ static void CB2_InitBattleBingoBoard(void)
         sBattleBingo.textSpriteIds[i] = MAX_SPRITES;
     for (i = 0; i < BINGO_MAX_LINE_SPRITES; i++)
         sBattleBingo.lineSpriteIds[i] = MAX_SPRITES;
+    InitBattleBingoPartySpriteIds();
     DeactivateAllTextPrinters();
     SetDefaultFontsPointer();
     ScanlineEffect_Stop();
@@ -1103,7 +1118,10 @@ static void CreateBattleBingoPartyIcons(void)
         personality = GetMonData(mon, MON_DATA_PERSONALITY);
         spriteId = CreateMonIcon(species, SpriteCB_MonIcon, sBattleBingoPartyIconX[i], sBattleBingoPartyIconY[i], 8, personality);
         if (spriteId != MAX_SPRITES)
+        {
             gSprites[spriteId].oam.priority = 1;
+            sBattleBingo.partyIconSpriteIds[i] = spriteId;
+        }
     }
 }
 
@@ -1128,7 +1146,7 @@ static void CreateBattleBingoPartyHpBars(void)
             continue;
 
         hpPercent = (hp * 100 + maxHp - 1) / maxHp;
-        CreateBattleBingoHpBar(32, sBattleBingoPartyHpBarY[i], hpPercent);
+        CreateBattleBingoHpBar(32, sBattleBingoPartyHpBarY[i], hpPercent, sBattleBingo.partyHpBarSpriteIds[i]);
     }
 }
 
@@ -1155,6 +1173,7 @@ static void CreateBattleBingoPartyStatusIcons(void)
         {
             StartSpriteAnim(&gSprites[spriteId], ailment - 1);
             gSprites[spriteId].oam.priority = 1;
+            sBattleBingo.partyStatusSpriteIds[i] = spriteId;
         }
     }
 }
@@ -1404,6 +1423,9 @@ static void HandleBattleBingoCursorSelect(u8 taskId)
         case BINGO_RUNTIME_ITEM:
             GiveBattleBingoSelectedItem(taskId);
             break;
+        case BINGO_RUNTIME_HEAL:
+            UseBattleBingoHealSquare(taskId);
+            break;
         case BINGO_RUNTIME_BOSS:
             StartBattleBingoBossBattle(taskId);
             break;
@@ -1446,7 +1468,7 @@ static void HandleBattleBingoPartnerPickInput(u8 taskId)
     }
 }
 
-static void CreateBattleBingoHpBar(u8 x, u8 y, u8 hpPercent)
+static void CreateBattleBingoHpBar(u8 x, u8 y, u8 hpPercent, u8 *spriteIds)
 {
     u32 i;
     u8 filledPixels = (hpPercent * BINGO_HP_BAR_WIDTH) / 100;
@@ -1483,8 +1505,64 @@ static void CreateBattleBingoHpBar(u8 x, u8 y, u8 hpPercent)
 
         spriteId = CreateSprite(&segmentTemplate, x + segmentStart + 4, y + 4, 8);
         if (spriteId != MAX_SPRITES)
+        {
             StartSpriteAnim(&gSprites[spriteId], BINGO_HP_BAR_SEGMENT_WIDTH - segmentFill);
+            if (spriteIds != NULL)
+                spriteIds[i] = spriteId;
+        }
     }
+}
+
+static void InitBattleBingoPartySpriteIds(void)
+{
+    u32 i;
+    u32 j;
+
+    for (i = 0; i < BATTLE_BINGO_MAX_PARTY_SIZE; i++)
+    {
+        sBattleBingo.partyIconSpriteIds[i] = MAX_SPRITES;
+        sBattleBingo.partyStatusSpriteIds[i] = MAX_SPRITES;
+        for (j = 0; j < BINGO_HP_BAR_SEGMENTS; j++)
+            sBattleBingo.partyHpBarSpriteIds[i][j] = MAX_SPRITES;
+    }
+}
+
+static void DestroyBattleBingoPartySprites(void)
+{
+    u32 i;
+    u32 j;
+
+    for (i = 0; i < BATTLE_BINGO_MAX_PARTY_SIZE; i++)
+    {
+        if (sBattleBingo.partyIconSpriteIds[i] != MAX_SPRITES)
+        {
+            FreeAndDestroyMonIconSprite(&gSprites[sBattleBingo.partyIconSpriteIds[i]]);
+            sBattleBingo.partyIconSpriteIds[i] = MAX_SPRITES;
+        }
+
+        if (sBattleBingo.partyStatusSpriteIds[i] != MAX_SPRITES)
+        {
+            DestroySprite(&gSprites[sBattleBingo.partyStatusSpriteIds[i]]);
+            sBattleBingo.partyStatusSpriteIds[i] = MAX_SPRITES;
+        }
+
+        for (j = 0; j < BINGO_HP_BAR_SEGMENTS; j++)
+        {
+            if (sBattleBingo.partyHpBarSpriteIds[i][j] != MAX_SPRITES)
+            {
+                DestroySprite(&gSprites[sBattleBingo.partyHpBarSpriteIds[i][j]]);
+                sBattleBingo.partyHpBarSpriteIds[i][j] = MAX_SPRITES;
+            }
+        }
+    }
+}
+
+static void RefreshBattleBingoPartySprites(void)
+{
+    DestroyBattleBingoPartySprites();
+    CreateBattleBingoPartyIcons();
+    CreateBattleBingoPartyHpBars();
+    CreateBattleBingoPartyStatusIcons();
 }
 
 static void LoadBattleBingoSquareSprites(void)
@@ -1518,6 +1596,7 @@ static void InitBattleBingoRuntime(enum BattleBingoBoardId boardId)
     u32 pos;
     const struct BattleBingoBoardRules *rules = GetBattleBingoBoardRules(boardId);
     u8 totalItemCount = CountBattleBingoItemRules(rules);
+    u8 totalHealCount = CountBattleBingoHealRules(rules);
     struct BattleBingoLayoutSlot
     {
         u8 visibleSquare;
@@ -1579,6 +1658,13 @@ static void InitBattleBingoRuntime(enum BattleBingoBoardId boardId)
         slots[slotCount].mystery = FALSE;
         slotCount++;
     }
+    for (i = 0; i < totalHealCount; i++)
+    {
+        slots[slotCount].visibleSquare = BINGO_SQUARE_HEAL;
+        slots[slotCount].kind = BINGO_RUNTIME_HEAL;
+        slots[slotCount].mystery = FALSE;
+        slotCount++;
+    }
     for (i = 0; i < rules->wildRuleCount; i++)
     {
         u8 j;
@@ -1619,7 +1705,7 @@ static void InitBattleBingoRuntime(enum BattleBingoBoardId boardId)
         square->isMystery = slots[i].mystery;
         if (square->kind == BINGO_RUNTIME_ITEM)
             square->item = GetBattleBingoItemByIndex(rules, itemIndex++);
-        else
+        else if (square->kind == BINGO_RUNTIME_WILD)
         {
             const struct BattleBingoWildRule *wildRule = &rules->wilds[slots[i].wildRuleIndex];
 
@@ -1681,6 +1767,17 @@ static u8 CountBattleBingoItemRules(const struct BattleBingoBoardRules *rules)
 
     for (i = 0; i < rules->itemRuleCount; i++)
         count += rules->items[i].count;
+
+    return count;
+}
+
+static u8 CountBattleBingoHealRules(const struct BattleBingoBoardRules *rules)
+{
+    u32 i;
+    u8 count = 0;
+
+    for (i = 0; i < rules->healRuleCount; i++)
+        count += rules->heals[i].count;
 
     return count;
 }
@@ -1929,10 +2026,37 @@ static void GiveBattleBingoSelectedItem(u8 taskId)
     AddBagItem(square->item, 1);
     StringCopy(gStringVar1, GetItemName(square->item));
     StringExpandPlaceholders(sBattleBingo.message, sBattleBingoText_GotItem);
-            ClearBattleBingoSelectedSquare(TRUE);
+    ClearBattleBingoSelectedSquare(TRUE);
     ShowBattleBingoPrompt(sBattleBingo.message);
     PlayFanfare(MUS_OBTAIN_ITEM);
     gTasks[taskId].func = Task_BattleBingoBoardWaitItemFanfare;
+}
+
+static void UseBattleBingoHealSquare(u8 taskId)
+{
+    HideBattleBingoPrompt();
+    HealBattleBingoParty();
+    ClearBattleBingoSelectedSquare(TRUE);
+    RefreshBattleBingoPartySprites();
+    PlaySE(SE_USE_ITEM);
+    TryStartBattleBingoBoardComplete(taskId);
+    if (!sBattleBingo.boardCompletePending)
+        gTasks[taskId].func = Task_BattleBingoBoard;
+}
+
+static void HealBattleBingoParty(void)
+{
+    u32 i;
+
+    for (i = 0; i < BATTLE_BINGO_MAX_PARTY_SIZE; i++)
+    {
+        struct Pokemon *mon = &gParties[B_TRAINER_PLAYER][i];
+        enum Species species = GetMonData(mon, MON_DATA_SPECIES_OR_EGG);
+
+        if (species != SPECIES_NONE && species != SPECIES_EGG)
+            HealPokemon(mon);
+    }
+    CalculatePlayerPartyCount();
 }
 
 static void StartBattleBingoWildBattle(u8 taskId)

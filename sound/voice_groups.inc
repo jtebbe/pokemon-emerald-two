@@ -10,6 +10,7 @@
 @ key splits
 .include "sound/voicegroups/keysplits/piano.inc"
 .include "sound/voicegroups/keysplits/strings.inc"
+.include "sound/voicegroups/keysplits/bloody_tears_strings.inc"
 .include "sound/voicegroups/keysplits/trumpet.inc"
 .include "sound/voicegroups/unused.inc"
 .include "sound/voicegroups/keysplits/tuba.inc"
@@ -274,3 +275,7 @@
 .include "sound/voicegroups/simple_and_clean.inc"
 .include "sound/voicegroups/drumsets/beneath_the_sea.inc"
 .include "sound/voicegroups/beneath_the_sea.inc"
+.include "sound/voicegroups/drumsets/bloody_tears.inc"
+.include "sound/voicegroups/bloody_tears.inc"
+.include "sound/voicegroups/drumsets/fourside_swing.inc"
+.include "sound/voicegroups/fourside_swing.inc"

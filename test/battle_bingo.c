@@ -89,6 +89,7 @@ TEST("Battle Bingo Fire Board has valid square counts and starter choice")
 {
     const struct BattleBingoBoardRules *rules = GetBattleBingoBoardRules(BATTLE_BINGO_BOARD_FWG);
     u32 itemCount = 0;
+    u32 healCount = 0;
     u32 wildCount = 0;
     u32 i;
 
@@ -97,11 +98,14 @@ TEST("Battle Bingo Fire Board has valid square counts and starter choice")
     EXPECT_EQ(BattleBingoCountBoardRuleSquares(rules), BATTLE_BINGO_NUM_SQUARES);
     for (i = 0; i < rules->itemRuleCount; i++)
         itemCount += rules->items[i].count;
+    for (i = 0; i < rules->healRuleCount; i++)
+        healCount += rules->heals[i].count;
     for (i = 0; i < rules->wildRuleCount; i++)
         wildCount += rules->wilds[i].count;
     EXPECT_EQ(wildCount, 15);
     EXPECT_EQ(rules->mysteryWildCount, 4);
-    EXPECT_EQ(itemCount, 9);
+    EXPECT_EQ(itemCount, 8);
+    EXPECT_EQ(healCount, 1);
     EXPECT_EQ(rules->mysteryItemCount, 6);
     EXPECT_EQ(rules->bossCount, 1);
     EXPECT_EQ(rules->bosses[0], TRAINER_BINGO_BOSS_LANCE);

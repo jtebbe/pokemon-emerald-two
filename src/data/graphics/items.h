@@ -1971,6 +1971,11 @@ const u16 gItemIconPalette_Ruby[] = INCGFX_U16("graphics/items/icon_palettes/rub
 
 const u16 gItemIconPalette_Sapphire[] = INCGFX_U16("graphics/items/icon_palettes/sapphire.pal", ".gbapal");
 
+// Battle Bingo Cards
+
+const u32 gItemIcon_FwgBingoCard[] = INCGFX_U32("graphics/items/icons/fwg_bingo_card.png", ".4bpp.smol");
+const u16 gItemIconPalette_FwgBingoCard[] = INCGFX_U16("graphics/items/icon_palettes/fwg_bingo_card.pal", ".gbapal");
+
 const u32 gItemIcon_AbilityShield[] = INCGFX_U32("graphics/items/icons/ability_shield.png", ".4bpp.smol");
 const u16 gItemIconPalette_AbilityShield[] = INCGFX_U16("graphics/items/icon_palettes/ability_shield.pal", ".gbapal");
 

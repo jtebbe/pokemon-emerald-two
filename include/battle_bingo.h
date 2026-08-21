@@ -32,6 +32,7 @@ enum BattleBingoSquareKind
 {
     BATTLE_BINGO_SQUARE_WILD,
     BATTLE_BINGO_SQUARE_ITEM,
+    BATTLE_BINGO_SQUARE_HEAL,
     BATTLE_BINGO_SQUARE_BOSS,
     BATTLE_BINGO_SQUARE_MYSTERY,
 };
@@ -57,6 +58,11 @@ struct BattleBingoWildRule
     u8 type;
 };
 
+struct BattleBingoHealRule
+{
+    u8 count;
+};
+
 struct BattleBingoBoardRules
 {
     const u8 *title;
@@ -66,6 +72,8 @@ struct BattleBingoBoardRules
     u8 starterLevel;
     const struct BattleBingoItemRule *items;
     u8 itemRuleCount;
+    const struct BattleBingoHealRule *heals;
+    u8 healRuleCount;
     const struct BattleBingoWildRule *wilds;
     u8 wildRuleCount;
     const u16 *bosses;
@@ -78,6 +86,8 @@ struct BattleBingoBoardRules
     u64 bossPokemonAi;
     bool8 startWithoutBall;
 };
+
+extern const struct BattleBingoBoardRules gBattleBingoBoardRules[BATTLE_BINGO_BOARD_COUNT];
 
 const struct BattleBingoBoardRules *GetBattleBingoBoardRules(enum BattleBingoBoardId boardId);
 u8 BattleBingoCountBoardRuleSquares(const struct BattleBingoBoardRules *rules);

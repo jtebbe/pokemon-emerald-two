@@ -14847,6 +14847,23 @@ const struct ItemInfo gItemsInfo[] =
         .iconPalette = gItemIconPalette_Sapphire,
     },
 
+// Battle Bingo Cards
+
+    [ITEM_FWG_BINGO_CARD] =
+    {
+        .name = ITEM_NAME("FWG Bingo Card"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "A card to be used\n"
+            "in battle bingo."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_FwgBingoCard,
+        .iconPalette = gItemIconPalette_FwgBingoCard,
+    },
+
 // Gen 9 Items
 
     [ITEM_ABILITY_SHIELD] =

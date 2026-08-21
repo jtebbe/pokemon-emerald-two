@@ -5099,7 +5099,9 @@ static void DebugAction_DestroyFollowerNPC(u8 taskId)
     X(MUS_MOLGERA)                  \
     X(MUS_FIS_FAREWELL)             \
     X(MUS_SIMPLE_AND_CLEAN)         \
-    X(MUS_BENEATH_THE_SEA)
+    X(MUS_BENEATH_THE_SEA)          \
+    X(MUS_BLOODY_TEARS)             \
+    X(MUS_FOURSIDE_SWING)
 
 #define SOUND_LIST_SE               \
     X(SE_USE_ITEM)                  \

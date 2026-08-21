@@ -134,7 +134,8 @@
     "Underwater_Route129",
     "Underwater_Route105",
     "Underwater_Route125",
-    "REALGAM_DESERT"
+    "REALGAM_DESERT",
+    "REALGAM_TOWER_HUB"
   ],
   "gMapGroup_IndoorLittleroot": [
     "LittlerootTown_BrendansHouse_1F",
