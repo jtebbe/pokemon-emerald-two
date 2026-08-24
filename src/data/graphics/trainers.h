@@ -469,6 +469,24 @@ const u16 gTrainerPalette_LadyFrlg[] = INCGFX_U16("graphics/trainers/palettes/la
 const u32 gTrainerFrontPic_PainterFrlg[] = INCGFX_U32("graphics/trainers/front_pics/painter_frlg.png", ".4bpp.smol");
 const u16 gTrainerPalette_PainterFrlg[] = INCGFX_U16("graphics/trainers/palettes/painter_frlg.pal", ".gbapal");
 
+const u32 gTrainerFrontPic_Dakim[] = INCGFX_U32("graphics/trainers/front_pics/dakim.png", ".4bpp.smol");
+const u16 gTrainerPalette_Dakim[] = INCGFX_U16("graphics/trainers/front_pics/dakim.png", ".gbapal");
+
+const u32 gTrainerFrontPic_Ein[] = INCGFX_U32("graphics/trainers/front_pics/ein.png", ".4bpp.smol");
+const u16 gTrainerPalette_Ein[] = INCGFX_U16("graphics/trainers/front_pics/ein.png", ".gbapal");
+
+const u32 gTrainerFrontPic_MirorB[] = INCGFX_U32("graphics/trainers/front_pics/miror_b.png", ".4bpp.smol");
+const u16 gTrainerPalette_MirorB[] = INCGFX_U16("graphics/trainers/front_pics/miror_b.png", ".gbapal");
+
+const u32 gTrainerFrontPic_Nascour[] = INCGFX_U32("graphics/trainers/front_pics/nascour.png", ".4bpp.smol");
+const u16 gTrainerPalette_Nascour[] = INCGFX_U16("graphics/trainers/front_pics/nascour.png", ".gbapal");
+
+const u32 gTrainerFrontPic_Venus[] = INCGFX_U32("graphics/trainers/front_pics/venus.png", ".4bpp.smol");
+const u16 gTrainerPalette_Venus[] = INCGFX_U16("graphics/trainers/front_pics/venus.png", ".gbapal");
+
+const u32 gTrainerFrontPic_Wes[] = INCGFX_U32("graphics/trainers/front_pics/wes.png", ".4bpp.smol");
+const u16 gTrainerPalette_Wes[] = INCGFX_U16("graphics/trainers/front_pics/wes.png", ".gbapal");
+
 static const u8 gTrainerBackPic_None[] = INCGFX_U8("graphics/trainers/back_pics/none.png", ".4bpp");
 const u8 gTrainerBackPic_Brendan[] = INCGFX_U8("graphics/trainers/back_pics/brendan.png", ".4bpp");
 const u8 gTrainerBackPic_May[] = INCGFX_U8("graphics/trainers/back_pics/may.png", ".4bpp");
@@ -1225,5 +1243,29 @@ const struct TrainerPicInfo gTrainerPicInfo[TRAINER_PIC_COUNT] =
     [TRAINER_PIC_PAINTER_FRLG] =
     {
         .frontPic = TRAINER_FRONT_PIC(gTrainerFrontPic_PainterFrlg, gTrainerPalette_PainterFrlg),
+    },
+    [TRAINER_PIC_DAKIM] =
+    {
+        .frontPic = TRAINER_FRONT_PIC(gTrainerFrontPic_Dakim, gTrainerPalette_Dakim),
+    },
+    [TRAINER_PIC_EIN] =
+    {
+        .frontPic = TRAINER_FRONT_PIC(gTrainerFrontPic_Ein, gTrainerPalette_Ein),
+    },
+    [TRAINER_PIC_MIROR_B] =
+    {
+        .frontPic = TRAINER_FRONT_PIC(gTrainerFrontPic_MirorB, gTrainerPalette_MirorB),
+    },
+    [TRAINER_PIC_NASCOUR] =
+    {
+        .frontPic = TRAINER_FRONT_PIC(gTrainerFrontPic_Nascour, gTrainerPalette_Nascour),
+    },
+    [TRAINER_PIC_VENUS] =
+    {
+        .frontPic = TRAINER_FRONT_PIC(gTrainerFrontPic_Venus, gTrainerPalette_Venus),
+    },
+    [TRAINER_PIC_WES] =
+    {
+        .frontPic = TRAINER_FRONT_PIC(gTrainerFrontPic_Wes, gTrainerPalette_Wes),
     },
 };

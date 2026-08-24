@@ -1977,6 +1977,8 @@ const u32 gItemIcon_FwgBingoCard[] = INCGFX_U32("graphics/items/icons/fwg_bingo_
 const u16 gItemIconPalette_FwgBingoCard[] = INCGFX_U16("graphics/items/icon_palettes/fwg_bingo_card.pal", ".gbapal");
 const u32 gItemIcon_NormalBingoCard[] = INCGFX_U32("graphics/items/icons/normal_bingo_card.png", ".4bpp.smol");
 const u16 gItemIconPalette_NormalBingoCard[] = INCGFX_U16("graphics/items/icon_palettes/normal_bingo_card.pal", ".gbapal");
+const u32 gItemIcon_LcBingoCard[] = INCGFX_U32("graphics/items/icons/lc_bingo_card.png", ".4bpp.smol");
+const u16 gItemIconPalette_LcBingoCard[] = INCGFX_U16("graphics/items/icon_palettes/lc_bingo_card.pal", ".gbapal");
 
 const u32 gItemIcon_AbilityShield[] = INCGFX_U32("graphics/items/icons/ability_shield.png", ".4bpp.smol");
 const u16 gItemIconPalette_AbilityShield[] = INCGFX_U16("graphics/items/icon_palettes/ability_shield.pal", ".gbapal");

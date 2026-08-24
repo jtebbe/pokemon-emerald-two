@@ -560,7 +560,6 @@ Ability: Flame Body
 Tera Type: Fire
 EVs: 252 HP / 252 SpA / 4 SpD
 Modest Nature
-Tags: Fire
 - Lava Plume
 - Power Gem
 - Earth Power
@@ -573,7 +572,6 @@ Ability: Chlorophyll
 Tera Type: Fire
 EVs: 4 Def / 252 SpA / 252 Spe
 Timid Nature
-Tags: Fire / Grass
 - Flamethrower
 - Energy Ball
 - Leech Seed
@@ -586,7 +584,6 @@ Ability: Flame Body
 Tera Type: Fire
 EVs: 4 Def / 252 SpA / 252 Spe
 Timid Nature
-Tags: Fire / Bug
 - Quiver Dance
 - Flamethrower
 - Bug Buzz
@@ -599,7 +596,6 @@ Ability: Intimidate
 Tera Type: Normal
 EVs: 252 Atk / 4 SpD / 252 Spe
 Jolly Nature
-Tags: Normal
 - Body Slam
 - Earthquake
 - Close Combat
@@ -801,3 +797,242 @@ Tags: Normal
 - Population Bomb
 - Encore
 - Bite
+
+=== BINGO_MON_GROOKEY_LC_STARTER_1 ===
+Grookey @ Grassy Seed
+Level: 5
+Ability: Grassy Surge
+Tera Type: Grass
+EVs: 236 Atk / 36 Def / 236 Spe
+Jolly Nature
+- Grassy Glide
+- Wood Hammer
+- Knock Off
+- U-turn
+
+=== BINGO_MON_FUECOCO_LC_STARTER_1 ===
+Fuecoco @ Eviolite
+Level: 5
+Ability: Unaware
+Tera Type: Fire
+EVs: 196 HP / 76 Def / 156 SpA / 76 SpD
+Bold Nature
+IVs: 0 Atk
+- Torch Song
+- Slack Off
+- Will-O-Wisp
+- Protect
+
+=== BINGO_MON_QUAXLY_LC_STARTER_1 ===
+Quaxly @ Eviolite
+Level: 5
+Ability: Moxie
+Tera Type: Water
+EVs: 236 Atk / 36 Def / 236 Spe
+Jolly Nature
+- Aqua Cutter
+- Aqua Jet
+- Rapid Spin
+- Brave Bird
+
+=== BINGO_MON_MIENFOO_LC_1 ===
+Mienfoo
+Level: 5
+Ability: Regenerator
+Tera Type: Fighting
+EVs: 236 Atk / 36 Def / 236 Spe
+Jolly Nature
+Tags: Baby / Fighting
+- Fake Out
+- High Jump Kick
+- Knock Off
+- U-turn
+
+=== BINGO_MON_PAWNIARD_LC_1 ===
+Pawniard
+Level: 5
+Ability: Defiant
+Tera Type: Dark
+EVs: 156 Atk / 36 Def / 116 SpD / 196 Spe
+Adamant Nature
+Tags: Baby / Dark / Steel
+- Knock Off
+- Iron Head
+- Sucker Punch
+- Stealth Rock
+
+=== BINGO_MON_VULLABY_LC_1 ===
+Vullaby
+Level: 5
+Ability: Overcoat
+Tera Type: Flying
+EVs: 236 Atk / 76 Def / 196 Spe
+Jolly Nature
+Tags: Baby / Dark / Flying
+- Brave Bird
+- Knock Off
+- U-turn
+- Roost
+
+=== BINGO_MON_ABRA_LC_1 ===
+Abra
+Level: 5
+Ability: Magic Guard
+Tera Type: Psychic
+EVs: 36 Def / 236 SpA / 236 Spe
+Timid Nature
+Tags: Baby / Psychic
+IVs: 0 Atk
+- Psychic
+- Dazzling Gleam
+- Shadow Ball
+- Protect
+
+=== BINGO_MON_GASTLY_LC_1 ===
+Gastly
+Level: 5
+Ability: Levitate
+Tera Type: Ghost
+EVs: 36 Def / 236 SpA / 236 Spe
+Timid Nature
+Tags: Baby / Ghost / Poison
+IVs: 0 Atk
+- Shadow Ball
+- Sludge Bomb
+- Thunderbolt
+- Will-O-Wisp
+
+=== BINGO_MON_DIGLETT_LC_1 ===
+Diglett
+Level: 5
+Ability: Arena Trap
+Tera Type: Ground
+EVs: 236 Atk / 76 SpD / 196 Spe
+Jolly Nature
+Tags: Baby / Ground
+- Earthquake
+- Rock Slide
+- Sucker Punch
+- Stealth Rock
+
+=== BINGO_MON_STARYU_LC_1 ===
+Staryu
+Level: 5
+Ability: Natural Cure
+Tera Type: Water
+EVs: 36 HP / 236 SpA / 236 Spe
+Timid Nature
+Tags: Baby / Water
+IVs: 0 Atk
+- Hydro Pump
+- Thunderbolt
+- Ice Beam
+- Rapid Spin
+
+=== BINGO_MON_TIMBURR_LC_1 ===
+Timburr
+Level: 5
+Ability: Guts
+Tera Type: Fighting
+EVs: 196 Atk / 76 Def / 236 SpD
+Adamant Nature
+Tags: Baby / Fighting
+- Drain Punch
+- Mach Punch
+- Knock Off
+- Bulk Up
+
+=== BINGO_MON_FERROSEED_LC_1 ===
+Ferroseed
+Level: 5
+Ability: Iron Barbs
+Tera Type: Grass
+EVs: 84 HP / 36 Atk / 188 Def / 148 SpD
+Impish Nature
+Tags: Baby / Grass / Steel
+- Bullet Seed
+- Knock Off
+- Thunder Wave
+- Stealth Rock
+
+=== BINGO_MON_ONIX_LC_1 ===
+Onix
+Level: 5
+Ability: Sturdy
+Tera Type: Rock
+EVs: 236 Atk / 76 Def / 196 Spe
+Jolly Nature
+Tags: Baby / Rock / Ground
+- Rock Slide
+- Earthquake
+- Dragon Dance
+- Stealth Rock
+
+=== BINGO_MON_FOONGUS_LC_1 ===
+Foongus
+Level: 5
+Ability: Regenerator
+Tera Type: Grass
+EVs: 124 HP / 156 Def / 156 SpD
+Bold Nature
+Tags: Baby / Grass / Poison
+IVs: 0 Atk
+- Giga Drain
+- Sludge Bomb
+- Spore
+- Synthesis
+
+=== BINGO_MON_MAREANIE_LC_1 ===
+Mareanie
+Level: 5
+Ability: Regenerator
+Tera Type: Poison
+EVs: 116 HP / 180 Def / 12 SpA / 180 SpD
+Bold Nature
+Tags: Baby / Water / Poison
+IVs: 0 Atk
+- Scald
+- Sludge Bomb
+- Recover
+- Haze
+
+=== BINGO_MON_DRILBUR_LC_1 ===
+Drilbur
+Level: 5
+Ability: Mold Breaker
+Tera Type: Ground
+EVs: 236 Atk / 36 Def / 212 Spe
+Jolly Nature
+Tags: Baby / Ground
+- Earthquake
+- Iron Head
+- Rock Slide
+- Rapid Spin
+
+=== BINGO_MON_MAGNEMITE_LC_1 ===
+Magnemite
+Level: 5
+Ability: Sturdy
+Tera Type: Electric
+EVs: 36 Def / 236 SpA / 236 Spe
+Timid Nature
+Tags: Baby / Electric / Steel
+IVs: 0 Atk
+- Thunderbolt
+- Flash Cannon
+- Volt Switch
+- Thunder Wave
+
+=== BINGO_MON_PORYGON_LC_1 ===
+Porygon
+Level: 5
+Ability: Download
+Tera Type: Normal
+EVs: 236 HP / 196 Def / 76 SpA
+Bold Nature
+Tags: Baby / Normal
+IVs: 0 Atk
+- Tri Attack
+- Thunderbolt
+- Ice Beam
+- Recover

@@ -1055,6 +1055,7 @@ enum __attribute__((packed)) Item
     // Battle Bingo Cards
     ITEM_FWG_BINGO_CARD = 874,
     ITEM_NORMAL_BINGO_CARD,
+    ITEM_LC_BINGO_CARD,
 
     ITEMS_COUNT,
     ITEM_FIELD_ARROW = ITEMS_COUNT,

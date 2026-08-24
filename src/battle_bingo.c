@@ -254,6 +254,8 @@ static u16 GetBattleBingoItemByIndex(const struct BattleBingoBoardRules *rules, 
 static u16 GetBattleBingoBoardMusic(const struct BattleBingoBoardRules *rules);
 static u8 CountBattleBingoItemRules(const struct BattleBingoBoardRules *rules);
 static u8 CountBattleBingoHealRules(const struct BattleBingoBoardRules *rules);
+static u8 GetBattleBingoWildSquare(const struct BattleBingoWildRule *wildRule, u16 bingoMonId);
+static u64 GetBattleBingoTypeTag(u8 type);
 static u8 GetBattleBingoTypeSquare(u8 type);
 static void UpdateBattleBingoLines(bool8 drawNewLines);
 static bool8 IsBattleBingoLineCleared(u8 line);
@@ -311,12 +313,14 @@ static const u8 sBattleBingoText_GotItem[] = _("You got a {STR_VAR_1}!");
 static const u8 sBattleBingoText_BoardComplete[] = _("Board Complete!");
 static const u8 sBattleBingoText_BossIntro[] = _("The Bingo Boss blocks your path!");
 static const u8 sBattleBingoText_BossDefeat[] = _("The Bingo Boss was defeated!");
-static const u8 sBattleBingoText_FWGCard[] = _("FWG Bingo Card");
-static const u8 sBattleBingoText_NormalCard[] = _("Normal Bingo Card");
+static const u8 sBattleBingoText_FWGCard[] = _("FWG BC");
+static const u8 sBattleBingoText_NormalCard[] = _("Normal BC");
+static const u8 sBattleBingoText_LCCard[] = _("Little Cup BC");
 static const struct BattleBingoCardDefinition sBattleBingoCards[] =
 {
     {ITEM_FWG_BINGO_CARD, BATTLE_BINGO_BOARD_FWG, sBattleBingoText_FWGCard},
     {ITEM_NORMAL_BINGO_CARD, BATTLE_BINGO_BOARD_NORMAL, sBattleBingoText_NormalCard},
+    {ITEM_LC_BINGO_CARD, BATTLE_BINGO_BOARD_LC, sBattleBingoText_LCCard},
 };
 static EWRAM_DATA struct BattleBingoRuntime sBattleBingo = {0};
 static EWRAM_DATA u16 sBattleBingoLastResult = BATTLE_BINGO_RESULT_LOSS;
@@ -1782,6 +1786,8 @@ static void InitBattleBingoRuntime(enum BattleBingoBoardId boardId)
             const struct BattleBingoWildRule *wildRule = &rules->wilds[slots[i].wildRuleIndex];
 
             square->bingoMonId = FindBattleBingoMonByTags(wildRule->requiredTags, wildRule->forbiddenTags, wildRuleSkips[slots[i].wildRuleIndex]++);
+            if (!square->isMystery)
+                square->visibleSquare = GetBattleBingoWildSquare(wildRule, square->bingoMonId);
         }
     }
 
@@ -1852,6 +1858,62 @@ static u8 CountBattleBingoHealRules(const struct BattleBingoBoardRules *rules)
         count += rules->heals[i].count;
 
     return count;
+}
+
+static u8 GetBattleBingoWildSquare(const struct BattleBingoWildRule *wildRule, u16 bingoMonId)
+{
+    if (wildRule->type != TYPE_MYSTERY && (wildRule->requiredTags & GetBattleBingoTypeTag(wildRule->type)))
+        return GetBattleBingoTypeSquare(wildRule->type);
+
+    if (bingoMonId >= BINGO_MON_COUNT)
+        return BINGO_SQUARE_MYSTERY;
+
+    return GetBattleBingoTypeSquare(GetSpeciesType(gBingoMons[bingoMonId].species, 0));
+}
+
+static u64 GetBattleBingoTypeTag(u8 type)
+{
+    switch (type)
+    {
+    case TYPE_BUG:
+        return MON_POOL_TAG_BUG;
+    case TYPE_DARK:
+        return MON_POOL_TAG_DARK;
+    case TYPE_DRAGON:
+        return MON_POOL_TAG_DRAGON;
+    case TYPE_ELECTRIC:
+        return MON_POOL_TAG_ELECTRIC;
+    case TYPE_FAIRY:
+        return MON_POOL_TAG_FAIRY;
+    case TYPE_FIGHTING:
+        return MON_POOL_TAG_FIGHTING;
+    case TYPE_FIRE:
+        return MON_POOL_TAG_FIRE;
+    case TYPE_FLYING:
+        return MON_POOL_TAG_FLYING;
+    case TYPE_GHOST:
+        return MON_POOL_TAG_GHOST;
+    case TYPE_GRASS:
+        return MON_POOL_TAG_GRASS;
+    case TYPE_GROUND:
+        return MON_POOL_TAG_GROUND;
+    case TYPE_ICE:
+        return MON_POOL_TAG_ICE;
+    case TYPE_NORMAL:
+        return MON_POOL_TAG_NORMAL;
+    case TYPE_POISON:
+        return MON_POOL_TAG_POISON;
+    case TYPE_PSYCHIC:
+        return MON_POOL_TAG_PSYCHIC;
+    case TYPE_ROCK:
+        return MON_POOL_TAG_ROCK;
+    case TYPE_STEEL:
+        return MON_POOL_TAG_STEEL;
+    case TYPE_WATER:
+        return MON_POOL_TAG_WATER;
+    default:
+        return 0;
+    }
 }
 
 static u8 GetBattleBingoTypeSquare(u8 type)

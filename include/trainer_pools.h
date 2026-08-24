@@ -70,8 +70,9 @@ enum PoolTags {
     POOL_TAG_RAIN = 32,
     POOL_TAG_SNOW = 33,
     POOL_TAG_SUN = 34,
+    POOL_TAG_BABY = 35,
     //  Must be the last element
-    POOL_NUM_TAGS = 35
+    POOL_NUM_TAGS = 36
 };
 
 #define MON_POOL_TAG_LEAD           (1ULL << POOL_TAG_LEAD)
@@ -111,6 +112,7 @@ enum PoolTags {
 #define MON_POOL_TAG_RAIN           (1ULL << POOL_TAG_RAIN)
 #define MON_POOL_TAG_SNOW           (1ULL << POOL_TAG_SNOW)
 #define MON_POOL_TAG_SUN            (1ULL << POOL_TAG_SUN)
+#define MON_POOL_TAG_BABY           (1ULL << POOL_TAG_BABY)
 
 struct PoolRules
 {

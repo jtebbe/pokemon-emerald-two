@@ -5101,7 +5101,10 @@ static void DebugAction_DestroyFollowerNPC(u8 taskId)
     X(MUS_SIMPLE_AND_CLEAN)         \
     X(MUS_BENEATH_THE_SEA)          \
     X(MUS_BLOODY_TEARS)             \
-    X(MUS_FOURSIDE_SWING)
+    X(MUS_FOURSIDE_SWING)           \
+    X(MUS_FOREST_MAZE)              \
+    X(MUS_DRACULAS_CASTLE)          \
+    X(MUS_SIR_DUKE)
 
 #define SOUND_LIST_SE               \
     X(SE_USE_ITEM)                  \

@@ -1667,6 +1667,8 @@ extern const u32 gItemIcon_FwgBingoCard[];
 extern const u16 gItemIconPalette_FwgBingoCard[];
 extern const u32 gItemIcon_NormalBingoCard[];
 extern const u16 gItemIconPalette_NormalBingoCard[];
+extern const u32 gItemIcon_LcBingoCard[];
+extern const u16 gItemIconPalette_LcBingoCard[];
 
 // GEN IX ITEMS
 extern const u32 gItemIcon_AbilityShield[];

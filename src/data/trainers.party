@@ -16904,3 +16904,42 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Ice Punch
 - Crunch
 - Protect
+
+=== TRAINER_BINGO_BOSS_SUZIE ===
+Name: SUZIE
+Class: Pkmn Breeder
+Pic: Pokemon Breeder F
+Gender: Female
+Music: Female
+Double Battle: No
+AI: Basic Trainer
+
+Axew @ Eviolite
+Level: 5
+Ability: Mold Breaker
+Jolly Nature
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Dragon Dance
+- Dragon Claw
+- Superpower
+- Poison Jab
+
+Grimer-Alola @ Berry Juice
+Level: 5
+Ability: Poison Touch
+Adamant Nature
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Knock Off
+- Poison Jab
+- Shadow Sneak
+- Fire Punch
+
+Mankey @ Choice Scarf
+Level: 5
+Ability: Defiant
+Jolly Nature
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Close Combat
+- U-turn
+- Knock Off
+- Earthquake

@@ -279,3 +279,8 @@
 .include "sound/voicegroups/bloody_tears.inc"
 .include "sound/voicegroups/drumsets/fourside_swing.inc"
 .include "sound/voicegroups/fourside_swing.inc"
+.include "sound/voicegroups/forest_maze.inc"
+.include "sound/voicegroups/drumsets/draculas_castle.inc"
+.include "sound/voicegroups/draculas_castle.inc"
+.include "sound/voicegroups/drumsets/sir_duke.inc"
+.include "sound/voicegroups/sir_duke.inc"

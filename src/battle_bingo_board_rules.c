@@ -6,6 +6,7 @@
 
 static const u8 sBattleBingoText_FWGBoard[] = _("FWG Board");
 static const u8 sBattleBingoText_NormalBoard[] = _("Normal Board");
+static const u8 sBattleBingoText_LCBoard[] = _("Little Cup");
 
 static const struct BattleBingoItemRule sBattleBingoFWGBoardItemRules[] =
 {
@@ -78,6 +79,34 @@ static const u16 sBattleBingoNormalBoardBosses[] =
     TRAINER_NORMAN_3,
 };
 
+static const struct BattleBingoItemRule sBattleBingoLCBoardItemRules[] =
+{
+    {ITEM_MASTER_BALL, 2},
+    {ITEM_EVIOLITE, 1},
+    {ITEM_BERRY_JUICE, 1},
+    {ITEM_WEAKNESS_POLICY, 1},
+};
+
+static const struct BattleBingoHealRule sBattleBingoLCBoardHealRules[] =
+{
+    {4},
+};
+
+static const struct BattleBingoWildRule sBattleBingoLCBoardWildRules[] =
+{
+    {
+        .requiredTags = MON_POOL_TAG_BABY,
+        .forbiddenTags = 0,
+        .count = 15,
+        .type = TYPE_MYSTERY,
+    },
+};
+
+static const u16 sBattleBingoLCBoardBosses[] =
+{
+    TRAINER_BINGO_BOSS_SUZIE,
+};
+
 const struct BattleBingoBoardRules gBattleBingoBoardRules[BATTLE_BINGO_BOARD_COUNT] =
 {
     [BATTLE_BINGO_BOARD_FWG] =
@@ -101,7 +130,7 @@ const struct BattleBingoBoardRules gBattleBingoBoardRules[BATTLE_BINGO_BOARD_COU
         .bossCount = ARRAY_COUNT(sBattleBingoFWGBoardBosses),
         .mysteryWildCount = 4,
         .mysteryItemCount = 6,
-        .music = MUS_BINGO_BOARD,
+        .music = MUS_FOREST_MAZE,
         .prizeMultiplierQ8_8 = BATTLE_BINGO_PRIZE_MULTIPLIER_1X,
         .wildPokemonAi = AI_FLAG_BASIC_TRAINER,
         .bossPokemonAi = AI_FLAG_BASIC_TRAINER
@@ -133,6 +162,39 @@ const struct BattleBingoBoardRules gBattleBingoBoardRules[BATTLE_BINGO_BOARD_COU
         .mysteryWildCount = 5,
         .mysteryItemCount = 5,
         .music = MUS_BINGO_BOARD,
+        .prizeMultiplierQ8_8 = BATTLE_BINGO_PRIZE_MULTIPLIER_1X,
+        .wildPokemonAi = AI_FLAG_BASIC_TRAINER,
+        .bossPokemonAi = AI_FLAG_BASIC_TRAINER
+            | AI_FLAG_SMART_SWITCHING
+            | AI_FLAG_SMART_MON_CHOICES
+            | AI_FLAG_PP_STALL_PREVENTION
+            | AI_FLAG_SMART_TERA
+            | AI_FLAG_RANDOMIZE_SWITCHIN
+            | AI_FLAG_PREDICTION
+            | AI_FLAG_ASSUMPTIONS,
+    },
+    [BATTLE_BINGO_BOARD_LC] =
+    {
+        .title = sBattleBingoText_LCBoard,
+        .starterMode = BATTLE_BINGO_STARTER_CHOICE,
+        .starters = {
+            BINGO_MON_GROOKEY_LC_STARTER_1,
+            BINGO_MON_FUECOCO_LC_STARTER_1,
+            BINGO_MON_QUAXLY_LC_STARTER_1,
+        },
+        .starterCount = 3,
+        .starterLevel = 5,
+        .items = sBattleBingoLCBoardItemRules,
+        .itemRuleCount = ARRAY_COUNT(sBattleBingoLCBoardItemRules),
+        .heals = sBattleBingoLCBoardHealRules,
+        .healRuleCount = ARRAY_COUNT(sBattleBingoLCBoardHealRules),
+        .wilds = sBattleBingoLCBoardWildRules,
+        .wildRuleCount = ARRAY_COUNT(sBattleBingoLCBoardWildRules),
+        .bosses = sBattleBingoLCBoardBosses,
+        .bossCount = ARRAY_COUNT(sBattleBingoLCBoardBosses),
+        .mysteryWildCount = 3,
+        .mysteryItemCount = 3,
+        .music = MUS_ORDON_VILLAGE,
         .prizeMultiplierQ8_8 = BATTLE_BINGO_PRIZE_MULTIPLIER_1X,
         .wildPokemonAi = AI_FLAG_BASIC_TRAINER,
         .bossPokemonAi = AI_FLAG_BASIC_TRAINER

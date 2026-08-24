@@ -14851,7 +14851,7 @@ const struct ItemInfo gItemsInfo[] =
 
     [ITEM_FWG_BINGO_CARD] =
     {
-        .name = ITEM_NAME("FWG Bingo Card"),
+        .name = ITEM_NAME("FWG BC"),
         .price = 0,
         .description = COMPOUND_STRING(
             "A card to be used\n"
@@ -14866,8 +14866,8 @@ const struct ItemInfo gItemsInfo[] =
 
     [ITEM_NORMAL_BINGO_CARD] =
     {
-        .name = ITEM_NAME("Normal Bingo Card"),
-        .price = 0,
+        .name = ITEM_NAME("Normal BC"),
+        .price = 10000,
         .description = COMPOUND_STRING(
             "A card to be used\n"
             "in battle bingo."),
@@ -14877,6 +14877,21 @@ const struct ItemInfo gItemsInfo[] =
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
         .iconPic = gItemIcon_NormalBingoCard,
         .iconPalette = gItemIconPalette_NormalBingoCard,
+    },
+
+    [ITEM_LC_BINGO_CARD] =
+    {
+        .name = ITEM_NAME("Little Cup BC"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "A card to be used\n"
+            "in battle bingo."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_LcBingoCard,
+        .iconPalette = gItemIconPalette_LcBingoCard,
     },
 
 // Gen 9 Items

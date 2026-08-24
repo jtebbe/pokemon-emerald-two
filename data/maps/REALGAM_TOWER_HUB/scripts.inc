@@ -63,6 +63,13 @@ REALGAM_TOWER_HUB_EventScript_OldMan::
 	release
 	end
 
+REALGAM_TOWER_HUB_EventScript_OldWoman::
+	faceplayer
+	lock
+	msgbox REALGAM_TOWER_HUB_Text_OldWoman
+	release
+	end
+
 REALGAM_TOWER_HUB_Text_BattleBingoIntro:
 	.string "Hey There!\n"
 	.string "Welcome to Realgam Tower!\p"
@@ -121,3 +128,9 @@ REALGAM_TOWER_HUB_Text_OldMan:
 	.string "numbers and lines.\p"
 	.string "Why do we always have to\n"
 	.string "overcomplicate things nowadays?$"
+
+REALGAM_TOWER_HUB_Text_OldWoman:
+	.string "It's important to be strategic\n"
+	.string "with the first square you pick.\p"
+	.string "Afterwards, you can only move\n"
+	.string "up, down, left, or right.$"
