@@ -11,6 +11,7 @@
 #include "gpu_regs.h"
 #include "item.h"
 #include "item_menu.h"
+#include "line_break.h"
 #include "main.h"
 #include "malloc.h"
 #include "menu.h"
@@ -74,6 +75,8 @@
 #define BINGO_TITLE_TEXT_SPRITE_SIZE   (BINGO_TITLE_TEXT_SPRITE_WIDTH * BINGO_TITLE_TEXT_SPRITE_HEIGHT / 2)
 #define BINGO_TEXT_Y_OFFSET          0
 #define BINGO_TITLE_TEXT_Y_OFFSET    0
+#define BINGO_MESSAGE_TEXT_WIDTH     104
+#define BINGO_MESSAGE_MAX_LINES      2
 #define BINGO_BOARD_SIZE            5
 
 #define tCursorArea data[0]
@@ -2137,11 +2140,16 @@ static void TryStartBattleBingoBoardComplete(u8 taskId)
 
 static void ShowBattleBingoPrompt(const u8 *text)
 {
+    u8 prompt[128];
+
+    StringCopy(prompt, text);
+    BreakStringAutomatic(prompt, BINGO_MESSAGE_TEXT_WIDTH, BINGO_MESSAGE_MAX_LINES, FONT_NORMAL, HIDE_SCROLL_PROMPT);
+
     FillBgTilemapBufferRect(1, 0, 0, 0, 32, 32, 0);
     CopyBgTilemapBufferToVram(1);
     HideBattleBingoPrompt();
     DrawDialogueFrame(BINGO_WIN_MESSAGE, FALSE);
-    AddTextPrinterParameterized2(BINGO_WIN_MESSAGE, FONT_NORMAL, text, TEXT_SKIP_DRAW, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
+    AddTextPrinterParameterized2(BINGO_WIN_MESSAGE, FONT_NORMAL, prompt, TEXT_SKIP_DRAW, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
     PutWindowTilemap(BINGO_WIN_MESSAGE);
     CopyWindowToVram(BINGO_WIN_MESSAGE, COPYWIN_FULL);
 }

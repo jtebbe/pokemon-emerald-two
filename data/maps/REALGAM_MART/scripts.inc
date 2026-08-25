@@ -91,7 +91,7 @@ REALGAM_MART_Text_LittleCupCardSale:
 
 REALGAM_MART_Text_LittleCupCardAfterSale:
 	.string "Enjoy those cuties!\p"
-	.string "I'm going to go on Magenzon.com\n"
+	.string "I'm going to go on eBayleef later\n"
 	.string "and see if I can get it cheaper.$"
 
 REALGAM_MART_Text_RichBoySmuggleRumor:
