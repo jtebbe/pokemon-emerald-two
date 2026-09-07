@@ -285,9 +285,7 @@ LittlerootTown_ProfessorBirchsLab_EventScript_AideStartBattleBingo::
 	msgbox LittlerootTown_ProfessorBirchsLab_Text_BattleBingoAttendantChooseCard, MSGBOX_DEFAULT
 	dynmultistack 17, 1, FALSE, 6, FALSE, 0, DYN_MULTICHOICE_CB_NONE
 	goto_if_eq VAR_RESULT, MULTI_B_PRESSED, LittlerootTown_ProfessorBirchsLab_EventScript_AideBattleBingoCancel
-	special BattleBingoSetSelectedBoard
-	special ShowBattleBingoStarterSelect
-	special ShowBattleBingoBoard
+	special StartSelectedBattleBingoBoard
 	specialvar VAR_RESULT, BattleBingoGetLastResult
 	goto_if_eq VAR_RESULT, BATTLE_BINGO_RESULT_PRIZE, LittlerootTown_ProfessorBirchsLab_EventScript_AideBattleBingoPrize
 	goto_if_eq VAR_RESULT, BATTLE_BINGO_RESULT_COMPLETE, LittlerootTown_ProfessorBirchsLab_EventScript_AideBattleBingoPrize
@@ -733,7 +731,7 @@ LittlerootTown_ProfessorBirchsLab_Text_BirchEnjoysRivalsHelpToo:
 	.string "There's a lot of love there.$"
 
 LittlerootTown_ProfessorBirchsLab_Text_BattleBingoAttendantWelcome:
-	.string "Welcome to BATTLE BINGO!\p"
+	.string "Welcome to Battle Bingo!\p"
 	.string "Would you like to play a card?$"
 
 LittlerootTown_ProfessorBirchsLab_Text_BattleBingoAttendantDecline:
@@ -741,11 +739,11 @@ LittlerootTown_ProfessorBirchsLab_Text_BattleBingoAttendantDecline:
 	.string "you want to play.$"
 
 LittlerootTown_ProfessorBirchsLab_Text_BattleBingoAttendantChooseCard:
-	.string "Which BATTLE BINGO card\n"
+	.string "Which Battle Bingo card\n"
 	.string "would you like to play?$"
 
 LittlerootTown_ProfessorBirchsLab_Text_BattleBingoAttendantNoCards:
-	.string "You don't have any BATTLE BINGO\n"
+	.string "You don't have any Battle Bingo\n"
 	.string "cards right now.$"
 
 LittlerootTown_ProfessorBirchsLab_Text_BattleBingoAttendantLossTryAgain:
@@ -753,15 +751,15 @@ LittlerootTown_ProfessorBirchsLab_Text_BattleBingoAttendantLossTryAgain:
 	.string "Would you like to try again?$"
 
 LittlerootTown_ProfessorBirchsLab_Text_BattleBingoAttendantPrize:
-	.string "Congratulations! Here's your prize\n"
-	.string "money based on your efforts.$"
+	.string "Congratulations! Here's your\n"
+	.string "prize money based on your efforts.$"
 
 LittlerootTown_ProfessorBirchsLab_Text_BattleBingoAttendantReceivedPrizeMoney:
 	.string "{PLAYER} received ¥{STR_VAR_1}!$"
 
 LittlerootTown_ProfessorBirchsLab_Text_BattleBingoAttendantPlayAgain:
 	.string "Would you like to play another\n"
-	.string "round of BATTLE BINGO?$"
+	.string "round of Battle Bingo?$"
 
 LittlerootTown_ProfessorBirchsLab_Text_LikeYouToHavePokemon:
 	.string "PROF. BIRCH: So, {PLAYER}{KUN}.\p"

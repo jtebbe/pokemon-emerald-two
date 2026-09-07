@@ -71,6 +71,8 @@ static const struct ContestWinner sContestWinnerPicDummy =
     .trainerName = _("")
 };
 
+static const u8 sDefaultPlayerName[] = _("Wes");
+
 void SetTrainerId(u32 trainerId, u8 *dst)
 {
     dst[0] = trainerId;
@@ -175,6 +177,7 @@ void NewGameInitData(void)
     ClearSav1();
     ClearSav3();
     ClearAllMail();
+    gSaveBlock2Ptr->playerGender = MALE;
     gSaveBlock2Ptr->specialSaveWarpFlags = 0;
     gSaveBlock2Ptr->gcnLinkFlags = 0;
     InitPlayerTrainerId();
@@ -185,6 +188,7 @@ void NewGameInitData(void)
     ResetGabbyAndTy();
     ClearSecretBases();
     ClearBerryTrees();
+    StringCopy(gSaveBlock2Ptr->playerName, sDefaultPlayerName);
     SetMoney(&gSaveBlock1Ptr->money, 0);
     SetCoins(0);
     ResetLinkContestBoolean();

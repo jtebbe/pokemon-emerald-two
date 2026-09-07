@@ -861,13 +861,23 @@
 #define TRAINER_MAY_PLACEHOLDER             854
 #define TRAINER_BINGO_BOSS_LANCE            855
 #define TRAINER_BINGO_BOSS_SUZIE            856
+#define TRAINER_BINGO_BOSS_NASCOUR          857
+#define TRAINER_BINGO_BOSS_DAKIM            858
+#define TRAINER_BINGO_BOSS_EIN              859
+#define TRAINER_BINGO_BOSS_MIROR_B          860
+#define TRAINER_BINGO_BOSS_VENUS            861
+#define TRAINER_BINGO_BOSS_ANABEL           862
+#define TRAINER_BINGO_BOSS_DRAGON_LANCE     863
+#define TRAINER_BINGO_BOSS_TUCKER           864
+#define TRAINER_BINGO_BOSS_EDDIE            865
+#define TRAINER_BINGO_BOSS_STEVEN           866
 
-// NOTE: Because each Trainer uses a flag to determine when they are defeated, there is only space for 9 additional trainers before trainer flag space overflows
+// NOTE: Because each Trainer uses a flag to determine when they are defeated, custom trainers may require shifting flag space
 //       More space can be made by shifting flags around in constants/flags.h or changing how trainer flags are handled
 //       MAX_TRAINERS_COUNT can be increased but will take up additional saveblock space
 
-#define TRAINERS_COUNT_EMERALD     857
-#define MAX_TRAINERS_COUNT_EMERALD 864
+#define TRAINERS_COUNT_EMERALD     867
+#define MAX_TRAINERS_COUNT_EMERALD 868
 
 #if IS_FRLG
 #define TRAINERS_COUNT                      TRAINERS_COUNT_FRLG

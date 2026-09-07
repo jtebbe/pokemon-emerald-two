@@ -57,6 +57,10 @@ const u32 gBattleEnvironmentTiles_Rayquaza[] = INCGFX_U32("graphics/battle_envir
 const u16 gBattleEnvironmentPalette_Rayquaza[] = INCGFX_U16("graphics/battle_environment/sky/palette.pal", ".gbapal");
 const u32 gBattleEnvironmentTilemap_Rayquaza[] = INCGFX_U32("graphics/battle_environment/sky/map.bin", ".smolTM");
 
+const u32 gBattleEnvironmentTiles_Bingo[] = INCGFX_U32("graphics/battle_environment/bingo/tiles.png", ".4bpp.smol");
+const u16 gBattleEnvironmentPalette_Bingo[] = INCGFX_U16("graphics/battle_environment/bingo/palette.pal", ".gbapal");
+const u32 gBattleEnvironmentTilemap_Bingo[] = INCGFX_U32("graphics/battle_environment/bingo/map.bin", ".smolTM");
+
 const u32 gBattleEnvironmentAnimTiles_TallGrass[] = INCGFX_U32("graphics/battle_environment/tall_grass/anim_tiles.png", ".4bpp.smol");
 const u32 gBattleEnvironmentAnimTilemap_TallGrass[] = INCGFX_U32("graphics/battle_environment/tall_grass/anim_map.bin", ".smolTM");
 
@@ -86,3 +90,6 @@ const u32 gBattleEnvironmentAnimTilemap_Building[] = INCGFX_U32("graphics/battle
 
 const u32 gBattleEnvironmentAnimTiles_Rayquaza[] = INCGFX_U32("graphics/battle_environment/sky/anim_tiles.png", ".4bpp.smol");
 const u32 gBattleEnvironmentAnimTilemap_Rayquaza[] = INCGFX_U32("graphics/battle_environment/sky/anim_map.bin", ".smolTM");
+
+const u32 gBattleEnvironmentAnimTiles_Bingo[] = INCGFX_U32("graphics/battle_environment/bingo/anim_tiles.png", ".4bpp.smol");
+const u32 gBattleEnvironmentAnimTilemap_Bingo[] = INCGFX_U32("graphics/battle_environment/bingo/anim_map.bin", ".smolTM");

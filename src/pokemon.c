@@ -5211,6 +5211,17 @@ u16 GetBattleBGM(void)
     {
         enum TrainerClassID trainerClass;
 
+        switch (TRAINER_BATTLE_PARAM.opponentA)
+        {
+        case TRAINER_BINGO_BOSS_MIROR_B:
+            return MUS_MIRROR_B_OG;
+        case TRAINER_BINGO_BOSS_NASCOUR:
+        case TRAINER_BINGO_BOSS_DAKIM:
+        case TRAINER_BINGO_BOSS_EIN:
+        case TRAINER_BINGO_BOSS_VENUS:
+            return MUS_CIPHER_ADMIN_BATTLE;
+        }
+
         if (gBattleTypeFlags & BATTLE_TYPE_FRONTIER)
             trainerClass = GetFrontierOpponentClass(TRAINER_BATTLE_PARAM.opponentA);
         else if (gBattleTypeFlags & BATTLE_TYPE_TRAINER_HILL)
@@ -5757,7 +5768,7 @@ enum TrainerPicID PlayerGenderToFrontTrainerPicId(enum Gender playerGender)
     if (playerGender != MALE)
         return FacilityClassToPicIndex(IS_FRLG ? FACILITY_CLASS_LEAF : FACILITY_CLASS_MAY);
     else
-        return FacilityClassToPicIndex(IS_FRLG ? FACILITY_CLASS_RED : FACILITY_CLASS_BRENDAN);
+        return IS_FRLG ? FacilityClassToPicIndex(FACILITY_CLASS_RED) : TRAINER_PIC_WES;
 }
 
 void HandleSetPokedexFlag(enum NationalDexOrder nationalNum, u8 caseId, u32 personality)

@@ -15006,6 +15006,7 @@ Pic: Leader Norman
 Gender: Male
 Music: Male
 Items: Full Restore / Full Restore / Full Restore
+Mugshot: Yellow
 Double Battle: No
 AI: Basic Trainer
 
@@ -16870,11 +16871,12 @@ Level: 5
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
 === TRAINER_BINGO_BOSS_LANCE ===
-Name: LANCE
-Class: Elite Four Frlg
-Pic: Elite Four Lance Frlg
+Name: PROF. OAK
+Class: Pkmn Prof Frlg
+Pic: Professor Oak Frlg
 Gender: Male
 Music: Elite Four
+Mugshot: Blue
 Double Battle: No
 AI: Basic Trainer
 
@@ -16911,6 +16913,7 @@ Class: Pkmn Breeder
 Pic: Pokemon Breeder F
 Gender: Female
 Music: Female
+Mugshot: Pink
 Double Battle: No
 AI: Basic Trainer
 
@@ -16943,3 +16946,433 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - U-turn
 - Knock Off
 - Earthquake
+
+=== TRAINER_BINGO_BOSS_NASCOUR ===
+Name: NASCOUR
+Class: Leader
+Pic: Nascour
+Gender: Male
+Music: Intense
+Mugshot: Purple
+Double Battle: No
+AI: Basic Trainer
+
+Metagross @ Weakness Policy
+Level: 50
+Ability: Clear Body
+Adamant Nature
+EVs: 252 HP / 252 Atk / 4 SpD
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Heavy Slam
+- Psychic Fangs
+- Agility
+- Earthquake
+
+Dusclops @ Eviolite
+Level: 50
+Ability: Frisk
+Bold Nature
+EVs: 252 HP / 252 Def / 4 SpD
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Will-O-Wisp
+- Pain Split
+- Night Shade
+- Destiny Bond
+
+Blaziken @ Focus Sash
+Level: 50
+Ability: Speed Boost
+Jolly Nature
+EVs: 252 Atk / 4 SpD / 252 Spe
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Protect
+- Swords Dance
+- Close Combat
+- Acrobatics
+
+=== TRAINER_BINGO_BOSS_DAKIM ===
+Name: DAKIM
+Class: Leader
+Pic: Dakim
+Gender: Male
+Music: Intense
+Mugshot: Yellow
+Double Battle: No
+AI: Basic Trainer
+
+Forretress @ Leftovers
+Level: 50
+Ability: Sturdy
+Impish Nature
+EVs: 252 HP / 252 Def / 4 SpD
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Stealth Rock
+- Spikes
+- Volt Switch
+- Body Press
+
+Entei @ Choice Band
+Level: 50
+Ability: Inner Focus
+Adamant Nature
+EVs: 252 Atk / 4 SpD / 252 Spe
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Sacred Fire
+- Extreme Speed
+- Stone Edge
+- Earthquake
+
+Swampert @ Assault Vest
+Level: 50
+Ability: Torrent
+Adamant Nature
+EVs: 252 HP / 252 Atk / 4 SpD
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Earthquake
+- Liquidation
+- Ice Punch
+- Flip Turn
+
+=== TRAINER_BINGO_BOSS_EIN ===
+Name: EIN
+Class: Leader
+Pic: Ein
+Gender: Male
+Music: Intense
+Mugshot: Blue
+Double Battle: No
+AI: Basic Trainer
+
+Crobat @ Choice Band
+Level: 50
+Ability: Infiltrator
+Jolly Nature
+EVs: 252 Atk / 4 SpD / 252 Spe
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Brave Bird
+- Cross Poison
+- U-turn
+- Leech Life
+
+Pelipper @ Choice Specs
+Level: 50
+Ability: Drizzle
+Modest Nature
+EVs: 4 Def / 252 SpA / 252 Spe
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Hydro Pump
+- Hurricane
+- Ice Beam
+- U-turn
+
+Raikou @ Leftovers
+Level: 50
+Ability: Pressure
+Timid Nature
+EVs: 4 Def / 252 SpA / 252 Spe
+IVs: 31 HP / 0 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Calm Mind
+- Thunderbolt
+- Volt Switch
+- Substitute
+
+=== TRAINER_BINGO_BOSS_MIROR_B ===
+Name: MIROR B
+Class: Leader
+Pic: Miror B
+Gender: Male
+Music: Intense
+Mugshot: Green
+Double Battle: No
+AI: Basic Trainer
+
+Politoed @ Choice Specs
+Level: 50
+Ability: Drizzle
+Modest Nature
+EVs: 4 Def / 252 SpA / 252 Spe
+IVs: 31 HP / 0 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Hydro Pump
+- Ice Beam
+- Focus Blast
+- Psychic
+
+Ludicolo @ Life Orb
+Level: 50
+Ability: Swift Swim
+Modest Nature
+EVs: 4 Def / 252 SpA / 252 Spe
+IVs: 31 HP / 0 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Hydro Pump
+- Giga Drain
+- Ice Beam
+- Focus Blast
+
+Sudowoodo @ Choice Band
+Level: 50
+Ability: Rock Head
+Adamant Nature
+EVs: 252 HP / 252 Atk / 4 SpD
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Head Smash
+- Wood Hammer
+- Earthquake
+- Sucker Punch
+
+=== TRAINER_BINGO_BOSS_VENUS ===
+Name: VENUS
+Class: Leader
+Pic: Venus
+Gender: Female
+Music: Female
+Mugshot: Pink
+Double Battle: No
+AI: Basic Trainer
+
+Steelix @ Assault Vest
+Level: 50
+Ability: Sturdy
+Adamant Nature
+EVs: 252 HP / 252 Atk / 4 SpD
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Heavy Slam
+- Earthquake
+- Stone Edge
+- Body Press
+
+Banette @ Life Orb
+Level: 50
+Ability: Frisk
+Adamant Nature
+EVs: 252 Atk / 4 SpD / 252 Spe
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Shadow Claw
+- Gunk Shot
+- Sucker Punch
+- Destiny Bond
+
+Suicune @ Leftovers
+Level: 50
+Ability: Pressure
+Bold Nature
+EVs: 252 HP / 252 Def / 4 SpA
+IVs: 31 HP / 0 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Calm Mind
+- Scald
+- Ice Beam
+- Substitute
+
+=== TRAINER_BINGO_BOSS_ANABEL ===
+Name: ANABEL
+Class: Salon Maiden
+Pic: Salon Maiden Anabel
+Gender: Female
+Music: Female
+Mugshot: Purple
+Double Battle: No
+AI: Basic Trainer
+
+Mewtwo @ Focus Sash
+Level: 50
+Ability: Pressure
+Timid Nature
+EVs: 4 Def / 252 SpA / 252 Spe
+IVs: 31 HP / 0 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Nasty Plot
+- Psystrike
+- Aura Sphere
+- Shadow Ball
+
+Zacian-Crowned @ Rusted Sword
+Level: 50
+Ability: Intrepid Sword
+Jolly Nature
+EVs: 252 Atk / 4 SpD / 252 Spe
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Behemoth Blade
+- Play Rough
+- Close Combat
+- Swords Dance
+
+Eternatus @ Life Orb
+Level: 50
+Ability: Pressure
+Timid Nature
+EVs: 4 Def / 252 SpA / 252 Spe
+IVs: 31 HP / 0 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Dynamax Cannon
+- Sludge Wave
+- Flamethrower
+- Recover
+
+=== TRAINER_BINGO_BOSS_DRAGON_LANCE ===
+Name: LANCE
+Class: Elite Four Frlg
+Pic: Elite Four Lance Frlg
+Gender: Male
+Music: Elite Four
+Mugshot: Blue
+Double Battle: No
+AI: Basic Trainer
+
+Kingdra @ Scope Lens
+Level: 50
+Ability: Swift Swim
+Modest Nature
+EVs: 4 Def / 252 SpA / 252 Spe
+IVs: 31 HP / 0 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Hydro Pump
+- Ice Beam
+- Flash Cannon
+- Focus Energy
+
+Dragapult @ Choice Specs
+Level: 50
+Ability: Infiltrator
+Timid Nature
+EVs: 4 Atk / 252 SpA / 252 Spe
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Shadow Ball
+- Thunderbolt
+- Flamethrower
+- U-turn
+
+Dragonite @ Heavy-Duty Boots
+Level: 50
+Ability: Multiscale
+Jolly Nature
+EVs: 252 Atk / 4 SpD / 252 Spe
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Extreme Speed
+- Earthquake
+- Fire Punch
+- Ice Punch
+
+=== TRAINER_BINGO_BOSS_TUCKER ===
+Name: TUCKER
+Class: Dome Ace
+Pic: Dome Ace Tucker
+Gender: Male
+Music: Male
+Mugshot: Yellow
+Double Battle: No
+AI: Basic Trainer
+
+Articuno-Galar @ Weakness Policy
+Level: 50
+Ability: Competitive
+Timid Nature
+EVs: 4 Def / 252 SpA / 252 Spe
+IVs: 31 HP / 0 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Agility
+- Freezing Glare
+- Hurricane
+- Recover
+
+Walking Wake @ Booster Energy
+Level: 50
+Ability: Protosynthesis
+Timid Nature
+EVs: 4 Def / 252 SpA / 252 Spe
+IVs: 31 HP / 0 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Hydro Steam
+- Draco Meteor
+- Flamethrower
+- Flip Turn
+
+Stakataka
+Level: 50
+Ability: Beast Boost
+Brave Nature
+EVs: 252 HP / 252 Atk / 4 SpD
+IVs: 31 HP / 31 Atk / 31 Def / 0 SpA / 31 SpD / 0 Spe
+- Trick Room
+- Gyro Ball
+- Body Press
+- Earthquake
+
+=== TRAINER_BINGO_BOSS_EDDIE ===
+Name: EDDIE
+Class: Guitarist
+Pic: Guitarist
+Gender: Male
+Music: Intense
+Mugshot: Yellow
+Double Battle: No
+AI: Basic Trainer
+
+Obstagoon @ Flame Orb
+Level: 50
+Ability: Guts
+Jolly Nature
+EVs: 252 Atk / 4 SpD / 252 Spe
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Facade
+- Parting Shot
+- Knock Off
+- Obstruct
+
+Lapras @ Assault Vest
+Level: 50
+Ability: Water Absorb
+Modest Nature
+EVs: 252 HP / 252 SpA / 4 SpD
+IVs: 31 HP / 0 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Alluring Voice
+- Psychic Noise
+- Sparkling Aria
+- Hyper Voice
+
+Kommo-o @ Sitrus Berry
+Level: 50
+Ability: Soundproof
+Timid Nature
+EVs: 4 Def / 252 SpA / 252 Spe
+IVs: 31 HP / 0 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Clangorous Soul
+- Clanging Scales
+- Hyper Voice
+- Draco Meteor
+
+=== TRAINER_BINGO_BOSS_STEVEN ===
+Name: STEVEN
+Class: Champion
+Pic: Steven
+Gender: Male
+Music: Male
+Mugshot: Yellow
+Double Battle: No
+AI: Basic Trainer
+
+Metagross @ Assault Vest
+Level: 50
+Ability: Clear Body
+Adamant Nature
+EVs: 252 HP / 252 Atk / 4 SpD
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Meteor Mash
+- Psychic Fangs
+- Earthquake
+- Bullet Punch
+
+Aggron @ Air Balloon
+Level: 50
+Ability: Sturdy
+Adamant Nature
+EVs: 252 HP / 252 Atk / 4 SpD
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Head Smash
+- Iron Head
+- Earthquake
+- Rock Polish
+
+Hydreigon @ Choice Scarf
+Level: 50
+Ability: Levitate
+Timid Nature
+EVs: 4 Def / 252 SpA / 252 Spe
+IVs: 31 HP / 0 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Draco Meteor
+- Dark Pulse
+- Flamethrower
+- U-turn

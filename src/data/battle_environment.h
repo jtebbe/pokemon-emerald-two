@@ -528,6 +528,20 @@ const struct BattleEnvironment gBattleEnvironmentInfo[BATTLE_ENVIRONMENT_COUNT] 
         .camouflageType = TYPE_PSYCHIC,
         .camouflageBlend = DEFAULT_CAMOUFLAGE_BLEND,
     },
+
+    [BATTLE_ENVIRONMENT_BINGO] =
+    {
+        .name = _("Bingo"),
+        .naturePower = BUILDING_NATURE_POWER,
+        .secretPowerAnimation = BUILDING_SECRET_POWER_ANIMATION,
+        .secretPowerEffect = BUILDING_SECRET_POWER_EFFECT,
+        .camouflageType = BUILDING_CAMOUFLAGE_TYPE,
+        .camouflageBlend = BUILDING_CAMOUFLAGE_BLEND,
+        .entry = ENVIRONMENT_ENTRY(Bingo),
+        .background = ENVIRONMENT_BACKGROUND(Bingo),
+        .palette = gBattleEnvironmentPalette_Bingo,
+        .battleIntroSlide = BattleIntroSlideNoSlide,
+    },
 };
 
 static const struct {

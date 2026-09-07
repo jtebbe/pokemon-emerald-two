@@ -175,6 +175,8 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
     if (CheckForTrainersWantingBattle() == TRUE)
         return TRUE;
 
+    UpdateRealgamDesertDragonBingoIdleEvent();
+
     if (TryRunOnFrameMapScript() == TRUE)
         return TRUE;
 

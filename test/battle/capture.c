@@ -65,6 +65,23 @@ WILD_BATTLE_TEST("Capture: Low level catch bonus apply correcly with all gen con
     }
 }
 
+WILD_BATTLE_TEST("Capture: Master Ball always catches Ultra Beasts")
+{
+    u32 catchingChance;
+
+    GIVEN {
+        ASSUME(gSpeciesInfo[SPECIES_BLACEPHALON].isUltraBeast);
+        PLAYER(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_BLACEPHALON);
+    } WHEN {
+        TURN { USE_ITEM(player, ITEM_MASTER_BALL); }
+    } SCENE {
+        CATCHING_CHANCE(&catchingChance);
+    } THEN {
+        EXPECT_EQ(catchingChance, MAX_u32);
+    }
+}
+
 WILD_BATTLE_TEST("Capture: Missing badge malus apply correcly in gen 8")
 {
     u32 expectedOdds = 0;

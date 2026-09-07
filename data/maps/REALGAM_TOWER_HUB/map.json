@@ -52,6 +52,19 @@
       "trainer_sight_or_berry_tree_id": "0",
       "script": "REALGAM_TOWER_HUB_EventScript_OldWoman",
       "flag": "0"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_SIDNEY",
+      "x": 2,
+      "y": 19,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_FACE_LEFT",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "REALGAM_TOWER_HUB_EventScript_Sidney",
+      "flag": "0"
     }
   ],
   "warp_events": [
@@ -75,8 +88,48 @@
       "elevation": 0,
       "dest_map": "MAP_REALGAM_MART",
       "dest_warp_id": "0"
+    },
+    {
+      "x": 26,
+      "y": 8,
+      "elevation": 0,
+      "dest_map": "MAP_REALGAM_LOUNGE",
+      "dest_warp_id": "0"
     }
   ],
   "coord_events": [],
-  "bg_events": []
+  "bg_events": [
+    {
+      "type": "sign",
+      "x": 10,
+      "y": 12,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "REALGAM_TOWER_HUB_EventScript_BingoTable1"
+    },
+    {
+      "type": "sign",
+      "x": 10,
+      "y": 9,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "REALGAM_TOWER_HUB_EventScript_BingoTable2"
+    },
+    {
+      "type": "sign",
+      "x": 19,
+      "y": 9,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "REALGAM_TOWER_HUB_EventScript_BingoTable3"
+    },
+    {
+      "type": "sign",
+      "x": 19,
+      "y": 12,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "REALGAM_TOWER_HUB_EventScript_BingoTable4"
+    }
+  ]
 }

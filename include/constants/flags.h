@@ -524,11 +524,11 @@
 #define FLAG_DEFEATED_HO_OH                  0x1DC
 #define FLAG_DEFEATED_LUGIA                  0x1DD
 
-#define FLAG_UNUSED_0x1DE                    0x1DE // Unused Flag
-#define FLAG_UNUSED_0x1DF                    0x1DF // Unused Flag
-#define FLAG_UNUSED_0x1E0                    0x1E0 // Unused Flag
-#define FLAG_UNUSED_0x1E1                    0x1E1 // Unused Flag
-#define FLAG_UNUSED_0x1E2                    0x1E2 // Unused Flag
+#define FLAG_REALGAM_DESERT_DRAGON_BC_GIFT   0x1DE
+#define FLAG_REALGAM_LOUNGE_LEGEND_BC_GIFT   0x1DF
+#define FLAG_REALGAM_HUB_STRANGE_BC_TABLE     0x1E0
+#define FLAG_REALGAM_HUB_SIDNEY_PASSWORD     0x1E1
+#define FLAG_THIRD_CACTUS_GONE               0x1E2
 #define FLAG_UNUSED_0x1E3                    0x1E3 // Unused Flag
 
 // Mystery Gift Flags (Unknown)
@@ -1507,33 +1507,33 @@
 
 #define FLAG_RECEIVED_POKEDEX_FROM_BIRCH            (SYSTEM_FLAGS + 0x84)
 
-#define FLAG_UNUSED_0x8E5                           (SYSTEM_FLAGS + 0x85) // Unused Flag
-#define FLAG_UNUSED_0x8E6                           (SYSTEM_FLAGS + 0x86) // Unused Flag
-#define FLAG_UNUSED_0x8E7                           (SYSTEM_FLAGS + 0x87) // Unused Flag
-#define FLAG_UNUSED_0x8E8                           (SYSTEM_FLAGS + 0x88) // Unused Flag
-#define FLAG_UNUSED_0x8E9                           (SYSTEM_FLAGS + 0x89) // Unused Flag
-#define FLAG_UNUSED_0x8EA                           (SYSTEM_FLAGS + 0x8A) // Unused Flag
-#define FLAG_UNUSED_0x8EB                           (SYSTEM_FLAGS + 0x8B) // Unused Flag
-#define FLAG_UNUSED_0x8EC                           (SYSTEM_FLAGS + 0x8C) // Unused Flag
-#define FLAG_UNUSED_0x8ED                           (SYSTEM_FLAGS + 0x8D) // Unused Flag
-#define FLAG_UNUSED_0x8EE                           (SYSTEM_FLAGS + 0x8E) // Unused Flag
-#define FLAG_UNUSED_0x8EF                           (SYSTEM_FLAGS + 0x8F) // Unused Flag
-#define FLAG_UNUSED_0x8F0                           (SYSTEM_FLAGS + 0x90) // Unused Flag
-#define FLAG_UNUSED_0x8F1                           (SYSTEM_FLAGS + 0x91) // Unused Flag
-#define FLAG_UNUSED_0x8F2                           (SYSTEM_FLAGS + 0x92) // Unused Flag
-#define FLAG_UNUSED_0x8F3                           (SYSTEM_FLAGS + 0x93) // Unused Flag
-#define FLAG_UNUSED_0x8F4                           (SYSTEM_FLAGS + 0x94) // Unused Flag
-#define FLAG_UNUSED_0x8F5                           (SYSTEM_FLAGS + 0x95) // Unused Flag
-#define FLAG_UNUSED_0x8F6                           (SYSTEM_FLAGS + 0x96) // Unused Flag
-#define FLAG_UNUSED_0x8F7                           (SYSTEM_FLAGS + 0x97) // Unused Flag
-#define FLAG_UNUSED_0x8F8                           (SYSTEM_FLAGS + 0x98) // Unused Flag
-#define FLAG_UNUSED_0x8F9                           (SYSTEM_FLAGS + 0x99) // Unused Flag
-#define FLAG_UNUSED_0x8FA                           (SYSTEM_FLAGS + 0x9A) // Unused Flag
-#define FLAG_UNUSED_0x8FB                           (SYSTEM_FLAGS + 0x9B) // Unused Flag
-#define FLAG_UNUSED_0x8FC                           (SYSTEM_FLAGS + 0x9C) // Unused Flag
-#define FLAG_UNUSED_0x8FD                           (SYSTEM_FLAGS + 0x9D) // Unused Flag
-#define FLAG_UNUSED_0x8FE                           (SYSTEM_FLAGS + 0x9E) // Unused Flag
-#define FLAG_UNUSED_0x8FF                           (SYSTEM_FLAGS + 0x9F) // Unused Flag
+#define FLAG_CLEARED_FWG_BINGO_CARD                 (SYSTEM_FLAGS + 0x85)
+#define FLAG_CLEARED_NORMAL_BINGO_CARD              (SYSTEM_FLAGS + 0x86)
+#define FLAG_CLEARED_LC_BINGO_CARD                  (SYSTEM_FLAGS + 0x87)
+#define FLAG_CLEARED_CIPHER_BINGO_CARD              (SYSTEM_FLAGS + 0x88)
+#define FLAG_CLEARED_LEGEND_BINGO_CARD              (SYSTEM_FLAGS + 0x89)
+#define FLAG_CLEARED_DRAGON_BINGO_CARD              (SYSTEM_FLAGS + 0x8A)
+#define FLAG_REALGAM_CAVE_ROCKER_INTRO              (SYSTEM_FLAGS + 0x8B)
+#define FLAG_BINGO_CHEAT_HEAVY_DUTY_BOOTS           (SYSTEM_FLAGS + 0x8C)
+#define FLAG_BINGO_CHEAT_CLEAR_AMULET               (SYSTEM_FLAGS + 0x8D)
+#define FLAG_BINGO_CHEAT_BRIGHT_POWDER              (SYSTEM_FLAGS + 0x8E)
+#define FLAG_BINGO_CHEAT_SITRUS_BERRY               (SYSTEM_FLAGS + 0x8F)
+#define FLAG_BINGO_CHEAT_QUICK_CLAW                 (SYSTEM_FLAGS + 0x90)
+#define FLAG_BINGO_CHEAT_FOCUS_SASH                 (SYSTEM_FLAGS + 0x91)
+#define FLAG_BINGO_CHEAT_LIFE_ORB                   (SYSTEM_FLAGS + 0x92)
+#define FLAG_BINGO_CHEAT_LEFTOVERS                  (SYSTEM_FLAGS + 0x93)
+#define FLAG_BINGO_CHEAT_EXPERT_BELT                (SYSTEM_FLAGS + 0x94)
+#define FLAG_BINGO_CHEAT_ASSAULT_VEST               (SYSTEM_FLAGS + 0x95)
+#define FLAG_BINGO_CHEAT_FULL_RESTORE               (SYSTEM_FLAGS + 0x96)
+#define FLAG_BINGO_CHEAT_CHOICE_BAND                (SYSTEM_FLAGS + 0x97)
+#define FLAG_BINGO_CHEAT_CHOICE_SPECS               (SYSTEM_FLAGS + 0x98)
+#define FLAG_BINGO_CHEAT_CHOICE_SCARF               (SYSTEM_FLAGS + 0x99)
+#define FLAG_BINGO_CHEAT_MAX_REVIVE                 (SYSTEM_FLAGS + 0x9A)
+#define FLAG_RECEIVED_CIPHER_BINGO_CARD_ATTENDANT   (SYSTEM_FLAGS + 0x9B)
+#define FLAG_REALGAM_HUB_CIPHER_CREDITS_PENDING     (SYSTEM_FLAGS + 0x9C)
+#define FLAG_CLEARED_STRANGE_BINGO_CARD             (SYSTEM_FLAGS + 0x9D)
+#define FLAG_CLEARED_MUSIC_BINGO_CARD               (SYSTEM_FLAGS + 0x9E)
+#define FLAG_CLEARED_MONSTER_BINGO_CARD             (SYSTEM_FLAGS + 0x9F)
 #define FLAG_UNUSED_0x900                           (SYSTEM_FLAGS + 0xA0) // Unused Flag
 #define FLAG_UNUSED_0x901                           (SYSTEM_FLAGS + 0xA1) // Unused Flag
 #define FLAG_UNUSED_0x902                           (SYSTEM_FLAGS + 0xA2) // Unused Flag

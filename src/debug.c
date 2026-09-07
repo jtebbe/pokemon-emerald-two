@@ -5104,7 +5104,17 @@ static void DebugAction_DestroyFollowerNPC(u8 taskId)
     X(MUS_FOURSIDE_SWING)           \
     X(MUS_FOREST_MAZE)              \
     X(MUS_DRACULAS_CASTLE)          \
-    X(MUS_SIR_DUKE)
+    X(MUS_SIR_DUKE)                 \
+    X(MUS_PASSIONFRUIT)             \
+    X(MUS_HOPES_AND_DREAMS)         \
+    X(MUS_BRAMBLE_BLAST)            \
+    X(MUS_CLOUDTOPS)                \
+    X(MUS_RASPUTIN)                 \
+    X(MUS_BLINDING_LIGHTS)          \
+    X(MUS_FIRE_AND_FLAMES)          \
+    X(MUS_NIGHTCALL)                \
+    X(MUS_LIVE_AND_LEARN)           \
+    X(MUS_SON_OF_FLYNN)
 
 #define SOUND_LIST_SE               \
     X(SE_USE_ITEM)                  \

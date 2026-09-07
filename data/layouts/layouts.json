@@ -9353,6 +9353,26 @@
       "secondary_tileset": "gTileset_Shop",
       "border_filepath": "data/layouts/REALGAM_MART/border.bin",
       "blockdata_filepath": "data/layouts/REALGAM_MART/map.bin"
+    },
+    {
+      "id": "LAYOUT_REALGAM_LOUNGE",
+      "name": "REALGAM_LOUNGE_Layout",
+      "width": 20,
+      "height": 20,
+      "primary_tileset": "gTileset_Building",
+      "secondary_tileset": "gTileset_PokemonFanClub",
+      "border_filepath": "data/layouts/REALGAM_LOUNGE/border.bin",
+      "blockdata_filepath": "data/layouts/REALGAM_LOUNGE/map.bin"
+    },
+    {
+      "id": "LAYOUT_REALGAM_CAVE",
+      "name": "REALGAM_CAVE_Layout",
+      "width": 9,
+      "height": 9,
+      "primary_tileset": "gTileset_Building",
+      "secondary_tileset": "gTileset_Cave",
+      "border_filepath": "data/layouts/REALGAM_CAVE/border.bin",
+      "blockdata_filepath": "data/layouts/REALGAM_CAVE/map.bin"
     }
   ]
 }

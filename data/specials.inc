@@ -62,11 +62,16 @@ gSpecials::
 	def_special ChooseHalfPartyForBattle, waitstate=1
 	def_special ShowBattleBingoStarterSelect, requests_effects=1, waitstate=1
 	def_special ShowBattleBingoBoard, requests_effects=1, waitstate=1
+	def_special StartSelectedBattleBingoBoard, requests_effects=1, waitstate=1
 	def_special BattleBingoGetLastResult
 	def_special BattleBingoGetLastPrizeMoney
+	def_special BattleBingoCountClearedBoards
+	def_special BattleBingoShouldAwardCipherCard
+	def_special BattleBingoDidFirstClearCipherBoard
 	def_special BattleBingoPrepareCardSelection
 	def_special BattleBingoSetSelectedBoard
 	def_special SetNextPokemartBuyOnly
+	def_special SetNextPokemartBingoCheatShop
 	def_special Script_ShowLinkTrainerCard, waitstate=1
 	def_special ObjectEventInteractionGetBerryTreeData
 	def_special ObjectEventInteractionGetBerryName

@@ -1,4 +1,5 @@
 #include "global.h"
+#include "battle_bingo.h"
 #include "bg.h"
 #include "data.h"
 #include "decompress.h"
@@ -93,6 +94,7 @@ struct MartInfo
     u8 windowId;
     u8 martType;
     bool8 buyOnly;
+    bool8 bingoCheatShop;
 };
 
 struct ShopData
@@ -115,6 +117,7 @@ static EWRAM_DATA struct ListMenuItem *sListMenuItems = NULL;
 static EWRAM_DATA u8 (*sItemNames)[ITEM_NAME_LENGTH + 2] = {0};
 static EWRAM_DATA u8 sPurchaseHistoryId = 0;
 static EWRAM_DATA bool8 sNextPokemartBuyOnly = FALSE;
+static EWRAM_DATA bool8 sNextPokemartBingoCheatShop = FALSE;
 EWRAM_DATA struct ItemSlot gMartPurchaseHistory[SMARTSHOPPER_NUM_ITEMS] = {0};
 
 static void Task_ShopMenu(u8 taskId);
@@ -135,6 +138,8 @@ static void BuyMenuSetListEntry(struct ListMenuItem *, enum Item, u8 *);
 static void BuyMenuAddItemIcon(enum Item, u8);
 static void BuyMenuRemoveItemIcon(enum Item, u8);
 static void BuyMenuPrint(u8 windowId, const u8 *text, u8 x, u8 y, s8 speed, u8 colorSet);
+static u32 GetMartItemPrice(enum Item itemId);
+static bool8 IsMartItemSoldOut(enum Item itemId);
 static void BuyMenuDrawMapGraphics(void);
 static void BuyMenuCopyMenuBgToBg1TilemapBuffer(void);
 static void BuyMenuCollectObjectEventData(void);
@@ -608,6 +613,22 @@ static void BuyMenuSetListEntry(struct ListMenuItem *menuItem, enum Item item, u
     menuItem->id = item;
 }
 
+static u32 GetMartItemPrice(enum Item itemId)
+{
+    if (sMartInfo.bingoCheatShop)
+        return BattleBingoGetCheatItemPrice(itemId);
+
+    return GetItemPrice(itemId) >> IsPokeNewsActive(POKENEWS_SLATEPORT);
+}
+
+static bool8 IsMartItemSoldOut(enum Item itemId)
+{
+    if (sMartInfo.bingoCheatShop && BattleBingoIsCheatItemPurchased(itemId))
+        return TRUE;
+
+    return GetItemImportance(itemId) && (CheckBagHasItem(itemId, 1) || CheckPCHasItem(itemId, 1));
+}
+
 static void BuyMenuPrintItemDescriptionAndShowItemIcon(s32 item, bool8 onInit, struct ListMenu *list)
 {
     const u8 *description;
@@ -647,7 +668,7 @@ static void BuyMenuPrintPriceInList(u8 windowId, u32 itemId, u8 y)
         {
             ConvertIntToDecimalStringN(
                 gStringVar1,
-                GetItemPrice(itemId) >> IsPokeNewsActive(POKENEWS_SLATEPORT),
+                GetMartItemPrice(itemId),
                 STR_CONV_MODE_LEFT_ALIGN,
                 6);
         }
@@ -660,7 +681,7 @@ static void BuyMenuPrintPriceInList(u8 windowId, u32 itemId, u8 y)
                 6);
         }
 
-        if (GetItemImportance(itemId) && (CheckBagHasItem(itemId, 1) || CheckPCHasItem(itemId, 1)))
+        if (IsMartItemSoldOut(itemId))
             StringCopy(gStringVar4, gText_SoldOut);
         else
             StringExpandPlaceholders(gStringVar4, gText_PokedollarVar1);
@@ -1042,11 +1063,11 @@ static void Task_BuyMenu(u8 taskId)
             BuyMenuPrintCursor(tListTaskId, COLORID_GRAY_CURSOR);
 
             if (sMartInfo.martType == MART_TYPE_NORMAL)
-                sShopData->totalCost = (GetItemPrice(itemId) >> IsPokeNewsActive(POKENEWS_SLATEPORT));
+                sShopData->totalCost = GetMartItemPrice(itemId);
             else
                 sShopData->totalCost = gDecorations[itemId].price;
 
-            if (GetItemImportance(itemId) && (CheckBagHasItem(itemId, 1) || CheckPCHasItem(itemId, 1)))
+            if (IsMartItemSoldOut(itemId))
                 BuyMenuDisplayMessage(taskId, gText_ThatItemIsSoldOut, BuyMenuReturnToItemList);
             else if (!IsEnoughMoney(&gSaveBlock1Ptr->money, sShopData->totalCost))
             {
@@ -1057,12 +1078,12 @@ static void Task_BuyMenu(u8 taskId)
                 if (sMartInfo.martType == MART_TYPE_NORMAL)
                 {
                     CopyItemName(itemId, gStringVar1);
-                    if (GetItemImportance(itemId))
+                    if (sMartInfo.bingoCheatShop || GetItemImportance(itemId))
                     {
                         ConvertIntToDecimalStringN(gStringVar2, sShopData->totalCost, STR_CONV_MODE_LEFT_ALIGN, 6);
                         StringExpandPlaceholders(gStringVar4, gText_YouWantedVar1ThatllBeVar2);
                         tItemCount = 1;
-                        sShopData->totalCost = (GetItemPrice(tItemId) >> IsPokeNewsActive(POKENEWS_SLATEPORT)) * tItemCount;
+                        sShopData->totalCost = GetMartItemPrice(tItemId) * tItemCount;
                         BuyMenuDisplayMessage(taskId, gStringVar4, BuyMenuConfirmPurchase);
                     }
                     else if (GetItemPocket(itemId) == POCKET_TM_HM)
@@ -1129,7 +1150,7 @@ static void Task_BuyHowManyDialogueHandleInput(u8 taskId)
 
     if (AdjustQuantityAccordingToDPadInput(&tItemCount, sShopData->maxQuantity) == TRUE)
     {
-        sShopData->totalCost = (GetItemPrice(tItemId) >> IsPokeNewsActive(POKENEWS_SLATEPORT)) * tItemCount;
+        sShopData->totalCost = GetMartItemPrice(tItemId) * tItemCount;
         BuyMenuPrintItemQuantityAndPrice(taskId);
     }
     else
@@ -1175,6 +1196,8 @@ static void BuyMenuTryMakePurchase(u8 taskId)
         if (AddBagItem(tItemId, tItemCount) == TRUE)
         {
             GetSetItemObtained(tItemId, FLAG_SET_ITEM_OBTAINED);
+            if (sMartInfo.bingoCheatShop)
+                BattleBingoSetCheatItemPurchased(tItemId);
             RecordItemPurchase(taskId);
             BuyMenuDisplayMessage(taskId, gText_HereYouGoThankYou, BuyMenuSubtractMoney);
         }
@@ -1339,7 +1362,9 @@ static void RecordItemPurchase(u8 taskId)
 void CreatePokemartMenu(const u16 *itemsForSale)
 {
     sMartInfo.buyOnly = sNextPokemartBuyOnly;
+    sMartInfo.bingoCheatShop = sNextPokemartBingoCheatShop;
     sNextPokemartBuyOnly = FALSE;
+    sNextPokemartBingoCheatShop = FALSE;
     CreateShopMenu(MART_TYPE_NORMAL);
     SetShopItemsForSale(itemsForSale);
     ClearItemPurchases();
@@ -1351,9 +1376,16 @@ void SetNextPokemartBuyOnly(void)
     sNextPokemartBuyOnly = TRUE;
 }
 
+void SetNextPokemartBingoCheatShop(void)
+{
+    sNextPokemartBuyOnly = TRUE;
+    sNextPokemartBingoCheatShop = TRUE;
+}
+
 void CreateDecorationShop1Menu(const u16 *itemsForSale)
 {
     sMartInfo.buyOnly = FALSE;
+    sMartInfo.bingoCheatShop = FALSE;
     CreateShopMenu(MART_TYPE_DECOR);
     SetShopItemsForSale(itemsForSale);
     SetShopMenuCallback(ScriptContext_Enable);
@@ -1362,6 +1394,7 @@ void CreateDecorationShop1Menu(const u16 *itemsForSale)
 void CreateDecorationShop2Menu(const u16 *itemsForSale)
 {
     sMartInfo.buyOnly = FALSE;
+    sMartInfo.bingoCheatShop = FALSE;
     CreateShopMenu(MART_TYPE_DECOR2);
     SetShopItemsForSale(itemsForSale);
     SetShopMenuCallback(ScriptContext_Enable);

@@ -89,6 +89,10 @@
 #define ELEVATOR_WINDOW_HEIGHT 3
 #define ELEVATOR_LIGHT_STAGES  3
 
+#define REALGAM_DESERT_DRAGON_BC_IDLE_FRAMES (10 * 60)
+#define REALGAM_DESERT_DRAGON_BC_X 19
+#define REALGAM_DESERT_DRAGON_BC_Y 24
+
 EWRAM_DATA bool8 gBikeCyclingChallenge = FALSE;
 EWRAM_DATA u8 gBikeCollisions = 0;
 static EWRAM_DATA u32 sBikeCyclingTimer = 0;
@@ -103,6 +107,41 @@ static EWRAM_DATA u8 sScrollableMultichoice_ItemSpriteId = 0;
 static EWRAM_DATA u8 sBattlePointsWindowId = 0;
 static EWRAM_DATA u8 sFrontierExchangeCorner_ItemIconWindowId = 0;
 static EWRAM_DATA u8 sPCBoxToSendMon = 0;
+
+void UpdateRealgamDesertDragonBingoIdleEvent(void)
+{
+    static u16 sIdleFrames;
+    s16 x;
+    s16 y;
+
+    if (gSaveBlock1Ptr->location.mapGroup != MAP_GROUP(MAP_REALGAM_DESERT)
+        || gSaveBlock1Ptr->location.mapNum != MAP_NUM(MAP_REALGAM_DESERT)
+        || FlagGet(FLAG_REALGAM_DESERT_DRAGON_BC_GIFT)
+        || VarGet(VAR_TEMP_1) == TRUE)
+    {
+        sIdleFrames = 0;
+        return;
+    }
+
+    PlayerGetDestCoords(&x, &y);
+    x -= MAP_OFFSET;
+    y -= MAP_OFFSET;
+
+    if (x != REALGAM_DESERT_DRAGON_BC_X
+        || y != REALGAM_DESERT_DRAGON_BC_Y
+        || JOY_HELD(DPAD_ANY))
+    {
+        sIdleFrames = 0;
+        return;
+    }
+
+    if (++sIdleFrames >= REALGAM_DESERT_DRAGON_BC_IDLE_FRAMES)
+    {
+        sIdleFrames = 0;
+        VarSet(VAR_TEMP_1, TRUE);
+    }
+}
+
 static EWRAM_DATA u32 sBattleTowerMultiBattleTypeFlags = 0;
 
 COMMON_DATA struct ListMenuTemplate gScrollableMultichoice_ListMenuTemplate = {0};

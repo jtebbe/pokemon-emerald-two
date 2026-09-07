@@ -29,6 +29,9 @@ $(CRY_BIN_DIR)/uncomp_%.bin: $(CRY_SUBDIR)/uncomp_%.aif
 	$(AIF) $< $@
 
 # Uncompressed sounds
+$(SOUND_BIN_DIR)/direct_sound_samples/synth_pluck.bin: sound/direct_sound_samples/synth_pluck.wav
+	$(WAV2AGB) -b -c -l 8 $< $@
+
 $(SOUND_BIN_DIR)/%.bin: sound/%.wav
 	$(WAV2AGB) -b $< $@
 

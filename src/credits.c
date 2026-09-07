@@ -22,7 +22,12 @@
 #include "graphics.h"
 #include "pokedex.h"
 #include "event_data.h"
+#include "field_screen_effect.h"
+#include "overworld.h"
 #include "random.h"
+#include "constants/flags.h"
+#include "constants/map_groups.h"
+#include "constants/maps.h"
 
 #if !IS_FRLG
 
@@ -687,7 +692,18 @@ static void Task_CreditsTheEnd6(u8 taskId)
 static void Task_CreditsSoftReset(u8 taskId)
 {
     if (!gPaletteFade.active)
+    {
+        if (FlagGet(FLAG_REALGAM_HUB_CIPHER_CREDITS_PENDING))
+        {
+            SetWarpDestination(MAP_GROUP(MAP_REALGAM_TOWER_HUB), MAP_NUM(MAP_REALGAM_TOWER_HUB), WARP_ID_NONE, 14, 3);
+            WarpIntoMap();
+            gFieldCallback = FieldCB_WarpExitFadeFromWhite;
+            SetMainCallback2(CB2_LoadMap);
+            return;
+        }
+
         SoftReset(RESET_ALL);
+    }
 }
 
 static void ResetGpuAndVram(void)

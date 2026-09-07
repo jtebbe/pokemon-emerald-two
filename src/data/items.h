@@ -14894,6 +14894,96 @@ const struct ItemInfo gItemsInfo[] =
         .iconPalette = gItemIconPalette_LcBingoCard,
     },
 
+    [ITEM_CIPHER_BINGO_CARD] =
+    {
+        .name = ITEM_NAME("Cipher BC"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "A card to be used\n"
+            "in battle bingo."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_CipherBingoCard,
+        .iconPalette = gItemIconPalette_CipherBingoCard,
+    },
+
+    [ITEM_LEGEND_BINGO_CARD] =
+    {
+        .name = ITEM_NAME("Legendary BC"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "A card to be used\n"
+            "in battle bingo."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_LegendsBingoCard,
+        .iconPalette = gItemIconPalette_LegendsBingoCard,
+    },
+
+    [ITEM_DRAGON_BINGO_CARD] =
+    {
+        .name = ITEM_NAME("Dragon BC"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "A card to be used\n"
+            "in battle bingo."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_DragonBingoCard,
+        .iconPalette = gItemIconPalette_DragonBingoCard,
+    },
+
+    [ITEM_STRANGE_BINGO_CARD] =
+    {
+        .name = ITEM_NAME("Strange BC"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "A card to be used\n"
+            "in battle bingo."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_StrangeBingoCard,
+        .iconPalette = gItemIconPalette_StrangeBingoCard,
+    },
+
+    [ITEM_MUSIC_BINGO_CARD] =
+    {
+        .name = ITEM_NAME("Music BC"),
+        .price = 30000,
+        .description = COMPOUND_STRING(
+            "A card to be used\n"
+            "in battle bingo."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_MusicBingoCard,
+        .iconPalette = gItemIconPalette_MusicBingoCard,
+    },
+
+    [ITEM_MONSTER_BINGO_CARD] =
+    {
+        .name = ITEM_NAME("Monster BC"),
+        .price = 50000,
+        .description = COMPOUND_STRING(
+            "A card to be used\n"
+            "in battle bingo."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_MonsterBingoCard,
+        .iconPalette = gItemIconPalette_MonsterBingoCard,
+    },
+
 // Gen 9 Items
 
     [ITEM_ABILITY_SHIELD] =

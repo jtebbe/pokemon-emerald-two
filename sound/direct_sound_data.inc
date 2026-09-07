@@ -83,6 +83,14 @@ DirectSoundWaveData_unknown_open_hihat::
 	.incbin "sound/direct_sound_samples/unknown_open_hihat.bin"
 
 	.align 2
+DirectSoundWaveData_fire_and_flames_close_hihat::
+	.incbin "sound/direct_sound_samples/fire_and_flames_close_hihat.bin"
+
+	.align 2
+DirectSoundWaveData_fire_and_flames_open_hihat::
+	.incbin "sound/direct_sound_samples/fire_and_flames_open_hihat.bin"
+
+	.align 2
 DirectSoundWaveData_unknown_bell::
 	.incbin "sound/direct_sound_samples/unknown_bell.bin"
 
@@ -8759,6 +8767,10 @@ DirectSoundWaveData_sc88pro_nylon_str_guitar::
 	.incbin "sound/direct_sound_samples/sc88pro_nylon_str_guitar.bin"
 
 	.align 2
+DirectSoundWaveData_sc88pro_nylon_str_guitar_bramble_solo::
+	.incbin "sound/direct_sound_samples/sc88pro_nylon_str_guitar_bramble_solo.bin"
+
+	.align 2
 DirectSoundWaveData_sd90_special_scream_drive::
 	.incbin "sound/direct_sound_samples/sd90_special_scream_drive.bin"
 
@@ -9053,3 +9065,7 @@ DirectSoundWaveData_hg_024clarie4::
 	.align 2
 DirectSoundWaveData_kawai_k1r_pan_flute_c5::
 	.incbin "sound/direct_sound_samples/kawai_k1r_pan_flute_c5.bin"
+
+	.align 2
+DirectSoundWaveData_synth_pluck::
+	.incbin "sound/direct_sound_samples/synth_pluck.bin"

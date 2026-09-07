@@ -17,6 +17,12 @@ static const u16 sBattleBingoPrizeMoney[BATTLE_BINGO_MAX_LINES] =
     24000,
 };
 
+static const u8 sBattleBingoBossCornerPositions[BATTLE_BINGO_BOSS_CORNER_COUNT] =
+{
+    0, 4,
+    20, 24,
+};
+
 const struct BattleBingoBoardRules *GetBattleBingoBoardRules(enum BattleBingoBoardId boardId)
 {
     if (boardId >= BATTLE_BINGO_BOARD_COUNT)
@@ -49,6 +55,14 @@ u8 BattleBingoCountBoardRuleSquares(const struct BattleBingoBoardRules *rules)
 u8 BattleBingoCountPossibleLines(void)
 {
     return BATTLE_BINGO_MAX_LINES;
+}
+
+u8 BattleBingoGetBossCornerPosition(u8 cornerIndex)
+{
+    if (cornerIndex >= ARRAY_COUNT(sBattleBingoBossCornerPositions))
+        return 0xFF;
+
+    return sBattleBingoBossCornerPositions[cornerIndex];
 }
 
 u32 BattleBingoGetPrizeMoney(u8 bingoCount, u16 multiplierQ8_8)

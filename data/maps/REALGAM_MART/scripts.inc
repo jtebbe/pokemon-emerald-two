@@ -62,21 +62,23 @@ REALGAM_MART_EventScript_RichBoy::
 	.align 2
 REALGAM_MART_Pokemart:
 	.2byte ITEM_NORMAL_BINGO_CARD
+	.2byte ITEM_MUSIC_BINGO_CARD
+	.2byte ITEM_MONSTER_BINGO_CARD
 	pokemartlistend
 
 REALGAM_MART_Text_GotLastLittleCupCard:
-	.string "Haha! I got the last LITTLE CUP\n"
-	.string "BINGO CARD from the shop just now!\p"
+	.string "Haha! I got the last LITTLE CUP BINGO\n"
+	.string "CARD from the shop just now!\p"
 	.string "It's full of the cutest little guys.$"
 
 REALGAM_MART_Text_LittleCupCardRare:
 	.string "What's that? You want it?\p"
-	.string "You're gonna have to pay a LOT\n"
-	.string "because it's that rare, you know?$"
+	.string "You're gonna have to pay a LOT because\n"
+	.string "it's that rare, you know?$"
 
 REALGAM_MART_Text_LittleCupCardPrice:
-	.string "I suppose I can let it go for...\n"
-	.string "say, ¥100,000.\p"
+	.string "I suppose I can let it go for... say,\n"
+	.string "¥100,000.\p"
 	.string "Do you have that kind of money?$"
 
 REALGAM_MART_Text_LittleCupCardDecline:
@@ -85,8 +87,8 @@ REALGAM_MART_Text_LittleCupCardDecline:
 
 REALGAM_MART_Text_LittleCupCardSale:
 	.string "Really? You have that much?\p"
-	.string "I suppose I can go find another\n"
-	.string "and still make profit.\p"
+	.string "I suppose I can go find another and\n"
+	.string "still make profit.\p"
 	.string "Here, take it then.$"
 
 REALGAM_MART_Text_LittleCupCardAfterSale:
@@ -95,14 +97,11 @@ REALGAM_MART_Text_LittleCupCardAfterSale:
 	.string "and see if I can get it cheaper.$"
 
 REALGAM_MART_Text_RichBoySmuggleRumor:
-	.string "I hear that with enough money,\n"
-	.string "there's a guy who can smuggle\l"
-	.string "items into the bingo simulations\l"
-	.string "for you.\p"
-	.string "They say he's a bit eccentric\n"
-	.string "though, so he's probably hiding\l"
-	.string "somewhere odd.\p"
+	.string "I hear that with enough money, there's a\n"
+	.string "guy who can smuggle items into the bingo\l"
+	.string "simulations for you.\p"
+	.string "They say he's a bit eccentric though, so\n"
+	.string "he's probably hiding somewhere odd.\p"
 	.string "I'll have to check with my hedge\n"
-	.string "fund-managing dad to see if he'll\l"
-	.string "lend me some cash when I find\l"
-	.string "the guy!$"
+	.string "fund-managing dad to see if he'll lend me\l"
+	.string "some cash when I find the guy!$"

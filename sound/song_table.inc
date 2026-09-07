@@ -610,6 +610,16 @@ gSongTable::
 	song mus_forest_maze, MUSIC_PLAYER_BGM, 0
 	song mus_draculas_castle, MUSIC_PLAYER_BGM, 0
 	song mus_sir_duke, MUSIC_PLAYER_BGM, 0
+	song mus_passionfruit, MUSIC_PLAYER_BGM, 0
+	song mus_hopes_and_dreams, MUSIC_PLAYER_BGM, 0
+	song mus_bramble_blast, MUSIC_PLAYER_BGM, 0
+	song mus_cloudtops, MUSIC_PLAYER_BGM, 0
+	song mus_rasputin, MUSIC_PLAYER_BGM, 0
+	song mus_blinding_lights, MUSIC_PLAYER_BGM, 0
+	song mus_fire_and_flames, MUSIC_PLAYER_BGM, 0
+	song mus_nightcall, MUSIC_PLAYER_BGM, 0
+	song mus_live_and_learn, MUSIC_PLAYER_BGM, 0
+	song mus_son_of_flynn, MUSIC_PLAYER_BGM, 0
 	song ph_trap_blend, MUSIC_PLAYER_SE2, 2
 	song ph_trap_held, MUSIC_PLAYER_SE2, 2
 	song ph_trap_solo, MUSIC_PLAYER_SE2, 2

@@ -902,6 +902,8 @@ static u8 GetBattleEnvironmentOverride(void)
     {
         return gBattleEnvironment;
     }
+    else if (gBattleTypeFlags & BATTLE_TYPE_BINGO)
+        return BATTLE_ENVIRONMENT_BINGO;
     else if (gBattleTypeFlags & (BATTLE_TYPE_FRONTIER | BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_EREADER_TRAINER))
         return BATTLE_ENVIRONMENT_FRONTIER;
     else if (gBattleTypeFlags & BATTLE_TYPE_LEGENDARY)
@@ -1277,6 +1279,10 @@ void DrawBattleEntryBackground(void)
         gBattle_BG2_Y = 0xFF5C;
         LoadCompressedSpriteSheetUsingHeap(&sVsLettersSpriteSheet);
     }
+    else if (gBattleTypeFlags & BATTLE_TYPE_BINGO)
+    {
+        LoadBattleEnvironmentEntryGfx(BATTLE_ENVIRONMENT_BINGO);
+    }
     else if (gBattleTypeFlags & (BATTLE_TYPE_FRONTIER | BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_EREADER_TRAINER))
     {
         if (TestRunner_Battle_GetForcedEnvironment()
@@ -1359,6 +1365,12 @@ bool8 LoadChosenBattleElement(u8 caseId)
 
 void DrawTerrainTypeBattleBackground(void)
 {
+    if (gBattleTypeFlags & BATTLE_TYPE_BINGO)
+    {
+        DrawMainBattleBackground();
+        return;
+    }
+
     switch (gFieldStatuses & STATUS_FIELD_TERRAIN_ANY)
     {
     case STATUS_FIELD_GRASSY_TERRAIN:
@@ -1378,4 +1390,3 @@ void DrawTerrainTypeBattleBackground(void)
         break;
     }
 }
-

@@ -1036,3 +1036,1934 @@ IVs: 0 Atk
 - Thunderbolt
 - Ice Beam
 - Recover
+
+=== BINGO_MON_GRANBULL_CIPHER_1 ===
+Granbull
+Level: 50
+Ability: Intimidate
+Tera Type: Fairy
+EVs: 252 HP / 252 Atk / 4 SpD
+Adamant Nature
+Tags: Cipher / Fairy
+- Play Rough
+- Earthquake
+- Thunder Wave
+- Crunch
+
+=== BINGO_MON_HERACROSS_CIPHER_1 ===
+Heracross
+Level: 50
+Ability: Guts
+Tera Type: Fighting
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+Tags: Cipher / Bug / Fighting
+- Close Combat
+- Megahorn
+- Knock Off
+- Swords Dance
+
+=== BINGO_MON_SKARMORY_CIPHER_1 ===
+Skarmory
+Level: 50
+Ability: Sturdy
+Tera Type: Steel
+EVs: 252 HP / 252 Def / 4 SpD
+Impish Nature
+Tags: Cipher / Steel / Flying
+- Brave Bird
+- Iron Defense
+- Body Press
+- Roost
+
+=== BINGO_MON_TYRANITAR_CIPHER_1 ===
+Tyranitar
+Level: 50
+Ability: Sand Stream
+Tera Type: Rock
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+Tags: Cipher / Rock / Dark / Sand
+- Stone Edge
+- Crunch
+- Earthquake
+- Dragon Dance
+
+=== BINGO_MON_SCIZOR_CIPHER_1 ===
+Scizor
+Level: 50
+Ability: Technician
+Tera Type: Steel
+EVs: 252 HP / 252 Atk / 4 SpD
+Adamant Nature
+Tags: Cipher / Bug / Steel
+- Bullet Punch
+- U-turn
+- Close Combat
+- Swords Dance
+
+=== BINGO_MON_MILTANK_CIPHER_1 ===
+Miltank
+Level: 50
+Ability: Thick Fat
+Tera Type: Normal
+EVs: 252 HP / 4 Def / 252 Spe
+Jolly Nature
+Tags: Cipher / Normal / Support
+- Body Slam
+- Milk Drink
+- Heal Bell
+- Earthquake
+
+=== BINGO_MON_HITMONTOP_CIPHER_1 ===
+Hitmontop
+Level: 50
+Ability: Intimidate
+Tera Type: Fighting
+EVs: 252 HP / 252 Atk / 4 SpD
+Adamant Nature
+Tags: Cipher / Fighting / Support
+- Close Combat
+- Triple Axel
+- Sucker Punch
+- Rapid Spin
+
+=== BINGO_MON_QUAGSIRE_CIPHER_1 ===
+Quagsire
+Level: 50
+Ability: Unaware
+Tera Type: Water
+EVs: 252 HP / 252 Def / 4 SpD
+Relaxed Nature
+Tags: Cipher / Water / Ground
+- Earthquake
+- Liquidation
+- Recover
+- Toxic
+
+=== BINGO_MON_ARIADOS_CIPHER_1 ===
+Ariados
+Level: 50
+Ability: Sniper
+Tera Type: Bug
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+Tags: Cipher / Bug / Poison / Support
+- Megahorn
+- Poison Jab
+- Sucker Punch
+- Sticky Web
+
+=== BINGO_MON_HOUNDOOM_CIPHER_1 ===
+Houndoom
+Level: 50
+Ability: Flash Fire
+Tera Type: Dark
+EVs: 252 SpA / 4 SpD / 252 Spe
+Timid Nature
+Tags: Cipher / Dark / Fire
+IVs: 0 Atk
+- Flamethrower
+- Dark Pulse
+- Nasty Plot
+- Sludge Bomb
+
+=== BINGO_MON_ESPEON_CIPHER_STARTER_1 ===
+Espeon @ Twisted Spoon
+Level: 50
+Ability: Magic Bounce
+Tera Type: Psychic
+EVs: 4 HP / 252 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+- Psychic
+- Dazzling Gleam
+- Shadow Ball
+- Calm Mind
+
+=== BINGO_MON_UMBREON_CIPHER_STARTER_1 ===
+Umbreon @ Leftovers
+Level: 50
+Ability: Synchronize
+Tera Type: Dark
+EVs: 252 HP / 4 Def / 252 SpD
+Careful Nature
+- Foul Play
+- Moonlight
+- Thunder Wave
+- Taunt
+
+=== BINGO_MON_GROUDON_LEGEND_STARTER_1 ===
+Groudon @ Leftovers
+Level: 50
+Ability: Drought
+Tera Type: Ground
+EVs: 252 HP / 252 Atk / 4 SpD
+Adamant Nature
+- Precipice Blades
+- Stone Edge
+- Swords Dance
+- Thunder Wave
+
+=== BINGO_MON_KYOGRE_LEGEND_STARTER_1 ===
+Kyogre @ Choice Scarf
+Level: 50
+Ability: Drizzle
+Tera Type: Water
+EVs: 4 Def / 252 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+- Water Spout
+- Origin Pulse
+- Ice Beam
+- Thunder
+
+=== BINGO_MON_RAYQUAZA_LEGEND_STARTER_1 ===
+Rayquaza @ Life Orb
+Level: 50
+Ability: Air Lock
+Tera Type: Flying
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+- Dragon Ascent
+- Earthquake
+- Extreme Speed
+- Dragon Dance
+
+=== BINGO_MON_ARCEUS_NORMAL_LEGEND_1 ===
+Arceus-Normal
+Level: 50
+Ability: Multitype
+Tera Type: Normal
+EVs: 252 HP / 4 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+Tags: Legendary / Normal
+- Judgment
+- Earth Power
+- Calm Mind
+- Recover
+
+=== BINGO_MON_CALYREX_ICE_LEGEND_1 ===
+Calyrex-Ice
+Level: 50
+Ability: As One Ice Rider
+Tera Type: Ice
+EVs: 252 HP / 252 Atk / 4 SpD
+Adamant Nature
+Tags: Legendary / Psychic / Ice
+- Glacial Lance
+- High Horsepower
+- Swords Dance
+- Trick Room
+
+=== BINGO_MON_DEOXYS_ATTACK_LEGEND_1 ===
+Deoxys-Attack
+Level: 50
+Ability: Pressure
+Tera Type: Psychic
+EVs: 4 Atk / 252 SpA / 252 Spe
+Naive Nature
+Tags: Legendary / Psychic
+- Psycho Boost
+- Superpower
+- Shadow Ball
+- Extreme Speed
+
+=== BINGO_MON_DIALGA_LEGEND_1 ===
+Dialga
+Level: 50
+Ability: Pressure
+Tera Type: Steel
+EVs: 252 HP / 252 SpA / 4 SpD
+Modest Nature
+IVs: 0 Atk
+Tags: Legendary / Steel / Dragon
+- Draco Meteor
+- Flash Cannon
+- Thunder
+- Stealth Rock
+
+=== BINGO_MON_PALKIA_LEGEND_1 ===
+Palkia
+Level: 50
+Ability: Pressure
+Tera Type: Water
+EVs: 4 Def / 252 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+Tags: Legendary / Water / Dragon
+- Spacial Rend
+- Hydro Pump
+- Thunder
+- Fire Blast
+
+=== BINGO_MON_GIRATINA_LEGEND_1 ===
+Giratina
+Level: 50
+Ability: Pressure
+Tera Type: Ghost
+EVs: 252 HP / 4 SpA / 252 SpD
+Calm Nature
+IVs: 0 Atk
+Tags: Legendary / Ghost / Dragon
+- Shadow Ball
+- Dragon Pulse
+- Calm Mind
+- Thunder Wave
+
+=== BINGO_MON_LUGIA_LEGEND_1 ===
+Lugia
+Level: 50
+Ability: Multiscale
+Tera Type: Psychic
+EVs: 252 HP / 252 Def / 4 Spe
+Bold Nature
+IVs: 0 Atk
+Tags: Legendary / Psychic / Flying
+- Aeroblast
+- Ice Beam
+- Calm Mind
+- Recover
+
+=== BINGO_MON_HO_OH_LEGEND_1 ===
+Ho-Oh
+Level: 50
+Ability: Regenerator
+Tera Type: Fire
+EVs: 252 HP / 252 Atk / 4 SpD
+Adamant Nature
+Tags: Legendary / Fire / Flying
+- Sacred Fire
+- Brave Bird
+- Earthquake
+- Recover
+
+=== BINGO_MON_KORAIDON_LEGEND_1 ===
+Koraidon
+Level: 50
+Ability: Orichalcum Pulse
+Tera Type: Fighting
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+Tags: Legendary / Fighting / Dragon
+- Collision Course
+- Dragon Claw
+- Flare Blitz
+- Swords Dance
+
+=== BINGO_MON_MIRAIDON_LEGEND_1 ===
+Miraidon
+Level: 50
+Ability: Hadron Engine
+Tera Type: Electric
+EVs: 4 Def / 252 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+Tags: Legendary / Electric / Dragon
+- Electro Drift
+- Draco Meteor
+- Thunderbolt
+- Calm Mind
+
+=== BINGO_MON_NECROZMA_DAWN_WINGS_LEGEND_1 ===
+Necrozma-Dawn-Wings
+Level: 50
+Ability: Prism Armor
+Tera Type: Ghost
+EVs: 252 HP / 252 SpA / 4 SpD
+Modest Nature
+IVs: 0 Atk
+Tags: Legendary / Psychic / Ghost
+- Moongeist Beam
+- Photon Geyser
+- Heat Wave
+- Calm Mind
+
+=== BINGO_MON_KYUREM_WHITE_LEGEND_1 ===
+Kyurem-White
+Level: 50
+Ability: Turboblaze
+Tera Type: Ice
+EVs: 4 Def / 252 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+Tags: Legendary / Dragon / Ice
+- Ice Beam
+- Freeze-Dry
+- Draco Meteor
+- Blue Flare
+
+=== BINGO_MON_ZEKROM_LEGEND_1 ===
+Zekrom
+Level: 50
+Ability: Teravolt
+Tera Type: Electric
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+Tags: Legendary / Dragon / Electric
+- Fusion Bolt
+- Outrage
+- Earthquake
+- Dragon Dance
+
+=== BINGO_MON_XERNEAS_LEGEND_1 ===
+Xerneas
+Level: 50
+Ability: Fairy Aura
+Tera Type: Fairy
+EVs: 4 Def / 252 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+Tags: Legendary / Fairy
+- Geomancy
+- Moonblast
+- Thunder
+- Psychic
+
+=== BINGO_MON_YVELTAL_LEGEND_1 ===
+Yveltal
+Level: 50
+Ability: Dark Aura
+Tera Type: Dark
+EVs: 4 Atk / 252 SpA / 252 Spe
+Naive Nature
+Tags: Legendary / Dark / Flying
+- Oblivion Wing
+- Dark Pulse
+- Sucker Punch
+- U-turn
+
+=== BINGO_MON_DRAGONITE_DRAGON_STARTER_1 ===
+Dragonite @ Heavy-Duty Boots
+Level: 50
+Ability: Multiscale
+Tera Type: Normal
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+- Extreme Speed
+- Earthquake
+- Fire Punch
+- Ice Punch
+
+=== BINGO_MON_KINGDRA_DRAGON_1 ===
+Kingdra
+Level: 50
+Ability: Swift Swim
+Tera Type: Water
+EVs: 4 Def / 252 SpA / 252 Spe
+Modest Nature
+IVs: 0 Atk
+Tags: Dragon / Water
+- Hydro Pump
+- Ice Beam
+- Flash Cannon
+- Focus Energy
+
+=== BINGO_MON_FLYGON_DRAGON_1 ===
+Flygon
+Level: 50
+Ability: Levitate
+Tera Type: Ground
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+Tags: Dragon / Ground
+- Earthquake
+- Stone Edge
+- U-turn
+- Defog
+
+=== BINGO_MON_SALAMENCE_DRAGON_1 ===
+Salamence
+Level: 50
+Ability: Moxie
+Tera Type: Flying
+EVs: 252 Atk / 4 SpA / 252 Spe
+Naive Nature
+Tags: Dragon / Flying
+- Dual Wingbeat
+- Earthquake
+- Fire Blast
+- Roost
+
+=== BINGO_MON_GARCHOMP_DRAGON_1 ===
+Garchomp
+Level: 50
+Ability: Rough Skin
+Tera Type: Ground
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+Tags: Dragon / Ground
+- Earthquake
+- Stone Edge
+- Stealth Rock
+- Swords Dance
+
+=== BINGO_MON_HAXORUS_DRAGON_1 ===
+Haxorus
+Level: 50
+Ability: Mold Breaker
+Tera Type: Steel
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+Tags: Dragon
+- Close Combat
+- Earthquake
+- Iron Head
+- Swords Dance
+
+=== BINGO_MON_HYDREIGON_DRAGON_1 ===
+Hydreigon
+Level: 50
+Ability: Levitate
+Tera Type: Steel
+EVs: 4 Def / 252 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+Tags: Dragon / Dark
+- Nasty Plot
+- Dark Pulse
+- Flamethrower
+- Earth Power
+
+=== BINGO_MON_GOODRA_DRAGON_1 ===
+Goodra
+Level: 50
+Ability: Gooey
+Tera Type: Water
+EVs: 252 HP / 4 Def / 252 SpD
+Calm Nature
+IVs: 0 Atk
+Tags: Dragon
+- Surf
+- Thunderbolt
+- Flamethrower
+- Sludge Bomb
+
+=== BINGO_MON_NOIVERN_DRAGON_1 ===
+Noivern
+Level: 50
+Ability: Infiltrator
+Tera Type: Flying
+EVs: 4 Def / 252 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+Tags: Dragon / Flying
+- Hurricane
+- Flamethrower
+- U-turn
+- Roost
+
+=== BINGO_MON_KOMMO_O_DRAGON_1 ===
+Kommo-o
+Level: 50
+Ability: Bulletproof
+Tera Type: Fighting
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+Tags: Dragon / Fighting
+- Close Combat
+- Earthquake
+- Iron Head
+- Swords Dance
+
+=== BINGO_MON_DRAGAPULT_DRAGON_1 ===
+Dragapult
+Level: 50
+Ability: Infiltrator
+Tera Type: Ghost
+EVs: 4 Atk / 252 SpA / 252 Spe
+Timid Nature
+Tags: Dragon / Ghost
+- Shadow Ball
+- Thunderbolt
+- Flamethrower
+- U-turn
+
+=== BINGO_MON_BAXCALIBUR_DRAGON_1 ===
+Baxcalibur
+Level: 50
+Ability: Thermal Exchange
+Tera Type: Ice
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+Tags: Dragon / Ice
+- Icicle Crash
+- Earthquake
+- Ice Spinner
+- Swords Dance
+
+=== BINGO_MON_ARCHALUDON_DRAGON_1 ===
+Archaludon
+Level: 50
+Ability: Stamina
+Tera Type: Steel
+EVs: 252 HP / 252 SpA / 4 SpD
+Modest Nature
+IVs: 0 Atk
+Tags: Dragon / Steel
+- Flash Cannon
+- Electro Shot
+- Body Press
+- Stealth Rock
+
+=== BINGO_MON_APPLETUN_DRAGON_1 ===
+Appletun
+Level: 50
+Ability: Thick Fat
+Tera Type: Grass
+EVs: 252 HP / 252 Def / 4 SpA
+Bold Nature
+IVs: 0 Atk
+Tags: Dragon / Grass
+- Apple Acid
+- Recover
+- Leech Seed
+- Earth Power
+
+=== BINGO_MON_TURTONATOR_DRAGON_1 ===
+Turtonator
+Level: 50
+Ability: Shell Armor
+Tera Type: Fire
+EVs: 252 HP / 252 SpA / 4 SpD
+Modest Nature
+IVs: 0 Atk
+Tags: Dragon / Fire
+- Shell Smash
+- Fire Blast
+- Flash Cannon
+- Focus Blast
+
+=== BINGO_MON_DRAMPA_DRAGON_1 ===
+Drampa
+Level: 50
+Ability: Berserk
+Tera Type: Normal
+EVs: 252 HP / 252 SpA / 4 SpD
+Modest Nature
+IVs: 0 Atk
+Tags: Dragon / Normal
+- Hyper Voice
+- Flamethrower
+- Energy Ball
+- Thunderbolt
+
+=== BINGO_MON_ZAPDOS_GALAR_STRANGE_STARTER_1 ===
+Zapdos-Galar @ Choice Band
+Level: 50
+Ability: Defiant
+Tera Type: Fighting
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+- Thunderous Kick
+- Brave Bird
+- U-turn
+- Knock Off
+
+=== BINGO_MON_SANDY_SHOCKS_STRANGE_STARTER_1 ===
+Sandy Shocks @ Booster Energy
+Level: 50
+Ability: Protosynthesis
+Tera Type: Ice
+EVs: 4 Def / 252 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+- Thunderbolt
+- Earth Power
+- Volt Switch
+- Spikes
+
+=== BINGO_MON_KARTANA_STRANGE_STARTER_1 ===
+Kartana @ Life Orb
+Level: 50
+Ability: Beast Boost
+Tera Type: Fighting
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+- Leaf Blade
+- Sacred Sword
+- Knock Off
+- Swords Dance
+
+=== BINGO_MON_NIHILEGO_STRANGE_1 ===
+Nihilego
+Level: 50
+Ability: Beast Boost
+Tera Type: Rock
+EVs: 4 Def / 252 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+Tags: Strange / Rock / Poison
+- Power Gem
+- Sludge Wave
+- Grass Knot
+- Stealth Rock
+
+=== BINGO_MON_BUZZWOLE_STRANGE_1 ===
+Buzzwole
+Level: 50
+Ability: Beast Boost
+Tera Type: Fighting
+EVs: 252 HP / 252 Atk / 4 Def
+Adamant Nature
+Tags: Strange / Bug / Fighting
+- Close Combat
+- Leech Life
+- Ice Punch
+- Bulk Up
+
+=== BINGO_MON_PHEROMOSA_STRANGE_1 ===
+Pheromosa
+Level: 50
+Ability: Beast Boost
+Tera Type: Fighting
+EVs: 252 Atk / 4 SpA / 252 Spe
+Naive Nature
+Tags: Strange / Bug / Fighting
+- Close Combat
+- U-turn
+- Ice Beam
+- Drill Run
+
+=== BINGO_MON_XURKITREE_STRANGE_1 ===
+Xurkitree
+Level: 50
+Ability: Beast Boost
+Tera Type: Electric
+EVs: 4 Def / 252 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+Tags: Strange / Electric
+- Thunderbolt
+- Energy Ball
+- Dazzling Gleam
+- Tail Glow
+
+=== BINGO_MON_CELESTEELA_STRANGE_1 ===
+Celesteela
+Level: 50
+Ability: Beast Boost
+Tera Type: Steel
+EVs: 252 HP / 4 Def / 252 SpD
+Careful Nature
+Tags: Strange / Steel / Flying
+- Heavy Slam
+- Leech Seed
+- Earthquake
+- Flamethrower
+
+=== BINGO_MON_KARTANA_STRANGE_1 ===
+Kartana
+Level: 50
+Ability: Beast Boost
+Tera Type: Fighting
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+Tags: Strange / Grass / Steel
+- Leaf Blade
+- Sacred Sword
+- Knock Off
+- Swords Dance
+
+=== BINGO_MON_GUZZLORD_STRANGE_1 ===
+Guzzlord
+Level: 50
+Ability: Beast Boost
+Tera Type: Dark
+EVs: 252 Atk / 4 SpD / 252 Spe
+Adamant Nature
+Tags: Strange / Dark / Dragon
+- Knock Off
+- Heavy Slam
+- Earthquake
+- Dragon Dance
+
+=== BINGO_MON_NAGANADEL_STRANGE_1 ===
+Naganadel
+Level: 50
+Ability: Beast Boost
+Tera Type: Poison
+EVs: 4 Def / 252 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+Tags: Strange / Poison / Dragon
+- Sludge Wave
+- Flamethrower
+- Nasty Plot
+- Dark Pulse
+
+=== BINGO_MON_STAKATAKA_STRANGE_1 ===
+Stakataka
+Level: 50
+Ability: Beast Boost
+Tera Type: Rock
+EVs: 252 HP / 252 Atk / 4 SpD
+Brave Nature
+IVs: 31 HP / 31 Atk / 31 Def / 0 SpA / 31 SpD / 0 Spe
+Tags: Strange / Rock / Steel
+- Trick Room
+- Gyro Ball
+- Body Press
+- Earthquake
+
+=== BINGO_MON_BLACEPHALON_STRANGE_1 ===
+Blacephalon
+Level: 50
+Ability: Beast Boost
+Tera Type: Fire
+EVs: 4 Def / 252 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+Tags: Strange / Fire / Ghost
+- Mind Blown
+- Shadow Ball
+- Flamethrower
+- Calm Mind
+
+=== BINGO_MON_ZAPDOS_GALAR_STRANGE_1 ===
+Zapdos-Galar
+Level: 50
+Ability: Defiant
+Tera Type: Fighting
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+Tags: Strange / Fighting / Flying
+- Thunderous Kick
+- Brave Bird
+- U-turn
+- Knock Off
+
+=== BINGO_MON_ARTICUNO_GALAR_STRANGE_1 ===
+Articuno-Galar
+Level: 50
+Ability: Competitive
+Tera Type: Psychic
+EVs: 4 Def / 252 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+Tags: Strange / Psychic / Flying
+- Freezing Glare
+- Hurricane
+- Recover
+- Calm Mind
+
+=== BINGO_MON_MOLTRES_GALAR_STRANGE_1 ===
+Moltres-Galar
+Level: 50
+Ability: Berserk
+Tera Type: Dark
+EVs: 4 Def / 252 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+Tags: Strange / Dark / Flying
+- Fiery Wrath
+- Hurricane
+- Nasty Plot
+- Taunt
+
+=== BINGO_MON_GREAT_TUSK_STRANGE_1 ===
+Great Tusk
+Level: 50
+Ability: Protosynthesis
+Tera Type: Ground
+EVs: 252 Atk / 4 Def / 252 Spe
+Jolly Nature
+Tags: Strange / Ground / Fighting
+- Headlong Rush
+- Close Combat
+- Ice Spinner
+- Rapid Spin
+
+=== BINGO_MON_SCREAM_TAIL_STRANGE_1 ===
+Scream Tail
+Level: 50
+Ability: Protosynthesis
+Tera Type: Fairy
+EVs: 252 HP / 4 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+Tags: Strange / Fairy / Psychic
+- Moonblast
+- Psychic Noise
+- Thunder Wave
+- Wish
+
+=== BINGO_MON_BRUTE_BONNET_STRANGE_1 ===
+Brute Bonnet
+Level: 50
+Ability: Protosynthesis
+Tera Type: Dark
+EVs: 252 HP / 252 Atk / 4 SpD
+Adamant Nature
+Tags: Strange / Grass / Dark
+- Seed Bomb
+- Sucker Punch
+- Close Combat
+- Spore
+
+=== BINGO_MON_FLUTTER_MANE_STRANGE_1 ===
+Flutter Mane
+Level: 50
+Ability: Protosynthesis
+Tera Type: Fairy
+EVs: 4 Def / 252 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+Tags: Strange / Ghost / Fairy
+- Moonblast
+- Shadow Ball
+- Mystical Fire
+- Calm Mind
+
+=== BINGO_MON_SLITHER_WING_STRANGE_1 ===
+Slither Wing
+Level: 50
+Ability: Protosynthesis
+Tera Type: Bug
+EVs: 252 Atk / 4 SpD / 252 Spe
+Adamant Nature
+Tags: Strange / Bug / Fighting
+- First Impression
+- Close Combat
+- U-turn
+- Flare Blitz
+
+=== BINGO_MON_SANDY_SHOCKS_STRANGE_1 ===
+Sandy Shocks
+Level: 50
+Ability: Protosynthesis
+Tera Type: Ice
+EVs: 4 Def / 252 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+Tags: Strange / Electric / Ground
+- Thunderbolt
+- Earth Power
+- Volt Switch
+- Spikes
+
+=== BINGO_MON_ROARING_MOON_STRANGE_1 ===
+Roaring Moon
+Level: 50
+Ability: Protosynthesis
+Tera Type: Flying
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+Tags: Strange / Dragon / Dark
+- Knock Off
+- Earthquake
+- Acrobatics
+- Dragon Dance
+
+=== BINGO_MON_WALKING_WAKE_STRANGE_1 ===
+Walking Wake
+Level: 50
+Ability: Protosynthesis
+Tera Type: Water
+EVs: 4 Def / 252 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+Tags: Strange / Water / Dragon
+- Hydro Steam
+- Draco Meteor
+- Flamethrower
+- Flip Turn
+
+=== BINGO_MON_GOUGING_FIRE_STRANGE_1 ===
+Gouging Fire
+Level: 50
+Ability: Protosynthesis
+Tera Type: Fire
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+Tags: Strange / Fire / Dragon
+- Flare Blitz
+- Earthquake
+- Morning Sun
+- Dragon Dance
+
+=== BINGO_MON_RAGING_BOLT_STRANGE_1 ===
+Raging Bolt
+Level: 50
+Ability: Protosynthesis
+Tera Type: Electric
+EVs: 4 Def / 252 SpA / 252 Spe
+Modest Nature
+IVs: 0 Atk
+Tags: Strange / Electric / Dragon
+- Thunderclap
+- Thunderbolt
+- Draco Meteor
+- Calm Mind
+
+=== BINGO_MON_IRON_TREADS_STRANGE_1 ===
+Iron Treads
+Level: 50
+Ability: Quark Drive
+Tera Type: Ground
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+Tags: Strange / Ground / Steel
+- Earthquake
+- Iron Head
+- Knock Off
+- Rapid Spin
+
+=== BINGO_MON_IRON_BUNDLE_STRANGE_1 ===
+Iron Bundle
+Level: 50
+Ability: Quark Drive
+Tera Type: Ice
+EVs: 4 Def / 252 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+Tags: Strange / Ice / Water
+- Freeze-Dry
+- Hydro Pump
+- Ice Beam
+- Flip Turn
+
+=== BINGO_MON_IRON_HANDS_STRANGE_1 ===
+Iron Hands
+Level: 50
+Ability: Quark Drive
+Tera Type: Fighting
+EVs: 252 HP / 252 Atk / 4 SpD
+Adamant Nature
+Tags: Strange / Fighting / Electric
+- Drain Punch
+- Wild Charge
+- Ice Punch
+- Swords Dance
+
+=== BINGO_MON_IRON_JUGULIS_STRANGE_1 ===
+Iron Jugulis
+Level: 50
+Ability: Quark Drive
+Tera Type: Dark
+EVs: 4 Def / 252 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+Tags: Strange / Dark / Flying
+- Dark Pulse
+- Hurricane
+- Earth Power
+- Nasty Plot
+
+=== BINGO_MON_IRON_MOTH_STRANGE_1 ===
+Iron Moth
+Level: 50
+Ability: Quark Drive
+Tera Type: Fire
+EVs: 4 Def / 252 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+Tags: Strange / Fire / Poison
+- Fiery Dance
+- Sludge Wave
+- Energy Ball
+- Dazzling Gleam
+
+=== BINGO_MON_IRON_THORNS_STRANGE_1 ===
+Iron Thorns
+Level: 50
+Ability: Quark Drive
+Tera Type: Rock
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+Tags: Strange / Rock / Electric
+- Stone Edge
+- Wild Charge
+- Earthquake
+- Dragon Dance
+
+=== BINGO_MON_IRON_VALIANT_STRANGE_1 ===
+Iron Valiant
+Level: 50
+Ability: Quark Drive
+Tera Type: Fairy
+EVs: 252 Atk / 4 SpA / 252 Spe
+Naive Nature
+Tags: Strange / Fairy / Fighting
+- Moonblast
+- Close Combat
+- Knock Off
+- Swords Dance
+
+=== BINGO_MON_IRON_LEAVES_STRANGE_1 ===
+Iron Leaves
+Level: 50
+Ability: Quark Drive
+Tera Type: Psychic
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+Tags: Strange / Grass / Psychic
+- Psyblade
+- Leaf Blade
+- Close Combat
+- Swords Dance
+
+=== BINGO_MON_IRON_BOULDER_STRANGE_1 ===
+Iron Boulder
+Level: 50
+Ability: Quark Drive
+Tera Type: Rock
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+Tags: Strange / Rock / Psychic
+- Mighty Cleave
+- Zen Headbutt
+- Close Combat
+- Swords Dance
+
+=== BINGO_MON_IRON_CROWN_STRANGE_1 ===
+Iron Crown
+Level: 50
+Ability: Quark Drive
+Tera Type: Steel
+EVs: 4 Def / 252 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+Tags: Strange / Steel / Psychic
+- Tachyon Cutter
+- Psychic
+- Focus Blast
+- Calm Mind
+
+=== BINGO_MON_EXPLOUD_MUSIC_STARTER_1 ===
+Exploud @ Throat Spray
+Level: 50
+Ability: Scrappy
+Tera Type: Normal
+EVs: 4 Def / 252 SpA / 252 Spe
+Modest Nature
+IVs: 0 Atk
+- Boomburst
+- Fire Blast
+- Focus Blast
+- Ice Beam
+
+=== BINGO_MON_NOIVERN_MUSIC_1 ===
+Noivern
+Level: 50
+Ability: Frisk
+Tera Type: Flying
+EVs: 4 Def / 252 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+Tags: Music / Flying / Dragon
+- Boomburst
+- Hurricane
+- Flamethrower
+- Roost
+
+=== BINGO_MON_LUDICOLO_MUSIC_1 ===
+Ludicolo
+Level: 50
+Ability: Swift Swim
+Tera Type: Water
+EVs: 4 Def / 252 SpA / 252 Spe
+Modest Nature
+IVs: 0 Atk
+Tags: Music / Water / Grass
+- Sparkling Aria
+- Giga Drain
+- Ice Beam
+- Focus Blast
+
+=== BINGO_MON_ALTARIA_MUSIC_1 ===
+Altaria
+Level: 50
+Ability: Natural Cure
+Tera Type: Fairy
+EVs: 252 HP / 4 SpA / 252 SpD
+Calm Nature
+IVs: 0 Atk
+Tags: Music / Dragon / Flying
+- Hyper Voice
+- Fire Blast
+- Roost
+- Defog
+
+=== BINGO_MON_AURORUS_MUSIC_1 ===
+Aurorus
+Level: 50
+Ability: Refrigerate
+Tera Type: Ice
+EVs: 252 HP / 4 Def / 252 SpA
+Modest Nature
+IVs: 0 Atk
+Tags: Music / Rock / Ice
+- Hyper Voice
+- Freeze-Dry
+- Earth Power
+- Aurora Veil
+
+=== BINGO_MON_PRIMARINA_MUSIC_1 ===
+Primarina
+Level: 50
+Ability: Liquid Voice
+Tera Type: Fairy
+EVs: 252 HP / 252 SpA / 4 SpD
+Modest Nature
+IVs: 0 Atk
+Tags: Music / Water / Fairy
+- Sparkling Aria
+- Moonblast
+- Psychic Noise
+- Calm Mind
+
+=== BINGO_MON_GARDEVOIR_MUSIC_1 ===
+Gardevoir
+Level: 50
+Ability: Trace
+Tera Type: Fairy
+EVs: 4 Def / 252 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+Tags: Music / Psychic / Fairy
+- Hyper Voice
+- Psyshock
+- Focus Blast
+- Calm Mind
+
+=== BINGO_MON_NOCTOWL_MUSIC_1 ===
+Noctowl
+Level: 50
+Ability: Tinted Lens
+Tera Type: Flying
+EVs: 252 HP / 252 SpA / 4 SpD
+Modest Nature
+IVs: 0 Atk
+Tags: Music / Normal / Flying
+- Boomburst
+- Hurricane
+- Psychic Noise
+- Roost
+
+=== BINGO_MON_WIGGLYTUFF_MUSIC_1 ===
+Wigglytuff
+Level: 50
+Ability: Competitive
+Tera Type: Fairy
+EVs: 252 HP / 252 SpA / 4 SpD
+Modest Nature
+IVs: 0 Atk
+Tags: Music / Normal / Fairy
+- Hyper Voice
+- Alluring Voice
+- Fire Blast
+- Wish
+
+=== BINGO_MON_JYNX_MUSIC_1 ===
+Jynx
+Level: 50
+Ability: Dry Skin
+Tera Type: Ice
+EVs: 4 Def / 252 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+Tags: Music / Ice / Psychic
+- Psychic Noise
+- Ice Beam
+- Focus Blast
+- Nasty Plot
+
+=== BINGO_MON_KOMMO_O_MUSIC_1 ===
+Kommo-o
+Level: 50
+Ability: Soundproof
+Tera Type: Dragon
+EVs: 4 Def / 252 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+Tags: Music / Dragon / Fighting
+- Clangorous Soul
+- Clanging Scales
+- Aura Sphere
+- Flamethrower
+
+=== BINGO_MON_LAPRAS_MUSIC_1 ===
+Lapras
+Level: 50
+Ability: Water Absorb
+Tera Type: Water
+EVs: 252 HP / 252 SpA / 4 SpD
+Modest Nature
+IVs: 0 Atk
+Tags: Music / Water / Ice
+- Sparkling Aria
+- Psychic Noise
+- Freeze-Dry
+- Thunderbolt
+
+=== BINGO_MON_RILLABOOM_MUSIC_1 ===
+Rillaboom
+Level: 50
+Ability: Grassy Surge
+Tera Type: Grass
+EVs: 252 Atk / 4 SpD / 252 Spe
+Adamant Nature
+Tags: Music / Grass
+- Uproar
+- Grassy Glide
+- Knock Off
+- Swords Dance
+
+=== BINGO_MON_ROTOM_HEAT_MUSIC_1 ===
+Rotom-Heat
+Level: 50
+Ability: Levitate
+Tera Type: Electric
+EVs: 4 Def / 252 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+Tags: Music / Electric / Fire
+- Hyper Voice
+- Overheat
+- Volt Switch
+- Nasty Plot
+
+=== BINGO_MON_TOGEKISS_MUSIC_1 ===
+Togekiss
+Level: 50
+Ability: Serene Grace
+Tera Type: Fairy
+EVs: 252 HP / 4 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+Tags: Music / Fairy / Flying
+- Alluring Voice
+- Air Slash
+- Fire Blast
+- Roost
+
+=== BINGO_MON_TOXTRICITY_MUSIC_1 ===
+Toxtricity
+Level: 50
+Ability: Punk Rock
+Tera Type: Electric
+EVs: 4 Def / 252 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+Tags: Music / Electric / Poison
+- Overdrive
+- Boomburst
+- Volt Switch
+- Snarl
+
+=== BINGO_MON_ZOROARK_MUSIC_1 ===
+Zoroark
+Level: 50
+Ability: Illusion
+Tera Type: Dark
+EVs: 4 Def / 252 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+Tags: Music / Dark
+- Hyper Voice
+- Nasty Plot
+- Flamethrower
+- Focus Blast
+
+=== BINGO_MON_CHATOT_MUSIC_1 ===
+Chatot
+Level: 50
+Ability: Tangled Feet
+Tera Type: Flying
+EVs: 4 Def / 252 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+Tags: Music / Normal / Flying
+- Boomburst
+- Chatter
+- Heat Wave
+- Nasty Plot
+
+=== BINGO_MON_ZOROARK_HISUI_MUSIC_1 ===
+Zoroark-Hisui
+Level: 50
+Ability: Illusion
+Tera Type: Ghost
+EVs: 4 Def / 252 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+Tags: Music / Normal / Ghost
+- Hyper Voice
+- Shadow Ball
+- Flamethrower
+- Nasty Plot
+
+=== BINGO_MON_SQUAWKABILLY_MUSIC_1 ===
+Squawkabilly
+Level: 50
+Ability: Intimidate
+Tera Type: Flying
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+Tags: Music / Normal / Flying
+- Parting Shot
+- Brave Bird
+- Facade
+- U-turn
+
+=== BINGO_MON_TOUCANNON_MUSIC_1 ===
+Toucannon
+Level: 50
+Ability: Skill Link
+Tera Type: Flying
+EVs: 252 Atk / 4 SpD / 252 Spe
+Adamant Nature
+Tags: Music / Normal / Flying
+- Hyper Voice
+- Brave Bird
+- Bullet Seed
+- Roost
+
+=== BINGO_MON_GRANBULL_MUSIC_1 ===
+Granbull
+Level: 50
+Ability: Intimidate
+Tera Type: Fairy
+EVs: 252 HP / 252 Atk / 4 SpD
+Adamant Nature
+Tags: Music / Fairy
+- Alluring Voice
+- Play Rough
+- Earthquake
+- Thunder Wave
+
+=== BINGO_MON_SCREAM_TAIL_MUSIC_1 ===
+Scream Tail
+Level: 50
+Ability: Protosynthesis
+Tera Type: Fairy
+EVs: 252 HP / 4 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+Tags: Music / Fairy / Psychic
+- Psychic Noise
+- Alluring Voice
+- Wish
+- Encore
+
+=== BINGO_MON_KRICKETUNE_MUSIC_1 ===
+Kricketune
+Level: 50
+Ability: Technician
+Tera Type: Bug
+EVs: 252 HP / 4 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+Tags: Music / Bug
+- Bug Buzz
+- Hyper Voice
+- Sticky Web
+- Taunt
+
+=== BINGO_MON_METAGROSS_MONSTER_STARTER_1 ===
+Metagross @ Weakness Policy
+Level: 50
+Ability: Clear Body
+Tera Type: Steel
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+- Agility
+- Meteor Mash
+- Psychic Fangs
+- Earthquake
+
+=== BINGO_MON_TYRANITAR_MONSTER_STARTER_1 ===
+Tyranitar @ Chople Berry
+Level: 50
+Ability: Sand Stream
+Tera Type: Rock
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+- Dragon Dance
+- Stone Edge
+- Crunch
+- Earthquake
+
+=== BINGO_MON_SALAMENCE_MONSTER_STARTER_1 ===
+Salamence
+Level: 50
+Ability: Moxie
+Tera Type: Flying
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+- Dragon Dance
+- Dual Wingbeat
+- Earthquake
+- Fire Fang
+
+=== BINGO_MON_BAXCALIBUR_MONSTER_1 ===
+Baxcalibur
+Level: 50
+Ability: Thermal Exchange
+Tera Type: Dragon
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+Tags: Monster / Dragon / Ice
+- Glaive Rush
+- Icicle Crash
+- Ice Shard
+- Earthquake
+
+=== BINGO_MON_DRAGAPULT_MONSTER_1 ===
+Dragapult
+Level: 50
+Ability: Infiltrator
+Tera Type: Ghost
+EVs: 4 Def / 252 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+Tags: Monster / Dragon / Ghost
+- Draco Meteor
+- Shadow Ball
+- Flamethrower
+- U-turn
+
+=== BINGO_MON_PECHARUNT_MONSTER_1 ===
+Pecharunt
+Level: 50
+Ability: Poison Puppeteer
+Tera Type: Poison
+EVs: 252 HP / 4 Def / 252 SpA
+Modest Nature
+IVs: 0 Atk
+Tags: Monster / Poison / Ghost
+- Malignant Chain
+- Shadow Ball
+- Nasty Plot
+- Recover
+
+=== BINGO_MON_MANAPHY_MONSTER_1 ===
+Manaphy
+Level: 50
+Ability: Hydration
+Tera Type: Water
+EVs: 4 Def / 252 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+Tags: Monster / Water / Mythical
+- Tail Glow
+- Surf
+- Ice Beam
+- Energy Ball
+
+=== BINGO_MON_MARSHADOW_MONSTER_1 ===
+Marshadow
+Level: 50
+Ability: Technician
+Tera Type: Ghost
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+Tags: Monster / Fighting / Ghost / Mythical
+- Poltergeist
+- Close Combat
+- Shadow Sneak
+- Bulk Up
+
+=== BINGO_MON_LANDORUS_THERIAN_MONSTER_1 ===
+Landorus-Therian
+Level: 50
+Ability: Intimidate
+Tera Type: Ground
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+Tags: Monster / Ground / Flying / Sublegendary
+- Earthquake
+- Stone Edge
+- U-turn
+- Stealth Rock
+
+=== BINGO_MON_MAGEARNA_MONSTER_1 ===
+Magearna
+Level: 50
+Ability: Soul-Heart
+Tera Type: Fairy
+EVs: 4 Def / 252 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+Tags: Monster / Steel / Fairy / Mythical
+- Shift Gear
+- Fleur Cannon
+- Flash Cannon
+- Aura Sphere
+
+=== BINGO_MON_VICTINI_MONSTER_1 ===
+Victini
+Level: 50
+Ability: Victory Star
+Tera Type: Fire
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+Tags: Monster / Psychic / Fire / Mythical
+- V-create
+- Bolt Strike
+- U-turn
+- Zen Headbutt
+
+=== BINGO_MON_VOLCANION_MONSTER_1 ===
+Volcanion
+Level: 50
+Ability: Water Absorb
+Tera Type: Fire
+EVs: 252 HP / 252 SpA / 4 SpD
+Modest Nature
+IVs: 0 Atk
+Tags: Monster / Fire / Water / Mythical
+- Hydro Pump
+- Flamethrower
+- Sludge Bomb
+- Earth Power
+
+=== BINGO_MON_ZARUDE_MONSTER_1 ===
+Zarude
+Level: 50
+Ability: Leaf Guard
+Tera Type: Dark
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+Tags: Monster / Dark / Grass / Mythical
+- Power Whip
+- Crunch
+- U-turn
+- Jungle Healing
+
+=== BINGO_MON_SPECTRIER_MONSTER_1 ===
+Spectrier
+Level: 50
+Ability: Grim Neigh
+Tera Type: Ghost
+EVs: 4 Def / 252 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+Tags: Monster / Ghost / Sublegendary
+- Astral Barrage
+- Shadow Ball
+- Nasty Plot
+- Will-O-Wisp
+
+=== BINGO_MON_GLASTRIER_MONSTER_1 ===
+Glastrier
+Level: 50
+Ability: Chilling Neigh
+Tera Type: Ice
+EVs: 252 HP / 252 Atk / 4 SpD
+Adamant Nature
+Tags: Monster / Ice / Sublegendary
+- Glacial Lance
+- Icicle Crash
+- High Horsepower
+- Swords Dance
+
+=== BINGO_MON_ANNIHILAPE_MONSTER_1 ===
+Annihilape
+Level: 50
+Ability: Defiant
+Tera Type: Fighting
+EVs: 252 HP / 252 Atk / 4 SpD
+Adamant Nature
+Tags: Monster / Fighting / Ghost
+- Rage Fist
+- Drain Punch
+- Bulk Up
+- Taunt
+
+=== BINGO_MON_ARCHALUDON_MONSTER_1 ===
+Archaludon
+Level: 50
+Ability: Stamina
+Tera Type: Steel
+EVs: 252 HP / 252 SpA / 4 SpD
+Modest Nature
+IVs: 0 Atk
+Tags: Monster / Steel / Dragon
+- Electro Shot
+- Draco Meteor
+- Flash Cannon
+- Body Press
+
+=== BINGO_MON_TAPU_FINI_MONSTER_1 ===
+Tapu Fini
+Level: 50
+Ability: Misty Surge
+Tera Type: Fairy
+EVs: 252 HP / 4 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+Tags: Monster / Water / Fairy / Sublegendary
+- Moonblast
+- Surf
+- Calm Mind
+- Taunt
+
+=== BINGO_MON_TING_LU_MONSTER_1 ===
+Ting-Lu
+Level: 50
+Ability: Vessel of Ruin
+Tera Type: Ground
+EVs: 252 HP / 4 Atk / 252 SpD
+Careful Nature
+Tags: Monster / Dark / Ground / Sublegendary
+- Earthquake
+- Ruination
+- Spikes
+- Whirlwind
+
+=== BINGO_MON_CHIEN_PAO_MONSTER_1 ===
+Chien-Pao
+Level: 50
+Ability: Sword of Ruin
+Tera Type: Dark
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+Tags: Monster / Dark / Ice / Sublegendary
+- Ice Spinner
+- Crunch
+- Sacred Sword
+- Swords Dance
+
+=== BINGO_MON_WO_CHIEN_MONSTER_1 ===
+Wo-Chien
+Level: 50
+Ability: Tablets of Ruin
+Tera Type: Grass
+EVs: 252 HP / 4 Def / 252 SpD
+Calm Nature
+IVs: 0 Atk
+Tags: Monster / Dark / Grass / Sublegendary
+- Giga Drain
+- Dark Pulse
+- Leech Seed
+- Nasty Plot
+
+=== BINGO_MON_CHI_YU_MONSTER_1 ===
+Chi-Yu
+Level: 50
+Ability: Beads of Ruin
+Tera Type: Fire
+EVs: 4 Def / 252 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+Tags: Monster / Dark / Fire / Sublegendary
+- Overheat
+- Dark Pulse
+- Flamethrower
+- Nasty Plot
+
+=== BINGO_MON_FLORGES_MONSTER_1 ===
+Florges
+Level: 50
+Ability: Flower Veil
+Tera Type: Fairy
+EVs: 252 HP / 252 SpA / 4 SpD
+Modest Nature
+IVs: 0 Atk
+Tags: Monster / Fairy
+- Moonblast
+- Psychic
+- Calm Mind
+- Synthesis
+
+=== BINGO_MON_URSHIFU_RAPID_STRIKE_MONSTER_1 ===
+Urshifu-Rapid-Strike
+Level: 50
+Ability: Unseen Fist
+Tera Type: Water
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+Tags: Monster / Fighting / Water / Sublegendary
+- Surging Strikes
+- Close Combat
+- Aqua Jet
+- Bulk Up
+
+=== BINGO_MON_URSHIFU_SINGLE_STRIKE_MONSTER_1 ===
+Urshifu-Single-Strike
+Level: 50
+Ability: Unseen Fist
+Tera Type: Dark
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+Tags: Monster / Fighting / Dark / Sublegendary
+- Wicked Blow
+- Close Combat
+- Sucker Punch
+- Bulk Up
+
+=== BINGO_MON_GHOLDENGO_MONSTER_1 ===
+Gholdengo
+Level: 50
+Ability: Good as Gold
+Tera Type: Steel
+EVs: 4 Def / 252 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+Tags: Monster / Steel / Ghost
+- Make It Rain
+- Shadow Ball
+- Nasty Plot
+- Recover
+
+=== BINGO_MON_KINGAMBIT_MONSTER_1 ===
+Kingambit
+Level: 50
+Ability: Supreme Overlord
+Tera Type: Dark
+EVs: 252 HP / 252 Atk / 4 SpD
+Adamant Nature
+Tags: Monster / Dark / Steel
+- Kowtow Cleave
+- Iron Head
+- Sucker Punch
+- Swords Dance
+
+=== BINGO_MON_BLISSEY_MONSTER_1 ===
+Blissey
+Level: 50
+Ability: Natural Cure
+Tera Type: Fairy
+EVs: 252 HP / 252 Def / 4 SpD
+Bold Nature
+IVs: 0 Atk
+Tags: Monster / Normal
+- Seismic Toss
+- Soft-Boiled
+- Thunder Wave
+- Shadow Ball
+
+=== BINGO_MON_SNORLAX_MONSTER_1 ===
+Snorlax
+Level: 50
+Ability: Thick Fat
+Tera Type: Normal
+EVs: 252 HP / 252 Atk / 4 SpD
+Adamant Nature
+Tags: Monster / Normal
+- Body Slam
+- Earthquake
+- Crunch
+- Curse
+
+=== BINGO_MON_MAGNEZONE_MONSTER_1 ===
+Magnezone
+Level: 50
+Ability: Magnet Pull
+Tera Type: Electric
+EVs: 4 Def / 252 SpA / 252 Spe
+Modest Nature
+IVs: 0 Atk
+Tags: Monster / Electric / Steel
+- Thunderbolt
+- Flash Cannon
+- Volt Switch
+- Body Press
+
+=== BINGO_MON_TANGROWTH_MONSTER_1 ===
+Tangrowth
+Level: 50
+Ability: Regenerator
+Tera Type: Grass
+EVs: 252 HP / 252 Def / 4 SpA
+Relaxed Nature
+Tags: Monster / Grass
+- Giga Drain
+- Knock Off
+- Earthquake
+- Leech Seed
+
+=== BINGO_MON_AGGRON_MONSTER_1 ===
+Aggron
+Level: 50
+Ability: Sturdy
+Tera Type: Steel
+EVs: 252 HP / 252 Atk / 4 SpD
+Adamant Nature
+Tags: Monster / Steel / Rock
+- Head Smash
+- Iron Head
+- Earthquake
+- Rock Polish
+
+=== BINGO_MON_RHYPERIOR_MONSTER_1 ===
+Rhyperior
+Level: 50
+Ability: Solid Rock
+Tera Type: Ground
+EVs: 252 HP / 252 Atk / 4 SpD
+Adamant Nature
+Tags: Monster / Ground / Rock
+- Earthquake
+- Stone Edge
+- Megahorn
+- Rock Polish
+
+=== BINGO_MON_ELECTIVIRE_MONSTER_1 ===
+Electivire
+Level: 50
+Ability: Motor Drive
+Tera Type: Electric
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+Tags: Monster / Electric
+- Wild Charge
+- Ice Punch
+- Earthquake
+- Cross Chop
+
+=== BINGO_MON_MAGMORTAR_MONSTER_1 ===
+Magmortar
+Level: 50
+Ability: Flame Body
+Tera Type: Fire
+EVs: 4 Def / 252 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+Tags: Monster / Fire
+- Fire Blast
+- Thunderbolt
+- Focus Blast
+- Psychic
+
+=== BINGO_MON_MAMOSWINE_MONSTER_1 ===
+Mamoswine
+Level: 50
+Ability: Thick Fat
+Tera Type: Ice
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+Tags: Monster / Ice / Ground
+- Icicle Crash
+- Earthquake
+- Ice Shard
+- Stealth Rock
+
+=== BINGO_MON_BASCULEGION_M_MONSTER_1 ===
+Basculegion-M
+Level: 50
+Ability: Swift Swim
+Tera Type: Water
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+Tags: Monster / Water / Ghost
+- Wave Crash
+- Last Respects
+- Aqua Jet
+- Crunch
+
+=== BINGO_MON_HIPPOWDON_MONSTER_1 ===
+Hippowdon
+Level: 50
+Ability: Sand Stream
+Tera Type: Ground
+EVs: 252 HP / 4 Atk / 252 Def
+Impish Nature
+Tags: Monster / Ground
+- Earthquake
+- Stone Edge
+- Stealth Rock
+- Slack Off

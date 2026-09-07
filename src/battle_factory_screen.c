@@ -1321,11 +1321,16 @@ static void Select_InitMonsData(void)
 static void Select_InitAllSprites(void)
 {
     u8 i, cursorPos;
+    s16 firstX;
     s16 x;
+
+    firstX = sFactorySelectScreen->isBattleBingoStarterSelect
+        ? 120 - ((sFactorySelectScreen->selectableMonsCount - 1) * 35) / 2
+        : 32;
 
     for (i = 0; i < sFactorySelectScreen->selectableMonsCount; i++)
     {
-        x = (35 * i) + (sFactorySelectScreen->isBattleBingoStarterSelect ? 85 : 32);
+        x = (35 * i) + firstX;
         sFactorySelectScreen->mons[i].ballSpriteId = CreateSprite(&sSpriteTemplate_Select_Pokeball, x, 64, 1);
         gSprites[sFactorySelectScreen->mons[i].ballSpriteId].data[0] = 0;
         Select_SetBallSpritePaletteNum(i);
@@ -1507,6 +1512,8 @@ static void Select_Task_OpenSummaryScreen(u8 taskId)
 
 static void Select_Task_Exit(u8 taskId)
 {
+    bool8 isBattleBingoStarterSelect;
+
     if (sFactorySelectScreen->monPicAnimating == TRUE)
         return;
 
@@ -1519,6 +1526,7 @@ static void Select_Task_Exit(u8 taskId)
     case 1:
         if (!UpdatePaletteFade())
         {
+            isBattleBingoStarterSelect = sFactorySelectScreen->isBattleBingoStarterSelect;
             Select_CopyMonsToPlayerParty();
             DestroyTask(sFactorySelectScreen->fadeSpeciesNameTaskId);
             Select_DestroyAllSprites();
@@ -1529,7 +1537,10 @@ static void Select_Task_Exit(u8 taskId)
             FREE_AND_SET_NULL(sFactorySelectScreen);
             FreeAllWindowBuffers();
             sBattleBingoStarterSelect = FALSE;
-            SetMainCallback2(CB2_ReturnToFieldContinueScript);
+            if (isBattleBingoStarterSelect)
+                ShowBattleBingoBoardFromBlack();
+            else
+                SetMainCallback2(CB2_ReturnToFieldContinueScript);
             DestroyTask(taskId);
         }
         break;

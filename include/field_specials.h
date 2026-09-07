@@ -31,6 +31,7 @@ void UpdateFrontierManiac(u16 daysSince);
 void UpdateFrontierGambler(u16 daysSince);
 void ResetCyclingRoadChallengeData(void);
 bool8 UsedPokemonCenterWarp(void);
+void UpdateRealgamDesertDragonBingoIdleEvent(void);
 void ResetFanClub(void);
 bool8 ShouldShowBoxWasFullMessage(void);
 void SetPCBoxToSendMon(u8 boxId);
