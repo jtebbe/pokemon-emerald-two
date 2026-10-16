@@ -90,13 +90,6 @@ void RunOnReturnToFieldMapScript(void);
 void RunOnDiveWarpMapScript(void);
 bool8 TryRunOnFrameMapScript(void);
 void TryRunOnWarpIntoMapScript(void);
-u32 CalculateRamScriptChecksum(void);
-void ClearRamScript(void);
-bool8 InitRamScript(const u8 *script, u16 scriptSize, u8 mapGroup, u8 mapNum, u8 objectId);
-const u8 *GetRamScript(u8 objectId, const u8 *script);
-bool32 ValidateSavedRamScript(void);
-u8 *GetSavedRamScriptIfValid(void);
-void InitRamScript_NoObjectEvent(u8 *script, u16 scriptSize);
 
 bool32 Script_MatchesCallNative(const u8 *script, void *funcPtr, bool32 requestEffects);
 bool32 Script_MatchesSpecial(const u8 *script, void *funcPtr);

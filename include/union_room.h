@@ -87,7 +87,6 @@ struct WirelessLink_Group
     u8 leaderId;
     u8 unused;
     u8 listenTaskId;
-    bool8 isWonderNews;
     bool8 showListMenu; // Never set
     u8 refreshTimer;
     u8 delayBeforePrint;
@@ -127,7 +126,7 @@ struct WirelessLink_URoom
     u16 partnerYesNoResponse;
     u16 recvActivityRequest[3];
     struct UnionRoomObject objects[MAX_UNION_ROOM_LEADERS];
-    u8 trainerCardStrBuffer[12][15];
+    u8 trainerCardStrBuffer[5][15];
     u8 trainerCardColorStrBuffer[48];
     u8 trainerCardMsgStrBuffer[200];
 };
@@ -152,10 +151,8 @@ extern enum Species gUnionRoomOfferedSpecies;
 extern enum Type gUnionRoomRequestedMonType;
 
 u8 CreateTask_CreateTradeMenu(void);
+bool32 IsUnionRoomActivityAcceptable(u32 activity, u32 linkGroup);
 void SetUsingUnionRoomStartMenu(void);
-void CreateTask_LinkMysteryGiftWithFriend(u32 activity);
-void CreateTask_LinkMysteryGiftOverWireless(u32 activity);
-void CreateTask_SendMysteryGift(u32 activity);
 u8 CreateTask_ListenToWireless(void);
 void StartUnionRoomBattle(u16 battleFlags);
 

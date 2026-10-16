@@ -7063,14 +7063,14 @@ Cry_NecrozmaDawnWings::
 	.incbin "sound/direct_sound_samples/cries/necrozma_dawn_wings.bin"
 .endif
 
-.if P_ULTRA_BURST_FORMS == TRUE
+.if P_MEGA_EVOLUTIONS == TRUE
 	.align 2
 Cry_NecrozmaUltra::
 .if TESTING == FALSE
 	.incbin "sound/direct_sound_samples/cries/necrozma_ultra.bin"
 .endif
 
-.endif @ P_ULTRA_BURST_FORMS
+.endif @ P_MEGA_EVOLUTIONS
 .endif @ P_FUSION_FORMS
 .endif @ P_FAMILY_NECROZMA
 

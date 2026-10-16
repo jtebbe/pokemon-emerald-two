@@ -166,7 +166,6 @@ Converts trainer data (for `convert_trainer_parties.py`) and partner data (for `
 +
 +Geodude
 +Level: 21
-+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 ```
 
 #### [src/data/partner_parties.h](..src/data/partner_parties.h)
@@ -176,7 +175,6 @@ Converts trainer data (for `convert_trainer_parties.py`) and partner data (for `
 -        .species = SPECIES_METANG,
 -        .lvl = 42,
 -        .nature = NATURE_BRAVE,
--        .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
 -        .ev = TRAINER_PARTY_EVS(0, 252, 252, 0, 6, 0),
 -        .moves = {MOVE_LIGHT_SCREEN, MOVE_PSYCHIC, MOVE_REFLECT, MOVE_METAL_CLAW},
 -    },
@@ -184,7 +182,6 @@ Converts trainer data (for `convert_trainer_parties.py`) and partner data (for `
 -        .species = SPECIES_SKARMORY,
 -        .lvl = 43,
 -        .nature = NATURE_IMPISH,
--        .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
 -        .ev = TRAINER_PARTY_EVS(252, 0, 0, 0, 6, 252),
 -        .moves = {MOVE_TOXIC, MOVE_AERIAL_ACE, MOVE_PROTECT, MOVE_STEEL_WING},
 -    },
@@ -192,7 +189,6 @@ Converts trainer data (for `convert_trainer_parties.py`) and partner data (for `
 -        .species = SPECIES_AGGRON,
 -        .lvl = 44,
 -        .nature = NATURE_ADAMANT,
--        .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
 -        .ev = TRAINER_PARTY_EVS(0, 252, 0, 0, 252, 6),
 -        .moves = {MOVE_THUNDER, MOVE_PROTECT, MOVE_SOLAR_BEAM, MOVE_DRAGON_CLAW},
 -    }
@@ -211,7 +207,6 @@ Converts trainer data (for `convert_trainer_parties.py`) and partner data (for `
 +Metang
 +Brave Nature
 +Level: 42
-+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 +EVs: 252 Atk / 252 Def / 6 SpA
 +- Light Screen
 +- Psychic
@@ -221,7 +216,6 @@ Converts trainer data (for `convert_trainer_parties.py`) and partner data (for `
 +Skarmory
 +Impish Nature
 +Level: 43
-+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 +EVs: 252 HP / 6 SpA / 252 SpD
 +- Toxic
 +- Aerial Ace
@@ -231,7 +225,6 @@ Converts trainer data (for `convert_trainer_parties.py`) and partner data (for `
 +Aggron
 +Adamant Nature
 +Level: 44
-+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 +EVs: 252 Atk / 252 SpA / 6 SpD
 +- Thunder
 +- Protect

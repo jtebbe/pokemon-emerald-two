@@ -12,10 +12,7 @@
 #include "sprite.h"
 #include "task.h"
 #include "trainer_see.h"
-#include "trainer_hill.h"
 #include "util.h"
-#include "battle_pyramid.h"
-#include "constants/battle_frontier.h"
 #include "constants/event_objects.h"
 #include "constants/event_object_movement.h"
 #include "constants/field_effects.h"
@@ -375,7 +372,6 @@ static const union AnimCmd sSpriteAnim_Icons2[] =
     ANIMCMD_END
 };
 
-
 static const union AnimCmd sSpriteAnim_Icons3[] =
 {
     ANIMCMD_FRAME(2, 60),
@@ -528,10 +524,9 @@ bool8 CheckForTrainersWantingBattle(void)
     if (scriptType == SINGLES_BATTLE_SCRIPT)
         TrySecondTrainerApproach(activeObjects, activeObjectsCount, &objectIndex);
 
-    if (InBattlePyramid() || InTrainerHillChallenge())
-        ConfigureApproachingFacilityTrainerBattle(gApproachingTrainers);
-    else
+    {
         ConfigureApproachingTrainerBattle(gApproachingTrainers);
+    }
 
     gTrainerApproachedPlayer = TRUE;
     gApproachingTrainerId = 0;
@@ -544,21 +539,9 @@ static enum ScriptType GetActiveObjectScriptType(struct ApproachingTrainer *appr
     if (approachingObject->radius == 0)
         return NO_EFFECT_SCRIPT;
 
-    if (InTrainerHill())
-    {
-        if (GetHillTrainerFlag(approachingObject->objectEventId))
-            return NO_EFFECT_SCRIPT;
-        approachingObject->trainerScriptPtr = GetTrainerHillTrainerScript();
-        return SINGLES_BATTLE_SCRIPT;
-    }
+    ;
 
-    if (InBattlePyramid())
-    {
-        if (GetBattlePyramidTrainerFlag(approachingObject->objectEventId))
-            return NO_EFFECT_SCRIPT;
-        approachingObject->trainerScriptPtr = GetBattlePyramidTrainerScript();
-        return SINGLES_BATTLE_SCRIPT;
-    }
+    ;
 
     approachingObject->trainerScriptPtr = GetObjectEventScriptPointerByObjectEventId(approachingObject->objectEventId);
     struct ScriptContext ctx;
@@ -571,15 +554,7 @@ static enum ScriptType GetActiveObjectScriptType(struct ApproachingTrainer *appr
 
     if (GetTrainerFlagFromScriptPointer(approachingObject->trainerScriptPtr))
     {
-        if (I_VS_SEEKER_CHARGING && GetRematchFromScriptPointer(approachingObject->trainerScriptPtr))
-        {
-            // rematches are not considered battle scripts because they don't use the trainer battle shortcuts but work like a regular script
-            return NON_BATTLE_SCRIPT;
-        }
-        else
-        {
-            return NO_EFFECT_SCRIPT;
-        }
+        return NO_EFFECT_SCRIPT;
     }
 
     TrainerBattleParameter *temp = (TrainerBattleParameter *)(approachingObject->trainerScriptPtr + 1);
@@ -1005,7 +980,6 @@ void TryPrepareSecondApproachingTrainer(void)
     }
 }
 
-
 bool32 IsNormalTypeTrainer(u32 trainerType)
 {
     switch (trainerType)
@@ -1190,14 +1164,14 @@ void PlayerFaceTrainerAfterBattle(void)
         objEvent = &gObjectEvents[gApproachingTrainers[gWhichTrainerToFaceAfterBattle].objectEventId];
         gPostBattleMovementScript[0] = GetFaceDirectionMovementAction(GetOppositeDirection(objEvent->facingDirection));
         gPostBattleMovementScript[1] = MOVEMENT_ACTION_STEP_END;
-        ScriptMovement_StartObjectMovementScript(LOCALID_PLAYER, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup, gPostBattleMovementScript);
+        ScriptMovement_StartObjectMovementScript(LOCALID_PLAYER, gSaveData.location.mapNum, gSaveData.location.mapGroup, gPostBattleMovementScript);
     }
     else
     {
         objEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
         gPostBattleMovementScript[0] = GetFaceDirectionMovementAction(objEvent->facingDirection);
         gPostBattleMovementScript[1] = MOVEMENT_ACTION_STEP_END;
-        ScriptMovement_StartObjectMovementScript(LOCALID_PLAYER, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup, gPostBattleMovementScript);
+        ScriptMovement_StartObjectMovementScript(LOCALID_PLAYER, gSaveData.location.mapNum, gSaveData.location.mapGroup, gPostBattleMovementScript);
     }
 
     SetMovingNpcId(LOCALID_PLAYER);

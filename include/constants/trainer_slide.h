@@ -23,16 +23,12 @@ enum TrainerSlideType
     TRAINER_SLIDE_SELF_LAST_HALF_HP, // their last Pokemon is between 25% and 50% HP
     TRAINER_SLIDE_SELF_LAST_LOW_HP, // their last Pokemon is under 25% HP
     TRAINER_SLIDE_SELF_MEGA_EVOLUTION, // their Pokemon is going to Mega Evolve
-    TRAINER_SLIDE_SELF_Z_MOVE, // their Pokemon is going to use a Z-Move
-    TRAINER_SLIDE_SELF_DYNAMAX, // their Pokemon is going to Dynamax
     TRAINER_SLIDE_SELF_TERA, // their Pokemon is going to Terastallize
 
     TRAINER_SLIDE_OPPONENT_LAST_SWITCHIN, // an opposing Trainer sends out their last Pokemon
     TRAINER_SLIDE_OPPONENT_LAST_HALF_HP, // their opponent's last Pokemon is between 25% and 50% HP
     TRAINER_SLIDE_OPPONENT_LAST_LOW_HP, // their opponent's last Pokemon is under 25% HP
     TRAINER_SLIDE_OPPONENT_MEGA_EVOLUTION, // an opposing Pokemon is going to Mega Evolve
-    TRAINER_SLIDE_OPPONENT_Z_MOVE, // an opposing Pokemon is going to use a Z-Move
-    TRAINER_SLIDE_OPPONENT_DYNAMAX, // an opposing Pokemon is going to Dynamax
     TRAINER_SLIDE_OPPONENT_TERA, // an opposing Pokemon is going to Terastallize
     TRAINER_SLIDE_COUNT,
 };

@@ -275,5 +275,4 @@ SINGLE_BATTLE_TEST("Final Gambit triggers the target's Endure")
     }
 }
 
-TO_DO_BATTLE_TEST("Final Gambit fails in Max Raids")
 TO_DO_BATTLE_TEST("Final Gambit fails in Tera Raids")

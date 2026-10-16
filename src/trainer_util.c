@@ -35,9 +35,7 @@ static void CustomTrainerPartyAssignMoves(struct Pokemon *mon, const struct Trai
 
     for (j = 0; j < MAX_MON_MOVES; ++j)
     {
-        u32 pp = GetMovePP(partyEntry->moves[j]);
         SetMonData(mon, MON_DATA_MOVE1 + j, &partyEntry->moves[j]);
-        SetMonData(mon, MON_DATA_PP1 + j, &pp);
     }
 }
 
@@ -99,7 +97,6 @@ void MakeTrainerGenerator(struct TrainerGenerator *trainerGen, const struct Trai
     trainerGen->gender = trainer->gender;
     if (trainer->aiFlags & AI_FLAG_SMART_TERA)
         trainerGen->smartTera = TRUE;
-    trainerGen->isFrontier = FALSE;
     StringCopyN(trainerGen->name, trainer->trainerName, TRAINER_NAME_LENGTH + 1);
     trainerGen->trainerClass = trainer->trainerClass;
     trainerGen->otID = OTID_STRUCT_RANDOM_NO_SHINY;
@@ -112,7 +109,6 @@ void MakePartnerGenerator(struct TrainerGenerator *trainerGen, const struct Trai
     trainerGen->gender = partner->gender;
     if (partner->aiFlags & AI_FLAG_SMART_TERA)
         trainerGen->smartTera = TRUE;
-    trainerGen->isFrontier = FALSE;
     StringCopyN(trainerGen->name, partner->trainerName, TRAINER_NAME_LENGTH + 1);
     trainerGen->trainerClass = partner->trainerClass;
     otID = Crc32B((const u8 *)partner, sizeof(struct Trainer));
@@ -148,7 +144,6 @@ void GenerateMonFromTrainerMon(struct Pokemon *mon, const struct TrainerMon *tra
         SetMonData(mon, MON_DATA_SPEED_EV, &trainerMon->ev[5]);
     }
 
-    SetMonData(mon, MON_DATA_IVS, &trainerMon->iv);
     CustomTrainerPartyAssignMoves(mon, trainerMon);
     SetMonData(mon, MON_DATA_HELD_ITEM, &trainerMon->heldItem);
 
@@ -191,24 +186,9 @@ void GenerateMonFromTrainerMon(struct Pokemon *mon, const struct TrainerMon *tra
         errorf("Invalid ball for %S in %S's party", GetMonData(mon, MON_DATA_NICKNAME), trainer->name);
     }
 
-    SetMonData(mon, MON_DATA_FRIENDSHIP, &trainerMon->friendship);
 
     data = trainerMon->isShiny;
     SetMonData(mon, MON_DATA_IS_SHINY, &data);
-    if (trainerMon->shouldUseDynamax)
-    {
-        data = trainerMon->dynamaxLevel;
-    }
-    else
-    {
-        data = BLOCK_AI_DYNAMAX;
-    }
-    SetMonData(mon, MON_DATA_DYNAMAX_LEVEL, &data);
-    if (trainerMon->gigantamaxFactor)
-    {
-        data = trainerMon->gigantamaxFactor;
-        SetMonData(mon, MON_DATA_GIGANTAMAX_FACTOR, &data);
-    }
     if (trainerMon->teraType)
     {
         data = trainerMon->teraType;

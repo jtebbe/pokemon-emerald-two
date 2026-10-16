@@ -11,7 +11,7 @@
 void DailyResetApricornTrees(void)
 {
 #if (APRICORN_TREE_COUNT > 0)
-    memset(&gSaveBlock3Ptr->apricornTrees[0], 0, NUM_APRICORN_TREE_BYTES);
+    memset(&gSaveData.apricornTrees[0], 0, NUM_APRICORN_TREE_BYTES);
 #endif
 }
 
@@ -68,7 +68,7 @@ bool8 IsApricornTreePicked(u32 id)
         return TRUE;
 
 #if (APRICORN_TREE_COUNT > 0)
-    return gSaveBlock3Ptr->apricornTrees[id / 8] & (1 << (id % 8));
+    return gSaveData.apricornTrees[id / 8] & (1 << (id % 8));
 #else
     return TRUE;
 #endif
@@ -80,7 +80,7 @@ void SetApricornTreePicked(u32 id)
         return;
 
 #if (APRICORN_TREE_COUNT > 0)
-    u8 *flagByte = &gSaveBlock3Ptr->apricornTrees[id / 8];
+    u8 *flagByte = &gSaveData.apricornTrees[id / 8];
     *flagByte = (*flagByte) | (1 << (id % 8));
 #endif
 }

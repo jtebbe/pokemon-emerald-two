@@ -53,22 +53,6 @@ EventScript_ReceivedItemWaitFanfare::
 	delay 50
 	return
 
-Std_MsgboxGetPoints:
-	message NULL
-	playfanfare MUS_OBTAIN_B_POINTS
-	waitfanfare
-	waitmessage
-	return
-
-@ Never used, pokenavcall is always used directly instead
-Std_MsgboxPokenav:
-	pokenavcall NULL
-	waitmessage
-	return
-
-EventScript_UnusedReturn:
-	return
-
 Common_EventScript_SaveGame::
 	special SaveGame
 	return

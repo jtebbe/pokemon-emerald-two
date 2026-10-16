@@ -53,29 +53,7 @@ const struct HealLocation *GetHealLocation(u32 index)
         return &sHealLocations[index - 1];
 }
 
-static bool32 IsLastHealLocation(u32 healLocation)
-{
-    const struct HealLocation *loc = GetHealLocation(healLocation);
-    const struct WarpData *warpData = &gSaveBlock1Ptr->lastHealLocation;
 
-    return warpData->mapGroup == loc->mapGroup
-        && warpData->mapNum == loc->mapNum
-        && warpData->warpId == WARP_ID_NONE
-        && warpData->x == loc->x
-        && warpData->y == loc->y;
-}
-
-bool32 IsLastHealLocationPlayerHouse()
-{
-    if (IsLastHealLocation(HEAL_LOCATION_LITTLEROOT_TOWN_MAYS_HOUSE)
-        || IsLastHealLocation(HEAL_LOCATION_LITTLEROOT_TOWN_MAYS_HOUSE_2F)
-        || IsLastHealLocation(HEAL_LOCATION_LITTLEROOT_TOWN_BRENDANS_HOUSE)
-        || IsLastHealLocation(HEAL_LOCATION_LITTLEROOT_TOWN_BRENDANS_HOUSE_2F)
-        || IsLastHealLocation(HEAL_LOCATION_PALLET_TOWN))
-        return TRUE;
-
-    return FALSE;
-}
 
 u32 GetHealNpcLocalId(u32 healLocationId)
 {
@@ -87,12 +65,12 @@ u32 GetHealNpcLocalId(u32 healLocationId)
 
 void SetWhiteoutRespawnWarpAndHealerNPC(struct WarpData *warp)
 {
-    u32 healLocationId = GetHealLocationIndexByWarpData(&gSaveBlock1Ptr->lastHealLocation);
+    u32 healLocationId = GetHealLocationIndexByWarpData(&gSaveData.lastHealLocation);
     u32 healNpcLocalId = GetHealNpcLocalId(healLocationId);
 
     if (!healNpcLocalId)
     {
-        *(warp) = gSaveBlock1Ptr->lastHealLocation;
+        *(warp) = gSaveData.lastHealLocation;
         return;
     }
 

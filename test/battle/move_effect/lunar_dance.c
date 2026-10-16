@@ -10,10 +10,10 @@ SINGLE_BATTLE_TEST("Lunar Dance causes the user to faint and heals the replaceme
 {
     GIVEN {
         WITH_CONFIG(B_HEALING_WISH_SWITCH, GEN_7);
-        ASSUME(GetMovePP(MOVE_SCRATCH) == 35);
-        ASSUME(GetMovePP(MOVE_WATER_GUN) == 25);
-        ASSUME(GetMovePP(MOVE_LEAFAGE) == 40);
-        ASSUME(GetMovePP(MOVE_EMBER) == 25);
+        ASSUME(GetMovePP(MOVE_SCRATCH) == 56);
+        ASSUME(GetMovePP(MOVE_WATER_GUN) == 40);
+        ASSUME(GetMovePP(MOVE_LEAFAGE) == 64);
+        ASSUME(GetMovePP(MOVE_EMBER) == 40);
         PLAYER(SPECIES_GARDEVOIR);
         PLAYER(SPECIES_WYNAUT) { HP(1); MaxHP(100); Status1(STATUS1_POISON);
             MovesWithPP({MOVE_SCRATCH, 5}, {MOVE_WATER_GUN, 5}, {MOVE_LEAFAGE, 5}, {MOVE_EMBER, 0}); }
@@ -32,10 +32,10 @@ SINGLE_BATTLE_TEST("Lunar Dance causes the user to faint and heals the replaceme
         EXPECT_EQ(player->hp, 100);
         EXPECT_EQ(player->status1, 0);
          // PP not healed
-        EXPECT_EQ(player->pp[0], 35);
-        EXPECT_EQ(player->pp[1], 25);
-        EXPECT_EQ(player->pp[2], 40);
-        EXPECT_EQ(player->pp[3], 25);
+        EXPECT_EQ(player->pp[0], GetMovePP(MOVE_SCRATCH));
+        EXPECT_EQ(player->pp[1], GetMovePP(MOVE_WATER_GUN));
+        EXPECT_EQ(player->pp[2], GetMovePP(MOVE_LEAFAGE));
+        EXPECT_EQ(player->pp[3], GetMovePP(MOVE_EMBER));
     }
 }
 
@@ -43,10 +43,10 @@ DOUBLE_BATTLE_TEST("Lunar Dance causes the user to faint and heals the replaceme
 {
     GIVEN {
         WITH_CONFIG(B_HEALING_WISH_SWITCH, GEN_7);
-        ASSUME(GetMovePP(MOVE_SCRATCH) == 35);
-        ASSUME(GetMovePP(MOVE_WATER_GUN) == 25);
-        ASSUME(GetMovePP(MOVE_LEAFAGE) == 40);
-        ASSUME(GetMovePP(MOVE_EMBER) == 25);
+        ASSUME(GetMovePP(MOVE_SCRATCH) == 56);
+        ASSUME(GetMovePP(MOVE_WATER_GUN) == 40);
+        ASSUME(GetMovePP(MOVE_LEAFAGE) == 64);
+        ASSUME(GetMovePP(MOVE_EMBER) == 40);
         PLAYER(SPECIES_GARDEVOIR) { Speed(300); }
         PLAYER(SPECIES_WOBBUFFET) { Speed(50); }
         PLAYER(SPECIES_WYNAUT) { HP(1); MaxHP(100); Status1(STATUS1_BURN); Speed(50);
@@ -66,10 +66,10 @@ DOUBLE_BATTLE_TEST("Lunar Dance causes the user to faint and heals the replaceme
     } THEN {
         EXPECT_EQ(playerLeft->hp, 100);
         EXPECT_EQ(playerLeft->status1, 0);
-        EXPECT_EQ(playerLeft->pp[0], 35);
-        EXPECT_EQ(playerLeft->pp[1], 25);
-        EXPECT_EQ(playerLeft->pp[2], 40);
-        EXPECT_EQ(playerLeft->pp[3], 25);
+        EXPECT_EQ(playerLeft->pp[0], GetMovePP(MOVE_SCRATCH));
+        EXPECT_EQ(playerLeft->pp[1], GetMovePP(MOVE_WATER_GUN));
+        EXPECT_EQ(playerLeft->pp[2], GetMovePP(MOVE_LEAFAGE));
+        EXPECT_EQ(playerLeft->pp[3], GetMovePP(MOVE_EMBER));
     }
 }
 
@@ -98,7 +98,7 @@ SINGLE_BATTLE_TEST("Lunar Dance effect activates only if the switched Pokémon c
     PARAMETRIZE { switchTo = 3; }
     PARAMETRIZE { switchTo = 4; }
     GIVEN {
-        ASSUME(GetMovePP(MOVE_SCRATCH) == 35);
+        ASSUME(GetMovePP(MOVE_SCRATCH) == 56);
         WITH_CONFIG(B_HEALING_WISH_SWITCH, GEN_8);
         PLAYER(SPECIES_GARDEVOIR) { Speed(300); }
         PLAYER(SPECIES_NINJASK) { Speed(400); }
@@ -131,7 +131,7 @@ SINGLE_BATTLE_TEST("Lunar Dance effect activates only if the switched Pokémon c
         } else if (switchTo == 3) {
             EXPECT_EQ(player->status1, 0);
         } else if (switchTo == 4) {
-            EXPECT_EQ(player->pp[0], 35);
+            EXPECT_EQ(player->pp[0], GetMovePP(MOVE_SCRATCH));
         }
     }
 }

@@ -12,6 +12,8 @@ extern const bool8 gTestRunnerSkipIsFail;
 #if TESTING
 
 enum Gimmick;
+struct Pokemon;
+u32 TestRunner_Battle_OverrideStat(struct Pokemon *mon, u32 stat, u32 calculated);
 
 void TestRunner_Battle_RecordAbilityPopUp(enum BattlerId battlerId, enum Ability ability);
 void TestRunner_Battle_RecordItemPopUp(enum BattlerId battlerId, enum Item item);

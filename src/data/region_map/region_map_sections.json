@@ -465,14 +465,6 @@
       "height": 1
     },
     {
-      "id": "MAPSEC_BATTLE_FRONTIER",
-      "name": "BATTLE FRONTIER",
-      "x": 22,
-      "y": 12,
-      "width": 1,
-      "height": 1
-    },
-    {
       "id": "MAPSEC_PETALBURG_WOODS",
       "name": "PETALBURG WOODS",
       "x": 0,
@@ -685,8 +677,7 @@
       "height": 1
     },
     {
-      "id": "MAPSEC_SECRET_BASE",
-      "name": "SECRET BASE"
+      "id": "MAPSEC_UNUSED_56"
     },
     {
       "id": "MAPSEC_DYNAMIC"
@@ -782,7 +773,6 @@
     {
       "id": "MAPSEC_ROUTE_4_POKECENTER",
       "name": "ROUTE 4",
-      "name_clone": true,
       "x": 8,
       "y": 3,
       "width": 1,
@@ -791,7 +781,6 @@
     {
       "id": "MAPSEC_ROUTE_10_POKECENTER",
       "name": "ROUTE 10",
-      "name_clone": true,
       "x": 18,
       "y": 3,
       "width": 1,
@@ -1032,7 +1021,6 @@
     {
       "id": "MAPSEC_UNDERGROUND_PATH_2",
       "name": "UNDERGROUND PATH",
-      "name_clone": true,
       "x": 12,
       "y": 6,
       "width": 1,
@@ -1295,14 +1283,6 @@
       "height": 2
     },
     {
-      "id": "MAPSEC_TRAINER_TOWER",
-      "name": "TRAINER TOWER",
-      "x": 5,
-      "y": 6,
-      "width": 1,
-      "height": 2
-    },
-    {
       "id": "MAPSEC_CANYON_ENTRANCE",
       "name": "CANYON ENTRANCE",
       "x": 5,
@@ -1387,15 +1367,6 @@
       "name": "ROCKET WAREHOUSE",
       "x": 17,
       "y": 11,
-      "width": 1,
-      "height": 1
-    },
-    {
-      "id": "MAPSEC_TRAINER_TOWER_2",
-      "name": "TRAINER TOWER",
-      "name_clone": true,
-      "x": 5,
-      "y": 6,
       "width": 1,
       "height": 1
     },
@@ -1624,10 +1595,10 @@
       "name": "NAVEL ROCK"
     },
     {
-      "id": "MAPSEC_TRAINER_HILL",
-      "name": "TRAINER HILL",
-      "x": 8,
-      "y": 4,
+      "id": "MAPSEC_OUTDOOR",
+      "name": "OUTDOOR",
+      "x": 1,
+      "y": 1,
       "width": 1,
       "height": 1
     }

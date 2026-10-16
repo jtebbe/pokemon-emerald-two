@@ -184,7 +184,7 @@ static const struct WindowTemplate sStandardBattleWindowTemplates[] =
         .bg = 0,
         .tilemapLeft = 2,
         .tilemapTop = 55,
-        .width = 16,    //for z move names
+        .width = 8,
         .height = 2,
         .paletteNum = 5,
         .baseBlock = 0x0300,
@@ -202,7 +202,7 @@ static const struct WindowTemplate sStandardBattleWindowTemplates[] =
         .bg = 0,
         .tilemapLeft = 2,
         .tilemapTop = 57,
-        .width = 16,    //for z effect descriptions
+        .width = 8,
         .height = 2,
         .paletteNum = 5,
         .baseBlock = 0x0328,
@@ -423,7 +423,7 @@ static const struct WindowTemplate sKantoTutorialBattleWindowTemplates[] =
         .bg = 0,
         .tilemapLeft = 2,
         .tilemapTop = 55,
-        .width = 16,    //for z move names
+        .width = 8,
         .height = 2,
         .paletteNum = 5,
         .baseBlock = 0x0300,
@@ -441,7 +441,7 @@ static const struct WindowTemplate sKantoTutorialBattleWindowTemplates[] =
         .bg = 0,
         .tilemapLeft = 2,
         .tilemapTop = 57,
-        .width = 16,    //for z effect descriptions
+        .width = 8,
         .height = 2,
         .paletteNum = 5,
         .baseBlock = 0x0328,
@@ -617,7 +617,7 @@ static const struct WindowTemplate sKantoTutorialBattleWindowTemplates[] =
         .paletteNum = 5,
         .baseBlock = 0x0350,
     },
-    [B_WIN_OAK_OLD_MAN] = {
+    [B_WIN_TUTORIAL] = {
         .bg = 0,
         .tilemapLeft = 2,
         .tilemapTop = 15,
@@ -629,231 +629,10 @@ static const struct WindowTemplate sKantoTutorialBattleWindowTemplates[] =
     DUMMY_WIN_TEMPLATE
 };
 
-static const struct WindowTemplate sBattleArenaWindowTemplates[] =
-{
-    [B_WIN_MSG] = {
-        .bg = 0,
-        .tilemapLeft = 2,
-        .tilemapTop = 15,
-        .width = 26,
-        .height = 4,
-        .paletteNum = 0,
-        .baseBlock = 0x0090,
-    },
-    [B_WIN_ACTION_PROMPT] = {
-        .bg = 0,
-        .tilemapLeft = 1,
-        .tilemapTop = 35,
-        .width = 14,
-        .height = 4,
-        .paletteNum = 0,
-        .baseBlock = 0x01c0,
-    },
-    [B_WIN_ACTION_MENU] = {
-        .bg = 0,
-        .tilemapLeft = 17,
-        .tilemapTop = 35,
-        .width = 12,
-        .height = 4,
-        .paletteNum = 5,
-        .baseBlock = 0x0190,
-    },
-    [B_WIN_MOVE_NAME_1] = {
-        .bg = 0,
-        .tilemapLeft = 2,
-        .tilemapTop = 55,
-        .width = 8,
-        .height = 2,
-        .paletteNum = 5,
-        .baseBlock = 0x0300,
-    },
-    [B_WIN_MOVE_NAME_2] = {
-        .bg = 0,
-        .tilemapLeft = 11,
-        .tilemapTop = 55,
-        .width = 8,
-        .height = 2,
-        .paletteNum = 5,
-        .baseBlock = 0x0310,
-    },
-    [B_WIN_MOVE_NAME_3] = {
-        .bg = 0,
-        .tilemapLeft = 2,
-        .tilemapTop = 57,
-        .width = 8,
-        .height = 2,
-        .paletteNum = 5,
-        .baseBlock = 0x0320,
-    },
-    [B_WIN_MOVE_NAME_4] = {
-        .bg = 0,
-        .tilemapLeft = 11,
-        .tilemapTop = 57,
-        .width = 8,
-        .height = 2,
-        .paletteNum = 5,
-        .baseBlock = 0x0330,
-    },
-    [B_WIN_PP] = {
-        .bg = 0,
-        .tilemapLeft = 21,
-        .tilemapTop = 55,
-        .width = 4,
-        .height = 2,
-        .paletteNum = 5,
-        .baseBlock = 0x0290,
-    },
-    [B_WIN_DUMMY] = {
-        .bg = 0,
-        .tilemapLeft = 21,
-        .tilemapTop = 57,
-        .width = 0,
-        .height = 0,
-        .paletteNum = 5,
-        .baseBlock = 0x0298,
-    },
-    [B_WIN_PP_REMAINING] = {
-        .bg = 0,
-        .tilemapLeft = 25,
-        .tilemapTop = 55,
-        .width = 4,
-        .height = 2,
-        .paletteNum = 5,
-        .baseBlock = 0x0298,
-    },
-    [B_WIN_MOVE_TYPE] = {
-        .bg = 0,
-        .tilemapLeft = 21,
-        .tilemapTop = 57,
-        .width = 8,
-        .height = 2,
-        .paletteNum = 5,
-        .baseBlock = 0x02a0,
-    },
-    [B_WIN_SWITCH_PROMPT] = {
-        .bg = 0,
-        .tilemapLeft = 21,
-        .tilemapTop = 55,
-        .width = 8,
-        .height = 4,
-        .paletteNum = 5,
-        .baseBlock = 0x02b0,
-    },
-    [B_WIN_YESNO] = {
-        .bg = 0,
-        .tilemapLeft = 26,
-        .tilemapTop = 9,
-        .width = 3,
-        .height = 4,
-        .paletteNum = 5,
-        .baseBlock = 0x0100,
-    },
-    [B_WIN_LEVEL_UP_BOX] = {
-        .bg = 1,
-        .tilemapLeft = 19,
-        .tilemapTop = 8,
-        .width = 10,
-        .height = 11,
-        .paletteNum = 5,
-        .baseBlock = 0x0100,
-    },
-    [B_WIN_LEVEL_UP_BANNER] = {
-        .bg = 2,
-        .tilemapLeft = 18,
-        .tilemapTop = 0,
-        .width = 12,
-        .height = 3,
-        .paletteNum = 6,
-        .baseBlock = 0x016e,
-    },
-    [ARENA_WIN_PLAYER_NAME] = {
-        .bg = 0,
-        .tilemapLeft = 6,
-        .tilemapTop = 1,
-        .width = 8,
-        .height = 2,
-        .paletteNum = 5,
-        .baseBlock = 0x0100,
-    },
-    [ARENA_WIN_VS] = {
-        .bg = 0,
-        .tilemapLeft = 14,
-        .tilemapTop = 1,
-        .width = 2,
-        .height = 2,
-        .paletteNum = 5,
-        .baseBlock = 0x0110,
-    },
-    [ARENA_WIN_OPPONENT_NAME] = {
-        .bg = 0,
-        .tilemapLeft = 16,
-        .tilemapTop = 1,
-        .width = 8,
-        .height = 2,
-        .paletteNum = 5,
-        .baseBlock = 0x0114,
-    },
-    [ARENA_WIN_MIND] = {
-        .bg = 0,
-        .tilemapLeft = 12,
-        .tilemapTop = 4,
-        .width = 6,
-        .height = 2,
-        .paletteNum = 5,
-        .baseBlock = 0x0124,
-    },
-    [ARENA_WIN_SKILL] = {
-        .bg = 0,
-        .tilemapLeft = 12,
-        .tilemapTop = 6,
-        .width = 6,
-        .height = 2,
-        .paletteNum = 5,
-        .baseBlock = 0x0130,
-    },
-    [ARENA_WIN_BODY] = {
-        .bg = 0,
-        .tilemapLeft = 12,
-        .tilemapTop = 8,
-        .width = 6,
-        .height = 2,
-        .paletteNum = 5,
-        .baseBlock = 0x013c,
-    },
-    [ARENA_WIN_JUDGMENT_TITLE] = {
-        .bg = 0,
-        .tilemapLeft = 8,
-        .tilemapTop = 11,
-        .width = 14,
-        .height = 2,
-        .paletteNum = 5,
-        .baseBlock = 0x0148,
-    },
-    [ARENA_WIN_JUDGMENT_TEXT] = {
-        .bg = 0,
-        .tilemapLeft = 2,
-        .tilemapTop = 15,
-        .width = 26,
-        .height = 4,
-        .paletteNum = 7,
-        .baseBlock = 0x0090,
-    },
-    [B_WIN_MOVE_DESCRIPTION] = {
-        .bg = 0,
-        .tilemapLeft = 1,
-        .tilemapTop = 47,
-        .width = 18,
-        .height = 6,
-        .paletteNum = 5,
-        .baseBlock = 0x0350,
-    },
-    DUMMY_WIN_TEMPLATE
-};
 
 const struct WindowTemplate *const gBattleWindowTemplates[] =
 {
     [B_WIN_TYPE_NORMAL] = sStandardBattleWindowTemplates,
-    [B_WIN_TYPE_ARENA]  = sBattleArenaWindowTemplates,
     [B_WIN_TYPE_KANTO_TUTORIAL] = sKantoTutorialBattleWindowTemplates,
 };
 
@@ -902,8 +681,8 @@ static u8 GetBattleEnvironmentOverride(void)
     {
         return gBattleEnvironment;
     }
-    else if (gBattleTypeFlags & (BATTLE_TYPE_FRONTIER | BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_EREADER_TRAINER))
-        return BATTLE_ENVIRONMENT_FRONTIER;
+    else if (gBattleTypeFlags & BATTLE_TYPE_LINK)
+        return BATTLE_ENVIRONMENT_STADIUM;
     else if (gBattleTypeFlags & BATTLE_TYPE_LEGENDARY)
     {
         switch (GetMonData(&gParties[B_TRAINER_OPPONENT_A][0], MON_DATA_SPECIES))
@@ -918,7 +697,7 @@ static u8 GetBattleEnvironmentOverride(void)
             return gBattleEnvironment;
         }
     }
-    else if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
+    else if ((gBattleTypeFlags & BATTLE_TYPE_TRAINER) && !IsSpecialTrainer(TRAINER_BATTLE_PARAM.opponentA))
     {
         u32 trainerClass = GetTrainerClassFromId(TRAINER_BATTLE_PARAM.opponentA);
         if (trainerClass == TRAINER_CLASS_LEADER)
@@ -938,19 +717,15 @@ void BattleInitBgsAndWindows(void)
     ResetBgsAndClearDma3BusyFlags(0);
     InitBgsFromTemplates(0, gBattleBgTemplates, ARRAY_COUNT(gBattleBgTemplates));
 
-    if (gBattleTypeFlags & BATTLE_TYPE_ARENA)
     {
-        gBattleScripting.windowsType = B_WIN_TYPE_ARENA;
-        SetBgTilemapBuffer(1, gBattleAnimBgTilemapBuffer);
-        SetBgTilemapBuffer(2, gBattleAnimBgTilemapBuffer);
-    }
-    else if (IS_FRLG && (gBattleTypeFlags & (BATTLE_TYPE_FIRST_BATTLE | BATTLE_TYPE_CATCH_TUTORIAL)))
-    {
-        gBattleScripting.windowsType = B_WIN_TYPE_KANTO_TUTORIAL;
-    }
-    else
-    {
-        gBattleScripting.windowsType = B_WIN_TYPE_NORMAL;
+        if (IS_FRLG && (gBattleTypeFlags & (BATTLE_TYPE_FIRST_BATTLE | BATTLE_TYPE_CATCH_TUTORIAL)))
+        {
+            gBattleScripting.windowsType = B_WIN_TYPE_KANTO_TUTORIAL;
+        }
+        else
+        {
+            gBattleScripting.windowsType = B_WIN_TYPE_NORMAL;
+        }
     }
 
     InitWindows(gBattleWindowTemplates[gBattleScripting.windowsType]);
@@ -974,10 +749,9 @@ void LoadBattleMenuWindowGfx(void)
     LoadUserWindowBorderGfx(2, 0x22, BG_PLTT_ID(1));
     LoadPalette(gBattleWindowTextPalette, BG_PLTT_ID(5), PLTT_SIZE_4BPP);
 
-    if ((gBattleTypeFlags & (BATTLE_TYPE_ARENA | BATTLE_TYPE_POKEDUDE))
-    || (IS_FRLG && (gBattleTypeFlags & BATTLE_TYPE_FIRST_BATTLE)))
+    if ((gBattleTypeFlags & BATTLE_TYPE_POKEDUDE) || (IS_FRLG && (gBattleTypeFlags & BATTLE_TYPE_FIRST_BATTLE)))
     {
-        // Load graphics for the Battle Arena referee's mid-battle messages.
+        // Load the message box used by the tutorial.
         Menu_LoadStdPalAt(BG_PLTT_ID(7));
         LoadMessageBoxGfx(0, 0x30, BG_PLTT_ID(7));
         gPlttBufferUnfaded[BG_PLTT_ID(7) + 6] = 0;
@@ -1277,7 +1051,7 @@ void DrawBattleEntryBackground(void)
         gBattle_BG2_Y = 0xFF5C;
         LoadCompressedSpriteSheetUsingHeap(&sVsLettersSpriteSheet);
     }
-    else if (gBattleTypeFlags & (BATTLE_TYPE_FRONTIER | BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_EREADER_TRAINER))
+    else if (gBattleTypeFlags & BATTLE_TYPE_LINK)
     {
         if (TestRunner_Battle_GetForcedEnvironment()
          && gBattleEnvironmentInfo[gBattleEnvironment].background.tilemap
@@ -1307,7 +1081,7 @@ void DrawBattleEntryBackground(void)
     }
     else
     {
-        if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
+        if ((gBattleTypeFlags & BATTLE_TYPE_TRAINER) && !IsSpecialTrainer(TRAINER_BATTLE_PARAM.opponentA))
         {
             enum TrainerClassID trainerClass = GetTrainerClassFromId(TRAINER_BATTLE_PARAM.opponentA);
             if (trainerClass == TRAINER_CLASS_LEADER || trainerClass == TRAINER_CLASS_CHAMPION)

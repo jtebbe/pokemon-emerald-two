@@ -32,7 +32,6 @@
 #define ITEM4_HEAL_HP           0x4
 #define ITEM4_HEAL_PP           0x8
 #define ITEM4_HEAL_PP_ONE       0x10
-#define ITEM4_PP_UP             0x20
 #define ITEM4_REVIVE            0x40
 #define ITEM4_EVO_STONE         0x80
 
@@ -41,12 +40,7 @@
 #define ITEM5_EV_SPEED          0x2
 #define ITEM5_EV_SPDEF          0x4
 #define ITEM5_EV_SPATK          0x8
-#define ITEM5_PP_MAX            0x10
-#define ITEM5_FRIENDSHIP_LOW    0x20
-#define ITEM5_FRIENDSHIP_MID    0x40
-#define ITEM5_FRIENDSHIP_HIGH   0x80
 
-#define ITEM5_FRIENDSHIP_ALL    (ITEM5_FRIENDSHIP_LOW | ITEM5_FRIENDSHIP_MID | ITEM5_FRIENDSHIP_HIGH)
 
 #define ITEM10_IS_VITAMIN       0x1
 
@@ -90,17 +84,10 @@ enum ItemEffectType
     ITEM_EFFECT_SPEED_EV,
     ITEM_EFFECT_DEF_EV,
     ITEM_EFFECT_EVO_STONE,
-    ITEM_EFFECT_PP_UP,
-    ITEM_EFFECT_PP_MAX,
     ITEM_EFFECT_HEAL_PP,
     ITEM_EFFECT_NONE
 };
 
-#define ITEM_FRIENDSHIP_MAPSEC_BONUS  1   // The amount of bonus friendship gained when an item is used on a Pokémon whose met location matches the current map section.
-#define ITEM_FRIENDSHIP_LUXURY_BONUS  1   // The amount of bonus friendship gained when a Pokémon is in the Luxury Ball.
 
-// Since X item stat increases are now handled by battle scripts, the friendship increase effect is now handled by the battle controller in HandleAction_UseItem.
-#define X_ITEM_FRIENDSHIP_INCREASE    1   // The amount of friendship gained by using an X item on a Pokémon in battle.
-#define X_ITEM_MAX_FRIENDSHIP         200 // Friendship threshold at which Pokémon stop receiving a friendship increase from using X items on them in battle.
 
 #endif // GUARD_CONSTANTS_ITEM_EFFECTS_H

@@ -248,7 +248,7 @@ bool8 AdjustQuantityAccordingToDPadInput(s16 *quantity, u16 max)
 
 u8 GetLRKeysPressed(void)
 {
-    if (gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_LR)
+    if (gSaveData.optionsButtonMode == OPTIONS_BUTTON_MODE_LR)
     {
         if (JOY_NEW(L_BUTTON))
             return MENU_L_PRESSED;
@@ -261,7 +261,7 @@ u8 GetLRKeysPressed(void)
 
 u8 GetLRKeysPressedAndHeld(void)
 {
-    if (gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_LR)
+    if (gSaveData.optionsButtonMode == OPTIONS_BUTTON_MODE_LR)
     {
         if (JOY_REPEAT(L_BUTTON))
             return MENU_L_PRESSED;
@@ -272,21 +272,11 @@ u8 GetLRKeysPressedAndHeld(void)
     return 0;
 }
 
-bool8 IsHoldingItemAllowed(enum Item itemId)
-{
-    // e-Reader Enigma Berry can't be held in link areas
-    if (itemId == ITEM_ENIGMA_BERRY_E_READER
-     && ((gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_TRADE_CENTER)
-       && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_TRADE_CENTER))
-       || InUnionRoom() == TRUE))
-        return FALSE;
-    else
-        return TRUE;
-}
+
 
 bool8 IsWritingMailAllowed(enum Item itemId)
 {
-    if ((IsOverworldLinkActive() == TRUE || InUnionRoom() == TRUE) && ItemIsMail(itemId) == TRUE)
+    if ((IsOverworldLinkActive() == TRUE) && (ItemIsMail(itemId) == TRUE))
         return FALSE;
     else
         return TRUE;

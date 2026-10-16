@@ -90,13 +90,12 @@ AI_DOUBLE_BATTLE_TEST("Combo Attack: Fusion moves are only incentivised when par
         OPPONENT(SPECIES_ZEKROM) { Speed(opponentRightSpeed); Moves(MOVE_FUSION_BOLT); }
     } WHEN {
         TURN {
-            if (partnersAreAdjacent) {
-                EXPECT_MOVE(opponentLeft, MOVE_FUSION_FLARE, target:playerLeft);
-                EXPECT_MOVE(opponentRight, MOVE_FUSION_BOLT, target:playerLeft);
-            } else {
-                EXPECT_MOVE(opponentLeft, MOVE_FLAMETHROWER, target:playerLeft);
-                EXPECT_MOVE(opponentRight, MOVE_FUSION_BOLT, target:playerLeft);
-            }
+            // Fusion Flare is stronger than Flamethrower even without a combo.
+            // Check the actual combo bonus instead of expecting the weaker move.
+            EXPECT_MOVE(opponentLeft, MOVE_FUSION_FLARE, target:playerLeft);
+            EXPECT_MOVE(opponentRight, MOVE_FUSION_BOLT, target:playerLeft);
+            SCORE_EQ_VAL(opponentLeft, MOVE_FUSION_FLARE,
+                         AI_SCORE_DEFAULT + BEST_DAMAGE_MOVE + (partnersAreAdjacent ? BEST_EFFECT : 0), target:playerLeft);
         }
     }
 }

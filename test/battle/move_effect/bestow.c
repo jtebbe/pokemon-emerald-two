@@ -76,21 +76,6 @@ SINGLE_BATTLE_TEST("Bestow fails if the user's held item is a Mega Stone")
     }
 }
 
-SINGLE_BATTLE_TEST("Bestow fails if the user's held item is a Z-Crystal")
-{
-    GIVEN {
-        ASSUME(GetItemHoldEffect(ITEM_FIGHTINIUM_Z) == HOLD_EFFECT_Z_CRYSTAL);
-        PLAYER(SPECIES_WOBBUFFET) { Item(ITEM_FIGHTINIUM_Z); }
-        OPPONENT(SPECIES_WOBBUFFET);
-    } WHEN {
-        TURN { MOVE(player, MOVE_BESTOW); }
-    } SCENE {
-        MESSAGE("But it failed!");
-    } THEN {
-        EXPECT(player->item == ITEM_FIGHTINIUM_Z);
-        EXPECT(opponent->item == ITEM_NONE);
-    }
-}
 
 SINGLE_BATTLE_TEST("Bestow doesn't fail if the user has Sticky Hold")
 {

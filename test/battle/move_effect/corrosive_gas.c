@@ -141,7 +141,7 @@ SINGLE_BATTLE_TEST("Corrosive Gas doesn't destroy items required for the target'
 
     PARAMETRIZE { species = SPECIES_BLAZIKEN;            item = ITEM_BLAZIKENITE; }
     PARAMETRIZE { species = SPECIES_GROUDON;             item = ITEM_RED_ORB; }
-    PARAMETRIZE { species = SPECIES_NECROZMA_DUSK_MANE; item = ITEM_ULTRANECROZIUM_Z; }
+
     PARAMETRIZE { species = SPECIES_GIRATINA_ORIGIN;     item = ITEM_GRISEOUS_CORE; }
     PARAMETRIZE { species = SPECIES_ARCEUS;              item = ITEM_SKY_PLATE; }
     PARAMETRIZE { species = SPECIES_GENESECT;            item = ITEM_BURN_DRIVE; }

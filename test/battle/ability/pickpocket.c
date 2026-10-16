@@ -116,23 +116,6 @@ SINGLE_BATTLE_TEST("Pickpocket cannot steal from Sticky Hold")
     }
 }
 
-SINGLE_BATTLE_TEST("Pickpocket cannot steal restricted held items")
-{
-    GIVEN {
-        ASSUME(gItemsInfo[ITEM_NORMALIUM_Z].holdEffect == HOLD_EFFECT_Z_CRYSTAL);
-        PLAYER(SPECIES_WOBBUFFET) { Item(ITEM_NORMALIUM_Z); }
-        OPPONENT(SPECIES_SNEASEL) { Ability(ABILITY_PICKPOCKET); }
-    } WHEN {
-        TURN { MOVE(player, MOVE_SCRATCH); }
-    } SCENE {
-        NONE_OF {
-            ABILITY_POPUP(opponent, ABILITY_PICKPOCKET);
-        }
-    } THEN {
-        EXPECT(opponent->item == ITEM_NONE);
-        EXPECT(player->item == ITEM_NORMALIUM_Z);
-    }
-}
 
 SINGLE_BATTLE_TEST("Pickpocket activates after the final hit of a multi-strike move")
 {
@@ -326,8 +309,8 @@ SINGLE_BATTLE_TEST("Pickpocket activates when user has Protective Pads, but not 
         ASSUME(GetItemHoldEffect(ITEM_PROTECTIVE_PADS) == HOLD_EFFECT_PROTECTIVE_PADS);
         ASSUME(GetItemHoldEffect(ITEM_PUNCHING_GLOVE) == HOLD_EFFECT_PUNCHING_GLOVE);
         ASSUME(GetItemHoldEffect(ITEM_FOCUS_SASH) == HOLD_EFFECT_FOCUS_SASH);
-        PLAYER(SPECIES_DECIDUEYE) { Ability(ability); Item(item); }
-        OPPONENT(SPECIES_SNEASEL) { Ability(ABILITY_PICKPOCKET); Item(ITEM_FOCUS_SASH); }
+        PLAYER(SPECIES_DECIDUEYE) { Attack(1000); Ability(ability); Item(item); }
+        OPPONENT(SPECIES_SNEASEL) { Defense(100); Ability(ABILITY_PICKPOCKET); Item(ITEM_FOCUS_SASH); } // Force Focus Sash consumption.
     } WHEN {
         TURN { MOVE(player, MOVE_MACH_PUNCH); }
     } SCENE {

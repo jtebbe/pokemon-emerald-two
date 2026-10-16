@@ -72,7 +72,9 @@ struct PersistentTestRunnerState
     u32 address:28;
     u32 state:1;
     u32 expectCrash:1;
-    u32 unused_30:2;
+    u32 timedOut:1;
+    u32 failed:1;
+    enum TestResult expectedResult:8;
 };
 
 extern const u8 gTestRunnerN;

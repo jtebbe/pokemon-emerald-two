@@ -279,7 +279,6 @@
 #define ANIM_TAG_GREEN_SPIKE                (ANIM_SPRITES_START + 266)
 #define ANIM_TAG_WHITE_CIRCLE_OF_LIGHT      (ANIM_SPRITES_START + 267)
 #define ANIM_TAG_GLOWY_BLUE_ORB             (ANIM_SPRITES_START + 268)
-#define ANIM_TAG_POKEBLOCK                  (ANIM_SPRITES_START + 269)
 #define ANIM_TAG_WHITE_FEATHER              (ANIM_SPRITES_START + 270)
 #define ANIM_TAG_SPARKLE_6                  (ANIM_SPRITES_START + 271)
 #define ANIM_TAG_SPLASH                     (ANIM_SPRITES_START + 272)
@@ -343,7 +342,6 @@
 #define ANIM_TAG_OMEGA_STONE                (ANIM_SPRITES_START + 328)
 #define ANIM_TAG_ALPHA_STONE                (ANIM_SPRITES_START + 329)
 #define ANIM_TAG_BERRY_NORMAL               (ANIM_SPRITES_START + 330)
-#define ANIM_TAG_BERRY_EATEN                (ANIM_SPRITES_START + 331)
 #define ANIM_TAG_DRAGON_ASCENT              (ANIM_SPRITES_START + 332)
 #define ANIM_TAG_PINK_DIAMOND               (ANIM_SPRITES_START + 333)
 #define ANIM_TAG_STEAM_ERUPTION             (ANIM_SPRITES_START + 334)
@@ -369,12 +367,9 @@
 #define ANIM_TAG_METAL_BITS                 (ANIM_SPRITES_START + 354)
 #define ANIM_TAG_SMALL_ROCK                 (ANIM_SPRITES_START + 355)
 #define ANIM_TAG_SPIRIT_ARROW               (ANIM_SPRITES_START + 356)
-#define ANIM_TAG_ULTRA_BURST_SYMBOL         (ANIM_SPRITES_START + 357)
-#define ANIM_TAG_Z_MOVE_SYMBOL              (ANIM_SPRITES_START + 358)
 #define ANIM_TAG_REALLY_BIG_ROCK            (ANIM_SPRITES_START + 359)
 #define ANIM_TAG_COCOON                     (ANIM_SPRITES_START + 360)
 #define ANIM_TAG_CORKSCREW                  (ANIM_SPRITES_START + 361)
-#define ANIM_TAG_HAVOC_SPEAR                (ANIM_SPRITES_START + 362)
 #define ANIM_TAG_PURPLE_DRAKE               (ANIM_SPRITES_START + 363)
 #define ANIM_TAG_MUD_BOMB                   (ANIM_SPRITES_START + 364)
 #define ANIM_TAG_BRANCH                     (ANIM_SPRITES_START + 365)
@@ -463,31 +458,25 @@ enum AnimBattler
 #define BG_PSYCHIC 3
 #define BG_IMPACT_OPPONENT 4
 #define BG_IMPACT_PLAYER 5
-#define BG_IMPACT_CONTESTS 6
 #define BG_DRILL 7
-#define BG_DRILL_CONTESTS 8
 #define BG_HIGHSPEED_OPPONENT 9
 #define BG_HIGHSPEED_PLAYER 10
 #define BG_THUNDER 11
 #define BG_GUILLOTINE_OPPONENT 12
 #define BG_GUILLOTINE_PLAYER 13
-#define BG_GUILLOTINE_CONTESTS 14
 #define BG_ICE 15
 #define BG_COSMIC 16
 #define BG_IN_AIR 17
 #define BG_SKY 18
-#define BG_SKY_CONTESTS 19
 #define BG_AURORA 20
 #define BG_FISSURE 21
 #define BG_BUG_OPPONENT 22
 #define BG_BUG_PLAYER 23
 #define BG_SOLAR_BEAM_OPPONENT 24
 #define BG_SOLAR_BEAM_PLAYER 25
-#define BG_SOLAR_BEAM_CONTESTS 26
 #define BG_MAGMA_STORM 27
 #define BG_GIGA_IMPACT_OPPONENT 28
 #define BG_GIGA_IMPACT_PLAYER 29
-#define BG_GIGA_IMPACT_CONTESTS 30
 #define BG_TRICK_ROOM 31
 #define BG_ROCK_WRECKER 32
 #define BG_SPACIAL_REND_OPPONENT 33
@@ -513,27 +502,16 @@ enum AnimBattler
 #define BG_MAGIC_ROOM 53
 #define BG_HYPERSPACE_FURY 54
 #define BG_BOLT_STRIKE 55
-#define BG_ZMOVE_ACTIVATE 56
-#define BG_TECTONIC_RAGE 57
 #define BG_ROCK_FIELD_DAY 58
 #define BG_ROCK_FIELD_AFTERNOON 59
 #define BG_ROCK_FIELD_NIGHT 60
-#define BG_ZMOVE_MOUNTAIN 61
-#define BG_NEVERENDING_NIGHTMARE 62
 #define BG_WATER_PULSE 63
-#define BG_INFERNO_OVERDRIVE 64
-#define BG_BLOOM_DOOM 65
-#define BG_SHATTERED_PSYCHE 66
-#define BG_TWINKLE_TACKLE 67
-#define BG_BLACK_HOLE_ECLIPSE 68
-#define BG_SOULSTEALING_7STAR_STRIKE 69
-#define BG_MALICIOUS_MOONSAULT 70
-#define BG_CLANGOROUS_SOULBLAZE 71
-#define BG_SNUGGLE_FOREVER 72
-#define BG_MAX_LIGHTNING 73
+#define BG_SPARKLE_BURST 67
+#define BG_HEART_PATTERN 72
+#define BG_ELECTRIC_STORM 73
 #define BG_GARBAGE_FALLS 74
 #define BG_HYPER_BEAM 75
-#define BG_DYNAMAX_CANNON 76
+#define BG_UNUSED_76 76
 #define BG_AURA_SPHERE 77
 #define BG_STEEL_BEAM_OPPONENT 78
 #define BG_STEEL_BEAM_PLAYER 79
@@ -547,7 +525,6 @@ enum AnimBattler
 #define B_ANIM_STATS_CHANGE             0
 #define B_ANIM_SUBSTITUTE_FADE          1
 #define B_ANIM_SUBSTITUTE_APPEAR        2
-#define B_ANIM_POKEBLOCK_THROW          3
 #define B_ANIM_ITEM_KNOCKOFF            4
 #define B_ANIM_TURN_TRAP                5
 #define B_ANIM_HELD_ITEM_EFFECT         6
@@ -578,13 +555,9 @@ enum AnimBattler
 #define B_ANIM_AQUA_RING_HEAL           31
 #define B_ANIM_BEAK_BLAST_SETUP         32
 #define B_ANIM_SHELL_TRAP_SETUP         33
-#define B_ANIM_ZMOVE_ACTIVATE           34 // Using Z Moves
-#define B_ANIM_AFFECTION_HANGED_ON      35
 #define B_ANIM_SNOW_CONTINUES           36
-#define B_ANIM_ULTRA_BURST              37
 #define B_ANIM_SALT_CURE_DAMAGE         38
-#define B_ANIM_DYNAMAX_GROWTH           39
-#define B_ANIM_MAX_SET_WEATHER          40
+#define B_ANIM_SET_WEATHER              40
 #define B_ANIM_SYRUP_BOMB_SPEED_DROP    41
 #define B_ANIM_RAINBOW                  42
 #define B_ANIM_SEA_OF_FIRE              43
@@ -609,7 +582,8 @@ enum AnimBattler
 #define B_ANIM_FORM_CHANGE_DISGUISE     62
 #define B_ANIM_HELD_ITEM_BERRY          63
 #define B_ANIM_PROTECTED_ITSELF         64
-#define NUM_B_ANIMS_GENERAL             65
+#define B_ANIM_BAIT_THROW               65
+#define NUM_B_ANIMS_GENERAL             66
 
 // special animations table (sBattleAnims_Special)
 #define B_ANIM_LVL_UP                   0

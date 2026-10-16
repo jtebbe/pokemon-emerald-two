@@ -9,7 +9,6 @@
 #define RFUCMD_MASK                0xFF00
 
 #define RFUCMD_SEND_PACKET         0x2F00
-#define RFUCMD_BLENDER_SEND_KEYS   0x4400
 #define RFUCMD_READY_CLOSE_LINK    0x5F00
 #define RFUCMD_READY_EXIT_STANDBY  0x6600
 #define RFUCMD_SEND_PLAYER_IDS     0x7700
@@ -22,7 +21,6 @@
 #define RFUCMD_DISCONNECT_PARENT   0xEE00
 
 #define RFU_SERIAL_GAME                0x0002 // Serial number for Pokémon game (FRLG or Emerald)
-#define RFU_SERIAL_WONDER_DISTRIBUTOR  0x7F7D // Serial number for distributing Wonder Cards / News
 #define RFU_SERIAL_UNKNOWN             0x0000 // Unreferenced acceptable serial number. Gamecube?
 #define RFU_SERIAL_END                 0xFFFF
 
@@ -81,8 +79,7 @@ enum {
 struct RfuGameCompatibilityData
 {
     u16 language:4;
-    u16 hasNews:1;
-    u16 hasCard:1;
+    u16 unused0:2;
     u16 unknown:1; // Never read
     u16 canLinkNationally:1;
     u16 hasNationalDex:1;
@@ -239,14 +236,12 @@ extern u8 gHostRfuUsername[];
 extern struct RfuManager gRfu;
 extern u8 gWirelessStatusIndicatorSpriteId;
 
-void WipeTrainerNameRecords(void);
 void InitRFUAPI(void);
 void LinkRfu_Shutdown(void);
 void Rfu_SetBlockReceivedFlag(u8 linkPlayerId);
 void Rfu_ResetBlockReceivedFlag(u8 linkPlayerId);
 bool32 IsSendingKeysToRfu(void);
 void StartSendingKeysToRfu(void);
-void Rfu_SetBerryBlenderLinkCallback(void);
 u8 Rfu_GetBlockReceivedStatus(void);
 bool32 Rfu_InitBlockSend(const u8 *src, size_t size);
 void ClearLinkRfuCallback(void);
@@ -288,24 +283,20 @@ bool32 WaitRfuState(bool32 force);
 void GetOtherPlayersInfoFlags(void);
 void InitializeRfuLinkManager_JoinGroup(void);
 void SendLeaveGroupNotice(void);
-void SaveLinkTrainerNames(void);
 void LinkRfu_CreateConnectionAsParent(void);
 void LinkRfu_StopManagerBeforeEnteringChat(void);
 void UpdateGameData_SetActivity(u8 activity, u32 partnerInfo, bool32 startedActivity);
 void CreateTask_RfuReconnectWithParent(const u8 *name, u16 trainerId);
-void SetHostRfuWonderFlags(bool32 hasNews, bool32 hasCard);
 void ResetHostRfuGameData(void);
 void SetTradeBoardRegisteredMonInfo(u32 type, enum Species species, u32 level);
 void InitializeRfuLinkManager_EnterUnionRoom(void);
 void TryConnectToUnionRoomParent(const u8 *name, struct RfuGameData *parent, u8 activity);
 bool32 IsUnionRoomListenTaskActive(void);
 void Rfu_SendPacket(void *data);
-bool32 PlayerHasMetTrainerBefore(u16 id, u8 *name);
 void Rfu_DisconnectPlayerById(u32 playerIdx);
 u8 GetLinkPlayerInfoFlags(s32 playerId);
 void StopUnionRoomLinkManager(void);
 bool8 Rfu_GetCompatiblePlayerData(struct RfuGameData *gameData, u8 *username, u8 idx);
-bool8 Rfu_GetWonderDistributorPlayerData(struct RfuGameData *gameData, u8 *username, u8 idx);
 s32 Rfu_GetIndexOfNewestChild(u8 bits);
 void CreateTask_RfuIdle(void);
 void DestroyTask_RfuIdle(void);

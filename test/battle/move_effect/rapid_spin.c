@@ -89,7 +89,6 @@ SINGLE_BATTLE_TEST("Rapid Spin blows away all hazards")
         EXPECT_EQ(gBattleStruct->hazardsQueue[0][2], HAZARDS_NONE);
         EXPECT_EQ(gBattleStruct->hazardsQueue[0][3], HAZARDS_NONE);
         EXPECT_EQ(gBattleStruct->hazardsQueue[0][4], HAZARDS_NONE);
-        EXPECT_EQ(gBattleStruct->hazardsQueue[0][5], HAZARDS_NONE);
     }
 }
 

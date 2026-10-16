@@ -5,6 +5,9 @@
 #include "task.h"
 #include "trig.h"
 
+static void SlideMonToOriginalPosPartner(struct Sprite *sprite);
+static void SlideMonToOffsetPartner(struct Sprite *sprite);
+
 static void AnimTask_ShakeMon_Step(u8 taskId);
 static void AnimTask_ShakeMon2_Step(u8 taskId);
 static void AnimTask_ShakeMonInPlace_Step(u8 taskId);
@@ -15,10 +18,12 @@ static void ReverseHorizontalLungeDirection(struct Sprite *sprite);
 static void DoVerticalDip(struct Sprite *sprite);
 static void ReverseVerticalDipDirection(struct Sprite *sprite);
 static void SlideMonToOriginalPos(struct Sprite *sprite);
-static void SlideMonToOriginalPosPartner(struct Sprite *sprite);
+
+
 static void SlideMonToOriginalPos_Step(struct Sprite *sprite);
 static void SlideMonToOffset(struct Sprite *sprite);
-static void SlideMonToOffsetPartner(struct Sprite *sprite);
+
+
 static void SlideMonToOffsetAndBack(struct Sprite *sprite);
 static void SlideMonToOffsetAndBack_End(struct Sprite *sprite);
 static void AnimTask_WindUpLunge_Step1(u8 taskId);
@@ -56,6 +61,7 @@ const struct SpriteTemplate gSlideMonToOriginalPosSpriteTemplate =
     .callback = SlideMonToOriginalPos,
 };
 
+
 const struct SpriteTemplate gSlideMonToOriginalPosPartnerSpriteTemplate =
 {
     .tileTag = 0,
@@ -71,6 +77,7 @@ const struct SpriteTemplate gSlideMonToOffsetSpriteTemplate =
     .oam = &gDummyOamData,
     .callback = SlideMonToOffset,
 };
+
 
 const struct SpriteTemplate gSlideMonToOffsetPartnerSpriteTemplate =
 {
@@ -523,6 +530,7 @@ static void SlideMonToOriginalPos(struct Sprite *sprite)
     sprite->callback = SlideMonToOriginalPos_Step;
 }
 
+
 static void SlideMonToOriginalPosPartner(struct Sprite *sprite)
 {
     u32 monSpriteId;
@@ -622,6 +630,7 @@ static void SlideMonToOffset(struct Sprite *sprite)
     StoreSpriteCallbackInData6(sprite, DestroyAnimSprite);
     sprite->callback = TranslateSpriteLinearByIdFixedPoint;
 }
+
 
 static void SlideMonToOffsetPartner(struct Sprite *sprite)
 {
@@ -1032,11 +1041,6 @@ void AnimTask_RotateMonSpriteToSide(u8 taskId)
     gTasks[taskId].data[4] = gBattleAnimArgs[1];
     gTasks[taskId].data[5] = spriteId;
     gTasks[taskId].data[6] = gBattleAnimArgs[3];
-    if (IsContest())
-    {
-        gTasks[taskId].data[7] = 1;
-    }
-    else
     {
         if (animBattler == ANIM_ATTACKER)
             gTasks[taskId].data[7] = IsOnPlayerSide(gBattleAnimAttacker);
@@ -1045,7 +1049,6 @@ void AnimTask_RotateMonSpriteToSide(u8 taskId)
     }
     if (gTasks[taskId].data[7])
     {
-        if (!IsContest())
         {
             gTasks[taskId].data[3] *= -1;
             gTasks[taskId].data[4] *= -1;

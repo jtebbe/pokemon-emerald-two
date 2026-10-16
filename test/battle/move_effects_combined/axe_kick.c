@@ -34,7 +34,7 @@ SINGLE_BATTLE_TEST("Axe Kick deals damage half the hp to user if def battler pro
         MESSAGE("The opposing Wobbuffet protected itself!");
         MESSAGE("The opposing Wobbuffet protected itself!");
         MESSAGE("Wobbuffet kept going and crashed!");
-        HP_BAR(player, hp: maxHP / 2);
+        HP_BAR(player, hp: maxHP - maxHP / 2);
     }
 }
 
@@ -50,7 +50,7 @@ SINGLE_BATTLE_TEST("Axe Kick deals damage half the hp to user if it fails")
         MESSAGE("Wobbuffet used Axe Kick!");
         MESSAGE("The opposing Wobbuffet avoided the attack!");
         MESSAGE("Wobbuffet kept going and crashed!");
-        HP_BAR(player, hp: maxHP / 2);
+        HP_BAR(player, hp: maxHP - maxHP / 2);
     }
 }
 
@@ -72,6 +72,6 @@ SINGLE_BATTLE_TEST("Axe Kick still deals crash damage when boosted by Sheer Forc
         MESSAGE("Tauros used Axe Kick!");
         MESSAGE("The opposing Wobbuffet avoided the attack!");
         MESSAGE("Tauros kept going and crashed!");
-        HP_BAR(player, hp: maxHP / 2);
+        HP_BAR(player, hp: maxHP - maxHP / 2);
     }
 }

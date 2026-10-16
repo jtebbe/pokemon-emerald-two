@@ -41,9 +41,6 @@ void BXPY_SetupBattlers()
     bool32 isLink = (gBattleTypeFlags & BATTLE_TYPE_LINK);
     bool32 isDouble = IsDoubleBattle();
     bool32 isMaster =  (gBattleTypeFlags & BATTLE_TYPE_IS_MASTER);
-    bool32 isRecorded = (gBattleTypeFlags & BATTLE_TYPE_RECORDED);
-    bool32 isRecordedMaster = (gBattleTypeFlags & BATTLE_TYPE_RECORDED_IS_MASTER);
-    bool32 isRecordedLink = (gBattleTypeFlags & BATTLE_TYPE_RECORDED_LINK);
     bool32 isMulti = (gBattleTypeFlags & BATTLE_TYPE_MULTI);
     bool32 isInGamePartner = (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER);
 
@@ -52,20 +49,13 @@ void BXPY_SetupBattlers()
     else
         gBattlersCount = MAX_BATTLERS_COUNT;
 
-    if ((gBattleTypeFlags & BATTLE_TYPE_BATTLE_TOWER)
-        || !isMulti
-        || (!isLink && !isRecorded)
-        || (isLink && !isDouble))
+    if ((!isMulti || !isLink) || (isLink && !(isDouble)))
     {
         bool32 isPlayerPrimary;
         if (isLink)
             isPlayerPrimary = (isMaster || (isDouble && isMulti));
-        else if (!isRecorded)
-            isPlayerPrimary = TRUE;
-        else if (isDouble)
-            isPlayerPrimary = (isInGamePartner || isMulti || isMaster);
         else
-            isPlayerPrimary = (!isRecordedLink || isRecordedMaster);
+            isPlayerPrimary = TRUE;
 
         gBattlerPositions[B_BATTLER_0] = isPlayerPrimary ? B_POSITION_PLAYER_LEFT : B_POSITION_OPPONENT_LEFT;
         gBattlerPositions[B_BATTLER_1] = isPlayerPrimary ? B_POSITION_OPPONENT_LEFT : B_POSITION_PLAYER_LEFT;

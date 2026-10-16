@@ -70,7 +70,6 @@ extern u8 gAnimSoundTaskCount;
 extern struct LinkBattleAnim *gAnimDisableStructPtr;
 extern s32 gAnimMoveDmg;
 extern u16 gAnimMovePower;
-extern u8 gAnimFriendship;
 extern u16 gWeatherMoveAnim;
 extern s16 gBattleAnimArgs[ANIM_ARGS_COUNT];
 extern u8 gAnimMoveTurn;
@@ -89,7 +88,6 @@ void DestroyAnimSoundTask(u8 taskId);
 enum BattlerId GetAnimBattlerId(enum AnimBattler wantedBattler);
 bool8 IsBattlerSpriteVisible(enum BattlerId battler);
 void MoveBattlerSpriteToBG(enum BattlerId battler, bool8 toBG_2, bool8 setSpriteInvisible);
-bool8 IsContest(void);
 s8 BattleAnimAdjustPanning(s8 pan);
 s8 BattleAnimAdjustPanning2(s8 pan);
 s16 KeepPanInRange(s16 panArg, int oldPan);
@@ -166,7 +164,7 @@ u32 GetBattleMonSpritePalettesMask(u8 playerLeft, u8 playerRight, u8 opponentLef
 s16 CloneBattlerSpriteWithBlend(enum AnimBattler animBattler);
 void DestroySpriteWithActiveSheet(struct Sprite *sprite);
 u8 CreateInvisibleSpriteCopy(enum BattlerId battler, u8 spriteId, enum Species species);
-void AnimLoadCompressedBgTilemapHandleContest(struct BattleAnimBgData *data, const void *src, bool32 largeScreen);
+void AnimLoadCompressedBgTilemapForData(struct BattleAnimBgData *data, const void *src, bool32 largeScreen);
 void AnimLoadCompressedBgGfx(u32 bgId, const u32 *src, u32 tilesOffset);
 void UpdateAnimBg3ScreenSize(bool8 largeScreenSize);
 void TranslateSpriteInGrowingCircle(struct Sprite *sprite);
@@ -393,7 +391,6 @@ void AnimEllipticalGust(struct Sprite *);
 extern const union AnimCmd *const gAffineAnims_AirWaveCrescent[];
 extern const union AffineAnimCmd *const gAffineAnims_FlyBallUp[];
 extern const union AffineAnimCmd *const gAffineAnims_FlyBallAttack[];
-extern const union AffineAnimCmd *const gAffineAnims_BounceBallLand[];
 extern const union AnimCmd *const gAnims_FallingFeather[];
 
 // battle_anim_poison.c

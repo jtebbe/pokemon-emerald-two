@@ -17,14 +17,12 @@
 #include "overworld.h"
 #include "party_menu.h"
 #include "random.h"
-#include "rotating_gate.h"
 #include "rtc.h"
 #include "script.h"
 #include "sound.h"
 #include "sprite.h"
 #include "strings.h"
 #include "task.h"
-#include "tv.h"
 #include "wild_encounter.h"
 #include "constants/abilities.h"
 #include "constants/event_objects.h"
@@ -36,7 +34,7 @@
 #include "constants/songs.h"
 #include "constants/trainer_types.h"
 
-#define NUM_FORCED_MOVEMENTS 22
+#define NUM_FORCED_MOVEMENTS 20
 #define NUM_ACRO_BIKE_COLLISIONS 5
 
 enum SpinDirection
@@ -87,8 +85,6 @@ static bool8 ForcedMovement_SlideSouth(void);
 static bool8 ForcedMovement_SlideNorth(void);
 static bool8 ForcedMovement_SlideWest(void);
 static bool8 ForcedMovement_SlideEast(void);
-static bool8 ForcedMovement_MatJump(void);
-static bool8 ForcedMovement_MatSpin(void);
 static bool8 ForcedMovement_MuddySlope(void);
 static bool8 ForcedMovement_SpinRight(void);
 static bool8 ForcedMovement_SpinLeft(void);
@@ -128,7 +124,6 @@ static void UNUSED PlayerWalkSlow(enum Direction direction);
 static void PlayerRunSlow(enum Direction direction);
 static void PlayerRun(enum Direction);
 static void PlayerNotOnBikeCollide(enum Direction);
-static void PlayerNotOnBikeCollideWithFarawayIslandMew(enum Direction);
 
 static void PlayCollisionSoundIfNotFacingWarp(enum Direction);
 static void PlayerGoSpin(enum Direction direction);
@@ -141,17 +136,6 @@ static void Task_PushBoulder(u8);
 static bool8 PushBoulder_Start(struct Task *, struct ObjectEvent *, struct ObjectEvent *);
 static bool8 PushBoulder_Move(struct Task *, struct ObjectEvent *, struct ObjectEvent *);
 static bool8 PushBoulder_End(struct Task *, struct ObjectEvent *, struct ObjectEvent *);
-
-static void DoPlayerMatJump(void);
-static void DoPlayerAvatarSecretBaseMatJump(u8);
-static u8 PlayerAvatar_DoSecretBaseMatJump(struct Task *, struct ObjectEvent *);
-
-static void DoPlayerMatSpin(void);
-static void PlayerAvatar_DoSecretBaseMatSpin(u8);
-static bool8 PlayerAvatar_SecretBaseMatSpinStep0(struct Task *, struct ObjectEvent *);
-static bool8 PlayerAvatar_SecretBaseMatSpinStep1(struct Task *, struct ObjectEvent *);
-static bool8 PlayerAvatar_SecretBaseMatSpinStep2(struct Task *, struct ObjectEvent *);
-static bool8 PlayerAvatar_SecretBaseMatSpinStep3(struct Task *, struct ObjectEvent *);
 
 static void CreateStopSurfingTask(enum Direction);
 static void Task_StopSurfingInit(u8);
@@ -176,8 +160,6 @@ static bool8 (*const sForcedMovementTestFuncs[NUM_FORCED_MOVEMENTS])(u8) =
     MetatileBehavior_IsSlideWest,
     MetatileBehavior_IsSlideEast,
     MetatileBehavior_IsWaterfall,
-    MetatileBehavior_IsSecretBaseJumpMat,
-    MetatileBehavior_IsSecretBaseSpinMat,
     MetatileBehavior_IsMuddySlope,
     MetatileBehavior_IsSpinRight,
     MetatileBehavior_IsSpinLeft,
@@ -204,8 +186,6 @@ static bool8 (*const sForcedMovementFuncs[NUM_FORCED_MOVEMENTS + 1])(void) =
     ForcedMovement_SlideWest,
     ForcedMovement_SlideEast,
     ForcedMovement_PushedSouthByCurrent,
-    ForcedMovement_MatJump,
-    ForcedMovement_MatSpin,
     ForcedMovement_MuddySlope,
     ForcedMovement_SpinRight,
     ForcedMovement_SpinLeft,
@@ -267,7 +247,6 @@ static const u8 sRivalAvatarGfxIds[][GENDER_COUNT] =
     [PLAYER_AVATAR_STATE_FIELD_MOVE] = {OBJ_EVENT_GFX_RIVAL_BRENDAN_FIELD_MOVE, OBJ_EVENT_GFX_RIVAL_MAY_FIELD_MOVE},
     [PLAYER_AVATAR_STATE_FISHING]    = {OBJ_EVENT_GFX_BRENDAN_FISHING,          OBJ_EVENT_GFX_MAY_FISHING},
     [PLAYER_AVATAR_STATE_WATERING]   = {OBJ_EVENT_GFX_BRENDAN_WATERING,         OBJ_EVENT_GFX_MAY_WATERING},
-    [PLAYER_AVATAR_STATE_VSSEEKER]   = {OBJ_EVENT_GFX_RIVAL_BRENDAN_FIELD_MOVE, OBJ_EVENT_GFX_RIVAL_MAY_FIELD_MOVE},
 };
 
 static const u16 sPlayerAvatarGfxIds[][GENDER_COUNT] =
@@ -280,7 +259,6 @@ static const u16 sPlayerAvatarGfxIds[][GENDER_COUNT] =
     [PLAYER_AVATAR_STATE_FIELD_MOVE] = {PLAYER_AVATAR_GFX_MALE_FIELD_MOVE, PLAYER_AVATAR_GFX_FEMALE_FIELD_MOVE},
     [PLAYER_AVATAR_STATE_FISHING]    = {PLAYER_AVATAR_GFX_MALE_FISHING,    PLAYER_AVATAR_GFX_FEMALE_FISHING},
     [PLAYER_AVATAR_STATE_WATERING]   = {PLAYER_AVATAR_GFX_MALE_WATERING,   PLAYER_AVATAR_GFX_FEMALE_WATERING},
-    [PLAYER_AVATAR_STATE_VSSEEKER]   = {PLAYER_AVATAR_GFX_MALE_VSSEEKER,   PLAYER_AVATAR_GFX_FEMALE_VSSEEKER},
 };
 
 static const u8 sFRLGAvatarGfxIds[GENDER_COUNT] =
@@ -332,19 +310,6 @@ static bool8 (*const sPushBoulderFuncs[])(struct Task *, struct ObjectEvent *, s
     PushBoulder_Start,
     PushBoulder_Move,
     PushBoulder_End,
-};
-
-static bool8 (*const sPlayerAvatarSecretBaseMatJump[])(struct Task *, struct ObjectEvent *) =
-{
-    PlayerAvatar_DoSecretBaseMatJump,
-};
-
-static bool8 (*const sPlayerAvatarSecretBaseMatSpin[])(struct Task *, struct ObjectEvent *) =
-{
-    PlayerAvatar_SecretBaseMatSpinStep0,
-    PlayerAvatar_SecretBaseMatSpinStep1,
-    PlayerAvatar_SecretBaseMatSpinStep2,
-    PlayerAvatar_SecretBaseMatSpinStep3,
 };
 
 void MovementType_Player(struct Sprite *sprite)
@@ -654,18 +619,6 @@ static bool8 ForcedMovement_SlideEast(void)
     return ForcedMovement_Slide(DIR_EAST, PlayerWalkFast);
 }
 
-static bool8 ForcedMovement_MatJump(void)
-{
-    DoPlayerMatJump();
-    return TRUE;
-}
-
-static bool8 ForcedMovement_MatSpin(void)
-{
-    DoPlayerMatSpin();
-    return TRUE;
-}
-
 static bool8 ForcedMovement_MuddySlope(void)
 {
     struct ObjectEvent *playerObjEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
@@ -854,11 +807,6 @@ static void PlayerNotOnBikeMoving(enum Direction direction, u16 heldKeys)
             PlayerJumpLedge(direction);
             return;
         }
-        else if (collision == COLLISION_OBJECT_EVENT && IsPlayerCollidingWithFarawayIslandMew(direction))
-        {
-            PlayerNotOnBikeCollideWithFarawayIslandMew(direction);
-            return;
-        }
         else if (collision == COLLISION_STAIR_WARP)
         {
             PlayerFaceDirection(direction);
@@ -970,7 +918,6 @@ enum Collision CheckForObjectEventCollision(struct ObjectEvent *objectEvent, s16
 
     if (ShouldJumpLedge(x, y, direction))
     {
-        IncrementGameStat(GAME_STAT_JUMPED_DOWN_LEDGES);
         return COLLISION_LEDGE_JUMP;
     }
     if (collision == COLLISION_OBJECT_EVENT && TryPushBoulder(x, y, direction))
@@ -978,8 +925,7 @@ enum Collision CheckForObjectEventCollision(struct ObjectEvent *objectEvent, s16
 
     if (collision == COLLISION_NONE)
     {
-        if (CheckForRotatingGatePuzzleCollision(direction, x, y))
-            return COLLISION_ROTATING_GATE;
+        ;
         CheckAcroBikeCollision(x, y, metatileBehavior, &collision);
     }
 
@@ -992,8 +938,7 @@ static enum Collision CheckForObjectEventStaticCollision(struct ObjectEvent *obj
 
     if (collision == COLLISION_NONE)
     {
-        if (CheckForRotatingGatePuzzleCollisionWithoutAnimation(direction, x, y))
-            return COLLISION_ROTATING_GATE;
+        ;
         CheckAcroBikeCollision(x, y, metatileBehavior, &collision);
     }
     return collision;
@@ -1058,40 +1003,6 @@ static void CheckAcroBikeCollision(s16 x, s16 y, u8 metatileBehavior, enum Colli
             return;
         }
     }
-}
-
-bool8 IsPlayerCollidingWithFarawayIslandMew(enum Direction direction)
-{
-    u8 mewObjectId;
-    struct ObjectEvent *object;
-    s16 playerX;
-    s16 playerY;
-    s16 mewPrevX;
-
-    object = &gObjectEvents[gPlayerAvatar.objectEventId];
-    playerX = object->currentCoords.x;
-    playerY = object->currentCoords.y;
-
-    MoveCoords(direction, &playerX, &playerY);
-    mewObjectId = GetObjectEventIdByLocalIdAndMap(LOCALID_FARAWAY_ISLAND_MEW, MAP_NUM(MAP_FARAWAY_ISLAND_INTERIOR), MAP_GROUP(MAP_FARAWAY_ISLAND_INTERIOR));
-    if (mewObjectId == OBJECT_EVENTS_COUNT)
-        return FALSE;
-
-    object = &gObjectEvents[mewObjectId];
-    mewPrevX = object->previousCoords.x;
-
-    if (mewPrevX == playerX)
-    {
-        if (object->previousCoords.y != playerY
-            || object->currentCoords.x != mewPrevX
-            || object->currentCoords.y != object->previousCoords.y)
-        {
-            if (object->previousCoords.x == playerX &&
-                object->previousCoords.y == playerY)
-                return TRUE;
-        }
-    }
-    return FALSE;
 }
 
 void SetPlayerAvatarTransitionFlags(u16 transitionFlags)
@@ -1318,20 +1229,10 @@ void PlayerOnBikeCollide(enum Direction direction)
     }
 }
 
-void PlayerOnBikeCollideWithFarawayIslandMew(enum Direction direction)
-{
-    PlayerSetAnimId(GetWalkInPlaceNormalMovementAction(direction), COPY_MOVE_WALK_COLLIDE);
-}
-
 static void PlayerNotOnBikeCollide(enum Direction direction)
 {
     PlayCollisionSoundIfNotFacingWarp(direction);
     PlayerSetAnimId(GetWalkInPlaceSlowMovementAction(direction), COPY_MOVE_WALK_COLLIDE_SLOW);
-}
-
-static void PlayerNotOnBikeCollideWithFarawayIslandMew(enum Direction direction)
-{
-    PlayerSetAnimId(GetWalkInPlaceSlowMovementAction(direction), COPY_MOVE_WALK_COLLIDE);
 }
 
 void PlayerFaceDirection(enum Direction direction)
@@ -1605,8 +1506,6 @@ enum Gender GetPlayerAvatarGenderByGraphicsId(u16 gfxId)
     case OBJ_EVENT_GFX_GREEN_SURF:
     case OBJ_EVENT_GFX_GREEN_FIELD_MOVE:
     case OBJ_EVENT_GFX_GREEN_FISH:
-    case OBJ_EVENT_GFX_GREEN_VS_SEEKER:
-    case OBJ_EVENT_GFX_GREEN_VS_SEEKER_BIKE:
         return FEMALE;
     default:
         return MALE;
@@ -1867,108 +1766,9 @@ static bool8 PushBoulder_End(struct Task *task, struct ObjectEvent *player, stru
 
 /* Some field effect */
 
-static void DoPlayerMatJump(void)
-{
-    DoPlayerAvatarSecretBaseMatJump(CreateTask(DoPlayerAvatarSecretBaseMatJump, 0xFF));
-}
-
-static void DoPlayerAvatarSecretBaseMatJump(u8 taskId)
-{
-    while (sPlayerAvatarSecretBaseMatJump[gTasks[taskId].data[0]](&gTasks[taskId], &gObjectEvents[gPlayerAvatar.objectEventId]))
-        ;
-}
-
 // because data[0] is used to call this, it can be inferred that there may have been multiple mat jump functions at one point, so the name for these groups of functions is appropriate in assuming the sole use of mat jump.
-static u8 PlayerAvatar_DoSecretBaseMatJump(struct Task *task, struct ObjectEvent *objectEvent)
-{
-    gPlayerAvatar.preventStep = TRUE;
-    if (ObjectEventClearHeldMovementIfFinished(objectEvent))
-    {
-        PlaySE(SE_LEDGE);
-        ObjectEventSetHeldMovement(objectEvent, GetJumpInPlaceMovementAction(objectEvent->facingDirection));
-        task->data[1]++;
-        if (task->data[1] > 1)
-        {
-            gPlayerAvatar.preventStep = FALSE;
-            gPlayerAvatar.transitionFlags |= PLAYER_AVATAR_FLAG_CONTROLLABLE;
-            DestroyTask(FindTaskIdByFunc(DoPlayerAvatarSecretBaseMatJump));
-        }
-    }
-    return FALSE;
-}
 
 /* Some field effect */
-
-static void DoPlayerMatSpin(void)
-{
-    u8 taskId = CreateTask(PlayerAvatar_DoSecretBaseMatSpin, 0xFF);
-
-    PlayerAvatar_DoSecretBaseMatSpin(taskId);
-}
-
-static void PlayerAvatar_DoSecretBaseMatSpin(u8 taskId)
-{
-    while (sPlayerAvatarSecretBaseMatSpin[gTasks[taskId].data[0]](&gTasks[taskId], &gObjectEvents[gPlayerAvatar.objectEventId]))
-        ;
-}
-
-static bool8 PlayerAvatar_SecretBaseMatSpinStep0(struct Task *task, struct ObjectEvent *objectEvent)
-{
-    task->data[0]++;
-    task->data[1] = objectEvent->movementDirection;
-    gPlayerAvatar.preventStep = TRUE;
-    LockPlayerFieldControls();
-    PlaySE(SE_WARP_IN);
-    return TRUE;
-}
-
-static bool8 PlayerAvatar_SecretBaseMatSpinStep1(struct Task *task, struct ObjectEvent *objectEvent)
-{
-    enum Direction directions[] = {DIR_WEST, DIR_EAST, DIR_NORTH, DIR_SOUTH};
-
-    if (ObjectEventClearHeldMovementIfFinished(objectEvent))
-    {
-        enum Direction direction;
-
-        ObjectEventSetHeldMovement(objectEvent, GetFaceDirectionMovementAction(direction = directions[objectEvent->movementDirection - 1]));
-        if (direction == (u8)task->data[1])
-            task->data[2]++;
-        task->data[0]++;
-        if (task->data[2] > 3 && direction == GetOppositeDirection(task->data[1]))
-            task->data[0]++;
-    }
-    return FALSE;
-}
-
-static bool8 PlayerAvatar_SecretBaseMatSpinStep2(struct Task *task, struct ObjectEvent *objectEvent)
-{
-    const u8 actions[] = {
-        MOVEMENT_ACTION_DELAY_1,
-        MOVEMENT_ACTION_DELAY_1,
-        MOVEMENT_ACTION_DELAY_2,
-        MOVEMENT_ACTION_DELAY_4,
-        MOVEMENT_ACTION_DELAY_8,
-    };
-
-    if (ObjectEventClearHeldMovementIfFinished(objectEvent))
-    {
-        ObjectEventSetHeldMovement(objectEvent, actions[task->data[2]]);
-        task->data[0] = 1;
-    }
-    return FALSE;
-}
-
-static bool8 PlayerAvatar_SecretBaseMatSpinStep3(struct Task *task, struct ObjectEvent *objectEvent)
-{
-    if (ObjectEventClearHeldMovementIfFinished(objectEvent))
-    {
-        ObjectEventSetHeldMovement(objectEvent, GetWalkSlowMovementAction(GetOppositeDirection(task->data[1])));
-        UnlockPlayerFieldControls();
-        gPlayerAvatar.preventStep = FALSE;
-        DestroyTask(FindTaskIdByFunc(PlayerAvatar_DoSecretBaseMatSpin));
-    }
-    return FALSE;
-}
 
 void SeafoamIslandsB4F_CurrentDumpsPlayerOnLand(void)
 {

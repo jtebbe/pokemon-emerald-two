@@ -64,8 +64,8 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
             .description1 = COMPOUND_STRING("????????"),
             .description2 = COMPOUND_STRING("????????"),
         },
-        .berryPic = gBerryPic_Enigma,
-        .berryPal =  gBerryPalette_Enigma,
+        .berryPic = gBerryPic_Cheri,
+        .berryPal =  gBerryPalette_Cheri,
         .berryTreePicTable = gPicTable_DurinBerryTree,
         .berryTreePaletteSlotTable = gBerryTreePaletteSlotTable_Durin,
     },
@@ -94,8 +94,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_FIRE,
         .naturalGiftPower = 80,
-        .berryCrushDifficulty =  50,
-        .berryCrushPowder =  20,
         .berryPic = gBerryPic_Cheri,
         .berryPal =  gBerryPalette_Cheri,
         .berryTreePicTable = gPicTable_CheriBerryTree,
@@ -127,8 +125,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_WATER,
         .naturalGiftPower = 80,
-        .berryCrushDifficulty =  50,
-        .berryCrushPowder =  20,
         .berryPic = gBerryPic_Chesto,
         .berryPal = gBerryPalette_Chesto,
         .berryTreePicTable = gPicTable_ChestoBerryTree,
@@ -160,8 +156,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_ELECTRIC,
         .naturalGiftPower = 80,
-        .berryCrushDifficulty =  50,
-        .berryCrushPowder =  20,
         .berryPic = gBerryPic_Pecha,
         .berryPal =  gBerryPalette_Pecha,
         .berryTreePicTable = gPicTable_PechaBerryTree,
@@ -193,8 +187,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_GRASS,
         .naturalGiftPower = 80,
-        .berryCrushDifficulty =  50,
-        .berryCrushPowder =  20,
         .berryPic = gBerryPic_Rawst,
         .berryPal =  gBerryPalette_Rawst,
         .berryTreePicTable = gPicTable_RawstBerryTree,
@@ -226,8 +218,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_ICE,
         .naturalGiftPower = 80,
-        .berryCrushDifficulty =  50,
-        .berryCrushPowder =  20,
         .berryPic = gBerryPic_Aspear,
         .berryPal = gBerryPalette_Aspear,
         .berryTreePicTable = gPicTable_AspearBerryTree,
@@ -259,8 +249,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_FIGHTING,
         .naturalGiftPower = 80,
-        .berryCrushDifficulty =  50,
-        .berryCrushPowder =  30,
         .berryPic = gBerryPic_Leppa,
         .berryPal =  gBerryPalette_Leppa,
         .berryTreePicTable = gPicTable_LeppaBerryTree,
@@ -292,8 +280,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_POISON,
         .naturalGiftPower = 80,
-        .berryCrushDifficulty =  50,
-        .berryCrushPowder =  30,
         .berryPic = gBerryPic_Oran,
         .berryPal =   gBerryPalette_Oran,
         .berryTreePicTable = gPicTable_OranBerryTree,
@@ -325,8 +311,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_GROUND,
         .naturalGiftPower = 80,
-        .berryCrushDifficulty =  50,
-        .berryCrushPowder =  30,
         .berryPic = gBerryPic_Persim,
         .berryPal = gBerryPalette_Persim,
         .berryTreePicTable = gPicTable_PersimBerryTree,
@@ -358,8 +342,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_FLYING,
         .naturalGiftPower = 80,
-        .berryCrushDifficulty =  50,
-        .berryCrushPowder =  30,
         .berryPic = gBerryPic_Lum,
         .berryPal =    gBerryPalette_Lum,
         .berryTreePicTable = gPicTable_LumBerryTree,
@@ -391,8 +373,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_PSYCHIC,
         .naturalGiftPower = 80,
-        .berryCrushDifficulty =  50,
-        .berryCrushPowder =  30,
         .berryPic = gBerryPic_Sitrus,
         .berryPal = gBerryPalette_Sitrus,
         .berryTreePicTable = gPicTable_SitrusBerryTree,
@@ -424,8 +404,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_BUG,
         .naturalGiftPower = 80,
-        .berryCrushDifficulty =  60,
-        .berryCrushPowder =  50,
         .berryPic = gBerryPic_Figy,
         .berryPal =   gBerryPalette_Figy,
         .berryTreePicTable = gPicTable_FigyBerryTree,
@@ -457,8 +435,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_ROCK,
         .naturalGiftPower = 80,
-        .berryCrushDifficulty =  60,
-        .berryCrushPowder =  50,
         .berryPic = gBerryPic_Wiki,
         .berryPal =   gBerryPalette_Wiki,
         .berryTreePicTable = gPicTable_WikiBerryTree,
@@ -490,8 +466,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_GHOST,
         .naturalGiftPower = 80,
-        .berryCrushDifficulty =  60,
-        .berryCrushPowder =  50,
         .berryPic = gBerryPic_Mago,
         .berryPal =   gBerryPalette_Mago,
         .berryTreePicTable = gPicTable_MagoBerryTree,
@@ -523,8 +497,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_DRAGON,
         .naturalGiftPower = 80,
-        .berryCrushDifficulty =  60,
-        .berryCrushPowder =  50,
         .berryPic = gBerryPic_Aguav,
         .berryPal =  gBerryPalette_Aguav,
         .berryTreePicTable = gPicTable_AguavBerryTree,
@@ -556,8 +528,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_DARK,
         .naturalGiftPower = 80,
-        .berryCrushDifficulty =  60,
-        .berryCrushPowder =  50,
         .berryPic = gBerryPic_Iapapa,
         .berryPal = gBerryPalette_Iapapa,
         .berryTreePicTable = gPicTable_IapapaBerryTree,
@@ -589,8 +559,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_STEEL,
         .naturalGiftPower = 80,
-        .berryCrushDifficulty =  80,
-        .berryCrushPowder =  70,
         .berryPic = gBerryPic_Razz,
         .berryPal =   gBerryPalette_Razz,
         .berryTreePicTable = gPicTable_RazzBerryTree,
@@ -622,8 +590,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_FIRE,
         .naturalGiftPower = 90,
-        .berryCrushDifficulty =  80,
-        .berryCrushPowder =  70,
         .berryPic = gBerryPic_Bluk,
         .berryPal =   gBerryPalette_Bluk,
         .berryTreePicTable = gPicTable_RazzBerryTree,
@@ -655,8 +621,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_WATER,
         .naturalGiftPower = 90,
-        .berryCrushDifficulty =  80,
-        .berryCrushPowder =  70,
         .berryPic = gBerryPic_Nanab,
         .berryPal =  gBerryPalette_Nanab,
         .berryTreePicTable = gPicTable_MagoBerryTree,
@@ -688,8 +652,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_ELECTRIC,
         .naturalGiftPower = 90,
-        .berryCrushDifficulty =  80,
-        .berryCrushPowder =  70,
         .berryPic = gBerryPic_Wepear,
         .berryPal = gBerryPalette_Wepear,
         .berryTreePicTable = gPicTable_WepearBerryTree,
@@ -721,8 +683,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_GRASS,
         .naturalGiftPower = 90,
-        .berryCrushDifficulty =  80,
-        .berryCrushPowder =  70,
         .berryPic = gBerryPic_Pinap,
         .berryPal =  gBerryPalette_Pinap,
         .berryTreePicTable = gPicTable_IapapaBerryTree,
@@ -754,8 +714,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_ICE,
         .naturalGiftPower = 90,
-        .berryCrushDifficulty = 100,
-        .berryCrushPowder = 100,
         .berryPic = gBerryPic_Pomeg,
         .berryPal =  gBerryPalette_Pomeg,
         .berryTreePicTable = gPicTable_PomegBerryTree,
@@ -787,8 +745,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_FIGHTING,
         .naturalGiftPower = 90,
-        .berryCrushDifficulty = 100,
-        .berryCrushPowder = 100,
         .berryPic = gBerryPic_Kelpsy,
         .berryPal = gBerryPalette_Kelpsy,
         .berryTreePicTable = gPicTable_KelpsyBerryTree,
@@ -820,8 +776,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_POISON,
         .naturalGiftPower = 90,
-        .berryCrushDifficulty = 100,
-        .berryCrushPowder = 100,
         .berryPic = gBerryPic_Qualot,
         .berryPal = gBerryPalette_Qualot,
         .berryTreePicTable = gPicTable_WepearBerryTree,
@@ -853,8 +807,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_GROUND,
         .naturalGiftPower = 90,
-        .berryCrushDifficulty = 100,
-        .berryCrushPowder = 100,
         .berryPic = gBerryPic_Hondew,
         .berryPal = gBerryPalette_Hondew,
         .berryTreePicTable = gPicTable_HondewBerryTree,
@@ -886,8 +838,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_FLYING,
         .naturalGiftPower = 90,
-        .berryCrushDifficulty = 100,
-        .berryCrushPowder = 100,
         .berryPic = gBerryPic_Grepa,
         .berryPal =  gBerryPalette_Grepa,
         .berryTreePicTable = gPicTable_GrepaBerryTree,
@@ -919,8 +869,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_PSYCHIC,
         .naturalGiftPower = 90,
-        .berryCrushDifficulty = 130,
-        .berryCrushPowder = 150,
         .berryPic = gBerryPic_Tamato,
         .berryPal = gBerryPalette_Tamato,
         .berryTreePicTable = gPicTable_TamatoBerryTree,
@@ -952,8 +900,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_BUG,
         .naturalGiftPower = 90,
-        .berryCrushDifficulty = 130,
-        .berryCrushPowder = 150,
         .berryPic = gBerryPic_Cornn,
         .berryPal =  gBerryPalette_Cornn,
         .berryTreePicTable = gPicTable_CornnBerryTree,
@@ -985,8 +931,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_ROCK,
         .naturalGiftPower = 90,
-        .berryCrushDifficulty = 130,
-        .berryCrushPowder = 150,
         .berryPic = gBerryPic_Magost,
         .berryPal = gBerryPalette_Magost,
         .berryTreePicTable = gPicTable_PomegBerryTree,
@@ -1018,8 +962,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_GHOST,
         .naturalGiftPower = 90,
-        .berryCrushDifficulty = 130,
-        .berryCrushPowder = 150,
         .berryPic = gBerryPic_Rabuta,
         .berryPal = gBerryPalette_Rabuta,
         .berryTreePicTable = gPicTable_RabutaBerryTree,
@@ -1051,8 +993,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_DRAGON,
         .naturalGiftPower = 90,
-        .berryCrushDifficulty = 130,
-        .berryCrushPowder = 150,
         .berryPic = gBerryPic_Nomel,
         .berryPal =  gBerryPalette_Nomel,
         .berryTreePicTable = gPicTable_NomelBerryTree,
@@ -1084,8 +1024,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_DARK,
         .naturalGiftPower = 90,
-        .berryCrushDifficulty = 160,
-        .berryCrushPowder = 250,
         .berryPic = gBerryPic_Spelon,
         .berryPal = gBerryPalette_Spelon,
         .berryTreePicTable = gPicTable_SpelonBerryTree,
@@ -1117,8 +1055,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_STEEL,
         .naturalGiftPower = 90,
-        .berryCrushDifficulty = 160,
-        .berryCrushPowder = 250,
         .berryPic = gBerryPic_Pamtre,
         .berryPal = gBerryPalette_Pamtre,
         .berryTreePicTable = gPicTable_PamtreBerryTree,
@@ -1150,8 +1086,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_FIRE,
         .naturalGiftPower = 100,
-        .berryCrushDifficulty = 160,
-        .berryCrushPowder = 250,
         .berryPic = gBerryPic_Watmel,
         .berryPal = gBerryPalette_Watmel,
         .berryTreePicTable = gPicTable_RabutaBerryTree,
@@ -1183,8 +1117,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_WATER,
         .naturalGiftPower = 100,
-        .berryCrushDifficulty = 160,
-        .berryCrushPowder = 250,
         .berryPic = gBerryPic_Durin,
         .berryPal =  gBerryPalette_Durin,
         .berryTreePicTable = gPicTable_DurinBerryTree,
@@ -1216,8 +1148,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_ELECTRIC,
         .naturalGiftPower = 100,
-        .berryCrushDifficulty = 160,
-        .berryCrushPowder = 250,
         .berryPic = gBerryPic_Belue,
         .berryPal =  gBerryPalette_Belue,
         .berryTreePicTable = gPicTable_HondewBerryTree,
@@ -1249,8 +1179,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_FIRE,
         .naturalGiftPower = 80,
-        .berryCrushDifficulty = 100,
-        .berryCrushPowder = 100,
         .berryPic = gBerryPic_Occa,
         .berryPal = gBerryPalette_Occa,
         .berryTreePicTable = gPicTable_OccaBerryTree,
@@ -1282,8 +1210,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_WATER,
         .naturalGiftPower = 80,
-        .berryCrushDifficulty =  60,
-        .berryCrushPowder =  30,
         .berryPic = gBerryPic_Passho,
         .berryPal = gBerryPalette_Passho,
         .berryTreePicTable = gPicTable_CornnBerryTree,
@@ -1315,8 +1241,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_ELECTRIC,
         .naturalGiftPower = 80,
-        .berryCrushDifficulty =  50,
-        .berryCrushPowder =  30,
         .berryPic = gBerryPic_Wacan,
         .berryPal = gBerryPalette_Wacan,
         .berryTreePicTable = gPicTable_RazzBerryTree,
@@ -1348,8 +1272,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_GRASS,
         .naturalGiftPower = 80,
-        .berryCrushDifficulty =  50,
-        .berryCrushPowder =  30,
         .berryPic = gBerryPic_Rindo,
         .berryPal = gBerryPalette_Rindo,
         .berryTreePicTable = gPicTable_TamatoBerryTree,
@@ -1381,8 +1303,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_ICE,
         .naturalGiftPower = 80,
-        .berryCrushDifficulty =  50,
-        .berryCrushPowder =  30,
         .berryPic = gBerryPic_Yache,
         .berryPal = gBerryPalette_Yache,
         .berryTreePicTable = gPicTable_YacheBerryTree,
@@ -1414,8 +1334,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_FIGHTING,
         .naturalGiftPower = 80,
-        .berryCrushDifficulty =  50,
-        .berryCrushPowder =  30,
         .berryPic = gBerryPic_Chople,
         .berryPal = gBerryPalette_Chople,
         .berryTreePicTable = gPicTable_ChopleBerryTree,
@@ -1447,8 +1365,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_POISON,
         .naturalGiftPower = 80,
-        .berryCrushDifficulty =  50,
-        .berryCrushPowder =  30,
         .berryPic = gBerryPic_Kebia,
         .berryPal = gBerryPalette_Kebia,
         .berryTreePicTable = gPicTable_KebiaBerryTree,
@@ -1480,8 +1396,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_GROUND,
         .naturalGiftPower = 80,
-        .berryCrushDifficulty =  50,
-        .berryCrushPowder =  20,
         .berryPic = gBerryPic_Shuca,
         .berryPal = gBerryPalette_Shuca,
         .berryTreePicTable = gPicTable_ShucaBerryTree,
@@ -1513,8 +1427,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_FLYING,
         .naturalGiftPower = 80,
-        .berryCrushDifficulty =  50,
-        .berryCrushPowder =  30,
         .berryPic = gBerryPic_Coba,
         .berryPal = gBerryPalette_Coba,
         .berryTreePicTable = gPicTable_RawstBerryTree,
@@ -1546,8 +1458,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_PSYCHIC,
         .naturalGiftPower = 80,
-        .berryCrushDifficulty =  50,
-        .berryCrushPowder =  30,
         .berryPic = gBerryPic_Payapa,
         .berryPal = gBerryPalette_Payapa,
         .berryTreePicTable = gPicTable_PayapaBerryTree,
@@ -1579,8 +1489,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_BUG,
         .naturalGiftPower = 80,
-        .berryCrushDifficulty =  50,
-        .berryCrushPowder =  30,
         .berryPic = gBerryPic_Tanga,
         .berryPal = gBerryPalette_Tanga,
         .berryTreePicTable = gPicTable_TangaBerryTree,
@@ -1612,8 +1520,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_ROCK,
         .naturalGiftPower = 80,
-        .berryCrushDifficulty =  50,
-        .berryCrushPowder =  30,
         .berryPic = gBerryPic_Charti,
         .berryPal = gBerryPalette_Charti,
         .berryTreePicTable = gPicTable_LansatBerryTree,
@@ -1645,8 +1551,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_GHOST,
         .naturalGiftPower = 80,
-        .berryCrushDifficulty =  50,
-        .berryCrushPowder =  30,
         .berryPic = gBerryPic_Kasib,
         .berryPal = gBerryPalette_Kasib,
         .berryTreePicTable = gPicTable_KasibBerryTree,
@@ -1678,8 +1582,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_DRAGON,
         .naturalGiftPower = 80,
-        .berryCrushDifficulty =  50,
-        .berryCrushPowder =  30,
         .berryPic = gBerryPic_Haban,
         .berryPal = gBerryPalette_Haban,
         .berryTreePicTable = gPicTable_HabanBerryTree,
@@ -1711,8 +1613,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_DARK,
         .naturalGiftPower = 80,
-        .berryCrushDifficulty =  60,
-        .berryCrushPowder =  50,
         .berryPic = gBerryPic_Colbur,
         .berryPal = gBerryPalette_Colbur,
         .berryTreePicTable = gPicTable_ColburBerryTree,
@@ -1744,8 +1644,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_STEEL,
         .naturalGiftPower = 80,
-        .berryCrushDifficulty =  80,
-        .berryCrushPowder =  50,
         .berryPic = gBerryPic_Babiri,
         .berryPal = gBerryPalette_Babiri,
         .berryTreePicTable = gPicTable_LiechiBerryTree,
@@ -1777,8 +1675,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_NORMAL,
         .naturalGiftPower = 80,
-        .berryCrushDifficulty =  80,
-        .berryCrushPowder =  70,
         .berryPic = gBerryPic_Chilan,
         .berryPal = gBerryPalette_Chilan,
         .berryTreePicTable = gPicTable_GrepaBerryTree,
@@ -1810,8 +1706,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_GRASS,
         .naturalGiftPower = 100,
-        .berryCrushDifficulty = 180,
-        .berryCrushPowder = 500,
         .berryPic = gBerryPic_Liechi,
         .berryPal = gBerryPalette_Liechi,
         .berryTreePicTable = gPicTable_LiechiBerryTree,
@@ -1843,8 +1737,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_ICE,
         .naturalGiftPower = 100,
-        .berryCrushDifficulty = 180,
-        .berryCrushPowder = 500,
         .berryPic = gBerryPic_Ganlon,
         .berryPal = gBerryPalette_Ganlon,
         .berryTreePicTable = gPicTable_HondewBerryTree,
@@ -1876,8 +1768,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_FIGHTING,
         .naturalGiftPower = 100,
-        .berryCrushDifficulty = 180,
-        .berryCrushPowder = 500,
         .berryPic = gBerryPic_Salac,
         .berryPal =  gBerryPalette_Salac,
         .berryTreePicTable = gPicTable_AguavBerryTree,
@@ -1909,8 +1799,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_POISON,
         .naturalGiftPower = 100,
-        .berryCrushDifficulty = 180,
-        .berryCrushPowder = 500,
         .berryPic = gBerryPic_Petaya,
         .berryPal = gBerryPalette_Petaya,
         .berryTreePicTable = gPicTable_PomegBerryTree,
@@ -1942,8 +1830,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_GROUND,
         .naturalGiftPower = 100,
-        .berryCrushDifficulty = 180,
-        .berryCrushPowder = 500,
         .berryPic = gBerryPic_Apicot,
         .berryPal = gBerryPalette_Apicot,
         .berryTreePicTable = gPicTable_GrepaBerryTree,
@@ -1975,8 +1861,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_FLYING,
         .naturalGiftPower = 100,
-        .berryCrushDifficulty = 200,
-        .berryCrushPowder = 750,
         .berryPic = gBerryPic_Lansat,
         .berryPal = gBerryPalette_Lansat,
         .berryTreePicTable = gPicTable_LansatBerryTree,
@@ -2008,46 +1892,12 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_PSYCHIC,
         .naturalGiftPower = 100,
-        .berryCrushDifficulty = 200,
-        .berryCrushPowder = 750,
         .berryPic = gBerryPic_Starf,
         .berryPal =  gBerryPalette_Starf,
         .berryTreePicTable = gPicTable_CornnBerryTree,
         .berryTreePaletteSlotTable = gBerryTreePaletteSlotTable_Cornn,
     },
 
-    [BERRY_ID_ENIGMA] =
-    {
-        .info = {
-            .name = _("Enigma"),
-            .firmness = BERRY_FIRMNESS_HARD,
-            .color = OW_BERRY_COLORS == GEN_6_XY ? BERRY_COLOR_PURPLE : BERRY_COLOR_YELLOW,
-            .size = 155,
-            .maxYield = YIELD_RATE(2, 5, 5, 13),
-            .minYield = YIELD_RATE(1, 1, 1, 1),
-            .description1 = COMPOUND_STRING("A completely enigmatic Berry."),
-            .description2 = COMPOUND_STRING("Appears to have the power of stars."),
-            .growthDuration = GROWTH_DURATION(96, 96, 144, 72, 48, 72),
-            .spicy = 40,
-            .dry = 10,
-            .sweet = 0,
-            .bitter = 0,
-            .sour = 0,
-            .smoothness = 60,
-            .drainRate = 7,
-            .waterBonus = 2,
-            .weedsBonus = 0,
-            .pestsBonus = 0,
-        },
-        .naturalGiftType = TYPE_BUG,
-        .naturalGiftPower = 100,
-        .berryCrushDifficulty = 150,
-        .berryCrushPowder = 200,
-        .berryPic = gBerryPic_Enigma,
-        .berryPal = gBerryPalette_Enigma,
-        .berryTreePicTable = gPicTable_DurinBerryTree,
-        .berryTreePaletteSlotTable = gBerryTreePaletteSlotTable_Durin,
-    },
 
     [BERRY_ID_MICLE] =
     {
@@ -2074,8 +1924,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_ROCK,
         .naturalGiftPower = 100,
-        .berryCrushDifficulty = 130,
-        .berryCrushPowder = 250,
         .berryPic = gBerryPic_Micle,
         .berryPal = gBerryPalette_Micle,
         .berryTreePicTable = gPicTable_MicleBerryTree,
@@ -2107,8 +1955,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_GHOST,
         .naturalGiftPower = 100,
-        .berryCrushDifficulty = 200,
-        .berryCrushPowder = 750,
         .berryPic = gBerryPic_Custap,
         .berryPal = gBerryPalette_Custap,
         .berryTreePicTable = gPicTable_CustapBerryTree,
@@ -2140,8 +1986,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_DRAGON,
         .naturalGiftPower = 100,
-        .berryCrushDifficulty = 130,
-        .berryCrushPowder = 250,
         .berryPic = gBerryPic_Jaboca,
         .berryPal = gBerryPalette_Jaboca,
         .berryTreePicTable = gPicTable_JabocaBerryTree,
@@ -2173,8 +2017,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_DARK,
         .naturalGiftPower = 100,
-        .berryCrushDifficulty = 130,
-        .berryCrushPowder = 250,
         .berryPic = gBerryPic_Rowap,
         .berryPal = gBerryPalette_Rowap,
         .berryTreePicTable = gPicTable_RowapBerryTree,
@@ -2206,8 +2048,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_FAIRY,
         .naturalGiftPower = 80,
-        .berryCrushDifficulty =  60,
-        .berryCrushPowder =  50,
         .berryPic = gBerryPic_Roseli,
         .berryPal = gBerryPalette_Roseli,
         .berryTreePicTable = gPicTable_RoseliBerryTree,
@@ -2239,8 +2079,6 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_FAIRY,
         .naturalGiftPower = 100,
-        .berryCrushDifficulty = 160,
-        .berryCrushPowder = 500,
         .berryPic = gBerryPic_Kee,
         .berryPal = gBerryPalette_Kee,
         .berryTreePicTable = gPicTable_PechaBerryTree,
@@ -2272,111 +2110,31 @@ const struct Berry gBerries[NUM_BERRIES + 1] =
         },
         .naturalGiftType = TYPE_DARK,
         .naturalGiftPower = 100,
-        .berryCrushDifficulty = 160,
-        .berryCrushPowder = 500,
         .berryPic = gBerryPic_Maranga,
         .berryPal = gBerryPalette_Maranga,
         .berryTreePicTable = gPicTable_OccaBerryTree,
         .berryTreePaletteSlotTable = gBerryTreePaletteSlotTable_Occa,
     },
 
-    [BERRY_ID_ENGIMA_E_READER] =
-    {
-        .info = {
-            .name = _("Enigma"),
-            .firmness = BERRY_FIRMNESS_UNKNOWN,
-            .color = BERRY_COLOR_PURPLE,
-            .size = 0,
-            .maxYield = YIELD_RATE(2, 5, 5, 13),
-            .minYield = YIELD_RATE(1, 1, 1, 1),
-            .description1 = COMPOUND_STRING("A completely enigmatic Berry."),
-            .description2 = COMPOUND_STRING("Appears to have the power of stars."),
-            .growthDuration = GROWTH_DURATION(96, 96, 144, 72, 48, 72),
-            .spicy = 40,
-            .dry = 40,
-            .sweet = 40,
-            .bitter = 40,
-            .sour = 40,
-            .smoothness = 40,
-            .drainRate = 7,
-            .waterBonus = 2,
-            .weedsBonus = 0,
-            .pestsBonus = 0,
-        },
-        .berryCrushDifficulty = 150,
-        .berryCrushPowder = 200,
-        .berryPic = gBerryPic_Enigma,
-        .berryPal = gBerryPalette_Enigma,
-        .berryTreePicTable = gPicTable_DurinBerryTree,
-        .berryTreePaletteSlotTable = gBerryTreePaletteSlotTable_Durin,
-    },
 };
 
 const struct BerryTree gBlankBerryTree = {};
 
-void SetEnigmaBerry(u8 *src)
-{
-#if FREE_ENIGMA_BERRY == FALSE
-    u32 i;
-    u8 *dest = (u8 *)&gSaveBlock1Ptr->enigmaBerry;
 
-    for (i = 0; i < sizeof(gSaveBlock1Ptr->enigmaBerry); i++)
-        dest[i] = src[i];
-#endif //FREE_ENIGMA_BERRY
-}
 
-#if FREE_ENIGMA_BERRY == FALSE
-static u32 GetEnigmaBerryChecksum(struct EnigmaBerry *enigmaBerry)
-{
-    u32 i;
-    u32 checksum;
-    u8 *dest;
 
-    dest = (u8 *)enigmaBerry;
-    checksum = 0;
-    for (i = 0; i < sizeof(gSaveBlock1Ptr->enigmaBerry) - sizeof(gSaveBlock1Ptr->enigmaBerry.checksum); i++)
-        checksum += dest[i];
 
-    return checksum;
-}
-#endif //FREE_ENIGMA_BERRY
-
-bool32 IsEnigmaBerryValid(void)
-{
-#if FREE_ENIGMA_BERRY == FALSE
-    if (!gSaveBlock1Ptr->enigmaBerry.berry.growthDuration)
-        return FALSE;
-    if (!gSaveBlock1Ptr->enigmaBerry.berry.maxYield)
-        return FALSE;
-    if (GetEnigmaBerryChecksum(&gSaveBlock1Ptr->enigmaBerry) != gSaveBlock1Ptr->enigmaBerry.checksum)
-        return FALSE;
-    return TRUE;
-#else
-    return FALSE;
-#endif //FREE_ENIGMA_BERRY
-}
 
 const struct BerryInfo *GetBerryInfo(enum BerryId berry)
 {
-    if (berry == BERRY_ID_ENGIMA_E_READER && IsEnigmaBerryValid())
-    {
-    #if FREE_ENIGMA_BERRY == FALSE
-        return (struct BerryInfo *)(&gSaveBlock1Ptr->enigmaBerry.berry);
-    #else
-        return &gBerries[BERRY_ID_NONE].info;    //never reached, but will appease the compiler gods
-    #endif //FREE_ENIGMA_BERRY
-    }
-    else
-    {
-        if (berry == BERRY_ID_NONE || berry > NUM_BERRIES)
-            berry = 1;
-        return &gBerries[berry].info;
-    }
+    if (berry == BERRY_ID_NONE || berry > NUM_BERRIES)
+        berry = BERRY_ID_CHERI;
+    return &gBerries[berry].info;
 }
 
 struct BerryTree *GetBerryTreeInfo(u8 id)
 {
-    return &gSaveBlock1Ptr->berryTrees[id];
+    return &gSaveData.berryTrees[id];
 }
 
 bool32 ObjectEventInteractionWaterBerryTree(void)
@@ -2437,7 +2195,7 @@ void ClearBerryTrees(void)
     int i;
 
     for (i = 0; i < BERRY_TREES_COUNT; i++)
-        gSaveBlock1Ptr->berryTrees[i] = gBlankBerryTree;
+        gSaveData.berryTrees[i] = gBlankBerryTree;
 }
 
 bool32 BerryTreeGrow(struct BerryTree *tree)
@@ -2500,7 +2258,7 @@ void BerryTreeTimeUpdate(s32 minutes)
 
     for (i = 0; i < BERRY_TREES_COUNT; i++)
     {
-        tree = &gSaveBlock1Ptr->berryTrees[i];
+        tree = &gSaveData.berryTrees[i];
 
         if (tree->berry && tree->stage && !tree->stopGrowth && (!OW_BERRY_IMMORTAL || tree->stage != BERRY_STAGE_BERRIES))
         {
@@ -2609,22 +2367,22 @@ void PlantBerryTree(u8 id, enum BerryId berry, u8 stage, bool8 allowGrowth)
 
 void RemoveBerryTree(u8 id)
 {
-    gSaveBlock1Ptr->berryTrees[id] = gBlankBerryTree;
+    gSaveData.berryTrees[id] = gBlankBerryTree;
 }
 
 u8 GetBerryTypeByBerryTreeId(u8 id)
 {
-    return gSaveBlock1Ptr->berryTrees[id].berry;
+    return gSaveData.berryTrees[id].berry;
 }
 
 u8 GetStageByBerryTreeId(u8 id)
 {
-    return gSaveBlock1Ptr->berryTrees[id].stage;
+    return gSaveData.berryTrees[id].stage;
 }
 
 u8 GetMulchByBerryTreeId(u8 id)
 {
-    return gSaveBlock1Ptr->berryTrees[id].mulch;
+    return gSaveData.berryTrees[id].mulch;
 }
 
 void GetBerryNameByBerryType(u8 berry, u8 *string)
@@ -2718,7 +2476,7 @@ static u32 GetBerryTreeAge(u8 id, u8 stage)
 
 static u8 GetBerryCountByBerryTreeId(u8 id)
 {
-    return gSaveBlock1Ptr->berryTrees[id].berryYield;
+    return gSaveData.berryTrees[id].berryYield;
 }
 
 static u16 GetStageDurationByBerryType(u8 berry)
@@ -2752,7 +2510,7 @@ bool8 CanWaterBerryPlot(void)
 {
     if (!OW_BERRY_MOISTURE || OW_BERRY_ALWAYS_WATERABLE)
         return TRUE;
-    return (gSaveBlock1Ptr->berryTrees[GetObjectEventBerryTreeId(gSelectedObjectEvent)].moistureLevel == 0);
+    return (gSaveData.berryTrees[GetObjectEventBerryTreeId(gSelectedObjectEvent)].moistureLevel == 0);
 }
 
 void ObjectEventInteractionGetBerryTreeData(void)
@@ -2767,8 +2525,8 @@ void ObjectEventInteractionGetBerryTreeData(void)
     berry = GetBerryTypeByBerryTreeId(id);
     AllowBerryTreeGrowth(id);
     localId = gSpecialVar_LastTalked;
-    num = gSaveBlock1Ptr->location.mapNum;
-    group = gSaveBlock1Ptr->location.mapGroup;
+    num = gSaveData.location.mapNum;
+    group = gSaveData.location.mapGroup;
     if (IsBerryTreeSparkling(localId, num, group))
         gSpecialVar_0x8004 = BERRY_STAGE_SPARKLING;
     else
@@ -2828,7 +2586,7 @@ void ObjectEventInteractionApplyMulch(void)
 {
     u8 mulch = ITEM_TO_MULCH(gSpecialVar_ItemId);
 
-    gSaveBlock1Ptr->berryTrees[GetObjectEventBerryTreeId(gSelectedObjectEvent)].mulch = mulch;
+    gSaveData.berryTrees[GetObjectEventBerryTreeId(gSelectedObjectEvent)].mulch = mulch;
     StringExpandPlaceholders(gStringVar1, gItemsInfo[gSpecialVar_ItemId].name);
 }
 
@@ -2854,7 +2612,7 @@ void ObjectEventInteractionPickBerryTree(void)
 void ObjectEventInteractionRemoveBerryTree(void)
 {
     RemoveBerryTree(GetObjectEventBerryTreeId(gSelectedObjectEvent));
-    SetBerryTreeJustPicked(gSpecialVar_LastTalked, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup);
+    SetBerryTreeJustPicked(gSpecialVar_LastTalked, gSaveData.location.mapNum, gSaveData.location.mapGroup);
 }
 
 void ObjectEventInteractionPullBerryWeed(void)
@@ -2878,19 +2636,19 @@ bool8 PlayerHasBerries(void)
 
 bool8 ObjectEventInteractionBerryHasWeed(void)
 {
-    return gSaveBlock1Ptr->berryTrees[GetObjectEventBerryTreeId(gSelectedObjectEvent)].weeds;
+    return gSaveData.berryTrees[GetObjectEventBerryTreeId(gSelectedObjectEvent)].weeds;
 }
 
 bool8 ObjectEventInteractionBerryHasPests(void)
 {
     enum Species species;
-    if (!OW_BERRY_PESTS || !gSaveBlock1Ptr->berryTrees[GetObjectEventBerryTreeId(gSelectedObjectEvent)].pests)
+    if (!OW_BERRY_PESTS || !gSaveData.berryTrees[GetObjectEventBerryTreeId(gSelectedObjectEvent)].pests)
         return FALSE;
-    species = GetBerryPestSpecies(gSaveBlock1Ptr->berryTrees[GetObjectEventBerryTreeId(gSelectedObjectEvent)].berry);
+    species = GetBerryPestSpecies(gSaveData.berryTrees[GetObjectEventBerryTreeId(gSelectedObjectEvent)].berry);
     if (species == SPECIES_NONE)
         return FALSE;
     CreateScriptedWildMon(species, 14 + Random() % 3, ITEM_NONE);
-    gSaveBlock1Ptr->berryTrees[GetObjectEventBerryTreeId(gSelectedObjectEvent)].pests = FALSE;
+    gSaveData.berryTrees[GetObjectEventBerryTreeId(gSelectedObjectEvent)].pests = FALSE;
     return TRUE;
 }
 
@@ -3013,7 +2771,7 @@ static u8 TryForMutation(u8 berryTreeId, u8 berry)
                 (x1 == x2 && y1 == y2 + 1) ||
                 (x1 == x2 - 1 && y1 == y2) ||
                 (x1 == x2 + 1 && y1 == y2)))
-                return GetMutationOutcome(berry, gSaveBlock1Ptr->berryTrees[GetObjectEventBerryTreeId(j)].berry);
+                return GetMutationOutcome(berry, gSaveData.berryTrees[GetObjectEventBerryTreeId(j)].berry);
         }
     }
     return 0;

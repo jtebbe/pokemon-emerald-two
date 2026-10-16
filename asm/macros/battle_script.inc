@@ -510,10 +510,6 @@
 	.byte B_SCR_OP_SWAPATTACKERWITHTARGET
 	.endm
 
-	.macro incrementgamestat stat:req
-	.byte B_SCR_OP_INCREMENTGAMESTAT
-	.byte \stat
-	.endm
 
 	.macro drawpartystatussummary battler:req
 	.byte B_SCR_OP_DRAWPARTYSTATUSSUMMARY
@@ -938,9 +934,6 @@
 	callnative BS_TryRevertWeatherForm
 	.endm
 
-	.macro setzeffect
-	callnative BS_SetZEffect
-	.endm
 
 	@ Used by effects that may proc Symbiosis but do not call removeitem.
 	.macro trysymbiosis battler:req
@@ -977,11 +970,6 @@
 	.4byte \jumpInstr
 	.endm
 
-	@ Used to active a different Max Move effects.
-	.macro setmaxmoveeffect
-	callnative BS_SetMaxMoveEffect
-	.endm
-
 	.macro trysetparalysis, ptr:req
 	callnative BS_TrySetParalysis
 	.4byte \ptr
@@ -989,16 +977,6 @@
 
 	.macro trysetpoison, ptr:req
 	callnative BS_TrySetPoison
-	.4byte \ptr
-	.endm
-
-	.macro trysetpoisonparalysis, ptr:req
-	callnative BS_TrySetPoisonParalyzis
-	.4byte \ptr
-	.endm
-
-	.macro tryseteffectspore, ptr:req
-	callnative BS_TrySetEffectSpore
 	.4byte \ptr
 	.endm
 
@@ -1022,36 +1000,8 @@
 	.4byte \ptr
 	.endm
 
-	.macro tryhealsixthhealth, ptr:req
-	callnative BS_HealOneSixth
-	.4byte \ptr
-	.endm
-
-	.macro tryrecycleberry, ptr:req
-	callnative BS_TryRecycleBerry
-	.4byte \ptr
-	.endm
-
-	.macro updatedynamax
-	callnative BS_UpdateDynamax
-	.endm
-
-	.macro jumpiftargetdynamaxed, ptr:req
-	callnative BS_JumpIfDynamaxed
-	.4byte \ptr
-	.endm
-
-	.macro undodynamax battler:req
-	callnative BS_UndoDynamax
-	.byte \battler
-	.endm
-
 	.macro trytrainerslidemegaevolutionmsg
 	callnative BS_TryTrainerSlideMegaEvolutionMsg
-	.endm
-
-	.macro trytrainerslidedynamaxmsg
-	callnative BS_TryTrainerSlideDynamaxMsg
 	.endm
 
 	.macro trytrainerslideteramsg
@@ -1143,12 +1093,6 @@
 	callnative BS_JumpIfMoveResultFlags
 	.4byte \flags
 	.4byte \failInstr
-	.endm
-
-	.macro jumpifcangigantamax battler:req, jumpInstr:req
-	callnative BS_JumpIfCanGigantamax
-	.byte \battler
-	.4byte \jumpInstr
 	.endm
 
 	.macro restoresavedmove
@@ -1343,46 +1287,18 @@
 	callnative BS_ResetPlayerFainted
 	.endm
 
-	.macro palaceflavortext
-	callnative BS_PalaceFlavorText
-	.endm
 
-	.macro arenajudgmentwindow
-	callnative BS_ArenaJudgmentWindow
-	.endm
 
-	.macro arenaopponentmonlost
-	callnative BS_ArenaOpponentMonLost
-	.endm
 
-	.macro arenaplayermonlost
-	callnative BS_ArenaPlayerMonLost
-	.endm
 
-	.macro arenabothmonslost
-	callnative BS_ArenaBothMonsLost
-	.endm
 
 	.macro forfeityesnobox
 	callnative BS_ForfeitYesNoBox
 	.endm
 
-	.macro drawarenareftextbox
-	callnative BS_DrawArenaRefTextBox
-	.endm
 
-	.macro erasearenareftextbox
-	callnative BS_EraseArenaRefTextBox
-	.endm
 
-	.macro arenajudgmentstring id:req
-	callnative BS_ArenaJudgmentString
-	.byte \id
-	.endm
 
-	.macro arenawaitmessage
-	callnative BS_ArenaWaitMessage
-	.endm
 
 	.macro waitcry
 	callnative BS_WaitCry
@@ -1408,9 +1324,6 @@
 	callnative BS_SetAlreadyStatusedMoveAttempt
 	.endm
 
-	.macro palacetryescapestatus
-	callnative BS_PalaceTryEscapeStatus
-	.endm
 
 	.macro setteleportoutcome battler:req
 	callnative BS_SetTeleportOutcome

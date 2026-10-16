@@ -1253,7 +1253,7 @@ u8 GetSpriteMatrixNum(struct Sprite *sprite)
 }
 
 // Used to shift a sprite's position as it scales.
-// Only used by the minigame countdown, so that for instance the numbers don't slide up as they squish down before jumping.
+// Used by the FRLG intro to keep the zoomed sprites aligned.
 void SetSpriteMatrixAnchor(struct Sprite *sprite, s16 x, s16 y)
 {
     sprite->sAnchorX = x;

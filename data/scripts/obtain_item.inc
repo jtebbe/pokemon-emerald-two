@@ -79,30 +79,6 @@ EventScript_PlayFanfareObtainedTMHM::
 	playfanfare MUS_OBTAIN_TMHM
 	return
 
-Std_ObtainDecoration::
-	adddecoration ITEMID
-	copyvar VAR_0x8007, VAR_RESULT
-	call EventScript_ObtainDecorationMessage
-	return
-
-EventScript_ObtainDecorationMessage::
-	bufferdecorationname STR_VAR_2, ITEMID
-	call_if_eq VAR_0x8007, TRUE, EventScript_ObtainedDecor
-	call_if_eq VAR_0x8007, FALSE, EventScript_NoRoomForDecor
-	return
-
-EventScript_ObtainedDecor::
-	playfanfare MUS_OBTAIN_ITEM
-	message gText_ObtainedTheDecor
-	waitfanfare
-	msgbox gText_TheDecorWasTransferredToThePC, MSGBOX_DEFAULT
-	setvar VAR_RESULT, TRUE
-	return
-
-EventScript_NoRoomForDecor::
-	setvar VAR_RESULT, FALSE
-	return
-
 Std_FindItem::
 	lock
 	faceplayer
@@ -133,14 +109,7 @@ EventScript_PickUpItem::
 	waitfanfare
 	waitmessage
 	bufferitemnameplural STR_VAR_2, VAR_0x8004, VAR_0x8005
-	pyramid_getlocation
-	goto_if_eq VAR_RESULT, PYRAMID_LOCATION_FLOOR, EventScript_PutBattlePyramidItemInBag
 	msgbox gText_PutItemInPocket, MSGBOX_DEFAULT
-	hideitemdescription
-	return
-
-EventScript_PutBattlePyramidItemInBag::
-	msgbox gText_PlayerPutItemInBag, MSGBOX_DEFAULT
 	hideitemdescription
 	return
 
@@ -225,7 +194,6 @@ EventScript_PutHiddenItemInPocket::
 	copyvar VAR_0x8004, VAR_0x8008
 	msgbox gText_PutItemInPocket, MSGBOX_DEFAULT
 	hideitemdescription
-	special TryPutTreasureInvestigatorsOnAir
 	special SetHiddenItemFlag
 	callnative Script_UpdateDowseState
 	releaseall

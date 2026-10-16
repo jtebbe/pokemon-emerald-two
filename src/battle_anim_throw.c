@@ -88,9 +88,9 @@ static void Task_ShinyStars(u8);
 static void SpriteCB_ShinyStars_Encircle(struct Sprite *);
 static void SpriteCB_ShinyStars_Diagonal(struct Sprite *);
 static void Task_ShinyStars_Wait(u8);
-static void SpriteCB_PokeBlock_LiftArm(struct Sprite *);
-static void SpriteCB_PokeBlock_Arc(struct Sprite *);
-static void SpriteCB_ThrowPokeBlock_Free(struct Sprite *);
+static void SpriteCB_ThrownBait_LiftArm(struct Sprite *);
+static void SpriteCB_ThrownBait_Arc(struct Sprite *);
+static void SpriteCB_ThrowThrownBait_Free(struct Sprite *);
 static void PokeBallOpenParticleAnimation(u8);
 static void GreatBallOpenParticleAnimation(u8);
 static void SafariBallOpenParticleAnimation(u8);
@@ -101,7 +101,7 @@ static void RepeatBallOpenParticleAnimation(u8);
 static void TimerBallOpenParticleAnimation(u8);
 static void PremierBallOpenParticleAnimation(u8);
 static void CB_CriticalCaptureThrownBallMovement(struct Sprite *sprite);
-static void SpriteCB_PokeBlock_Throw(struct Sprite *);
+static void SpriteCB_ThrownBait_Throw(struct Sprite *);
 static void GhostBallDodge(struct Sprite *sprite);
 static void GhostBallDodge2(struct Sprite *sprite);
 
@@ -460,12 +460,14 @@ static const struct PokeBallParticles sBallParticles[POKEBALL_COUNT] =
     },
 };
 
-const struct SpriteTemplate gPokeblockSpriteTemplate =
+
+const struct SpriteTemplate gSafariBaitSpriteTemplate =
 {
-    .tileTag = ANIM_TAG_POKEBLOCK,
-    .paletteTag = ANIM_TAG_POKEBLOCK,
-    .oam = &gOamData_AffineOff_ObjNormal_16x16,
-    .callback = SpriteCB_PokeBlock_Throw,
+    .tileTag = ANIM_TAG_SEED,
+    .paletteTag = ANIM_TAG_SEED,
+    .oam = &gOamData_AffineOff_ObjNormal_8x8,
+    .anims = gDummySpriteAnimTable,
+    .callback = SpriteCB_ThrownBait_Throw,
 };
 
 static const union AnimCmd sAnim_SafariRock[] =
@@ -484,7 +486,7 @@ const struct SpriteTemplate sSafariRockSpriteTemplate =
     .paletteTag = ANIM_TAG_ROCKS,
     .oam = &gOamData_AffineOff_ObjNormal_32x32,
     .anims = sAnims_SafariRock,
-    .callback = SpriteCB_PokeBlock_Throw,
+    .callback = SpriteCB_ThrownBait_Throw,
 };
 
 extern const struct SpriteTemplate gWishStarSpriteTemplate;
@@ -2320,26 +2322,13 @@ static void SpriteCB_ShinyStars_Diagonal(struct Sprite *sprite)
 #undef sPhase
 #undef sTimer
 
-void AnimTask_LoadPokeblockGfx(u8 taskId)
-{
-    LoadCompressedSpriteSheetUsingHeap(&gBattleAnimTable[GET_TRUE_SPRITE_INDEX(ANIM_TAG_POKEBLOCK)].pic);
-    LoadSpritePalette(&gBattleAnimTable[GET_TRUE_SPRITE_INDEX(ANIM_TAG_POKEBLOCK)].palette);
-    DestroyAnimVisualTask(taskId);
-}
-
-void AnimTask_FreePokeblockGfx(u8 taskId)
-{
-    FreeSpriteTilesByTag(ANIM_TAG_POKEBLOCK);
-    FreeSpritePaletteByTag(ANIM_TAG_POKEBLOCK);
-    DestroyAnimVisualTask(taskId);
-}
 
 #define sDuration data[0]
 #define sTargetX data[2]
 #define sTargetY data[4]
 #define sAmplitude data[5]
 
-static void SpriteCB_PokeBlock_Throw(struct Sprite *sprite)
+static void SpriteCB_ThrownBait_Throw(struct Sprite *sprite)
 {
     InitSpritePosToAnimAttacker(sprite, FALSE);
     sprite->sDuration = 30;
@@ -2348,7 +2337,7 @@ static void SpriteCB_PokeBlock_Throw(struct Sprite *sprite)
     sprite->sAmplitude = -32;
     InitAnimArcTranslation(sprite);
     gSprites[gBattlerSpriteIds[gBattleAnimAttacker]].callback = SpriteCB_TrainerThrowObject;
-    sprite->callback = SpriteCB_PokeBlock_LiftArm;
+    sprite->callback = SpriteCB_ThrownBait_LiftArm;
 }
 
 #undef sDuration
@@ -2356,24 +2345,24 @@ static void SpriteCB_PokeBlock_Throw(struct Sprite *sprite)
 #undef sTargetY
 #undef sAmplitude
 
-static void SpriteCB_PokeBlock_LiftArm(struct Sprite *sprite)
+static void SpriteCB_ThrownBait_LiftArm(struct Sprite *sprite)
 {
     if (gSprites[gBattlerSpriteIds[gBattleAnimAttacker]].animCmdIndex == 1)
-        sprite->callback = SpriteCB_PokeBlock_Arc;
+        sprite->callback = SpriteCB_ThrownBait_Arc;
 }
 
-static void SpriteCB_PokeBlock_Arc(struct Sprite *sprite)
+static void SpriteCB_ThrownBait_Arc(struct Sprite *sprite)
 {
     if (TranslateAnimHorizontalArc(sprite))
     {
         sprite->data[0] = 0;
         sprite->invisible = TRUE;
-        sprite->callback = SpriteCB_ThrowPokeBlock_Free;
+        sprite->callback = SpriteCB_ThrowThrownBait_Free;
     }
 }
 
 // Destroy after end of player animation
-static void SpriteCB_ThrowPokeBlock_Free(struct Sprite *sprite)
+static void SpriteCB_ThrowThrownBait_Free(struct Sprite *sprite)
 {
     if (gSprites[gBattlerSpriteIds[gBattleAnimAttacker]].animEnded)
     {

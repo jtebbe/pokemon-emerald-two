@@ -6,7 +6,8 @@
 
 To add a new tree, first increase the tree count and expand the tree list in `include/constants/apricorn_tree.h`.
 
-Note that each tree will take a bit in the savegame's `SaveBlock3` struct so increasing `APRICORN_TREE_COUNT` **breaks the savegame**.
+Each tree takes a bit in `SaveData.apricornTrees`. Increasing `APRICORN_TREE_COUNT`
+can change the persistent layout, so review save compatibility before changing it.
 Due to this, pokeemerald-expansion doesn't have any trees set up by default to prevent breaking downstream savegames.
 The trees support random yields and properly use plural case on plural yields.
 

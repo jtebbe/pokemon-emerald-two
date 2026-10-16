@@ -668,30 +668,6 @@ DOUBLE_BATTLE_TEST("Dancer-called damaging moves are considered for Counter/Mirr
     }
 }
 
-SINGLE_BATTLE_TEST("Dancer copies a status Z-Move's base move without gaining an additional Z-Power effect")
-{
-    GIVEN {
-        ASSUME(IsDanceMove(MOVE_SWORDS_DANCE));
-        ASSUME_STAT_CHANGE(MOVE_SCREECH, defense: -2);
-        ASSUME(GetMoveZEffect(MOVE_SWORDS_DANCE) == Z_EFFECT_RESET_STATS);
-        PLAYER(SPECIES_WOBBUFFET) { Item(ITEM_NORMALIUM_Z); }
-        OPPONENT(SPECIES_ORICORIO) { Ability(ABILITY_DANCER); }
-    } WHEN {
-        TURN { MOVE(player, MOVE_SCREECH); }
-        TURN { MOVE(player, MOVE_SWORDS_DANCE, gimmick: GIMMICK_Z_MOVE); }
-    } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCREECH, player);
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_ZMOVE_ACTIVATE, player);
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_SWORDS_DANCE, player);
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, player);
-        ABILITY_POPUP(opponent, ABILITY_DANCER);
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_SWORDS_DANCE, opponent);
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_STATS_CHANGE, opponent);
-    } THEN {
-        EXPECT_EQ(opponent->statStages[STAT_DEF], DEFAULT_STAT_STAGE - 2);
-        EXPECT_EQ(opponent->statStages[STAT_ATK], DEFAULT_STAT_STAGE + 2);
-    }
-}
 
 SINGLE_BATTLE_TEST("Dancer user may hit itself in confusion instead of copying a move if it's confused")
 {

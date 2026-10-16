@@ -153,6 +153,30 @@ static u16 ProgramByte(u8 *src, u8 *dest)
     return WaitForFlashWrite(1, dest, *src);
 }
 
+// Program an already-erased range, retaining one bank/polling setup per chunk.
+u16 ProgramFlashBytes_MX(u16 sectorNum, u32 offset, const u8 *data, u32 size)
+{
+    u16 readFlash1Buffer[0x20];
+    if (sectorNum >= gFlash->sector.count || offset > gFlash->sector.size || size > gFlash->sector.size - offset)
+        return 0x8000;
+    SwitchFlashBank(sectorNum / SECTORS_PER_BANK);
+    sectorNum %= SECTORS_PER_BANK;
+    SetReadFlash1(readFlash1Buffer);
+    REG_WAITCNT = (REG_WAITCNT & ~WAITCNT_SRAM_MASK) | gFlash->wait[0];
+    u8 *dest = FLASH_BASE + (sectorNum << gFlash->sector.shift) + offset;
+    while (size--)
+    {
+        if (*data != 0xFF)
+        {
+            u16 result = ProgramByte((u8 *)data, dest);
+            if (result) return result;
+        }
+        data++;
+        dest++;
+    }
+    return 0;
+}
+
 u16 ProgramFlashSector_MX(u16 sectorNum, u8 *src)
 {
     u16 result;

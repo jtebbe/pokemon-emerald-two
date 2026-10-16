@@ -13,7 +13,6 @@
 #include "menu.h"
 #include "overworld.h"
 #include "palette.h"
-#include "save.h"
 #include "scanline_effect.h"
 #include "sound.h"
 #include "sprite.h"
@@ -32,7 +31,6 @@ enum
     UNION_ROOM_KB_PAGE_UPPER,
     UNION_ROOM_KB_PAGE_LOWER,
     UNION_ROOM_KB_PAGE_EMOJI,
-    UNION_ROOM_KB_PAGE_REGISTER,
     UNION_ROOM_KB_PAGE_COUNT,
 };
 
@@ -49,15 +47,9 @@ enum {
 
 enum {
     STDMESSAGE_QUIT_CHATTING,
-    STDMESSAGE_REGISTER_WHERE,
-    STDMESSAGE_REGISTER_HERE,
     STDMESSAGE_INPUT_TEXT,
     STDMESSAGE_EXITING_CHAT,
     STDMESSAGE_LEADER_LEFT,
-    STDMESSAGE_ASK_SAVE,
-    STDMESSAGE_ASK_OVERWRITE,
-    STDMESSAGE_SAVING_NO_OFF,
-    STDMESSAGE_SAVED_THE_GAME,
     STDMESSAGE_WARN_LEADER_LEAVE,
 };
 
@@ -67,11 +59,10 @@ enum {
     CHAT_FUNC_SWITCH,
     CHAT_FUNC_ASK_QUIT,
     CHAT_FUNC_SEND,
-    CHAT_FUNC_REGISTER,
     CHAT_FUNC_EXIT,
     CHAT_FUNC_DROP,
     CHAT_FUNC_DISBANDED,
-    CHAT_FUNC_SAVE_AND_EXIT,
+    CHAT_FUNC_RETURN_TO_FIELD,
 };
 
 enum {
@@ -84,15 +75,9 @@ enum {
     CHATDISPLAY_FUNC_ASK_QUIT_CHATTING,
     CHATDISPLAY_FUNC_DESTROY_YESNO,
     CHATDISPLAY_FUNC_UPDATE_MSG,
-    CHATDISPLAY_FUNC_ASK_REGISTER_TEXT,
-    CHATDISPLAY_FUNC_CANCEL_REGISTER,
     CHATDISPLAY_FUNC_RETURN_TO_KB,
     CHATDISPLAY_FUNC_SCROLL_CHAT,
     CHATDISPLAY_FUNC_PRINT_INPUT_TEXT,
-    CHATDISPLAY_FUNC_ASK_SAVE,
-    CHATDISPLAY_FUNC_ASK_OVERWRITE_SAVE,
-    CHATDISPLAY_FUNC_PRINT_SAVING,
-    CHATDISPLAY_FUNC_PRINT_SAVED_GAME,
     CHATDISPLAY_FUNC_PRINT_EXITING_CHAT,
     CHATDISPLAY_FUNC_PRINT_LEADER_LEFT,
     CHATDISPLAY_FUNC_ASK_CONFIRM_LEADER_LEAVE,
@@ -142,12 +127,9 @@ struct UnionRoomChat
     u8 bufferCursorPos;
     u8 receivedPlayerIndex;
     u8 exitType; // CHAT_EXIT_*
-    bool8 changedRegisteredTexts;
-    u8 afterSaveTimer;
     u8 messageEntryBuffer[2 * MAX_MESSAGE_LENGTH + 1];
     u8 receivedMessage[64];
     u8 hostName[64];
-    u8 registeredTexts[UNION_ROOM_KB_ROW_COUNT][21];
     u8 filler4[5];
     u8 sendMessageBuffer[40];
     u16 tryQuitAgainTimer;
@@ -217,17 +199,14 @@ static void Chat_Exit(void);
 static void Chat_Drop(void);
 static void Chat_Disbanded(void);
 static void Chat_SendMessage(void);
-static void Chat_Register(void);
-static void Chat_SaveAndExit(void);
+static void Chat_ReturnToField(void);
 static void SetChatFunction(u16);
 static bool32 HandleDPadInput(void);
 static void AppendTextToMessage(void);
 static void DeleteLastMessageCharacter(void);
 static void SwitchCaseOfLastMessageCharacter(void);
 static bool32 ChatMessageIsNotEmpty(void);
-static void RegisterTextAtRow(void);
 static void ResetMessageEntryBuffer(void);
-static void SaveRegisteredTexts(void);
 static u8 *GetEndOfMessagePtr(void);
 static u8 *GetLastCharOfMessagePtr(void);
 static void PrepareSendBuffer_Null(u8 *);
@@ -236,7 +215,6 @@ static void PrepareSendBuffer_Chat(u8 *);
 static void PrepareSendBuffer_Leave(u8 *);
 static void PrepareSendBuffer_Drop(u8 *);
 static void PrepareSendBuffer_Disband(u8 *);
-static u8 *GetLimitedMessageStartPtr(void);
 static void Task_ReceiveChatMessage(u8 taskId);
 static bool8 TryAllocDisplay(void);
 static bool32 IsDisplaySubtask0Active(void);
@@ -279,7 +257,6 @@ static void DestroyStdMessageWindow(void);
 static void DestroyYesNoMenuWindow(void);
 static void FillTextEntryWindow(u16, u16, u8);
 static void DrawTextEntryMessage(u16, u8 *, u8, u8, u8);
-static void SetRegisteredTextPalette(bool32);
 static void PrintChatMessage(u16, u8 *, u8);
 static void StartKeyboardCursorAnim(void);
 static bool32 TryKeyboardCursorReopen(void);
@@ -294,18 +271,12 @@ static bool32 Display_MoveKeyboardCursor(u8 *state);
 static bool32 Display_AskQuitChatting(u8 *state);
 static bool32 Display_DestroyYesNoDialog(u8 *state);
 static bool32 Display_UpdateMessageBuffer(u8 *state);
-static bool32 Display_AskRegisterText(u8 *state);
-static bool32 Display_CancelRegister(u8 *state);
 static bool32 Display_ReturnToKeyboard(u8 *state);
 static bool32 Display_ScrollChat(u8 *state);
 static bool32 Display_AnimateKeyboardCursor(u8 *state);
 static bool32 Display_PrintInputText(u8 *state);
 static bool32 Display_PrintExitingChat(u8 *state);
 static bool32 Display_PrintLeaderLeft(u8 *state);
-static bool32 Display_AskSave(u8 *state);
-static bool32 Display_AskOverwriteSave(u8 *state);
-static bool32 Display_PrintSavingDontTurnOff(u8 *state);
-static bool32 Display_PrintSavedTheGame(u8 *state);
 static bool32 Display_AskConfirmLeaderLeave(u8 *state);
 static void SpriteCB_TextEntryCursor(struct Sprite *sprite);
 static void SpriteCB_TextEntryArrow(struct Sprite *sprite);
@@ -320,11 +291,10 @@ static void (*const sChatMainFunctions[])(void) = {
     [CHAT_FUNC_SWITCH]        = Chat_Switch,
     [CHAT_FUNC_ASK_QUIT]      = Chat_AskQuitChatting,
     [CHAT_FUNC_SEND]          = Chat_SendMessage,
-    [CHAT_FUNC_REGISTER]      = Chat_Register,
     [CHAT_FUNC_EXIT]          = Chat_Exit,
     [CHAT_FUNC_DROP]          = Chat_Drop,
     [CHAT_FUNC_DISBANDED]     = Chat_Disbanded,
-    [CHAT_FUNC_SAVE_AND_EXIT] = Chat_SaveAndExit
+    [CHAT_FUNC_RETURN_TO_FIELD] = Chat_ReturnToField
 };
 
 static const u8 sKeyboardPageMaxRow[UNION_ROOM_KB_PAGE_COUNT] =
@@ -332,7 +302,6 @@ static const u8 sKeyboardPageMaxRow[UNION_ROOM_KB_PAGE_COUNT] =
     [UNION_ROOM_KB_PAGE_UPPER]    = 9,
     [UNION_ROOM_KB_PAGE_LOWER]    = 9,
     [UNION_ROOM_KB_PAGE_EMOJI]    = 9,
-    [UNION_ROOM_KB_PAGE_REGISTER] = 9
 };
 
 const u8 gCaseToggleTable[256] = {
@@ -482,8 +451,7 @@ const u8 gCaseToggleTable[256] = {
     [CHAR_BLACK_TRIANGLE] = CHAR_BLACK_TRIANGLE,
 };
 
-// Excludes UNION_ROOM_KB_PAGE_REGISTER, the text for which is chosen by the player
-static const u8 *const sUnionRoomKeyboardText[UNION_ROOM_KB_PAGE_COUNT - 1][UNION_ROOM_KB_ROW_COUNT] =
+static const u8 *const sUnionRoomKeyboardText[UNION_ROOM_KB_PAGE_COUNT][UNION_ROOM_KB_ROW_COUNT] =
 {
     [UNION_ROOM_KB_PAGE_UPPER] =
     {
@@ -613,44 +581,18 @@ static const struct SubtaskInfo sDisplaySubtasks[] = {
     {CHATDISPLAY_FUNC_ASK_QUIT_CHATTING,        Display_AskQuitChatting},
     {CHATDISPLAY_FUNC_DESTROY_YESNO,            Display_DestroyYesNoDialog},
     {CHATDISPLAY_FUNC_UPDATE_MSG,               Display_UpdateMessageBuffer},
-    {CHATDISPLAY_FUNC_ASK_REGISTER_TEXT,        Display_AskRegisterText},
-    {CHATDISPLAY_FUNC_CANCEL_REGISTER,          Display_CancelRegister},
     {CHATDISPLAY_FUNC_RETURN_TO_KB,             Display_ReturnToKeyboard},
     {CHATDISPLAY_FUNC_SCROLL_CHAT,              Display_ScrollChat},
     {CHATDISPLAY_FUNC_CURSOR_BLINK,             Display_AnimateKeyboardCursor},
     {CHATDISPLAY_FUNC_PRINT_INPUT_TEXT,         Display_PrintInputText},
     {CHATDISPLAY_FUNC_PRINT_EXITING_CHAT,       Display_PrintExitingChat},
     {CHATDISPLAY_FUNC_PRINT_LEADER_LEFT,        Display_PrintLeaderLeft},
-    {CHATDISPLAY_FUNC_ASK_SAVE,                 Display_AskSave},
-    {CHATDISPLAY_FUNC_ASK_OVERWRITE_SAVE,       Display_AskOverwriteSave},
-    {CHATDISPLAY_FUNC_PRINT_SAVING,             Display_PrintSavingDontTurnOff},
-    {CHATDISPLAY_FUNC_PRINT_SAVED_GAME,         Display_PrintSavedTheGame},
     {CHATDISPLAY_FUNC_ASK_CONFIRM_LEADER_LEAVE, Display_AskConfirmLeaderLeave}
 };
 
 static const struct MessageWindowInfo sDisplayStdMessages[] = {
     [STDMESSAGE_QUIT_CHATTING] = {
         .text = gText_QuitChatting,
-        .boxType = 1,
-        .x = 0,
-        .y = 1,
-        .letterSpacing = 0,
-        .lineSpacing = 0,
-        .hasPlaceholders = FALSE,
-        .useWiderBox = FALSE
-    },
-    [STDMESSAGE_REGISTER_WHERE] = {
-        .text = gText_RegisterTextWhere,
-        .boxType = 1,
-        .x = 0,
-        .y = 1,
-        .letterSpacing = 0,
-        .lineSpacing = 0,
-        .hasPlaceholders = FALSE,
-        .useWiderBox = FALSE
-    },
-    [STDMESSAGE_REGISTER_HERE] = {
-        .text = gText_RegisterTextHere,
         .boxType = 1,
         .x = 0,
         .y = 1,
@@ -689,46 +631,6 @@ static const struct MessageWindowInfo sDisplayStdMessages[] = {
         .hasPlaceholders = TRUE,
         .useWiderBox = FALSE
     },
-    [STDMESSAGE_ASK_SAVE] = {
-        .text = gText_RegisteredTextChangedOKToSave,
-        .boxType = 2,
-        .x = 0,
-        .y = 1,
-        .letterSpacing = 0,
-        .lineSpacing = 0,
-        .hasPlaceholders = FALSE,
-        .useWiderBox = TRUE
-    },
-    [STDMESSAGE_ASK_OVERWRITE] = {
-        .text = gText_AlreadySavedFile_Chat,
-        .boxType = 2,
-        .x = 0,
-        .y = 1,
-        .letterSpacing = 0,
-        .lineSpacing = 0,
-        .hasPlaceholders = FALSE,
-        .useWiderBox = TRUE
-    },
-    [STDMESSAGE_SAVING_NO_OFF] = {
-        .text = gText_SavingDontTurnOff_Chat,
-        .boxType = 2,
-        .x = 0,
-        .y = 1,
-        .letterSpacing = 0,
-        .lineSpacing = 0,
-        .hasPlaceholders = FALSE,
-        .useWiderBox = TRUE
-    },
-    [STDMESSAGE_SAVED_THE_GAME] = {
-        .text = gText_PlayerSavedGame_Chat,
-        .boxType = 2,
-        .x = 0,
-        .y = 1,
-        .letterSpacing = 0,
-        .lineSpacing = 0,
-        .hasPlaceholders = TRUE,
-        .useWiderBox = TRUE
-    },
     [STDMESSAGE_WARN_LEADER_LEAVE] = {
         .text = gText_IfLeaderLeavesChatEnds,
         .boxType = 2,
@@ -741,13 +643,10 @@ static const struct MessageWindowInfo sDisplayStdMessages[] = {
     }
 };
 
-static const u8 sText_Ellipsis[] = _("…");
-
 static const struct MenuAction sKeyboardPageTitleTexts[UNION_ROOM_KB_PAGE_COUNT + 1] = {
     [UNION_ROOM_KB_PAGE_UPPER]    = {gText_Upper, {NULL}},
     [UNION_ROOM_KB_PAGE_LOWER]    = {gText_Lower, {NULL}},
     [UNION_ROOM_KB_PAGE_EMOJI]    = {gText_Symbols, {NULL}},
-    [UNION_ROOM_KB_PAGE_REGISTER] = {gText_Register2, {NULL}},
     [UNION_ROOM_KB_PAGE_COUNT]    = {gText_Exit2, {NULL}},
 };
 
@@ -785,21 +684,9 @@ static const union AnimCmd sAnim_KeyboardCursor_Closed[] = {
     ANIMCMD_END
 };
 
-static const union AnimCmd sAnim_KeyboardCursorWide_Open[] = {
-    ANIMCMD_FRAME(0x40, 30),
-    ANIMCMD_END
-};
-
-static const union AnimCmd sAnim_KeyboardCursorWide_Closed[] = {
-    ANIMCMD_FRAME(0x60, 30),
-    ANIMCMD_END
-};
-
 static const union AnimCmd *const sAnims_KeyboardCursor[] = {
     sAnim_KeyboardCursor_Open,
     sAnim_KeyboardCursor_Closed,
-    sAnim_KeyboardCursorWide_Open,
-    sAnim_KeyboardCursorWide_Closed
 };
 
 static const struct SpriteTemplate sSpriteTemplate_KeyboardCursor =
@@ -859,16 +746,10 @@ static const union AnimCmd sAnim_ToggleCaseIcon_Duplicate2[] = {
     ANIMCMD_END
 };
 
-static const union AnimCmd sAnim_RegisterIcon[] = {
-    ANIMCMD_FRAME(0x18, 2),
-    ANIMCMD_END
-};
-
 static const union AnimCmd *const sAnims_RButtonLabels[] = {
     sAnim_ToggleCaseIcon,
     sAnim_ToggleCaseIcon_Duplicate1,
     sAnim_ToggleCaseIcon_Duplicate2,
-    sAnim_RegisterIcon
 };
 
 static const struct SpriteTemplate sSpriteTemplate_RButtonIcon =
@@ -897,9 +778,6 @@ void EnterUnionRoomChat(void)
 
 static void InitUnionRoomChat(struct UnionRoomChat *chat)
 {
-#if FREE_UNION_ROOM_CHAT == FALSE
-    int i;
-#endif //FREE_UNION_ROOM_CHAT
 
     chat->funcId = CHAT_FUNC_JOIN;
     chat->funcState = 0;
@@ -913,12 +791,7 @@ static void InitUnionRoomChat(struct UnionRoomChat *chat)
     chat->linkPlayerCount = GetLinkPlayerCount();
     chat->multiplayerId = GetMultiplayerId();
     chat->exitType = CHAT_EXIT_NONE;
-    chat->changedRegisteredTexts = FALSE;
     PrepareSendBuffer_Null(chat->sendMessageBuffer);
-#if FREE_UNION_ROOM_CHAT == FALSE
-    for (i = 0; i < UNION_ROOM_KB_ROW_COUNT; i++)
-        StringCopy(chat->registeredTexts[i], gSaveBlock1Ptr->registeredTexts[i]);
-#endif //FREE_UNION_ROOM_CHAT
 }
 
 static void FreeUnionRoomChat(void)
@@ -1063,15 +936,10 @@ static void Chat_HandleInput(void)
         }
         else if (JOY_NEW(R_BUTTON))
         {
-            if (sChat->currentPage != UNION_ROOM_KB_PAGE_REGISTER)
             {
                 SwitchCaseOfLastMessageCharacter();
                 StartDisplaySubtask(CHATDISPLAY_FUNC_UPDATE_MSG, 0);
                 sChat->funcState = 1;
-            }
-            else
-            {
-                SetChatFunction(CHAT_FUNC_REGISTER);
             }
         }
         else if (HandleDPadInput())
@@ -1111,7 +979,7 @@ static void Chat_Switch(void)
         default:
             StartDisplaySubtask(CHATDISPLAY_FUNC_HIDE_KB_SWAP_MENU, 0);
             shouldSwitchPages = TRUE;
-            if (sChat->currentPage == input || input > UNION_ROOM_KB_PAGE_REGISTER)
+            if (sChat->currentPage == input || input >= UNION_ROOM_KB_PAGE_COUNT)
                 shouldSwitchPages = FALSE;
             break;
         case MENU_NOTHING_CHOSEN:
@@ -1230,12 +1098,12 @@ static void Chat_AskQuitChatting(void)
         }
 
         if (!gReceivedRemoteLinkPlayers)
-            SetChatFunction(CHAT_FUNC_SAVE_AND_EXIT);
+            SetChatFunction(CHAT_FUNC_RETURN_TO_FIELD);
         break;
     case 5:
         if (!gReceivedRemoteLinkPlayers)
         {
-            SetChatFunction(CHAT_FUNC_SAVE_AND_EXIT);
+            SetChatFunction(CHAT_FUNC_RETURN_TO_FIELD);
         }
         else if (++sChat->tryQuitAgainTimer > 300)
         {
@@ -1296,7 +1164,7 @@ static void Chat_Exit(void)
         break;
     case 7:
         if (sChat->exitDelayTimer >= 150)
-            SetChatFunction(CHAT_FUNC_SAVE_AND_EXIT);
+            SetChatFunction(CHAT_FUNC_RETURN_TO_FIELD);
         else
             sChat->exitDelayTimer++;
         break;
@@ -1331,7 +1199,7 @@ static void Chat_Drop(void)
         break;
     case 3:
         if (sChat->exitDelayTimer >= 150)
-            SetChatFunction(CHAT_FUNC_SAVE_AND_EXIT);
+            SetChatFunction(CHAT_FUNC_RETURN_TO_FIELD);
         else
             sChat->exitDelayTimer++;
         break;
@@ -1377,7 +1245,7 @@ static void Chat_Disbanded(void)
         break;
     case 4:
         if (sChat->exitDelayTimer >= 150)
-            SetChatFunction(CHAT_FUNC_SAVE_AND_EXIT);
+            SetChatFunction(CHAT_FUNC_RETURN_TO_FIELD);
         else
             sChat->exitDelayTimer++;
         break;
@@ -1418,174 +1286,15 @@ static void Chat_SendMessage(void)
     }
 }
 
-static void Chat_Register(void)
+static void Chat_ReturnToField(void)
 {
     switch (sChat->funcState)
     {
     case 0:
-        if (ChatMessageIsNotEmpty())
-        {
-            StartDisplaySubtask(CHATDISPLAY_FUNC_ASK_REGISTER_TEXT, 0);
-            sChat->funcState = 2;
-        }
-        else
-        {
-            StartDisplaySubtask(CHATDISPLAY_FUNC_PRINT_INPUT_TEXT, 0);
-            sChat->funcState = 5;
-        }
-        break;
-    case 1:
-        if (JOY_NEW(A_BUTTON))
-        {
-            RegisterTextAtRow();
-            StartDisplaySubtask(CHATDISPLAY_FUNC_RETURN_TO_KB, 0);
-            sChat->funcState = 3;
-        }
-        else if (JOY_NEW(B_BUTTON))
-        {
-            StartDisplaySubtask(CHATDISPLAY_FUNC_CANCEL_REGISTER, 0);
-            sChat->funcState = 4;
-        }
-        else if (HandleDPadInput())
-        {
-            StartDisplaySubtask(CHATDISPLAY_FUNC_MOVE_KB_CURSOR, 0);
-            sChat->funcState = 2;
-        }
-        break;
-    case 2:
-        if (!IsDisplaySubtaskActive(0))
-            sChat->funcState = 1;
-        break;
-    case 3:
-        if (!IsDisplaySubtaskActive(0))
-        {
-            StartDisplaySubtask(CHATDISPLAY_FUNC_CANCEL_REGISTER, 0);
-            sChat->funcState = 4;
-        }
-        break;
-    case 4:
-        if (!IsDisplaySubtaskActive(0))
-            SetChatFunction(CHAT_FUNC_HANDLE_INPUT);
-        break;
-    case 5:
-        if (!IsDisplaySubtaskActive(0))
-            sChat->funcState = 6;
-        break;
-    case 6:
-        if (JOY_NEW(A_BUTTON | B_BUTTON))
-        {
-            StartDisplaySubtask(CHATDISPLAY_FUNC_DESTROY_YESNO, 0);
-            sChat->funcState = 4;
-        }
-        break;
-    }
-}
-
-static void Chat_SaveAndExit(void)
-{
-    s8 input;
-
-    switch (sChat->funcState)
-    {
-    case 0:
-        if (!sChat->changedRegisteredTexts)
-        {
-            sChat->funcState = 12;
-        }
-        else
-        {
-            StartDisplaySubtask(CHATDISPLAY_FUNC_DESTROY_YESNO, 0);
-            sChat->funcState = 1;
-        }
-        break;
-    case 1:
-        if (!IsDisplaySubtaskActive(0))
-        {
-            StartDisplaySubtask(CHATDISPLAY_FUNC_ASK_SAVE, 0);
-            sChat->funcState = 2;
-        }
-        break;
-    case 2:
-        input = ProcessMenuInput();
-        switch (input)
-        {
-        case MENU_B_PRESSED:
-        case 1:
-            sChat->funcState = 12;
-            break;
-        case 0:
-            StartDisplaySubtask(CHATDISPLAY_FUNC_DESTROY_YESNO, 0);
-            sChat->funcState = 3;
-            break;
-        }
-        break;
-    case 3:
-        if (!IsDisplaySubtaskActive(0))
-        {
-            StartDisplaySubtask(CHATDISPLAY_FUNC_ASK_OVERWRITE_SAVE, 0);
-            sChat->funcState = 4;
-        }
-        break;
-    case 4:
-        if (!IsDisplaySubtaskActive(0))
-            sChat->funcState = 5;
-        break;
-    case 5:
-        input = ProcessMenuInput();
-        switch (input)
-        {
-        case MENU_B_PRESSED:
-        case 1:
-            sChat->funcState = 12;
-            break;
-        case 0:
-            StartDisplaySubtask(CHATDISPLAY_FUNC_DESTROY_YESNO, 0);
-            sChat->funcState = 6;
-            break;
-        }
-        break;
-    case 6:
-        if (!IsDisplaySubtaskActive(0))
-        {
-            StartDisplaySubtask(CHATDISPLAY_FUNC_PRINT_SAVING, 0);
-            SaveRegisteredTexts();
-            sChat->funcState = 7;
-        }
-        break;
-    case 7:
-        if (!IsDisplaySubtaskActive(0))
-        {
-            SetContinueGameWarpStatusToDynamicWarp();
-            TrySavingData(SAVE_NORMAL);
-            sChat->funcState = 8;
-        }
-        break;
-    case 8:
-        StartDisplaySubtask(CHATDISPLAY_FUNC_PRINT_SAVED_GAME, 0);
-        sChat->funcState = 9;
-        break;
-    case 9:
-        if (!IsDisplaySubtaskActive(0))
-        {
-            PlaySE(SE_SAVE);
-            ClearContinueGameWarpStatus2();
-            sChat->funcState = 10;
-        }
-        break;
-    case 10:
-        sChat->afterSaveTimer = 0;
-        sChat->funcState = 11;
-        break;
-    case 11:
-        sChat->afterSaveTimer++;
-        if (sChat->afterSaveTimer > 120)
-            sChat->funcState = 12;
-        break;
-    case 12:
         BeginNormalPaletteFade(PALETTES_ALL, -1, 0, 16, RGB_BLACK);
-        sChat->funcState = 13;
+        sChat->funcState = 1;
         break;
-    case 13:
+    case 1:
         if (!gPaletteFade.active)
         {
             FreeDisplay();
@@ -1622,7 +1331,6 @@ static bool32 HandleDPadInput(void)
                 sChat->currentRow = 0;
             break;
         }
-        if (sChat->currentPage != UNION_ROOM_KB_PAGE_REGISTER)
         {
             if (JOY_REPEAT(DPAD_LEFT))
             {
@@ -1653,9 +1361,7 @@ static void AppendTextToMessage(void)
     const u8 *charsStr;
     int strLength;
     u8 *str;
-    u8 buffer[21];
 
-    if (sChat->currentPage != UNION_ROOM_KB_PAGE_REGISTER)
     {
         // Going to append a single character
         charsStr = sUnionRoomKeyboardText[sChat->currentPage][sChat->currentRow];
@@ -1667,15 +1373,6 @@ static void AppendTextToMessage(void)
         }
 
         strLength = 1;
-    }
-    else
-    {
-        // Going to append registered text string
-        u8 *tempStr = StringCopy(buffer, sChat->registeredTexts[sChat->currentRow]);
-        tempStr[0] = CHAR_SPACE;
-        tempStr[1] = EOS;
-        charsStr = buffer;
-        strLength = StringLength_Multibyte(buffer);
     }
 
     sChat->lastBufferCursorPos = sChat->bufferCursorPos;
@@ -1736,32 +1433,11 @@ static bool32 ChatMessageIsNotEmpty(void)
         return FALSE;
 }
 
-static void RegisterTextAtRow(void)
-{
-    u8 *src = GetLimitedMessageStartPtr();
-    StringCopy(sChat->registeredTexts[sChat->currentRow], src);
-    sChat->changedRegisteredTexts = TRUE;
-}
-
 static void ResetMessageEntryBuffer(void)
 {
     sChat->messageEntryBuffer[0] = EOS;
     sChat->lastBufferCursorPos = MAX_MESSAGE_LENGTH;
     sChat->bufferCursorPos = 0;
-}
-
-static void SaveRegisteredTexts(void)
-{
-#if FREE_UNION_ROOM_CHAT == FALSE
-    int i;
-    for (i = 0; i < UNION_ROOM_KB_ROW_COUNT; i++)
-        StringCopy(gSaveBlock1Ptr->registeredTexts[i], sChat->registeredTexts[i]);
-#endif //FREE_UNION_ROOM_CHAT
-}
-
-static u8 *GetRegisteredTextByRow(int row)
-{
-    return sChat->registeredTexts[row];
 }
 
 static u8 *GetEndOfMessagePtr(void)
@@ -1820,21 +1496,21 @@ static void PrepareSendBuffer_Null(u8 *buffer)
 static void PrepareSendBuffer_Join(u8 *buffer)
 {
     buffer[0] = CHAT_MESSAGE_JOIN;
-    StringCopy(&buffer[1], gSaveBlock2Ptr->playerName);
+    StringCopy(&buffer[1], gSaveData.playerName);
     buffer[1 + (PLAYER_NAME_LENGTH + 1)] = sChat->multiplayerId;
 }
 
 static void PrepareSendBuffer_Chat(u8 *buffer)
 {
     buffer[0] = CHAT_MESSAGE_CHAT;
-    StringCopy(&buffer[1], gSaveBlock2Ptr->playerName);
+    StringCopy(&buffer[1], gSaveData.playerName);
     StringCopy(&buffer[1 + (PLAYER_NAME_LENGTH + 1)], sChat->messageEntryBuffer);
 }
 
 static void PrepareSendBuffer_Leave(u8 *buffer)
 {
     buffer[0] = CHAT_MESSAGE_LEAVE;
-    StringCopy(&buffer[1], gSaveBlock2Ptr->playerName);
+    StringCopy(&buffer[1], gSaveData.playerName);
     buffer[1 + (PLAYER_NAME_LENGTH + 1)] = sChat->multiplayerId;
     RfuSetNormalDisconnectMode();
 }
@@ -1842,14 +1518,14 @@ static void PrepareSendBuffer_Leave(u8 *buffer)
 static void PrepareSendBuffer_Drop(u8 *buffer)
 {
     buffer[0] = CHAT_MESSAGE_DROP;
-    StringCopy(&buffer[1], gSaveBlock2Ptr->playerName);
+    StringCopy(&buffer[1], gSaveData.playerName);
     buffer[1 + (PLAYER_NAME_LENGTH + 1)] = sChat->multiplayerId;
 }
 
 static void PrepareSendBuffer_Disband(u8 *buffer)
 {
     buffer[0] = CHAT_MESSAGE_DISBAND;
-    StringCopy(&buffer[1], gSaveBlock2Ptr->playerName);
+    StringCopy(&buffer[1], gSaveData.playerName);
     buffer[1 + (PLAYER_NAME_LENGTH + 1)] = sChat->multiplayerId;
 }
 
@@ -1935,22 +1611,6 @@ static void GetBufferSelectionRegion(u32 *x, u32 *width)
     *width = diff;
 }
 
-static u8 *GetLimitedMessageStartPtr(void)
-{
-    int i;
-    u16 numChars = GetNumOverflowCharsInMessage();
-    u8 *str = sChat->messageEntryBuffer;
-    for (i = 0; i < numChars; i++)
-    {
-        if (*str == CHAR_EXTRA_SYMBOL)
-            str++;
-
-        str++;
-    }
-
-    return str;
-}
-
 static u16 GetLimitedMessageStartPos(void)
 {
     u16 count;
@@ -1996,22 +1656,6 @@ static int GetShouldShowCaseToggleIcon(void)
 static u8 *GetChatHostName(void)
 {
     return sChat->hostName;
-}
-
-void InitUnionRoomChatRegisteredTexts(void)
-{
-#if FREE_UNION_ROOM_CHAT == FALSE
-    StringCopy(gSaveBlock1Ptr->registeredTexts[0], gText_Hello);
-    StringCopy(gSaveBlock1Ptr->registeredTexts[1], gText_Pokemon2);
-    StringCopy(gSaveBlock1Ptr->registeredTexts[2], gText_Trade);
-    StringCopy(gSaveBlock1Ptr->registeredTexts[3], gText_Battle);
-    StringCopy(gSaveBlock1Ptr->registeredTexts[4], gText_Lets);
-    StringCopy(gSaveBlock1Ptr->registeredTexts[5], gText_Ok);
-    StringCopy(gSaveBlock1Ptr->registeredTexts[6], gText_Sorry);
-    StringCopy(gSaveBlock1Ptr->registeredTexts[7], gText_YaySmileEmoji);
-    StringCopy(gSaveBlock1Ptr->registeredTexts[8], gText_ThankYou);
-    StringCopy(gSaveBlock1Ptr->registeredTexts[9], gText_ByeBye);
-#endif //FREE_UNION_ROOM_CHAT
 }
 
 #define tState               data[0]
@@ -2409,93 +2053,6 @@ static bool32 Display_UpdateMessageBuffer(u8 *state)
     return TRUE;
 }
 
-static bool32 Display_AskRegisterText(u8 *state)
-{
-    u16 x;
-    u8 *str;
-    u16 length;
-
-    switch (*state)
-    {
-    case 0:
-        x = GetLimitedMessageStartPos();
-        str = GetLimitedMessageStartPtr();
-        length = StringLength_Multibyte(str);
-        FillTextEntryWindow(x, length, PIXEL_FILL(6));
-        DrawTextEntryMessage(x, str, 0, 4, 5);
-        CopyWindowToVram(WIN_TEXT_ENTRY, COPYWIN_GFX);
-        break;
-    case 1:
-        if (!IsDma3ManagerBusyWithBgCopy())
-        {
-            AddStdMessageWindow(STDMESSAGE_REGISTER_WHERE, 16);
-            CopyWindowToVram(sDisplay->messageWindowId, COPYWIN_FULL);
-        }
-        else
-        {
-            return TRUE;
-        }
-        break;
-    case 2:
-        if (!IsDma3ManagerBusyWithBgCopy())
-            SetRegisteredTextPalette(TRUE);
-        else
-            return TRUE;
-        break;
-    case 3:
-        return FALSE;
-    }
-
-    (*state)++;
-    return TRUE;
-}
-
-static bool32 Display_CancelRegister(u8 *state)
-{
-    u16 x;
-    u8 *str;
-    u16 length;
-
-    switch (*state)
-    {
-    case 0:
-        x = GetLimitedMessageStartPos();
-        str = GetLimitedMessageStartPtr();
-        length = StringLength_Multibyte(str);
-        FillTextEntryWindow(x, length, PIXEL_FILL(0));
-        DrawTextEntryMessage(x, str, 3, 1, 2);
-        CopyWindowToVram(WIN_TEXT_ENTRY, COPYWIN_GFX);
-        break;
-    case 1:
-        if (!IsDma3ManagerBusyWithBgCopy())
-        {
-            HideStdMessageWindow();
-            CopyWindowToVram(sDisplay->messageWindowId, COPYWIN_FULL);
-        }
-        else
-        {
-            return TRUE;
-        }
-        break;
-    case 2:
-        if (!IsDma3ManagerBusyWithBgCopy())
-        {
-            SetRegisteredTextPalette(FALSE);
-            DestroyStdMessageWindow();
-        }
-        else
-        {
-            return TRUE;
-        }
-        break;
-    case 3:
-        return FALSE;
-    }
-
-    (*state)++;
-    return TRUE;
-}
-
 static bool32 Display_ReturnToKeyboard(u8 *state)
 {
     switch (*state)
@@ -2630,74 +2187,6 @@ static bool32 Display_PrintLeaderLeft(u8 *state)
         str = GetChatHostName();
         DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, str);
         AddStdMessageWindow(STDMESSAGE_LEADER_LEFT, 0);
-        CopyWindowToVram(sDisplay->messageWindowId, COPYWIN_FULL);
-        (*state)++;
-        break;
-    case 1:
-        return IsDma3ManagerBusyWithBgCopy();
-    }
-
-    return TRUE;
-}
-
-static bool32 Display_AskSave(u8 *state)
-{
-    switch (*state)
-    {
-    case 0:
-        AddStdMessageWindow(STDMESSAGE_ASK_SAVE, 0);
-        AddYesNoMenuAt(23, 10, 1);
-        CopyWindowToVram(sDisplay->messageWindowId, COPYWIN_FULL);
-        (*state)++;
-        break;
-    case 1:
-        return IsDma3ManagerBusyWithBgCopy();
-    }
-
-    return TRUE;
-}
-
-static bool32 Display_AskOverwriteSave(u8 *state)
-{
-    switch (*state)
-    {
-    case 0:
-        AddStdMessageWindow(STDMESSAGE_ASK_OVERWRITE, 0);
-        AddYesNoMenuAt(23, 10, 1);
-        CopyWindowToVram(sDisplay->messageWindowId, COPYWIN_FULL);
-        (*state)++;
-        break;
-    case 1:
-        return IsDma3ManagerBusyWithBgCopy();
-    }
-
-    return TRUE;
-}
-
-static bool32 Display_PrintSavingDontTurnOff(u8 *state)
-{
-    switch (*state)
-    {
-    case 0:
-        AddStdMessageWindow(STDMESSAGE_SAVING_NO_OFF, 0);
-        CopyWindowToVram(sDisplay->messageWindowId, COPYWIN_FULL);
-        (*state)++;
-        break;
-    case 1:
-        return IsDma3ManagerBusyWithBgCopy();
-    }
-
-    return TRUE;
-}
-
-static bool32 Display_PrintSavedTheGame(u8 *state)
-{
-    switch (*state)
-    {
-    case 0:
-        DynamicPlaceholderTextUtil_Reset();
-        DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, gSaveBlock2Ptr->playerName);
-        AddStdMessageWindow(STDMESSAGE_SAVED_THE_GAME, 0);
         CopyWindowToVram(sDisplay->messageWindowId, COPYWIN_FULL);
         (*state)++;
         break;
@@ -2893,14 +2382,12 @@ static void PrintCurrentKeyboardPage(void)
     u16 top;
     u8 color[3];
     u8 str[45];
-    u8 *str2;
 
     FillWindowPixelBuffer(WIN_KEYBOARD, PIXEL_FILL(15));
     page = GetCurrentKeyboardPage();
     color[0] = TEXT_COLOR_TRANSPARENT;
     color[1] = TEXT_DYNAMIC_COLOR_5;
     color[2] = TEXT_DYNAMIC_COLOR_4;
-    if (page != UNION_ROOM_KB_PAGE_REGISTER)
     {
         str[0] = EXT_CTRL_CODE_BEGIN;
         str[1] = EXT_CTRL_CODE_MIN_LETTER_SPACING;
@@ -2918,30 +2405,6 @@ static void PrintCurrentKeyboardPage(void)
 
             StringCopy(&str[3], sUnionRoomKeyboardText[page][i]);
             AddTextPrinterParameterized3(WIN_KEYBOARD, FONT_SMALL, left, top, color, TEXT_SKIP_DRAW, str);
-        }
-    }
-    else
-    {
-        left = 4;
-        for (i = 0, top = 0; i < UNION_ROOM_KB_ROW_COUNT; i++, top += 12)
-        {
-            str2 = GetRegisteredTextByRow(i);
-            if (GetStringWidth(FONT_SMALL, str2, 0) <= 40)
-            {
-                AddTextPrinterParameterized3(WIN_KEYBOARD, FONT_SMALL, left, top, color, TEXT_SKIP_DRAW, str2);
-            }
-            else
-            {
-                int length = StringLength_Multibyte(str2);
-                do
-                {
-                    length--;
-                    StringCopyN_Multibyte(str, str2, length);
-                } while (GetStringWidth(FONT_SMALL, str, 0) > 35);
-
-                AddTextPrinterParameterized3(WIN_KEYBOARD, FONT_SMALL, left, top, color, TEXT_SKIP_DRAW, str);
-                AddTextPrinterParameterized3(WIN_KEYBOARD, FONT_SMALL, left + 35, top, color, TEXT_SKIP_DRAW, sText_Ellipsis);
-            }
         }
     }
 }
@@ -2993,7 +2456,7 @@ static void ShowKeyboardSwapMenu(void)
     FillWindowPixelBuffer(WIN_SWAP_MENU, PIXEL_FILL(1));
     DrawTextBorderOuter(WIN_SWAP_MENU, 1, 13);
     PrintMenuActionTextsAtPos(WIN_SWAP_MENU, FONT_SHORT, 8, 1, 14, ARRAY_COUNT(sKeyboardPageTitleTexts), sKeyboardPageTitleTexts);
-    InitMenuNormal(WIN_SWAP_MENU, FONT_SHORT, 0, 1, 14, 5, GetCurrentKeyboardPage());
+    InitMenuNormal(WIN_SWAP_MENU, FONT_SHORT, 0, 1, 14, ARRAY_COUNT(sKeyboardPageTitleTexts), GetCurrentKeyboardPage());
     PutWindowTilemap(WIN_SWAP_MENU);
 }
 
@@ -3187,33 +2650,16 @@ static void MoveKeyboardCursor(void)
     u8 x, y;
     u8 page = GetCurrentKeyboardPage();
     GetCurrentKeyboardColAndRow(&x, &y);
-    if (page != UNION_ROOM_KB_PAGE_REGISTER)
     {
         StartSpriteAnim(sSprites->keyboardCursor, 0);
         sSprites->keyboardCursor->x = x * 8 + 10;
         sSprites->keyboardCursor->y = y * 12 + 24;
     }
-    else
-    {
-        StartSpriteAnim(sSprites->keyboardCursor, 2);
-        sSprites->keyboardCursor->x = 24;
-        sSprites->keyboardCursor->y = y * 12 + 24;
-    }
-}
-
-static void SetRegisteredTextPalette(bool32 registering)
-{
-    const u16 *palette = &sUnionRoomChatInterfacePal[registering * 2 + 1];
-    u8 index = IndexOfSpritePaletteTag(PALTAG_INTERFACE);
-    LoadPalette(palette, OBJ_PLTT_ID(index) + 1, PLTT_SIZEOF(2));
 }
 
 static void StartKeyboardCursorAnim(void)
 {
-    if (GetCurrentKeyboardPage() != UNION_ROOM_KB_PAGE_REGISTER)
-        StartSpriteAnim(sSprites->keyboardCursor, 1);
-    else
-        StartSpriteAnim(sSprites->keyboardCursor, 3);
+    StartSpriteAnim(sSprites->keyboardCursor, 1);
 
     sSprites->cursorBlinkTimer = 0;
 }
@@ -3225,10 +2671,7 @@ static bool32 TryKeyboardCursorReopen(void)
 
     if (++sSprites->cursorBlinkTimer > 3)
     {
-        if (GetCurrentKeyboardPage() != UNION_ROOM_KB_PAGE_REGISTER)
-            StartSpriteAnim(sSprites->keyboardCursor, 0);
-        else
-            StartSpriteAnim(sSprites->keyboardCursor, 2);
+        StartSpriteAnim(sSprites->keyboardCursor, 0);
 
         return FALSE;
     }
@@ -3279,20 +2722,6 @@ static void CreateRButtonSprites(void)
 
 static void UpdateRButtonLabel(void)
 {
-    if (GetCurrentKeyboardPage() == UNION_ROOM_KB_PAGE_REGISTER)
-    {
-        if (GetLengthOfMessageEntry() != 0)
-        {
-            // REGISTER
-            sSprites->rButtonLabel->invisible = FALSE;
-            StartSpriteAnim(sSprites->rButtonLabel, 3);
-        }
-        else
-        {
-            sSprites->rButtonLabel->invisible = TRUE;
-        }
-    }
-    else
     {
         int anim = GetShouldShowCaseToggleIcon();
         if (anim == 3)

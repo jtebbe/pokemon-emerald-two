@@ -21,7 +21,6 @@ enum
     PAGE_SCENARIO,
     PAGE_SCRIPT_DESIGNERS,
     PAGE_MAP_DESIGNERS,
-    PAGE_BATTLE_FRONTIER_DATA,
     PAGE_PARAMETRIC_DESIGNERS,
     PAGE_POKEDEX_TEXT,
     PAGE_ENVIRONMENT_AND_TOOL_PROGRAMS_1,
@@ -96,7 +95,6 @@ static const u8 sCreditsText_InfoSupervisors[]                = _("Information S
 static const u8 sCreditsText_TaskManagers[]                   = _("Task Managers");
 static const u8 sCreditsText_BrailleCodeCheck[]               = _("Braille Code Check");
 static const u8 sCreditsText_WorldDirector[]                  = _("World Director");
-static const u8 sCreditsText_BattleFrontierData[]             = _("Battle Frontier Data");
 static const u8 sCreditsText_SupportProgrammers[]             = _("Support Programmers");
 static const u8 sCreditsText_Artwork[]                        = _("Artwork");
 static const u8 sCreditsText_LeadProgrammer[]                 = _("Lead Programmer");
@@ -255,7 +253,6 @@ static const struct CreditsEntry sCreditsEntry_InfoSupervisors                  
 static const struct CreditsEntry sCreditsEntry_TaskManagers                     = { 8,  TRUE, sCreditsText_TaskManagers};
 static const struct CreditsEntry sCreditsEntry_BrailleCodeCheck                 = {10,  TRUE, sCreditsText_BrailleCodeCheck};
 static const struct CreditsEntry sCreditsEntry_WorldDirector                    = {10,  TRUE, sCreditsText_WorldDirector};
-static const struct CreditsEntry sCreditsEntry_BattleFrontierData               = { 8,  TRUE, sCreditsText_BattleFrontierData};
 static const struct CreditsEntry sCreditsEntry_SupportProgrammers               = {10,  TRUE, sCreditsText_SupportProgrammers};
 static const struct CreditsEntry sCreditsEntry_Artwork                          = {12,  TRUE, sCreditsText_Artwork};
 static const struct CreditsEntry sCreditsEntry_LeadProgrammer                   = {10,  TRUE, sCreditsText_LeadProgrammer};
@@ -530,13 +527,6 @@ static const struct CreditsEntry *const sCreditsEntryPointerTable[PAGE_COUNT][EN
         &sCreditsEntry_TeruyukiShimoyamada,
         &sCreditsEntry_ShigeruOhmori,
         &sCreditsEntry_TetsujiOhta,
-    },
-    [PAGE_BATTLE_FRONTIER_DATA] = {
-        _,
-        &sCreditsEntry_BattleFrontierData,
-        &sCreditsEntry_TetsujiOhta,
-        _,
-        _,
     },
     [PAGE_PARAMETRIC_DESIGNERS] = {
         &sCreditsEntry_ParametricDesigners,

@@ -63,7 +63,7 @@ enum
 #define TAG_MEGA_INDICATOR_TILE         0xD778
 #define TAG_ALPHA_INDICATOR_TILE        0xD779
 #define TAG_OMEGA_INDICATOR_TILE        0xD77A
-#define TAG_DYNAMAX_INDICATOR_TILE      0xD77B
+#define TAG_UNUSED_INDICATOR_TILE       0xD77B
 
 #define TAG_NORMAL_INDICATOR_TILE       0xD77C
 #define TAG_FIGHTING_INDICATOR_TILE     0xD77D
@@ -89,7 +89,7 @@ enum
 
 #define TAG_GIMMICK_TRIGGER_PAL         0xD777
 #define TAG_MEGA_INDICATOR_PAL          0xD778
-#define TAG_MISC_INDICATOR_PAL          0xD779 // Alpha, Omega, and Dynamax indicators use the same palette as each of them only uses 4 different colors.
+#define TAG_MISC_INDICATOR_PAL          0xD779 // Alpha and Omega indicators share a palette because each uses only four colors.
 #define TAG_TERA_INDICATOR_PAL          0xD77A
 
 enum

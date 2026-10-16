@@ -14,6 +14,7 @@
 #include "pokemon.h"
 #include "pokemon_summary_screen.h"
 #include "pokemon_storage_system.h"
+#include "pc_storage.h"
 #include "script.h"
 #include "string_util.h"
 #include "strings.h"
@@ -29,7 +30,6 @@ struct PcMonSelection
 {
     void      (*partyMonBackup)(void);
     u32       (*isMonInvalid)(struct BoxPokemon *);
-    const u8* postSelectionScript;
     u32       isStrict:1;
     u32       padding:31;
 };
@@ -47,13 +47,13 @@ static u32 ChooseBoxMon_CanEvolve(struct BoxPokemon *boxmon);
 
 static const struct PcMonSelection sPcMonSelectionTypes[] =
 {
-    [SELECT_PC_MON_NORMAL] = {ChoosePartyMon, ChooseBoxMon_NoFilter, NULL, FALSE},
-    [SELECT_PC_MON_TRADE] = {ChoosePartyMon, ChooseBoxMon_IsMatchingSpecies, NULL, FALSE},
-    [SELECT_PC_MON_DAYCARE] = {ChooseSendDaycareMon, ChooseBoxMon_IsNotEgg, NULL, TRUE},
-    [SELECT_PC_MON_MOVE_TUTOR] = {ChooseMonForMoveTutor, ChooseBoxMon_CanMonLearnSpecialVarMove, MoveTutor_AfterChooseBoxMon, FALSE},
-    [SELECT_PC_MON_MOVE_DELETER] = {ChoosePartyMon, ChooseBoxMon_CanMonDeleteMove, NULL, FALSE},
-    [SELECT_PC_MON_MOVE_RELEARNER] = {ChooseMonForMoveRelearner, ChooseBoxMon_CanRelearnMoves, NULL, FALSE},
-    [SELECT_PC_MON_EVOLUTION] = {ChoosePartyMon, ChooseBoxMon_CanEvolve, NULL, FALSE},
+    [SELECT_PC_MON_NORMAL] = {ChoosePartyMon, ChooseBoxMon_NoFilter, FALSE},
+    [SELECT_PC_MON_TRADE] = {ChoosePartyMon, ChooseBoxMon_IsMatchingSpecies, FALSE},
+    [SELECT_PC_MON_DAYCARE] = {ChooseSendDaycareMon, ChooseBoxMon_IsNotEgg, TRUE},
+    [SELECT_PC_MON_MOVE_TUTOR] = {ChooseMonForMoveTutor, ChooseBoxMon_CanMonLearnSpecialVarMove, FALSE},
+    [SELECT_PC_MON_MOVE_DELETER] = {ChoosePartyMon, ChooseBoxMon_CanMonDeleteMove, FALSE},
+    [SELECT_PC_MON_MOVE_RELEARNER] = {ChooseMonForMoveRelearner, ChooseBoxMon_CanRelearnMoves, FALSE},
+    [SELECT_PC_MON_EVOLUTION] = {ChoosePartyMon, ChooseBoxMon_CanEvolve, FALSE},
 };
 
 static u32 ChooseBoxMon_NoFilter(struct BoxPokemon *boxmon)
@@ -108,9 +108,7 @@ static u32 ChooseBoxMon_CanMonLearnMove(struct BoxPokemon *boxmon, enum Move mov
 //super hacky way to exclude PC mons until I handle evolution for pc mon in a different PR
 static bool32 IsFromPC(u32 adress)
 {
-    u32 pcMonStart = (u32)&gPokemonStoragePtr->boxes;
-    u32 pcMonEnd = pcMonStart + sizeof(struct BoxPokemon) * TOTAL_BOXES_COUNT * IN_BOX_COUNT;
-    return (pcMonStart <= adress && adress <= pcMonEnd);
+    return PCStorageContainsPointer((const void *)adress);
 }
 static u32 ChooseBoxMon_CanEvolve(struct BoxPokemon *boxmon)
 {
@@ -159,7 +157,7 @@ static void Task_ChooseBoxMon(u8 taskId)
 void ChooseBoxMon(struct ScriptContext *ctx)
 {
     sSelectionType = ScriptReadByte(ctx);
-    if (!OW_CHOOSE_FROM_PC_AND_PARTY)
+    if (!OW_CHOOSE_FROM_PC_AND_PARTY || sSelectionType == SELECT_PC_MON_MOVE_TUTOR)
     {
         sPcMonSelectionTypes[sSelectionType].partyMonBackup();
         return;
@@ -167,11 +165,6 @@ void ChooseBoxMon(struct ScriptContext *ctx)
     LockPlayerFieldControls();
     FadeScreen(FADE_TO_BLACK, 0);
     CreateTask(Task_ChooseBoxMon, 10);
-    if (sPcMonSelectionTypes[sSelectionType].postSelectionScript)
-    {
-        ctx->scriptPtr++;
-        ScriptCall(ctx, sPcMonSelectionTypes[sSelectionType].postSelectionScript);
-    }
 }
 
 void PickPartyMon(struct ScriptContext *ctx)
@@ -234,7 +227,6 @@ static struct BoxPokemon *LearnMove_GetBoxMonFromTaskData(u8 partyIndex)
 #define state         gTasks[taskId].data[0]
 #define partyIndex    gTasks[taskId].data[1]
 #define move          gTasks[taskId].data[2]
-#define recoverPP     gTasks[taskId].data[3]
 // MoveLearnUI does not contain a waitMessage function and LearnMove assumes the calling task will wait when a printer is active
 // Remember to update Task_LearnMove is you wish to change to an explicit waitMessage system
 s32 LearnMove(const struct MoveLearnUI *ui, u8 taskId)
@@ -274,7 +266,7 @@ s32 LearnMove(const struct MoveLearnUI *ui, u8 taskId)
             return LEARN_MOVE_END;
         }
     case LEARN_MOVE:
-        if (GiveMoveToBoxMon(boxmon, move) != MON_HAS_MAX_MOVES)
+        if (GiveMoveToBoxMon(boxmon, move) != MON_MOVE_SLOTS_FULL)
             return LEARNED_MOVE_1;
         else
             return ASK_REPLACEMENT_1;
@@ -341,12 +333,7 @@ s32 LearnMove(const struct MoveLearnUI *ui, u8 taskId)
     case REPLACE_MOVE_1:
     {
         u32 slot = GetMoveSlotToReplace();
-        RemoveBoxMonPPBonus(boxmon, slot);
-        u32 originalPP = GetBoxMonData(boxmon, MON_DATA_PP1 + slot);
-        u32 pp = GetMovePP(move);
         SetBoxMonData(boxmon, MON_DATA_MOVE1 + slot, &move);
-        if (recoverPP || (pp < originalPP))
-            SetBoxMonData(boxmon, MON_DATA_PP1 + slot, &pp);
         GetBoxMonNickname(boxmon, gStringVar1);
         StringCopy(gStringVar2, GetMoveName(move));
         gSpecialVar_Result = TRUE;

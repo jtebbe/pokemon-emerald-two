@@ -22,7 +22,7 @@
 #include "text.h"
 #include "intro.h"
 #include "main.h"
-#include "trainer_hill.h"
+#include "save.h"
 #include "test_runner.h"
 #include "constants/rgb.h"
 
@@ -34,7 +34,6 @@ static void IntrDummy(void);
 
 // Defined in the linker script so that the test build can override it.
 extern void gInitialMainCB2(void);
-extern void CB2_FlashNotDetectedScreen(void);
 
 const enum GameVersion gGameVersion = GAME_VERSION;
 
@@ -182,12 +181,9 @@ static void UpdateLinkAndCallCallbacks(void)
 static void InitMainCallbacks(void)
 {
     gMain.vblankCounter1 = 0;
-    gTrainerHillVBlankCounter = NULL;
     gMain.vblankCounter2 = 0;
     gMain.callback1 = NULL;
     SetMainCallback2(gInitialMainCB2);
-    gSaveBlock2Ptr = &gSaveblock2.block;
-    gPokemonStoragePtr = &gPokemonStorage.block;
 }
 
 static void CallCallbacks(void)
@@ -297,7 +293,7 @@ static void ReadKeys(void)
     gMain.heldKeys = gMain.heldKeysRaw;
 
     // Remap L to A if the L=A option is enabled.
-    if (gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_L_EQUALS_A)
+    if (gSaveData.optionsButtonMode == OPTIONS_BUTTON_MODE_L_EQUALS_A)
     {
         if (JOY_NEW(L_BUTTON))
             gMain.newKeys |= A_BUTTON;
@@ -358,8 +354,6 @@ static void VBlankIntr(void)
 
     gMain.vblankCounter1++;
 
-    if (gTrainerHillVBlankCounter && *gTrainerHillVBlankCounter < 0xFFFFFFFF)
-        (*gTrainerHillVBlankCounter)++;
 
     if (gMain.vblankCallback)
         gMain.vblankCallback();
@@ -374,7 +368,7 @@ static void VBlankIntr(void)
     m4aSoundMain();
     TryReceiveLinkBattleData();
 
-    if (!gTestRunnerEnabled && (!gMain.inBattle || !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_FRONTIER | BATTLE_TYPE_RECORDED))))
+    if (!((gTestRunnerEnabled)) && (!((gMain.inBattle)) || !((gBattleTypeFlags & BATTLE_TYPE_LINK))))
         AdvanceRandom();
 
     UpdateWirelessStatusIndicatorSprite();
@@ -436,15 +430,7 @@ static void WaitForVBlank(void)
     }
 }
 
-void SetTrainerHillVBlankCounter(u32 *counter)
-{
-    gTrainerHillVBlankCounter = counter;
-}
 
-void ClearTrainerHillVBlankCounter(void)
-{
-    gTrainerHillVBlankCounter = NULL;
-}
 
 void DoSoftReset(void)
 {

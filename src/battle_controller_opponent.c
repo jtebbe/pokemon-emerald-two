@@ -5,17 +5,13 @@
 #include "constants/battle.h"
 #include "constants/battle_ai.h"
 #include "battle_anim.h"
-#include "battle_arena.h"
 #include "battle_controllers.h"
 #include "battle_message.h"
 #include "battle_interface.h"
 #include "battle_setup.h"
 #include "battle_special.h"
-#include "battle_tv.h"
-#include "battle_z_move.h"
 #include "bg.h"
 #include "data.h"
-#include "frontier_util.h"
 #include "item.h"
 #include "link.h"
 #include "main.h"
@@ -38,8 +34,6 @@
 #include "constants/party_menu.h"
 #include "constants/songs.h"
 #include "constants/trainers.h"
-#include "trainer_hill.h"
-#include "trainer_tower.h"
 #include "test_runner.h"
 #include "test/battle.h"
 
@@ -312,60 +306,20 @@ static u32 OpponentGetTrainerPicId(enum BattlerId battlerId)
 {
     enum TrainerPicID trainerPicId;
 
-    if (gBattleTypeFlags & BATTLE_TYPE_SECRET_BASE)
     {
-        trainerPicId = GetSecretBaseTrainerPicIndex();
-    }
-    else if (TRAINER_BATTLE_PARAM.opponentA == TRAINER_FRONTIER_BRAIN)
-    {
-        trainerPicId = GetFrontierBrainTrainerPicIndex();
-    }
-    else if (gBattleTypeFlags & BATTLE_TYPE_TRAINER_TOWER && gMapHeader.regionMapSectionId == MAPSEC_TRAINER_TOWER_2)
-    {
-        trainerPicId = GetTrainerTowerTrainerFrontSpriteId();
-    }
-    else if (gBattleTypeFlags & BATTLE_TYPE_TRAINER_HILL)
-    {
-        if (gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS)
         {
-            if (battlerId == 1)
-                trainerPicId = GetTrainerHillTrainerFrontSpriteId(TRAINER_BATTLE_PARAM.opponentA);
+            if (gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS)
+            {
+                if (battlerId != 1)
+                    trainerPicId = GetTrainerPicFromId(TRAINER_BATTLE_PARAM.opponentB);
+                else
+                    trainerPicId = GetTrainerPicFromId(TRAINER_BATTLE_PARAM.opponentA);
+            }
             else
-                trainerPicId = GetTrainerHillTrainerFrontSpriteId(TRAINER_BATTLE_PARAM.opponentB);
+            {
+                trainerPicId = GetTrainerPicFromId(TRAINER_BATTLE_PARAM.opponentA);
+            }
         }
-        else
-        {
-            trainerPicId = GetTrainerHillTrainerFrontSpriteId(TRAINER_BATTLE_PARAM.opponentA);
-        }
-    }
-    else if (gBattleTypeFlags & BATTLE_TYPE_FRONTIER)
-    {
-        if (gBattleTypeFlags & (BATTLE_TYPE_TWO_OPPONENTS | BATTLE_TYPE_TOWER_LINK_MULTI))
-        {
-            if (battlerId == 1)
-                trainerPicId = GetFrontierTrainerFrontSpriteId(TRAINER_BATTLE_PARAM.opponentA);
-            else
-                trainerPicId = GetFrontierTrainerFrontSpriteId(TRAINER_BATTLE_PARAM.opponentB);
-        }
-        else
-        {
-            trainerPicId = GetFrontierTrainerFrontSpriteId(TRAINER_BATTLE_PARAM.opponentA);
-        }
-    }
-    else if (gBattleTypeFlags & BATTLE_TYPE_EREADER_TRAINER)
-    {
-        trainerPicId = GetEreaderTrainerFrontSpriteId();
-    }
-    else if (gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS)
-    {
-        if (battlerId != 1)
-            trainerPicId = GetTrainerPicFromId(TRAINER_BATTLE_PARAM.opponentB);
-        else
-            trainerPicId = GetTrainerPicFromId(TRAINER_BATTLE_PARAM.opponentA);
-    }
-    else
-    {
-        trainerPicId = GetTrainerPicFromId(TRAINER_BATTLE_PARAM.opponentA);
     }
 
     return trainerPicId;
@@ -435,23 +389,21 @@ static void OpponentHandleChooseMove(enum BattlerId battler)
     if (gBattleTypeFlags & (BATTLE_TYPE_TRAINER | BATTLE_TYPE_FIRST_BATTLE | BATTLE_TYPE_SAFARI | BATTLE_TYPE_ROAMER)
      || IsWildMonSmart())
     {
-        if (gBattleTypeFlags & BATTLE_TYPE_PALACE)
         {
-            BtlController_EmitTwoReturnValues(battler, B_COMM_TO_ENGINE, B_ACTION_EXEC_SCRIPT, ChooseMoveAndTargetInBattlePalace(battler));
-        }
-        else if (gAiBattleData->actionFlee)
-        {
-            gAiBattleData->actionFlee = FALSE;
-            BtlController_EmitTwoReturnValues(battler, B_COMM_TO_ENGINE, B_ACTION_RUN, 0);
-        }
-        else if (gAiBattleData->choiceWatch)
-        {
-            gAiBattleData->choiceWatch = FALSE;
-            BtlController_EmitTwoReturnValues(battler, B_COMM_TO_ENGINE, B_ACTION_SAFARI_WATCH_CAREFULLY, 0);
-        }
-        else
-        {
-            SetFinalChosenTarget(battler, FALSE);
+            if (gAiBattleData->actionFlee)
+            {
+                gAiBattleData->actionFlee = FALSE;
+                BtlController_EmitTwoReturnValues(battler, B_COMM_TO_ENGINE, B_ACTION_RUN, 0);
+            }
+            else if (gAiBattleData->choiceWatch)
+            {
+                gAiBattleData->choiceWatch = FALSE;
+                BtlController_EmitTwoReturnValues(battler, B_COMM_TO_ENGINE, B_ACTION_SAFARI_WATCH_CAREFULLY, 0);
+            }
+            else
+            {
+                SetFinalChosenTarget(battler, FALSE);
+            }
         }
         BtlController_Complete(battler);
     }

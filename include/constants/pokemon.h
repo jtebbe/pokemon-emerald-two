@@ -106,59 +106,9 @@ enum __attribute__((packed)) Stat
 // Shiny odds
 #define SHINY_ODDS 8 // Actual probability is SHINY_ODDS/65536
 
-// Ribbon IDs used by TV and Pokénav
-#define CHAMPION_RIBBON       0
-#define COOL_RIBBON_NORMAL    1
-#define COOL_RIBBON_SUPER     2
-#define COOL_RIBBON_HYPER     3
-#define COOL_RIBBON_MASTER    4
-#define BEAUTY_RIBBON_NORMAL  5
-#define BEAUTY_RIBBON_SUPER   6
-#define BEAUTY_RIBBON_HYPER   7
-#define BEAUTY_RIBBON_MASTER  8
-#define CUTE_RIBBON_NORMAL    9
-#define CUTE_RIBBON_SUPER    10
-#define CUTE_RIBBON_HYPER    11
-#define CUTE_RIBBON_MASTER   12
-#define SMART_RIBBON_NORMAL  13
-#define SMART_RIBBON_SUPER   14
-#define SMART_RIBBON_HYPER   15
-#define SMART_RIBBON_MASTER  16
-#define TOUGH_RIBBON_NORMAL  17
-#define TOUGH_RIBBON_SUPER   18
-#define TOUGH_RIBBON_HYPER   19
-#define TOUGH_RIBBON_MASTER  20
-#define WINNING_RIBBON       21
-#define VICTORY_RIBBON       22
-#define ARTIST_RIBBON        23
-#define EFFORT_RIBBON        24
-#define MARINE_RIBBON        25
-#define LAND_RIBBON          26
-#define SKY_RIBBON           27
-#define COUNTRY_RIBBON       28
-#define NATIONAL_RIBBON      29
-#define EARTH_RIBBON         30
-#define WORLD_RIBBON         31
-
-#define FIRST_GIFT_RIBBON MARINE_RIBBON
-#define LAST_GIFT_RIBBON  WORLD_RIBBON
-#define NUM_GIFT_RIBBONS  (1 + LAST_GIFT_RIBBON - FIRST_GIFT_RIBBON)
-
-// The above gift ribbons (Marine - World) are
-// special distribution ribbons that correspond to
-// 1 bit each in the Pokémon struct. Gen 4 hard-codes
-// each of these to the given name. In Gen 3 they're
-// used to get an index into giftRibbons in the save block,
-// which can have a value 0-64 (0 is 'no ribbon') that
-// corresponds to one of the special ribbons listed
-// in gGiftRibbonDescriptionPointers. Most of these were
-// never distributed
-#define MAX_GIFT_RIBBON 64
-
 #define MIN_LEVEL 1
 #define MAX_LEVEL 100
 
-#define MAX_DYNAMAX_LEVEL 10
 
 enum OtIdMethod
 {
@@ -176,7 +126,7 @@ enum OtIdMethod
 #define PLAYER_HAS_ONE_USABLE_MON      2
 
 #define MON_ALREADY_KNOWS_MOVE  0xFFFE
-#define MON_HAS_MAX_MOVES       0xFFFF
+#define MON_MOVE_SLOTS_FULL     0xFFFF
 
 #define LEVEL_UP_MOVE_ID   0x01FF
 #define LEVEL_UP_MOVE_LV   0xFE00
@@ -189,45 +139,13 @@ enum OtIdMethod
 #define MON_GENDER_RANDOM         0x01
 #define MON_GENDER_MAY_CUTE_CHARM 0x02
 
-// Constants for AdjustFriendship
-#define FRIENDSHIP_EVENT_GROW_LEVEL       0
-#define FRIENDSHIP_EVENT_VITAMIN          1 // unused, handled by PokemonUseItemEffects
-#define FRIENDSHIP_EVENT_BATTLE_ITEM      2 // unused, handled by PokemonUseItemEffects
-#define FRIENDSHIP_EVENT_LEAGUE_BATTLE    3
-#define FRIENDSHIP_EVENT_LEARN_TMHM       4
-#define FRIENDSHIP_EVENT_WALKING          5
-#define FRIENDSHIP_EVENT_FAINT_SMALL      6
-#define FRIENDSHIP_EVENT_FAINT_FIELD_PSN  7
-#define FRIENDSHIP_EVENT_FAINT_LARGE      8 // If opponent was >= 30 levels higher. See AdjustFriendshipOnBattleFaint
-#define FRIENDSHIP_EVENT_MASSAGE          9
 
-// Constants for GetLeadMonFriendshipScore
-#define FRIENDSHIP_NONE        0
-#define FRIENDSHIP_1_TO_49     1
-#define FRIENDSHIP_50_TO_99    2
-#define FRIENDSHIP_100_TO_149  3
-#define FRIENDSHIP_150_TO_199  4
-#define FRIENDSHIP_200_TO_254  5
-#define FRIENDSHIP_MAX         6
 
-// Constants for GetBattlerAffectionHearts (based on friendship value)
-#define AFFECTION_NO_HEARTS     0 // 0-79 friendship
-#define AFFECTION_ONE_HEART     1 // 80-129 friendship
-#define AFFECTION_TWO_HEARTS    2 // 130-179 friendship
-#define AFFECTION_THREE_HEARTS  3 // 180-219 friendship
-#define AFFECTION_FOUR_HEARTS   4 // 220-254 friendship
-#define AFFECTION_FIVE_HEARTS   5 // Max friendship
 
-// Friendship value that the majority of species use.
-#define STANDARD_FRIENDSHIP ((P_UPDATED_FRIENDSHIP >= GEN_8) ? 50 : 70)
 
-#define MAX_FRIENDSHIP  255
 #define MAX_SHEEN       255
 #define MAX_CONDITION   255
 
-#define MAX_PER_STAT_IVS 31
-#define MAX_IV_MASK 31
-#define USE_RANDOM_IVS (MAX_PER_STAT_IVS + 1)
 #define MAX_PER_STAT_EVS ((P_EV_CAP >= GEN_6) ? 252 : 255)
 #define MAX_TOTAL_EVS 510
 #define EV_ITEM_RAISE_LIMIT ((I_VITAMIN_EV_CAP >= GEN_8) ? MAX_PER_STAT_EVS : 100)
@@ -276,7 +194,6 @@ enum EvolutionConditions {
     IF_GENDER,                          // The Pokémon is of specific gender.
     IF_TIME,                            // It is currently the specific time of day.
     IF_NOT_TIME,                        // It is NOT currently the specific time of day.
-    IF_MIN_FRIENDSHIP,                  // The Pokémon has the defined amount of Friendship.
     IF_ATK_GT_DEF,                      // The Pokémon's Attack is greater than its Defense stat.
     IF_ATK_EQ_DEF,                      // The Pokémon's Attack is equal to its Defense stat.
     IF_ATK_LT_DEF,                      // The Pokémon's Attack is lower than its Defense stat.
@@ -285,11 +202,6 @@ enum EvolutionConditions {
     IF_PID_UPPER_MODULO_10_GT,          // The Pokémon's upper personality value's modulo by 10 is greater than the defined value.
     IF_PID_UPPER_MODULO_10_EQ,          // The Pokémon's upper personality value's modulo by 10 is equal to the defined value.
     IF_PID_UPPER_MODULO_10_LT,          // The Pokémon's upper personality value's modulo by 10 is lower or equal than the defined value.
-    IF_MIN_BEAUTY,                      // The Pokémon has the defined amount of Beauty.
-    IF_MIN_COOLNESS,                    // The Pokémon has the defined amount of Coolness.
-    IF_MIN_SMARTNESS,                   // The Pokémon has the defined amount of Smartness. (aka Cleverness in Gen6+)
-    IF_MIN_TOUGHNESS,                   // The Pokémon has the defined amount of Toughness.
-    IF_MIN_CUTENESS,                    // The Pokémon has the defined amount of Cuteness.
     // Gen 4
     IF_SPECIES_IN_PARTY,                // The party contains a Pokémon of the specified species.
     IF_IN_MAP,                          // The player is currently in the specific map.
@@ -362,13 +274,6 @@ enum EvoState {
     DO_EVO,
 };
 
-enum PokemonJumpType {
-    PKMN_JUMP_TYPE_NONE,        // Not allowed in Pokémon Jump
-    PKMN_JUMP_TYPE_NORMAL,
-    PKMN_JUMP_TYPE_FAST,
-    PKMN_JUMP_TYPE_SLOW,
-};
-
 enum EvoSpinDirections {
     SPIN_CW_SHORT,              // Player spins clockwise
     SPIN_CW_LONG,               // Player spins clockwise
@@ -416,10 +321,5 @@ enum GeneratedMonOrigin
 // Used as a signal for givemon to generate a default ability by personality.
 #define NUM_ABILITY_PERSONALITY 0xFF
 
-#if P_LEGENDARY_PERFECT_IVS >= GEN_6
-#define LEGENDARY_PERFECT_IV_COUNT 3
-#else
-#define LEGENDARY_PERFECT_IV_COUNT 0
-#endif
 
 #endif // GUARD_CONSTANTS_POKEMON_H

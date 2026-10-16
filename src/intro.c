@@ -1,4 +1,5 @@
 #include "global.h"
+#include "item.h"
 #include "main.h"
 #include "palette.h"
 #include "scanline_effect.h"
@@ -1142,13 +1143,13 @@ void CB2_InitCopyrightScreenAfterBootup(void)
 {
     if (!SetUpCopyrightScreen())
     {
-        SetSaveBlocksPointers(GetSaveBlocksPointersBaseOffset());
+        SetBagItemsPointers();
         ResetMenuAndMonGlobals();
         Save_ResetSaveCounters();
         LoadGameSave(SAVE_NORMAL);
         if (gSaveFileStatus == SAVE_STATUS_EMPTY || gSaveFileStatus == SAVE_STATUS_CORRUPT)
-            Sav2_ClearSetDefault();
-        SetPokemonCryStereo(gSaveBlock2Ptr->optionsSound);
+            ResetSaveDataAndOptions();
+        SetPokemonCryStereo(gSaveData.optionsSound);
         InitHeap(gHeap, HEAP_SIZE);
     }
 }

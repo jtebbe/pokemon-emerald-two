@@ -25,11 +25,88 @@ SINGLE_BATTLE_TEST("Baton Pass used after Memento works correctly")
     }
 }
 
-TO_DO_BATTLE_TEST("Baton Pass switches out the user");
-TO_DO_BATTLE_TEST("Baton Pass fails if there's no valid party Pokémon left");
-TO_DO_BATTLE_TEST("Baton Pass passes both positive and negative stat changes");
-TO_DO_BATTLE_TEST("AI doesn't choose Baton Pass if the Ace Pokémon is the last one available to switch in");
-TO_DO_BATTLE_TEST("Baton Pass doesn't pass non-volatile status conditions"); // Status1
+SINGLE_BATTLE_TEST("Baton Pass switches out the user")
+{
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET);
+        PLAYER(SPECIES_WYNAUT);
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(player, MOVE_BATON_PASS); SEND_OUT(player, 1); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_BATON_PASS, player);
+        MESSAGE("Go! Wynaut!");
+    } THEN {
+        EXPECT_EQ(player->species, SPECIES_WYNAUT);
+    }
+}
+
+SINGLE_BATTLE_TEST("Baton Pass fails if there's no valid party Pokemon left")
+{
+    bool32 faintedPartner;
+    PARAMETRIZE { faintedPartner = FALSE; }
+    PARAMETRIZE { faintedPartner = TRUE; }
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET);
+        if (faintedPartner)
+            PLAYER(SPECIES_WYNAUT) { HP(0); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(player, MOVE_BATON_PASS); }
+    } SCENE {
+        MESSAGE("Wobbuffet used Baton Pass!");
+        MESSAGE("But it failed!");
+    } THEN {
+        EXPECT_EQ(player->species, SPECIES_WOBBUFFET);
+    }
+}
+
+SINGLE_BATTLE_TEST("Baton Pass passes both positive and negative stat changes")
+{
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET);
+        PLAYER(SPECIES_WYNAUT);
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(player, MOVE_WORK_UP); MOVE(opponent, MOVE_TAIL_WHIP); }
+        TURN { MOVE(player, MOVE_BATON_PASS); SEND_OUT(player, 1); }
+    } THEN {
+        EXPECT_EQ(player->species, SPECIES_WYNAUT);
+        EXPECT_EQ(player->statStages[STAT_ATK], DEFAULT_STAT_STAGE + 1);
+        EXPECT_EQ(player->statStages[STAT_SPATK], DEFAULT_STAT_STAGE + 1);
+        EXPECT_EQ(player->statStages[STAT_DEF], DEFAULT_STAT_STAGE - 1);
+    }
+}
+AI_SINGLE_BATTLE_TEST("AI avoids Baton Pass when only its ace can switch in")
+{
+    u64 aceFlag;
+    PARAMETRIZE { aceFlag = AI_FLAG_ACE_POKEMON; }
+    PARAMETRIZE { aceFlag = AI_FLAG_DOUBLE_ACE_POKEMON; }
+    GIVEN {
+        AI_FLAGS(AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_CHECK_VIABILITY | AI_FLAG_PREFER_BATON_PASS | aceFlag);
+        PLAYER(SPECIES_WOBBUFFET) { Speed(2); Moves(MOVE_SWAGGER, MOVE_CELEBRATE); }
+        OPPONENT(SPECIES_WOBBUFFET) { Speed(1); Item(ITEM_PERSIM_BERRY); Moves(MOVE_BATON_PASS, MOVE_SCRATCH); }
+        OPPONENT(SPECIES_WOBBUFFET) { Speed(3); }
+        if (aceFlag == AI_FLAG_DOUBLE_ACE_POKEMON)
+            OPPONENT(SPECIES_WYNAUT) { Speed(4); }
+    } WHEN {
+        TURN { MOVE(player, MOVE_SWAGGER); EXPECT_MOVE(opponent, MOVE_SCRATCH); }
+        TURN { EXPECT_MOVE(opponent, MOVE_SCRATCH); }
+    }
+}
+SINGLE_BATTLE_TEST("Baton Pass doesn't pass non-volatile status conditions")
+{
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET) { Status1(STATUS1_BURN); }
+        PLAYER(SPECIES_WYNAUT);
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(player, MOVE_BATON_PASS); SEND_OUT(player, 1); }
+    } THEN {
+        EXPECT_EQ(player->status1, STATUS1_NONE);
+        EXPECT_EQ(GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_STATUS), STATUS1_BURN);
+    }
+}
 TO_DO_BATTLE_TEST("Baton Pass doesn't pass infatuation");
 TO_DO_BATTLE_TEST("Baton Pass doesn't pass type changes");
 TO_DO_BATTLE_TEST("Baton Pass doesn't pass ability changes");

@@ -22,7 +22,6 @@
 #include "main.h"
 #include "map_preview_screen.h"
 #include "menu.h"
-#include "mirage_tower.h"
 #include "metatile_behavior.h"
 #include "palette.h"
 #include "oras_dowse.h"
@@ -40,13 +39,11 @@
 #include "constants/heal_locations.h"
 #include "constants/songs.h"
 #include "constants/rgb.h"
-#include "trainer_hill.h"
 #include "fldeff.h"
 #include "battle.h"
 
 static void Task_ExitNonAnimDoor(u8);
 static void Task_ExitNonDoor(u8);
-static void Task_DoContestHallWarp(u8);
 static void FillPalBufferWhite(void);
 static void Task_ExitDoor(u8);
 static bool32 WaitForWeatherFadeIn(void);
@@ -242,28 +239,7 @@ static void Task_ReturnToFieldWirelessLink(u8 taskId)
     }
 }
 
-void Task_ReturnToFieldRecordMixing(u8 taskId)
-{
-    struct Task *task = &gTasks[taskId];
 
-    switch (task->tState)
-    {
-    case 0:
-        SetLinkStandbyCallback();
-        task->tState++;
-        break;
-    case 1:
-        if (IsLinkTaskFinished())
-            task->tState++;
-        break;
-    case 2:
-        StartSendingKeysToLink();
-        ResetAllMultiplayerState();
-        UnlockPlayerFieldControls();
-        DestroyTask(taskId);
-        break;
-    }
-}
 
 void FieldCB_ReturnToFieldWirelessLink(void)
 {
@@ -313,8 +289,7 @@ void FieldCB_WarpExitFadeFromWhite(void)
 
 void FieldCB_WarpExitFadeFromBlack(void)
 {
-    if (!OnTrainerHillEReaderChallengeFloor()) // always false
-        Overworld_PlaySpecialMapMusic();
+    Overworld_PlaySpecialMapMusic();
     FadeInFromBlack();
     SetUpWarpExitTask();
     LockPlayerFieldControls();
@@ -616,13 +591,7 @@ void DoMossdeepGymWarp(void)
     gFieldCallback = FieldCB_MossdeepGymWarpExit;
 }
 
-void DoPortholeWarp(void)
-{
-    LockPlayerFieldControls();
-    WarpFadeOutScreen();
-    CreateTask(Task_WarpAndLoadMap, 10);
-    gFieldCallback = FieldCB_ShowPortholeView;
-}
+
 
 static void Task_DoCableClubWarp(u8 taskId)
 {
@@ -708,7 +677,6 @@ void Task_WarpAndLoadMap(u8 taskId)
         {
             if (task->data[1] == 0)
             {
-                ClearMirageTowerPulseBlendEffect();
                 task->data[1] = 1;
             }
             if (BGMusicStopped())
@@ -814,41 +782,9 @@ void Task_DoDoorWarp(u8 taskId)
     }
 }
 
-static void Task_DoContestHallWarp(u8 taskId)
-{
-    struct Task *task = &gTasks[taskId];
 
-    switch (task->tState)
-    {
-    case 0:
-        FreezeObjectEvents();
-        LockPlayerFieldControls();
-        task->tState++;
-        break;
-    case 1:
-        if (!PaletteFadeActive() && BGMusicStopped())
-        {
-            task->tState++;
-        }
-        break;
-    case 2:
-        WarpIntoMap();
-        SetMainCallback2(CB2_ReturnToFieldContestHall);
-        DestroyTask(taskId);
-        break;
-    }
-}
 
-void DoContestHallWarp(void)
-{
-    LockPlayerFieldControls();
-    TryFadeOutOldMapMusic();
-    WarpFadeOutScreen();
-    PlayRainStoppingSoundEffect();
-    PlaySE(SE_EXIT);
-    gFieldCallback = FieldCB_WarpExitFadeFromBlack;
-    CreateTask(Task_DoContestHallWarp, 10);
-}
+
 
 static void SetFlashScanlineEffectWindowBoundary(u16 *dest, u32 y, s32 left, s32 right)
 {
@@ -1076,12 +1012,6 @@ void WriteFlashScanlineEffectBuffer(u8 flashLevel)
         SetFlashScanlineEffectWindowBoundaries(&gScanlineEffectRegBuffers[0][0], DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2, sFlashLevelToRadius[flashLevel]);
         CpuFastSet(&gScanlineEffectRegBuffers[0], &gScanlineEffectRegBuffers[1], 480);
     }
-}
-
-void WriteBattlePyramidViewScanlineEffectBuffer(void)
-{
-    SetFlashScanlineEffectWindowBoundaries(&gScanlineEffectRegBuffers[0][0], DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2, gSaveBlock2Ptr->frontier.pyramidLightRadius);
-    CpuFastSet(&gScanlineEffectRegBuffers[0], &gScanlineEffectRegBuffers[1], 480);
 }
 
 static void Task_SpinEnterWarp(u8 taskId)
@@ -1421,77 +1351,6 @@ static const u8 *GenerateRecoveryMessage(u8 taskId)
         return sText_PlayerScurriedBackHome;
     else
         return sText_PlayerScurriedToCenter;
-}
-
-static void Task_RushInjuredPokemonToCenter(u8 taskId)
-{
-    u32 windowId;
-
-    switch (gTasks[taskId].tState)
-    {
-    case WHITEOUT_CUTSCENE_ENTER_MSG_SCREEN:
-        windowId = AddWindow(&sWindowTemplate_WhiteoutText);
-        gTasks[taskId].tWindowId = windowId;
-        Menu_LoadStdPalAt(BG_PLTT_ID(15));
-        FillWindowPixelBuffer(windowId, PIXEL_FILL(0));
-        PutWindowTilemap(windowId);
-        CopyWindowToVram(windowId, COPYWIN_FULL);
-
-        gTasks[taskId].tIsPlayerHouse = IsLastHealLocationPlayerHouse();
-        gTasks[taskId].tState = WHITEOUT_CUTSCENE_PRINT_MSG;
-        break;
-    case WHITEOUT_CUTSCENE_PRINT_MSG:
-    {
-        const u8 *recoveryMessage = GenerateRecoveryMessage(taskId);
-
-        if (PrintWhiteOutRecoveryMessage(taskId, recoveryMessage, 2, 8))
-        {
-            ObjectEventTurn(&gObjectEvents[gPlayerAvatar.objectEventId], DIR_NORTH);
-            gTasks[taskId].tState = WHITEOUT_CUTSCENE_LEAVE_MSG_SCREEN;
-        }
-        break;
-    }
-    case WHITEOUT_CUTSCENE_LEAVE_MSG_SCREEN:
-        windowId = gTasks[taskId].tWindowId;
-        ClearWindowTilemap(windowId);
-        CopyWindowToVram(windowId, COPYWIN_MAP);
-        RemoveWindow(windowId);
-        FadeInFromBlack();
-        gTasks[taskId].tState = WHITEOUT_CUTSCENE_HEAL_SCRIPT;
-        break;
-    case WHITEOUT_CUTSCENE_HEAL_SCRIPT:
-        if (WaitForWeatherFadeIn() == TRUE)
-        {
-            DestroyTask(taskId);
-            if (gTasks[taskId].tIsPlayerHouse)
-            {
-                if (IS_FRLG)
-                    StringCopy(gStringVar1, COMPOUND_STRING("PROF. OAK"));
-                else
-                    StringCopy(gStringVar1, COMPOUND_STRING("PROF. BIRCH"));
-                ScriptContext_SetupScript(EventScript_AfterWhiteOutMomHeal);
-            }
-            else if (IS_FRLG)
-            {
-                ScriptContext_SetupScript(EventScript_AfterWhiteOutHeal_Frlg);
-            }
-            else
-            {
-                ScriptContext_SetupScript(EventScript_AfterWhiteOutHeal);
-            }
-        }
-        break;
-    }
-}
-
-void FieldCB_RushInjuredPokemonToCenter(void)
-{
-    u8 taskId;
-
-    LockPlayerFieldControls();
-    FillPalBufferBlack();
-    taskId = CreateTask(Task_RushInjuredPokemonToCenter, 10);
-    gTasks[taskId].tState = WHITEOUT_CUTSCENE_ENTER_MSG_SCREEN;
 }
 
 static void GetStairsMovementDirection(u32 metatileBehavior, s16 *speedX, s16 *speedY)

@@ -18,6 +18,7 @@
 void CB2_TestRunner(void);
 static void ReinitCallbacks(void);
 static void ResetGlobalVariables(void);
+static void RestartFailedTest(void);
 
 EWRAM_DATA struct TestRunnerState gTestRunnerState;
 EWRAM_DATA struct FunctionTestRunnerState *gFunctionTestRunnerState;
@@ -80,6 +81,17 @@ static bool32 InfixMatch(const char *pattern, const char *string)
         return TRUE;
 
     return strstr(string, &pattern[1]) != NULL;
+}
+
+static bool32 MatchesTestFilter(const struct Test *test)
+{
+    if (gTestRunnerState.filterMode == TEST_FILTER_MODE_FILENAME_EXACT)
+        return ExactMatch(gTestRunnerArgv, test->filename);
+    if (test->runner == &gAssumptionsRunner)
+        return TRUE;
+    if (gTestRunnerState.filterMode == TEST_FILTER_MODE_TEST_NAME_INFIX)
+        return InfixMatch(gTestRunnerArgv, test->name);
+    return PrefixMatch(gTestRunnerArgv, test->name);
 }
 
 enum
@@ -192,13 +204,16 @@ void TestRunner_CheckMemory(void)
     }
 }
 
-static void ClearSaveBlocks(void)
+static void ResetTestSaveData(void)
 {
-    ClearSav1();
-    ClearSav2();
-    ClearSav3();
+    ResetSaveData();
+    for (u32 trainer = 0; trainer < MAX_BATTLE_TRAINERS; trainer++)
+    {
+        ZeroPartyMons(gParties[trainer]);
+        gPartiesCount[trainer] = 0;
+    }
     // Game strings use EOS, so a zeroed player name is not terminated.
-    gSaveBlock2Ptr->playerName[0] = EOS;
+    gSaveData.playerName[0] = EOS;
 }
 
 void CB2_TestRunner(void)
@@ -217,18 +232,20 @@ top:
 
         gTestRunnerState.filterMode = DetectFilterMode(gTestRunnerArgv);
 
-        MoveSaveBlocks_ResetHeap();
+        ResetHeapPreservingSaveData();
 
         gIntrTable[7] = Intr_Timer2;
 
         // The current test restarted the ROM (e.g. by jumping to NULL).
         if (gPersistentTestRunnerState.address != 0)
         {
-            ClearSaveBlocks();
+            enum TestResult interruptedExpected = gPersistentTestRunnerState.expectedResult;
+            ResetTestSaveData();
             gTestRunnerState.test = __start_tests;
             while ((uintptr_t)gTestRunnerState.test != gPersistentTestRunnerState.address)
             {
-                AssignCostToRunner();
+                if (MatchesTestFilter(gTestRunnerState.test))
+                    AssignCostToRunner();
                 gTestRunnerState.test++;
             }
 
@@ -239,7 +256,7 @@ top:
                 if (runner == gTestRunnerI)
                 {
                     gTestRunnerState.state = STATE_REPORT_RESULT;
-                    gTestRunnerState.result = TEST_RESULT_CRASH;
+                    gTestRunnerState.result = gPersistentTestRunnerState.timedOut ? TEST_RESULT_TIMEOUT : TEST_RESULT_CRASH;
                 }
                 else
                 {
@@ -251,11 +268,13 @@ top:
                 // Cost must be assigned to the test that crashed, otherwise tests will be desynched
                 AssignCostToRunner();
                 gTestRunnerState.state = STATE_REPORT_RESULT;
-                gTestRunnerState.result = TEST_RESULT_CRASH;
+                gTestRunnerState.result = gPersistentTestRunnerState.timedOut ? TEST_RESULT_TIMEOUT : TEST_RESULT_CRASH;
             }
 
             if (gPersistentTestRunnerState.expectCrash)
                 gTestRunnerState.expectedResult = TEST_RESULT_CRASH;
+            else
+                gTestRunnerState.expectedResult = interruptedExpected;
 
             gTestRunnerState.expectedFailLine = 0;
             gTestRunnerState.expectedFailState = NO_EXPECT_FAIL;
@@ -265,13 +284,13 @@ top:
             gTestRunnerState.state = STATE_ASSIGN_TEST;
             gTestRunnerState.test = __start_tests;
         }
-        gTestRunnerState.exitCode = 0;
+        gTestRunnerState.exitCode = gPersistentTestRunnerState.failed;
         gTestRunnerState.skipFilename = NULL;
 
         break;
 
     case STATE_ASSIGN_TEST:
-        ClearSaveBlocks();
+        ResetTestSaveData();
         while (1)
         {
             if (gTestRunnerState.test == __stop_tests)
@@ -321,6 +340,7 @@ top:
 
         gPersistentTestRunnerState.address = (uintptr_t)gTestRunnerState.test;
         gPersistentTestRunnerState.state = CURRENT_TEST_STATE_ESTIMATE;
+        gPersistentTestRunnerState.timedOut = FALSE;
 
         // If AssignCostToRunner fails, we want to report the failure.
         gTestRunnerState.state = STATE_REPORT_RESULT;
@@ -335,6 +355,7 @@ top:
         gTestRunnerState.state = STATE_REPORT_RESULT;
         gPersistentTestRunnerState.state = CURRENT_TEST_STATE_RUN;
         gPersistentTestRunnerState.expectCrash = FALSE;
+        gPersistentTestRunnerState.expectedResult = TEST_RESULT_PASS;
         ResetGlobalVariables();
         SeedRng(0);
         SeedRng2(0);
@@ -493,7 +514,7 @@ top:
             else if (gTestRunnerState.result == TEST_RESULT_TODO)
                 Test_MgbaPrintf(":T%s%s\e[0m", color, result);
             else if (gTestRunnerState.expectedResult == gTestRunnerState.result
-                 && gTestRunnerState.result == TEST_RESULT_CRASH)
+                 && (gTestRunnerState.result == TEST_RESULT_CRASH || gTestRunnerState.result == TEST_RESULT_TIMEOUT))
                 Test_MgbaPrintf(":E%s%s\e[0m", color, result);
             else if (gTestRunnerState.expectedResult == gTestRunnerState.result
                  && gTestRunnerState.result == TEST_RESULT_FAIL
@@ -509,6 +530,7 @@ top:
         }
         gTestRunnerState.expectedFailLine = 0;
         gTestRunnerState.expectedFailState = NO_EXPECT_FAIL;
+        gPersistentTestRunnerState.failed |= gTestRunnerState.exitCode != 0;
         break;
 
     case STATE_NEXT_TEST:
@@ -533,6 +555,7 @@ top:
 void Test_ExpectedResult(enum TestResult result)
 {
     gTestRunnerState.expectedResult = result;
+    gPersistentTestRunnerState.expectedResult = result;
 }
 
 void Test_ExpectLeaks(bool32 expectLeaks)
@@ -728,6 +751,14 @@ static void ReinitCallbacks(void)
     gMain.hblankCallback = NULL;
 }
 
+static void RestartFailedTest(void)
+{
+    // Enter the cartridge reset vector directly. BIOS SoftReset clears the top
+    // of IWRAM, including .persistent; the CRT's RegisterRamReset preserves it.
+    REG_IME = 0;
+    ((void (*)(void))ROM_START)();
+}
+
 static void Intr_Timer2(void)
 {
     if (--gTestRunnerState.timeoutSeconds == 0)
@@ -743,7 +774,9 @@ static void Intr_Timer2(void)
                 gTestRunnerState.state = STATE_REPORT_RESULT;
             gTestRunnerState.result = TEST_RESULT_TIMEOUT;
             Test_MgbaPrintf("%s:%d: TIMEOUT", gTestRunnerState.test->filename, SourceLine(0));
+            gPersistentTestRunnerState.timedOut = TRUE;
             ReinitCallbacks();
+            SetMainCallback2(RestartFailedTest);
             IRQ_LR = ((uintptr_t)JumpToAgbMainLoop & ~1) + 4;
         }
     }
@@ -1053,6 +1086,7 @@ void DACSHandle(void)
         gTestRunnerState.state = STATE_REPORT_RESULT;
     gTestRunnerState.result = TEST_RESULT_CRASH;
     ReinitCallbacks();
+    SetMainCallback2(RestartFailedTest);
     DACS_LR = ((uintptr_t)JumpToAgbMainLoop & ~1) + 4;
 }
 

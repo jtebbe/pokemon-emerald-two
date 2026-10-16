@@ -428,7 +428,7 @@ static void AddSearchWindow(u8 width)
     struct WindowTemplate template;
     u16 y = 16;
 
-    if (sDexNavSearchDataPtr->tileY > (gSaveBlock1Ptr->pos.y + 7))
+    if (sDexNavSearchDataPtr->tileY > (gSaveData.pos.y + 7))
         y = 1;  //draw at top if chosen tile is below
 
     LoadDexNavWindowGfx(sDexNavSearchDataPtr->windowId, 0x1d5, 14 * 16);
@@ -473,7 +473,7 @@ static void AddSearchWindowText(enum Species species, u8 proximity, u8 searchLev
 
     if (proximity <= SNEAKING_PROXIMITY)
     {
-        PlaySE(SE_POKENAV_ON);
+        PlaySE(SE_SCANNER_ON);
         // move
         if (searchLevel > 1 && sDexNavSearchDataPtr->moves[0])
         {
@@ -499,8 +499,8 @@ static void AddSearchWindowText(enum Species species, u8 proximity, u8 searchLev
     }
 
     //chain level - always present
-    ConvertIntToDecimalStringN(gStringVar1, gSaveBlock3Ptr->dexNavChain, STR_CONV_MODE_LEFT_ALIGN, 3);
-    if (gSaveBlock3Ptr->dexNavChain > 99)
+    ConvertIntToDecimalStringN(gStringVar1, gSaveData.dexNavChain, STR_CONV_MODE_LEFT_ALIGN, 3);
+    if (gSaveData.dexNavChain > 99)
         StringExpandPlaceholders(gStringVar4, sText_DexNavChainLong);
     else
         StringExpandPlaceholders(gStringVar4, sText_DexNavChain);
@@ -561,8 +561,8 @@ static void RemoveDexNavWindowAndGfx(void)
 //////////////////////
 static u8 GetPlayerDistance(s16 x, s16 y)
 {
-    u16 deltaX = abs(x - (gSaveBlock1Ptr->pos.x + 7));
-    u16 deltaY = abs(y - (gSaveBlock1Ptr->pos.y + 7));
+    u16 deltaX = abs(x - (gSaveData.pos.x + 7));
+    u16 deltaY = abs(y - (gSaveData.pos.y + 7));
     return deltaX + deltaY;
 }
 
@@ -575,8 +575,8 @@ static void DexNavProximityUpdate(void)
 static bool8 DexNavPickTile(enum EncounterType environment, u8 areaX, u8 areaY, bool8 smallScan)
 {
     // area of map to cover starting from camera position {-7, -7}
-    s16 topX = gSaveBlock1Ptr->pos.x - SCANSTART_X + (smallScan * 5);
-    s16 topY = gSaveBlock1Ptr->pos.y - SCANSTART_Y + (smallScan * 5);
+    s16 topX = gSaveData.pos.x - SCANSTART_X + (smallScan * 5);
+    s16 topY = gSaveData.pos.y - SCANSTART_Y + (smallScan * 5);
     s16 botX = topX + areaX;
     s16 botY = topY + areaY;
     u8 i;
@@ -675,7 +675,7 @@ static bool8 DexNavPickTile(enum EncounterType environment, u8 areaX, u8 areaY, 
         }
 
         topY++;
-        topX = gSaveBlock1Ptr->pos.x - SCANSTART_X + (smallScan * 5);
+        topX = gSaveData.pos.x - SCANSTART_X + (smallScan * 5);
     }
 
     if (iter > 0)
@@ -781,7 +781,7 @@ static u8 GetSearchLevel(enum Species species)
 {
     u8 searchLevel;
 #if USE_DEXNAV_SEARCH_LEVELS == TRUE
-    searchLevel = gSaveBlock3Ptr->dexNavSearchLevels[species];
+    searchLevel = gSaveData.dexNavSearchLevels[species];
 #else
     searchLevel = 0;
 #endif
@@ -824,7 +824,6 @@ static void SetUpDexNavSearch(void)
     gPlayerAvatar.creeping = TRUE;  //initialize as true in case mon appears beside you
     sDexNavSearchDataPtr->proximity = gSprites[gPlayerAvatar.spriteId].x;
     sDexNavSearchDataPtr->startingTime = gMain.vblankCounter1;
-    IncrementGameStat(GAME_STAT_DEXNAV_SCANNED);
 }
 
 static void DexNavSearchBail(const u8 *script)
@@ -889,8 +888,8 @@ static void DexNavUpdateDirectionArrow(void)
 {
     u16 tileX = sDexNavSearchDataPtr->tileX;
     u16 tileY = sDexNavSearchDataPtr->tileY;
-    u16 playerX = gSaveBlock1Ptr->pos.x + MAP_OFFSET;
-    u16 playerY = gSaveBlock1Ptr->pos.y + MAP_OFFSET;
+    u16 playerX = gSaveData.pos.x + MAP_OFFSET;
+    u16 playerY = gSaveData.pos.y + MAP_OFFSET;
     u16 deltaX = abs(tileX - playerX);
     u16 deltaY = abs(tileY - playerY);
     const u8 *str;
@@ -976,7 +975,7 @@ void EndDexNavSearch(void)
 
 static void EndDexNavSearchSetupScript(const u8 *script)
 {
-    gSaveBlock3Ptr->dexNavChain = 0;   //reset chain
+    gSaveData.dexNavChain = 0;   //reset chain
     EndDexNavSearch();
     ScriptContext_SetupScript(script);
 }
@@ -1182,7 +1181,6 @@ static void CreateDexNavWildMon(enum Species species, u8 potential, u8 level, u8
     struct Pokemon *mon = &gParties[B_TRAINER_OPPONENT_A][0];
 
     CreateWildMon(species, level);  // shiny rate bonus handled in CreateBoxMon
-    SetBoxMonPerfectIVs(&mon->box, min(3, potential)); // Will not exceed 3 Perfect IVs
 
     //Set ability
     SetMonData(mon, MON_DATA_ABILITY_NUM, &abilityNum);
@@ -1203,7 +1201,7 @@ static void CreateDexNavWildMon(enum Species species, u8 potential, u8 level, u8
 static u8 DexNavTryGenerateMonLevel(enum Species species, enum EncounterType environment)
 {
     u8 levelBase = GetEncounterLevelFromMapData(species, environment);
-    u8 levelBonus = gSaveBlock3Ptr->dexNavChain / 5;
+    u8 levelBonus = gSaveData.dexNavChain / 5;
 
     if (levelBase == MON_LEVEL_NONEXISTENT)
         return MON_LEVEL_NONEXISTENT;   //species not found in the area
@@ -2137,7 +2135,7 @@ static void PrintCurrentSpeciesInfo(void)
     }
 
     //current chain
-    ConvertIntToDecimalStringN(gStringVar1, gSaveBlock3Ptr->dexNavChain, STR_CONV_MODE_LEFT_ALIGN, 3);
+    ConvertIntToDecimalStringN(gStringVar1, gSaveData.dexNavChain, STR_CONV_MODE_LEFT_ALIGN, 3);
     AddTextPrinterParameterized3(WINDOW_INFO, FONT_SMALL, 0, CHAIN_BONUS_Y, sFontColor_Black, 0, gStringVar1);
 
     CopyWindowToVram(WINDOW_INFO, 3);
@@ -2329,7 +2327,7 @@ static void Task_DexNavMain(u8 taskId)
 
     if (JOY_NEW(B_BUTTON))
     {
-        PlaySE(SE_POKENAV_OFF);
+        PlaySE(SE_SCANNER_OFF);
         BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB_BLACK);
         task->func = Task_DexNavFadeAndExit;
     }
@@ -2580,8 +2578,8 @@ bool32 TryFindHiddenPokemon(void)
         }
 
         // exclamation mark over player
-        gFieldEffectArguments[0] = gSaveBlock1Ptr->pos.x;
-        gFieldEffectArguments[1] = gSaveBlock1Ptr->pos.y;
+        gFieldEffectArguments[0] = gSaveData.pos.x;
+        gFieldEffectArguments[1] = gSaveData.pos.y;
         gFieldEffectArguments[2] = gSprites[gPlayerAvatar.spriteId].subpriority - 1;
         gFieldEffectArguments[3] = 2;
         ObjectEventGetLocalIdAndMap(&gObjectEvents[gPlayerAvatar.objectEventId], &gFieldEffectArguments[0], &gFieldEffectArguments[1], &gFieldEffectArguments[2]);
@@ -2642,7 +2640,7 @@ static void DexNavDrawHiddenIcons(void)
 u32 CalculateDexNavShinyRolls(void)
 {
     u32 chainBonus, rndBonus;
-    u8 chain = gSaveBlock3Ptr->dexNavChain;
+    u8 chain = gSaveData.dexNavChain;
 
     chainBonus = (chain >= 100) ? 10 : (chain >= 50) ? 5 : 0;
     rndBonus = (Random() % 100 < 4) ? 4 : 0;
@@ -2652,14 +2650,14 @@ u32 CalculateDexNavShinyRolls(void)
 void TryIncrementSpeciesSearchLevel()
 {
 #if USE_DEXNAV_SEARCH_LEVELS == TRUE
-    if (gMapHeader.regionMapSectionId != MAPSEC_BATTLE_FRONTIER && gSaveBlock3Ptr->dexNavSearchLevels[gDexNavSpecies] < 255)
-        gSaveBlock3Ptr->dexNavSearchLevels[gDexNavSpecies]++;
+    if (gSaveData.dexNavSearchLevels[gDexNavSpecies] < 255)
+        gSaveData.dexNavSearchLevels[gDexNavSpecies]++;
 #endif
 }
 
 void ResetDexNavSearch(void)
 {
-    gSaveBlock3Ptr->dexNavChain = 0;    //reset dex nav chaining on new map
+    gSaveData.dexNavChain = 0;    //reset dex nav chaining on new map
     VarSet(DN_VAR_STEP_COUNTER, 0); //reset hidden Pokémon step counter
     if (FlagGet(DN_FLAG_SEARCHING))
         EndDexNavSearch();   //moving to new map ends dexnav search
@@ -2667,6 +2665,6 @@ void ResetDexNavSearch(void)
 
 void IncrementDexNavChain(void)
 {
-    if (gSaveBlock3Ptr->dexNavChain < DEXNAV_CHAIN_MAX)
-        gSaveBlock3Ptr->dexNavChain++;
+    if (gSaveData.dexNavChain < DEXNAV_CHAIN_MAX)
+        gSaveData.dexNavChain++;
 }

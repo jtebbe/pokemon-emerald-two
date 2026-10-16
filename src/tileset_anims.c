@@ -33,16 +33,12 @@ static void TilesetAnim_Lavaridge(u16);
 static void TilesetAnim_EverGrande(u16);
 static void TilesetAnim_Pacifidlog(u16);
 static void TilesetAnim_Sootopolis(u16);
-static void TilesetAnim_BattleFrontierOutsideWest(u16);
-static void TilesetAnim_BattleFrontierOutsideEast(u16);
 static void TilesetAnim_Underwater(u16);
 static void TilesetAnim_SootopolisGym(u16);
 static void TilesetAnim_Cave(u16);
 static void TilesetAnim_EliteFour(u16);
 static void TilesetAnim_MauvilleGym(u16);
 static void TilesetAnim_BikeShop(u16);
-static void TilesetAnim_BattlePyramid(u16);
-static void TilesetAnim_BattleDome(u16);
 static void QueueAnimTiles_General_Flower(u16);
 static void QueueAnimTiles_General_Water(u16);
 static void QueueAnimTiles_General_SandWaterEdge(u16);
@@ -55,10 +51,6 @@ static void QueueAnimTiles_Dewford_Flag(u16);
 static void QueueAnimTiles_Slateport_Balloons(u16);
 static void QueueAnimTiles_Mauville_Flowers(u16, u8);
 static void QueueAnimTiles_BikeShop_BlinkingLights(u16);
-static void QueueAnimTiles_BattlePyramid_Torch(u16);
-static void QueueAnimTiles_BattlePyramid_StatueShadow(u16);
-static void BlendAnimPalette_BattleDome_FloorLights(u16);
-static void BlendAnimPalette_BattleDome_FloorLightsNoBlend(u16);
 static void QueueAnimTiles_Lavaridge_Steam(u8);
 static void QueueAnimTiles_Lavaridge_Lava(u16);
 static void QueueAnimTiles_EverGrande_Flowers(u16, u8);
@@ -67,8 +59,6 @@ static void QueueAnimTiles_Pacifidlog_WaterCurrents(u8);
 static void QueueAnimTiles_Sootopolis_StormyWater(u16);
 static void QueueAnimTiles_Underwater_Seaweed(u8);
 static void QueueAnimTiles_Cave_Lava(u16);
-static void QueueAnimTiles_BattleFrontierOutsideWest_Flag(u16);
-static void QueueAnimTiles_BattleFrontierOutsideEast_Flag(u16);
 static void QueueAnimTiles_MauvilleGym_ElectricGates(u16);
 static void QueueAnimTiles_SootopolisGym_Waterfalls(u16);
 static void QueueAnimTiles_EliteFour_GroundLights(u16);
@@ -383,29 +373,9 @@ const u16 *const gTilesetAnims_Dewford_Flag[] = {
     gTilesetAnims_Dewford_Flag_Frame3
 };
 
-const u16 gTilesetAnims_BattleFrontierOutsideWest_Flag_Frame0[] = INCGFX_U16("data/tilesets/secondary/battle_frontier_outside_west/anim/flag/0.png", ".4bpp");
-const u16 gTilesetAnims_BattleFrontierOutsideWest_Flag_Frame1[] = INCGFX_U16("data/tilesets/secondary/battle_frontier_outside_west/anim/flag/1.png", ".4bpp");
-const u16 gTilesetAnims_BattleFrontierOutsideWest_Flag_Frame2[] = INCGFX_U16("data/tilesets/secondary/battle_frontier_outside_west/anim/flag/2.png", ".4bpp");
-const u16 gTilesetAnims_BattleFrontierOutsideWest_Flag_Frame3[] = INCGFX_U16("data/tilesets/secondary/battle_frontier_outside_west/anim/flag/3.png", ".4bpp");
 
-const u16 *const gTilesetAnims_BattleFrontierOutsideWest_Flag[] = {
-    gTilesetAnims_BattleFrontierOutsideWest_Flag_Frame0,
-    gTilesetAnims_BattleFrontierOutsideWest_Flag_Frame1,
-    gTilesetAnims_BattleFrontierOutsideWest_Flag_Frame2,
-    gTilesetAnims_BattleFrontierOutsideWest_Flag_Frame3
-};
 
-const u16 gTilesetAnims_BattleFrontierOutsideEast_Flag_Frame0[] = INCGFX_U16("data/tilesets/secondary/battle_frontier_outside_east/anim/flag/0.png", ".4bpp");
-const u16 gTilesetAnims_BattleFrontierOutsideEast_Flag_Frame1[] = INCGFX_U16("data/tilesets/secondary/battle_frontier_outside_east/anim/flag/1.png", ".4bpp");
-const u16 gTilesetAnims_BattleFrontierOutsideEast_Flag_Frame2[] = INCGFX_U16("data/tilesets/secondary/battle_frontier_outside_east/anim/flag/2.png", ".4bpp");
-const u16 gTilesetAnims_BattleFrontierOutsideEast_Flag_Frame3[] = INCGFX_U16("data/tilesets/secondary/battle_frontier_outside_east/anim/flag/3.png", ".4bpp");
 
-const u16 *const gTilesetAnims_BattleFrontierOutsideEast_Flag[] = {
-    gTilesetAnims_BattleFrontierOutsideEast_Flag_Frame0,
-    gTilesetAnims_BattleFrontierOutsideEast_Flag_Frame1,
-    gTilesetAnims_BattleFrontierOutsideEast_Flag_Frame2,
-    gTilesetAnims_BattleFrontierOutsideEast_Flag_Frame3
-};
 
 const u16 gTilesetAnims_Slateport_Balloons_Frame0[] = INCGFX_U16("data/tilesets/secondary/slateport/anim/balloons/0.png", ".4bpp");
 const u16 gTilesetAnims_Slateport_Balloons_Frame1[] = INCGFX_U16("data/tilesets/secondary/slateport/anim/balloons/1.png", ".4bpp");
@@ -510,14 +480,8 @@ const u16 *const gTilesetAnims_Sootopolis_StormyWater[] = {
     gTilesetAnims_Sootopolis_StormyWater_Frame7
 };
 
-const u16 gTilesetAnims_BattlePyramid_Torch_Frame0[] = INCGFX_U16("data/tilesets/secondary/battle_pyramid/anim/torch/0.png", ".4bpp");
-const u16 gTilesetAnims_BattlePyramid_Torch_Frame1[] = INCGFX_U16("data/tilesets/secondary/battle_pyramid/anim/torch/1.png", ".4bpp");
-const u16 gTilesetAnims_BattlePyramid_Torch_Frame2[] = INCGFX_U16("data/tilesets/secondary/battle_pyramid/anim/torch/2.png", ".4bpp");
 const u16 tileset_anims_space_9[16] = {};
 
-const u16 gTilesetAnims_BattlePyramid_StatueShadow_Frame0[] = INCGFX_U16("data/tilesets/secondary/battle_pyramid/anim/statue_shadow/0.png", ".4bpp");
-const u16 gTilesetAnims_BattlePyramid_StatueShadow_Frame1[] = INCGFX_U16("data/tilesets/secondary/battle_pyramid/anim/statue_shadow/1.png", ".4bpp");
-const u16 gTilesetAnims_BattlePyramid_StatueShadow_Frame2[] = INCGFX_U16("data/tilesets/secondary/battle_pyramid/anim/statue_shadow/2.png", ".4bpp");
 const u16 tileset_anims_space_10[7808] = {};
 
 const u16 gTilesetAnims_Unused2_Frame0[] = INCGFX_U16("data/tilesets/secondary/unused_2/0.png", ".4bpp");
@@ -525,24 +489,8 @@ const u16 tileset_anims_space_11[224] = {};
 
 const u16 gTilesetAnims_Unused2_Frame1[] = INCGFX_U16("data/tilesets/secondary/unused_2/1.png", ".4bpp");
 
-const u16 *const gTilesetAnims_BattlePyramid_Torch[] = {
-    gTilesetAnims_BattlePyramid_Torch_Frame0,
-    gTilesetAnims_BattlePyramid_Torch_Frame1,
-    gTilesetAnims_BattlePyramid_Torch_Frame2
-};
 
-const u16 *const gTilesetAnims_BattlePyramid_StatueShadow[] = {
-    gTilesetAnims_BattlePyramid_StatueShadow_Frame0,
-    gTilesetAnims_BattlePyramid_StatueShadow_Frame1,
-    gTilesetAnims_BattlePyramid_StatueShadow_Frame2
-};
 
-static const u16 *const sTilesetAnims_BattleDomeFloorLightPals[] = {
-    gTilesetAnims_BattleDomePals0_0,
-    gTilesetAnims_BattleDomePals0_1,
-    gTilesetAnims_BattleDomePals0_2,
-    gTilesetAnims_BattleDomePals0_3,
-};
 
 static void ResetTilesetAnimBuffer(void)
 {
@@ -764,19 +712,9 @@ void InitTilesetAnim_Sootopolis(void)
     sSecondaryTilesetAnimCallback = TilesetAnim_Sootopolis;
 }
 
-void InitTilesetAnim_BattleFrontierOutsideWest(void)
-{
-    sSecondaryTilesetAnimCounter = 0;
-    sSecondaryTilesetAnimCounterMax = sPrimaryTilesetAnimCounterMax;
-    sSecondaryTilesetAnimCallback = TilesetAnim_BattleFrontierOutsideWest;
-}
 
-void InitTilesetAnim_BattleFrontierOutsideEast(void)
-{
-    sSecondaryTilesetAnimCounter = 0;
-    sSecondaryTilesetAnimCounterMax = sPrimaryTilesetAnimCounterMax;
-    sSecondaryTilesetAnimCallback = TilesetAnim_BattleFrontierOutsideEast;
-}
+
+
 
 void InitTilesetAnim_Underwater(void)
 {
@@ -820,19 +758,9 @@ void InitTilesetAnim_BikeShop(void)
     sSecondaryTilesetAnimCallback = TilesetAnim_BikeShop;
 }
 
-void InitTilesetAnim_BattlePyramid(void)
-{
-    sSecondaryTilesetAnimCounter = 0;
-    sSecondaryTilesetAnimCounterMax = sPrimaryTilesetAnimCounterMax;
-    sSecondaryTilesetAnimCallback = TilesetAnim_BattlePyramid;
-}
 
-void InitTilesetAnim_BattleDome(void)
-{
-    sSecondaryTilesetAnimCounter = 0;
-    sSecondaryTilesetAnimCounterMax = sPrimaryTilesetAnimCounterMax;
-    sSecondaryTilesetAnimCallback = TilesetAnim_BattleDome;
-}
+
+
 
 static void TilesetAnim_Rustboro(u16 timer)
 {
@@ -943,17 +871,9 @@ static void TilesetAnim_Cave(u16 timer)
         QueueAnimTiles_Cave_Lava(timer / 16);
 }
 
-static void TilesetAnim_BattleFrontierOutsideWest(u16 timer)
-{
-    if (timer % 8 == 0)
-        QueueAnimTiles_BattleFrontierOutsideWest_Flag(timer / 8);
-}
 
-static void TilesetAnim_BattleFrontierOutsideEast(u16 timer)
-{
-    if (timer % 8 == 0)
-        QueueAnimTiles_BattleFrontierOutsideEast_Flag(timer / 8);
-}
+
+
 
 static void QueueAnimTiles_General_LandWaterEdge(u16 timer)
 {
@@ -1045,17 +965,9 @@ static void QueueAnimTiles_Dewford_Flag(u16 timer)
     AppendTilesetAnimToBuffer(gTilesetAnims_Dewford_Flag[i], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(NUM_TILES_IN_PRIMARY + 170)), 6 * TILE_SIZE_4BPP);
 }
 
-static void QueueAnimTiles_BattleFrontierOutsideWest_Flag(u16 timer)
-{
-    u16 i = timer % ARRAY_COUNT(gTilesetAnims_BattleFrontierOutsideWest_Flag);
-    AppendTilesetAnimToBuffer(gTilesetAnims_BattleFrontierOutsideWest_Flag[i], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(NUM_TILES_IN_PRIMARY + 218)), 6 * TILE_SIZE_4BPP);
-}
 
-static void QueueAnimTiles_BattleFrontierOutsideEast_Flag(u16 timer)
-{
-    u16 i = timer % ARRAY_COUNT(gTilesetAnims_BattleFrontierOutsideEast_Flag);
-    AppendTilesetAnimToBuffer(gTilesetAnims_BattleFrontierOutsideEast_Flag[i], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(NUM_TILES_IN_PRIMARY + 218)), 6 * TILE_SIZE_4BPP);
-}
+
+
 
 static void QueueAnimTiles_Slateport_Balloons(u16 timer)
 {
@@ -1089,26 +1001,11 @@ static void TilesetAnim_BikeShop(u16 timer)
         QueueAnimTiles_BikeShop_BlinkingLights(timer / 4);
 }
 
-static void TilesetAnim_BattlePyramid(u16 timer)
-{
-    if (timer % 8 == 0)
-    {
-        QueueAnimTiles_BattlePyramid_Torch(timer / 8);
-        QueueAnimTiles_BattlePyramid_StatueShadow(timer / 8);
-    }
-}
 
-static void TilesetAnim_BattleDome(u16 timer)
-{
-    if (timer % 4 == 0)
-        BlendAnimPalette_BattleDome_FloorLights(timer / 4);
-}
 
-static void TilesetAnim_BattleDome2(u16 timer)
-{
-    if (timer % 4 == 0)
-        BlendAnimPalette_BattleDome_FloorLightsNoBlend(timer / 4);
-}
+
+
+
 
 static void QueueAnimTiles_Building_TVTurnedOn(u16 timer)
 {
@@ -1153,39 +1050,13 @@ static void QueueAnimTiles_Sootopolis_StormyWater(u16 timer)
     AppendTilesetAnimToBuffer(gTilesetAnims_Sootopolis_StormyWater[i], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(NUM_TILES_IN_PRIMARY + 240)), 96 * TILE_SIZE_4BPP);
 }
 
-static void QueueAnimTiles_BattlePyramid_Torch(u16 timer)
-{
-    u16 i = timer % ARRAY_COUNT(gTilesetAnims_BattlePyramid_Torch);
-    AppendTilesetAnimToBuffer(gTilesetAnims_BattlePyramid_Torch[i], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(NUM_TILES_IN_PRIMARY + 151)), 8 * TILE_SIZE_4BPP);
-}
 
-static void QueueAnimTiles_BattlePyramid_StatueShadow(u16 timer)
-{
-    u16 i = timer % ARRAY_COUNT(gTilesetAnims_BattlePyramid_StatueShadow);
-    AppendTilesetAnimToBuffer(gTilesetAnims_BattlePyramid_StatueShadow[i], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(NUM_TILES_IN_PRIMARY + 135)), 8 * TILE_SIZE_4BPP);
-}
 
-static void BlendAnimPalette_BattleDome_FloorLights(u16 timer)
-{
-    CpuCopy16(sTilesetAnims_BattleDomeFloorLightPals[timer % ARRAY_COUNT(sTilesetAnims_BattleDomeFloorLightPals)], &gPlttBufferUnfaded[BG_PLTT_ID(8)], PLTT_SIZE_4BPP);
-    BlendPalette(BG_PLTT_ID(8), 16, gPaletteFade.y, gPaletteFade.blendColor & 0x7FFF);
-    if ((u8)FindTaskIdByFunc(Task_BattleTransition_Intro) != TASK_NONE)
-    {
-        sSecondaryTilesetAnimCallback = TilesetAnim_BattleDome2;
-        sSecondaryTilesetAnimCounterMax = 32;
-    }
-}
 
-static void BlendAnimPalette_BattleDome_FloorLightsNoBlend(u16 timer)
-{
-    CpuCopy16(sTilesetAnims_BattleDomeFloorLightPals[timer % ARRAY_COUNT(sTilesetAnims_BattleDomeFloorLightPals)], &gPlttBufferUnfaded[BG_PLTT_ID(8)], PLTT_SIZE_4BPP);
-    if ((u8)FindTaskIdByFunc(Task_BattleTransition_Intro) == TASK_NONE)
-    {
-        BlendPalette(BG_PLTT_ID(8), 16, gPaletteFade.y, gPaletteFade.blendColor & 0x7FFF);
-        if (!--sSecondaryTilesetAnimCounterMax)
-            sSecondaryTilesetAnimCallback = NULL;
-    }
-}
+
+
+
+
 
 // FRLG anims
 

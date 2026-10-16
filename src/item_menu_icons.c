@@ -235,22 +235,6 @@ static const struct OamData sBerryPicOamData =
     .affineParam = 0
 };
 
-static const struct OamData sBerryPicRotatingOamData =
-{
-    .y = 0,
-    .affineMode = ST_OAM_AFFINE_DOUBLE,
-    .objMode = ST_OAM_OBJ_NORMAL,
-    .mosaic = FALSE,
-    .bpp = ST_OAM_4BPP,
-    .shape = SPRITE_SHAPE(64x64),
-    .x = 0,
-    .matrixNum = 0,
-    .size = SPRITE_SIZE(64x64),
-    .tileNum = 0,
-    .priority = 0,
-    .paletteNum = 7,
-    .affineParam = 0
-};
 
 static const union AnimCmd sAnim_BerryPic[] =
 {
@@ -269,43 +253,6 @@ static const struct SpriteTemplate sBerryPicSpriteTemplate =
     .paletteTag = TAG_BERRY_PIC_PAL,
     .oam = &sBerryPicOamData,
     .anims = sBerryPicSpriteAnimTable,
-};
-
-static const union AffineAnimCmd sSpriteAffineAnim_BerryPicRotation1[] =
-{
-    AFFINEANIMCMD_FRAME(-1, -1, 253, 96),
-    AFFINEANIMCMD_FRAME(0, 0, 0, 16),
-    AFFINEANIMCMD_FRAME(-2, -2, 255, 64),
-    AFFINEANIMCMD_FRAME(-8, 0, 0, 16),
-    AFFINEANIMCMD_FRAME(0, -8, 0, 16),
-    AFFINEANIMCMD_FRAME(256, 256, 0, 0),
-    AFFINEANIMCMD_JUMP(0)
-};
-
-static const union AffineAnimCmd sSpriteAffineAnim_BerryPicRotation2[] =
-{
-    AFFINEANIMCMD_FRAME(-1, -1, 3, 96),
-    AFFINEANIMCMD_FRAME(0, 0, 0, 16),
-    AFFINEANIMCMD_FRAME(-2, -2, 1, 64),
-    AFFINEANIMCMD_FRAME(-8, 0, 0, 16),
-    AFFINEANIMCMD_FRAME(0, -8, 0, 16),
-    AFFINEANIMCMD_FRAME(256, 256, 0, 0),
-    AFFINEANIMCMD_JUMP(0)
-};
-
-static const union AffineAnimCmd *const sBerryPicRotatingAnimCmds[] =
-{
-    sSpriteAffineAnim_BerryPicRotation1,
-    sSpriteAffineAnim_BerryPicRotation2
-};
-
-static const struct SpriteTemplate sBerryPicRotatingSpriteTemplate =
-{
-    .tileTag = TAG_NONE,
-    .paletteTag = TAG_BERRY_PIC_PAL,
-    .oam = &sBerryPicRotatingOamData,
-    .anims = sBerryPicSpriteAnimTable,
-    .affineAnims = sBerryPicRotatingAnimCmds,
 };
 
 const struct CompressedSpriteSheet gBerryCheckCircleSpriteSheet =
@@ -593,16 +540,6 @@ static u32 CreateBerrySprite(const struct SpriteTemplate *sprTemplate, u32 berry
 u32 CreateBerryTagSprite(u32 id, s32 x, s32 y)
 {
     return CreateBerrySprite(&sBerryPicSpriteTemplate, id, x, y);
-}
-
-// For throwing berries into the Berry Blender
-u32 CreateSpinningBerrySprite(u32 berryId, s32 x, s32 y, bool32 startAffine)
-{
-    u32 spriteId = CreateBerrySprite(&sBerryPicRotatingSpriteTemplate, berryId, x, y);
-    if (startAffine)
-        StartSpriteAffineAnim(&gSprites[spriteId], 1);
-
-    return spriteId;
 }
 
 void DestroyBerryIconSprite(u32 spriteId, u32 berryId, bool32 freePal)

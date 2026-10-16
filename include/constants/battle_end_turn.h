@@ -10,7 +10,6 @@ enum EndTurnResolutionOrder
     ENDTURN_WEATHER,
     ENDTURN_WEATHER_DAMAGE,
     ENDTURN_SEND_OUT_REPLACEMENTS_1, // For Emergency Exit/Wimp Out activations
-    ENDTURN_AFFECTION,
     ENDTURN_FUTURE_SIGHT,
     ENDTURN_WISH,
     ENDTURN_FIRST_EVENT_BLOCK,
@@ -54,9 +53,7 @@ enum EndTurnResolutionOrder
     ENDTURN_FORM_CHANGE,
     ENDTURN_EJECT_PACK,
     ENDTURN_SEND_OUT_REPLACEMENTS_5, // For Eject Pack activations
-    ENDTURN_ARENA_TURN_END,
     ENDTURN_FAINTED_MON_ACTIONS,
-    ENDTURN_DYNAMAX,
     ENDTURN_TRAINER_A_SLIDES,
     ENDTURN_TRAINER_B_SLIDES,
     ENDTURN_TRAINER_PARTNER_SLIDES,
@@ -66,7 +63,6 @@ enum EndTurnResolutionOrder
 // Block that handles effects for each individual battler on the field (eg residual damage)
 enum FirstEventBlock
 {
-    FIRST_EVENT_BLOCK_GMAX_MOVE_RESIDUAL, // Needs to be split
     FIRST_EVENT_BLOCK_SEA_OF_FIRE_DAMAGE,
     FIRST_EVENT_BLOCK_THRASH, // Thrash isn't handled here in vanilla but for now it is that best place for it.
     FIRST_EVENT_BLOCK_GRASSY_TERRAIN_HEAL,

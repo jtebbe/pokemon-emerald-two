@@ -437,11 +437,6 @@ static void AnimPsychoCut(struct Sprite *sprite)
     s16 lVarX, lVarY;
     u16 rot;
 
-    if (IsContest())
-    {
-        gBattleAnimArgs[2] = -gBattleAnimArgs[2];
-    }
-    else
     {
         if (!IsOnPlayerSide(gBattleAnimAttacker))
         {
@@ -451,7 +446,7 @@ static void AnimPsychoCut(struct Sprite *sprite)
         }
     }
 
-    if (!IsContest() && IsBattlerAlly(gBattleAnimAttacker, gBattleAnimTarget))
+    if (IsBattlerAlly(gBattleAnimAttacker, gBattleAnimTarget))
     {
         if (GetBattlerPosition(gBattleAnimTarget) == B_POSITION_PLAYER_LEFT
          || GetBattlerPosition(gBattleAnimTarget) == B_POSITION_OPPONENT_LEFT)
@@ -510,15 +505,13 @@ static void AnimDefensiveWall(struct Sprite *sprite)
         return;
     }
 
-    u8 isContest = IsContest();
 
-    if (IsOnPlayerSide(gBattleAnimAttacker) || isContest)
+    if (IsOnPlayerSide(gBattleAnimAttacker))
     {
         sprite->oam.priority = 2;
         sprite->subpriority = 200;
     }
 
-    if (!isContest)
     {
         enum BattlerId battlerCopy;
         enum BattlerId battler = battlerCopy = GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT);
@@ -534,7 +527,6 @@ static void AnimDefensiveWall(struct Sprite *sprite)
             MoveBattlerSpriteToBG(battler, toBG_2 ^ var0, FALSE);
     }
 
-    if (!isContest && IsDoubleBattle())
     {
         if (IsOnPlayerSide(gBattleAnimAttacker))
         {
@@ -547,24 +539,9 @@ static void AnimDefensiveWall(struct Sprite *sprite)
             sprite->y = 40;
         }
     }
-    else
-    {
-        if (!IsOnPlayerSide(gBattleAnimAttacker))
-            gBattleAnimArgs[0] = -gBattleAnimArgs[0];
-
-        sprite->x = GetBattlerSpriteCoord(gBattleAnimAttacker, BATTLER_COORD_X) + gBattleAnimArgs[0];
-        sprite->y = GetBattlerSpriteCoord(gBattleAnimAttacker, BATTLER_COORD_Y) + gBattleAnimArgs[1];
-    }
 
     sprite->data[0] = OBJ_PLTT_ID(IndexOfSpritePaletteTag(gBattleAnimArgs[2]));
 
-    if (isContest)
-    {
-        sprite->y += 9;
-        sprite->callback = AnimDefensiveWall_Step2;
-        sprite->callback(sprite);
-    }
-    else
     {
         sprite->callback = AnimDefensiveWall_Step1;
     }
@@ -627,7 +604,6 @@ static void AnimDefensiveWall_Step4(struct Sprite *sprite)
 
     if (--sprite->data[3] == -1)
     {
-        if (!IsContest())
         {
             enum BattlerId battlerCopy;
             enum BattlerId battler = battlerCopy = GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT);
@@ -647,7 +623,6 @@ static void AnimDefensiveWall_Step4(struct Sprite *sprite)
 
 static void AnimDefensiveWall_Step5(struct Sprite *sprite)
 {
-    if (!IsContest())
     {
         enum BattlerId battlerCopy;
         enum BattlerId battler = battlerCopy = GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT);
@@ -676,7 +651,7 @@ static void AnimWallSparkle(struct Sprite *sprite)
         if (!ignoreOffsets)
             respectMonPicOffsets = TRUE;
 
-        if (!IsContest() && IsDoubleBattle())
+        if (IsDoubleBattle())
         {
             if (IsOnPlayerSide(gBattleAnimAttacker))
             {
@@ -961,26 +936,6 @@ void AnimTask_SkillSwap(u8 taskId)
 
     struct Task *task = &gTasks[taskId];
 
-    if (IsContest())
-    {
-        if (gBattleAnimArgs[0] == ANIM_TARGET)
-        {
-            task->data[10] = -10;
-            task->data[11] = GetBattlerSpriteCoordAttr(gBattleAnimTarget, BATTLER_COORD_ATTR_RIGHT) - 8;
-            task->data[12] = GetBattlerSpriteCoordAttr(gBattleAnimTarget, BATTLER_COORD_ATTR_TOP) + 8;
-            task->data[13] = GetBattlerSpriteCoordAttr(gBattleAnimAttacker, BATTLER_COORD_ATTR_RIGHT) - 8;
-            task->data[14] = GetBattlerSpriteCoordAttr(gBattleAnimAttacker, BATTLER_COORD_ATTR_TOP) + 8;
-        }
-        else
-        {
-            task->data[10] = 10;
-            task->data[11] = GetBattlerSpriteCoordAttr(gBattleAnimAttacker, BATTLER_COORD_ATTR_LEFT) + 8;
-            task->data[12] = GetBattlerSpriteCoordAttr(gBattleAnimAttacker, BATTLER_COORD_ATTR_BOTTOM) - 8;
-            task->data[13] = GetBattlerSpriteCoordAttr(gBattleAnimTarget, BATTLER_COORD_ATTR_LEFT) + 8;
-            task->data[14] = GetBattlerSpriteCoordAttr(gBattleAnimTarget, BATTLER_COORD_ATTR_BOTTOM) - 8;
-        }
-    }
-    else
     {
         if (gBattleAnimArgs[0] == ANIM_TARGET)
         {
@@ -1016,26 +971,6 @@ void AnimTask_HeartSwap(u8 taskId)
 
     struct Task *task = &gTasks[taskId];
 
-    if (IsContest())
-    {
-        if (gBattleAnimArgs[0] == ANIM_TARGET)
-        {
-            task->data[10] = -10;
-            task->data[11] = GetBattlerSpriteCoordAttr(gBattleAnimTarget, BATTLER_COORD_ATTR_RIGHT) - 8;
-            task->data[12] = GetBattlerSpriteCoordAttr(gBattleAnimTarget, BATTLER_COORD_ATTR_TOP) + 8;
-            task->data[13] = GetBattlerSpriteCoordAttr(gBattleAnimAttacker, BATTLER_COORD_ATTR_RIGHT) - 8;
-            task->data[14] = GetBattlerSpriteCoordAttr(gBattleAnimAttacker, BATTLER_COORD_ATTR_TOP) + 8;
-        }
-        else
-        {
-            task->data[10] = 10;
-            task->data[11] = GetBattlerSpriteCoordAttr(gBattleAnimAttacker, BATTLER_COORD_ATTR_LEFT) + 8;
-            task->data[12] = GetBattlerSpriteCoordAttr(gBattleAnimAttacker, BATTLER_COORD_ATTR_BOTTOM) - 8;
-            task->data[13] = GetBattlerSpriteCoordAttr(gBattleAnimTarget, BATTLER_COORD_ATTR_LEFT) + 8;
-            task->data[14] = GetBattlerSpriteCoordAttr(gBattleAnimTarget, BATTLER_COORD_ATTR_BOTTOM) - 8;
-        }
-    }
-    else
     {
         if (gBattleAnimArgs[0] == ANIM_TARGET)
         {
@@ -1314,8 +1249,7 @@ void AnimPsychoBoost(struct Sprite *sprite)
         sprite->x = GetBattlerSpriteCoord(gBattleAnimAttacker, BATTLER_COORD_X);
         sprite->y = GetBattlerSpriteCoord(gBattleAnimAttacker, BATTLER_COORD_Y);
 
-        if (IsContest())
-            sprite->y += 12;
+        ;
 
         sprite->data[1] = 8;
         SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_TGT2_ALL | BLDCNT_EFFECT_BLEND);

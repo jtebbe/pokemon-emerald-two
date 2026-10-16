@@ -14,7 +14,6 @@
 #include "pokedex_area_screen.h"
 #include "regions.h"
 #include "region_map.h"
-#include "roamer.h"
 #include "rtc.h"
 #include "sound.h"
 #include "string_util.h"
@@ -36,14 +35,6 @@
 // - Area markers, which highlight any of the maps in MAP_GROUP_DUNGEONS or MAP_GROUP_SPECIAL_AREA that
 //   have the species. These are circular sprites that flash twice. The positions of the sprites is
 //   determined by the data for the corresponding MAPSEC in gRegionMapEntries.
-
-// Only maps in the following map groups have their encounters considered for the area screen
-#define MAP_GROUP_TOWNS_AND_ROUTES MAP_GROUP(MAP_PETALBURG_CITY)
-#define MAP_GROUP_TOWNS_AND_ROUTES_FRLG MAP_GROUP(MAP_PALLET_TOWN)
-#define MAP_GROUP_DUNGEONS MAP_GROUP(MAP_METEOR_FALLS_1F_1R)
-#define MAP_GROUP_DUNGEONS_FRLG MAP_GROUP(MAP_VIRIDIAN_FOREST)
-#define MAP_GROUP_SPECIAL_AREA MAP_GROUP(MAP_SAFARI_ZONE_NORTHWEST)
-#define MAP_GROUP_SPECIAL_AREA_FRLG MAP_GROUP(MAP_NAVEL_ROCK_EXTERIOR_FRLG)
 
 #define AREA_SCREEN_WIDTH 32
 #define AREA_SCREEN_HEIGHT 20
@@ -155,11 +146,6 @@ static const mapsec_u16_t sMovingRegionMapSections[3] =
     MAPSEC_TERRA_CAVE
 };
 
-static const u16 sFeebasData[][3] =
-{
-    {SPECIES_FEEBAS, MAP_GROUP(MAP_ROUTE119), MAP_NUM(MAP_ROUTE119)},
-    {NUM_SPECIES}
-};
 
 static const mapsec_u16_t sLandmarkData[][2] =
 {
@@ -289,7 +275,6 @@ static void FindMapsWithMon(enum Species species)
 {
     enum RegionMapType currentRegionMapType;
     u16 i;
-    struct Roamer *roamer;
 
     sPokedexAreaScreen->alteringCaveCounter = 0;
     sPokedexAreaScreen->alteringCaveId = VarGet(VAR_ALTERING_CAVE_WILD_SET);
@@ -307,30 +292,6 @@ static void FindMapsWithMon(enum Species species)
             return;
     }
 
-    // Add Pokémon with special encounter circumstances (i.e. not listed
-    // in the regular wild encounter table) to the area map.
-    // This only applies to Feebas on Route 119, but it was clearly set
-    // up to allow handling others.
-    for (i = 0; sFeebasData[i][0] != NUM_SPECIES; i++)
-    {
-        if (species == sFeebasData[i][0])
-        {
-            switch (sFeebasData[i][1])
-            {
-            case MAP_GROUP_TOWNS_AND_ROUTES:
-            case MAP_GROUP_TOWNS_AND_ROUTES_FRLG:
-                SetAreaHasMon(sFeebasData[i][1], sFeebasData[i][2]);
-                break;
-            case MAP_GROUP_DUNGEONS:
-            case MAP_GROUP_DUNGEONS_FRLG:
-            case MAP_GROUP_SPECIAL_AREA:
-            case MAP_GROUP_SPECIAL_AREA_FRLG:
-                SetSpecialMapHasMon(sFeebasData[i][1], sFeebasData[i][2]);
-                break;
-            }
-        }
-    }
-
     currentRegionMapType = GetRegionMapType(gMapHeader.regionMapSectionId);
     // Add regular species to the area map
     for (i = 0; gWildMonHeaders[i].mapGroup != MAP_GROUP(MAP_UNDEFINED); i++)
@@ -344,33 +305,19 @@ static void FindMapsWithMon(enum Species species)
         {
             switch (gWildMonHeaders[i].mapGroup)
             {
-            case MAP_GROUP_TOWNS_AND_ROUTES:
-            case MAP_GROUP_TOWNS_AND_ROUTES_FRLG:
+            case MAP_GROUP_OUTDOOR:
                 SetAreaHasMon(gWildMonHeaders[i].mapGroup, gWildMonHeaders[i].mapNum);
                 break;
-            case MAP_GROUP_DUNGEONS:
-            case MAP_GROUP_DUNGEONS_FRLG:
-            case MAP_GROUP_SPECIAL_AREA:
-            case MAP_GROUP_SPECIAL_AREA_FRLG:
+            case MAP_GROUP_DUNGEON:
+            case MAP_GROUP_SPECIAL:
+            case MAP_GROUP_INDOOR:
                 SetSpecialMapHasMon(gWildMonHeaders[i].mapGroup, gWildMonHeaders[i].mapNum);
                 break;
             }
         }
     }
 
-    // Add roamers to the area map
-    for (i = 0; i < ROAMER_COUNT; i++)
-    {
-        roamer = &gSaveBlock1Ptr->roamer[i];
-        if (species == roamer->species && roamer->active)
-        {
-            // This is a roamer's species, show where this roamer is currently
-            struct OverworldArea *roamerLocation = &sPokedexAreaScreen->overworldAreasWithMons[sPokedexAreaScreen->numOverworldAreas];
-            GetRoamerLocation(i, &roamerLocation->mapGroup, &roamerLocation->mapNum);
-            roamerLocation->regionMapSectionId = Overworld_GetMapHeaderByGroupAndId(roamerLocation->mapGroup, roamerLocation->mapNum)->regionMapSectionId;
-            sPokedexAreaScreen->numOverworldAreas++;
-        }
-    }
+
 }
 
 static void SetAreaHasMon(u16 mapGroup, u16 mapNum)
@@ -870,12 +817,12 @@ static void Task_HandlePokedexAreaScreenInput(u8 taskId)
             gTasks[taskId].data[1] = 1;
             PlaySE(SE_DEX_PAGE);
         }
-        else if (JOY_NEW(DPAD_LEFT) || (JOY_NEW(L_BUTTON) && gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_LR))
+        else if (JOY_NEW(DPAD_LEFT) || (JOY_NEW(L_BUTTON) && gSaveData.optionsButtonMode == OPTIONS_BUTTON_MODE_LR))
         {
             gTasks[taskId].data[1] = 1;
             PlaySE(SE_DEX_PAGE);
         }
-        else if (JOY_NEW(DPAD_RIGHT) || (JOY_NEW(R_BUTTON) && gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_LR))
+        else if (JOY_NEW(DPAD_RIGHT) || (JOY_NEW(R_BUTTON) && gSaveData.optionsButtonMode == OPTIONS_BUTTON_MODE_LR))
         {
             if (!GetSetPokedexFlag(SpeciesToNationalPokedexNum(sPokedexAreaScreen->species), FLAG_GET_CAUGHT))
             {

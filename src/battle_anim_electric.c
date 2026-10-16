@@ -6,14 +6,18 @@
 #include "sound.h"
 #include "constants/moves.h"
 
+static void AnimThunderboltOrb(struct Sprite *);
+static void AnimThunderboltOrb_Step(struct Sprite *);
+static void AnimVoltTackleOrbSlide(struct Sprite *);
+static void AnimVoltTackleOrbSlide_Step(struct Sprite *);
+static bool8 CreateVoltTackleBolt(struct Task *task, u8 taskId);
+
 static void AnimLightning(struct Sprite *);
 static void AnimLightning_Step(struct Sprite *);
 static void AnimUnusedSpinningFist(struct Sprite *);
 static void AnimUnusedSpinningFist_Step(struct Sprite *);
 static void AnimCirclingElectricShock(struct Sprite *);
 static void AnimZapCannonSpark_Step(struct Sprite *);
-static void AnimThunderboltOrb(struct Sprite *);
-static void AnimThunderboltOrb_Step(struct Sprite *);
 static void AnimSparkElectricityFlashing_Step(struct Sprite *);
 static void AnimTask_ElectricBolt_Step(u8 taskId);
 static void AnimElectricBoltSegment(struct Sprite *);
@@ -21,9 +25,6 @@ static void AnimThunderWave_Step(struct Sprite *);
 static void AnimTask_ElectricChargingParticles_Step(u8 taskId);
 static void AnimElectricChargingParticles(struct Sprite *);
 static void AnimElectricChargingParticles_Step(struct Sprite *);
-static void AnimVoltTackleOrbSlide(struct Sprite *);
-static void AnimVoltTackleOrbSlide_Step(struct Sprite *);
-static bool8 CreateVoltTackleBolt(struct Task *task, u8 taskId);
 static void AnimVoltTackleBolt(struct Sprite *);
 static bool8 CreateShockWaveBoltSprite(struct Task *task, u8 taskId);
 static void AnimShockWaveProgressingBolt(struct Sprite *);
@@ -158,6 +159,7 @@ const union AnimCmd *const gAnims_ThunderboltOrb[] =
 {
     sAnim_ThunderboltOrb,
 };
+
 
 static const union AffineAnimCmd sAffineAnim_ThunderboltOrb[] =
 {
@@ -356,6 +358,10 @@ const union AffineAnimCmd *const gAffineAnims_GrowingElectricOrb3[] =
     sAffineAnim_GrowingElectricOrb_3,
 };
 
+
+// For Electro Ball - smaller orb.
+
+
 const struct SpriteTemplate gGrowingChargeOrbSpriteTemplate =
 {
     .tileTag = ANIM_TAG_CIRCLE_OF_LIGHT,
@@ -365,7 +371,6 @@ const struct SpriteTemplate gGrowingChargeOrbSpriteTemplate =
     .callback = AnimGrowingChargeOrb,
 };
 
-// For Electro Ball - smaller orb.
 const struct SpriteTemplate gGrowingChargeOrb2SpriteTemplate =
 {
     .tileTag = ANIM_TAG_CIRCLE_OF_LIGHT,
@@ -375,7 +380,7 @@ const struct SpriteTemplate gGrowingChargeOrb2SpriteTemplate =
     .callback = AnimGrowingChargeOrb,
 };
 
-// For Dynamax Cannon - orb gets smaller at the end
+// The orb gets smaller at the end.
 const struct SpriteTemplate gGrowingChargeOrb3SpriteTemplate =
 {
     .tileTag = ANIM_TAG_CIRCLE_OF_LIGHT,
@@ -407,6 +412,7 @@ const struct SpriteTemplate gElectricPuffSpriteTemplate =
     .anims = gAnims_ElectricPuff,
     .callback = AnimElectricPuff,
 };
+
 
 const struct SpriteTemplate gVoltTackleOrbSlideSpriteTemplate =
 {
@@ -469,6 +475,7 @@ const struct SpriteTemplate gVoltTackleBoltSpriteTemplate =
     .affineAnims = sAffineAnims_VoltTackleBolt,
     .callback = AnimVoltTackleBolt,
 };
+
 
 const struct SpriteTemplate gFairyLockChainsSpriteTemplate =
 {
@@ -734,6 +741,7 @@ static void AnimZapCannonSpark_Step(struct Sprite *sprite)
     }
 }
 
+
 static void AnimThunderboltOrb_Step(struct Sprite *sprite)
 {
     if (--sprite->data[5] == -1)
@@ -747,7 +755,7 @@ static void AnimThunderboltOrb_Step(struct Sprite *sprite)
 
 static void AnimThunderboltOrb(struct Sprite *sprite)
 {
-    if (IsContest() || IsOnPlayerSide(gBattleAnimTarget))
+    if (IsOnPlayerSide(gBattleAnimTarget))
         gBattleAnimArgs[1] = -gBattleAnimArgs[1];
 
     sprite->x = GetBattlerSpriteCoord(gBattleAnimTarget, BATTLER_COORD_X_2) + gBattleAnimArgs[1];
@@ -768,7 +776,7 @@ void AnimSparkElectricityFlashing(struct Sprite *sprite)
     else
         battler = gBattleAnimAttacker;
 
-    if (IsContest() || IsOnPlayerSide(battler))
+    if (IsOnPlayerSide(battler))
         gBattleAnimArgs[0] = -gBattleAnimArgs[0];
 
     sprite->x = GetBattlerSpriteCoord(battler, BATTLER_COORD_X_2) + gBattleAnimArgs[0];
@@ -1091,6 +1099,11 @@ void AnimElectricPuff(struct Sprite *sprite)
 }
 
 // Creates an orb of electricity that grows then slides off-screen. The attacker slides with it
+
+
+// The horizontal bolts of electricity for Volt Tackle
+
+
 static void AnimVoltTackleOrbSlide(struct Sprite *sprite)
 {
     StartSpriteAffineAnim(sprite, 1);
@@ -1178,7 +1191,6 @@ void AnimTask_VoltTackleAttackerReappear(u8 taskId)
     }
 }
 
-// The horizontal bolts of electricity for Volt Tackle
 void AnimTask_VoltTackleBolt(u8 taskId)
 {
     struct Task *task = &gTasks[taskId];

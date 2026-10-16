@@ -13,7 +13,6 @@ const struct PoolRules defaultPoolRules =
     .itemClause = B_POOL_RULE_ITEM_CLAUSE,
     .itemClauseExclusions = B_POOL_RULES_USE_ITEM_EXCLUSIONS,
     .megaStoneClause = B_POOL_RULE_MEGA_STONE_CLAUSE,
-    .zCrystalClause = B_POOL_RULE_Z_CRYSTAL_CLAUSE,
 };
 
 const struct PoolRules gPoolRulesetsList[] = {
@@ -23,7 +22,6 @@ const struct PoolRules gPoolRulesetsList[] = {
         .itemClause = B_POOL_RULE_ITEM_CLAUSE,
         .itemClauseExclusions = B_POOL_RULES_USE_ITEM_EXCLUSIONS,
         .megaStoneClause = B_POOL_RULE_MEGA_STONE_CLAUSE,
-        .zCrystalClause = B_POOL_RULE_Z_CRYSTAL_CLAUSE,
         .tagMaxMembers[POOL_TAG_LEAD] = 1,
         .tagMaxMembers[POOL_TAG_ACE] = 1,
     },
@@ -33,7 +31,6 @@ const struct PoolRules gPoolRulesetsList[] = {
         .itemClause = B_POOL_RULE_ITEM_CLAUSE,
         .itemClauseExclusions = B_POOL_RULES_USE_ITEM_EXCLUSIONS,
         .megaStoneClause = B_POOL_RULE_MEGA_STONE_CLAUSE,
-        .zCrystalClause = B_POOL_RULE_Z_CRYSTAL_CLAUSE,
         .tagMaxMembers[POOL_TAG_LEAD] = 2,
         .tagMaxMembers[POOL_TAG_ACE] = 2,
     },
@@ -43,7 +40,6 @@ const struct PoolRules gPoolRulesetsList[] = {
         .itemClause = B_POOL_RULE_ITEM_CLAUSE,
         .itemClauseExclusions = B_POOL_RULES_USE_ITEM_EXCLUSIONS,
         .megaStoneClause = B_POOL_RULE_MEGA_STONE_CLAUSE,
-        .zCrystalClause = B_POOL_RULE_Z_CRYSTAL_CLAUSE,
         .tagMaxMembers[POOL_TAG_LEAD] = 1,
         .tagMaxMembers[POOL_TAG_ACE] = 1,
         .tagMaxMembers[POOL_TAG_WEATHER_SETTER] = 1,
@@ -57,7 +53,6 @@ const struct PoolRules gPoolRulesetsList[] = {
         .itemClause = B_POOL_RULE_ITEM_CLAUSE,
         .itemClauseExclusions = B_POOL_RULES_USE_ITEM_EXCLUSIONS,
         .megaStoneClause = B_POOL_RULE_MEGA_STONE_CLAUSE,
-        .zCrystalClause = B_POOL_RULE_Z_CRYSTAL_CLAUSE,
         .tagMaxMembers[POOL_TAG_LEAD] = 2,
         .tagMaxMembers[POOL_TAG_ACE] = 2,
         .tagMaxMembers[POOL_TAG_WEATHER_SETTER] = 1,
@@ -71,7 +66,6 @@ const struct PoolRules gPoolRulesetsList[] = {
         .itemClause = B_POOL_RULE_ITEM_CLAUSE,
         .itemClauseExclusions = B_POOL_RULES_USE_ITEM_EXCLUSIONS,
         .megaStoneClause = B_POOL_RULE_MEGA_STONE_CLAUSE,
-        .zCrystalClause = B_POOL_RULE_Z_CRYSTAL_CLAUSE,
         .tagMaxMembers[POOL_TAG_LEAD] = 2,
         .tagMaxMembers[POOL_TAG_ACE] = 2,
         .tagMaxMembers[POOL_TAG_SUPPORT] = 1,

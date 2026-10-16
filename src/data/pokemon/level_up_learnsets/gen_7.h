@@ -10919,7 +10919,6 @@ static const struct LevelUpMove sDrifblimLevelUpLearnset[] = {
 
 #if P_FAMILY_BUNEARY
 static const struct LevelUpMove sBunearyLevelUpLearnset[] = {
-    LEVEL_UP_MOVE( 1, MOVE_FRUSTRATION),
     LEVEL_UP_MOVE( 1, MOVE_DEFENSE_CURL),
     LEVEL_UP_MOVE( 1, MOVE_SPLASH),
     LEVEL_UP_MOVE( 1, MOVE_POUND),
@@ -10940,8 +10939,6 @@ static const struct LevelUpMove sBunearyLevelUpLearnset[] = {
 };
 
 static const struct LevelUpMove sLopunnyLevelUpLearnset[] = {
-    LEVEL_UP_MOVE( 0, MOVE_RETURN),
-    LEVEL_UP_MOVE( 1, MOVE_RETURN),
     LEVEL_UP_MOVE( 1, MOVE_HEALING_WISH),
     LEVEL_UP_MOVE( 1, MOVE_BOUNCE),
     LEVEL_UP_MOVE( 1, MOVE_ROTOTILLER),
@@ -20542,7 +20539,6 @@ static const struct LevelUpMove sEternatusLevelUpLearnset[] = {
     LEVEL_UP_MOVE(32, MOVE_CROSS_POISON),
     LEVEL_UP_MOVE(40, MOVE_DRAGON_PULSE),
     LEVEL_UP_MOVE(48, MOVE_FLAMETHROWER),
-    LEVEL_UP_MOVE(56, MOVE_DYNAMAX_CANNON),
     LEVEL_UP_MOVE(64, MOVE_COSMIC_POWER),
     LEVEL_UP_MOVE(72, MOVE_RECOVER),
     LEVEL_UP_MOVE(80, MOVE_HYPER_BEAM),

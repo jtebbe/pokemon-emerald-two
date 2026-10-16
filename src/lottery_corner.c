@@ -13,7 +13,7 @@ static EWRAM_DATA u16 sOtIdDigit = 0;
 
 static const u16 sLotteryPrizes[] =
 {
-    ITEM_PP_UP,
+    ITEM_RARE_CANDY,
     ITEM_EXP_SHARE,
     ITEM_MAX_REVIVE,
     ITEM_MASTER_BALL,
@@ -85,10 +85,10 @@ void PickLotteryCornerTicket(void)
     {
         for (j = 0; j < IN_BOX_COUNT; j++)
         {
-            if (GetBoxMonData(&gPokemonStoragePtr->boxes[i][j], MON_DATA_SPECIES) != SPECIES_NONE &&
-            !GetBoxMonData(&gPokemonStoragePtr->boxes[i][j], MON_DATA_IS_EGG))
+            if (GetBoxMonData(GetBoxedMonPtr(i, j), MON_DATA_SPECIES) != SPECIES_NONE &&
+            !GetBoxMonData(GetBoxedMonPtr(i, j), MON_DATA_IS_EGG))
             {
-                u32 otId = GetBoxMonData(&gPokemonStoragePtr->boxes[i][j], MON_DATA_OT_ID);
+                u32 otId = GetBoxMonData(GetBoxedMonPtr(i, j), MON_DATA_OT_ID);
                 u8 numMatchingDigits = GetMatchingDigits(gSpecialVar_Result, otId);
 
                 if (numMatchingDigits > gSpecialVar_0x8004 && numMatchingDigits > 1)
@@ -113,7 +113,7 @@ void PickLotteryCornerTicket(void)
         else
         {
             gSpecialVar_0x8006 = 1;
-            GetBoxMonData(&gPokemonStoragePtr->boxes[box][slot], MON_DATA_NICKNAME, gStringVar1);
+            GetBoxMonData(GetBoxedMonPtr(box, slot), MON_DATA_NICKNAME, gStringVar1);
         }
         StringGet_Nickname(gStringVar1);
     }
@@ -163,7 +163,7 @@ u32 GetLotteryNumber(void)
     u16 lowNum = VarGet(VAR_POKELOT_RND2);
     return (lowNum << 16) | highNum;
     #else
-    rng_value_t localRngState = LocalRandomSeed(gSaveBlock1Ptr->dailySeed ^ LOTTERY_CORNER_SALT);
+    rng_value_t localRngState = LocalRandomSeed(gSaveData.dailySeed ^ LOTTERY_CORNER_SALT);
     return LocalRandom32(&localRngState);
     #endif
 }

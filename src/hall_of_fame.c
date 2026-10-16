@@ -18,7 +18,6 @@
 #include "window.h"
 #include "credits.h"
 #include "bg.h"
-#include "constants/game_stat.h"
 #include "util.h"
 #include "string_util.h"
 #include "m4a.h"
@@ -32,7 +31,6 @@
 #include "fldeff_misc.h"
 #include "trainer_pokemon_sprites.h"
 #include "data.h"
-#include "confetti_util.h"
 #include "constants/rgb.h"
 
 #define HALL_OF_FAME_MAX_TEAMS 30
@@ -87,7 +85,6 @@ static void SpriteCB_GetOnScreenAndAnimate(struct Sprite *sprite);
 static void HallOfFame_PrintMonInfo(struct HallofFameMon *currMon, u8 unused1, u8 unused2);
 static void HallOfFame_PrintWelcomeText(u8 unusedPossiblyWindowId, u8 unused2);
 static void HallOfFame_PrintPlayerInfo(u8 unused1, u8 unused2);
-static void Task_DoDomeConfetti(u8 taskId);
 static void SpriteCB_HofConfetti(struct Sprite *sprite);
 
 static const struct BgTemplate sHof_BgTemplates[] =
@@ -521,8 +518,7 @@ static void FreeAllHoFMem(void)
 
 static void Task_Hof_TrySaveData(u8 taskId)
 {
-    gGameContinueCallback = CB2_DoHallOfFameScreenDontSaveData;
-    if (TrySavingData(SAVE_HALL_OF_FAME) == SAVE_STATUS_ERROR && gDamagedSaveSectors != 0)
+    if (!TrySavingHallOfFame())
     {
         UnsetBgTilemapBuffer(1);
         UnsetBgTilemapBuffer(3);
@@ -698,9 +694,9 @@ static void Task_Hof_DisplayPlayer(u8 taskId)
     ShowBg(0);
     ShowBg(1);
     ShowBg(3);
-    gTasks[taskId].tPlayerSpriteID = CreateTrainerPicSprite(PlayerGenderToFrontTrainerPicId_Debug(gSaveBlock2Ptr->playerGender, TRUE), TRUE, 120, 72, 6, TAG_NONE);
+    gTasks[taskId].tPlayerSpriteID = CreateTrainerPicSprite(PlayerGenderToFrontTrainerPicId_Debug(gSaveData.playerGender, TRUE), TRUE, 120, 72, 6, TAG_NONE);
     AddWindow(&sHof_WindowTemplate);
-    LoadWindowGfx(1, gSaveBlock2Ptr->optionsWindowFrameType, 0x21D, BG_PLTT_ID(13));
+    LoadWindowGfx(1, gSaveData.optionsWindowFrameType, 0x21D, BG_PLTT_ID(13));
     LoadPalette(GetTextWindowPalette(1), BG_PLTT_ID(14), PLTT_SIZE_4BPP);
     gTasks[taskId].tFrameCount = 120;
     gTasks[taskId].func = Task_Hof_WaitAndPrintPlayerInfo;
@@ -876,7 +872,7 @@ static void Task_HofPC_CopySaveData(u8 taskId)
         else
             gTasks[taskId].tCurrTeamNo = HALL_OF_FAME_MAX_TEAMS - 1;
 
-        gTasks[taskId].tCurrPageNo = GetGameStat(GAME_STAT_ENTERED_HOF);
+        gTasks[taskId].tCurrPageNo = GetHallOfFameEntryCount();
 
         gTasks[taskId].func = Task_HofPC_DrawSpritesPrintText;
     }
@@ -1209,10 +1205,10 @@ static void HallOfFame_PrintPlayerInfo(u8 unused1, u8 unused2)
     DrawStdFrameWithCustomTileAndPalette(1, FALSE, 0x21D, 0xD);
     AddTextPrinterParameterized3(1, FONT_NORMAL, 0, 1, sPlayerInfoTextColors, TEXT_SKIP_DRAW, gText_Name);
 
-    width = GetStringRightAlignXOffset(FONT_NORMAL, gSaveBlock2Ptr->playerName, 0x70);
-    AddTextPrinterParameterized3(1, FONT_NORMAL, width, 1, sPlayerInfoTextColors, TEXT_SKIP_DRAW, gSaveBlock2Ptr->playerName);
+    width = GetStringRightAlignXOffset(FONT_NORMAL, gSaveData.playerName, 0x70);
+    AddTextPrinterParameterized3(1, FONT_NORMAL, width, 1, sPlayerInfoTextColors, TEXT_SKIP_DRAW, gSaveData.playerName);
 
-    trainerId = (gSaveBlock2Ptr->playerTrainerId[0]) | (gSaveBlock2Ptr->playerTrainerId[1] << 8);
+    trainerId = (gSaveData.playerTrainerId[0]) | (gSaveData.playerTrainerId[1] << 8);
     AddTextPrinterParameterized3(1, FONT_NORMAL, 0, 0x11, sPlayerInfoTextColors, 0, gText_IDNumber);
     text[0] = (trainerId % 100000) / 10000 + CHAR_0;
     text[1] = (trainerId % 10000) / 1000 + CHAR_0;
@@ -1224,9 +1220,9 @@ static void HallOfFame_PrintPlayerInfo(u8 unused1, u8 unused2)
     AddTextPrinterParameterized3(1, FONT_NORMAL, width, 0x11, sPlayerInfoTextColors, TEXT_SKIP_DRAW, text);
 
     AddTextPrinterParameterized3(1, FONT_NORMAL, 0, 0x21, sPlayerInfoTextColors, TEXT_SKIP_DRAW, gText_Time);
-    text[0] = (gSaveBlock2Ptr->playTimeHours / 100) + CHAR_0;
-    text[1] = (gSaveBlock2Ptr->playTimeHours % 100) / 10 + CHAR_0;
-    text[2] = (gSaveBlock2Ptr->playTimeHours % 10) + CHAR_0;
+    text[0] = (gSaveData.playTimeHours / 100) + CHAR_0;
+    text[1] = (gSaveData.playTimeHours % 100) / 10 + CHAR_0;
+    text[2] = (gSaveData.playTimeHours % 10) + CHAR_0;
 
     if (text[0] == CHAR_0)
         text[0] = CHAR_SPACE;
@@ -1234,8 +1230,8 @@ static void HallOfFame_PrintPlayerInfo(u8 unused1, u8 unused2)
         text[8] = CHAR_SPACE;
 
     text[3] = CHAR_COLON;
-    text[4] = (gSaveBlock2Ptr->playTimeMinutes % 100) / 10 + CHAR_0;
-    text[5] = (gSaveBlock2Ptr->playTimeMinutes % 10) + CHAR_0;
+    text[4] = (gSaveData.playTimeMinutes % 100) / 10 + CHAR_0;
+    text[5] = (gSaveData.playTimeMinutes % 10) + CHAR_0;
     text[6] = EOS;
 
     width = GetStringRightAlignXOffset(FONT_NORMAL, text, 0x70);
@@ -1393,125 +1389,4 @@ static bool8 CreateHofConfettiSprite(void)
         sprite->sExtraY = 1;
 
     return FALSE;
-}
-
-// The below confetti functions are used when a Battle Dome tourney is won
-// For the Hall of Fame confetti see Task_Hof_DoConfetti
-// The end result is essentially the same, just a very different way of handling it
-#define tState         data[0]
-#define tTimer         data[1]
-#define tConfettiCount data[15]
-
-// Indexes into the data array of the struct ConfettiUtil
-#define CONFETTI_SINE_IDX 0
-#define CONFETTI_EXTRA_Y  1
-#define CONFETTI_TASK_ID  7
-
-void DoDomeConfetti(void)
-{
-    u8 taskId;
-
-    gSpecialVar_0x8004 = 180;
-    taskId = CreateTask(Task_DoDomeConfetti, 0);
-    if (taskId != TASK_NONE)
-    {
-        gTasks[taskId].tTimer = gSpecialVar_0x8004;
-        gSpecialVar_0x8005 = taskId;
-    }
-}
-
-static void StopDomeConfetti(void)
-{
-    u8 taskId;
-
-    if ((taskId = FindTaskIdByFunc(Task_DoDomeConfetti)) != TASK_NONE)
-        DestroyTask(taskId);
-
-    ConfettiUtil_Free();
-    FreeSpriteTilesByTag(TAG_CONFETTI);
-    FreeSpritePaletteByTag(TAG_CONFETTI);
-}
-
-static void UpdateDomeConfetti(struct ConfettiUtil *util)
-{
-    if (util->yDelta > 110)
-    {
-        // Destroy confetti after it falls far enough
-        gTasks[util->data[CONFETTI_TASK_ID]].tConfettiCount--;
-        ConfettiUtil_Remove(util->id);
-    }
-    else
-    {
-        // Move confetti down
-        u8 sineIdx;
-        s32 rand;
-
-        util->yDelta++;
-        util->yDelta += util->data[CONFETTI_EXTRA_Y];
-
-        sineIdx = util->data[CONFETTI_SINE_IDX];
-        rand = Random();
-        rand &= 3;
-        rand += 8;
-        util->xDelta = (rand) * ((gSineTable[sineIdx])) / 256;
-
-        util->data[CONFETTI_SINE_IDX] += 4;
-    }
-}
-
-static void Task_DoDomeConfetti(u8 taskId)
-{
-    u32 id = 0;
-    s16 *data = gTasks[taskId].data;
-
-    switch (tState)
-    {
-    case 0:
-        if (!ConfettiUtil_Init(64))
-        {
-            // Init failed
-            DestroyTask(taskId);
-            gSpecialVar_0x8004 = 0;
-            gSpecialVar_0x8005 = 0xFFFF;
-        }
-        LoadCompressedSpriteSheet(sSpriteSheet_Confetti);
-        LoadSpritePalette(sSpritePalette_Confetti);
-        tState++;
-        break;
-    case 1:
-        if (tTimer != 0 && tTimer % 3 == 0)
-        {
-            // Create new confetti every 3 frames
-            id = ConfettiUtil_AddNew(&sOamData_Confetti,
-                              TAG_CONFETTI,
-                              TAG_CONFETTI,
-                              Random() % DISPLAY_WIDTH,
-                              -(Random() % 8),
-                              Random() % ARRAY_COUNT(sAnims_Confetti),
-                              id);
-            if (id != 0xFF)
-            {
-                ConfettiUtil_SetCallback(id, UpdateDomeConfetti);
-
-                // 1/4 of the confetti move an extra y coord every frame
-                if ((Random() % 4) == 0)
-                    ConfettiUtil_SetData(id, CONFETTI_EXTRA_Y, 1);
-
-                ConfettiUtil_SetData(id, CONFETTI_TASK_ID, taskId);
-                tConfettiCount++;
-            }
-        }
-
-        ConfettiUtil_Update();
-        if (tTimer != 0)
-            tTimer--;
-        else if (tConfettiCount == 0)
-            tState = 0xFF;
-        break;
-    case 0xFF:
-        StopDomeConfetti();
-        gSpecialVar_0x8004 = 0;
-        gSpecialVar_0x8005 = 0xFFFF;
-        break;
-    }
 }

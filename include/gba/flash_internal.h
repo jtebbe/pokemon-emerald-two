@@ -72,6 +72,7 @@ u16 WaitForFlashWrite_Common(u8 phase, u8 *addr, u8 lastData);
 u16 EraseFlashChip_MX(void);
 u16 EraseFlashSector_MX(u16 sectorNum);
 u16 ProgramFlashByte_MX(u16 sectorNum, u32 offset, u8 data);
+u16 ProgramFlashBytes_MX(u16 sectorNum, u32 offset, const u8 *data, u32 size);
 u16 ProgramFlashSector_MX(u16 sectorNum, u8 *src);
 
 #endif // GUARD_GBA_FLASH_INTERNAL_H

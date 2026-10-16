@@ -242,8 +242,8 @@ SINGLE_BATTLE_TEST("Scale Shot decreases defense and increases speed after killi
 
     GIVEN {
         ASSUME(IsMultiHitMove(MOVE_SCALE_SHOT));
-        PLAYER(SPECIES_BAGON) { Item(item); }
-        OPPONENT(SPECIES_SLUGMA) { Ability(ABILITY_WEAK_ARMOR); }
+        PLAYER(SPECIES_BAGON) { Attack(155); Item(item); }
+        OPPONENT(SPECIES_SLUGMA) { MaxHP(190); HP(190); Defense(85); Ability(ABILITY_WEAK_ARMOR); }
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
         TURN { MOVE(player, MOVE_SCALE_SHOT); SEND_OUT(opponent, 1); }

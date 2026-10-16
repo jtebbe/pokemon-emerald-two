@@ -304,9 +304,6 @@ SINGLE_BATTLE_TEST("Poison Puppeteer activates and Lum Berry may cure status bef
 
 DOUBLE_BATTLE_TEST("Poison Puppeteer and Synchronize work properly with non-volatile effects affecting multiple battlers")
 {
-    // Not possible to test with G-Max Malodor for damaging moves,
-    // since Poison Puppeteer is exclusive to mons that already have it in their ability list
-    // and G-Max Malodor is exclusive to Gigantamax Garbodor.
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_SOAK) == EFFECT_OVERWRITE_TYPE);
         ASSUME(GetMoveEffect(MOVE_POISON_GAS) == EFFECT_NON_VOLATILE_STATUS);

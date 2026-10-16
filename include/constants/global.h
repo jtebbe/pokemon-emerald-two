@@ -19,7 +19,6 @@
 #include "config/ai.h"
 #include "config/battle.h"
 #include "config/caps.h"
-#include "config/contest.h"
 #include "config/debug.h"
 #include "config/dexnav.h"
 #include "config/follower_npc.h"
@@ -109,32 +108,15 @@ enum PartyBattleSlot
 };
 
 #define MULTI_PARTY_SIZE (PARTY_SIZE / 2)
-#define FRONTIER_PARTY_SIZE         3
-#define FRONTIER_DOUBLES_PARTY_SIZE 4
-#define FRONTIER_MULTI_PARTY_SIZE   2
-#define MAX_FRONTIER_PARTY_SIZE    (max(FRONTIER_PARTY_SIZE,        \
-                                    max(FRONTIER_DOUBLES_PARTY_SIZE,\
-                                        FRONTIER_MULTI_PARTY_SIZE)))
 #define UNION_ROOM_PARTY_SIZE       2
 
 // capacities of various saveblock objects
 #define DAYCARE_MON_COUNT 2
-#define POKEBLOCKS_COUNT 40
 #define OBJECT_EVENTS_COUNT 16
 #define MAIL_COUNT (10 + PARTY_SIZE)
-#define SECRET_BASES_COUNT 20
-#define POKE_NEWS_COUNT 16
 #define PC_ITEMS_COUNT 50
 #define OBJECT_EVENT_TEMPLATES_COUNT 64
-#define DECOR_MAX_SECRET_BASE 16
-#define DECOR_MAX_PLAYERS_HOUSE 12
-#define APPRENTICE_COUNT 4
-#define APPRENTICE_MAX_QUESTIONS 9
-#define MAX_REMATCH_ENTRIES 100 // only REMATCH_TABLE_ENTRIES (78) are used
-#define NUM_CONTEST_WINNERS 13
 #define UNION_ROOM_KB_ROW_COUNT 10
-#define SAVED_TRENDS_COUNT 5
-#define PYRAMID_BAG_ITEMS_COUNT 10
 #define ROAMER_COUNT 1 // Number of maximum concurrent active roamers
 
 enum BagCounts
@@ -146,29 +128,10 @@ enum BagCounts
     BAG_BERRIES_COUNT = 46,
 };
 
-// Number of facilities for Ranking Hall.
-// 7 facilities for single mode + tower double mode + tower multi mode.
-// Excludes link modes. See RANKING_HALL_* in include/constants/battle_frontier.h
-#define HALL_FACILITIES_COUNT 9
-// Received via record mixing, 1 for each player other than yourself
-#define HALL_RECORDS_COUNT 3
-
-// Battle Frontier level modes.
-enum FrontierLevelMode
-{
-    FRONTIER_LVL_50,
-    FRONTIER_LVL_OPEN,
-    FRONTIER_LVL_TENT, // Special usage for indicating Battle Tent
-    FRONTIER_LVL_MODE_COUNT = FRONTIER_LVL_TENT,
-};
-
 #define TRAINER_ID_LENGTH 4
 #define MAX_MON_MOVES 4
 
-// Declares a plain enum, making it 4 bytes.
-// I confirmed that `gChosenMovePos` and `gCurrMovePos` are 4 bytes and `gMoveSelectionCursor` is 16 bytes.
-// It also changes byte-oriented structure offsets such as ContestAIInfo (line 235), so it must be packed
-// because packing preserves the desired cross-enum compiler diagnostics.
+// Keep move-slot fields byte-sized while retaining enum type diagnostics.
 enum __attribute__((packed)) MoveSlot
 {
     MOVESLOT_0,
@@ -179,19 +142,7 @@ enum __attribute__((packed)) MoveSlot
 
 #define ALL_MOVES_MASK ((1 << MAX_MON_MOVES) - 1)
 
-#define CONTESTANT_COUNT 4
 
-enum ContestCategories
-{
-    CONTEST_CATEGORY_COOL,
-    CONTEST_CATEGORY_BEAUTIFUL,
-    CONTEST_CATEGORY_BEAUTY = CONTEST_CATEGORY_BEAUTIFUL,
-    CONTEST_CATEGORY_CUTE,
-    CONTEST_CATEGORY_CLEVER,
-    CONTEST_CATEGORY_SMART = CONTEST_CATEGORY_CLEVER,
-    CONTEST_CATEGORY_TOUGH,
-    CONTEST_CATEGORIES_COUNT
-};
 
 // string lengths
 #define ITEM_NAME_LENGTH 20
@@ -201,20 +152,12 @@ enum ContestCategories
 #define POKEMON_NAME_BUFFER_SIZE max(20, POKEMON_NAME_LENGTH + 1) // Frequently used buffer size. Larger than necessary
 #define PLAYER_NAME_LENGTH 7
 #define MAIL_WORDS_COUNT 9
-#define EASY_CHAT_BATTLE_WORDS_COUNT 6
 #define MOVE_NAME_LENGTH 16
-#define NUM_QUESTIONNAIRE_WORDS 4
-#define QUIZ_QUESTION_LEN 9
-#define WONDER_CARD_TEXT_LENGTH 40
-#define WONDER_NEWS_TEXT_LENGTH 40
-#define WONDER_CARD_BODY_TEXT_LINES 4
-#define WONDER_NEWS_BODY_TEXT_LINES 10
 #define TYPE_NAME_LENGTH 8
 #define ABILITY_NAME_LENGTH 16
 #define TRAINER_NAME_LENGTH 10
 #define CODE_NAME_LENGTH 11
 
-#define MAX_STAMP_CARD_STAMPS 7
 
 enum Gender
 {
@@ -222,12 +165,6 @@ enum Gender
     FEMALE,
     GENDER_COUNT,
 };
-
-#define NUM_BARD_SONG_WORDS    6
-#define NUM_STORYTELLER_TALES  4
-#define NUM_TRADER_ITEMS       4
-#define GIDDY_MAX_TALES       10
-#define GIDDY_MAX_QUESTIONS    8
 
 #define OPTIONS_BUTTON_MODE_NORMAL 0
 #define OPTIONS_BUTTON_MODE_LR 1

@@ -36,12 +36,7 @@ void HandleIntroSlide(u8 environment)
     {
         taskId = CreateTask(BattleIntroSlideLink, 0);
     }
-    else if (gBattleTypeFlags & BATTLE_TYPE_FRONTIER)
-    {
-        taskId = CreateTask(BattleIntroSlide3, 0);
-    }
-    else
-    {
+    else {
         if (environment >= NELEMS(gBattleEnvironmentInfo)
          || gBattleEnvironmentInfo[environment].battleIntroSlide == NULL)
             environment = BATTLE_ENVIRONMENT_PLAIN;
@@ -335,7 +330,7 @@ void BattleIntroSlide3(u8 taskId)
         SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(8, 8));
         SetGpuReg(REG_OFFSET_BLDY, 0);
         gTasks[taskId].data[4] = BLDALPHA_BLEND(8, 8);
-        if (gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK))
+        if (gBattleTypeFlags & BATTLE_TYPE_LINK)
         {
             gTasks[taskId].data[2] = 16;
             gTasks[taskId].tState++;

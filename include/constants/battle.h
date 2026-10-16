@@ -106,44 +106,22 @@ enum BattleSide
 #define BATTLE_TYPE_LINK_IN_BATTLE     (1 << 5) // Set on battle entry, cleared on exit. Checked rarely
 #define BATTLE_TYPE_MULTI              (1 << 6)
 #define BATTLE_TYPE_SAFARI             (1 << 7)
-#define BATTLE_TYPE_BATTLE_TOWER       (1 << 8)
 #define BATTLE_TYPE_CATCH_TUTORIAL     (1 << 9)
 #define BATTLE_TYPE_ROAMER             (1 << 10)
-#define BATTLE_TYPE_EREADER_TRAINER    (1 << 11)
 #define BATTLE_TYPE_RAID               (1 << 12)
 #define BATTLE_TYPE_LEGENDARY          (1 << 13)
 #define BATTLE_TYPE_14                 (1 << 14)
 #define BATTLE_TYPE_TWO_OPPONENTS      (1 << 15)
-#define BATTLE_TYPE_DOME               (1 << 16)
-#define BATTLE_TYPE_PALACE             (1 << 17)
-#define BATTLE_TYPE_ARENA              (1 << 18)
-#define BATTLE_TYPE_FACTORY            (1 << 19)
-#define BATTLE_TYPE_PIKE               (1 << 20)
-#define BATTLE_TYPE_PYRAMID            (1 << 21)
 #define BATTLE_TYPE_INGAME_PARTNER     (1 << 22)
-#define BATTLE_TYPE_TOWER_LINK_MULTI   (1 << 23)
-#define BATTLE_TYPE_RECORDED           (1 << 24)
-#define BATTLE_TYPE_RECORDED_LINK      (1 << 25)
-#define BATTLE_TYPE_TRAINER_HILL       (1 << 26)
-#define BATTLE_TYPE_TRAINER_TOWER      BATTLE_TYPE_TRAINER_HILL
-#define BATTLE_TYPE_SECRET_BASE        (1 << 27)
 #define BATTLE_TYPE_GHOST              (1 << 28)
 #define BATTLE_TYPE_POKEDUDE           (1 << 29)
 #define BATTLE_TYPE_30                 (1 << 30)
-#define BATTLE_TYPE_RECORDED_IS_MASTER (1 << 31)
-#define BATTLE_TYPE_FRONTIER                (BATTLE_TYPE_BATTLE_TOWER | BATTLE_TYPE_DOME | BATTLE_TYPE_PALACE | BATTLE_TYPE_ARENA | BATTLE_TYPE_FACTORY | BATTLE_TYPE_PIKE | BATTLE_TYPE_PYRAMID)
-#define BATTLE_TYPE_FRONTIER_NO_PYRAMID     (BATTLE_TYPE_BATTLE_TOWER | BATTLE_TYPE_DOME | BATTLE_TYPE_PALACE | BATTLE_TYPE_ARENA | BATTLE_TYPE_FACTORY | BATTLE_TYPE_PIKE)
-#define BATTLE_TYPE_RECORDED_INVALID        ((BATTLE_TYPE_LINK | BATTLE_TYPE_SAFARI | BATTLE_TYPE_FIRST_BATTLE                  \
-                                             | BATTLE_TYPE_CATCH_TUTORIAL | BATTLE_TYPE_ROAMER | BATTLE_TYPE_EREADER_TRAINER    \
-                                             | BATTLE_TYPE_LEGENDARY                                                            \
-                                             | BATTLE_TYPE_RECORDED | BATTLE_TYPE_TRAINER_HILL | BATTLE_TYPE_SECRET_BASE))
 
 #define WILD_DOUBLE_BATTLE                  ((gBattleTypeFlags & BATTLE_TYPE_DOUBLE && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_TRAINER))))
-#define RECORDED_WILD_BATTLE                ((gBattleTypeFlags & BATTLE_TYPE_RECORDED) && !(gBattleTypeFlags & (BATTLE_TYPE_TRAINER | BATTLE_TYPE_FRONTIER)))
 #define BATTLE_TWO_VS_ONE_OPPONENT          ((gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER && TRAINER_BATTLE_PARAM.opponentB == 0xFFFF))
 #define BATTLE_TYPE_HAS_AI                  (BATTLE_TYPE_TRAINER | BATTLE_TYPE_FIRST_BATTLE | BATTLE_TYPE_SAFARI | BATTLE_TYPE_ROAMER | BATTLE_TYPE_INGAME_PARTNER)
 #define BATTLE_TYPE_MORE_THAN_TWO_BATTLERS  (BATTLE_TYPE_DOUBLE | BATTLE_TYPE_MULTI | BATTLE_TYPE_INGAME_PARTNER | BATTLE_TYPE_TWO_OPPONENTS)
-#define BATTLE_TYPE_PLAYER_HAS_PARTNER      (BATTLE_TYPE_MULTI | BATTLE_TYPE_INGAME_PARTNER | BATTLE_TYPE_TOWER_LINK_MULTI)
+#define BATTLE_TYPE_PLAYER_HAS_PARTNER      (BATTLE_TYPE_MULTI | BATTLE_TYPE_INGAME_PARTNER)
 
 // Multibattle test composite flags
 #define BATTLE_MULTI_TEST                   (BATTLE_TYPE_IS_MASTER | BATTLE_TYPE_TRAINER | BATTLE_TYPE_INGAME_PARTNER | BATTLE_TYPE_MULTI | BATTLE_TYPE_TWO_OPPONENTS)
@@ -234,7 +212,6 @@ enum CriticalHitBoost
     F(VOLATILE_CURSED,                      cursed,                        (u32, 1), V_BATON_PASSABLE) \
     F(VOLATILE_FORESIGHT,                   foresight,                     (u32, 1)) \
     F(VOLATILE_CRITICAL_HIT_BOOST,          criticalHitBoost,              (enum CriticalHitBoost, CRIT_BOOST_TWO_STAGES), V_BATON_PASSABLE) \
-    F(VOLATILE_BONUS_CRIT_STAGES,           bonusCritStages,               (u32, 4)) \
     F(VOLATILE_SEMI_INVULNERABLE,           semiInvulnerable,              (enum SemiInvulnerableState, SEMI_INVULNERABLE_COUNT)) \
     F(VOLATILE_ELECTRIFIED,                 electrified,                   (u32, 1)) \
     F(VOLATILE_MUD_SPORT,                   mudSport,                      (u32, 1), V_BATON_PASSABLE) \
@@ -402,7 +379,6 @@ enum QueuedSwitch
 #define SIDE_STATUS_TAILWIND                (1 << 4)
 #define SIDE_STATUS_AURORA_VEIL             (1 << 5)
 #define SIDE_STATUS_LUCKY_CHANT             (1 << 6)
-#define SIDE_STATUS_DAMAGE_NON_TYPES        (1 << 7)
 #define SIDE_STATUS_RAINBOW                 (1 << 8)
 #define SIDE_STATUS_SEA_OF_FIRE             (1 << 9)
 #define SIDE_STATUS_SWAMP                   (1 << 10)
@@ -411,7 +387,7 @@ enum QueuedSwitch
 #define SIDE_STATUS_PLEDGE_ANY     (SIDE_STATUS_RAINBOW | SIDE_STATUS_SEA_OF_FIRE | SIDE_STATUS_SWAMP)
 #define SIDE_STATUS_GOOD_FOG       (SIDE_STATUS_SCREEN_ANY | SIDE_STATUS_SAFEGUARD | SIDE_STATUS_MIST)
 #define SIDE_STATUS_GOOD_COURT     (SIDE_STATUS_GOOD_FOG | SIDE_STATUS_TAILWIND | SIDE_STATUS_LUCKY_CHANT | SIDE_STATUS_RAINBOW)
-#define SIDE_STATUS_BAD_COURT      (SIDE_STATUS_DAMAGE_NON_TYPES | SIDE_STATUS_SEA_OF_FIRE | SIDE_STATUS_SWAMP)
+#define SIDE_STATUS_BAD_COURT      (SIDE_STATUS_SEA_OF_FIRE | SIDE_STATUS_SWAMP)
 
 enum Hazards
 {
@@ -420,7 +396,6 @@ enum Hazards
     HAZARDS_STICKY_WEB,
     HAZARDS_TOXIC_SPIKES,
     HAZARDS_STEALTH_ROCK,
-    HAZARDS_STEELSURGE,
     HAZARDS_MAX_COUNT,
 };
 
@@ -428,7 +403,6 @@ enum Hazards
 enum TypeSideHazard
 {
     TYPE_SIDE_HAZARD_POINTED_STONES = TYPE_ROCK,
-    TYPE_SIDE_HAZARD_SHARP_STEEL    = TYPE_STEEL,
 };
 
 enum BattleTerrain
@@ -471,7 +445,6 @@ enum MoveResultFlags
     MOVE_RESULT_FOE_ENDURED            = (1 << 7),
     MOVE_RESULT_FOE_HUNG_ON            = (1 << 8),
     MOVE_RESULT_STURDIED               = (1 << 9),
-    MOVE_RESULT_FOE_ENDURED_AFFECTION  = (1 << 10),
     MOVE_RESULT_ATTEMPT_STAT_CHANGE    = (1 << 11),
     MOVE_RESULT_STAT_CHANGE_PREVENTED  = (1 << 12),
     MOVE_RESULT_MIRROR_ARMOR_PENDING   = (1 << 13),
@@ -541,7 +514,7 @@ enum BattleEnvironments
     BATTLE_ENVIRONMENT_CAVE,
     BATTLE_ENVIRONMENT_BUILDING,
     BATTLE_ENVIRONMENT_PLAIN,
-    BATTLE_ENVIRONMENT_FRONTIER,
+    BATTLE_ENVIRONMENT_STADIUM,
     BATTLE_ENVIRONMENT_GYM,
     BATTLE_ENVIRONMENT_LEADER,
     BATTLE_ENVIRONMENT_MAGMA,
@@ -584,10 +557,9 @@ enum BattleEnvironments
 #define BATTLE_RUN_FAILURE        2
 
 #define B_WIN_TYPE_NORMAL         0
-#define B_WIN_TYPE_ARENA          1
-#define B_WIN_TYPE_KANTO_TUTORIAL 2
+#define B_WIN_TYPE_KANTO_TUTORIAL 1
 
-// Window Ids for sStandardBattleWindowTemplates / sBattleArenaWindowTemplates
+// Window IDs for the battle interface
 #define B_WIN_MSG                 0
 #define B_WIN_ACTION_PROMPT       1 // "What will {x} do?"
 #define B_WIN_ACTION_MENU         2 // "Fight/Pokémon/Bag/Run" menu
@@ -613,18 +585,9 @@ enum BattleEnvironments
 #define B_WIN_VS_OUTCOME_LEFT    22
 #define B_WIN_VS_OUTCOME_RIGHT   23
 #define B_WIN_MOVE_DESCRIPTION   24
-#define B_WIN_OAK_OLD_MAN        25
+#define B_WIN_TUTORIAL        25
 #define B_CATCH_OR_NOT           26
 
-// The following are duplicate id values for windows that Battle Arena uses differently.
-#define ARENA_WIN_PLAYER_NAME      15
-#define ARENA_WIN_VS               16
-#define ARENA_WIN_OPPONENT_NAME    17
-#define ARENA_WIN_MIND             18
-#define ARENA_WIN_SKILL            19
-#define ARENA_WIN_BODY             20
-#define ARENA_WIN_JUDGMENT_TITLE   21
-#define ARENA_WIN_JUDGMENT_TEXT    22
 
 // Flag for BattlePutTextOnWindow. Never set
 #define B_WIN_COPYTOVRAM (1 << 7)
@@ -721,8 +684,6 @@ enum FaintedActions
     F(STARTING_STATUS_STICKY_WEB_OPPONENT,            stickyWebOpponent,          (u32, 1)) /* Sticky Web Opponent */                      \
     F(STARTING_STATUS_STEALTH_ROCK_PLAYER,            stealthRockPlayer,          (u32, 1)) /* Stealth Rock Player */                      \
     F(STARTING_STATUS_STEALTH_ROCK_OPPONENT,          stealthRockOpponent,        (u32, 1)) /* Stealth Rock Opponent */                    \
-    F(STARTING_STATUS_SHARP_STEEL_PLAYER,             sharpSteelPlayer,           (u32, 1)) /* Sharp Steel Player */                       \
-    F(STARTING_STATUS_SHARP_STEEL_OPPONENT,           sharpSteelOpponent,         (u32, 1)) /* Sharp Steel Opponent */                     \
     /* Weathers */                                                                                                                         \
     F(STARTING_STATUS_WEATHER_SUN,                    weatherSun,                 (u32, 1)) /* Permanent Sun */                            \
     F(STARTING_STATUS_WEATHER_SUN_TEMPORARY,          weatherSunTemporary,        (u32, 1)) /* Temporary Sun */                            \

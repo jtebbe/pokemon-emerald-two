@@ -339,6 +339,7 @@ AI_DOUBLE_BATTLE_TEST("AI values moves above Splash, 401-500")
         case EFFECT_FOLLOW_ME:
         case EFFECT_MAGIC_ROOM:
         case EFFECT_AFTER_YOU:
+        case EFFECT_ALLY_SWITCH: // IDs shifted after obsolete moves were removed.
 
         //TODO: AI TESTS
         case EFFECT_RESTORE_HP:
@@ -418,6 +419,7 @@ AI_DOUBLE_BATTLE_TEST("AI values moves above Splash, 501-600")
 
         // tests exist elsewhere
         case EFFECT_STAT_CHANGE:
+        case EFFECT_GEOMANCY: // Previously excluded in the next numeric range.
         case EFFECT_ROTOTILLER:
         case EFFECT_FLOWER_SHIELD:
         case EFFECT_TERRAIN:

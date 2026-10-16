@@ -1,19 +1,15 @@
 #include "global.h"
 #include "berry.h"
 #include "clock.h"
-#include "dewford_trend.h"
 #include "event_data.h"
 #include "field_specials.h"
 #include "field_weather.h"
 #include "lottery_corner.h"
 #include "main.h"
-#include "mass_outbreak.h"
 #include "overworld.h"
-#include "pokerus.h"
 #include "random.h"
 #include "rtc.h"
 #include "time_events.h"
-#include "tv.h"
 #include "wallclock.h"
 #include "constants/form_change_types.h"
 #include "apricorn_tree.h"
@@ -25,13 +21,13 @@ void InitTimeBasedEvents(void)
 {
     FlagSet(FLAG_SYS_CLOCK_SET);
     RtcCalcLocalTime();
-    gSaveBlock2Ptr->lastBerryTreeUpdate = gLocalTime;
+    gSaveData.lastBerryTreeUpdate = gLocalTime;
     VarSet(VAR_DAYS, gLocalTime.days);
 }
 
 void DoTimeBasedEvents(void)
 {
-    if (FlagGet(FLAG_SYS_CLOCK_SET) && !InPokemonCenter())
+    if (FlagGet(FLAG_SYS_CLOCK_SET))
     {
         RtcCalcLocalTime();
         UpdatePerDay(&gLocalTime);
@@ -41,22 +37,14 @@ void DoTimeBasedEvents(void)
 
 void UpdateDailySeed(void)
 {
-    gSaveBlock1Ptr->dailySeed = Random32();
+    gSaveData.dailySeed = Random32();
 }
 
 void DoDailyEvents(u32 daysSince)
 {
     ClearDailyFlags();
     UpdateDailySeed();
-    UpdateMassOutbreakDaysLeft(daysSince);
-    UpdateDewfordTrendPerDay(daysSince);
-    UpdateTVShowsPerDay(daysSince);
     UpdateWeatherPerDay(daysSince);
-    UpdatePartyPokerusTime(daysSince);
-    UpdateBirchState(daysSince);
-    UpdateFrontierManiac(daysSince);
-    UpdateFrontierGambler(daysSince);
-    SetShoalItemFlag(daysSince);
     if (!OW_USE_DAILY_SEED_FOR_VANILLA_VARIABLES)
     {
         UpdateMirageRnd(daysSince);
@@ -84,14 +72,14 @@ static void UpdatePerMinute(struct Time *localTime)
     struct Time difference;
     int minutes;
 
-    CalcTimeDifference(&difference, &gSaveBlock2Ptr->lastBerryTreeUpdate, localTime);
+    CalcTimeDifference(&difference, &gSaveData.lastBerryTreeUpdate, localTime);
     minutes = 24 * 60 * difference.days + 60 * difference.hours + difference.minutes;
     if (minutes != 0)
     {
         if (minutes >= 0)
         {
             BerryTreeTimeUpdate(minutes);
-            gSaveBlock2Ptr->lastBerryTreeUpdate = *localTime;
+            gSaveData.lastBerryTreeUpdate = *localTime;
         }
     }
 }

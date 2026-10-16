@@ -101,22 +101,6 @@ SINGLE_BATTLE_TEST("Plasma Fists type-changing effect is applied after Normalize
     }
 }
 
-SINGLE_BATTLE_TEST("Plasma Fists turns normal type dynamax-moves into electric type moves")
-{
-    GIVEN {
-        PLAYER(SPECIES_KRABBY) { Speed(100); }
-        OPPONENT(SPECIES_WOBBUFFET) { Speed(1); }
-    } WHEN {
-        TURN { MOVE(player, MOVE_PLASMA_FISTS); MOVE(opponent, MOVE_SCRATCH, gimmick: GIMMICK_DYNAMAX); }
-    } SCENE {
-        MESSAGE("Krabby used Plasma Fists!");
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_PLASMA_FISTS, player);
-        MESSAGE("A deluge of ions showers the battlefield!");
-        MESSAGE("The opposing Wobbuffet used Max Lightning!");
-        MESSAGE("It's super effective!");
-    }
-}
-
 SINGLE_BATTLE_TEST("Plasma Fists turns normal moves into electric moves even if it hits a substitute")
 {
     GIVEN {

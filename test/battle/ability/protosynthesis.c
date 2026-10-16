@@ -354,8 +354,9 @@ SINGLE_BATTLE_TEST("Protosynthesis damage calculation is correct")
 
     GIVEN {
         ASSUME(GetMoveCategory(MOVE_CLOSE_COMBAT) == DAMAGE_CATEGORY_PHYSICAL);
-        PLAYER(SPECIES_GOUGING_FIRE) { Ability(ABILITY_PROTOSYNTHESIS); Item(ITEM_BOOSTER_ENERGY); }
-        OPPONENT(SPECIES_URSHIFU_RAPID_STRIKE);
+        // Explicit benchmark stats keep Defense highest and pin the golden rolls.
+        PLAYER(SPECIES_GOUGING_FIRE) { Attack(235); Defense(247); SpAttack(135); SpDefense(191); Ability(ABILITY_PROTOSYNTHESIS); Item(ITEM_BOOSTER_ENERGY); }
+        OPPONENT(SPECIES_URSHIFU_RAPID_STRIKE) { Attack(265); }
     } WHEN {
         TURN { MOVE(opponent, MOVE_CLOSE_COMBAT, WITH_RNG(RNG_DAMAGE_MODIFIER, i)); }
     } SCENE {

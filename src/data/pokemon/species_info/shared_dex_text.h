@@ -252,7 +252,7 @@ const u8 gAlcremieRainbowSwirlPokedexText[] = _(
     "the way its cells spontaneously\n"
     "shifted during evolution.");
 
-const u8 gToxtricityGigantamaxPokedexText[] = _(
+const u8 gToxtricityMegaPokedexText[] = _(
     "Out of control after its own\n"
     "poison penetrated its brain, it tears\n"
     "across the land in a rampage,\n"

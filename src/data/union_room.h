@@ -11,32 +11,10 @@ ALIGNED(4) static const u8 sJPText_DoubleBattle[] = _("ダブルバトルを か
 ALIGNED(4) static const u8 sJPText_MultiBattle[] = _("マルチバトルを かいさいする");
 ALIGNED(4) static const u8 sJPText_TradePokemon[] = _("ポケモンこうかんを かいさいする");
 ALIGNED(4) static const u8 sJPText_Chat[] = _("チャットを かいさいする");
-ALIGNED(4) static const u8 sJPText_DistWonderCard[] = _("ふしぎなカードをくばる");
-ALIGNED(4) static const u8 sJPText_DistWonderNews[] = _("ふしぎなニュースをくばる");
-ALIGNED(4) static const u8 sJPText_DistMysteryEvent[] = _("ふしぎなできごとを かいさいする"); // Unused
-ALIGNED(4) static const u8 sJPText_HoldPokemonJump[] = _("なわとびを かいさいする");
-ALIGNED(4) static const u8 sJPText_HoldBerryCrush[] = _("きのみマッシャーを かいさいする");
-ALIGNED(4) static const u8 sJPText_HoldBerryPicking[] = _("きのみどりを かいさいする");
 ALIGNED(4) static const u8 sJPText_HoldSpinTrade[] = _("ぐるぐるこうかんを かいさいする");
 ALIGNED(4) static const u8 sJPText_HoldSpinShop[] = _("ぐるぐるショップを かいさいする");
 
 // Unused
-static const u8 *const sJPLinkGroupActionTexts[] = {
-    sJPText_SingleBattle,
-    sJPText_DoubleBattle,
-    sJPText_MultiBattle,
-    sJPText_TradePokemon,
-    sJPText_Chat,
-    sJPText_DistWonderCard,
-    sJPText_DistWonderNews,
-    sJPText_DistWonderCard,
-    sJPText_HoldPokemonJump,
-    sJPText_HoldBerryCrush,
-    sJPText_HoldBerryPicking,
-    sJPText_HoldBerryPicking,
-    sJPText_HoldSpinTrade,
-    sJPText_HoldSpinShop
-};
 
 static const u8 sText_1PlayerNeeded[] = _("1 player\nneeded.");
 static const u8 sText_2PlayersNeeded[] = _("2 players\nneeded.");
@@ -476,50 +454,7 @@ ALIGNED(4) static const u8 sText_TradeOfferRejected[] = _("Your trade offer was 
 ALIGNED(4) static const u8 sText_EggTrade[] = _("EGG TRADE");
 ALIGNED(4) static const u8 sText_ChooseJoinCancel[] = _("{DPAD_UPDOWN}CHOOSE  {A_BUTTON}JOIN  {B_BUTTON}CANCEL");
 ALIGNED(4) static const u8 sText_ChooseTrainer[] = _("Please choose a TRAINER.");
-ALIGNED(4) static const u8 sText_ChooseTrainerSingleBattle[] = _("Please choose a TRAINER for\na SINGLE BATTLE.");
-ALIGNED(4) static const u8 sText_ChooseTrainerDoubleBattle[] = _("Please choose a TRAINER for\na DOUBLE BATTLE.");
-ALIGNED(4) static const u8 sText_ChooseLeaderMultiBattle[] = _("Please choose the LEADER\nfor a MULTI BATTLE.");
-ALIGNED(4) static const u8 sText_ChooseTrainerToTradeWith[] = _("Please choose the TRAINER to\ntrade with.");
-ALIGNED(4) static const u8 sText_ChooseTrainerToShareWonderCards[] = _("Please choose the TRAINER who is\nsharing WONDER CARDS.");
-ALIGNED(4) static const u8 sText_ChooseTrainerToShareWonderNews[] = _("Please choose the TRAINER who is\nsharing WONDER NEWS.");
-ALIGNED(4) static const u8 sText_ChooseLeaderPokemonJump[] = _("Jump with mini POKéMON!\nPlease choose the LEADER.");
-ALIGNED(4) static const u8 sText_ChooseLeaderBerryCrush[] = _("BERRY CRUSH!\nPlease choose the LEADER.");
-ALIGNED(4) static const u8 sText_ChooseLeaderBerryPicking[] = _("DODRIO BERRY-PICKING!\nPlease choose the LEADER.");
-ALIGNED(4) static const u8 sText_ChooseLeaderBerryBlender[] = _("BERRY BLENDER!\nPlease choose the LEADER.");
-ALIGNED(4) static const u8 sText_ChooseLeaderRecordCorner[] = _("RECORD CORNER!\nPlease choose the LEADER.");
-ALIGNED(4) static const u8 sText_ChooseLeaderCoolContest[] = _("COOLNESS CONTEST!\nPlease choose the LEADER.");
-ALIGNED(4) static const u8 sText_ChooseLeaderBeautyContest[] = _("BEAUTY CONTEST!\nPlease choose the LEADER.");
-ALIGNED(4) static const u8 sText_ChooseLeaderCuteContest[] = _("CUTENESS CONTEST!\nPlease choose the LEADER.");
-ALIGNED(4) static const u8 sText_ChooseLeaderSmartContest[] = _("SMARTNESS CONTEST!\nPlease choose the LEADER.");
-ALIGNED(4) static const u8 sText_ChooseLeaderToughContest[] = _("TOUGHNESS CONTEST!\nPlease choose the LEADER.");
-ALIGNED(4) static const u8 sText_ChooseLeaderBattleTowerLv50[] = _("BATTLE TOWER LEVEL 50!\nPlease choose the LEADER.");
-ALIGNED(4) static const u8 sText_ChooseLeaderBattleTowerOpenLv[] = _("BATTLE TOWER OPEN LEVEL!\nPlease choose the LEADER.");
 
-static const u8 *const sChooseTrainerTexts[NUM_LINK_GROUP_TYPES] =
-{
-    [LINK_GROUP_SINGLE_BATTLE]     = sText_ChooseTrainerSingleBattle,
-    [LINK_GROUP_DOUBLE_BATTLE]     = sText_ChooseTrainerDoubleBattle,
-    [LINK_GROUP_MULTI_BATTLE]      = sText_ChooseLeaderMultiBattle,
-    [LINK_GROUP_TRADE]             = sText_ChooseTrainerToTradeWith,
-    [LINK_GROUP_POKEMON_JUMP]      = sText_ChooseLeaderPokemonJump,
-    [LINK_GROUP_BERRY_CRUSH]       = sText_ChooseLeaderBerryCrush,
-    [LINK_GROUP_BERRY_PICKING]     = sText_ChooseLeaderBerryPicking,
-    [LINK_GROUP_WONDER_CARD]       = sText_ChooseTrainerToShareWonderCards,
-    [LINK_GROUP_WONDER_NEWS]       = sText_ChooseTrainerToShareWonderNews,
-    [LINK_GROUP_UNION_ROOM_RESUME] = NULL,
-    [LINK_GROUP_UNION_ROOM_INIT]   = NULL,
-    [LINK_GROUP_UNK_11]            = NULL,
-    [LINK_GROUP_RECORD_CORNER]     = sText_ChooseLeaderRecordCorner,
-    [LINK_GROUP_BERRY_BLENDER]     = sText_ChooseLeaderBerryBlender,
-    [LINK_GROUP_UNK_14]            = NULL,
-    [LINK_GROUP_COOL_CONTEST]      = sText_ChooseLeaderCoolContest,
-    [LINK_GROUP_BEAUTY_CONTEST]    = sText_ChooseLeaderBeautyContest,
-    [LINK_GROUP_CUTE_CONTEST]      = sText_ChooseLeaderCuteContest,
-    [LINK_GROUP_SMART_CONTEST]     = sText_ChooseLeaderSmartContest,
-    [LINK_GROUP_TOUGH_CONTEST]     = sText_ChooseLeaderToughContest,
-    [LINK_GROUP_BATTLE_TOWER]      = sText_ChooseLeaderBattleTowerLv50,
-    [LINK_GROUP_BATTLE_TOWER_OPEN] = sText_ChooseLeaderBattleTowerOpenLv
-};
 
 ALIGNED(4) static const u8 sText_SearchingForWirelessSystemWait[] = _("Searching for a WIRELESS\nCOMMUNICATION SYSTEM. Wait...");
 ALIGNED(4) static const u8 sText_MustHaveTwoMonsForDoubleBattle[] = _("For a DOUBLE BATTLE, you must have\nat least two POKéMON.\p"); // Unused
@@ -527,13 +462,7 @@ ALIGNED(4) static const u8 sText_AwaitingPlayersResponse[] = _("Awaiting {STR_VA
 ALIGNED(4) static const u8 sText_PlayerHasBeenAskedToRegisterYouPleaseWait[] = _("{STR_VAR_1} has been asked to register\nyou as a member. Please wait.");
 ALIGNED(4) static const u8 sText_AwaitingResponseFromWirelessSystem[] = _("Awaiting a response from the\nWIRELESS COMMUNICATION SYSTEM.");
 ALIGNED(4) static const u8 sText_PleaseWaitForOtherTrainersToGather[] = _("Please wait for other TRAINERS to\ngather and get ready."); // Unused
-ALIGNED(4) static const u8 sText_NoCardsSharedRightNow[] = _("No CARDS appear to be shared \nright now.");
-ALIGNED(4) static const u8 sText_NoNewsSharedRightNow[] = _("No NEWS appears to be shared\nright now.");
 
-static const u8 *const sNoWonderSharedTexts[] = {
-    sText_NoCardsSharedRightNow,
-    sText_NoNewsSharedRightNow
-};
 
 ALIGNED(4) static const u8 sText_Battle[] = _("BATTLE");
 ALIGNED(4) static const u8 sText_Chat2[] = _("CHAT");
@@ -542,27 +471,6 @@ ALIGNED(4) static const u8 sText_Exit[] = _("EXIT");
 ALIGNED(4) static const u8 sText_Exit2[] = _("EXIT");
 ALIGNED(4) static const u8 sText_Info[] = _("INFO");
 ALIGNED(4) static const u8 sText_NameWantedOfferLv[] = _("NAME{CLEAR_TO 60}WANTED{CLEAR_TO 110}OFFER{CLEAR_TO 198}LV.");
-ALIGNED(4) static const u8 sText_SingleBattle[] = _("SINGLE BATTLE");
-ALIGNED(4) static const u8 sText_DoubleBattle[] = _("DOUBLE BATTLE");
-ALIGNED(4) static const u8 sText_MultiBattle[] = _("MULTI BATTLE");
-ALIGNED(4) static const u8 sText_PokemonTrades[] = _("POKéMON TRADES");
-ALIGNED(4) static const u8 sText_Chat[] = _("CHAT");
-ALIGNED(4) static const u8 sText_Cards[] = _("CARDS");
-ALIGNED(4) static const u8 sText_WonderCards[] = _("WONDER CARDS");
-ALIGNED(4) static const u8 sText_WonderNews[] = _("WONDER NEWS");
-ALIGNED(4) static const u8 sText_PokemonJump[] = _("POKéMON JUMP");
-ALIGNED(4) static const u8 sText_BerryCrush[] = _("BERRY CRUSH");
-ALIGNED(4) static const u8 sText_BerryPicking[] = _("BERRY-PICKING");
-ALIGNED(4) static const u8 sText_Search[] = _("SEARCH");
-ALIGNED(4) static const u8 sText_BerryBlender[] = _("BERRY BLENDER");
-ALIGNED(4) static const u8 sText_RecordCorner[] = _("RECORD CORNER");
-ALIGNED(4) static const u8 sText_CoolContest[] = _("COOL CONTEST");
-ALIGNED(4) static const u8 sText_BeautyContest[] = _("BEAUTY CONTEST");
-ALIGNED(4) static const u8 sText_CuteContest[] = _("CUTE CONTEST");
-ALIGNED(4) static const u8 sText_SmartContest[] = _("SMART CONTEST");
-ALIGNED(4) static const u8 sText_ToughContest[] = _("TOUGH CONTEST");
-ALIGNED(4) static const u8 sText_BattleTowerLv50[] = _("BATTLE TOWER LV. 50");
-ALIGNED(4) static const u8 sText_BattleTowerOpenLv[] = _("BATTLE TOWER OPEN LEVEL");
 ALIGNED(4) static const u8 sText_ItsNormalCard[] = _("It's a NORMAL CARD.");
 ALIGNED(4) static const u8 sText_ItsBronzeCard[] = _("It's a BRONZE CARD!");
 ALIGNED(4) static const u8 sText_ItsCopperCard[] = _("It's a COPPER CARD!");
@@ -578,7 +486,6 @@ static const u8 *const sCardColorTexts[] = {
 };
 
 ALIGNED(4) static const u8 sText_TrainerCardInfoPage1[] = _("This is {DYNAMIC 0} {DYNAMIC 1}'s\nTRAINER CARD…\l{DYNAMIC 2}\pPOKéDEX: {DYNAMIC 3}\nTIME:    {DYNAMIC 4}:{DYNAMIC 5}\p");
-ALIGNED(4) static const u8 sText_TrainerCardInfoPage2[] = _("BATTLES: WINS: {DYNAMIC 0}  LOSSES: {DYNAMIC 2}\nTRADES: {DYNAMIC 3}\p“{DYNAMIC 4} {DYNAMIC 5}\n{DYNAMIC 6} {DYNAMIC 7}”\p");
 ALIGNED(4) static const u8 sText_GladToMeetYouMale[] = _("{DYNAMIC 1}: Glad to have met you!{PAUSE 60}");
 ALIGNED(4) static const u8 sText_GladToMeetYouFemale[] = _("{DYNAMIC 1}: Glad to meet you!{PAUSE 60}");
 
@@ -589,37 +496,6 @@ static const u8 *const sGladToMeetYouTexts[GENDER_COUNT] = {
 
 ALIGNED(4) static const u8 sText_FinishedCheckingPlayersTrainerCard[] = _("Finished checking {DYNAMIC 1}'s\nTRAINER CARD.{PAUSE 60}");
 
-static const u8 *const sLinkGroupActivityNameTexts[] = {
-    [ACTIVITY_NONE]              = sText_EmptyString,
-    [ACTIVITY_BATTLE_SINGLE]     = sText_SingleBattle,
-    [ACTIVITY_BATTLE_DOUBLE]     = sText_DoubleBattle,
-    [ACTIVITY_BATTLE_MULTI]      = sText_MultiBattle,
-    [ACTIVITY_TRADE]             = sText_PokemonTrades,
-    [ACTIVITY_CHAT]              = sText_Chat,
-    [ACTIVITY_WONDER_CARD_DUP]   = sText_WonderCards,
-    [ACTIVITY_WONDER_NEWS_DUP]   = sText_WonderNews,
-    [ACTIVITY_CARD]              = sText_Cards,
-    [ACTIVITY_POKEMON_JUMP]      = sText_PokemonJump,
-    [ACTIVITY_BERRY_CRUSH]       = sText_BerryCrush,
-    [ACTIVITY_BERRY_PICK]        = sText_BerryPicking,
-    [ACTIVITY_SEARCH]            = sText_Search,
-    [ACTIVITY_SPIN_TRADE]        = sText_EmptyString,
-    [ACTIVITY_BATTLE_TOWER_OPEN] = sText_BattleTowerOpenLv,
-    [ACTIVITY_RECORD_CORNER]     = sText_RecordCorner,
-    [ACTIVITY_BERRY_BLENDER]     = sText_BerryBlender,
-    [ACTIVITY_ACCEPT]            = sText_EmptyString,
-    [ACTIVITY_DECLINE]           = sText_EmptyString,
-    [ACTIVITY_NPCTALK]           = sText_EmptyString,
-    [ACTIVITY_PLYRTALK]          = sText_EmptyString,
-    [ACTIVITY_WONDER_CARD]       = sText_WonderCards,
-    [ACTIVITY_WONDER_NEWS]       = sText_WonderNews,
-    [ACTIVITY_CONTEST_COOL]      = sText_CoolContest,
-    [ACTIVITY_CONTEST_BEAUTY]    = sText_BeautyContest,
-    [ACTIVITY_CONTEST_CUTE]      = sText_CuteContest,
-    [ACTIVITY_CONTEST_SMART]     = sText_SmartContest,
-    [ACTIVITY_CONTEST_TOUGH]     = sText_ToughContest,
-    [ACTIVITY_BATTLE_TOWER]      = sText_BattleTowerLv50
-};
 
 static const struct WindowTemplate sWindowTemplate_BButtonCancel = {
     .bg = 0,
@@ -634,34 +510,7 @@ static const struct WindowTemplate sWindowTemplate_BButtonCancel = {
 // Minimum and maximum number of players for a link group
 // A minimum of 0 means the min and max are equal
 #define LINK_GROUP_CAPACITY(min, max) (((min) << 12) | ((max) << 8))
-#define GROUP_MAX(capacity) (capacity & 0x0F)
-#define GROUP_MIN(capacity) (capacity >> 4)
-#define GROUP_MIN2(capacity) (capacity & 0xF0) // Unnecessary to have both, but needed to match
 
-static const u32 sLinkGroupToActivityAndCapacity[NUM_LINK_GROUP_TYPES] = {
-    [LINK_GROUP_SINGLE_BATTLE]     = ACTIVITY_BATTLE_SINGLE     | LINK_GROUP_CAPACITY(0, 2),
-    [LINK_GROUP_DOUBLE_BATTLE]     = ACTIVITY_BATTLE_DOUBLE     | LINK_GROUP_CAPACITY(0, 2),
-    [LINK_GROUP_MULTI_BATTLE]      = ACTIVITY_BATTLE_MULTI      | LINK_GROUP_CAPACITY(0, 4),
-    [LINK_GROUP_TRADE]             = ACTIVITY_TRADE             | LINK_GROUP_CAPACITY(0, 2),
-    [LINK_GROUP_POKEMON_JUMP]      = ACTIVITY_POKEMON_JUMP      | LINK_GROUP_CAPACITY(2, 5),
-    [LINK_GROUP_BERRY_CRUSH]       = ACTIVITY_BERRY_CRUSH       | LINK_GROUP_CAPACITY(2, 5),
-    [LINK_GROUP_BERRY_PICKING]     = ACTIVITY_BERRY_PICK        | LINK_GROUP_CAPACITY(3, 5),
-    [LINK_GROUP_WONDER_CARD]       = ACTIVITY_NONE              | LINK_GROUP_CAPACITY(0, 0),
-    [LINK_GROUP_WONDER_NEWS]       = ACTIVITY_NONE              | LINK_GROUP_CAPACITY(0, 0),
-    [LINK_GROUP_UNION_ROOM_RESUME] = ACTIVITY_NONE              | LINK_GROUP_CAPACITY(0, 0),
-    [LINK_GROUP_UNION_ROOM_INIT]   = ACTIVITY_NONE              | LINK_GROUP_CAPACITY(0, 0),
-    [LINK_GROUP_UNK_11]            = ACTIVITY_NONE              | LINK_GROUP_CAPACITY(0, 0),
-    [LINK_GROUP_RECORD_CORNER]     = ACTIVITY_RECORD_CORNER     | LINK_GROUP_CAPACITY(2, 4),
-    [LINK_GROUP_BERRY_BLENDER]     = ACTIVITY_BERRY_BLENDER     | LINK_GROUP_CAPACITY(2, 4),
-    [LINK_GROUP_UNK_14]            = ACTIVITY_NONE              | LINK_GROUP_CAPACITY(0, 0),
-    [LINK_GROUP_COOL_CONTEST]      = ACTIVITY_CONTEST_COOL      | LINK_GROUP_CAPACITY(2, 4),
-    [LINK_GROUP_BEAUTY_CONTEST]    = ACTIVITY_CONTEST_BEAUTY    | LINK_GROUP_CAPACITY(2, 4),
-    [LINK_GROUP_CUTE_CONTEST]      = ACTIVITY_CONTEST_CUTE      | LINK_GROUP_CAPACITY(2, 4),
-    [LINK_GROUP_SMART_CONTEST]     = ACTIVITY_CONTEST_SMART     | LINK_GROUP_CAPACITY(2, 4),
-    [LINK_GROUP_TOUGH_CONTEST]     = ACTIVITY_CONTEST_TOUGH     | LINK_GROUP_CAPACITY(2, 4),
-    [LINK_GROUP_BATTLE_TOWER]      = ACTIVITY_BATTLE_TOWER      | LINK_GROUP_CAPACITY(0, 2),
-    [LINK_GROUP_BATTLE_TOWER_OPEN] = ACTIVITY_BATTLE_TOWER_OPEN | LINK_GROUP_CAPACITY(0, 2)
-};
 
 static const struct WindowTemplate sWindowTemplate_PlayerList = {
     .bg = 0,
@@ -1023,11 +872,6 @@ ALIGNED(4) static const u8 sAcceptedActivityIds_SingleBattle[]    = {ACTIVITY_BA
 ALIGNED(4) static const u8 sAcceptedActivityIds_DoubleBattle[]    = {ACTIVITY_BATTLE_DOUBLE, 0xff};
 ALIGNED(4) static const u8 sAcceptedActivityIds_MultiBattle[]     = {ACTIVITY_BATTLE_MULTI, 0xff};
 ALIGNED(4) static const u8 sAcceptedActivityIds_Trade[]           = {ACTIVITY_TRADE, 0xff};
-ALIGNED(4) static const u8 sAcceptedActivityIds_PokemonJump[]     = {ACTIVITY_POKEMON_JUMP, 0xff};
-ALIGNED(4) static const u8 sAcceptedActivityIds_BerryCrush[]      = {ACTIVITY_BERRY_CRUSH, 0xff};
-ALIGNED(4) static const u8 sAcceptedActivityIds_BerryPicking[]    = {ACTIVITY_BERRY_PICK, 0xff};
-ALIGNED(4) static const u8 sAcceptedActivityIds_WonderCard[]      = {ACTIVITY_WONDER_CARD, 0xff};
-ALIGNED(4) static const u8 sAcceptedActivityIds_WonderNews[]      = {ACTIVITY_WONDER_NEWS, 0xff};
 ALIGNED(4) static const u8 sAcceptedActivityIds_Resume[]          = {
     IN_UNION_ROOM | ACTIVITY_NONE,
     IN_UNION_ROOM | ACTIVITY_BATTLE_SINGLE,
@@ -1046,47 +890,19 @@ ALIGNED(4) static const u8 sAcceptedActivityIds_Unk11[]           = {
     ACTIVITY_BATTLE_DOUBLE,
     ACTIVITY_BATTLE_MULTI,
     ACTIVITY_TRADE,
-    ACTIVITY_POKEMON_JUMP,
-    ACTIVITY_BERRY_CRUSH,
-    ACTIVITY_BERRY_PICK,
-    ACTIVITY_WONDER_CARD,
-    ACTIVITY_WONDER_NEWS,
     ACTIVITY_SPIN_TRADE,
     0xff
 };
-ALIGNED(4) static const u8 sAcceptedActivityIds_RecordCorner[]    = {ACTIVITY_RECORD_CORNER, 0xff};
-ALIGNED(4) static const u8 sAcceptedActivityIds_BerryBlender[]    = {ACTIVITY_BERRY_BLENDER, 0xff};
-ALIGNED(4) static const u8 sAcceptedActivityIds_CoolContest[]     = {ACTIVITY_CONTEST_COOL, 0xff};
-ALIGNED(4) static const u8 sAcceptedActivityIds_BeautyContest[]   = {ACTIVITY_CONTEST_BEAUTY, 0xff};
-ALIGNED(4) static const u8 sAcceptedActivityIds_CuteContest[]     = {ACTIVITY_CONTEST_CUTE, 0xff};
-ALIGNED(4) static const u8 sAcceptedActivityIds_SmartContest[]    = {ACTIVITY_CONTEST_SMART, 0xff};
-ALIGNED(4) static const u8 sAcceptedActivityIds_ToughContest[]    = {ACTIVITY_CONTEST_TOUGH, 0xff};
-ALIGNED(4) static const u8 sAcceptedActivityIds_BattleTower[]     = {ACTIVITY_BATTLE_TOWER, 0xff};
-ALIGNED(4) static const u8 sAcceptedActivityIds_BattleTowerOpen[] = {ACTIVITY_BATTLE_TOWER_OPEN, 0xff};
 
 static const u8 *const sAcceptedActivityIds[NUM_LINK_GROUP_TYPES] = {
     [LINK_GROUP_SINGLE_BATTLE]     = sAcceptedActivityIds_SingleBattle,
     [LINK_GROUP_DOUBLE_BATTLE]     = sAcceptedActivityIds_DoubleBattle,
     [LINK_GROUP_MULTI_BATTLE]      = sAcceptedActivityIds_MultiBattle,
     [LINK_GROUP_TRADE]             = sAcceptedActivityIds_Trade,
-    [LINK_GROUP_POKEMON_JUMP]      = sAcceptedActivityIds_PokemonJump,
-    [LINK_GROUP_BERRY_CRUSH]       = sAcceptedActivityIds_BerryCrush,
-    [LINK_GROUP_BERRY_PICKING]     = sAcceptedActivityIds_BerryPicking,
-    [LINK_GROUP_WONDER_CARD]       = sAcceptedActivityIds_WonderCard,
-    [LINK_GROUP_WONDER_NEWS]       = sAcceptedActivityIds_WonderNews,
     [LINK_GROUP_UNION_ROOM_RESUME] = sAcceptedActivityIds_Resume,
     [LINK_GROUP_UNION_ROOM_INIT]   = sAcceptedActivityIds_Init,
     [LINK_GROUP_UNK_11]            = sAcceptedActivityIds_Unk11,
-    [LINK_GROUP_RECORD_CORNER]     = sAcceptedActivityIds_RecordCorner,
-    [LINK_GROUP_BERRY_BLENDER]     = sAcceptedActivityIds_BerryBlender,
     [LINK_GROUP_UNK_14]            = NULL,
-    [LINK_GROUP_COOL_CONTEST]      = sAcceptedActivityIds_CoolContest,
-    [LINK_GROUP_BEAUTY_CONTEST]    = sAcceptedActivityIds_BeautyContest,
-    [LINK_GROUP_CUTE_CONTEST]      = sAcceptedActivityIds_CuteContest,
-    [LINK_GROUP_SMART_CONTEST]     = sAcceptedActivityIds_SmartContest,
-    [LINK_GROUP_TOUGH_CONTEST]     = sAcceptedActivityIds_ToughContest,
-    [LINK_GROUP_BATTLE_TOWER]      = sAcceptedActivityIds_BattleTower,
-    [LINK_GROUP_BATTLE_TOWER_OPEN] = sAcceptedActivityIds_BattleTowerOpen
 };
 
 static const u8 sLinkGroupToURoomActivity[NUM_LINK_GROUP_TYPES + 2] =
@@ -1095,22 +911,8 @@ static const u8 sLinkGroupToURoomActivity[NUM_LINK_GROUP_TYPES + 2] =
     [LINK_GROUP_DOUBLE_BATTLE]     = ACTIVITY_BATTLE_DOUBLE,
     [LINK_GROUP_MULTI_BATTLE]      = ACTIVITY_BATTLE_MULTI,
     [LINK_GROUP_TRADE]             = ACTIVITY_TRADE,
-    [LINK_GROUP_POKEMON_JUMP]      = ACTIVITY_POKEMON_JUMP,
-    [LINK_GROUP_BERRY_CRUSH]       = ACTIVITY_BERRY_CRUSH,
-    [LINK_GROUP_BERRY_PICKING]     = ACTIVITY_BERRY_PICK,
-    [LINK_GROUP_WONDER_CARD]       = ACTIVITY_WONDER_CARD,
-    [LINK_GROUP_WONDER_NEWS]       = ACTIVITY_WONDER_NEWS,
     [LINK_GROUP_UNION_ROOM_RESUME] = ACTIVITY_NONE,
     [LINK_GROUP_UNION_ROOM_INIT]   = ACTIVITY_NONE,
     [LINK_GROUP_UNK_11]            = ACTIVITY_NONE,
-    [LINK_GROUP_RECORD_CORNER]     = ACTIVITY_RECORD_CORNER,
-    [LINK_GROUP_BERRY_BLENDER]     = ACTIVITY_BERRY_BLENDER,
     [LINK_GROUP_UNK_14]            = ACTIVITY_NONE,
-    [LINK_GROUP_COOL_CONTEST]      = ACTIVITY_CONTEST_COOL,
-    [LINK_GROUP_BEAUTY_CONTEST]    = ACTIVITY_CONTEST_BEAUTY,
-    [LINK_GROUP_CUTE_CONTEST]      = ACTIVITY_CONTEST_CUTE,
-    [LINK_GROUP_SMART_CONTEST]     = ACTIVITY_CONTEST_SMART,
-    [LINK_GROUP_TOUGH_CONTEST]     = ACTIVITY_CONTEST_TOUGH,
-    [LINK_GROUP_BATTLE_TOWER]      = ACTIVITY_BATTLE_TOWER,
-    [LINK_GROUP_BATTLE_TOWER_OPEN] = ACTIVITY_BATTLE_TOWER_OPEN
 };

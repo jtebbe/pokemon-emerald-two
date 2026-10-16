@@ -5,18 +5,14 @@
 #include "battle_interface.h"
 #include "battle_message.h"
 #include "battle_setup.h"
-#include "battle_tower.h"
-#include "battle_tv.h"
 #include "bg.h"
 #include "data.h"
-#include "frontier_util.h"
 #include "link.h"
 #include "main.h"
 #include "m4a.h"
 #include "palette.h"
 #include "pokeball.h"
 #include "pokemon.h"
-#include "recorded_battle.h"
 #include "reshow_battle_screen.h"
 #include "sound.h"
 #include "string_util.h"
@@ -27,7 +23,6 @@
 #include "constants/battle_anim.h"
 #include "constants/songs.h"
 #include "constants/trainers.h"
-#include "recorded_battle.h"
 #include "random.h"
 
 static void LinkOpponentHandleDrawTrainerPic(enum BattlerId battler);
@@ -244,7 +239,6 @@ static void Intro_TryShinyAnimShowHealthbox(enum BattlerId battler)
                 SetBattlerShadowSpriteCallback(GetPartnerBattler(battler), GetMonData(GetBattlerMon(GetPartnerBattler(battler)), MON_DATA_SPECIES));
             }
 
-
             DestroySprite(&gSprites[gBattleControllerData[battler]]);
             SetBattlerShadowSpriteCallback(battler, GetBattlerVisualSpecies(battler));
 
@@ -286,14 +280,6 @@ static void LinkOpponentHandleDrawTrainerPic(enum BattlerId battler)
         else // first mon
             xPos = 200;
 
-        if (gBattleTypeFlags & BATTLE_TYPE_BATTLE_TOWER)
-        {
-            if (position == B_POSITION_OPPONENT_LEFT)
-                trainerPicId = GetFrontierTrainerFrontSpriteId(TRAINER_BATTLE_PARAM.opponentA);
-            else
-                trainerPicId = GetFrontierTrainerFrontSpriteId(TRAINER_BATTLE_PARAM.opponentB);
-        }
-        else
         {
             if ((gLinkPlayers[GetBattlerMultiplayerId(battler)].version & 0xFF) == VERSION_FIRE_RED
             || (gLinkPlayers[GetBattlerMultiplayerId(battler)].version & 0xFF) == VERSION_LEAF_GREEN)
@@ -354,9 +340,9 @@ static void LinkOpponentHandleTrainerSlide(enum BattlerId battler)
     enum TrainerPicID trainerPicId;
 
     if (GetBattlerPosition(battler) == B_POSITION_OPPONENT_LEFT)
-        trainerPicId = GetFrontierTrainerFrontSpriteId(TRAINER_BATTLE_PARAM.opponentA);
+        trainerPicId = GetTrainerPicFromId(TRAINER_BATTLE_PARAM.opponentA);
     else
-        trainerPicId = GetFrontierTrainerFrontSpriteId(TRAINER_BATTLE_PARAM.opponentB);
+        trainerPicId = GetTrainerPicFromId(TRAINER_BATTLE_PARAM.opponentB);
 
     BtlController_HandleTrainerSlide(battler, trainerPicId);
     BtlController_Complete(battler); // Possibly a bug, because execution should be completed after the slide in finishes. See Controller_WaitForTrainerPic.
@@ -379,20 +365,17 @@ static void LinkOpponentHandleDrawPartyStatusSummary(enum BattlerId battler)
 
 static void LinkOpponentHandleLinkStandbyMsg(enum BattlerId battler)
 {
-    RecordedBattle_RecordAllBattlerData(&gBattleResources->bufferA[battler][2]);
     BtlController_Complete(battler);
 }
 
 static void LinkOpponentHandleEndLinkBattle(enum BattlerId battler)
 {
-    RecordedBattle_RecordAllBattlerData(&gBattleResources->bufferA[battler][4]);
 
     if (gBattleResources->bufferA[battler][1] == B_OUTCOME_DREW)
         gBattleOutcome = gBattleResources->bufferA[battler][1];
     else
         gBattleOutcome = gBattleResources->bufferA[battler][1] ^ B_OUTCOME_DREW;
 
-    gSaveBlock2Ptr->frontier.disableRecordBattle = gBattleResources->bufferA[battler][2];
     FadeOutMapMusic(5);
     BeginFastPaletteFade(3);
     BtlController_Complete(battler);

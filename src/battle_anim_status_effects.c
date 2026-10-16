@@ -16,6 +16,8 @@ extern const struct OamData gOamData_AffineOff_ObjNormal_8x8;
 extern const struct OamData gOamData_AffineOff_ObjBlend_64x64;
 
 static void Task_UpdateFlashingCircleImpacts(u8 taskId);
+
+
 static void AnimTask_FrozenIceCube_Step1(u8 taskId);
 static void AnimTask_FrozenIceCube_Step2(u8 taskId);
 static void AnimTask_FrozenIceCube_Step3(u8 taskId);
@@ -353,29 +355,6 @@ static void AnimFlashingCircleImpact_Step(struct Sprite *sprite)
     }
 }
 
-void AnimTask_FrozenIceCubeAttacker(u8 taskId)
-{
-    if (!TryLoadSpriteAssets(&sFrozenIceCubeSpriteTemplate))
-    {
-        DestroyAnimVisualTask(taskId);
-        return;
-    }
-
-    s16 x = GetBattlerSpriteCoord(gBattleAnimAttacker, BATTLER_COORD_X_2) - 32;
-    s16 y = GetBattlerSpriteCoord(gBattleAnimAttacker, BATTLER_COORD_Y_PIC_OFFSET) - 36;
-    u8 spriteId;
-
-    if (IsContest())
-        x -= 6;
-    SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_EFFECT_BLEND | BLDCNT_TGT2_ALL);
-    SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(0, 16));
-    spriteId = CreateSprite(&sFrozenIceCubeSpriteTemplate, x, y, 4);
-    if (GetSpriteTileStartByTag(ANIM_TAG_ICE_CUBE) == 0xFFFF)
-        gSprites[spriteId].invisible = TRUE;
-    SetSubspriteTables(&gSprites[spriteId], sFrozenIceCubeSubspriteTable);
-    gTasks[taskId].data[15] = spriteId;
-    gTasks[taskId].func = AnimTask_FrozenIceCube_Step1;
-}
 
 void AnimTask_CentredFrozenIceCube(u8 taskId)
 {
@@ -414,6 +393,7 @@ void AnimTask_CentredFrozenIceCube(u8 taskId)
     gTasks[taskId].func = AnimTask_FrozenIceCube_Step1;
 }
 
+
 void AnimTask_FrozenIceCube(u8 taskId)
 {
     if (!TryLoadSpriteAssets(&sFrozenIceCubeSpriteTemplate))
@@ -426,8 +406,7 @@ void AnimTask_FrozenIceCube(u8 taskId)
     s16 y = GetBattlerSpriteCoord(gBattleAnimTarget, BATTLER_COORD_Y_PIC_OFFSET) - 36;
     u8 spriteId;
 
-    if (IsContest())
-        x -= 6;
+    ;
     SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_EFFECT_BLEND | BLDCNT_TGT2_ALL);
     SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(0, 16));
     spriteId = CreateSprite(&sFrozenIceCubeSpriteTemplate, x, y, 4);

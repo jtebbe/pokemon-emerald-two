@@ -144,7 +144,6 @@ enum
     LIST_SIDE_SPIKES,
     LIST_SIDE_TOXIC_SPIKES,
     LIST_SIDE_STEALTH_ROCK,
-    LIST_SIDE_STEELSURGE,
 };
 
 enum
@@ -156,7 +155,6 @@ enum
     LIST_SIDE_TAILWIND,
     LIST_SIDE_AURORA_VEIL,
     LIST_SIDE_LUCKY_CHANT,
-    LIST_SIDE_DAMAGE_NON_TYPES,
     LIST_SIDE_RAINBOW,
     LIST_SIDE_SEA_OF_FIRE,
     LIST_SIDE_SWAMP,
@@ -397,7 +395,6 @@ static const struct ListMenuItem sHazardsListItems[] =
     {COMPOUND_STRING("Sticky Web"),   LIST_SIDE_STICKY_WEB},
     {COMPOUND_STRING("Toxic Spikes"), LIST_SIDE_TOXIC_SPIKES},
     {COMPOUND_STRING("Stealth Rock"), LIST_SIDE_STEALTH_ROCK},
-    {COMPOUND_STRING("Steelsurge"),   LIST_SIDE_STEELSURGE},
 };
 
 static const struct ListMenuItem sSideStatusListItems[] =
@@ -409,7 +406,6 @@ static const struct ListMenuItem sSideStatusListItems[] =
     {COMPOUND_STRING("Tailwind"),         LIST_SIDE_TAILWIND},
     {COMPOUND_STRING("Aurora Veil"),      LIST_SIDE_AURORA_VEIL},
     {COMPOUND_STRING("Lucky Chant"),      LIST_SIDE_LUCKY_CHANT},
-    {COMPOUND_STRING("Damage Non-Types"), LIST_SIDE_DAMAGE_NON_TYPES},
     {COMPOUND_STRING("Rainbow"),          LIST_SIDE_RAINBOW},
     {COMPOUND_STRING("Sea of Fire"),      LIST_SIDE_SEA_OF_FIRE},
     {COMPOUND_STRING("Swamp"),            LIST_SIDE_SWAMP},
@@ -1721,12 +1717,6 @@ static void ChangeHazardsValue(struct BattleDebugMenu *data)
         else if (data->modifyArrows.currValue == 0)
             RemoveHazardFromField(side, HAZARDS_STEALTH_ROCK);
         break;
-    case LIST_SIDE_STEELSURGE:
-        if (data->modifyArrows.currValue > 0)
-            PushHazardTypeToQueue(side, HAZARDS_STEELSURGE);
-        else if (data->modifyArrows.currValue == 0)
-            RemoveHazardFromField(side, HAZARDS_STEELSURGE);
-        break;
     }
 }
 
@@ -1746,9 +1736,6 @@ static u32 GetHazardsValue(struct BattleDebugMenu *data)
         break;
     case LIST_SIDE_STEALTH_ROCK:
         hazardsLayers = IsHazardOnSide(GetBattlerSide(data->battlerId), HAZARDS_STEALTH_ROCK);
-        break;
-    case LIST_SIDE_STEELSURGE:
-        hazardsLayers = IsHazardOnSide(GetBattlerSide(data->battlerId), HAZARDS_STEELSURGE);
         break;
     }
     return hazardsLayers;
@@ -1823,16 +1810,6 @@ static u16 *GetSideStatusValue(struct BattleDebugMenu *data, bool32 changeStatus
                 *(u32 *)(data->modifyArrows.modifiedValPtr) &= ~SIDE_STATUS_LUCKY_CHANT;
         }
         return &sideTimer->luckyChantTimer;
-    case LIST_SIDE_DAMAGE_NON_TYPES:
-        if (changeStatus)
-        {
-            if (statusTrue)
-                *(u32 *)(data->modifyArrows.modifiedValPtr) |= SIDE_STATUS_DAMAGE_NON_TYPES;
-            else
-                *(u32 *)(data->modifyArrows.modifiedValPtr) &= ~SIDE_STATUS_DAMAGE_NON_TYPES;
-            sideTimer->damageNonTypesType = GetMoveType(gCurrentMove);
-        }
-        return &sideTimer->damageNonTypesTimer;
     case LIST_SIDE_RAINBOW:
         if (changeStatus)
         {
@@ -1900,7 +1877,7 @@ static void SetUpModifyArrows(struct BattleDebugMenu *data)
         break;
     case LIST_ITEM_PP:
         data->modifyArrows.minValue = 0;
-        data->modifyArrows.maxValue = CalculatePPWithBonus(gBattleMons[data->battlerId].moves[data->currentSecondaryListItemId], gBattleMons[data->battlerId].ppBonuses, data->currentSecondaryListItemId);
+        data->modifyArrows.maxValue = GetMovePP(gBattleMons[data->battlerId].moves[data->currentSecondaryListItemId]);
         data->modifyArrows.maxDigits = 2;
         data->modifyArrows.modifiedValPtr = &gBattleMons[data->battlerId].pp[data->currentSecondaryListItemId];
         data->modifyArrows.typeOfVal = VAL_U8;
@@ -2043,7 +2020,6 @@ static void SetUpModifyArrows(struct BattleDebugMenu *data)
             break;
         case LIST_SIDE_STICKY_WEB:
         case LIST_SIDE_STEALTH_ROCK:
-        case LIST_SIDE_STEELSURGE:
             data->modifyArrows.maxValue = 1;
             break;
         }
@@ -2177,7 +2153,6 @@ static const u8 *const sHoldEffectNames[HOLD_EFFECT_COUNT] =
     [HOLD_EFFECT_MACHO_BRACE]      = COMPOUND_STRING("Macho Brace"),
     [HOLD_EFFECT_EXP_SHARE]        = COMPOUND_STRING("Exp Share"),
     [HOLD_EFFECT_QUICK_CLAW]       = COMPOUND_STRING("Quick Claw"),
-    [HOLD_EFFECT_FRIENDSHIP_UP]    = COMPOUND_STRING("Friendship Up"),
     [HOLD_EFFECT_MENTAL_HERB]      = COMPOUND_STRING("Mental Herb"),
     [HOLD_EFFECT_CHOICE_BAND]      = COMPOUND_STRING("Choice Band"),
     [HOLD_EFFECT_FLINCH]           = COMPOUND_STRING("Flinch"),
@@ -2229,7 +2204,6 @@ static const u8 *const sHoldEffectNames[HOLD_EFFECT_COUNT] =
     [HOLD_EFFECT_ADAMANT_ORB]      = COMPOUND_STRING("Adamant Orb"),
     [HOLD_EFFECT_LUSTROUS_ORB]     = COMPOUND_STRING("Lustrous Orb"),
     [HOLD_EFFECT_GRISEOUS_ORB]     = COMPOUND_STRING("Griseous Orb"),
-    [HOLD_EFFECT_ENIGMA_BERRY]     = COMPOUND_STRING("Enigma Berry"),
     [HOLD_EFFECT_RESIST_BERRY]     = COMPOUND_STRING("Resist Berry"),
     [HOLD_EFFECT_POWER_ITEM]       = COMPOUND_STRING("Power Item"),
     [HOLD_EFFECT_RESTORE_PCT_HP]   = COMPOUND_STRING("Restore Pct Hp"),
@@ -2264,7 +2238,6 @@ static const u8 *const sHoldEffectNames[HOLD_EFFECT_COUNT] =
     [HOLD_EFFECT_TERRAIN_SEED]     = COMPOUND_STRING("Seeds"),
     [HOLD_EFFECT_ADRENALINE_ORB]   = COMPOUND_STRING("Adrenaline Orb"),
     [HOLD_EFFECT_MEMORY]           = COMPOUND_STRING("Memory"),
-    [HOLD_EFFECT_Z_CRYSTAL]        = COMPOUND_STRING("Z-Crystal"),
     [HOLD_EFFECT_UTILITY_UMBRELLA] = COMPOUND_STRING("Utility Umbrella"),
     [HOLD_EFFECT_EJECT_PACK]       = COMPOUND_STRING("Eject Pack"),
     [HOLD_EFFECT_ROOM_SERVICE]     = COMPOUND_STRING("Room Service"),

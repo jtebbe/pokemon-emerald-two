@@ -1,10 +1,8 @@
 #include "global.h"
 #include "malloc.h"
-#include "bard_music.h"
 #include "bg.h"
 #include "data.h"
 #include "decompress.h"
-#include "dewford_trend.h"
 #include "dynamic_placeholder_text_util.h"
 #include "easy_chat.h"
 #include "event_data.h"
@@ -15,13 +13,11 @@
 #include "graphics.h"
 #include "international_string_util.h"
 #include "main.h"
-#include "mystery_gift.h"
 #include "menu.h"
 #include "move.h"
 #include "overworld.h"
 #include "palette.h"
 #include "pokedex.h"
-#include "random.h"
 #include "sound.h"
 #include "string_util.h"
 #include "strings.h"
@@ -29,8 +25,6 @@
 #include "text_window.h"
 #include "window.h"
 #include "constants/event_objects.h"
-#include "constants/lilycove_lady.h"
-#include "constants/mauville_old_man.h"
 #include "constants/songs.h"
 #include "constants/rgb.h"
 
@@ -43,9 +37,7 @@ static void CB2_EasyChatScreen(void);
 static bool8 InitEasyChatScreen(u8);
 static void Task_EasyChatScreen(u8);
 static void ExitEasyChatScreen(MainCallback);
-static bool32 IsFuncIdForQuizLadyScreen(u16);
-static void EnterQuizLadyScreen(u16);
-static bool8 InitEasyChatScreenStruct(u8, u16 *, u8);
+static bool8 InitEasyChatScreenStruct(u16 *);
 static void FreeEasyChatScreenStruct(void);
 static u16 HandleEasyChatInput(void);
 static u16 HandleEasyChatInput_Phrase(void);
@@ -55,16 +47,10 @@ static u16 HandleEasyChatInput_WordSelect(void);
 static u16 HandleEasyChatInput_ExitPrompt(void);
 static u16 HandleEasyChatInput_ConfirmWordsYesNo(void);
 static u16 HandleEasyChatInput_DeleteAllYesNo(void);
-static u16 HandleEasyChatInput_QuizQuestion(void);
 static u16 HandleEasyChatInput_WaitForMsg(void);
-static u16 HandleEasyChatInput_StartConfirmLyrics(void);
-static u16 HandleEasyChatInput_ConfirmLyricsYesNo(void);
 static u16 StartConfirmExitPrompt(void);
 static u16 TryConfirmWords(void);
 static u8 GetEasyChatScreenFrameId(void);
-static u8 GetEachChatScreenTemplateId(u8);
-static void GetQuizTitle(u8 *);
-static void ClearUnusedField(void);
 static bool8 InitEasyChatScreenControl(void);
 static bool8 LoadEasyChatScreen(void);
 static void FreeEasyChatScreenControl(void);
@@ -73,9 +59,7 @@ static bool8 RunEasyChatFunction(void);
 static bool8 InitEasyChatScreenWordData(void);
 static void FreeEasyChatScreenWordData(void);
 static u8 GetNumUnlockedEasyChatGroups(void);
-static int FooterHasFourOptions(void);
 static int DoDeleteAllButton(void);
-static int DoQuizButton(void);
 static int ExitKeyboardToMainScreen(void);
 static int SelectKeyboardGroup(void);
 static int StartSwitchKeyboardMode(void);
@@ -85,13 +69,8 @@ static u16 MoveWordSelectCursor(u32);
 static int SelectNewWord(void);
 static u8 GetEasyChatBackupState(void);
 static void SaveCurrentPhrase(void);
-static void SetSpecialEasyChatResult(void);
 static bool32 GetEasyChatCompleted(void);
 static void ResetCurrentPhrase(void);
-static void ResetCurrentPhraseToSaved(void);
-static int IsQuizQuestionEmpty(void);
-static int IsQuizAnswerEmpty(void);
-static bool32 IsCurrentPhraseFull(void);
 static bool32 IsCurrentPhraseEmpty(void);
 static u16 GetSelectedGroupIndex(void);
 static u8 GetUnlockedEasyChatGroupId(u8);
@@ -113,12 +92,9 @@ static void SetKeyboardCursorToLastColumn(void);
 static u8 GetLastAlphabetColumn(u8);
 static void ReduceToValidWordSelectColumn(void);
 static bool8 IsSelectedWordIndexInvalid(void);
-static int DidPlayerInputMysteryGiftPhrase(void);
-static u16 DidPlayerInputABerryMasterWifePhrase(void);
 static bool8 InitEasyChatScreenControl_(void);
 static void LoadEasyChatPalettes(void);
 static void InitEasyChatBgs(void);
-static void AdjustBgTilemapForFooter(void);
 static void BufferFrameTilemap(u16 *);
 static void AddPhraseWindow(void);
 static void AddMainScreenButtonWindow(void);
@@ -132,7 +108,6 @@ static void SpriteCB_Cursor(struct Sprite *);
 static void SetWindowDimensions(u8, u8, u8, u8);
 static void CreateScrollIndicatorSprites(void);
 static void CreateStartSelectButtonSprites(void);
-static void TryAddInterviewObjectEvents(void);
 static bool8 ReprintPhrase(void);
 static bool8 UpdateMainCursor(void);
 static bool8 UpdateMainCursorOnButtons(void);
@@ -145,7 +120,6 @@ static bool8 OpenKeyboard(void);
 static bool8 CloseKeyboard(void);
 static bool8 OpenWordSelect(void);
 static bool8 CloseWordSelect(void);
-static bool8 ShowConfirmLyricsPrompt(void);
 static bool8 ReturnToKeyboard(void);
 static bool8 UpdateKeyboardCursor(void);
 static bool8 GroupNamesScrollDown(void);
@@ -156,11 +130,6 @@ static bool8 WordSelectScrollDown(void);
 static bool8 WordSelectPageScrollUp(void);
 static bool8 WordSelectPageScrollDown(void);
 static bool8 SwitchKeyboardMode(void);
-static bool8 ShowCreateQuizMsg(void);
-static bool8 ShowSelectAnswerMsg(void);
-static bool8 ShowSongTooShortMsg(void);
-static bool8 ShowCantDeleteLyricsMsg(void);
-static bool8 ShowCombineTwoWordsMsg(void);
 static bool8 ShowCantExitMsg(void);
 static void SetMainCursorPos(u8, u8);
 static int GetFooterOptionXOffset(int);
@@ -213,7 +182,6 @@ static void SetRectangleCursorPos_AlphabetMode(s8, s8);
 static void SpriteCB_WordSelectCursor(struct Sprite *);
 static void SetWordSelectCursorPos(u8, u8);
 static bool32 EasyChatIsNationalPokedexEnabled(void);
-static u16 GetRandomUnlockedEasyChatPokemon(void);
 static void SetUnlockedEasyChatGroups(void);
 static void SetUnlockedWordsByAlphabet(void);
 static u8 *CopyEasyChatWordPadded(u8 *, u16, u16);
@@ -222,16 +190,11 @@ static u16 SetSelectedWordGroup_GroupMode(u16);
 static u16 SetSelectedWordGroup_AlphabetMode(u16);
 static bool32 IsEasyChatIndexAndGroupUnlocked(u16, u8);
 static bool32 IsRestrictedWordSpecies(enum Species);
-static void DoQuizAnswerEasyChatScreen(void);
-static void DoQuizQuestionEasyChatScreen(void);
-static void DoQuizSetAnswerEasyChatScreen(void);
-static void DoQuizSetQuestionEasyChatScreen(void);
 
 enum {
     PALTAG_TRIANGLE_CURSOR,
     PALTAG_RECTANGLE_CURSOR,
     PALTAG_MISC_UI,
-    PALTAG_RS_INTERVIEW_FRAME,
 };
 
 enum {
@@ -240,10 +203,8 @@ enum {
     GFXTAG_SCROLL_INDICATOR,
     GFXTAG_START_SELECT_BUTTONS,
     GFXTAG_MODE_WINDOW,
-    GFXTAG_RS_INTERVIEW_FRAME,
     GFXTAG_BUTTON_WINDOW,
 };
-
 
 // State values for sEasyChatScreen->inputState
 // Control which input handler to use in HandleEasyChatInput
@@ -255,10 +216,7 @@ enum {
     INPUTSTATE_EXIT_PROMPT,
     INPUTSTATE_DELETE_ALL_YES_NO,
     INPUTSTATE_CONFIRM_WORDS_YES_NO,
-    INPUTSTATE_QUIZ_QUESTION,
     INPUTSTATE_WAIT_FOR_MSG,
-    INPUTSTATE_START_CONFIRM_LYRICS,
-    INPUTSTATE_CONFIRM_LYRICS_YES_NO,
 };
 
 // Task states for the 'main' task, Task_EasyChatScreen
@@ -266,7 +224,6 @@ enum {
     MAINSTATE_FADE_IN,
     MAINSTATE_HANDLE_INPUT,
     MAINSTATE_RUN_FUNC,
-    MAINSTATE_TO_QUIZ_LADY,
     MAINSTATE_EXIT,
     MAINSTATE_WAIT_FADE_IN,
 };
@@ -277,11 +234,6 @@ enum {
     MSG_CONFIRM_DELETE,
     MSG_CONFIRM_EXIT,
     MSG_CONFIRM,
-    MSG_CREATE_QUIZ,
-    MSG_SELECT_ANSWER,
-    MSG_SONG_TOO_SHORT,
-    MSG_CANT_DELETE_LYRICS,
-    MSG_COMBINE_TWO_WORDS,
     MSG_CANT_QUIT,
 };
 
@@ -302,7 +254,6 @@ enum {
     ECFUNC_CLOSE_KEYBOARD,
     ECFUNC_OPEN_WORD_SELECT,
     ECFUNC_CLOSE_WORD_SELECT,
-    ECFUNC_PROMPT_CONFIRM_LYRICS,
     ECFUNC_RETURN_TO_KEYBOARD,
     ECFUNC_UPDATE_KEYBOARD_CURSOR,
     ECFUNC_GROUP_NAMES_SCROLL_DOWN,
@@ -314,15 +265,6 @@ enum {
     ECFUNC_WORD_SELECT_PAGE_DOWN,
     ECFUNC_SWITCH_KEYBOARD_MODE,
     ECFUNC_EXIT,
-    ECFUNC_QUIZ_QUESTION,
-    ECFUNC_QUIZ_ANSWER,
-    ECFUNC_SET_QUIZ_QUESTION,
-    ECFUNC_SET_QUIZ_ANSWER,
-    ECFUNC_MSG_CREATE_QUIZ,
-    ECFUNC_MSG_SELECT_ANSWER,
-    ECFUNC_MSG_SONG_TOO_SHORT,
-    ECFUNC_MSG_CANT_DELETE_LYRICS,
-    ECFUNC_MSG_COMBINE_TWO_WORDS,
     ECFUNC_MSG_CANT_EXIT,
 };
 
@@ -343,22 +285,12 @@ enum {
 #define NUM_WORD_SELECT_COLUMNS 2
 
 enum {
-    FRAMEID_GENERAL_2x2,
-    FRAMEID_GENERAL_2x3,
     FRAMEID_MAIL,
-    FRAMEID_COMBINE_TWO_WORDS,
-    FRAMEID_INTERVIEW_SHOW_PERSON,
-    FRAMEID_INTERVIEW,
-    FRAMEID_QUIZ_ANSWER,
-    FRAMEID_QUIZ_QUESTION,
-    FRAMEID_QUIZ_SET_QUESTION,
 };
 
 // IDs for the footer row of buttons on the main screen
 enum {
     FOOTER_NORMAL,
-    FOOTER_QUIZ,
-    FOOTER_ANSWER,
     NUM_FOOTER_TYPES
 };
 
@@ -403,280 +335,15 @@ enum {
 #define FRAME_TILE_BOTTOM_EDGE     0xA
 #define FRAME_TILE_BOTTOM_R_CORNER 0xB
 
-struct
-{
-    u16 funcId;
-    MainCallback callback;
-} static const sQuizLadyEasyChatScreens[] = {
-    {
-        .funcId = ECFUNC_QUIZ_ANSWER,
-        .callback = DoQuizAnswerEasyChatScreen,
-    },
-    {
-        .funcId = ECFUNC_QUIZ_QUESTION,
-        .callback = DoQuizQuestionEasyChatScreen,
-    },
-    {
-        .funcId = ECFUNC_SET_QUIZ_ANSWER,
-        .callback = DoQuizSetAnswerEasyChatScreen,
-    },
-    {
-        .funcId = ECFUNC_SET_QUIZ_QUESTION,
-        .callback = DoQuizSetQuestionEasyChatScreen,
-    },
-};
-
 static const struct EasyChatScreenTemplate sEasyChatScreenTemplates[] = {
     {
-        .type = EASY_CHAT_TYPE_PROFILE,
-        .numColumns = 2,
-        .numRows = 2,
-        .frameId = FRAMEID_GENERAL_2x2,
-        .fourFooterOptions = FALSE,
-        .titleText = gText_Profile,
-        .instructionsText1 = gText_CombineFourWordsOrPhrases,
-        .instructionsText2 = gText_AndMakeYourProfile,
-        .confirmText1 = gText_YourProfile,
-        .confirmText2 = gText_IsAsShownOkay,
-    },
-    {
-        .type = EASY_CHAT_TYPE_BATTLE_START,
-        .numColumns = 2,
-        .numRows = 3,
-        .frameId = FRAMEID_GENERAL_2x3,
-        .fourFooterOptions = FALSE,
-        .titleText = gText_AtTheBattlesStart,
-        .instructionsText1 = gText_CombineSixWordsOrPhrases,
-        .instructionsText2 = gText_AndMakeAMessage,
-        .confirmText1 = gText_YourFeelingAtTheBattlesStart,
-        .confirmText2 = gText_IsAsShownOkay,
-    },
-    {
-        .type = EASY_CHAT_TYPE_BATTLE_WON,
-        .numColumns = 2,
-        .numRows = 3,
-        .frameId = FRAMEID_GENERAL_2x3,
-        .fourFooterOptions = FALSE,
-        .titleText = gText_UponWinningABattle,
-        .instructionsText1 = gText_CombineSixWordsOrPhrases,
-        .instructionsText2 = gText_AndMakeAMessage,
-        .confirmText1 = gText_WhatYouSayIfYouWin,
-        .confirmText2 = gText_IsAsShownOkay,
-    },
-    {
-        .type = EASY_CHAT_TYPE_BATTLE_LOST,
-        .numColumns = 2,
-        .numRows = 3,
-        .frameId = FRAMEID_GENERAL_2x3,
-        .fourFooterOptions = FALSE,
-        .titleText = gText_UponLosingABattle,
-        .instructionsText1 = gText_CombineSixWordsOrPhrases,
-        .instructionsText2 = gText_AndMakeAMessage,
-        .confirmText1 = gText_WhatYouSayIfYouLose,
-        .confirmText2 = gText_IsAsShownOkay,
-    },
-    {
-        .type = EASY_CHAT_TYPE_MAIL,
         .numColumns = 2,
         .numRows = 5,
         .frameId = FRAMEID_MAIL,
-        .fourFooterOptions = FALSE,
         .titleText = NULL,
         .instructionsText1 = gText_CombineNineWordsOrPhrases,
         .instructionsText2 = gText_AndMakeAMessage2,
         .confirmText1 = gText_TheMailMessage,
-        .confirmText2 = gText_IsAsShownOkay,
-    },
-    {
-        .type = EASY_CHAT_TYPE_INTERVIEW,
-        .numColumns = 2,
-        .numRows = 2,
-        .frameId = FRAMEID_INTERVIEW,
-        .fourFooterOptions = FALSE,
-        .titleText = gText_Interview,
-        .instructionsText1 = gText_CombineFourWordsOrPhrases,
-        .instructionsText2 = gText_LetsReplyToTheInterview,
-        .confirmText1 = gText_TheAnswer,
-        .confirmText2 = gText_IsAsShownOkay,
-    },
-    {
-        .type = EASY_CHAT_TYPE_BARD_SONG,
-        .numColumns = 2,
-        .numRows = 3,
-        .frameId = FRAMEID_GENERAL_2x3,
-        .fourFooterOptions = FALSE,
-        .titleText = gText_TheBardsSong,
-        .instructionsText1 = gText_ChangeJustOneWordOrPhrase,
-        .instructionsText2 = gText_AndImproveTheBardsSong,
-        .confirmText1 = gText_TheBardsSong2,
-        .confirmText2 = gText_IsAsShownOkay,
-    },
-    {
-        .type = EASY_CHAT_TYPE_FAN_CLUB,
-        .numColumns = 1,
-        .numRows = 1,
-        .frameId = FRAMEID_INTERVIEW_SHOW_PERSON,
-        .fourFooterOptions = FALSE,
-        .titleText = gText_Interview,
-        .instructionsText1 = gText_FindWordsThatDescribeYour,
-        .instructionsText2 = gText_FeelingsRightNow,
-        .confirmText1 = gText_TheAnswer,
-        .confirmText2 = gText_IsAsShownOkay,
-    },
-    {
-        .type = EASY_CHAT_TYPE_TRENDY_PHRASE,
-        .numColumns = 2,
-        .numRows = 1,
-        .frameId = FRAMEID_COMBINE_TWO_WORDS,
-        .fourFooterOptions = FALSE,
-        .titleText = gText_WhatsHipAndHappening,
-        .instructionsText1 = gText_CombineTwoWordsOrPhrases,
-        .instructionsText2 = gText_AndMakeATrendySaying,
-        .confirmText1 = gText_TheTrendySaying,
-        .confirmText2 = gText_IsAsShownOkay,
-    },
-    {
-        .type = EASY_CHAT_TYPE_QUIZ_QUESTION,
-        .numColumns = 2,
-        .numRows = 5,
-        .frameId = FRAMEID_QUIZ_QUESTION,
-        .fourFooterOptions = TRUE,
-        .titleText = NULL,
-        .instructionsText1 = gText_AfterYouHaveReadTheQuiz,
-        .instructionsText2 = gText_QuestionPressTheAButton,
-        .confirmText1 = NULL,
-        .confirmText2 = NULL,
-    },
-    {
-        .type = EASY_CHAT_TYPE_QUIZ_ANSWER,
-        .numColumns = 1,
-        .numRows = 1,
-        .frameId = FRAMEID_QUIZ_ANSWER,
-        .fourFooterOptions = TRUE,
-        .titleText = gText_TheQuizAnswerIs,
-        .instructionsText1 = gText_OutOfTheListedChoices,
-        .instructionsText2 = gText_SelectTheAnswerToTheQuiz,
-        .confirmText1 = gText_TheAnswerColon,
-        .confirmText2 = gText_IsAsShownOkay,
-    },
-    {
-        .type = EASY_CHAT_TYPE_QUIZ_SET_QUESTION,
-        .numColumns = 2,
-        .numRows = 5,
-        .frameId = FRAMEID_QUIZ_SET_QUESTION,
-        .fourFooterOptions = TRUE,
-        .titleText = NULL,
-        .instructionsText1 = gText_CombineNineWordsOrPhrases,
-        .instructionsText2 = gText_AndCreateAQuiz,
-        .confirmText1 = gText_IsThisQuizOK,
-        .confirmText2 = NULL,
-    },
-    {
-        .type = EASY_CHAT_TYPE_QUIZ_SET_ANSWER,
-        .numColumns = 1,
-        .numRows = 1,
-        .frameId = FRAMEID_QUIZ_ANSWER,
-        .fourFooterOptions = TRUE,
-        .titleText = gText_TheQuizAnswerIs,
-        .instructionsText1 = gText_PickAWordOrPhraseAnd,
-        .instructionsText2 = gText_SetTheQuizAnswer,
-        .confirmText1 = gText_IsThisQuizOK,
-        .confirmText2 = NULL,
-    },
-    {
-        .type = EASY_CHAT_TYPE_BARD_SONG,
-        .numColumns = 2,
-        .numRows = 3,
-        .frameId = FRAMEID_GENERAL_2x3,
-        .fourFooterOptions = FALSE,
-        .titleText = gText_TheBardsSong,
-        .instructionsText1 = gText_ChangeJustOneWordOrPhrase,
-        .instructionsText2 = gText_AndImproveTheBardsSong,
-        .confirmText1 = gText_TheBardsSong2,
-        .confirmText2 = gText_IsAsShownOkay,
-    },
-    {
-        .type = EASY_CHAT_TYPE_APPRENTICE,
-        .numColumns = 2,
-        .numRows = 3,
-        .frameId = FRAMEID_GENERAL_2x3,
-        .fourFooterOptions = FALSE,
-        .titleText = gText_ApprenticesPhrase,
-        .instructionsText1 = gText_FindWordsWhichFit,
-        .instructionsText2 = gText_TheTrainersImage,
-        .confirmText1 = gText_ApprenticePhrase,
-        .confirmText2 = gText_IsAsShownOkay,
-    },
-    {
-        .type = EASY_CHAT_TYPE_GOOD_SAYING,
-        .numColumns = 2,
-        .numRows = 1,
-        .frameId = FRAMEID_COMBINE_TWO_WORDS,
-        .fourFooterOptions = FALSE,
-        .titleText = gText_GoodSaying,
-        .instructionsText1 = gText_CombineTwoWordsOrPhrases2,
-        .instructionsText2 = gText_ToTeachHerAGoodSaying,
-        .confirmText1 = gText_TheAnswer,
-        .confirmText2 = gText_IsAsShownOkay,
-    },
-    {
-        .type = EASY_CHAT_TYPE_GABBY_AND_TY,
-        .numColumns = 1,
-        .numRows = 1,
-        .frameId = FRAMEID_INTERVIEW_SHOW_PERSON,
-        .fourFooterOptions = FALSE,
-        .titleText = gText_Interview,
-        .instructionsText1 = gText_FindWordsThatDescribeYour,
-        .instructionsText2 = gText_FeelingsRightNow,
-        .confirmText1 = gText_TheAnswer,
-        .confirmText2 = gText_IsAsShownOkay,
-    },
-    {
-        .type = EASY_CHAT_TYPE_BATTLE_TOWER_INTERVIEW,
-        .numColumns = 1,
-        .numRows = 1,
-        .frameId = FRAMEID_INTERVIEW_SHOW_PERSON,
-        .fourFooterOptions = FALSE,
-        .titleText = gText_Interview,
-        .instructionsText1 = gText_FindWordsThatDescribeYour,
-        .instructionsText2 = gText_FeelingsRightNow,
-        .confirmText1 = gText_TheAnswer,
-        .confirmText2 = gText_IsAsShownOkay,
-    },
-    {
-        .type = EASY_CHAT_TYPE_CONTEST_INTERVIEW,
-        .numColumns = 1,
-        .numRows = 1,
-        .frameId = FRAMEID_INTERVIEW_SHOW_PERSON,
-        .fourFooterOptions = FALSE,
-        .titleText = gText_Interview,
-        .instructionsText1 = gText_FindWordsThatDescribeYour,
-        .instructionsText2 = gText_FeelingsRightNow,
-        .confirmText1 = gText_TheAnswer,
-        .confirmText2 = gText_IsAsShownOkay,
-    },
-    {
-        .type = EASY_CHAT_TYPE_FAN_QUESTION,
-        .numColumns = 1,
-        .numRows = 1,
-        .frameId = FRAMEID_INTERVIEW_SHOW_PERSON,
-        .fourFooterOptions = FALSE,
-        .titleText = gText_FansQuestion,
-        .instructionsText1 = gText_FindWordsWhichFit,
-        .instructionsText2 = gText_TheTrainersImage,
-        .confirmText1 = gText_TheImage,
-        .confirmText2 = gText_IsAsShownOkay,
-    },
-    {
-        .type = EASY_CHAT_TYPE_QUESTIONNAIRE,
-        .numColumns = 2,
-        .numRows = 2,
-        .frameId = FRAMEID_GENERAL_2x2,
-        .fourFooterOptions = FALSE,
-        .titleText = gText_Questionnaire,
-        .instructionsText1 = gText_CombineFourWordsOrPhrases,
-        .instructionsText2 = gText_AndFillOutTheQuestionnaire,
-        .confirmText1 = gText_TheAnswer,
         .confirmText2 = gText_IsAsShownOkay,
     },
 };
@@ -691,30 +358,10 @@ static const u8 sAlphabetGroupIdMap[NUM_ALPHABET_ROWS][NUM_ALPHABET_COLUMNS] = {
     {20, 21, 22, 23, 24, 25, 26},
 };
 
-static const u16 sMysteryGiftPhrase[NUM_QUESTIONNAIRE_WORDS] = {
-    EC_WORD_LINK,
-    EC_WORD_TOGETHER,
-    EC_WORD_WITH,
-    EC_WORD_ALL,
-};
-
-static const u16 sBerryMasterWifePhrases[][2] = {
-    [PHRASE_GREAT_BATTLE - 1]        = {EC_WORD_GREAT, EC_WORD_BATTLE},
-    [PHRASE_CHALLENGE_CONTEST - 1]   = {EC_WORD_CHALLENGE, EC_WORD_CONTEST},
-    [PHRASE_OVERWHELMING_LATIAS - 1] = {EC_WORD_OVERWHELMING, EC_POKEMON(LATIAS)},
-    [PHRASE_COOL_LATIOS - 1]         = {EC_WORD_COOL, EC_POKEMON(LATIOS)},
-    [PHRASE_SUPER_HUSTLE - 1]        = {EC_WORD_SUPER, EC_WORD_HUSTLE},
-};
-
 static const u16 sTriangleCursor_Pal[] = INCGFX_U16("graphics/easy_chat/triangle_cursor.png", ".gbapal");
 static const u32 sTriangleCursor_Gfx[] = INCGFX_U32("graphics/easy_chat/triangle_cursor.png", ".4bpp");
 static const u32 sScrollIndicator_Gfx[] = INCGFX_U32("graphics/easy_chat/scroll_indicator.png", ".4bpp");
 static const u32 sStartSelectButtons_Gfx[] = INCGFX_U32("graphics/easy_chat/start_select_buttons.png", ".4bpp");
-// In Ruby/Sapphire Easy Chat screens had a black background, and when the player & interviewer were present
-// on screen the interview_frame gfx was shown behind them.
-// In Emerald all Easy Chat screens have a filled background, so these gfx go unused
-static const u16 sRSInterviewFrame_Pal[] = INCGFX_U16("graphics/easy_chat/interview_frame.png", ".gbapal");
-static const u32 sRSInterviewFrame_Gfx[] = INCGFX_U32("graphics/easy_chat/interview_frame.png", ".4bpp.smol");
 static const u16 sTextInputFrameOrange_Pal[] = INCGFX_U16("graphics/easy_chat/text_input_frame_orange.pal", ".gbapal");
 static const u16 sTextInputFrameGreen_Pal[] = INCGFX_U16("graphics/easy_chat/text_input_frame_green.pal", ".gbapal");
 static const u32 sTextInputFrame_Gfx[] = INCGFX_U32("graphics/easy_chat/text_input_frame.png", ".4bpp.smol");
@@ -722,68 +369,12 @@ static const u16 sTitleText_Pal[] = INCGFX_U16("graphics/easy_chat/title_text.pa
 static const u16 sText_Pal[] = INCGFX_U16("graphics/easy_chat/text.pal", ".gbapal");
 
 static const struct EasyChatPhraseFrameDimensions sPhraseFrameDimensions[] = {
-    [FRAMEID_GENERAL_2x2] = {
-        .left = 3,
-        .top = 4,
-        .width = 24,
-        .height = 4,
-        .footerId = FOOTER_NORMAL,
-    },
-    [FRAMEID_GENERAL_2x3] = {
-        .left = 3,
-        .top = 3,
-        .width = 24,
-        .height = 6,
-        .footerId = FOOTER_NORMAL,
-    },
     [FRAMEID_MAIL] = {
         .left = 3,
         .top = 0,
         .width = 24,
         .height = 10,
         .footerId = FOOTER_NORMAL,
-    },
-    [FRAMEID_COMBINE_TWO_WORDS] = {
-        .left = 3,
-        .top = 5,
-        .width = 24,
-        .height = 2,
-        .footerId = FOOTER_NORMAL,
-    },
-    [FRAMEID_INTERVIEW_SHOW_PERSON] = {
-        .left = 16,
-        .top = 5,
-        .width = 12,
-        .height = 2,
-        .footerId = FOOTER_NORMAL,
-    },
-    [FRAMEID_INTERVIEW] = {
-        .left = 3,
-        .top = 4,
-        .width = 24,
-        .height = 4,
-        .footerId = FOOTER_NORMAL,
-    },
-    [FRAMEID_QUIZ_ANSWER] = {
-        .left = 9,
-        .top = 4,
-        .width = 12,
-        .height = 2,
-        .footerId = FOOTER_QUIZ,
-    },
-    [FRAMEID_QUIZ_QUESTION] = {
-        .left = 5,
-        .top = 3,
-        .width = 20,
-        .height = 10,
-        .footerId = NUM_FOOTER_TYPES,
-    },
-    [FRAMEID_QUIZ_SET_QUESTION] = {
-        .left = 3,
-        .top = 0,
-        .width = 24,
-        .height = 10,
-        .footerId = FOOTER_ANSWER,
     },
 };
 
@@ -909,19 +500,10 @@ static const struct SpritePalette sSpritePalettes[] = {
         .data = gEasyChatButtonWindow_Pal,
         .tag = PALTAG_MISC_UI, // The palette is generated from the button window but used for various parts of the UI
     },
-    {
-        .data = sRSInterviewFrame_Pal,
-        .tag = PALTAG_RS_INTERVIEW_FRAME,
-    },
     {0}
 };
 
 static const struct CompressedSpriteSheet sCompressedSpriteSheets[] = {
-    {
-        .data = sRSInterviewFrame_Gfx,
-        .size = 0x800,
-        .tag = GFXTAG_RS_INTERVIEW_FRAME,
-    },
     {
         .data = gEasyChatRectangleCursor_Gfx,
         .size = 0x1000,
@@ -1182,57 +764,18 @@ static const struct SpriteTemplate sSpriteTemplate_ScrollIndicator =
 
 static const u8 sFooterOptionXOffsets[NUM_FOOTER_TYPES][4] = {
     [FOOTER_NORMAL] = {16, 111, 196,   0},
-    [FOOTER_QUIZ]   = {16,  78, 130, 160},
-    [FOOTER_ANSWER] = {16,  80, 134, 170},
 };
 
 static const u8 *const sFooterTextOptions[NUM_FOOTER_TYPES][4] = {
     [FOOTER_NORMAL] = {gText_DelAll, gText_Cancel5, gText_Ok2, NULL},
-    [FOOTER_QUIZ]   = {gText_DelAll, gText_Cancel5, gText_Ok2, gText_Quiz},
-    [FOOTER_ANSWER] = {gText_DelAll, gText_Cancel5, gText_Ok2, gText_Answer},
 };
 
 #include "data/easy_chat/easy_chat_groups.h"
 #include "data/easy_chat/easy_chat_words_by_letter.h"
 
-static const u16 sDefaultProfileWords[EASY_CHAT_BATTLE_WORDS_COUNT - 2] = {
-    EC_WORD_I_AM,
-    EC_WORD_A,
-    EC_WORD_POKEMON,
-    EC_WORD_FRIEND,
-};
-
-static const u16 sDefaultBattleStartWords[EASY_CHAT_BATTLE_WORDS_COUNT] = {
-    EC_WORD_ARE,
-    EC_WORD_YOU,
-    EC_WORD_READY,
-    EC_WORD_QUES,
-    EC_WORD_HERE_I_COME,
-    EC_WORD_EXCL,
-};
-
-static const u16 sDefaultBattleWonWords[EASY_CHAT_BATTLE_WORDS_COUNT] = {
-    EC_WORD_YAY,
-    EC_WORD_YAY,
-    EC_WORD_EXCL_EXCL,
-    EC_WORD_I_VE,
-    EC_WORD_WON,
-    EC_WORD_EXCL_EXCL,
-};
-
-static const u16 sDefaultBattleLostWords[EASY_CHAT_BATTLE_WORDS_COUNT] = {
-    EC_WORD_TOO,
-    EC_WORD_BAD,
-    EC_WORD_ELLIPSIS,
-    EC_WORD_WE,
-    EC_WORD_LOST,
-    EC_WORD_ELLIPSIS,
-};
-
 static const enum Species sRestrictedWordSpecies[] = {
     SPECIES_DEOXYS,
 };
-
 
 // In addition to the task defines below, these two elements
 // have their indexes used explicitly because they are 4-byte
@@ -1243,20 +786,16 @@ static const enum Species sRestrictedWordSpecies[] = {
 #define TASKIDX_EXIT_CALLBACK 4
 
 #define tState        data[0]
-#define tType         data[1]
 #define tWords        data[TASKIDX_WORDS] // Occupies 2 and 3
 #define tExitCallback data[TASKIDX_EXIT_CALLBACK] // Occupies 4 and 5
 #define tFuncId       data[6]
-#define tPersonType   data[7]
 
-void DoEasyChatScreen(u8 type, u16 *words, MainCallback exitCallback, u8 displayedPersonType)
+void DoEasyChatMailScreen(u16 *words, MainCallback exitCallback)
 {
     u8 taskId;
 
     ResetTasks();
     taskId = CreateTask(Task_InitEasyChatScreen, 0);
-    gTasks[taskId].tType = type;
-    gTasks[taskId].tPersonType = displayedPersonType;
     SetWordTaskArg(taskId, TASKIDX_WORDS, (u32)words);
     SetWordTaskArg(taskId, TASKIDX_EXIT_CALLBACK, (u32)exitCallback);
     SetMainCallback2(CB2_EasyChatScreen);
@@ -1314,14 +853,7 @@ static void Task_EasyChatScreen(u8 taskId)
         break;
     case MAINSTATE_HANDLE_INPUT:
         funcId = HandleEasyChatInput();
-        if (IsFuncIdForQuizLadyScreen(funcId))
-        {
-            // Fade to Quiz Lady screen
-            BeginNormalPaletteFade(PALETTES_ALL, -2, 0, 16, RGB_BLACK);
-            tState = MAINSTATE_TO_QUIZ_LADY;
-            tFuncId = funcId;
-        }
-        else if (funcId == ECFUNC_EXIT)
+        if (funcId == ECFUNC_EXIT)
         {
             // Fade and exit Easy Chat
             BeginNormalPaletteFade(PALETTES_ALL, -1, 0, 16, RGB_BLACK);
@@ -1337,10 +869,6 @@ static void Task_EasyChatScreen(u8 taskId)
     case MAINSTATE_RUN_FUNC:
         if (!RunEasyChatFunction())
             tState = MAINSTATE_HANDLE_INPUT;
-        break;
-    case MAINSTATE_TO_QUIZ_LADY:
-        if (!gPaletteFade.active)
-            EnterQuizLadyScreen(tFuncId);
         break;
     case MAINSTATE_EXIT:
         if (!gPaletteFade.active)
@@ -1376,7 +904,7 @@ static bool8 InitEasyChatScreen(u8 taskId)
         }
         break;
     case 2:
-        if (!InitEasyChatScreenStruct(tType, (u16 *)GetWordTaskArg(taskId, TASKIDX_WORDS), tPersonType))
+        if (!InitEasyChatScreenStruct((u16 *)GetWordTaskArg(taskId, TASKIDX_WORDS)))
         {
             // Alloc failed, exit
             ExitEasyChatScreen((MainCallback)GetWordTaskArg(taskId, TASKIDX_EXIT_CALLBACK));
@@ -1411,188 +939,7 @@ static void ExitEasyChatScreen(MainCallback callback)
     SetMainCallback2(callback);
 }
 
-void ShowEasyChatScreen(void)
-{
-    int i;
-    u16 *words;
-    struct MauvilleManBard *bard;
-    u8 displayedPersonType = EASY_CHAT_PERSON_DISPLAY_NONE;
-    switch (gSpecialVar_0x8004)
-    {
-    case EASY_CHAT_TYPE_PROFILE:
-        words = gSaveBlock1Ptr->easyChatProfile;
-        break;
-    case EASY_CHAT_TYPE_BATTLE_START:
-        words = gSaveBlock1Ptr->easyChatBattleStart;
-        break;
-    case EASY_CHAT_TYPE_BATTLE_WON:
-        words = gSaveBlock1Ptr->easyChatBattleWon;
-        break;
-    case EASY_CHAT_TYPE_BATTLE_LOST:
-        words = gSaveBlock1Ptr->easyChatBattleLost;
-        break;
-    case EASY_CHAT_TYPE_MAIL:
-        words = gSaveBlock1Ptr->mail[gSpecialVar_0x8005].words;
-        break;
-    case EASY_CHAT_TYPE_BARD_SONG:
-        bard = &gSaveBlock1Ptr->oldMan.bard;
-        for (i = 0; i < NUM_BARD_SONG_WORDS; i ++)
-            bard->newSongLyrics[i] = bard->songLyrics[i];
-
-        words = bard->newSongLyrics;
-        break;
-    case EASY_CHAT_TYPE_INTERVIEW:
-        words = gSaveBlock1Ptr->tvShows[gSpecialVar_0x8005].bravoTrainer.words;
-        displayedPersonType = gSpecialVar_0x8006;
-        break;
-    case EASY_CHAT_TYPE_FAN_CLUB:
-        words = &gSaveBlock1Ptr->tvShows[gSpecialVar_0x8005].fanclubOpinions.words[gSpecialVar_0x8006];
-        displayedPersonType = EASY_CHAT_PERSON_REPORTER_FEMALE;
-        break;
-    case EASY_CHAT_TYPE_DUMMY_SHOW:
-        words = gSaveBlock1Ptr->tvShows[gSpecialVar_0x8005].dummy.words;
-        displayedPersonType = EASY_CHAT_PERSON_REPORTER_MALE;
-        break;
-    case EASY_CHAT_TYPE_TRENDY_PHRASE:
-        words = (u16 *)gStringVar3;
-        words[0] = gSaveBlock1Ptr->dewfordTrends[0].words[0];
-        words[1] = gSaveBlock1Ptr->dewfordTrends[0].words[1];
-        break;
-    case EASY_CHAT_TYPE_GABBY_AND_TY:
-        words = gSaveBlock1Ptr->gabbyAndTyData.quote;
-        *words = EC_EMPTY_WORD;
-        displayedPersonType = EASY_CHAT_PERSON_REPORTER_FEMALE;
-        break;
-    case EASY_CHAT_TYPE_CONTEST_INTERVIEW:
-        words = &gSaveBlock1Ptr->tvShows[gSpecialVar_0x8005].bravoTrainer.words[gSpecialVar_0x8006];
-        displayedPersonType = EASY_CHAT_PERSON_REPORTER_MALE;
-        break;
-    case EASY_CHAT_TYPE_BATTLE_TOWER_INTERVIEW:
-        words = gSaveBlock1Ptr->tvShows[gSpecialVar_0x8005].bravoTrainerTower.words;
-        displayedPersonType = EASY_CHAT_PERSON_REPORTER_FEMALE;
-        break;
-    case EASY_CHAT_TYPE_GOOD_SAYING:
-        words = (u16 *)gStringVar3;
-        InitializeEasyChatWordArray(words, 2);
-        break;
-    case EASY_CHAT_TYPE_FAN_QUESTION:
-        words = gSaveBlock1Ptr->tvShows[gSpecialVar_0x8005].fanClubSpecial.words;
-        words[0] = EC_EMPTY_WORD;
-        displayedPersonType = EASY_CHAT_PERSON_BOY;
-        break;
-    case EASY_CHAT_TYPE_QUIZ_ANSWER:
-        words = &gSaveBlock1Ptr->lilycoveLady.quiz.playerAnswer;
-        break;
-    case EASY_CHAT_TYPE_QUIZ_QUESTION:
-        return;
-    case EASY_CHAT_TYPE_QUIZ_SET_QUESTION:
-        words = gSaveBlock1Ptr->lilycoveLady.quiz.question;
-        break;
-    case EASY_CHAT_TYPE_QUIZ_SET_ANSWER:
-        words = &gSaveBlock1Ptr->lilycoveLady.quiz.correctAnswer;
-        break;
-    case EASY_CHAT_TYPE_APPRENTICE:
-        words = gSaveBlock2Ptr->apprentices[0].speechWon;
-        break;
-    case EASY_CHAT_TYPE_QUESTIONNAIRE:
-        words = GetQuestionnaireWordsPtr();
-        break;
-    default:
-        return;
-    }
-
-    CleanupOverworldWindowsAndTilemaps();
-    DoEasyChatScreen(gSpecialVar_0x8004, words, CB2_ReturnToFieldContinueScript, displayedPersonType);
-}
-
-static void CB2_QuizLadyQuestion(void)
-{
-    LilycoveLady *lilycoveLady;
-
-    UpdatePaletteFade();
-    switch (gMain.state)
-    {
-    case 0:
-        FadeScreen(FADE_TO_BLACK, 0);
-        break;
-    case 1:
-        if (!gPaletteFade.active)
-        {
-            lilycoveLady = &gSaveBlock1Ptr->lilycoveLady;
-            lilycoveLady->quiz.playerAnswer = EC_EMPTY_WORD;
-            CleanupOverworldWindowsAndTilemaps();
-            DoQuizQuestionEasyChatScreen();
-        }
-        return;
-    }
-    gMain.state ++;
-}
-
-void QuizLadyShowQuizQuestion(void)
-{
-    SetMainCallback2(CB2_QuizLadyQuestion);
-}
-
-static int GetQuizLadyScreenByFuncId(u16 funcId)
-{
-    int i;
-
-    for (i = 0; i < ARRAY_COUNT(sQuizLadyEasyChatScreens); i ++)
-    {
-        if (funcId == sQuizLadyEasyChatScreens[i].funcId)
-            return i;
-    }
-    return -1;
-}
-
-static bool32 IsFuncIdForQuizLadyScreen(u16 funcId)
-{
-    return GetQuizLadyScreenByFuncId(funcId) == -1 ? FALSE : TRUE;
-}
-
-static void EnterQuizLadyScreen(u16 funcId)
-{
-    int i;
-
-    i = GetQuizLadyScreenByFuncId(funcId);
-    ResetTasks();
-    ExitEasyChatScreen(sQuizLadyEasyChatScreens[i].callback);
-}
-
-static void DoQuizAnswerEasyChatScreen(void)
-{
-    DoEasyChatScreen(
-        EASY_CHAT_TYPE_QUIZ_ANSWER,
-        &gSaveBlock1Ptr->lilycoveLady.quiz.playerAnswer,
-        CB2_ReturnToFieldContinueScript,
-        EASY_CHAT_PERSON_DISPLAY_NONE);
-}
-
-static void DoQuizQuestionEasyChatScreen(void)
-{
-    DoEasyChatScreen(EASY_CHAT_TYPE_QUIZ_QUESTION,
-        gSaveBlock1Ptr->lilycoveLady.quiz.question,
-        CB2_ReturnToFieldContinueScript,
-        EASY_CHAT_PERSON_DISPLAY_NONE);
-}
-
-static void DoQuizSetAnswerEasyChatScreen(void)
-{
-    DoEasyChatScreen(EASY_CHAT_TYPE_QUIZ_SET_ANSWER,
-        &gSaveBlock1Ptr->lilycoveLady.quiz.correctAnswer,
-        CB2_ReturnToFieldContinueScript,
-        EASY_CHAT_PERSON_DISPLAY_NONE);
-}
-
-static void DoQuizSetQuestionEasyChatScreen(void)
-{
-    DoEasyChatScreen(EASY_CHAT_TYPE_QUIZ_SET_QUESTION,
-        gSaveBlock1Ptr->lilycoveLady.quiz.question,
-        CB2_ReturnToFieldContinueScript,
-        EASY_CHAT_PERSON_DISPLAY_NONE);
-}
-
-static bool8 InitEasyChatScreenStruct(u8 type, u16 *words, u8 displayedPersonType)
+static bool8 InitEasyChatScreenStruct(u16 *words)
 {
     u8 templateId;
     int i;
@@ -1601,21 +948,11 @@ static bool8 InitEasyChatScreenStruct(u8 type, u16 *words, u8 displayedPersonTyp
     if (sEasyChatScreen == NULL)
         return FALSE;
 
-    sEasyChatScreen->type = type;
     sEasyChatScreen->savedPhrase = words;
     sEasyChatScreen->mainCursorColumn = 0;
     sEasyChatScreen->mainCursorRow = 0;
     sEasyChatScreen->inAlphabetMode = FALSE;
-    sEasyChatScreen->displayedPersonType = displayedPersonType;
-    sEasyChatScreen->unused = 0;
-    templateId = GetEachChatScreenTemplateId(type);
-    if (type == EASY_CHAT_TYPE_QUIZ_QUESTION)
-    {
-        GetQuizTitle(sEasyChatScreen->quizTitle);
-        sEasyChatScreen->titleText = sEasyChatScreen->quizTitle;
-        sEasyChatScreen->inputState = INPUTSTATE_QUIZ_QUESTION;
-    }
-    else
+    templateId = 0;
     {
         sEasyChatScreen->inputState = INPUTSTATE_PHRASE;
         sEasyChatScreen->titleText = sEasyChatScreenTemplates[templateId].titleText;
@@ -1671,14 +1008,8 @@ static u16 HandleEasyChatInput(void)
         return HandleEasyChatInput_DeleteAllYesNo();
     case INPUTSTATE_CONFIRM_WORDS_YES_NO:
         return HandleEasyChatInput_ConfirmWordsYesNo();
-    case INPUTSTATE_QUIZ_QUESTION:
-        return HandleEasyChatInput_QuizQuestion();
     case INPUTSTATE_WAIT_FOR_MSG:
         return HandleEasyChatInput_WaitForMsg();
-    case INPUTSTATE_START_CONFIRM_LYRICS:
-        return HandleEasyChatInput_StartConfirmLyrics();
-    case INPUTSTATE_CONFIRM_LYRICS_YES_NO:
-        return HandleEasyChatInput_ConfirmLyricsYesNo();
     }
     return ECFUNC_NONE;
 }
@@ -1688,8 +1019,7 @@ static bool32 IsCurrentFrame2x5(void)
     switch (GetEasyChatScreenFrameId())
     {
     case FRAMEID_MAIL:
-    case FRAMEID_QUIZ_QUESTION:
-    case FRAMEID_QUIZ_SET_QUESTION:
+
         return TRUE;
     }
     return FALSE;
@@ -1702,7 +1032,6 @@ static u16 HandleEasyChatInput_Phrase(void)
     {
         if (JOY_NEW(A_BUTTON))
         {
-            ClearUnusedField();
             sEasyChatScreen->inputState = INPUTSTATE_KEYBOARD;
             sEasyChatScreen->keyboardColumn = 0;
             sEasyChatScreen->keyboardRow = 0;
@@ -1787,8 +1116,6 @@ static u16 HandleEasyChatInput_MainScreenButtons(void)
                 return StartConfirmExitPrompt();
             case 2: // OK button
                 return TryConfirmWords();
-            case 3: // Quiz/Answer button
-                return DoQuizButton();
             }
         }
 
@@ -1826,7 +1153,7 @@ static u16 HandleEasyChatInput_MainScreenButtons(void)
 
     if (sEasyChatScreen->mainCursorRow == sEasyChatScreenTemplates[sEasyChatScreen->templateId].numRows)
     {
-        int numFooterColumns = FooterHasFourOptions() ? 4 : 3;
+        int numFooterColumns = 3;
         if (sEasyChatScreen->mainCursorColumn < 0)
             sEasyChatScreen->mainCursorColumn = numFooterColumns - 1;
 
@@ -1930,9 +1257,7 @@ static u16 HandleEasyChatInput_ExitPrompt(void)
         return ECFUNC_CLOSE_PROMPT;
     case 0: // Yes (Exit)
         gSpecialVar_Result = 0;
-        if (sEasyChatScreen->type == EASY_CHAT_TYPE_QUIZ_SET_QUESTION
-         || sEasyChatScreen->type == EASY_CHAT_TYPE_QUIZ_SET_ANSWER)
-            SaveCurrentPhrase();
+        ;
 
         return ECFUNC_EXIT;
     default:
@@ -1949,7 +1274,6 @@ static u16 HandleEasyChatInput_ConfirmWordsYesNo(void)
         sEasyChatScreen->inputState = GetEasyChatBackupState();
         return ECFUNC_CLOSE_PROMPT;
     case 0: // Yes
-        SetSpecialEasyChatResult();
         gSpecialVar_Result = GetEasyChatCompleted();
         SaveCurrentPhrase();
         return ECFUNC_EXIT;
@@ -1975,17 +1299,6 @@ static u16 HandleEasyChatInput_DeleteAllYesNo(void)
     }
 }
 
-static u16 HandleEasyChatInput_QuizQuestion(void)
-{
-    if (JOY_NEW(A_BUTTON))
-        return ECFUNC_QUIZ_ANSWER;
-
-    if (JOY_NEW(B_BUTTON))
-        return StartConfirmExitPrompt();
-
-    return ECFUNC_NONE;
-}
-
 // A message has been printed. Wait for player to
 // press A or B, then return to previous state
 static u16 HandleEasyChatInput_WaitForMsg(void)
@@ -1999,42 +1312,8 @@ static u16 HandleEasyChatInput_WaitForMsg(void)
     return ECFUNC_NONE;
 }
 
-// Odd, could have been skipped. Just passes to HandleEasyChatInput_ConfirmLyricsYesNo
-static u16 HandleEasyChatInput_StartConfirmLyrics(void)
-{
-    sEasyChatScreen->inputState = INPUTSTATE_CONFIRM_LYRICS_YES_NO;
-    return ECFUNC_PROMPT_CONFIRM;
-}
-
-static u16 HandleEasyChatInput_ConfirmLyricsYesNo(void)
-{
-    switch (Menu_ProcessInputNoWrapClearOnChoose())
-    {
-    case MENU_B_PRESSED:
-    case 1: // No
-        ResetCurrentPhraseToSaved();
-        sEasyChatScreen->inputStateBackup = INPUTSTATE_PHRASE;
-        sEasyChatScreen->inputState = INPUTSTATE_WAIT_FOR_MSG;
-        return ECFUNC_MSG_SONG_TOO_SHORT;
-    case 0: // Yes
-        gSpecialVar_Result = GetEasyChatCompleted();
-        SaveCurrentPhrase();
-        return ECFUNC_EXIT;
-    default:
-        return ECFUNC_NONE;
-    }
-}
-
 static u16 StartConfirmExitPrompt(void)
 {
-    if (sEasyChatScreen->type == EASY_CHAT_TYPE_APPRENTICE
-     || sEasyChatScreen->type == EASY_CHAT_TYPE_CONTEST_INTERVIEW)
-    {
-        sEasyChatScreen->inputStateBackup = sEasyChatScreen->inputState;
-        sEasyChatScreen->inputState = INPUTSTATE_WAIT_FOR_MSG;
-        return ECFUNC_MSG_CANT_EXIT;
-    }
-    else
     {
         sEasyChatScreen->inputStateBackup = sEasyChatScreen->inputState;
         sEasyChatScreen->inputState = INPUTSTATE_EXIT_PROMPT;
@@ -2045,88 +1324,13 @@ static u16 StartConfirmExitPrompt(void)
 static int DoDeleteAllButton(void)
 {
     sEasyChatScreen->inputStateBackup = sEasyChatScreen->inputState;
-    if (sEasyChatScreen->type != EASY_CHAT_TYPE_BARD_SONG)
-    {
-        // Show Delete yes/no
-        sEasyChatScreen->inputState = INPUTSTATE_DELETE_ALL_YES_NO;
-        return ECFUNC_PROMPT_DELETE_ALL;
-    }
-    else
-    {
-        // Cannot delete lyrics when setting Bard's song
-        sEasyChatScreen->inputStateBackup = sEasyChatScreen->inputState;
-        sEasyChatScreen->inputState = INPUTSTATE_WAIT_FOR_MSG;
-        return ECFUNC_MSG_CANT_DELETE_LYRICS;
-    }
+    sEasyChatScreen->inputState = INPUTSTATE_DELETE_ALL_YES_NO;
+    return ECFUNC_PROMPT_DELETE_ALL;
 }
 
 static u16 TryConfirmWords(void)
 {
     sEasyChatScreen->inputStateBackup = sEasyChatScreen->inputState;
-    if (sEasyChatScreen->type == EASY_CHAT_TYPE_QUIZ_SET_QUESTION)
-    {
-        if (IsQuizQuestionEmpty())
-        {
-            sEasyChatScreen->inputState = INPUTSTATE_WAIT_FOR_MSG;
-            return ECFUNC_MSG_CREATE_QUIZ;
-        }
-
-        if (IsQuizAnswerEmpty())
-        {
-            sEasyChatScreen->inputState = INPUTSTATE_WAIT_FOR_MSG;
-            return ECFUNC_MSG_SELECT_ANSWER;
-        }
-
-        sEasyChatScreen->inputState = INPUTSTATE_CONFIRM_WORDS_YES_NO;
-        return ECFUNC_PROMPT_CONFIRM;
-    }
-    else if (sEasyChatScreen->type == EASY_CHAT_TYPE_QUIZ_SET_ANSWER)
-    {
-        if (IsQuizAnswerEmpty())
-        {
-            sEasyChatScreen->inputState = INPUTSTATE_WAIT_FOR_MSG;
-            return ECFUNC_MSG_SELECT_ANSWER;
-        }
-
-        if (IsQuizQuestionEmpty())
-        {
-            sEasyChatScreen->inputState = INPUTSTATE_WAIT_FOR_MSG;
-            return ECFUNC_MSG_CREATE_QUIZ;
-        }
-
-        sEasyChatScreen->inputState = INPUTSTATE_CONFIRM_WORDS_YES_NO;
-        return ECFUNC_PROMPT_CONFIRM;
-    }
-    else if (sEasyChatScreen->type == EASY_CHAT_TYPE_TRENDY_PHRASE
-          || sEasyChatScreen->type == EASY_CHAT_TYPE_GOOD_SAYING)
-    {
-        if (!IsCurrentPhraseFull())
-        {
-            sEasyChatScreen->inputState = INPUTSTATE_WAIT_FOR_MSG;
-            return ECFUNC_MSG_COMBINE_TWO_WORDS;
-        }
-
-        sEasyChatScreen->inputState = INPUTSTATE_CONFIRM_WORDS_YES_NO;
-        return ECFUNC_PROMPT_CONFIRM;
-    }
-    else if (sEasyChatScreen->type == EASY_CHAT_TYPE_APPRENTICE
-          || sEasyChatScreen->type == EASY_CHAT_TYPE_CONTEST_INTERVIEW)
-    {
-        if (IsCurrentPhraseEmpty())
-        {
-            sEasyChatScreen->inputState = INPUTSTATE_WAIT_FOR_MSG;
-            return ECFUNC_MSG_CANT_EXIT;
-        }
-
-        sEasyChatScreen->inputState = INPUTSTATE_CONFIRM_WORDS_YES_NO;
-        return ECFUNC_PROMPT_CONFIRM;
-    }
-    else if (sEasyChatScreen->type == EASY_CHAT_TYPE_QUESTIONNAIRE)
-    {
-        sEasyChatScreen->inputState = INPUTSTATE_CONFIRM_WORDS_YES_NO;
-        return ECFUNC_PROMPT_CONFIRM;
-    }
-    else
     {
         if (IsCurrentPhraseEmpty() == TRUE || !GetEasyChatCompleted())
         {
@@ -2136,24 +1340,6 @@ static u16 TryConfirmWords(void)
 
         sEasyChatScreen->inputState = INPUTSTATE_CONFIRM_WORDS_YES_NO;
         return ECFUNC_PROMPT_CONFIRM;
-    }
-}
-
-static int DoQuizButton(void)
-{
-    sEasyChatScreen->inputStateBackup = sEasyChatScreen->inputState;
-    switch (sEasyChatScreen->type)
-    {
-    case EASY_CHAT_TYPE_QUIZ_ANSWER:
-        return ECFUNC_QUIZ_QUESTION;
-    case EASY_CHAT_TYPE_QUIZ_SET_QUESTION:
-        SaveCurrentPhrase();
-        return ECFUNC_SET_QUIZ_ANSWER;
-    case EASY_CHAT_TYPE_QUIZ_SET_ANSWER:
-        SaveCurrentPhrase();
-        return ECFUNC_SET_QUIZ_QUESTION;
-    default:
-        return ECFUNC_NONE;
     }
 }
 
@@ -2209,16 +1395,8 @@ static int StartSwitchKeyboardMode(void)
 
 static int DeleteSelectedWord(void)
 {
-    if (sEasyChatScreen->type == EASY_CHAT_TYPE_BARD_SONG)
-    {
-        PlaySE(SE_FAILURE);
-        return ECFUNC_NONE;
-    }
-    else
-    {
-        SetSelectedWord(EC_EMPTY_WORD);
-        return ECFUNC_REPRINT_PHRASE;
-    }
+    SetSelectedWord(EC_EMPTY_WORD);
+    return ECFUNC_REPRINT_PHRASE;
 }
 
 static int SelectNewWord(void)
@@ -2233,16 +1411,8 @@ static int SelectNewWord(void)
     else
     {
         SetSelectedWord(easyChatWord);
-        if (sEasyChatScreen->type != EASY_CHAT_TYPE_BARD_SONG)
-        {
-            sEasyChatScreen->inputState = INPUTSTATE_PHRASE;
-            return ECFUNC_CLOSE_WORD_SELECT;
-        }
-        else
-        {
-            sEasyChatScreen->inputState = INPUTSTATE_START_CONFIRM_LYRICS;
-            return ECFUNC_PROMPT_CONFIRM_LYRICS;
-        }
+        sEasyChatScreen->inputState = INPUTSTATE_PHRASE;
+        return ECFUNC_CLOSE_WORD_SELECT;
     }
 }
 
@@ -2258,13 +1428,6 @@ static void ResetCurrentPhrase(void)
     int i;
     for (i = 0; i < sEasyChatScreen->maxWords; i++)
         sEasyChatScreen->currentPhrase[i] = EC_EMPTY_WORD;
-}
-
-static void ResetCurrentPhraseToSaved(void)
-{
-    int i;
-    for (i = 0; i < sEasyChatScreen->maxWords; i++)
-        sEasyChatScreen->currentPhrase[i] = sEasyChatScreen->savedPhrase[i];
 }
 
 static void SetSelectedWord(u16 easyChatWord)
@@ -2286,21 +1449,9 @@ static bool8 DidPhraseChange(void)
     return FALSE;
 }
 
-// 'Completed' if the phrase was changed, or in the case of making a quiz, the question and answer were filled out
+// 'Completed' if the mail message was changed.
 static bool32 GetEasyChatCompleted(void)
 {
-    if (sEasyChatScreen->type == EASY_CHAT_TYPE_QUIZ_SET_QUESTION
-     || sEasyChatScreen->type == EASY_CHAT_TYPE_QUIZ_SET_ANSWER)
-    {
-        if (IsQuizQuestionEmpty())
-            return FALSE;
-
-        if (IsQuizAnswerEmpty())
-            return FALSE;
-
-        return TRUE;
-    }
-    else
     {
         return DidPhraseChange();
     }
@@ -2632,16 +1783,6 @@ static bool8 IsSelectedWordIndexInvalid(void)
     return GetSelectedWordIndex() >= GetNumWordsInSelectedGroup() ? TRUE : FALSE;
 }
 
-static int FooterHasFourOptions(void)
-{
-    return sEasyChatScreenTemplates[sEasyChatScreen->templateId].fourFooterOptions;
-}
-
-static u8 GetEasyChatScreenType(void)
-{
-    return sEasyChatScreen->type;
-}
-
 static u8 GetEasyChatScreenFrameId(void)
 {
     return sEasyChatScreenTemplates[sEasyChatScreen->templateId].frameId;
@@ -2691,23 +1832,8 @@ static void GetEasyChatConfirmText(const u8 **str1, const u8 **str2)
 
 static void GetEasyChatConfirmExitText(const u8 **str1, const u8 **str2)
 {
-    switch (sEasyChatScreen->type)
-    {
-    case EASY_CHAT_TYPE_MAIL:
-        *str1 = gText_StopGivingPkmnMail;
-        *str2 = NULL;
-        break;
-    case EASY_CHAT_TYPE_QUIZ_ANSWER:
-    case EASY_CHAT_TYPE_QUIZ_QUESTION:
-        *str1 = gText_LikeToQuitQuiz;
-        *str2 = gText_ChallengeQuestionMark;
-        break;
-    default:
-        *str1 = gText_QuitEditing;
-        *str2 = NULL;
-        break;
-    }
-
+    *str1 = gText_StopGivingPkmnMail;
+    *str2 = NULL;
 }
 
 static void GetEasyChatConfirmDeletionText(const u8 **str1, const u8 **str2)
@@ -2782,42 +1908,6 @@ static bool32 CanScrollDown(void)
     return FALSE;
 }
 
-static int FooterHasFourOptions_(void)
-{
-    return FooterHasFourOptions();
-}
-
-static bool8 IsPhraseDifferentThanPlayerInput(const u16 *phrase, u8 phraseLength)
-{
-    u8 i;
-
-    for (i = 0; i < phraseLength; i++)
-    {
-        if (phrase[i] != sEasyChatScreen->currentPhrase[i])
-            return TRUE;
-    }
-
-    return FALSE;
-}
-
-static u8 GetDisplayedPersonType(void)
-{
-    return sEasyChatScreen->displayedPersonType;
-}
-
-static u8 GetEachChatScreenTemplateId(u8 type)
-{
-    u32 i;
-
-    for (i = 0; i < ARRAY_COUNT(sEasyChatScreenTemplates); i++)
-    {
-        if (sEasyChatScreenTemplates[i].type == type)
-            return i;
-    }
-
-    return 0;
-}
-
 static bool32 IsCurrentPhraseEmpty(void)
 {
     int i;
@@ -2829,135 +1919,6 @@ static bool32 IsCurrentPhraseEmpty(void)
     }
 
     return TRUE;
-}
-
-static bool32 IsCurrentPhraseFull(void)
-{
-    int i;
-
-    for (i = 0; i < sEasyChatScreen->maxWords; i++)
-    {
-        if (sEasyChatScreen->currentPhrase[i] == EC_EMPTY_WORD)
-            return FALSE;
-    }
-
-    return TRUE;
-}
-
-static int IsQuizQuestionEmpty(void)
-{
-    int i;
-    struct SaveBlock1 *saveBlock1;
-
-    if (sEasyChatScreen->type == EASY_CHAT_TYPE_QUIZ_SET_QUESTION)
-        return IsCurrentPhraseEmpty();
-
-    saveBlock1 = gSaveBlock1Ptr;
-    for (i = 0; i < QUIZ_QUESTION_LEN; i++)
-    {
-        if (saveBlock1->lilycoveLady.quiz.question[i] != EC_EMPTY_WORD)
-            return FALSE;
-    }
-
-    return TRUE;
-}
-
-static int IsQuizAnswerEmpty(void)
-{
-    struct LilycoveLadyQuiz *quiz;
-    if (sEasyChatScreen->type == EASY_CHAT_TYPE_QUIZ_SET_ANSWER)
-        return IsCurrentPhraseEmpty();
-
-    quiz = &gSaveBlock1Ptr->lilycoveLady.quiz;
-    return quiz->correctAnswer == EC_EMPTY_WORD ? TRUE : FALSE;
-}
-
-static void GetQuizTitle(u8 *dst)
-{
-    u8 name[32];
-    struct SaveBlock1 *saveBlock1 = gSaveBlock1Ptr;
-    DynamicPlaceholderTextUtil_Reset();
-
-    // Buffer author's name
-    if (StringLength(saveBlock1->lilycoveLady.quiz.playerName) != 0)
-    {
-        TVShowConvertInternationalString(name, saveBlock1->lilycoveLady.quiz.playerName, saveBlock1->lilycoveLady.quiz.language);
-        DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, name);
-    }
-    else
-    {
-        DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, gText_Lady);
-    }
-
-    // "<author>'s Quiz"
-    DynamicPlaceholderTextUtil_ExpandPlaceholders(dst, gText_F700sQuiz);
-}
-
-static void BufferCurrentPhraseToStringVar2(void)
-{
-    int i;
-    u16 *phrase;
-    u8 *str;
-
-    phrase = sEasyChatScreen->currentPhrase;
-    str = gStringVar2;
-    i = 0;
-    while (i < sEasyChatScreen->maxWords)
-    {
-        str = CopyEasyChatWordPadded(str, *phrase, 0);
-        *str = 0;
-        str++;
-        phrase++;
-        i++;
-    }
-
-    str--;
-    str[0] = EOS;
-}
-
-static void SetSpecialEasyChatResult(void)
-{
-    switch (sEasyChatScreen->type)
-    {
-    case EASY_CHAT_TYPE_PROFILE:
-        FlagSet(FLAG_SYS_CHAT_USED);
-        break;
-    case EASY_CHAT_TYPE_QUESTIONNAIRE:
-        if (DidPlayerInputMysteryGiftPhrase())
-            gSpecialVar_0x8004 = 2;
-        else
-            gSpecialVar_0x8004 = 0;
-        break;
-    case EASY_CHAT_TYPE_TRENDY_PHRASE:
-        BufferCurrentPhraseToStringVar2();
-        gSpecialVar_0x8004 = TrySetTrendyPhrase(sEasyChatScreen->currentPhrase);
-        break;
-    case EASY_CHAT_TYPE_GOOD_SAYING:
-        gSpecialVar_0x8004 = DidPlayerInputABerryMasterWifePhrase();
-        break;
-    }
-}
-
-static int DidPlayerInputMysteryGiftPhrase(void)
-{
-    return !IsPhraseDifferentThanPlayerInput(sMysteryGiftPhrase, ARRAY_COUNT(sMysteryGiftPhrase));
-}
-
-static u16 DidPlayerInputABerryMasterWifePhrase(void)
-{
-    int i;
-    for (i = 0; i < (int)ARRAY_COUNT(sBerryMasterWifePhrases); i++)
-    {
-        if (!IsPhraseDifferentThanPlayerInput(sBerryMasterWifePhrases[i], ARRAY_COUNT(*sBerryMasterWifePhrases)))
-            return i + 1;
-    }
-
-    return 0;
-}
-
-static void ClearUnusedField(void)
-{
-    sEasyChatScreen->unused = 0;
 }
 
 static bool32 DummyWordCheck(int easyChatWord)
@@ -2991,7 +1952,6 @@ static bool8 LoadEasyChatScreen(void)
     case 1:
         DecompressAndLoadBgGfxUsingHeap(3, gEasyChatWindow_Gfx, 0, 0, 0);
         CopyToBgTilemapBuffer(3, gEasyChatWindow_Tilemap, 0, 0);
-        AdjustBgTilemapForFooter();
         BufferFrameTilemap(sScreenControl->bg1TilemapBuffer);
         AddPhraseWindow();
         AddMainScreenButtonWindow();
@@ -3009,8 +1969,7 @@ static bool8 LoadEasyChatScreen(void)
         break;
     case 4:
         LoadEasyChatGfx();
-        if (GetEasyChatScreenType() != EASY_CHAT_TYPE_QUIZ_QUESTION)
-            CreateMainCursorSprite();
+        CreateMainCursorSprite();
         break;
     case 5:
         if (IsDma3ManagerBusyWithBgCopy())
@@ -3032,7 +1991,6 @@ static bool8 LoadEasyChatScreen(void)
             ShowBg(0);
             CreateScrollIndicatorSprites();
             CreateStartSelectButtonSprites();
-            TryAddInterviewObjectEvents();
         }
         break;
     default:
@@ -3073,7 +2031,6 @@ static bool8 RunEasyChatFunction(void)
     case ECFUNC_CLOSE_KEYBOARD: return CloseKeyboard();
     case ECFUNC_OPEN_WORD_SELECT: return OpenWordSelect();
     case ECFUNC_CLOSE_WORD_SELECT: return CloseWordSelect();
-    case ECFUNC_PROMPT_CONFIRM_LYRICS: return ShowConfirmLyricsPrompt();
     case ECFUNC_RETURN_TO_KEYBOARD: return ReturnToKeyboard();
     case ECFUNC_UPDATE_KEYBOARD_CURSOR: return UpdateKeyboardCursor();
     case ECFUNC_GROUP_NAMES_SCROLL_DOWN: return GroupNamesScrollDown();
@@ -3085,15 +2042,6 @@ static bool8 RunEasyChatFunction(void)
     case ECFUNC_WORD_SELECT_PAGE_DOWN: return WordSelectPageScrollDown();
     case ECFUNC_SWITCH_KEYBOARD_MODE: return SwitchKeyboardMode();
     case ECFUNC_EXIT: return FALSE;
-    case ECFUNC_QUIZ_QUESTION: return FALSE;     // The 4 quiz functions
-    case ECFUNC_QUIZ_ANSWER: return FALSE;       // 'finish' automatically
-    case ECFUNC_SET_QUIZ_QUESTION: return FALSE; // because they switch to a
-    case ECFUNC_SET_QUIZ_ANSWER: return FALSE;   // callback in sQuizLadyEasyChatScreens
-    case ECFUNC_MSG_CREATE_QUIZ: return ShowCreateQuizMsg();
-    case ECFUNC_MSG_SELECT_ANSWER: return ShowSelectAnswerMsg();
-    case ECFUNC_MSG_SONG_TOO_SHORT: return ShowSongTooShortMsg();
-    case ECFUNC_MSG_CANT_DELETE_LYRICS: return ShowCantDeleteLyricsMsg();
-    case ECFUNC_MSG_COMBINE_TWO_WORDS: return ShowCombineTwoWordsMsg();
     case ECFUNC_MSG_CANT_EXIT: return ShowCantExitMsg();
     default:        return FALSE;
     }
@@ -3129,9 +2077,9 @@ static bool8 UpdateMainCursor(void)
     u8 str[64];
 
     currentPhrase = GetCurrentPhrase();
-    frameId = GetEasyChatScreenFrameId();
     cursorColumn = GetMainCursorColumn();
     cursorRow = GetMainCursorRow();
+    frameId = GetEasyChatScreenFrameId();
     numColumns = GetNumColumns();
     ecWord = &currentPhrase[cursorRow * numColumns];
     x = 8 * sPhraseFrameDimensions[frameId].left + 13;
@@ -3517,57 +2465,6 @@ static bool8 CloseWordSelect(void)
     return TRUE;
 }
 
-static bool8 ShowConfirmLyricsPrompt(void)
-{
-    switch (sScreenControl->funcState)
-    {
-    case 0:
-        PrintCurrentPhrase();
-        sScreenControl->funcState++;
-        break;
-    case 1:
-        DestroyWordSelectCursorSprite();
-        HideScrollIndicators();
-        HideStartSelectButtons();
-        ClearWordSelectWindow();
-        sScreenControl->funcState++;
-        break;
-    case 2:
-        if (!IsDma3ManagerBusyWithBgCopy())
-        {
-            InitLowerWindowAnim(WINANIM_CLOSE_WORD_SELECT);
-            sScreenControl->funcState++;
-        }
-        break;
-    case 3:
-        if (!UpdateLowerWindowAnim())
-        {
-            PrintEasyChatStdMessage(MSG_CONFIRM);
-            sScreenControl->funcState++;
-        }
-        break;
-    case 4:
-        if (!IsDma3ManagerBusyWithBgCopy())
-        {
-            ShowBg(0);
-            sScreenControl->funcState++;
-        }
-        break;
-    case 5:
-        if (!IsDma3ManagerBusyWithBgCopy())
-        {
-            StartMainCursorAnim();
-            sScreenControl->funcState++;
-            return FALSE;
-        }
-        break;
-    case 6:
-        return FALSE;
-    }
-
-    return TRUE;
-}
-
 static bool8 ReturnToKeyboard(void)
 {
     switch (sScreenControl->funcState)
@@ -3749,86 +2646,6 @@ static bool8 WordSelectPageScrollUp(void)
     return TRUE;
 }
 
-static bool8 ShowCreateQuizMsg(void)
-{
-    switch (sScreenControl->funcState)
-    {
-    case 0:
-        StopMainCursorAnim();
-        PrintEasyChatStdMessage(MSG_CREATE_QUIZ);
-        sScreenControl->funcState++;
-        break;
-    case 1:
-        return IsDma3ManagerBusyWithBgCopy();
-    }
-
-    return TRUE;
-}
-
-static bool8 ShowSelectAnswerMsg(void)
-{
-    switch (sScreenControl->funcState)
-    {
-    case 0:
-        StopMainCursorAnim();
-        PrintEasyChatStdMessage(MSG_SELECT_ANSWER);
-        sScreenControl->funcState++;
-        break;
-    case 1:
-        return IsDma3ManagerBusyWithBgCopy();
-    }
-
-    return TRUE;
-}
-
-static bool8 ShowSongTooShortMsg(void)
-{
-    switch (sScreenControl->funcState)
-    {
-    case 0:
-        StopMainCursorAnim();
-        PrintEasyChatStdMessage(MSG_SONG_TOO_SHORT);
-        sScreenControl->funcState++;
-        break;
-    case 1:
-        return IsDma3ManagerBusyWithBgCopy();
-    }
-
-    return TRUE;
-}
-
-static bool8 ShowCantDeleteLyricsMsg(void)
-{
-    switch (sScreenControl->funcState)
-    {
-    case 0:
-        StopMainCursorAnim();
-        PrintEasyChatStdMessage(MSG_CANT_DELETE_LYRICS);
-        sScreenControl->funcState++;
-        break;
-    case 1:
-        return IsDma3ManagerBusyWithBgCopy();
-    }
-
-    return TRUE;
-}
-
-static bool8 ShowCombineTwoWordsMsg(void)
-{
-    switch (sScreenControl->funcState)
-    {
-    case 0:
-        StopMainCursorAnim();
-        PrintEasyChatStdMessage(MSG_COMBINE_TWO_WORDS);
-        sScreenControl->funcState++;
-        break;
-    case 1:
-        return IsDma3ManagerBusyWithBgCopy();
-    }
-
-    return TRUE;
-}
-
 static bool8 ShowCantExitMsg(void)
 {
     switch (sScreenControl->funcState)
@@ -3862,7 +2679,6 @@ static bool8 InitEasyChatScreenControl_(void)
     sScreenControl->scrollIndicatorDownSprite = NULL;
     sScreenControl->startButtonSprite = NULL;
     sScreenControl->selectButtonSprite = NULL;
-    sScreenControl->fourFooterOptions = FooterHasFourOptions_();
     return TRUE;
 }
 
@@ -3947,22 +2763,6 @@ static void PrintEasyChatStdMessage(u8 msgId)
     case MSG_CONFIRM_DELETE:
         GetEasyChatConfirmDeletionText(&text1, &text2);
         break;
-    case MSG_CREATE_QUIZ:
-        text1 = gText_CreateAQuiz;
-        break;
-    case MSG_SELECT_ANSWER:
-        text1 = gText_SelectTheAnswer;
-        break;
-    case MSG_SONG_TOO_SHORT:
-        text1 = gText_OnlyOnePhrase;
-        text2 = gText_OriginalSongWillBeUsed;
-        break;
-    case MSG_CANT_DELETE_LYRICS:
-        text1 = gText_LyricsCantBeDeleted;
-        break;
-    case MSG_COMBINE_TWO_WORDS:
-        text1 = gText_CombineTwoWordsOrPhrases3;
-        break;
     case MSG_CANT_QUIT:
         text1 = gText_YouCannotQuitHere;
         text2 = gText_SectionMustBeCompleted;
@@ -4007,25 +2807,16 @@ static void PrintCurrentPhrase(void)
     u16 *currentPhrase;
     u8 numColumns, numRows;
     u8 *str;
-    int frameId;
-    bool32 isQuizQuestion;
     int i, j, k;
 
     currentPhrase = GetCurrentPhrase();
     numColumns = GetNumColumns();
     numRows = GetNumRows();
-    frameId = GetEasyChatScreenFrameId();
-
-    isQuizQuestion = FALSE;
-    if (frameId == FRAMEID_QUIZ_QUESTION)
-        isQuizQuestion = TRUE;
 
     FillWindowPixelBuffer(sScreenControl->windowId, PIXEL_FILL(1));
     for (i = 0; i < numRows; i++)
     {
         memcpy(strClear, sText_Clear17, sizeof(sText_Clear17));
-        if (isQuizQuestion)
-            strClear[2] = 6;
 
         str = sScreenControl->phrasePrintBuffer;
         sScreenControl->phrasePrintBuffer[0] = EOS;
@@ -4040,7 +2831,6 @@ static void PrintCurrentPhrase(void)
             else
             {
                 currentPhrase++;
-                if (!isQuizQuestion)
                 {
                     str = WriteColorChangeControlCode(str, 0, 4);
                     for (k = 0; k < 12; k++)
@@ -4053,12 +2843,8 @@ static void PrintCurrentPhrase(void)
                 }
             }
 
-            if (isQuizQuestion)
-                strClear[2] = 3;
-
             str = StringAppend(str, strClear);
 
-            if (frameId == FRAMEID_MAIL || frameId == FRAMEID_QUIZ_QUESTION || frameId == FRAMEID_QUIZ_SET_QUESTION)
             {
                 // Is 2x5 frame, end on 9th word
                 if (j == 0 && i == 4)
@@ -4081,7 +2867,6 @@ static void BufferFrameTilemap(u16 *tilemap)
 
     frameId = GetEasyChatScreenFrameId();
     CpuFastFill(0, tilemap, BG_SCREEN_SIZE);
-    if (frameId == FRAMEID_MAIL || frameId == FRAMEID_QUIZ_SET_QUESTION)
     {
         // These frames fill the screen, no need to draw top/bottom edges
         right = sPhraseFrameDimensions[frameId].left + sPhraseFrameDimensions[frameId].width;
@@ -4098,66 +2883,6 @@ static void BufferFrameTilemap(u16 *tilemap)
 
             tilemap[y* 32 + x] = FRAME_OFFSET_ORANGE + FRAME_TILE_R_EDGE;
         }
-    }
-    else
-    {
-        y = sPhraseFrameDimensions[frameId].top - 1;
-        x = sPhraseFrameDimensions[frameId].left - 1;
-        right = sPhraseFrameDimensions[frameId].left + sPhraseFrameDimensions[frameId].width;
-        bottom = sPhraseFrameDimensions[frameId].top + sPhraseFrameDimensions[frameId].height;
-
-        // Draw top edge
-        tilemap[y * 32 + x] = FRAME_OFFSET_ORANGE + FRAME_TILE_TOP_L_CORNER;
-        x++;
-        for (; x < right; x++)
-            tilemap[y * 32 + x] = FRAME_OFFSET_ORANGE + FRAME_TILE_TOP_EDGE;
-
-        tilemap[y * 32 + x] = FRAME_OFFSET_ORANGE + FRAME_TILE_TOP_R_CORNER;
-        y++;
-
-        // Draw middle section
-        for (; y < bottom; y++)
-        {
-            x = sPhraseFrameDimensions[frameId].left - 1;
-            tilemap[y * 32 + x] = FRAME_OFFSET_ORANGE + FRAME_TILE_L_EDGE;
-            x++;
-            for (; x < right; x++)
-                tilemap[y * 32 + x] = FRAME_OFFSET_ORANGE + FRAME_TILE_TRANSPARENT;
-
-            tilemap[y* 32 + x] = FRAME_OFFSET_ORANGE + FRAME_TILE_R_EDGE;
-        }
-
-        // Draw bottom edge
-        x = sPhraseFrameDimensions[frameId].left - 1;
-        tilemap[y * 32 + x] = FRAME_OFFSET_ORANGE + FRAME_TILE_BOTTOM_L_CORNER;
-        x++;
-        for (; x < right; x++)
-            tilemap[y * 32 + x] = FRAME_OFFSET_ORANGE + FRAME_TILE_BOTTOM_EDGE;
-
-        tilemap[y * 32 + x] = FRAME_OFFSET_ORANGE + FRAME_TILE_BOTTOM_R_CORNER;
-    }
-}
-
-static void AdjustBgTilemapForFooter(void)
-{
-    u8 frameId;
-    u16 *tilemap;
-
-    tilemap = GetBgTilemapBuffer(3);
-    frameId = GetEasyChatScreenFrameId();
-    switch (sPhraseFrameDimensions[frameId].footerId)
-    {
-    case FOOTER_ANSWER:
-        tilemap += 0x2A0;
-        CopyToBgTilemapBufferRect(3, tilemap, 0, 11, 32, 2);
-        break;
-    case FOOTER_QUIZ:
-        tilemap += 0x300;
-        CopyToBgTilemapBufferRect(3, tilemap, 0, 11, 32, 2);
-        break;
-    case NUM_FOOTER_TYPES:
-        CopyToBgTilemapBufferRect(3, tilemap, 0, 10, 32, 4);
-        break;
     }
 }
 
@@ -4955,61 +3680,11 @@ static void HideStartSelectButtons(void)
     sScreenControl->selectButtonSprite->invisible = TRUE;
 }
 
-static void TryAddInterviewObjectEvents(void)
-{
-    int graphicsId;
-    u8 spriteId;
-
-    switch (GetDisplayedPersonType())
-    {
-    case EASY_CHAT_PERSON_REPORTER_MALE:
-        graphicsId = OBJ_EVENT_GFX_REPORTER_M;
-        break;
-    case EASY_CHAT_PERSON_REPORTER_FEMALE:
-        graphicsId = OBJ_EVENT_GFX_REPORTER_F;
-        break;
-    case EASY_CHAT_PERSON_BOY:
-        graphicsId = OBJ_EVENT_GFX_BOY_1;
-        break;
-    default:
-        return;
-    }
-
-    if (GetEasyChatScreenFrameId() != FRAMEID_INTERVIEW_SHOW_PERSON)
-        return;
-
-    // Add object for reporter/interviewing fan (facing left)
-    spriteId = CreateObjectGraphicsSprite(graphicsId, SpriteCallbackDummy, 76, 40, 0);
-    if (spriteId != MAX_SPRITES)
-    {
-        gSprites[spriteId].oam.priority = 0;
-        StartSpriteAnim(&gSprites[spriteId], 2);
-    }
-
-    // Add object for player (facing right)
-    spriteId = CreateObjectGraphicsSprite(
-        gSaveBlock2Ptr->playerGender == MALE ? OBJ_EVENT_GFX_RIVAL_BRENDAN_NORMAL : OBJ_EVENT_GFX_RIVAL_MAY_NORMAL,
-        SpriteCallbackDummy,
-        52,
-        40,
-        0);
-
-    if (spriteId != MAX_SPRITES)
-    {
-        gSprites[spriteId].oam.priority = 0;
-        StartSpriteAnim(&gSprites[spriteId], 3);
-    }
-}
-
 int GetFooterIndex(void)
 {
     u8 frameId = GetEasyChatScreenFrameId();
     switch (sPhraseFrameDimensions[frameId].footerId)
     {
-    case FOOTER_QUIZ:
-        return FOOTER_QUIZ;
-    case FOOTER_ANSWER:
-        return FOOTER_ANSWER;
     case FOOTER_NORMAL:
         return FOOTER_NORMAL;
     default:
@@ -5059,10 +3734,10 @@ static void AddMainScreenButtonWindow(void)
 
 static bool8 IsEasyChatGroupUnlocked(u8 groupId)
 {
+    if (groupId >= EC_NUM_GROUPS || gEasyChatGroups[groupId].numWords == 0)
+        return FALSE;
     switch (groupId)
     {
-    case EC_GROUP_TRENDY_SAYING:
-        return FlagGet(FLAG_UNLOCKED_TRENDY_SAYINGS);
     case EC_GROUP_EVENTS:
     case EC_GROUP_MOVE_1:
     case EC_GROUP_MOVE_2:
@@ -5117,35 +3792,6 @@ static bool8 IsEasyChatWordInvalid(u16 easyChatWord)
     }
 
     if (index >= numWords)
-        return TRUE;
-    else
-        return FALSE;
-}
-
-bool8 IsBardWordInvalid(u16 easyChatWord)
-{
-    int numWordsInGroup;
-    u8 groupId = EC_GROUP(easyChatWord);
-    u32 index = EC_INDEX(easyChatWord);
-    if (groupId >= EC_NUM_GROUPS)
-        return TRUE;
-
-    switch (groupId)
-    {
-    case EC_GROUP_POKEMON:
-    case EC_GROUP_POKEMON_NATIONAL:
-        numWordsInGroup = gNumBardWords_Species;
-        break;
-    case EC_GROUP_MOVE_1:
-    case EC_GROUP_MOVE_2:
-        numWordsInGroup = gNumBardWords_Moves;
-        break;
-    default:
-        numWordsInGroup = gEasyChatGroups[groupId].numWords;
-        break;
-    }
-
-    if (numWordsInGroup <= index)
         return TRUE;
     else
         return FALSE;
@@ -5269,283 +3915,16 @@ static u8 UNUSED *UnusedConvertEasyChatWordsToString(u8 *dest, const u16 *src, u
     return dest;
 }
 
-static u16 GetEasyChatWordStringLength(u16 easyChatWord)
-{
-    if (easyChatWord == EC_EMPTY_WORD)
-        return 0;
 
-    if (IsEasyChatWordInvalid(easyChatWord))
-    {
-        return StringLength(gText_ThreeQuestionMarks);
-    }
-    else
-    {
-        u16 index = EC_INDEX(easyChatWord);
-        u8 groupId = EC_GROUP(easyChatWord);
-        return StringLength(GetEasyChatWord(groupId, index));
-    }
-}
 
-static bool8 CanPhraseFitInXRowsYCols(const u16 *easyChatWords, u8 numRows, u8 numColumns, u16 maxLength)
-{
-    u8 i, j;
 
-    for (i = 0; i < numColumns; i++)
-    {
-        u16 totalLength = numRows - 1;
-        for (j = 0; j < numRows; j++)
-            totalLength += GetEasyChatWordStringLength(*(easyChatWords++));
-
-        if (totalLength > maxLength)
-            return TRUE;
-    }
-
-    return FALSE;
-}
-
-u16 GetRandomEasyChatWordFromGroup(u16 groupId)
-{
-    u16 index = Random() % gEasyChatGroups[groupId].numWords;
-    if (groupId == EC_GROUP_POKEMON
-     || groupId == EC_GROUP_POKEMON_NATIONAL
-     || groupId == EC_GROUP_MOVE_1
-     || groupId == EC_GROUP_MOVE_2)
-    {
-        index = gEasyChatGroups[groupId].wordData.valueList[index];
-    }
-
-    return EC_WORD(groupId, index);
-}
-
-u16 GetRandomEasyChatWordFromUnlockedGroup(u16 groupId)
-{
-    if (!IsEasyChatGroupUnlocked(groupId))
-        return EC_EMPTY_WORD;
-
-    if (groupId == EC_GROUP_POKEMON)
-        return GetRandomUnlockedEasyChatPokemon();
-
-    return GetRandomEasyChatWordFromGroup(groupId);
-}
-
-void ShowEasyChatProfile(void)
-{
-    u16 *easyChatWords;
-    int columns, rows;
-    switch (gSpecialVar_0x8004)
-    {
-    case 0:
-        easyChatWords = gSaveBlock1Ptr->easyChatProfile;
-        columns = 2;
-        rows = 2;
-        break;
-    case 1:
-        easyChatWords = gSaveBlock1Ptr->easyChatBattleStart;
-        if (CanPhraseFitInXRowsYCols(gSaveBlock1Ptr->easyChatBattleStart, 3, 2, 18))
-        {
-            columns = 2;
-            rows = 3;
-        }
-        else
-        {
-            columns = 3;
-            rows = 2;
-        }
-        break;
-    case 2:
-        easyChatWords = gSaveBlock1Ptr->easyChatBattleWon;
-        columns = 3;
-        rows = 2;
-        break;
-    case 3:
-        easyChatWords = gSaveBlock1Ptr->easyChatBattleLost;
-        columns = 3;
-        rows = 2;
-        break;
-    default:
-        return;
-    }
-
-    ConvertEasyChatWordsToString(gStringVar4, easyChatWords, columns, rows);
-    ShowFieldAutoScrollMessage(gStringVar4);
-}
-
-// The phrase that a man in Dewford Hall suggests has a "deep link" to the current trendy phrase
-void BufferDeepLinkPhrase(void)
-{
-    int groupId = Random() & 1 ? EC_GROUP_HOBBIES : EC_GROUP_LIFESTYLE;
-    u16 easyChatWord = GetRandomEasyChatWordFromUnlockedGroup(groupId);
-    CopyEasyChatWord(gStringVar2, easyChatWord);
-}
-
-/*
-    ### Trendy Sayings
-
-    Not to be confused with Dewford Town's "trendy phrase".
-
-    This is a group of easy chat words (EC_GROUP_TRENDY_SAYING) that are normally inaccessible.
-    They can be unlocked either through Mystery Event (where they're referred to as "rare" words)
-    or from the "Hipster" variety of the Mauville Old Man. The Hipster can unlock one word each
-    time he is received via record mixing (and once if he is the player's default Old Man).
-
-    Which words have been unlocked is saved in the unlockedTrendySayings bitfield in SaveBlock1
-
-    Unlocked trendy saying words are only accessible if the flag FLAG_UNLOCKED_TRENDY_SAYINGS is set.
-    It's set any time the player talks to the Hipster, but is not apparently set by Mystery Event,
-    meaning trendy saying words unlocked via Mystery Event may not be available until the player has
-    talked to the Hipster.
-*/
-static bool8 IsTrendySayingUnlocked(u8 wordIndex)
-{
-    int byteOffset = wordIndex / 8;
-    int shift = wordIndex % 8;
-    return (gSaveBlock1Ptr->unlockedTrendySayings[byteOffset] >> shift) & 1;
-}
-
-void UnlockTrendySaying(u8 wordIndex)
-{
-    if (wordIndex < NUM_TRENDY_SAYINGS)
-    {
-        int byteOffset = wordIndex / 8;
-        int shift = wordIndex % 8;
-        gSaveBlock1Ptr->unlockedTrendySayings[byteOffset] |= 1 << shift;
-    }
-}
-
-static u8 GetNumTrendySayingsUnlocked(void)
-{
-    u8 i;
-    u8 numUnlocked;
-
-    for (i = 0, numUnlocked = 0; i < NUM_TRENDY_SAYINGS; i++)
-    {
-        if (IsTrendySayingUnlocked(i))
-            numUnlocked++;
-    }
-
-    return numUnlocked;
-}
-
-u16 UnlockRandomTrendySaying(void)
-{
-    u16 i;
-    u16 numToSkip;
-    u8 numUnlocked = GetNumTrendySayingsUnlocked();
-    if (numUnlocked == NUM_TRENDY_SAYINGS)
-        return EC_EMPTY_WORD;
-
-    numToSkip = Random() % (NUM_TRENDY_SAYINGS - numUnlocked);
-    for (i = 0; i < NUM_TRENDY_SAYINGS; i++)
-    {
-        if (!IsTrendySayingUnlocked(i))
-        {
-            if (numToSkip)
-            {
-                // Skip the first n locked words, as determined by the Random call above.
-                numToSkip--;
-            }
-            else
-            {
-                UnlockTrendySaying(i);
-                return EC_WORD(EC_GROUP_TRENDY_SAYING, i);
-            }
-        }
-    }
-
-    // Would only be reached if there are no new words to teach, which is handled at the start.
-    return EC_EMPTY_WORD;
-}
-
-static u16 UNUSED GetRandomUnlockedTrendySaying(void)
-{
-    u16 i;
-    u16 n = GetNumTrendySayingsUnlocked();
-    if (n == 0)
-        return EC_EMPTY_WORD;
-
-    n = Random() % n;
-    for (i = 0; i < NUM_TRENDY_SAYINGS; i++)
-    {
-        if (IsTrendySayingUnlocked(i))
-        {
-            if (n)
-                n--;
-            else
-                return EC_WORD(EC_GROUP_TRENDY_SAYING, i);
-        }
-    }
-
-    return EC_EMPTY_WORD;
-}
 
 static bool32 EasyChatIsNationalPokedexEnabled(void)
 {
     return IsNationalPokedexEnabled();
 }
 
-static u16 GetRandomUnlockedEasyChatPokemon(void)
-{
-    u16 i;
-    u16 numWords;
-    const enum Species *species;
-    u16 index = EasyChat_GetNumWordsInGroup(EC_GROUP_POKEMON);
-    if (index == 0)
-        return EC_EMPTY_WORD;
 
-    index = Random() % index;
-    species = gEasyChatGroups[EC_GROUP_POKEMON].wordData.valueList;
-    numWords = gEasyChatGroups[EC_GROUP_POKEMON].numWords;
-    for (i = 0; i < numWords; i++)
-    {
-        enum NationalDexOrder dexNum = SpeciesToNationalPokedexNum(*species);
-        if (GetSetPokedexFlag(dexNum, FLAG_GET_SEEN))
-        {
-            if (index)
-                index--;
-            else
-                return EC_WORD(EC_GROUP_POKEMON, *species);
-        }
-
-        species++;
-    }
-
-    return EC_EMPTY_WORD;
-}
-
-void InitEasyChatPhrases(void)
-{
-    u16 i, j;
-
-    for (i = 0; i < ARRAY_COUNT(sDefaultProfileWords); i++)
-        gSaveBlock1Ptr->easyChatProfile[i] = sDefaultProfileWords[i];
-
-    for (i = 0; i < EASY_CHAT_BATTLE_WORDS_COUNT; i++)
-        gSaveBlock1Ptr->easyChatBattleStart[i] = sDefaultBattleStartWords[i];
-
-    for (i = 0; i < EASY_CHAT_BATTLE_WORDS_COUNT; i++)
-        gSaveBlock1Ptr->easyChatBattleWon[i] = sDefaultBattleWonWords[i];
-
-    for (i = 0; i < EASY_CHAT_BATTLE_WORDS_COUNT; i++)
-        gSaveBlock1Ptr->easyChatBattleLost[i] = sDefaultBattleLostWords[i];
-
-    for (i = 0; i < MAIL_COUNT; i++)
-    {
-        for (j = 0; j < MAIL_WORDS_COUNT; j++)
-            gSaveBlock1Ptr->mail[i].words[j] = EC_EMPTY_WORD;
-    }
-
-#ifndef UBFIX
-    // BUG: This is supposed to clear 64 bits, but this loop is clearing 64 bytes.
-    // However, this bug has no resulting effect on gameplay because only the
-    // Mauville old man data is corrupted, which is initialized directly after
-    // this function is called when starting a new game.
-    for (i = 0; i < 64; i++)
-        gSaveBlock1Ptr->unlockedTrendySayings[i] = 0;
-#else
-    for (i = 0; i < ARRAY_COUNT(gSaveBlock1Ptr->unlockedTrendySayings); i++)
-        gSaveBlock1Ptr->unlockedTrendySayings[i] = 0;
-#endif
-}
 
 static bool8 InitEasyChatScreenWordData(void)
 {
@@ -5581,9 +3960,6 @@ static void SetUnlockedEasyChatGroups(void)
         sWordData->unlockedGroupIds[sWordData->numUnlockedGroups++] = EC_GROUP_MOVE_1;
         sWordData->unlockedGroupIds[sWordData->numUnlockedGroups++] = EC_GROUP_MOVE_2;
     }
-
-    if (FlagGet(FLAG_UNLOCKED_TRENDY_SAYINGS))
-        sWordData->unlockedGroupIds[sWordData->numUnlockedGroups++] = EC_GROUP_TRENDY_SAYING;
 
     if (IsNationalPokedexEnabled())
         sWordData->unlockedGroupIds[sWordData->numUnlockedGroups++] = EC_GROUP_POKEMON_NATIONAL;
@@ -5769,8 +4145,6 @@ static bool32 IsEasyChatIndexAndGroupUnlocked(u16 wordIndex, u8 groupId)
     case EC_GROUP_MOVE_1:
     case EC_GROUP_MOVE_2:
         return TRUE;
-    case EC_GROUP_TRENDY_SAYING:
-        return IsTrendySayingUnlocked(wordIndex);
     default:
         return gEasyChatGroups[groupId].wordData.words[wordIndex].enabled;
     }
@@ -5808,27 +4182,4 @@ void InitializeEasyChatWordArray(u16 *words, u16 length)
         for (i = length - 1; i != EC_EMPTY_WORD; i--)
             *(words++) = EC_EMPTY_WORD;
     }
-}
-
-void InitQuestionnaireWords(void)
-{
-    int i;
-    u16 *words = GetQuestionnaireWordsPtr();
-
-    if (words != NULL)
-    {
-        for (i = 0; i < NUM_QUESTIONNAIRE_WORDS; i++)
-            words[i] = EC_EMPTY_WORD;
-    }
-}
-
-bool32 IsEasyChatAnswerUnlocked(int easyChatWord)
-{
-    int groupId = EC_GROUP(easyChatWord);
-    int mask = EC_MASK_GROUP;
-    int index = EC_INDEX(easyChatWord);
-    if (!IsEasyChatGroupUnlocked(groupId & mask))
-        return FALSE;
-    else
-        return IsEasyChatIndexAndGroupUnlocked(index, groupId & mask);
 }

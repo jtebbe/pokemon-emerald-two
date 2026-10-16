@@ -100,35 +100,6 @@ const struct FollowerMsgInfoExtended gFollowerConditionalMessages[COND_MSG_COUNT
             MATCH_TYPES(TYPE_FIRE, TYPE_FIRE),
         },
     },
-    [COND_MSG_EVER_GRANDE] =
-    {
-        .text = sCondMsg06,
-        .script = EventScript_FollowerFaceUp,
-        .emotion = FOLLOWER_EMOTION_HAPPY,
-        .conditions =
-        {
-            MATCH_MAP(MAP_EVER_GRANDE_CITY),
-        },
-    },
-    [COND_MSG_ROUTE_112] =
-    {
-        .text = sCondMsg07,
-        .emotion = FOLLOWER_EMOTION_HAPPY,
-        .conditions =
-        {
-            MATCH_MAP(MAP_ROUTE112),
-        },
-    },
-    [COND_MSG_DAY_CARE] =
-    {
-        .text = sCondMsg08,
-        .script = EventScript_FollowerNostalgia,
-        .emotion = FOLLOWER_EMOTION_NEUTRAL,
-        .conditions =
-        {
-            MATCH_MAP(MAP_ROUTE117_POKEMON_DAY_CARE)
-        },
-    },
     [COND_MSG_MART] =
     {
         .text = (u8*)sShopTexts,
@@ -147,28 +118,6 @@ const struct FollowerMsgInfoExtended gFollowerConditionalMessages[COND_MSG_COUNT
         .conditions =
         {
             MATCH_MUSIC(MUS_VICTORY_ROAD)
-        },
-    },
-    [COND_MSG_BIKE_SHOP] =
-    {
-        .text = sCondMsg12,
-        .emotion = FOLLOWER_EMOTION_PENSIVE,
-        .conditions =
-        {
-            MATCH_MAP(MAP_MAUVILLE_CITY_BIKE_SHOP)
-        },
-    },
-    [COND_MSG_MACHINES] =
-    {
-        .text = (u8*)sMachineTexts,
-        .textSpread = 1,
-        .emotion = FOLLOWER_EMOTION_MUSIC,
-        .orFlag = 1, // match any of these maps
-        .conditions =
-        {
-            MATCH_MAP(MAP_NEW_MAUVILLE_INSIDE),
-            MATCH_MAP(MAP_SLATEPORT_CITY_STERNS_SHIPYARD_1F),
-            MATCH_MAP(MAP_SLATEPORT_CITY_STERNS_SHIPYARD_2F),
         },
     },
     [COND_MSG_SAILING] =
@@ -217,35 +166,6 @@ const struct FollowerMsgInfoExtended gFollowerConditionalMessages[COND_MSG_COUNT
         .conditions =
         {
             MATCH_ON_MB(MB_SAND, MB_FOOTPRINTS),
-        },
-    },
-    [COND_MSG_ELEVATOR] =
-    {
-        .text = (u8*)sElevatorTexts,
-        .textSpread = 1,
-        .emotion = FOLLOWER_EMOTION_SURPRISE,
-        .conditions =
-        {
-            MATCH_MAP(MAP_LILYCOVE_CITY_DEPARTMENT_STORE_ELEVATOR),
-        },
-    },
-    [COND_MSG_ICE_ROOM] =
-    {
-        .text = (u8*)sColdTexts,
-        .textSpread = 1,
-        .emotion = FOLLOWER_EMOTION_SURPRISE,
-        .conditions =
-        {
-            MATCH_MAP(MAP_SHOAL_CAVE_LOW_TIDE_ICE_ROOM),
-        },
-    },
-    [COND_MSG_ROUTE_117] =
-    {
-        .text = sCondMsg27,
-        .emotion = FOLLOWER_EMOTION_SURPRISE,
-        .conditions =
-        {
-            MATCH_MAP(MAP_ROUTE117),
         },
     },
     [COND_MSG_DRAGON_GROWL] =

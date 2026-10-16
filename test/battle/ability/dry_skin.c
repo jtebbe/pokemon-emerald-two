@@ -95,7 +95,7 @@ SINGLE_BATTLE_TEST("Dry Skin increases damage taken from Fire-type moves by 25%"
     } FINALLY {
         // Due to numerics related to rounding on each applied multiplier,
         // the ability effect doesn't manifest as a 25% damage increase, but as a ~31% damage increase in this case.
-        // Values obtained from https://calc.pokemonshowdown.com (Neutral nature and 0 IVs on both sides)
+        // Values obtained from the damage calculator with a neutral nature.
         EXPECT_EQ(results[0].damage, 52);
         EXPECT_EQ(results[1].damage, 68);
     }

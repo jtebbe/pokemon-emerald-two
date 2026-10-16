@@ -25,11 +25,6 @@ static const struct SpriteFrameImage sPicTable_VenusaurMega[] = {
 };
 #endif // P_MEGA_EVOLUTIONS
 #endif // OW_BATTLE_ONLY_FORMS
-#if P_GIGANTAMAX_FORMS
-/*static const struct SpriteFrameImage sPicTable_VenusaurGmax[] = {
-    overworld_ascending_frames(gObjectEventPic_VenusaurGmax, 4, 4),
-};*/
-#endif //P_GIGANTAMAX_FORMS
 #endif //P_FAMILY_BULBASAUR
 
 #if P_FAMILY_CHARMANDER
@@ -52,11 +47,6 @@ static const struct SpriteFrameImage sPicTable_CharizardMegaY[] = {
 };
 #endif // P_MEGA_EVOLUTIONS
 #endif // OW_BATTLE_ONLY_FORMS
-#if P_GIGANTAMAX_FORMS
-/*static const struct SpriteFrameImage sPicTable_CharizardGmax[] = {
-    overworld_ascending_frames(gObjectEventPic_CharizardGmax, 4, 4),
-};*/
-#endif //P_GIGANTAMAX_FORMS
 #endif //P_FAMILY_CHARMANDER
 
 #if P_FAMILY_SQUIRTLE
@@ -76,11 +66,6 @@ static const struct SpriteFrameImage sPicTable_BlastoiseMega[] = {
 };
 #endif // P_MEGA_EVOLUTIONS
 #endif // OW_BATTLE_ONLY_FORMS
-#if P_GIGANTAMAX_FORMS
-/*static const struct SpriteFrameImage sPicTable_BlastoiseGmax[] = {
-    overworld_ascending_frames(gObjectEventPic_BlastoiseGmax, 4, 4),
-};*/
-#endif //P_GIGANTAMAX_FORMS
 #endif //P_FAMILY_SQUIRTLE
 
 #if P_FAMILY_CATERPIE
@@ -98,11 +83,11 @@ static const struct SpriteFrameImage sPicTable_ButterfreeF[] = {
     overworld_ascending_frames(gObjectEventPic_ButterfreeF, 4, 4),
 };
 #endif //P_GENDER_DIFFERENCES
-#if P_GIGANTAMAX_FORMS
-/*static const struct SpriteFrameImage sPicTable_ButterfreeGmax[] = {
-    overworld_ascending_frames(gObjectEventPic_ButterfreeGmax, 4, 4),
+#if P_CUSTOM_MEGA_FORMS
+/*static const struct SpriteFrameImage sPicTable_ButterfreeMega[] = {
+    overworld_ascending_frames(gObjectEventPic_ButterfreeMega, 4, 4),
 };*/
-#endif //P_GIGANTAMAX_FORMS
+#endif //P_CUSTOM_MEGA_FORMS
 #endif //P_FAMILY_CATERPIE
 
 #if P_FAMILY_WEEDLE
@@ -253,11 +238,6 @@ static const struct SpriteFrameImage sPicTable_PikachuPartner[] = {
 };*/
 #endif //P_CAP_PIKACHU_FORMS
 
-#if P_GIGANTAMAX_FORMS
-/*static const struct SpriteFrameImage sPicTable_PikachuGmax[] = {
-    overworld_ascending_frames(gObjectEventPic_PikachuGmax, 4, 4),
-};*/
-#endif //P_GIGANTAMAX_FORMS
 
 static const struct SpriteFrameImage sPicTable_Raichu[] = {
     overworld_ascending_frames(gObjectEventPic_Raichu, 4, 4),
@@ -468,11 +448,6 @@ static const struct SpriteFrameImage sPicTable_Perrserker[] = {
 };
 #endif //P_GALARIAN_FORMS
 
-#if P_GIGANTAMAX_FORMS
-/*static const struct SpriteFrameImage sPicTable_MeowthGmax[] = {
-    overworld_ascending_frames(gObjectEventPic_MeowthGmax, 4, 4),
-};*/
-#endif //P_GIGANTAMAX_FORMS
 #endif //P_FAMILY_MEOWTH
 
 #if P_FAMILY_PSYDUCK
@@ -576,11 +551,11 @@ static const struct SpriteFrameImage sPicTable_Machoke[] = {
 static const struct SpriteFrameImage sPicTable_Machamp[] = {
     overworld_ascending_frames(gObjectEventPic_Machamp, 4, 4),
 };
-#if P_GIGANTAMAX_FORMS
-/*static const struct SpriteFrameImage sPicTable_MachampGmax[] = {
-    overworld_ascending_frames(gObjectEventPic_MachampGmax, 4, 4),
+#if P_CUSTOM_MEGA_FORMS
+/*static const struct SpriteFrameImage sPicTable_MachampMega[] = {
+    overworld_ascending_frames(gObjectEventPic_MachampMega, 4, 4),
 };*/
-#endif //P_GIGANTAMAX_FORMS
+#endif //P_CUSTOM_MEGA_FORMS
 #endif //P_FAMILY_MACHOP
 
 #if P_FAMILY_BELLSPROUT
@@ -779,11 +754,6 @@ static const struct SpriteFrameImage sPicTable_GengarMega[] = {
 };
 #endif // P_MEGA_EVOLUTIONS
 #endif // OW_BATTLE_ONLY_FORMS
-#if P_GIGANTAMAX_FORMS
-/*static const struct SpriteFrameImage sPicTable_GengarGmax[] = {
-    overworld_ascending_frames(gObjectEventPic_GengarGmax, 4, 4),
-};*/
-#endif //P_GIGANTAMAX_FORMS
 #endif //P_FAMILY_GASTLY
 
 #if P_FAMILY_ONIX
@@ -830,11 +800,11 @@ static const struct SpriteFrameImage sPicTable_Krabby[] = {
 static const struct SpriteFrameImage sPicTable_Kingler[] = {
     overworld_ascending_frames(gObjectEventPic_Kingler, 4, 4),
 };
-#if P_GIGANTAMAX_FORMS
-/*static const struct SpriteFrameImage sPicTable_KinglerGmax[] = {
-    overworld_ascending_frames(gObjectEventPic_KinglerGmax, 4, 4),
+#if P_CUSTOM_MEGA_FORMS
+/*static const struct SpriteFrameImage sPicTable_KinglerMega[] = {
+    overworld_ascending_frames(gObjectEventPic_KinglerMega, 4, 4),
 };*/
-#endif //P_GIGANTAMAX_FORMS
+#endif //P_CUSTOM_MEGA_FORMS
 #endif //P_FAMILY_KRABBY
 
 #if P_FAMILY_VOLTORB
@@ -1198,11 +1168,11 @@ static const struct SpriteFrameImage sPicTable_GyaradosMega[] = {
 static const struct SpriteFrameImage sPicTable_Lapras[] = {
     overworld_ascending_frames(gObjectEventPic_Lapras, 4, 4),
 };
-#if P_GIGANTAMAX_FORMS
-/*static const struct SpriteFrameImage sPicTable_LaprasGmax[] = {
-    overworld_ascending_frames(gObjectEventPic_LaprasGmax, 4, 4),
+#if P_CUSTOM_MEGA_FORMS
+/*static const struct SpriteFrameImage sPicTable_LaprasMega[] = {
+    overworld_ascending_frames(gObjectEventPic_LaprasMega, 4, 4),
 };*/
-#endif //P_GIGANTAMAX_FORMS
+#endif //P_CUSTOM_MEGA_FORMS
 #endif //P_FAMILY_LAPRAS
 
 #if P_FAMILY_DITTO
@@ -1220,11 +1190,6 @@ static const struct SpriteFrameImage sPicTable_EeveeF[] = {
     overworld_ascending_frames(gObjectEventPic_EeveeF, 4, 4),
 };
 #endif //P_GENDER_DIFFERENCES
-#if P_GIGANTAMAX_FORMS
-/*static const struct SpriteFrameImage sPicTable_EeveeGmax[] = {
-    overworld_ascending_frames(gObjectEventPic_EeveeGmax, 4, 4),
-};*/
-#endif //P_GIGANTAMAX_FORMS
 
 static const struct SpriteFrameImage sPicTable_Vaporeon[] = {
     overworld_ascending_frames(gObjectEventPic_Vaporeon, 4, 4),
@@ -1316,11 +1281,11 @@ static const struct SpriteFrameImage sPicTable_Munchlax[] = {
 static const struct SpriteFrameImage sPicTable_Snorlax[] = {
     overworld_ascending_frames(gObjectEventPic_Snorlax, 4, 4),
 };
-#if P_GIGANTAMAX_FORMS
-/*static const struct SpriteFrameImage sPicTable_SnorlaxGmax[] = {
-    overworld_ascending_frames(gObjectEventPic_SnorlaxGmax, 4, 4),
+#if P_CUSTOM_MEGA_FORMS
+/*static const struct SpriteFrameImage sPicTable_SnorlaxMega[] = {
+    overworld_ascending_frames(gObjectEventPic_SnorlaxMega, 4, 4),
 };*/
-#endif //P_GIGANTAMAX_FORMS
+#endif //P_CUSTOM_MEGA_FORMS
 #endif //P_FAMILY_SNORLAX
 
 #if P_FAMILY_ARTICUNO
@@ -4032,11 +3997,11 @@ static const struct SpriteFrameImage sPicTable_Trubbish[] = {
 static const struct SpriteFrameImage sPicTable_Garbodor[] = {
     overworld_ascending_frames(gObjectEventPic_Garbodor, 4, 4),
 };
-#if P_GIGANTAMAX_FORMS
-/*static const struct SpriteFrameImage sPicTable_GarbodorGmax[] = {
-    overworld_ascending_frames(gObjectEventPic_GarbodorGmax, 4, 4),
+#if P_CUSTOM_MEGA_FORMS
+/*static const struct SpriteFrameImage sPicTable_GarbodorMega[] = {
+    overworld_ascending_frames(gObjectEventPic_GarbodorMega, 4, 4),
 };*/
-#endif //P_GIGANTAMAX_FORMS
+#endif //P_CUSTOM_MEGA_FORMS
 #endif //P_FAMILY_TRUBBISH
 
 #if P_FAMILY_ZORUA
@@ -4502,8 +4467,6 @@ static const struct SpriteFrameImage sPicTable_MeloettaPirouette[] = {
 static const struct SpriteFrameImage sPicTable_Genesect[] = {
     overworld_ascending_frames(gObjectEventPic_Genesect, 4, 4),
 };
-
-
 
 
 #endif //P_FAMILY_GENESECT
@@ -5456,11 +5419,11 @@ static const struct SpriteFrameImage sPicTable_NecrozmaDawnWings[] = {
     overworld_ascending_frames(gObjectEventPic_NecrozmaDawnWings, 4, 4),
 };
 #if OW_BATTLE_ONLY_FORMS
-#if P_ULTRA_BURST_FORMS
+#if P_MEGA_EVOLUTIONS
 static const struct SpriteFrameImage sPicTable_NecrozmaUltra[] = {
     overworld_ascending_frames(gObjectEventPic_NecrozmaUltra, 4, 4),
 };
-#endif // P_ULTRA_BURST_FORMS
+#endif // P_MEGA_EVOLUTIONS
 #endif // OW_BATTLE_ONLY_FORMS
 #endif //P_FUSION_FORMS
 #endif //P_FAMILY_NECROZMA
@@ -5514,11 +5477,11 @@ static const struct SpriteFrameImage sPicTable_Meltan[] = {
 static const struct SpriteFrameImage sPicTable_Melmetal[] = {
     overworld_ascending_frames(gObjectEventPic_Melmetal, 4, 4),
 };
-#if P_GIGANTAMAX_FORMS
-/*static const struct SpriteFrameImage sPicTable_MelmetalGmax[] = {
-    overworld_ascending_frames(gObjectEventPic_MelmetalGmax, 4, 4),
+#if P_CUSTOM_MEGA_FORMS
+/*static const struct SpriteFrameImage sPicTable_MelmetalMega[] = {
+    overworld_ascending_frames(gObjectEventPic_MelmetalMega, 4, 4),
 };*/
-#endif //P_GIGANTAMAX_FORMS
+#endif //P_CUSTOM_MEGA_FORMS
 #endif //P_FAMILY_MELTAN
 
 #if P_FAMILY_GROOKEY
@@ -5531,11 +5494,11 @@ static const struct SpriteFrameImage sPicTable_Thwackey[] = {
 static const struct SpriteFrameImage sPicTable_Rillaboom[] = {
     overworld_ascending_frames(gObjectEventPic_Rillaboom, 4, 4),
 };
-#if P_GIGANTAMAX_FORMS
-/*static const struct SpriteFrameImage sPicTable_RillaboomGmax[] = {
-    overworld_ascending_frames(gObjectEventPic_RillaboomGmax, 4, 4),
+#if P_CUSTOM_MEGA_FORMS
+/*static const struct SpriteFrameImage sPicTable_RillaboomMega[] = {
+    overworld_ascending_frames(gObjectEventPic_RillaboomMega, 4, 4),
 };*/
-#endif //P_GIGANTAMAX_FORMS
+#endif //P_CUSTOM_MEGA_FORMS
 #endif //P_FAMILY_GROOKEY
 
 #if P_FAMILY_SCORBUNNY
@@ -5548,11 +5511,11 @@ static const struct SpriteFrameImage sPicTable_Raboot[] = {
 static const struct SpriteFrameImage sPicTable_Cinderace[] = {
     overworld_ascending_frames(gObjectEventPic_Cinderace, 4, 4),
 };
-#if P_GIGANTAMAX_FORMS
-/*static const struct SpriteFrameImage sPicTable_CinderaceGmax[] = {
-    overworld_ascending_frames(gObjectEventPic_CinderaceGmax, 4, 4),
+#if P_CUSTOM_MEGA_FORMS
+/*static const struct SpriteFrameImage sPicTable_CinderaceMega[] = {
+    overworld_ascending_frames(gObjectEventPic_CinderaceMega, 4, 4),
 };*/
-#endif //P_GIGANTAMAX_FORMS
+#endif //P_CUSTOM_MEGA_FORMS
 #endif //P_FAMILY_SCORBUNNY
 
 #if P_FAMILY_SOBBLE
@@ -5565,11 +5528,11 @@ static const struct SpriteFrameImage sPicTable_Drizzile[] = {
 static const struct SpriteFrameImage sPicTable_Inteleon[] = {
     overworld_ascending_frames(gObjectEventPic_Inteleon, 4, 4),
 };
-#if P_GIGANTAMAX_FORMS
-/*static const struct SpriteFrameImage sPicTable_InteleonGmax[] = {
-    overworld_ascending_frames(gObjectEventPic_InteleonGmax, 4, 4),
+#if P_CUSTOM_MEGA_FORMS
+/*static const struct SpriteFrameImage sPicTable_InteleonMega[] = {
+    overworld_ascending_frames(gObjectEventPic_InteleonMega, 4, 4),
 };*/
-#endif //P_GIGANTAMAX_FORMS
+#endif //P_CUSTOM_MEGA_FORMS
 #endif //P_FAMILY_SOBBLE
 
 #if P_FAMILY_SKWOVET
@@ -5591,11 +5554,11 @@ static const struct SpriteFrameImage sPicTable_Corvisquire[] = {
 static const struct SpriteFrameImage sPicTable_Corviknight[] = {
     overworld_ascending_frames(gObjectEventPic_Corviknight, 4, 4),
 };
-#if P_GIGANTAMAX_FORMS
-/*static const struct SpriteFrameImage sPicTable_CorviknightGmax[] = {
-    overworld_ascending_frames(gObjectEventPic_CorviknightGmax, 4, 4),
+#if P_CUSTOM_MEGA_FORMS
+/*static const struct SpriteFrameImage sPicTable_CorviknightMega[] = {
+    overworld_ascending_frames(gObjectEventPic_CorviknightMega, 4, 4),
 };*/
-#endif //P_GIGANTAMAX_FORMS
+#endif //P_CUSTOM_MEGA_FORMS
 #endif //P_FAMILY_ROOKIDEE
 
 #if P_FAMILY_BLIPBUG
@@ -5608,11 +5571,11 @@ static const struct SpriteFrameImage sPicTable_Dottler[] = {
 static const struct SpriteFrameImage sPicTable_Orbeetle[] = {
     overworld_ascending_frames(gObjectEventPic_Orbeetle, 4, 4),
 };
-#if P_GIGANTAMAX_FORMS
-/*static const struct SpriteFrameImage sPicTable_OrbeetleGmax[] = {
-    overworld_ascending_frames(gObjectEventPic_OrbeetleGmax, 4, 4),
+#if P_CUSTOM_MEGA_FORMS
+/*static const struct SpriteFrameImage sPicTable_OrbeetleMega[] = {
+    overworld_ascending_frames(gObjectEventPic_OrbeetleMega, 4, 4),
 };*/
-#endif //P_GIGANTAMAX_FORMS
+#endif //P_CUSTOM_MEGA_FORMS
 #endif //P_FAMILY_BLIPBUG
 
 #if P_FAMILY_NICKIT
@@ -5649,11 +5612,11 @@ static const struct SpriteFrameImage sPicTable_Chewtle[] = {
 static const struct SpriteFrameImage sPicTable_Drednaw[] = {
     overworld_ascending_frames(gObjectEventPic_Drednaw, 4, 4),
 };
-#if P_GIGANTAMAX_FORMS
-/*static const struct SpriteFrameImage sPicTable_DrednawGmax[] = {
-    overworld_ascending_frames(gObjectEventPic_DrednawGmax, 4, 4),
+#if P_CUSTOM_MEGA_FORMS
+/*static const struct SpriteFrameImage sPicTable_DrednawMega[] = {
+    overworld_ascending_frames(gObjectEventPic_DrednawMega, 4, 4),
 };*/
-#endif //P_GIGANTAMAX_FORMS
+#endif //P_CUSTOM_MEGA_FORMS
 #endif //P_FAMILY_CHEWTLE
 
 #if P_FAMILY_YAMPER
@@ -5675,11 +5638,11 @@ static const struct SpriteFrameImage sPicTable_Carkol[] = {
 static const struct SpriteFrameImage sPicTable_Coalossal[] = {
     overworld_ascending_frames(gObjectEventPic_Coalossal, 4, 4),
 };
-#if P_GIGANTAMAX_FORMS
-/*static const struct SpriteFrameImage sPicTable_CoalossalGmax[] = {
-    overworld_ascending_frames(gObjectEventPic_CoalossalGmax, 4, 4),
+#if P_CUSTOM_MEGA_FORMS
+/*static const struct SpriteFrameImage sPicTable_CoalossalMega[] = {
+    overworld_ascending_frames(gObjectEventPic_CoalossalMega, 4, 4),
 };*/
-#endif //P_GIGANTAMAX_FORMS
+#endif //P_CUSTOM_MEGA_FORMS
 #endif //P_FAMILY_ROLYCOLY
 
 #if P_FAMILY_APPLIN
@@ -5689,20 +5652,20 @@ static const struct SpriteFrameImage sPicTable_Applin[] = {
 static const struct SpriteFrameImage sPicTable_Flapple[] = {
     overworld_ascending_frames(gObjectEventPic_Flapple, 4, 4),
 };
-#if P_GIGANTAMAX_FORMS
-/*static const struct SpriteFrameImage sPicTable_FlappleGmax[] = {
-    overworld_ascending_frames(gObjectEventPic_FlappleGmax, 4, 4),
+#if P_CUSTOM_MEGA_FORMS
+/*static const struct SpriteFrameImage sPicTable_FlappleMega[] = {
+    overworld_ascending_frames(gObjectEventPic_FlappleMega, 4, 4),
 };*/
-#endif //P_GIGANTAMAX_FORMS
+#endif //P_CUSTOM_MEGA_FORMS
 
 static const struct SpriteFrameImage sPicTable_Appletun[] = {
     overworld_ascending_frames(gObjectEventPic_Appletun, 4, 4),
 };
-#if P_GIGANTAMAX_FORMS
-/*static const struct SpriteFrameImage sPicTable_AppletunGmax[] = {
-    overworld_ascending_frames(gObjectEventPic_AppletunGmax, 4, 4),
+#if P_CUSTOM_MEGA_FORMS
+/*static const struct SpriteFrameImage sPicTable_AppletunMega[] = {
+    overworld_ascending_frames(gObjectEventPic_AppletunMega, 4, 4),
 };*/
-#endif //P_GIGANTAMAX_FORMS
+#endif //P_CUSTOM_MEGA_FORMS
 
 #if P_GEN_9_CROSS_EVOS
 static const struct SpriteFrameImage sPicTable_Dipplin[] = {
@@ -5721,11 +5684,11 @@ static const struct SpriteFrameImage sPicTable_Silicobra[] = {
 static const struct SpriteFrameImage sPicTable_Sandaconda[] = {
     overworld_ascending_frames(gObjectEventPic_Sandaconda, 4, 4),
 };
-#if P_GIGANTAMAX_FORMS
-/*static const struct SpriteFrameImage sPicTable_SandacondaGmax[] = {
-    overworld_ascending_frames(gObjectEventPic_SandacondaGmax, 4, 4),
+#if P_CUSTOM_MEGA_FORMS
+/*static const struct SpriteFrameImage sPicTable_SandacondaMega[] = {
+    overworld_ascending_frames(gObjectEventPic_SandacondaMega, 4, 4),
 };*/
-#endif //P_GIGANTAMAX_FORMS
+#endif //P_CUSTOM_MEGA_FORMS
 #endif //P_FAMILY_SILICOBRA
 
 #if P_FAMILY_CRAMORANT
@@ -5759,11 +5722,11 @@ static const struct SpriteFrameImage sPicTable_ToxtricityAmped[] = {
 static const struct SpriteFrameImage sPicTable_ToxtricityLowKey[] = {
     overworld_ascending_frames(gObjectEventPic_ToxtricityLowKey, 4, 4),
 };
-#if P_GIGANTAMAX_FORMS
-/*static const struct SpriteFrameImage sPicTable_ToxtricityGmax[] = {
-    overworld_ascending_frames(gObjectEventPic_ToxtricityGmax, 4, 4),
+#if P_CUSTOM_MEGA_FORMS
+/*static const struct SpriteFrameImage sPicTable_ToxtricityMega[] = {
+    overworld_ascending_frames(gObjectEventPic_ToxtricityMega, 4, 4),
 };*/
-#endif //P_GIGANTAMAX_FORMS
+#endif //P_CUSTOM_MEGA_FORMS
 #endif //P_FAMILY_TOXEL
 
 #if P_FAMILY_SIZZLIPEDE
@@ -5773,11 +5736,11 @@ static const struct SpriteFrameImage sPicTable_Sizzlipede[] = {
 static const struct SpriteFrameImage sPicTable_Centiskorch[] = {
     overworld_ascending_frames(gObjectEventPic_Centiskorch, 4, 4),
 };
-#if P_GIGANTAMAX_FORMS
-/*static const struct SpriteFrameImage sPicTable_CentiskorchGmax[] = {
-    overworld_ascending_frames(gObjectEventPic_CentiskorchGmax, 4, 4),
+#if P_CUSTOM_MEGA_FORMS
+/*static const struct SpriteFrameImage sPicTable_CentiskorchMega[] = {
+    overworld_ascending_frames(gObjectEventPic_CentiskorchMega, 4, 4),
 };*/
-#endif //P_GIGANTAMAX_FORMS
+#endif //P_CUSTOM_MEGA_FORMS
 #endif //P_FAMILY_SIZZLIPEDE
 
 #if P_FAMILY_CLOBBOPUS
@@ -5808,11 +5771,11 @@ static const struct SpriteFrameImage sPicTable_Hattrem[] = {
 static const struct SpriteFrameImage sPicTable_Hatterene[] = {
     overworld_ascending_frames(gObjectEventPic_Hatterene, 4, 4),
 };
-#if P_GIGANTAMAX_FORMS
-/*static const struct SpriteFrameImage sPicTable_HattereneGmax[] = {
-    overworld_ascending_frames(gObjectEventPic_HattereneGmax, 4, 4),
+#if P_CUSTOM_MEGA_FORMS
+/*static const struct SpriteFrameImage sPicTable_HattereneMega[] = {
+    overworld_ascending_frames(gObjectEventPic_HattereneMega, 4, 4),
 };*/
-#endif //P_GIGANTAMAX_FORMS
+#endif //P_CUSTOM_MEGA_FORMS
 #endif //P_FAMILY_HATENNA
 
 #if P_FAMILY_IMPIDIMP
@@ -5825,11 +5788,11 @@ static const struct SpriteFrameImage sPicTable_Morgrem[] = {
 static const struct SpriteFrameImage sPicTable_Grimmsnarl[] = {
     overworld_ascending_frames(gObjectEventPic_Grimmsnarl, 4, 4),
 };
-#if P_GIGANTAMAX_FORMS
-/*static const struct SpriteFrameImage sPicTable_GrimmsnarlGmax[] = {
-    overworld_ascending_frames(gObjectEventPic_GrimmsnarlGmax, 4, 4),
+#if P_CUSTOM_MEGA_FORMS
+/*static const struct SpriteFrameImage sPicTable_GrimmsnarlMega[] = {
+    overworld_ascending_frames(gObjectEventPic_GrimmsnarlMega, 4, 4),
 };*/
-#endif //P_GIGANTAMAX_FORMS
+#endif //P_CUSTOM_MEGA_FORMS
 #endif //P_FAMILY_IMPIDIMP
 
 #if P_FAMILY_MILCERY
@@ -5858,11 +5821,11 @@ static const struct SpriteFrameImage sPicTable_AlcremieFlower[] = {
 static const struct SpriteFrameImage sPicTable_AlcremieRibbon[] = {
     overworld_ascending_frames(gObjectEventPic_AlcremieRibbon, 4, 4),
 };*/
-#if P_GIGANTAMAX_FORMS
-/*static const struct SpriteFrameImage sPicTable_AlcremieGmax[] = {
-    overworld_ascending_frames(gObjectEventPic_AlcremieGmax, 4, 4),
+#if P_CUSTOM_MEGA_FORMS
+/*static const struct SpriteFrameImage sPicTable_AlcremieMega[] = {
+    overworld_ascending_frames(gObjectEventPic_AlcremieMega, 4, 4),
 };*/
-#endif //P_GIGANTAMAX_FORMS
+#endif //P_CUSTOM_MEGA_FORMS
 #endif //P_FAMILY_MILCERY
 
 #if P_FAMILY_FALINKS
@@ -5930,11 +5893,11 @@ static const struct SpriteFrameImage sPicTable_Cufant[] = {
 static const struct SpriteFrameImage sPicTable_Copperajah[] = {
     overworld_ascending_frames(gObjectEventPic_Copperajah, 4, 4),
 };
-#if P_GIGANTAMAX_FORMS
-/*static const struct SpriteFrameImage sPicTable_CopperajahGmax[] = {
-    overworld_ascending_frames(gObjectEventPic_CopperajahGmax, 4, 4),
+#if P_CUSTOM_MEGA_FORMS
+/*static const struct SpriteFrameImage sPicTable_CopperajahMega[] = {
+    overworld_ascending_frames(gObjectEventPic_CopperajahMega, 4, 4),
 };*/
-#endif //P_GIGANTAMAX_FORMS
+#endif //P_CUSTOM_MEGA_FORMS
 #endif //P_FAMILY_CUFANT
 
 #if P_FAMILY_DRACOZOLT
@@ -5965,11 +5928,11 @@ static const struct SpriteFrameImage sPicTable_Arctovish[] = {
 static const struct SpriteFrameImage sPicTable_Duraludon[] = {
     overworld_ascending_frames(gObjectEventPic_Duraludon, 4, 4),
 };
-#if P_GIGANTAMAX_FORMS
-/*static const struct SpriteFrameImage sPicTable_DuraludonGmax[] = {
-    overworld_ascending_frames(gObjectEventPic_DuraludonGmax, 4, 4),
+#if P_CUSTOM_MEGA_FORMS
+/*static const struct SpriteFrameImage sPicTable_DuraludonMega[] = {
+    overworld_ascending_frames(gObjectEventPic_DuraludonMega, 4, 4),
 };*/
-#endif //P_GIGANTAMAX_FORMS
+#endif //P_CUSTOM_MEGA_FORMS
 
 #if P_GEN_9_CROSS_EVOS
 static const struct SpriteFrameImage sPicTable_Archaludon[] = {
@@ -6024,14 +5987,14 @@ static const struct SpriteFrameImage sPicTable_Kubfu[] = {
 static const struct SpriteFrameImage sPicTable_Urshifu[] = {
     overworld_ascending_frames(gObjectEventPic_Urshifu, 4, 4),
 };
-#if P_GIGANTAMAX_FORMS
-/*static const struct SpriteFrameImage sPicTable_UrshifuSingleStrikeGmax[] = {
-    overworld_ascending_frames(gObjectEventPic_UrshifuSingleStrikeGmax, 4, 4),
+#if P_CUSTOM_MEGA_FORMS
+/*static const struct SpriteFrameImage sPicTable_UrshifuSingleStrikeMega[] = {
+    overworld_ascending_frames(gObjectEventPic_UrshifuSingleStrikeMega, 4, 4),
 };
-static const struct SpriteFrameImage sPicTable_UrshifuRapidStrikeGmax[] = {
-    overworld_ascending_frames(gObjectEventPic_UrshifuRapidStrikeGmax, 4, 4),
+static const struct SpriteFrameImage sPicTable_UrshifuRapidStrikeMega[] = {
+    overworld_ascending_frames(gObjectEventPic_UrshifuRapidStrikeMega, 4, 4),
 };*/
-#endif //P_GIGANTAMAX_FORMS
+#endif //P_CUSTOM_MEGA_FORMS
 #endif //P_FAMILY_KUBFU
 
 #if P_FAMILY_ZARUDE

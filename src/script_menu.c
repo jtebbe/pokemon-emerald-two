@@ -1,4 +1,6 @@
 #include "global.h"
+
+static EWRAM_DATA u16 gScrollableMultichoice_ScrollOffset = 0;
 #include "main.h"
 #include "event_data.h"
 #include "field_effect.h"
@@ -26,6 +28,13 @@
 
 #include "data/script_menu.h"
 
+const u8 *GetStandardString(u32 index)
+{
+    if (index >= ARRAY_COUNT(sStdStrings) || sStdStrings[index] == NULL)
+        return gText_EmptyString2;
+    return sStdStrings[index];
+}
+
 struct DynamicListMenuEventArgs
 {
     struct ListMenuTemplate *list;
@@ -47,7 +56,6 @@ static EWRAM_DATA u8 sDynamicMenuEventId = 0;
 static EWRAM_DATA struct DynamicMultichoiceStack *sDynamicMultiChoiceStack = NULL;
 static EWRAM_DATA u16 *sDynamicMenuEventScratchPad = NULL;
 
-static u8 sLilycoveSSTidalSelections[SSTIDAL_SELECTION_COUNT];
 
 static void FreeListMenuItems(struct ListMenuItem *items, u32 count);
 static void Task_HandleScrollingMultichoiceInput(u8 taskId);
@@ -57,12 +65,8 @@ static void Task_HandleMultichoiceGridInput(u8 taskId);
 static void DrawMultichoiceMenuDynamic(u8 left, u8 top, u8 argc, struct ListMenuItem *items, bool8 ignoreBPress, u32 initialRow, u8 maxBeforeScroll, u32 callbackSet);
 static void DrawMultichoiceMenu(u8 left, u8 top, u8 multichoiceId, bool8 ignoreBPress, u8 cursorPos);
 static void InitMultichoiceCheckWrap(bool8 ignoreBPress, u8 count, u8 windowId, u8 multichoiceId);
-static void DrawLinkServicesMultichoiceMenu(u8 multichoiceId);
 static void CreatePCMultichoice(void);
-static void CreateLilycoveSSTidalMultichoice(void);
 static bool8 IsPicboxClosed(void);
-static void CreateStartMenuForPokenavTutorial(void);
-static void InitMultichoiceNoWrap(bool8 ignoreBPress, u8 unusedCount, u8 windowId, u8 multichoiceId);
 static void MultichoiceDynamicEventDebug_OnInit(struct DynamicListMenuEventArgs *eventArgs);
 static void MultichoiceDynamicEventDebug_OnSelectionChanged(struct DynamicListMenuEventArgs *eventArgs);
 static void MultichoiceDynamicEventDebug_OnDestroy(struct DynamicListMenuEventArgs *eventArgs);
@@ -260,7 +264,7 @@ static u16 UNUSED GetLengthWithExpandedPlayerName(const u8 *str)
             str++;
             if (*str == PLACEHOLDER_ID_PLAYER)
             {
-                length += StringLength(gSaveBlock2Ptr->playerName);
+                length += StringLength(gSaveData.playerName);
                 str++;
             }
         }
@@ -487,17 +491,8 @@ static void DrawMultichoiceMenu(u8 left, u8 top, u8 multichoiceId, bool8 ignoreB
 
 static void InitMultichoiceCheckWrap(bool8 ignoreBPress, u8 count, u8 windowId, u8 multichoiceId)
 {
-    u8 i;
     u8 taskId;
-    sProcessInputDelay = 2;
-
-    for (i = 0; i < ARRAY_COUNT(sLinkServicesMultichoiceIds); i++)
-    {
-        if (sLinkServicesMultichoiceIds[i] == multichoiceId)
-        {
-            sProcessInputDelay = 12;
-        }
-    }
+    sProcessInputDelay = multichoiceId == MULTI_LINK_SERVICES ? 12 : 2;
 
     taskId = CreateTask(Task_HandleMultichoiceInput, 80);
 
@@ -511,7 +506,6 @@ static void InitMultichoiceCheckWrap(bool8 ignoreBPress, u8 count, u8 windowId, 
     gTasks[taskId].tWindowId = windowId;
     gTasks[taskId].tMultichoiceId = multichoiceId;
 
-    DrawLinkServicesMultichoiceMenu(multichoiceId);
 }
 
 static void Task_HandleScrollingMultichoiceInput(u8 taskId)
@@ -587,7 +581,6 @@ static void Task_HandleMultichoiceInput(u8 taskId)
 
             if (JOY_NEW(DPAD_UP | DPAD_DOWN))
             {
-                DrawLinkServicesMultichoiceMenu(tMultichoiceId);
             }
 
             if (selection != MENU_NOTHING_CHOSEN)
@@ -794,168 +787,10 @@ void ScriptMenu_DisplayPCStartupPrompt(void)
     AddTextPrinterParameterized2(0, FONT_NORMAL, gText_WhichPCShouldBeAccessed, 0, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
 }
 
-bool8 ScriptMenu_CreateLilycoveSSTidalMultichoice(void)
-{
-    if (FuncIsActiveTask(Task_HandleMultichoiceInput) == TRUE)
-    {
-        return FALSE;
-    }
-    else
-    {
-        gSpecialVar_Result = 0xFF;
-        CreateLilycoveSSTidalMultichoice();
-        return TRUE;
-    }
-}
 
 // gSpecialVar_0x8004 is 1 if the Sailor was shown multiple event tickets at the same time
 // otherwise gSpecialVar_0x8004 is 0
-static void CreateLilycoveSSTidalMultichoice(void)
-{
-    u8 selectionCount = 0;
-    u8 count;
-    u32 pixelWidth;
-    u8 width;
-    u8 windowId;
-    u8 i;
-    u32 j;
 
-    for (i = 0; i < SSTIDAL_SELECTION_COUNT; i++)
-    {
-        sLilycoveSSTidalSelections[i] = 0xFF;
-    }
-
-    GetFontAttribute(FONT_NORMAL, FONTATTR_MAX_LETTER_WIDTH);
-
-    if (gSpecialVar_0x8004 == 0)
-    {
-        sLilycoveSSTidalSelections[selectionCount] = SSTIDAL_SELECTION_SLATEPORT;
-        selectionCount++;
-
-        if (FlagGet(FLAG_MET_SCOTT_ON_SS_TIDAL) == TRUE)
-        {
-            sLilycoveSSTidalSelections[selectionCount] = SSTIDAL_SELECTION_BATTLE_FRONTIER;
-            selectionCount++;
-        }
-    }
-
-    if (CheckBagHasItem(ITEM_EON_TICKET, 1) == TRUE && FlagGet(FLAG_ENABLE_SHIP_SOUTHERN_ISLAND) == TRUE)
-    {
-        if (gSpecialVar_0x8004 == 0)
-        {
-            sLilycoveSSTidalSelections[selectionCount] = SSTIDAL_SELECTION_SOUTHERN_ISLAND;
-            selectionCount++;
-        }
-
-        if (gSpecialVar_0x8004 == 1 && FlagGet(FLAG_SHOWN_EON_TICKET) == FALSE)
-        {
-            sLilycoveSSTidalSelections[selectionCount] = SSTIDAL_SELECTION_SOUTHERN_ISLAND;
-            selectionCount++;
-            FlagSet(FLAG_SHOWN_EON_TICKET);
-        }
-    }
-
-    if (CheckBagHasItem(ITEM_MYSTIC_TICKET, 1) == TRUE && FlagGet(FLAG_ENABLE_SHIP_NAVEL_ROCK) == TRUE)
-    {
-        if (gSpecialVar_0x8004 == 0)
-        {
-            sLilycoveSSTidalSelections[selectionCount] = SSTIDAL_SELECTION_NAVEL_ROCK;
-            selectionCount++;
-        }
-
-        if (gSpecialVar_0x8004 == 1 && FlagGet(FLAG_SHOWN_MYSTIC_TICKET) == FALSE)
-        {
-            sLilycoveSSTidalSelections[selectionCount] = SSTIDAL_SELECTION_NAVEL_ROCK;
-            selectionCount++;
-            FlagSet(FLAG_SHOWN_MYSTIC_TICKET);
-        }
-    }
-
-    if (CheckBagHasItem(ITEM_AURORA_TICKET, 1) == TRUE && FlagGet(FLAG_ENABLE_SHIP_BIRTH_ISLAND) == TRUE)
-    {
-        if (gSpecialVar_0x8004 == 0)
-        {
-            sLilycoveSSTidalSelections[selectionCount] = SSTIDAL_SELECTION_BIRTH_ISLAND;
-            selectionCount++;
-        }
-
-        if (gSpecialVar_0x8004 == 1 && FlagGet(FLAG_SHOWN_AURORA_TICKET) == FALSE)
-        {
-            sLilycoveSSTidalSelections[selectionCount] = SSTIDAL_SELECTION_BIRTH_ISLAND;
-            selectionCount++;
-            FlagSet(FLAG_SHOWN_AURORA_TICKET);
-        }
-    }
-
-    if (CheckBagHasItem(ITEM_OLD_SEA_MAP, 1) == TRUE && FlagGet(FLAG_ENABLE_SHIP_FARAWAY_ISLAND) == TRUE)
-    {
-        if (gSpecialVar_0x8004 == 0)
-        {
-            sLilycoveSSTidalSelections[selectionCount] = SSTIDAL_SELECTION_FARAWAY_ISLAND;
-            selectionCount++;
-        }
-
-        if (gSpecialVar_0x8004 == 1 && FlagGet(FLAG_SHOWN_OLD_SEA_MAP) == FALSE)
-        {
-            sLilycoveSSTidalSelections[selectionCount] = SSTIDAL_SELECTION_FARAWAY_ISLAND;
-            selectionCount++;
-            FlagSet(FLAG_SHOWN_OLD_SEA_MAP);
-        }
-    }
-
-    sLilycoveSSTidalSelections[selectionCount] = SSTIDAL_SELECTION_EXIT;
-    selectionCount++;
-
-    if (gSpecialVar_0x8004 == 0 && FlagGet(FLAG_MET_SCOTT_ON_SS_TIDAL) == TRUE)
-    {
-        count = selectionCount;
-    }
-
-    count = selectionCount;
-    if (count == SSTIDAL_SELECTION_COUNT)
-    {
-        gSpecialVar_0x8004 = SCROLL_MULTI_SS_TIDAL_DESTINATION;
-        ShowScrollableMultichoice();
-    }
-    else
-    {
-        pixelWidth = 0;
-
-        for (j = 0; j < SSTIDAL_SELECTION_COUNT; j++)
-        {
-            u8 selection = sLilycoveSSTidalSelections[j];
-            if (selection != 0xFF)
-            {
-                pixelWidth = DisplayTextAndGetWidth(sLilycoveSSTidalDestinations[selection], pixelWidth);
-            }
-        }
-
-        width = ConvertPixelWidthToTileWidth(pixelWidth);
-        windowId = CreateWindowFromRect(MAX_MULTICHOICE_WIDTH - width, (6 - count) * 2, width, count * 2);
-        SetStandardWindowBorderStyle(windowId, FALSE);
-
-        for (selectionCount = 0, i = 0; i < SSTIDAL_SELECTION_COUNT; i++)
-        {
-            if (sLilycoveSSTidalSelections[i] != 0xFF)
-            {
-                AddTextPrinterParameterized(windowId, FONT_NORMAL, sLilycoveSSTidalDestinations[sLilycoveSSTidalSelections[i]], 8, selectionCount * 16 + 1, TEXT_SKIP_DRAW, NULL);
-                selectionCount++;
-            }
-        }
-
-        InitMenuInUpperLeftCornerNormal(windowId, count, count - 1);
-        CopyWindowToVram(windowId, COPYWIN_FULL);
-        InitMultichoiceCheckWrap(FALSE, count, windowId, MULTI_SSTIDAL_LILYCOVE);
-    }
-}
-
-void GetLilycoveSSTidalSelection(void)
-{
-    if (gSpecialVar_Result != MULTI_B_PRESSED)
-    {
-        gSpecialVar_Result = sLilycoveSSTidalSelections[gSpecialVar_Result];
-    }
-}
 
 #define tState       data[0]
 #define tMonSpecies  data[1]
@@ -1051,80 +886,9 @@ void ClearToTransparentAndRemoveWindow(u8 windowId)
     RemoveWindow(windowId);
 }
 
-static void DrawLinkServicesMultichoiceMenu(u8 multichoiceId)
-{
-    switch (multichoiceId)
-    {
-    case MULTI_WIRELESS_NO_BERRY:
-        FillWindowPixelBuffer(0, PIXEL_FILL(1));
-        AddTextPrinterParameterized2(0, FONT_NORMAL, sWirelessOptionsNoBerryCrush[Menu_GetCursorPos()], 0, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
-        break;
-    case MULTI_CABLE_CLUB_WITH_RECORD_MIX:
-        FillWindowPixelBuffer(0, PIXEL_FILL(1));
-        AddTextPrinterParameterized2(0, FONT_NORMAL, sCableClubOptions_WithRecordMix[Menu_GetCursorPos()], 0, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
-        break;
-    case MULTI_WIRELESS_NO_RECORD:
-        FillWindowPixelBuffer(0, PIXEL_FILL(1));
-        AddTextPrinterParameterized2(0, FONT_NORMAL, sWirelessOptions_NoRecordMix[Menu_GetCursorPos()], 0, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
-        break;
-    case MULTI_WIRELESS_ALL_SERVICES:
-        FillWindowPixelBuffer(0, PIXEL_FILL(1));
-        AddTextPrinterParameterized2(0, FONT_NORMAL, sWirelessOptions_AllServices[Menu_GetCursorPos()], 0, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
-        break;
-    case MULTI_WIRELESS_NO_RECORD_BERRY:
-        FillWindowPixelBuffer(0, PIXEL_FILL(1));
-        AddTextPrinterParameterized2(0, FONT_NORMAL, sWirelessOptions_NoRecordMixBerryCrush[Menu_GetCursorPos()], 0, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
-        break;
-    case MULTI_CABLE_CLUB_NO_RECORD_MIX:
-        FillWindowPixelBuffer(0, PIXEL_FILL(1));
-        AddTextPrinterParameterized2(0, FONT_NORMAL, sCableClubOptions_NoRecordMix[Menu_GetCursorPos()], 0, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
-        break;
-    }
-}
 
-bool16 ScriptMenu_CreateStartMenuForPokenavTutorial(void)
-{
-    if (FuncIsActiveTask(Task_HandleMultichoiceInput) == TRUE)
-    {
-        return FALSE;
-    }
-    else
-    {
-        gSpecialVar_Result = 0xFF;
-        CreateStartMenuForPokenavTutorial();
-        return TRUE;
-    }
-}
-
-static void CreateStartMenuForPokenavTutorial(void)
-{
-    u8 windowId = CreateWindowFromRect(21, 0, 7, 18);
-    SetStandardWindowBorderStyle(windowId, FALSE);
-    AddTextPrinterParameterized(windowId, FONT_NORMAL, gText_MenuOptionPokedex, 8, 9, TEXT_SKIP_DRAW, NULL);
-    AddTextPrinterParameterized(windowId, FONT_NORMAL, gText_MenuOptionPokemon, 8, 25, TEXT_SKIP_DRAW, NULL);
-    AddTextPrinterParameterized(windowId, FONT_NORMAL, gText_MenuOptionBag, 8, 41, TEXT_SKIP_DRAW, NULL);
-    AddTextPrinterParameterized(windowId, FONT_NORMAL, gText_MenuOptionPokenav, 8, 57, TEXT_SKIP_DRAW, NULL);
-    AddTextPrinterParameterized(windowId, FONT_NORMAL, gSaveBlock2Ptr->playerName, 8, 73, TEXT_SKIP_DRAW, NULL);
-    AddTextPrinterParameterized(windowId, FONT_NORMAL, gText_MenuOptionSave, 8, 89, TEXT_SKIP_DRAW, NULL);
-    AddTextPrinterParameterized(windowId, FONT_NORMAL, gText_MenuOptionOption, 8, 105, TEXT_SKIP_DRAW, NULL);
-    AddTextPrinterParameterized(windowId, FONT_NORMAL, gText_MenuOptionExit, 8, 121, TEXT_SKIP_DRAW, NULL);
-    InitMenuNormal(windowId, FONT_NORMAL, 0, 9, 16, ARRAY_COUNT(MultichoiceList_ForcedStartMenu), 0);
-    InitMultichoiceNoWrap(FALSE, ARRAY_COUNT(MultichoiceList_ForcedStartMenu), windowId, MULTI_FORCED_START_MENU);
-    CopyWindowToVram(windowId, COPYWIN_FULL);
-}
 
 #define tWindowId       data[6]
-
-static void InitMultichoiceNoWrap(bool8 ignoreBPress, u8 unusedCount, u8 windowId, u8 multichoiceId)
-{
-    u8 taskId;
-    sProcessInputDelay = 2;
-    taskId = CreateTask(Task_HandleMultichoiceInput, 80);
-    gTasks[taskId].tIgnoreBPress = ignoreBPress;
-    gTasks[taskId].tDoWrap = 0;
-    gTasks[taskId].tWindowId = windowId;
-    gTasks[taskId].tMultichoiceId = multichoiceId;
-}
 
 #undef tLeft
 #undef tTop
@@ -1222,107 +986,3 @@ bool8 CloseMuseumFossilPic(void)
 }
 
 static const u8 sText_Other[] = _("OTHER");
-
-void DrawSeagallopDestinationMenu(void)
-{
-    // 8004 = Starting location
-    // 8005 = Page (0: Verm, One, Two, Three, Four, Other, Exit; 1: Four, Five, Six, Seven, Other, Exit)
-    u8 destinationId;
-    u8 top;
-    u8 numItems;
-    u8 cursorWidth;
-    u8 windowId;
-    u8 i;
-    gSpecialVar_Result = 0xFF;
-
-    if (gSpecialVar_0x8005 == 1)
-    {
-        if (gSpecialVar_0x8004 < SEAGALLOP_FIVE_ISLAND)
-            destinationId = SEAGALLOP_FIVE_ISLAND;
-        else
-            destinationId = SEAGALLOP_FOUR_ISLAND;
-        numItems = 5;
-        top = 2;
-    }
-    else
-    {
-        destinationId = SEAGALLOP_VERMILION_CITY;
-        numItems = 6;
-        top = 0;
-    }
-    cursorWidth = GetMenuCursorDimensionByFont(FONT_NORMAL, 0);
-    windowId = CreateWindowFromRect(17, top, 11, numItems * 2);
-    SetStandardWindowBorderStyle(windowId, FALSE);
-
-    // -2 excludes "Other" and "Exit", appended after the loop
-    for (i = 0; i < numItems - 2; i++)
-    {
-        if (destinationId != gSpecialVar_0x8004)
-            AddTextPrinterParameterized(windowId, FONT_NORMAL, sSeagallopDestStrings[destinationId], cursorWidth, i * 16 + 2, TEXT_SKIP_DRAW, NULL);
-        else
-            i--;
-        destinationId++;
-
-        // Wrap around
-        if (destinationId == SEAGALLOP_SEVEN_ISLAND + 1)
-            destinationId = SEAGALLOP_VERMILION_CITY;
-    }
-    AddTextPrinterParameterized(windowId, FONT_NORMAL, sText_Other, cursorWidth, i * 16 + 2, TEXT_SKIP_DRAW, NULL);
-    i++;
-    AddTextPrinterParameterized(windowId, FONT_NORMAL, gText_Exit, cursorWidth, i * 16 + 2, TEXT_SKIP_DRAW, NULL);
-    InitMenuNormal(windowId, FONT_NORMAL, 0, 2, 16, numItems, 0);
-    InitMultichoiceCheckWrap(FALSE, numItems, windowId, MULTI_NONE);
-    ScheduleBgCopyTilemapToVram(0);
-}
-
-u16 GetSelectedSeagallopDestination(void)
-{
-    // 8004 = Starting location
-    // 8005 = Page (0: Verm, One, Two, Three, Four, Other, Exit; 1: Four, Five, Six, Seven, Other, Exit)
-    if (gSpecialVar_Result == MULTI_B_PRESSED)
-        return MULTI_B_PRESSED;
-    if (gSpecialVar_0x8005 == 1)
-    {
-        if (gSpecialVar_Result == 3)
-        {
-            return SEAGALLOP_MORE;
-        }
-        else if (gSpecialVar_Result == 4)
-        {
-            return MULTI_B_PRESSED;
-        }
-        else if (gSpecialVar_Result == 0)
-        {
-            if (gSpecialVar_0x8004 > SEAGALLOP_FOUR_ISLAND)
-                return SEAGALLOP_FOUR_ISLAND;
-            else
-                return SEAGALLOP_FIVE_ISLAND;
-        }
-        else if (gSpecialVar_Result == 1)
-        {
-            if (gSpecialVar_0x8004 > SEAGALLOP_FIVE_ISLAND)
-                return SEAGALLOP_FIVE_ISLAND;
-            else
-                return SEAGALLOP_SIX_ISLAND;
-        }
-        else if (gSpecialVar_Result == 2)
-        {
-            if (gSpecialVar_0x8004 > SEAGALLOP_SIX_ISLAND)
-                return SEAGALLOP_SIX_ISLAND;
-            else
-                return SEAGALLOP_SEVEN_ISLAND;
-        }
-    }
-    else
-    {
-        if (gSpecialVar_Result == 4)
-            return SEAGALLOP_MORE;
-        else if (gSpecialVar_Result == 5)
-            return MULTI_B_PRESSED;
-        else if (gSpecialVar_Result >= gSpecialVar_0x8004)
-            return gSpecialVar_Result + 1;
-        else
-            return gSpecialVar_Result;
-    }
-    return SEAGALLOP_VERMILION_CITY;
-}

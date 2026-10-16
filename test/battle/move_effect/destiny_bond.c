@@ -102,22 +102,6 @@ SINGLE_BATTLE_TEST("Destiny Bond does not fail if used after failing (Gen7+)")
     }
 }
 
-// can't be used at all in Raid, see "Documenting Dynamax"
-SINGLE_BATTLE_TEST("(DYNAMAX) Dynamaxed Pokemon are not affected by Destiny Bond")
-{
-    GIVEN {
-        PLAYER(SPECIES_WOBBUFFET) { Speed(50); }
-        OPPONENT(SPECIES_WOBBUFFET) { HP(1); Speed(100); }
-    } WHEN {
-        TURN { MOVE(opponent, MOVE_DESTINY_BOND); MOVE(player, MOVE_SCRATCH, gimmick: GIMMICK_DYNAMAX); }
-    } SCENE {
-        MESSAGE("The opposing Wobbuffet used Destiny Bond!");
-        MESSAGE("Wobbuffet used Max Strike!");
-        MESSAGE("The opposing Wobbuffet fainted!");
-        NONE_OF { HP_BAR(player); }
-    }
-}
-
 TO_DO_BATTLE_TEST("Destiny Bond's effect disappears if the user takes a new turn - Move");
 TO_DO_BATTLE_TEST("Destiny Bond's effect disappears if the user takes a new turn - Sleep");
 TO_DO_BATTLE_TEST("Destiny Bond's effect disappears if the user takes a new turn - Paralysis");

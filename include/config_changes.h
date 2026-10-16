@@ -3,7 +3,6 @@
 
 #include "constants/config_changes.h"
 #include "config/battle.h"
-#include "config/pokerus.h"
 #include "config/ai.h"
 
 #define UNPACK_CONFIG_STRUCT(_name, _field, _typeMaxValue, ...) INVOKE_WITH_(UNPACK_CONFIG_STRUCT_, _field, UNPACK_B(_typeMaxValue));

@@ -355,31 +355,25 @@ const u8 gMoveBackgroundNames[BG_COUNT][MOVE_BACKGROUND_NAME_LENGTH] =
     [BG_PSYCHIC]                   = _("Psychic"),
     [BG_IMPACT_OPPONENT]           = _("Impact - Opponent"),
     [BG_IMPACT_PLAYER]             = _("Impact - Player"),
-    [BG_IMPACT_CONTESTS]           = _("Impact - Contests"),
     [BG_DRILL]                     = _("Drill"),
-    [BG_DRILL_CONTESTS]            = _("Drill - Contests"),
     [BG_HIGHSPEED_OPPONENT]        = _("High-Speed - Opponent"),
     [BG_HIGHSPEED_PLAYER]          = _("High-Speed - Player"),
     [BG_THUNDER]                   = _("Thunder"),
     [BG_GUILLOTINE_OPPONENT]       = _("Guillotine - Opponent"),
     [BG_GUILLOTINE_PLAYER]         = _("Guillotine - Player"),
-    [BG_GUILLOTINE_CONTESTS]       = _("Guillotine - Contests"),
     [BG_ICE]                       = _("Ice"),
     [BG_COSMIC]                    = _("Cosmic"),
     [BG_IN_AIR]                    = _("In Air"),
     [BG_SKY]                       = _("Sky"),
-    [BG_SKY_CONTESTS]              = _("Sky - Contests"),
     [BG_AURORA]                    = _("Aurora"),
     [BG_FISSURE]                   = _("Fissure"),
     [BG_BUG_OPPONENT]              = _("Bug - Opponent"),
     [BG_BUG_PLAYER]                = _("Bug - Player"),
     [BG_SOLAR_BEAM_OPPONENT]       = _("Solar Beam - Opponent"),
     [BG_SOLAR_BEAM_PLAYER]         = _("Solar Beam - Player"),
-    [BG_SOLAR_BEAM_CONTESTS]       = _("Solar Beam - Contests"),
     [BG_MAGMA_STORM]               = _("Magma Storm"),
     [BG_GIGA_IMPACT_OPPONENT]      = _("Giga Impact - Opponent"),
     [BG_GIGA_IMPACT_PLAYER]        = _("Giga Impact - Player"),
-    [BG_GIGA_IMPACT_CONTESTS]      = _("Giga Impact - Contests"),
     [BG_TRICK_ROOM]                = _("Trick Room"),
     [BG_ROCK_WRECKER]              = _("Rock Wrecker"),
     [BG_SPACIAL_REND_OPPONENT]     = _("Spacial Rend - Opponent"),
@@ -405,27 +399,15 @@ const u8 gMoveBackgroundNames[BG_COUNT][MOVE_BACKGROUND_NAME_LENGTH] =
     [BG_MAGIC_ROOM]                = _("Magic Room"),
     [BG_HYPERSPACE_FURY]           = _("Hyperspace Fury"),
     [BG_BOLT_STRIKE]               = _("Bolt Strike"),
-    [BG_ZMOVE_ACTIVATE]            = _("Z-Move Activate"),
-    [BG_TECTONIC_RAGE]             = _("Tectonic Rage"),
     [BG_ROCK_FIELD_DAY]            = _("Rock Field - Day"),
     [BG_ROCK_FIELD_AFTERNOON]      = _("Rock Field - Afternoon"),
     [BG_ROCK_FIELD_NIGHT]          = _("Rock Field - Night"),
-    [BG_ZMOVE_MOUNTAIN]            = _("Z-Move Mountain"),
-    [BG_NEVERENDING_NIGHTMARE]     = _("Never-Ending Nightmare"),
     [BG_WATER_PULSE]               = _("Water Pulse"),
-    [BG_INFERNO_OVERDRIVE]         = _("Inferno Overdrive"),
-    [BG_BLOOM_DOOM]                = _("Bloom Doom"),
-    [BG_SHATTERED_PSYCHE]          = _("Shattered Psyche"),
-    [BG_TWINKLE_TACKLE]            = _("Twinkle Tackle"),
-    [BG_BLACK_HOLE_ECLIPSE]        = _("Black Hole Eclipse"),
-    [BG_SOULSTEALING_7STAR_STRIKE] = _("Soul-Stealing 7-Star Strike"),
-    [BG_MALICIOUS_MOONSAULT]       = _("Malicious Moonsault"),
-    [BG_CLANGOROUS_SOULBLAZE]      = _("Clangorous Soulblaze"),
-    [BG_SNUGGLE_FOREVER]           = _("Snuggle Forever"),
-    [BG_MAX_LIGHTNING]             = _("Max Lightning"),
+    [BG_SPARKLE_BURST]            = _("Sparkle Burst"),
+    [BG_HEART_PATTERN]           = _("Heart Pattern"),
+    [BG_ELECTRIC_STORM]            = _("Electric Storm"),
     [BG_GARBAGE_FALLS]             = _("Garbage Falls"),
     [BG_HYPER_BEAM]                = _("Hyper Beam"),
-    [BG_DYNAMAX_CANNON]            = _("Dynamax Cannon"),
     [BG_AURA_SPHERE]               = _("Aura Sphere"),
     [BG_STEEL_BEAM_OPPONENT]       = _("Steel Beam - Opponent"),
     [BG_STEEL_BEAM_PLAYER]         = _("Steel Beam - Player"),
@@ -1019,18 +1001,21 @@ static void UpdateMoveBackground(u8 taskId, bool8 increment)
 {
     struct PokemonSpriteVisualizer *data = GetStructPtr(taskId);
 
-    if (increment)
+    do
     {
-        data->moveBackground = (data->moveBackground + 1) % BG_COUNT;
-        if (data->moveBackground == BG_NONE)
-            data->moveBackground = BG_DARK;
-    }
-    else
-    {
-        data->moveBackground -= 1;
-        if (data->moveBackground == BG_NONE)
-            data->moveBackground = BG_SWAMP;
-    }
+        if (increment)
+        {
+            data->moveBackground = (data->moveBackground + 1) % BG_COUNT;
+            if (data->moveBackground == BG_NONE)
+                data->moveBackground = BG_DARK;
+        }
+        else
+        {
+            data->moveBackground -= 1;
+            if (data->moveBackground == BG_NONE)
+                data->moveBackground = BG_SWAMP;
+        }
+    } while (gBattleAnimBackgroundTable[data->moveBackground].image == NULL);
 
     PrintMoveBackgroundName(data->moveBackground);
     LoadMoveBackground(data->moveBackground);

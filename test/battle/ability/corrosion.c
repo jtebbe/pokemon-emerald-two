@@ -322,7 +322,6 @@ SINGLE_BATTLE_TEST("Corrosion does not affect Poison Spikes")
         EXPECT_EQ(opponent->status1, STATUS1_NONE);
     }
 }
-
 SINGLE_BATTLE_TEST("Corrosion does not make Toxic Spikes poison a Corrosion user Terastallized into Steel")
 {
     GIVEN {
@@ -340,5 +339,3 @@ SINGLE_BATTLE_TEST("Corrosion does not make Toxic Spikes poison a Corrosion user
         EXPECT_EQ(opponent->status1, STATUS1_NONE);
     }
 }
-
-TO_DO_BATTLE_TEST("Dynamax: Corrosion can poison Poison/Steel types if the Pokémon uses G-Max Malodor")

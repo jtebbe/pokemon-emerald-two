@@ -28,6 +28,10 @@
 #include "pokemon_icon.h"
 #include "pokemon_summary_screen.h"
 #include "pokemon_storage_system.h"
+#include "pc_storage.h"
+#include "load_save.h"
+#include "link_protocol.h"
+#include "field_message_box.h"
 #include "script.h"
 #include "sound.h"
 #include "string_util.h"
@@ -35,7 +39,6 @@
 #include "text.h"
 #include "text_window.h"
 #include "trig.h"
-#include "walda_phrase.h"
 #include "window.h"
 #include "constants/form_change_types.h"
 #include "constants/items.h"
@@ -147,7 +150,6 @@ enum {
     MENU_SCENERY_2,
     MENU_SCENERY_3,
     MENU_ETCETERA,
-    MENU_FRIENDS,
     MENU_FOREST,
     MENU_CITY,
     MENU_DESERT,
@@ -1291,11 +1293,9 @@ static const u16 sHandCursor_Pal[] = INCGFX_U16("graphics/pokemon_storage/hand_c
 static const u8 sHandCursor_Gfx[] = INCGFX_U8("graphics/pokemon_storage/hand_cursor.png", ".4bpp");
 static const u8 sHandCursorShadow_Gfx[] = INCGFX_U8("graphics/pokemon_storage/hand_cursor_shadow.png", ".4bpp");
 
-
 //------------------------------------------------------------------------------
 //  SECTION: Misc utility
 //------------------------------------------------------------------------------
-
 
 void DrawTextWindowAndBufferTiles(const u8 *string, void *dst, u8 zero1, u8 zero2, s32 bytesToBuffer)
 {
@@ -1483,7 +1483,6 @@ static void UNUSED UnusedWriteRectDma(u16 *dest, u16 dest_left, u16 dest_top, u1
         Dma3FillLarge16_(0, dest, width);
 }
 
-
 //------------------------------------------------------------------------------
 //  SECTION: Main menu
 //
@@ -1491,7 +1490,6 @@ static void UNUSED UnusedWriteRectDma(u16 *dest, u16 dest_left, u16 dest_top, u1
 //  options can be selected (Withdraw, Deposit, etc.), as well as exiting
 //  Pokémon Storage back to this menu.
 //------------------------------------------------------------------------------
-
 
 enum {
     STATE_LOAD,
@@ -1621,6 +1619,17 @@ static void Task_PCMainMenu(u8 taskId)
 
 void ShowPokemonStorageSystemPC(void)
 {
+    if (!PCStorageOpen())
+    {
+        if (PCStorageFaulted()) PCStorageReportFault();
+        else
+        {
+            ShowFieldMessage(COMPOUND_STRING("PC unavailable. Resolve any\ninterrupted trade and try again."));
+            UnlockPlayerFieldControls();
+            ScriptContext_Enable();
+        }
+        return;
+    }
     u8 taskId = CreateTask(Task_PCMainMenu, 80);
     gTasks[taskId].tState = 0;
     gTasks[taskId].tSelectedOption = 0;
@@ -1700,14 +1709,10 @@ static s16 UNUSED StorageSystemGetNextMonIndex(struct BoxPokemon *box, s8 startI
 
 void ResetPokemonStorageSystem(void)
 {
-    u16 boxId, boxPosition;
+    u16 boxId;
 
+    PCStorageReset(TRUE);
     SetCurrentBox(0);
-    for (boxId = 0; boxId < TOTAL_BOXES_COUNT; boxId++)
-    {
-        for (boxPosition = 0; boxPosition < IN_BOX_COUNT; boxPosition++)
-            ZeroBoxMonAt(boxId, boxPosition);
-    }
     for (boxId = 0; boxId < TOTAL_BOXES_COUNT; boxId++)
     {
         u8 *dest = StringCopy(GetBoxNamePtr(boxId), gText_Box);
@@ -1717,9 +1722,7 @@ void ResetPokemonStorageSystem(void)
     for (boxId = 0; boxId < TOTAL_BOXES_COUNT; boxId++)
         SetBoxWallpaper(boxId, boxId % (MAX_DEFAULT_WALLPAPER + 1));
 
-    ResetWaldaWallpaper();
 }
-
 
 //------------------------------------------------------------------------------
 //  SECTION: Choose Box menu
@@ -1728,7 +1731,6 @@ void ResetPokemonStorageSystem(void)
 //  through the boxes and select one. Used when storing Pokémon in Deposit mode
 //  and for the Jump feature.
 //------------------------------------------------------------------------------
-
 
 static void LoadChooseBoxMenuGfx(struct ChooseBoxMenu *menu, u16 tileTag, u16 palTag, u8 subpriority, bool32 loadPal)
 {
@@ -1937,7 +1939,6 @@ static void SpriteCB_ChooseBoxArrow(struct Sprite *sprite)
     }
 }
 
-
 //------------------------------------------------------------------------------
 //  SECTION: Main tasks
 //
@@ -1946,7 +1947,6 @@ static void SpriteCB_ChooseBoxArrow(struct Sprite *sprite)
 //  primary one, Task_PokeStorageMain. Also included are some basic
 //  initialization functions.
 //------------------------------------------------------------------------------
-
 
 static void VBlankCB_PokeStorage(void)
 {
@@ -1959,9 +1959,69 @@ static void VBlankCB_PokeStorage(void)
     }
 }
 
+// States for the outer switch in Task_PokeStorageMain
+enum {
+    MSTATE_HANDLE_INPUT,
+    MSTATE_MOVE_CURSOR,
+    MSTATE_SCROLL_BOX,
+    MSTATE_WAIT_MSG,
+    MSTATE_ERROR_LAST_PARTY_MON,
+    MSTATE_ERROR_HAS_MAIL,
+    MSTATE_WAIT_ERROR_MSG,
+    MSTATE_MULTIMOVE_RUN,
+    MSTATE_MULTIMOVE_RUN_CANCEL,
+    MSTATE_MULTIMOVE_RUN_MOVED,
+    MSTATE_SCROLL_BOX_ITEM,
+    MSTATE_WAIT_ITEM_ANIM,
+};
+
+static u16 sPCSaveFrames;
+static bool8 sPCSaveIndicator;
+static bool8 sPCExitSaving;
+
 static void CB2_PokeStorage(void)
 {
-    RunTasks();
+    // Input/data edits wait for their compact commit. Graphics and sprite
+    // animation still run every frame while bounded flash chunks are emitted.
+    if (PCStorageBusy())
+    {
+        PCStorageTick();
+        // During a confirmed exit, only the closing effect and the gated
+        // exit task remain active. Let them advance alongside the final record.
+        if (sPCExitSaving && !PCStorageFaulted()) RunTasks();
+        if (++sPCSaveFrames == 8 && sStorage != NULL
+            && !sPCExitSaving && gTasks[sStorage->taskId].func != Task_InitPokeStorage)
+        {
+            FillWindowPixelBuffer(WIN_DISPLAY_INFO, PIXEL_FILL(1));
+            AddTextPrinterParameterized(WIN_DISPLAY_INFO, FONT_SHORT,
+                COMPOUND_STRING("Saving...\nPlease wait."), 6, 8, TEXT_SKIP_DRAW, NULL);
+            CopyWindowToVram(WIN_DISPLAY_INFO, COPYWIN_GFX);
+            sPCSaveIndicator = TRUE;
+        }
+    }
+    else
+    {
+        if (sPCSaveIndicator && sStorage != NULL) PrintDisplayMonInfo();
+        sPCSaveFrames = 0;
+        sPCSaveIndicator = FALSE;
+        RunTasks();
+    }
+    if (PCStorageFaulted())
+    {
+        PCStorageReportFault();
+        return;
+    }
+    // Edits request a save; idle frames and browsing do not poll flash or hash
+    // the save image. Still wait for a stable boundary after item animations.
+    if (sStorage != NULL && gTasks[sStorage->taskId].func == Task_PokeStorageMain
+        && sStorage->state == MSTATE_HANDLE_INPUT && !PCStorageBusy())
+    {
+        if (!PCStorageSaveIfRequested())
+        {
+            PCStorageReportFault();
+            return;
+        }
+    }
     DoScheduledBgTilemapCopiesToVram();
     ScrollBackground();
     UpdateCloseBoxButtonFlash();
@@ -1971,6 +2031,9 @@ static void CB2_PokeStorage(void)
 
 static void EnterPokeStorage(u8 boxOption)
 {
+    sPCSaveFrames = 0;
+    sPCSaveIndicator = FALSE;
+    sPCExitSaving = FALSE;
     ResetTasks();
     sCurrentBoxOption = boxOption;
     sStorage = Alloc(sizeof(*sStorage));
@@ -2072,6 +2135,8 @@ static void Task_InitPokeStorage(u8 taskId)
         ResetForPokeStorage();
         if (sStorage->isReopening)
         {
+            // Naming, summary and bag screens may edit through raw pointers.
+            PCStorageRequestAutosave();
             switch (sWhichToReshow)
             {
             case SCREEN_CHANGE_NAME_BOX - 1:
@@ -2090,6 +2155,13 @@ static void Task_InitPokeStorage(u8 taskId)
         }
         LoadPokeStorageMenuGfx();
         LoadWaveformSpritePalette();
+        // Start only after the old field sprites and callbacks have been
+        // cleared. The writer pauses tasks while its initial pages erase.
+        if (!sStorage->isReopening && !PCStorageBeginSession())
+        {
+            PCStorageReportFault();
+            return;
+        }
         break;
     case 1:
         if (!InitPokeStorageWindows())
@@ -2226,22 +2298,6 @@ static void Task_ReshowPokeStorage(u8 taskId)
         break;
     }
 }
-
-// States for the outer switch in Task_PokeStorageMain
-enum {
-    MSTATE_HANDLE_INPUT,
-    MSTATE_MOVE_CURSOR,
-    MSTATE_SCROLL_BOX,
-    MSTATE_WAIT_MSG,
-    MSTATE_ERROR_LAST_PARTY_MON,
-    MSTATE_ERROR_HAS_MAIL,
-    MSTATE_WAIT_ERROR_MSG,
-    MSTATE_MULTIMOVE_RUN,
-    MSTATE_MULTIMOVE_RUN_CANCEL,
-    MSTATE_MULTIMOVE_RUN_MOVED,
-    MSTATE_SCROLL_BOX_ITEM,
-    MSTATE_WAIT_ITEM_ANIM,
-};
 
 static void Task_PokeStorageMain(u8 taskId)
 {
@@ -3445,14 +3501,6 @@ static void Task_HandleWallpapers(u8 taskId)
             sStorage->wallpaperSetId -= MENU_WALLPAPER_SETS_START;
             sStorage->state++;
             break;
-        case MENU_FRIENDS:
-            // New wallpaper from Walda.
-            PlaySE(SE_SELECT);
-            sStorage->wallpaperId = WALLPAPER_FRIENDS;
-            RemoveMenu();
-            ClearBottomWindow();
-            sStorage->state = 6;
-            break;
         }
         break;
     case 3:
@@ -3605,6 +3653,22 @@ static void Task_GiveItemFromBag(u8 taskId)
     }
 }
 
+static bool32 BeginPCExit(void)
+{
+    // Capture exit-only changes before sealing the final compact record.
+    UpdateBoxToSendMons();
+    gPartiesCount[B_TRAINER_PLAYER] = CalculatePlayerPartyCount();
+    sMovingItemId = ITEM_NONE;
+    PCStorageCarryItem(ITEM_NONE);
+    if (!PCStorageQueueClose())
+    {
+        PCStorageReportFault();
+        return FALSE;
+    }
+    sPCExitSaving = TRUE;
+    return TRUE;
+}
+
 static void Task_OnCloseBoxPressed(u8 taskId)
 {
     switch (sStorage->state)
@@ -3651,14 +3715,13 @@ static void Task_OnCloseBoxPressed(u8 taskId)
         }
         break;
     case 3:
+        if (!BeginPCExit()) return;
         ComputerScreenCloseEffect(20, 0, 1);
         sStorage->state++;
         break;
     case 4:
-        if (!IsComputerScreenCloseEffectActive())
+        if (!IsComputerScreenCloseEffectActive() && !PCStorageBusy())
         {
-            UpdateBoxToSendMons();
-            gPartiesCount[B_TRAINER_PLAYER] = CalculatePlayerPartyCount();
             if (sStorage->boxOption == OPTION_SELECT_MON)
             {
                 gSpecialVar_0x8004 = PARTY_MON_CANCEL;
@@ -3729,14 +3792,13 @@ static void Task_OnBPressed(u8 taskId)
         }
         break;
     case 3:
+        if (!BeginPCExit()) return;
         ComputerScreenCloseEffect(20, 0, 0);
         sStorage->state++;
         break;
     case 4:
-        if (!IsComputerScreenCloseEffectActive())
+        if (!IsComputerScreenCloseEffectActive() && !PCStorageBusy())
         {
-            UpdateBoxToSendMons();
-            gPartiesCount[B_TRAINER_PLAYER] = CalculatePlayerPartyCount();
             if (sStorage->boxOption == OPTION_SELECT_MON)
             {
                 gSpecialVar_0x8004  = PARTY_MON_CANCEL;
@@ -3755,11 +3817,30 @@ static void Task_ChangeScreen(u8 taskId)
     u8 mode, monIndex, maxMonIndex;
     u8 screenChangeType = sStorage->screenChangeType;
 
-    if (sStorage->boxOption == OPTION_MOVE_ITEMS && IsMovingItem() == TRUE)
-        sMovingItemId = GetMovingItemId();
-    else
-        sMovingItemId = ITEM_NONE;
+    if (sStorage->state == 0)
+    {
+        if (screenChangeType == SCREEN_CHANGE_EXIT_BOX && sPCExitSaving)
+        {
+            // The close animation already queued and sealed the final record.
+            // Do not start another save for clocks ticking during the wait.
+            if (!PCStorageBusy()) sStorage->state = 1;
+            return;
+        }
+        if (sStorage->boxOption == OPTION_MOVE_ITEMS && IsMovingItem() == TRUE)
+            sMovingItemId = GetMovingItemId();
+        else
+            sMovingItemId = ITEM_NONE;
 
+        if (sIsMonBeingMoved) SaveMovingMon();
+        PCStorageCarryItem(sMovingItemId);
+        if (!(screenChangeType == SCREEN_CHANGE_EXIT_BOX ? PCStorageQueueClose() : PCStorageQueueSave(FALSE)))
+        {
+            PCStorageReportFault();
+            return;
+        }
+        sStorage->state = 1;
+        return;
+    }
     switch (screenChangeType)
     {
     case SCREEN_CHANGE_EXIT_BOX:
@@ -3807,10 +3888,11 @@ static void GiveChosenBagItem(void)
         else
         {
             SetCurrentBoxMonData(pos, MON_DATA_HELD_ITEM, &itemId);
-            SetMonFormPSS_ItemHold(&gPokemonStoragePtr->boxes[StorageGetCurrentBox()][pos]);
+            SetMonFormPSS_ItemHold(GetBoxedMonPtr(StorageGetCurrentBox(), pos));
         }
 
         RemoveBagItem(itemId, 1);
+        PCStorageRequestAutosave();
     }
 }
 
@@ -3822,7 +3904,6 @@ static void FreePokeStorageData(void)
     FreeAllWindowBuffers();
 }
 
-
 //------------------------------------------------------------------------------
 //  SECTION: Misc
 //
@@ -3830,7 +3911,6 @@ static void FreePokeStorageData(void)
 //  showing/hiding the party menu, updating the Close Box button, printing
 //  messages, doing the mosaic effect when transitioning between Pokémon, etc.
 //------------------------------------------------------------------------------
-
 
 static void SetScrollingBackground(void)
 {
@@ -4355,8 +4435,7 @@ static void AddWallpaperSetsMenu(void)
     SetMenuText(MENU_SCENERY_2);
     SetMenuText(MENU_SCENERY_3);
     SetMenuText(MENU_ETCETERA);
-    if (IsWaldaWallpaperUnlocked())
-        SetMenuText(MENU_FRIENDS);
+    ;
     AddMenu();
 }
 
@@ -4415,7 +4494,6 @@ static void InitCursorItemIcon(void)
     }
 }
 
-
 //------------------------------------------------------------------------------
 //  SECTION: Pokémon sprites
 //
@@ -4423,7 +4501,6 @@ static void InitCursorItemIcon(void)
 //  moving them with a scrolling box, shifting the party sprites, and
 //  animating released Pokémon.
 //------------------------------------------------------------------------------
-
 
 static void InitMonIconFields(void)
 {
@@ -5254,13 +5331,11 @@ static void DestroyBoxMonIcon(struct Sprite *sprite)
     DestroySprite(sprite);
 }
 
-
 //------------------------------------------------------------------------------
 //  SECTION: General box
 //
 //  Some basic box functions, including initializing the box and scrolling.
 //------------------------------------------------------------------------------
-
 
 #define tState  data[0]
 #define tDmaIdx data[1]
@@ -5385,11 +5460,9 @@ static s8 DetermineBoxScrollDirection(u8 boxId)
     return (i < TOTAL_BOXES_COUNT / 2) ? 1 : -1;
 }
 
-
 //------------------------------------------------------------------------------
 //  SECTION: Wallpaper gfx
 //------------------------------------------------------------------------------
-
 
 static void SetWallpaperForCurrentBox(u8 wallpaperId)
 {
@@ -5437,8 +5510,7 @@ static void LoadWallpaperGfx(u8 boxId, s8 direction)
 {
     u8 wallpaperId;
     const struct Wallpaper *wallpaper;
-    void *iconGfx;
-    u32 tilesSize, iconSize;
+    u32 tilesSize;
 
     sStorage->wallpaperLoadBoxId = boxId;
     sStorage->wallpaperLoadDir = direction;
@@ -5449,7 +5521,6 @@ static void LoadWallpaperGfx(u8 boxId, s8 direction)
     }
 
     wallpaperId = GetBoxWallpaper(sStorage->wallpaperLoadBoxId);
-    if (wallpaperId != WALLPAPER_FRIENDS)
     {
         wallpaper = &sWallpapers[wallpaperId];
         DecompressDataWithHeaderWram(wallpaper->tilemap, sStorage->wallpaperTilemap);
@@ -5461,27 +5532,6 @@ static void LoadWallpaperGfx(u8 boxId, s8 direction)
             CpuCopy16(wallpaper->palettes, &gPlttBufferUnfaded[BG_PLTT_ID(4) + BG_PLTT_ID(sStorage->wallpaperOffset * 2)], 2 * PLTT_SIZE_4BPP);
 
         sStorage->wallpaperTiles = malloc_and_decompress(wallpaper->tiles, &tilesSize);
-        LoadBgTiles(2, sStorage->wallpaperTiles, tilesSize, sStorage->wallpaperOffset << 8);
-    }
-    else
-    {
-        wallpaper = &sWaldaWallpapers[GetWaldaWallpaperPatternId()];
-        DecompressDataWithHeaderWram(wallpaper->tilemap, sStorage->wallpaperTilemap);
-        DrawWallpaper(sStorage->wallpaperTilemap, sStorage->wallpaperLoadDir, sStorage->wallpaperOffset);
-
-        CpuCopy16(wallpaper->palettes, sStorage->wallpaperTilemap, 0x40);
-        CpuCopy16(GetWaldaWallpaperColorsPtr(), &sStorage->wallpaperTilemap[1], 4);
-        CpuCopy16(GetWaldaWallpaperColorsPtr(), &sStorage->wallpaperTilemap[17], 4);
-
-        if (sStorage->wallpaperLoadDir != 0)
-            LoadPalette(sStorage->wallpaperTilemap, BG_PLTT_ID(4) + BG_PLTT_ID(sStorage->wallpaperOffset * 2), 2 * PLTT_SIZE_4BPP);
-        else
-            CpuCopy16(sStorage->wallpaperTilemap, &gPlttBufferUnfaded[BG_PLTT_ID(4) + BG_PLTT_ID(sStorage->wallpaperOffset * 2)], 2 * PLTT_SIZE_4BPP);
-
-        sStorage->wallpaperTiles = malloc_and_decompress(wallpaper->tiles, &tilesSize);
-        iconGfx = malloc_and_decompress(sWaldaWallpaperIcons[GetWaldaWallpaperIconId()], &iconSize);
-        CpuCopy32(iconGfx, sStorage->wallpaperTiles + 0x800, iconSize);
-        Free(iconGfx);
         LoadBgTiles(2, sStorage->wallpaperTiles, tilesSize, sStorage->wallpaperOffset << 8);
     }
 
@@ -5538,11 +5588,9 @@ static void TrimOldWallpaper(void *tilemap)
     }
 }
 
-
 //------------------------------------------------------------------------------
 //  SECTION: Box Title
 //------------------------------------------------------------------------------
-
 
 static void InitBoxTitle(u8 boxId)
 {
@@ -5701,11 +5749,9 @@ static s16 GetBoxTitleBaseX(const u8 *string)
     return DISPLAY_WIDTH - 64 - GetStringWidth(FONT_NORMAL, string, 0) / 2;
 }
 
-
 //------------------------------------------------------------------------------
 //  SECTION: Scroll arrows
 //------------------------------------------------------------------------------
-
 
 // Sprite data for box scroll arrows
 #define sState data[0]
@@ -5854,14 +5900,12 @@ static struct Sprite *CreateChooseBoxArrows(u16 x, u16 y, u8 animId, u8 priority
     return &gSprites[spriteId];
 }
 
-
 //------------------------------------------------------------------------------
 //  SECTION: Cursor movement
 //
 //  The functions below generally handle the cursor's movement, including
 //  moving around the box and picking up/putting down Pokémon.
 //------------------------------------------------------------------------------
-
 
 static void InitCursor(void)
 {
@@ -5891,6 +5935,7 @@ static void InitCursorOnReopen(void)
     if (sIsMonBeingMoved)
     {
         sStorage->movingMon = sSavedMovingMon;
+        PCStorageCarrySingle(sMovingMonOrigBoxId, sMovingMonOrigBoxPos, &sStorage->movingMon);
         CreateMovingMonIcon();
     }
 }
@@ -6369,7 +6414,6 @@ static bool8 MonPlaceChange_CursorUp(void)
     return TRUE;
 }
 
-
 //------------------------------------------------------------------------------
 //  SECTION: Pokémon data
 //
@@ -6377,7 +6421,6 @@ static bool8 MonPlaceChange_CursorUp(void)
 //  including changing the positions of Pokémon, releasing Pokémon, viewing the
 //  summary screen, and updating the display of the currently selected Pokémon.
 //------------------------------------------------------------------------------
-
 
 static void MoveMon(void)
 {
@@ -6417,13 +6460,15 @@ static void PlaceMon(void)
         boxId = StorageGetCurrentBox();
         SetPlacedMonData(boxId, sCursorPosition);
         SetPlacedMonSprite(boxId, sCursorPosition);
-        UpdateSpeciesSpritePSS(&gPokemonStoragePtr->boxes[boxId][sCursorPosition]);
+        UpdateSpeciesSpritePSS(GetBoxedMonPtr(boxId, sCursorPosition));
         break;
     default:
         return;
     }
 
     sIsMonBeingMoved = FALSE;
+    PCStorageCarryEnd();
+    PCStorageRequestAutosave();
 }
 
 static void RefreshDisplayMon(void)
@@ -6444,7 +6489,9 @@ static void SetMovingMonData(u8 boxId, u8 position)
         BoxMonAtToMon(boxId, position, &sStorage->movingMon);
     }
 
+    PCStorageCarrySingle(boxId, position, &sStorage->movingMon);
     PurgeMonOrBoxMon(boxId, position);
+    PCStorageRequestAutosave();
     sMovingMonOrigBoxId = boxId;
     sMovingMonOrigBoxPos = position;
 }
@@ -6465,7 +6512,7 @@ static void SetPlacedMonData(u8 boxId, u8 position)
     else
     {
         SetBoxMonAt(boxId, position, &sStorage->movingMon.box);
-        SetMonFormPSS(&gPokemonStoragePtr->boxes[boxId][position], FORM_CHANGE_DEPOSIT);
+        SetMonFormPSS(GetBoxedMonPtr(boxId, position), FORM_CHANGE_DEPOSIT);
     }
 }
 
@@ -6486,6 +6533,8 @@ static void SetShiftedMonData(u8 boxId, u8 position)
 
     SetPlacedMonData(boxId, position);
     sStorage->movingMon = sStorage->tempMon;
+    PCStorageCarrySingle(boxId, position, &sStorage->movingMon);
+    PCStorageRequestAutosave();
     SetDisplayMonData(&sStorage->movingMon, MODE_PARTY);
     sMovingMonOrigBoxId = boxId;
     sMovingMonOrigBoxPos = position;
@@ -6510,6 +6559,8 @@ static bool8 TryStorePartyMonInBox(u8 boxId)
         DestroyPartyMonIcon(sCursorPosition);
     }
 
+    PCStorageCarryEnd();
+    PCStorageRequestAutosave();
     if (boxId == StorageGetCurrentBox())
         CreateBoxMonIconAtPos(boxPosition);
 
@@ -6580,6 +6631,8 @@ static void ReleaseMon(void)
         if (item != ITEM_NONE)
             AddBagItem(item, 1);
     }
+    PCStorageCarryEnd();
+    PCStorageRequestAutosave();
     TryRefreshDisplayMon();
 }
 
@@ -6602,10 +6655,6 @@ struct
 {
     {MAP_GROUPS_COUNT, 0, MOVE_SURF},
     {MAP_GROUPS_COUNT, 0, MOVE_DIVE},
-    {MAP_GROUP(MAP_EVER_GRANDE_CITY_POKEMON_LEAGUE_1F), MAP_NUM(MAP_EVER_GRANDE_CITY_POKEMON_LEAGUE_1F), MOVE_STRENGTH},
-    {MAP_GROUP(MAP_EVER_GRANDE_CITY_POKEMON_LEAGUE_1F), MAP_NUM(MAP_EVER_GRANDE_CITY_POKEMON_LEAGUE_1F), MOVE_ROCK_SMASH},
-    {MAP_GROUP(MAP_EVER_GRANDE_CITY_POKEMON_LEAGUE_2F), MAP_NUM(MAP_EVER_GRANDE_CITY_POKEMON_LEAGUE_2F), MOVE_STRENGTH},
-    {MAP_GROUP(MAP_EVER_GRANDE_CITY_POKEMON_LEAGUE_2F), MAP_NUM(MAP_EVER_GRANDE_CITY_POKEMON_LEAGUE_2F), MOVE_ROCK_SMASH},
 };
 
 static void GetRestrictedReleaseMoves(u16 *moves)
@@ -6615,8 +6664,8 @@ static void GetRestrictedReleaseMoves(u16 *moves)
     for (i = 0; i < ARRAY_COUNT(sRestrictedReleaseMoves); i++)
     {
         if (sRestrictedReleaseMoves[i].mapGroup == MAP_GROUPS_COUNT
-        || (sRestrictedReleaseMoves[i].mapGroup == gSaveBlock1Ptr->location.mapGroup
-         && sRestrictedReleaseMoves[i].mapNum == gSaveBlock1Ptr->location.mapNum))
+        || (sRestrictedReleaseMoves[i].mapGroup == gSaveData.location.mapGroup
+         && sRestrictedReleaseMoves[i].mapNum == gSaveData.location.mapNum))
         {
             *moves = sRestrictedReleaseMoves[i].move;
             moves++;
@@ -6683,7 +6732,7 @@ static bool32 AtLeastThreeUsableMons(void)
     // Check party for usable Pokémon
     for (j = 0; j < PARTY_SIZE; j++)
     {
-        if (GetMonData(&gParties[B_TRAINER_PLAYER][j], MON_DATA_SANITY_HAS_SPECIES))
+        if (GetMonData(&gParties[B_TRAINER_PLAYER][j], MON_DATA_SPECIES))
             count++;
     }
 
@@ -6695,7 +6744,7 @@ static bool32 AtLeastThreeUsableMons(void)
     {
         for (j = 0; j < IN_BOX_COUNT; j++)
         {
-            if (CheckBoxMonSanityAt(i, j))
+            if (IsBoxMonNonEggAt(i, j))
             {
                 if (++count >= 3)
                     return TRUE;
@@ -6786,7 +6835,10 @@ static s8 RunCanReleaseMon(void)
 static void SaveMovingMon(void)
 {
     if (sIsMonBeingMoved)
+    {
         sSavedMovingMon = sStorage->movingMon;
+        PCStorageCarrySingle(sMovingMonOrigBoxId, sMovingMonOrigBoxPos, &sSavedMovingMon);
+    }
 }
 
 static void LoadSavedMovingMon(void)
@@ -6863,6 +6915,7 @@ s16 CompactPartySlots(void)
 
 static void SetMonMarkings(u8 markings)
 {
+    PCStorageRequestAutosave();
     sStorage->displayMonMarkings = markings;
     if (sIsMonBeingMoved)
     {
@@ -6973,13 +7026,19 @@ static void ReshowDisplayMon(void)
 void SetMonFormPSS(struct BoxPokemon *boxMon, enum FormChanges method)
 {
     if (TryBoxMonFormChange(boxMon, method))
+    {
         sRefreshDisplayMonGfx = TRUE;
+        PCStorageRequestAutosave();
+    }
 }
 
 void SetMonFormPSS_ItemHold(struct BoxPokemon *boxMon)
 {
     if (TryBoxMonFormChange(boxMon, FORM_CHANGE_ITEM_HOLD))
+    {
         sRefreshDisplayMonGfx = TRUE;
+        PCStorageRequestAutosave();
+    }
     UpdateSpeciesSpritePSS(boxMon);
 }
 
@@ -6987,11 +7046,9 @@ static void SetDisplayMonData(void *pokemon, u8 mode)
 {
     u8 *txtPtr;
     u16 gender;
-    bool8 sanityIsBadEgg;
 
     sStorage->displayMonItemId = ITEM_NONE;
     gender = MON_MALE;
-    sanityIsBadEgg = FALSE;
     if (mode == MODE_PARTY)
     {
         struct Pokemon *mon = (struct Pokemon *)pokemon;
@@ -6999,11 +7056,7 @@ static void SetDisplayMonData(void *pokemon, u8 mode)
         sStorage->displayMonSpecies = GetMonData(mon, MON_DATA_SPECIES);
         if (sStorage->displayMonSpecies != SPECIES_NONE)
         {
-            sanityIsBadEgg = GetMonData(mon, MON_DATA_SANITY_IS_BAD_EGG);
-            if (sanityIsBadEgg)
-                sStorage->displayMonIsEgg = TRUE;
-            else
-                sStorage->displayMonIsEgg = GetMonData(mon, MON_DATA_IS_EGG);
+            sStorage->displayMonIsEgg = GetMonData(mon, MON_DATA_IS_EGG);
 
             GetMonData(mon, MON_DATA_NICKNAME, sStorage->displayMonName);
             StringGet_Nickname(sStorage->displayMonName);
@@ -7023,12 +7076,6 @@ static void SetDisplayMonData(void *pokemon, u8 mode)
         if (sStorage->displayMonSpecies != SPECIES_NONE)
         {
             bool32 isShiny = GetBoxMonData(boxMon, MON_DATA_IS_SHINY);
-            sanityIsBadEgg = GetBoxMonData(boxMon, MON_DATA_SANITY_IS_BAD_EGG);
-            if (sanityIsBadEgg)
-                sStorage->displayMonIsEgg = TRUE;
-            else
-                sStorage->displayMonIsEgg = GetBoxMonData(boxMon, MON_DATA_IS_EGG);
-
             GetBoxMonData(boxMon, MON_DATA_NICKNAME, sStorage->displayMonName);
             StringGet_Nickname(sStorage->displayMonName);
             sStorage->displayMonLevel = GetLevelFromBoxMonExp(boxMon);
@@ -7056,10 +7103,7 @@ static void SetDisplayMonData(void *pokemon, u8 mode)
     }
     else if (sStorage->displayMonIsEgg)
     {
-        if (sanityIsBadEgg)
-            StringCopyPadded(sStorage->displayMonNameText, sStorage->displayMonName, CHAR_SPACE, 5);
-        else
-            StringCopyPadded(sStorage->displayMonNameText, gText_EggNickname, CHAR_SPACE, 8);
+        StringCopyPadded(sStorage->displayMonNameText, gText_EggNickname, CHAR_SPACE, 8);
 
         StringFill(sStorage->displayMonSpeciesName, CHAR_SPACE, 8);
         StringFill(sStorage->displayMonGenderLvlText, CHAR_SPACE, 8);
@@ -7124,13 +7168,11 @@ static void SetDisplayMonData(void *pokemon, u8 mode)
     }
 }
 
-
 //------------------------------------------------------------------------------
 //  SECTION: Input handlers
 //
 //  The functions below process context-dependent input
 //------------------------------------------------------------------------------
-
 
 static u8 HandleInput_InBox(void)
 {
@@ -7263,7 +7305,7 @@ static u8 InBoxInput_Normal(void)
         if (JOY_NEW(B_BUTTON))
             return INPUT_PRESSED_B;
 
-        if (gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_LR)
+        if (gSaveData.optionsButtonMode == OPTIONS_BUTTON_MODE_LR)
         {
             if (JOY_HELD(L_BUTTON))
                 return INPUT_SCROLL_LEFT;
@@ -7432,7 +7474,7 @@ static u8 InBoxInput_MovingMultiple(void)
     }
     else
     {
-        if (gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_LR)
+        if (gSaveData.optionsButtonMode == OPTIONS_BUTTON_MODE_LR)
         {
             if (JOY_HELD(L_BUTTON))
                 return INPUT_SCROLL_LEFT;
@@ -7602,7 +7644,7 @@ static u8 HandleInput_OnBox(void)
         if (JOY_HELD(DPAD_RIGHT))
             return INPUT_SCROLL_RIGHT;
 
-        if (gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_LR)
+        if (gSaveData.optionsButtonMode == OPTIONS_BUTTON_MODE_LR)
         {
             if (JOY_HELD(L_BUTTON))
                 return INPUT_SCROLL_LEFT;
@@ -7864,13 +7906,11 @@ static bool8 SetMenuTexts_Item(void)
     return TRUE;
 }
 
-
 //------------------------------------------------------------------------------
 //  SECTION: Cursor
 //
 //  The functions below handle a few of the generic cursor features.
 //------------------------------------------------------------------------------
-
 
 static void SpriteCB_CursorShadow(struct Sprite *sprite)
 {
@@ -8047,14 +8087,12 @@ static void TryShowItemAtCursor(void)
         TryLoadItemIconAtPos(CURSOR_AREA_IN_BOX, sCursorPosition);
 }
 
-
 //------------------------------------------------------------------------------
 //  SECTION: Menu
 //
 //  The functions below handle the generic options menu that comes up whenever
 //  something in the PC is selected.
 //------------------------------------------------------------------------------
-
 
 static void InitMenu(void)
 {
@@ -8091,7 +8129,6 @@ static const u8 *const sMenuTexts[] =
     [MENU_SCENERY_2]  = COMPOUND_STRING("SCENERY 2"),
     [MENU_SCENERY_3]  = COMPOUND_STRING("SCENERY 3"),
     [MENU_ETCETERA]   = COMPOUND_STRING("ETCETERA"),
-    [MENU_FRIENDS]    = COMPOUND_STRING("FRIENDS"),
     [MENU_FOREST]     = COMPOUND_STRING("FOREST"),
     [MENU_CITY]       = COMPOUND_STRING("CITY"),
     [MENU_DESERT]     = COMPOUND_STRING("DESERT"),
@@ -8202,7 +8239,6 @@ static void RemoveMenu(void)
     RemoveWindow(sStorage->menuWindowId);
 }
 
-
 //------------------------------------------------------------------------------
 //  SECTION: MultiMove
 //
@@ -8210,7 +8246,6 @@ static void RemoveMenu(void)
 //  The icon sprites are moved to bg 0, and this bg is manipulated to move
 //  them as a group.
 //------------------------------------------------------------------------------
-
 
 static const struct WindowTemplate sWindowTemplate_MultiMove =
 {
@@ -8669,6 +8704,8 @@ static void MultiMove_GetMonsFromSelection(void)
 // them from their original positions
 static void MultiMove_RemoveMonsFromBox(void)
 {
+    PCStorageCarryGroup(StorageGetCurrentBox(), sMultiMove->minRow * IN_BOX_COLUMNS + sMultiMove->minColumn,
+        sMultiMove->columnsTotal, sMultiMove->rowsTotal, sMultiMove->boxMons);
     s32 i, j;
     s32 columnCount = sMultiMove->minColumn + sMultiMove->columnsTotal;
     s32 rowCount = sMultiMove->minRow + sMultiMove->rowsTotal;
@@ -8684,6 +8721,7 @@ static void MultiMove_RemoveMonsFromBox(void)
             boxPosition++;
         }
     }
+    PCStorageRequestAutosave();
 }
 
 static void MultiMove_CreatePlacedMonIcons(void)
@@ -8698,7 +8736,7 @@ static void MultiMove_CreatePlacedMonIcons(void)
         u8 boxPosition = (IN_BOX_COLUMNS * i) + sMultiMove->minColumn;
         for (j = sMultiMove->minColumn; j < columnCount; j++)
         {
-            if (GetBoxMonData(&sMultiMove->boxMons[monArrayId], MON_DATA_SANITY_HAS_SPECIES))
+            if (GetBoxMonData(&sMultiMove->boxMons[monArrayId], MON_DATA_SPECIES))
                 CreateBoxMonIconAtPos(boxPosition);
             monArrayId++;
             boxPosition++;
@@ -8721,12 +8759,14 @@ static void MultiMove_SetPlacedMonData(void)
         {
             if (OW_PC_HEAL <= GEN_7)
                 HealBoxPokemon(&sMultiMove->boxMons[monArrayId]);
-            if (GetBoxMonData(&sMultiMove->boxMons[monArrayId], MON_DATA_SANITY_HAS_SPECIES))
+            if (GetBoxMonData(&sMultiMove->boxMons[monArrayId], MON_DATA_SPECIES))
                 SetBoxMonAt(boxId, boxPosition, &sMultiMove->boxMons[monArrayId]);
             boxPosition++;
             monArrayId++;
         }
     }
+    PCStorageCarryEnd();
+    PCStorageRequestAutosave();
 }
 
 static void MultiMove_ResetBg(void)
@@ -8756,8 +8796,8 @@ static bool8 MultiMove_CanPlaceSelection(void)
         u8 boxPosition = (IN_BOX_COLUMNS * i) + sMultiMove->minColumn;
         for (j = sMultiMove->minColumn; j < columnCount; j++)
         {
-            if (GetBoxMonData(&sMultiMove->boxMons[monArrayId], MON_DATA_SANITY_HAS_SPECIES)
-                && GetCurrentBoxMonData(boxPosition, MON_DATA_SANITY_HAS_SPECIES))
+            if (GetBoxMonData(&sMultiMove->boxMons[monArrayId], MON_DATA_SPECIES)
+                && GetCurrentBoxMonData(boxPosition, MON_DATA_SPECIES))
                 return FALSE;
 
             monArrayId++;
@@ -8767,13 +8807,11 @@ static bool8 MultiMove_CanPlaceSelection(void)
     return TRUE;
 }
 
-
 //------------------------------------------------------------------------------
 //  SECTION: Item mode
 //
 //  The functions below handle the Move Items mode
 //------------------------------------------------------------------------------
-
 
 static const u32 sItemInfoFrame_Gfx[] = INCGFX_U32("graphics/pokemon_storage/item_info_frame.png", ".4bpp");
 
@@ -8907,12 +8945,12 @@ static void TryLoadItemIconAtPos(u8 cursorArea, u8 cursorPos)
     switch (cursorArea)
     {
     case CURSOR_AREA_IN_BOX:
-        if (!GetCurrentBoxMonData(cursorPos, MON_DATA_SANITY_HAS_SPECIES))
+        if (!GetCurrentBoxMonData(cursorPos, MON_DATA_SPECIES))
             return;
         heldItem = GetCurrentBoxMonData(cursorPos, MON_DATA_HELD_ITEM);
         break;
     case CURSOR_AREA_IN_PARTY:
-        if (cursorPos >= PARTY_SIZE || !GetMonData(&gParties[B_TRAINER_PLAYER][cursorPos], MON_DATA_SANITY_HAS_SPECIES))
+        if (cursorPos >= PARTY_SIZE || !GetMonData(&gParties[B_TRAINER_PLAYER][cursorPos], MON_DATA_SPECIES))
             return;
         heldItem = GetMonData(&gParties[B_TRAINER_PLAYER][cursorPos], MON_DATA_HELD_ITEM);
         break;
@@ -8962,7 +9000,7 @@ static void TakeItemFromMon(u8 cursorArea, u8 cursorPos)
     {
         SetCurrentBoxMonData(cursorPos, MON_DATA_HELD_ITEM, &itemId);
         SetBoxMonIconObjMode(cursorPos, ST_OAM_OBJ_BLEND);
-        SetMonFormPSS_ItemHold(&gPokemonStoragePtr->boxes[StorageGetCurrentBox()][cursorPos]);
+        SetMonFormPSS_ItemHold(GetBoxedMonPtr(StorageGetCurrentBox(), cursorPos));
     }
     else
     {
@@ -8973,6 +9011,7 @@ static void TakeItemFromMon(u8 cursorArea, u8 cursorPos)
     }
 
     sStorage->movingItemId = sStorage->displayMonItemId;
+    PCStorageCarryItem(sStorage->movingItemId);
 }
 
 static void InitItemIconInCursor(enum Item itemId)
@@ -8986,6 +9025,7 @@ static void InitItemIconInCursor(enum Item itemId)
     SetItemIconPosition(id, CURSOR_AREA_IN_HAND, 0);
     SetItemIconActive(id, TRUE);
     sStorage->movingItemId = itemId;
+    PCStorageCarryItem(itemId);
 }
 
 static void SwapItemsWithMon(u8 cursorArea, u8 cursorPos)
@@ -9004,7 +9044,7 @@ static void SwapItemsWithMon(u8 cursorArea, u8 cursorPos)
         itemId = GetCurrentBoxMonData(cursorPos, MON_DATA_HELD_ITEM);
         SetCurrentBoxMonData(cursorPos, MON_DATA_HELD_ITEM, &sStorage->movingItemId);
         sStorage->movingItemId = itemId;
-        SetMonFormPSS_ItemHold(&gPokemonStoragePtr->boxes[StorageGetCurrentBox()][cursorPos]);
+        SetMonFormPSS_ItemHold(GetBoxedMonPtr(StorageGetCurrentBox(), cursorPos));
     }
     else
     {
@@ -9018,6 +9058,7 @@ static void SwapItemsWithMon(u8 cursorArea, u8 cursorPos)
     id = GetItemIconIdxByPosition(CURSOR_AREA_IN_HAND, 0);
     SetItemIconAffineAnim(id, ITEM_ANIM_PUT_DOWN);
     SetItemIconCallback(id, ITEM_CB_SWAP_TO_MON, cursorArea, cursorPos);
+    PCStorageCarryItem(sStorage->movingItemId);
 }
 
 static void GiveItemToMon(u8 cursorArea, u8 cursorPos)
@@ -9034,7 +9075,7 @@ static void GiveItemToMon(u8 cursorArea, u8 cursorPos)
     {
         SetCurrentBoxMonData(cursorPos, MON_DATA_HELD_ITEM, &sStorage->movingItemId);
         SetBoxMonIconObjMode(cursorPos, ST_OAM_OBJ_NORMAL);
-        SetMonFormPSS_ItemHold(&gPokemonStoragePtr->boxes[StorageGetCurrentBox()][cursorPos]);
+        SetMonFormPSS_ItemHold(GetBoxedMonPtr(StorageGetCurrentBox(), cursorPos));
     }
     else
     {
@@ -9043,6 +9084,8 @@ static void GiveItemToMon(u8 cursorArea, u8 cursorPos)
         SetPartyMonIconObjMode(cursorPos, ST_OAM_OBJ_NORMAL);
         SetMonFormPSS_ItemHold(&mon->box);
     }
+    // Ownership changes now, even while the icon is still flying to the mon.
+    PCStorageCarryItem(ITEM_NONE);
 }
 
 static void MoveItemFromMonToBag(u8 cursorArea, u8 cursorPos)
@@ -9053,6 +9096,7 @@ static void MoveItemFromMonToBag(u8 cursorArea, u8 cursorPos)
     if (sStorage->boxOption != OPTION_MOVE_ITEMS)
         return;
 
+    PCStorageRequestAutosave();
     itemId = ITEM_NONE;
     id = GetItemIconIdxByPosition(cursorArea, cursorPos);
     SetItemIconAffineAnim(id, ITEM_ANIM_DISAPPEAR);
@@ -9061,7 +9105,7 @@ static void MoveItemFromMonToBag(u8 cursorArea, u8 cursorPos)
     {
         SetCurrentBoxMonData(cursorPos, MON_DATA_HELD_ITEM, &itemId);
         SetBoxMonIconObjMode(cursorPos, ST_OAM_OBJ_BLEND);
-        SetMonFormPSS_ItemHold(&gPokemonStoragePtr->boxes[StorageGetCurrentBox()][cursorPos]);
+        SetMonFormPSS_ItemHold(GetBoxedMonPtr(StorageGetCurrentBox(), cursorPos));
     }
     else
     {
@@ -9079,6 +9123,7 @@ static void MoveItemFromCursorToBag(void)
         u8 id = GetItemIconIdxByPosition(CURSOR_AREA_IN_HAND, 0);
         SetItemIconAffineAnim(id, ITEM_ANIM_PUT_AWAY);
         SetItemIconCallback(id, ITEM_CB_WAIT_ANIM, CURSOR_AREA_IN_HAND, 0);
+        PCStorageCarryItem(ITEM_NONE);
     }
 }
 
@@ -9526,7 +9571,6 @@ static void SpriteCB_ItemIcon_HideParty(struct Sprite *sprite)
 #undef sCursorArea
 #undef sCursorPos
 
-
 //------------------------------------------------------------------------------
 //  SECTION: General utility
 //------------------------------------------------------------------------------
@@ -9534,13 +9578,16 @@ static void SpriteCB_ItemIcon_HideParty(struct Sprite *sprite)
 // Functions here are general utility functions.
 u8 StorageGetCurrentBox(void)
 {
-    return gPokemonStoragePtr->currentBox;
+    return gSaveData.currentBox;
 }
 
 static void SetCurrentBox(u8 boxId)
 {
     if (boxId < TOTAL_BOXES_COUNT)
-        gPokemonStoragePtr->currentBox = boxId;
+    {
+        gSaveData.currentBox = boxId;
+        PCStorageWindow(boxId);
+    }
 }
 
 static struct BoxPokemon *GetCursorBoxMon(void)
@@ -9556,7 +9603,7 @@ static struct BoxPokemon *GetCursorBoxMon(void)
 u32 GetBoxMonDataAt(u8 boxId, u8 boxPosition, s32 request)
 {
     if (boxId < TOTAL_BOXES_COUNT && boxPosition < IN_BOX_COUNT)
-        return GetBoxMonData(&gPokemonStoragePtr->boxes[boxId][boxPosition], request);
+        return GetBoxMonData(GetBoxedMonPtr(boxId, boxPosition), request);
     else
         return 0;
 }
@@ -9564,23 +9611,26 @@ u32 GetBoxMonDataAt(u8 boxId, u8 boxPosition, s32 request)
 void SetBoxMonDataAt(u8 boxId, u8 boxPosition, s32 request, const void *value)
 {
     if (boxId < TOTAL_BOXES_COUNT && boxPosition < IN_BOX_COUNT)
-        SetBoxMonData(&gPokemonStoragePtr->boxes[boxId][boxPosition], request, value);
+    {
+        SetBoxMonData(GetBoxedMonPtr(boxId, boxPosition), request, value);
+        PCStorageRequestAutosave();
+    }
 }
 
 u32 GetCurrentBoxMonData(u8 boxPosition, s32 request)
 {
-    return GetBoxMonDataAt(gPokemonStoragePtr->currentBox, boxPosition, request);
+    return GetBoxMonDataAt(gSaveData.currentBox, boxPosition, request);
 }
 
 void SetCurrentBoxMonData(u8 boxPosition, s32 request, const void *value)
 {
-    SetBoxMonDataAt(gPokemonStoragePtr->currentBox, boxPosition, request, value);
+    SetBoxMonDataAt(gSaveData.currentBox, boxPosition, request, value);
 }
 
 u32 GetAndCopyBoxMonDataAt(u8 boxId, u8 boxPosition, s32 request, void *dst)
 {
     if (boxId < TOTAL_BOXES_COUNT && boxPosition < IN_BOX_COUNT)
-        return GetBoxMonData(&gPokemonStoragePtr->boxes[boxId][boxPosition], request, dst);
+        return GetBoxMonData(GetBoxedMonPtr(boxId, boxPosition), request, dst);
     else
         return 0;
 }
@@ -9588,25 +9638,32 @@ u32 GetAndCopyBoxMonDataAt(u8 boxId, u8 boxPosition, s32 request, void *dst)
 void SetBoxMonAt(u8 boxId, u8 boxPosition, struct BoxPokemon *src)
 {
     if (boxId < TOTAL_BOXES_COUNT && boxPosition < IN_BOX_COUNT)
-        gPokemonStoragePtr->boxes[boxId][boxPosition] = *src;
+    {
+        struct BoxPokemon copy = *src;
+        *GetBoxedMonPtr(boxId, boxPosition) = copy;
+        PCStorageRequestAutosave();
+    }
 }
 
 void ZeroBoxMonAt(u8 boxId, u8 boxPosition)
 {
     if (boxId < TOTAL_BOXES_COUNT && boxPosition < IN_BOX_COUNT)
-        ZeroBoxMonData(&gPokemonStoragePtr->boxes[boxId][boxPosition]);
+    {
+        ZeroBoxMonData(GetBoxedMonPtr(boxId, boxPosition));
+        PCStorageRequestAutosave();
+    }
 }
 
 void BoxMonAtToMon(u8 boxId, u8 boxPosition, struct Pokemon *dst)
 {
     if (boxId < TOTAL_BOXES_COUNT && boxPosition < IN_BOX_COUNT)
-        BoxMonToMon(&gPokemonStoragePtr->boxes[boxId][boxPosition], dst);
+        BoxMonToMon(GetBoxedMonPtr(boxId, boxPosition), dst);
 }
 
 struct BoxPokemon *GetBoxedMonPtr(u8 boxId, u8 boxPosition)
 {
     if (boxId < TOTAL_BOXES_COUNT && boxPosition < IN_BOX_COUNT)
-        return &gPokemonStoragePtr->boxes[boxId][boxPosition];
+        return &PCStorageBox(boxId)[boxPosition];
     else
         return NULL;
 }
@@ -9614,7 +9671,7 @@ struct BoxPokemon *GetBoxedMonPtr(u8 boxId, u8 boxPosition)
 u8 *GetBoxNamePtr(u8 boxId)
 {
     if (boxId < TOTAL_BOXES_COUNT)
-        return gPokemonStoragePtr->boxNames[boxId];
+        return gSaveData.boxNames[boxId];
     else
         return NULL;
 }
@@ -9622,7 +9679,7 @@ u8 *GetBoxNamePtr(u8 boxId)
 static u8 GetBoxWallpaper(u8 boxId)
 {
     if (boxId < TOTAL_BOXES_COUNT)
-        return gPokemonStoragePtr->boxWallpapers[boxId];
+        return gSaveData.boxWallpapers[boxId];
     else
         return 0;
 }
@@ -9630,7 +9687,10 @@ static u8 GetBoxWallpaper(u8 boxId)
 static void SetBoxWallpaper(u8 boxId, u8 wallpaperId)
 {
     if (boxId < TOTAL_BOXES_COUNT && wallpaperId < WALLPAPER_COUNT)
-        gPokemonStoragePtr->boxWallpapers[boxId] = wallpaperId;
+    {
+        gSaveData.boxWallpapers[boxId] = wallpaperId;
+        PCStorageRequestAutosave();
+    }
 }
 
 // For moving to the next Pokémon while viewing the summary screen
@@ -9671,7 +9731,7 @@ bool8 CheckFreePokemonStorageSpace(void)
     {
         for (j = 0; j < IN_BOX_COUNT; j++)
         {
-            if (!GetBoxMonData(&gPokemonStoragePtr->boxes[i][j], MON_DATA_SANITY_HAS_SPECIES))
+            if (!GetBoxMonData(GetBoxedMonPtr(i, j), MON_DATA_SPECIES))
                 return TRUE;
         }
     }
@@ -9679,13 +9739,12 @@ bool8 CheckFreePokemonStorageSpace(void)
     return FALSE;
 }
 
-bool32 CheckBoxMonSanityAt(u32 boxId, u32 boxPosition)
+bool32 IsBoxMonNonEggAt(u32 boxId, u32 boxPosition)
 {
     if (boxId < TOTAL_BOXES_COUNT
         && boxPosition < IN_BOX_COUNT
-        && GetBoxMonData(&gPokemonStoragePtr->boxes[boxId][boxPosition], MON_DATA_SANITY_HAS_SPECIES)
-        && !GetBoxMonData(&gPokemonStoragePtr->boxes[boxId][boxPosition], MON_DATA_SANITY_IS_EGG)
-        && !GetBoxMonData(&gPokemonStoragePtr->boxes[boxId][boxPosition], MON_DATA_SANITY_IS_BAD_EGG))
+        && GetBoxMonData(GetBoxedMonPtr(boxId, boxPosition), MON_DATA_SPECIES)
+        && !GetBoxMonData(GetBoxedMonPtr(boxId, boxPosition), MON_DATA_IS_EGG))
         return TRUE;
     else
         return FALSE;
@@ -9700,8 +9759,8 @@ u32 CountStorageNonEggMons(void)
     {
         for (j = 0; j < IN_BOX_COUNT; j++)
         {
-            if (GetBoxMonData(&gPokemonStoragePtr->boxes[i][j], MON_DATA_SANITY_HAS_SPECIES)
-                && !GetBoxMonData(&gPokemonStoragePtr->boxes[i][j], MON_DATA_SANITY_IS_EGG))
+            if (GetBoxMonData(GetBoxedMonPtr(i, j), MON_DATA_SPECIES)
+                && !GetBoxMonData(GetBoxedMonPtr(i, j), MON_DATA_IS_EGG))
                 count++;
         }
     }
@@ -9718,9 +9777,9 @@ bool32 AnyStorageMonWithMove(enum Move move)
     {
         for (j = 0; j < IN_BOX_COUNT; j++)
         {
-            if (GetBoxMonData(&gPokemonStoragePtr->boxes[i][j], MON_DATA_SANITY_HAS_SPECIES)
-                && !GetBoxMonData(&gPokemonStoragePtr->boxes[i][j], MON_DATA_SANITY_IS_EGG)
-                && GetBoxMonData(&gPokemonStoragePtr->boxes[i][j], MON_DATA_KNOWN_MOVES, (u8 *)moves))
+            if (GetBoxMonData(GetBoxedMonPtr(i, j), MON_DATA_SPECIES)
+                && !GetBoxMonData(GetBoxedMonPtr(i, j), MON_DATA_IS_EGG)
+                && GetBoxMonData(GetBoxedMonPtr(i, j), MON_DATA_KNOWN_MOVES, (u8 *)moves))
                 return TRUE;
         }
     }
@@ -9728,80 +9787,8 @@ bool32 AnyStorageMonWithMove(enum Move move)
     return FALSE;
 }
 
-
 //------------------------------------------------------------------------------
-//  SECTION: Walda
 //------------------------------------------------------------------------------
-
-
-void ResetWaldaWallpaper(void)
-{
-    gSaveBlock1Ptr->waldaPhrase.iconId = 0;
-    gSaveBlock1Ptr->waldaPhrase.patternId = 0;
-    gSaveBlock1Ptr->waldaPhrase.patternUnlocked = FALSE;
-    gSaveBlock1Ptr->waldaPhrase.colors[0] = RGB(21, 25, 30);
-    gSaveBlock1Ptr->waldaPhrase.colors[1] = RGB(6, 12, 24);
-    gSaveBlock1Ptr->waldaPhrase.text[0] = EOS;
-}
-
-void SetWaldaWallpaperLockedOrUnlocked(bool32 unlocked)
-{
-    gSaveBlock1Ptr->waldaPhrase.patternUnlocked = unlocked;
-}
-
-bool32 IsWaldaWallpaperUnlocked(void)
-{
-    return gSaveBlock1Ptr->waldaPhrase.patternUnlocked;
-}
-
-u32 GetWaldaWallpaperPatternId(void)
-{
-    return gSaveBlock1Ptr->waldaPhrase.patternId;
-}
-
-void SetWaldaWallpaperPatternId(u8 id)
-{
-    if (id < ARRAY_COUNT(sWaldaWallpapers))
-        gSaveBlock1Ptr->waldaPhrase.patternId = id;
-}
-
-u32 GetWaldaWallpaperIconId(void)
-{
-    return gSaveBlock1Ptr->waldaPhrase.iconId;
-}
-
-void SetWaldaWallpaperIconId(u8 id)
-{
-    if (id < ARRAY_COUNT(sWaldaWallpaperIcons))
-        gSaveBlock1Ptr->waldaPhrase.iconId = id;
-}
-
-u16 *GetWaldaWallpaperColorsPtr(void)
-{
-    return gSaveBlock1Ptr->waldaPhrase.colors;
-}
-
-void SetWaldaWallpaperColors(u16 color1, u16 color2)
-{
-    gSaveBlock1Ptr->waldaPhrase.colors[0] = color1;
-    gSaveBlock1Ptr->waldaPhrase.colors[1] = color2;
-}
-
-u8 *GetWaldaPhrasePtr(void)
-{
-    return gSaveBlock1Ptr->waldaPhrase.text;
-}
-
-void SetWaldaPhrase(const u8 *src)
-{
-    StringCopy(gSaveBlock1Ptr->waldaPhrase.text, src);
-}
-
-bool32 IsWaldaPhraseEmpty(void)
-{
-    return (gSaveBlock1Ptr->waldaPhrase.text[0] == EOS);
-}
-
 
 //------------------------------------------------------------------------------
 //  SECTION: TilemapUtil
@@ -9814,7 +9801,6 @@ bool32 IsWaldaPhraseEmpty(void)
 //  reveals one at a time.
 //  Each tilemap is tracked with a TILEMAPID that can be used to reference it.
 //------------------------------------------------------------------------------
-
 
 struct TilemapUtil_RectData
 {
@@ -10042,7 +10028,6 @@ static void TilemapUtil_Draw(u8 id)
     }
 }
 
-
 //------------------------------------------------------------------------------
 //  SECTION: UnkUtil
 //
@@ -10089,6 +10074,14 @@ void UpdateSpeciesSpritePSS(struct BoxPokemon *boxMon)
 
 void ChooseMonFromStorage(void)
 {
+    if (!PCStorageOpen())
+    {
+        gSpecialVar_0x8004 = PARTY_MON_CANCEL;
+        gSpecialVar_Result = FALSE;
+        if (PCStorageFaulted()) PCStorageReportFault();
+        else SetMainCallback2(CB2_ReturnToFieldContinueScript);
+        return;
+    }
     EnterPokeStorage(OPTION_SELECT_MON);
 }
 
@@ -10096,5 +10089,7 @@ void RemoveSelectedPcMon(struct Pokemon *mon)
 {
     struct BoxPokemon *boxmon = GetBoxedMonPtr(gSpecialVar_MonBoxId, gSpecialVar_MonBoxPos);
     BoxMonToMon(boxmon, mon);
+    PCStorageCarrySingle(gSpecialVar_MonBoxId, gSpecialVar_MonBoxPos, mon);
     ZeroBoxMonData(boxmon);
+    PCStorageAutosave();
 }

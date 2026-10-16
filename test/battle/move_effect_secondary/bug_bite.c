@@ -4,7 +4,7 @@
 ASSUMPTIONS
 {
     ASSUME(MoveHasAdditionalEffect(MOVE_BUG_BITE, MOVE_EFFECT_BUG_BITE));
-    ASSUME(GetMovePP(MOVE_BUG_BITE) == 20);
+    ASSUME(GetMovePP(MOVE_BUG_BITE) == 32);
 }
 
 // Pretty much copy/paste of the Berry Fling Test.
@@ -18,7 +18,6 @@ SINGLE_BATTLE_TEST("Bug Bite eats the target's berry and immediately gains its e
     PARAMETRIZE { item = ITEM_NONE; }
     PARAMETRIZE { item = ITEM_ORAN_BERRY; effect = HOLD_EFFECT_RESTORE_HP; }
     PARAMETRIZE { item = ITEM_SITRUS_BERRY; effect = HOLD_EFFECT_RESTORE_HP; }
-    PARAMETRIZE { item = ITEM_ENIGMA_BERRY; effect = HOLD_EFFECT_ENIGMA_BERRY; }
     PARAMETRIZE { item = ITEM_LEPPA_BERRY; effect = HOLD_EFFECT_RESTORE_PP; }
     PARAMETRIZE { item = ITEM_CHESTO_BERRY; effect = HOLD_EFFECT_CURE_SLP; status1 = STATUS1_SLEEP; }
     PARAMETRIZE { item = ITEM_CHERI_BERRY; effect = HOLD_EFFECT_CURE_PAR; status1 = STATUS1_PARALYSIS; }
@@ -93,7 +92,7 @@ SINGLE_BATTLE_TEST("Bug Bite eats the target's berry and immediately gains its e
         if (effect == HOLD_EFFECT_RESTORE_HP) {
             EXPECT_EQ(player->hp, player->maxHP);
         } else if (effect == HOLD_EFFECT_RESTORE_PP) {
-            EXPECT_EQ(player->pp[1], 20);
+            EXPECT_EQ(player->pp[1], GetMovePP(MOVE_BUG_BITE));
         } else if (status1 != STATUS1_NONE) {
             EXPECT_EQ(player->status1, STATUS1_NONE);
         }

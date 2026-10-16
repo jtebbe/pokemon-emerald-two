@@ -6,36 +6,28 @@
 #include "battle_message.h"
 #include "battle_setup.h"
 #include "battle_special.h"
-#include "battle_z_move.h"
 #include "data.h"
 #include "event_data.h"
-#include "frontier_util.h"
 #include "graphics.h"
 #include "international_string_util.h"
 #include "item.h"
 #include "link.h"
 #include "menu.h"
 #include "palette.h"
-#include "recorded_battle.h"
 #include "string_util.h"
 #include "strings.h"
 #include "test_runner.h"
 #include "text.h"
-#include "trainer_hill.h"
 #include "trainer_slide.h"
-#include "trainer_tower.h"
 #include "window.h"
 #include "line_break.h"
 #include "constants/abilities.h"
-#include "constants/battle_dome.h"
 #include "constants/battle_string_ids.h"
-#include "constants/frontier_util.h"
 #include "constants/items.h"
 #include "constants/moves.h"
 #include "constants/opponents.h"
 #include "constants/species.h"
 #include "constants/trainers.h"
-#include "constants/trainer_hill.h"
 #include "constants/weather.h"
 
 struct BattleWindowText
@@ -164,7 +156,7 @@ const u8 *const gStatNamesTable[NUM_BATTLE_STATS] =
     [STAT_ACC]     = sText_Accuracy,
     [STAT_EVASION] = sText_Evasiveness,
 };
-const u8 *const gPokeblockWasTooXStringTable[FLAVOR_COUNT] =
+const u8 *const gBerryFlavorReactionStrings[FLAVOR_COUNT] =
 {
     [FLAVOR_SPICY]  = COMPOUND_STRING("was too spicy!"),
     [FLAVOR_DRY]    = COMPOUND_STRING("was too dry!"),
@@ -176,8 +168,6 @@ const u8 *const gPokeblockWasTooXStringTable[FLAVOR_COUNT] =
 static const u8 sText_Someones[] = _("someone's");
 static const u8 sText_Lanettes[] = _("LANETTE's"); //no decapitalize until it is everywhere
 static const u8 sText_Bills[] = _("BILL's");
-static const u8 sText_EnigmaBerry[] = _("ENIGMA BERRY"); //no decapitalize until it is everywhere
-static const u8 sText_BerrySuffix[] = _(" BERRY"); //no decapitalize until it is everywhere
 const u8 gText_EmptyString3[] = _("");
 
 static const u8 sText_TwoInGameTrainersDefeated[] = _("You defeated {B_TRAINER1_NAME_WITH_CLASS} and {B_TRAINER2_NAME_WITH_CLASS}!\p");
@@ -445,7 +435,6 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_PKMNCURIOUSABOUTX]                    = COMPOUND_STRING("{B_OPPONENT_MON1_NAME} is curious about the {B_BUFF1}!"), //safari
     [STRINGID_PKMNENTHRALLEDBYX]                    = COMPOUND_STRING("{B_OPPONENT_MON1_NAME} is enthralled by the {B_BUFF1}!"), //safari
     [STRINGID_PKMNIGNOREDX]                         = COMPOUND_STRING("{B_OPPONENT_MON1_NAME} completely ignored the {B_BUFF1}!"), //safari
-    [STRINGID_THREWPOKEBLOCKATPKMN]                 = COMPOUND_STRING("{B_PLAYER_NAME} threw a {POKEBLOCK} at the {B_OPPONENT_MON1_NAME}!"), //safari
     [STRINGID_OUTOFSAFARIBALLS]                     = COMPOUND_STRING("{PLAY_SE SE_DING_DONG}ANNOUNCER: You're out of Safari Balls! Game over!\p"), //safari
     [STRINGID_PKMNSITEMCUREDPARALYSIS]              = COMPOUND_STRING("{B_SCR_NAME_WITH_PREFIX}'s {B_LAST_ITEM} cured its paralysis!"),
     [STRINGID_PKMNSITEMCUREDPOISON]                 = COMPOUND_STRING("{B_SCR_NAME_WITH_PREFIX}'s {B_LAST_ITEM} cured its poison!"),
@@ -736,14 +725,6 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_METEORBEAMCHARGING]                   = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} is overflowing with space power!"),
     [STRINGID_HEATUPBEAK]                           = COMPOUND_STRING("{B_SCR_NAME_WITH_PREFIX} started heating up its beak!"),
     [STRINGID_COURTCHANGE]                          = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} swapped the battle effects affecting each side of the field!"),
-    [STRINGID_ZPOWERSURROUNDS]                      = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} surrounded itself with its Z-Power!"),
-    [STRINGID_ZMOVEUNLEASHED]                       = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} unleashes its full-force Z-Move!"),
-    [STRINGID_ZMOVERESETSSTATS]                     = COMPOUND_STRING("{B_SCR_NAME_WITH_PREFIX} returned its decreased stats to normal using its Z-Power!"),
-    [STRINGID_ZMOVEALLSTATSUP]                      = COMPOUND_STRING("{B_SCR_NAME_WITH_PREFIX} boosted its stats using its Z-Power!"),
-    [STRINGID_ZMOVEZBOOSTCRIT]                      = COMPOUND_STRING("{B_SCR_NAME_WITH_PREFIX} boosted its critical-hit ratio using its Z-Power!"),
-    [STRINGID_ZMOVERESTOREHP]                       = COMPOUND_STRING("{B_SCR_NAME_WITH_PREFIX} restored its HP using its Z-Power!"),
-    [STRINGID_ZMOVESTATUP]                          = COMPOUND_STRING("{B_SCR_NAME_WITH_PREFIX} boosted its stats using its Z-Power!"),
-    [STRINGID_ZMOVEHPTRAP]                          = COMPOUND_STRING("{B_SCR_NAME_WITH_PREFIX}'s HP was restored by the Z-Power!"),
     [STRINGID_ATTACKEREXPELLEDTHEPOISON]            = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} managed to expel the poison so you wouldn't worry!"),
     [STRINGID_ATTACKERSHOOKITSELFAWAKE]             = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} shook itself awake so you wouldn't worry!"),
     [STRINGID_ATTACKERBROKETHROUGHPARALYSIS]        = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} gathered all its energy to break through its paralysis so you wouldn't worry!"),
@@ -788,26 +769,11 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_SNOWSTOPPED]                          = COMPOUND_STRING("The snow stopped."),
     [STRINGID_SNOWWARNINGSNOW]                      = COMPOUND_STRING("It started to snow!"),
     [STRINGID_PKMNITEMMELTED]                       = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} corroded {B_EFF_NAME_WITH_PREFIX2}'s {B_LAST_ITEM}!"),
-    [STRINGID_ULTRABURSTREACTING]                   = COMPOUND_STRING("Bright light is about to burst out of {B_ATK_NAME_WITH_PREFIX2}!"),
-    [STRINGID_ULTRABURSTCOMPLETED]                  = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} regained its true power through Ultra Burst!"),
     [STRINGID_TEAMGAINEDEXP]                        = COMPOUND_STRING("The rest of your team gained Exp. Points thanks to the Exp. Share!\p"),
     [STRINGID_CURRENTMOVECANTSELECT]                = COMPOUND_STRING("{B_BUFF1} cannot be used!\p"),
     [STRINGID_TARGETISBEINGSALTCURED]               = COMPOUND_STRING("{B_EFF_NAME_WITH_PREFIX} is being salt cured!"),
     [STRINGID_TARGETISHURTBYSALTCURE]               = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} is hurt by {B_BUFF1}!"),
     [STRINGID_TARGETCOVEREDINSTICKYCANDYSYRUP]      = COMPOUND_STRING("{B_EFF_NAME_WITH_PREFIX} got covered in sticky candy syrup!"),
-    [STRINGID_SHARPSTEELFLOATS]                     = COMPOUND_STRING("Sharp-pointed pieces of steel started floating around {B_DEF_TEAM2} Pokémon!"),
-    [STRINGID_SHARPSTEELDMG]                        = COMPOUND_STRING("The sharp steel bit into {B_DEF_NAME_WITH_PREFIX2}!"),
-    [STRINGID_PKMNBLEWAWAYSHARPSTEEL]               = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} blew away sharp steel!"),
-    [STRINGID_SHARPSTEELDISAPPEAREDFROMTEAM]        = COMPOUND_STRING("The pieces of steel surrounding {B_ATK_TEAM2} Pokémon disappeared!"),
-    [STRINGID_TEAMTRAPPEDWITHVINES]                 = COMPOUND_STRING("{B_EFF_TEAM1} Pokémon got trapped with vines!"),
-    [STRINGID_PKMNHURTBYVINES]                      = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} is hurt by G-Max Vine Lash's ferocious beating!"),
-    [STRINGID_TEAMCAUGHTINVORTEX]                   = COMPOUND_STRING("{B_EFF_TEAM1} Pokémon got caught in a vortex of water!"),
-    [STRINGID_PKMNHURTBYVORTEX]                     = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} is hurt by G-Max Cannonade's vortex!"),
-    [STRINGID_TEAMSURROUNDEDBYFIRE]                 = COMPOUND_STRING("{B_EFF_TEAM1} Pokémon were surrounded by fire!"),
-    [STRINGID_PKMNBURNINGUP]                        = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} is burning up within G-Max Wildfire's flames!"),
-    [STRINGID_TEAMSURROUNDEDBYROCKS]                = COMPOUND_STRING("{B_EFF_TEAM1} Pokémon became surrounded by rocks!"),
-    [STRINGID_PKMNHURTBYROCKSTHROWN]                = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} is hurt by rocks thrown out by G-Max Volcalith!"),
-    [STRINGID_MOVEBLOCKEDBYDYNAMAX]                 = COMPOUND_STRING("The move was blocked by the power of Dynamax!"),
     [STRINGID_ZEROTOHEROTRANSFORMATION]             = COMPOUND_STRING("{B_SCR_NAME_WITH_PREFIX} underwent a heroic transformation!"),
     [STRINGID_THETWOMOVESBECOMEONE]                 = COMPOUND_STRING("The two moves have become one! It's a combined move!{PAUSE 16}"),
     [STRINGID_ARAINBOWAPPEAREDONSIDE]               = COMPOUND_STRING("A rainbow appeared in the sky on {B_EFF_TEAM2} side!"),
@@ -855,10 +821,6 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_ITDOESNTAFFECTTWOFOES]                = COMPOUND_STRING("It doesn't affect {B_SCR_NAME_WITH_PREFIX2} and {B_SCR_PARTNER_NAME}…"),
     [STRINGID_SENDCAUGHTMONPARTYORBOX]              = COMPOUND_STRING("Add {B_DEF_NAME} to your party?"),
     [STRINGID_PKMNSENTTOPCAFTERCATCH]               = gText_PkmnSentToPCAfterCatch,
-    [STRINGID_PKMNDYNAMAXED]                        = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} grew huge into its Dynamax form!"),
-    [STRINGID_PKMNGIGANTAMAXED]                     = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} grew huge into its Gigantamax form!"),
-    [STRINGID_TIMETODYNAMAX]                        = COMPOUND_STRING("Time to Dynamax!"),
-    [STRINGID_TIMETOGIGANTAMAX]                     = COMPOUND_STRING("Time to Gigantamax!"),
     [STRINGID_QUESTIONFORFEITBATTLE]                = COMPOUND_STRING("Would you like to give up on this battle and quit now? Quitting the battle is the same as losing the battle."),
     [STRINGID_POWERCONSTRUCTPRESENCEOFMANY]         = COMPOUND_STRING("You sense the presence of many!"),
     [STRINGID_POWERCONSTRUCTTRANSFORM]              = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} transformed into its Complete Forme!"),
@@ -946,16 +908,6 @@ const u16 gMostlyIneffectiveStringIds[] =
     [B_MSG_TWO_TARGETS]         = STRINGID_MOSTLYINEFFECTIVETWOFOES,
 };
 
-const u16 gZEffectStringIds[] =
-{
-    [B_MSG_Z_RESET_STATS] = STRINGID_ZMOVERESETSSTATS,
-    [B_MSG_Z_ALL_STATS_UP]= STRINGID_ZMOVEALLSTATSUP,
-    [B_MSG_Z_BOOST_CRITS] = STRINGID_ZMOVEZBOOSTCRIT,
-    [B_MSG_Z_FOLLOW_ME]   = STRINGID_PKMNCENTERATTENTION,
-    [B_MSG_Z_RECOVER_HP]  = STRINGID_ZMOVERESTOREHP,
-    [B_MSG_Z_STAT_UP]     = STRINGID_ZMOVESTATUP,
-    [B_MSG_Z_HP_TRAP]     = STRINGID_ZMOVEHPTRAP,
-};
 
 const u16 gMentalHerbCureStringIds[] =
 {
@@ -984,7 +936,6 @@ const u16 gStartingStatusStringIds[B_MSG_STARTING_STATUS_COUNT] =
     [B_MSG_SET_POISON_SPIKES]    = STRINGID_POISONSPIKESSCATTERED,
     [B_MSG_SET_STICKY_WEB]       = STRINGID_STICKYWEBUSED,
     [B_MSG_SET_STEALTH_ROCK]     = STRINGID_POINTEDSTONESFLOAT,
-    [B_MSG_SET_SHARP_STEEL]      = STRINGID_SHARPSTEELFLOATS,
 };
 
 const u16 gTerrainStringIds[B_MSG_TERRAIN_COUNT] =
@@ -1016,10 +967,8 @@ const u16 gDmgHazardsStringIds[] =
 {
     [B_MSG_PKMNHURTBYSPIKES]   = STRINGID_PKMNHURTBYSPIKES,
     [B_MSG_STEALTHROCKDMG]     = STRINGID_STEALTHROCKDMG,
-    [B_MSG_SHARPSTEELDMG]      = STRINGID_SHARPSTEELDMG,
     [B_MSG_POINTEDSTONESFLOAT] = STRINGID_POINTEDSTONESFLOAT,
     [B_MSG_SPIKESSCATTERED]    = STRINGID_SPIKESSCATTERED,
-    [B_MSG_SHARPSTEELFLOATS]   = STRINGID_SHARPSTEELFLOATS,
 };
 
 const u16 gSwitchInAbilityStringIds[] =
@@ -1343,12 +1292,6 @@ const u16 gSafariGetNearStringIds[] =
     [B_MSG_CANT_GET_CLOSER] = STRINGID_CANTGETCLOSER
 };
 
-const u16 gSafariPokeblockResultStringIds[] =
-{
-    [B_MSG_MON_CURIOUS]    = STRINGID_PKMNCURIOUSABOUTX,
-    [B_MSG_MON_ENTHRALLED] = STRINGID_PKMNENTHRALLEDBYX,
-    [B_MSG_MON_IGNORED]    = STRINGID_PKMNIGNOREDX
-};
 
 const u16 CureStatusBerryEffectStringID[] =
 {
@@ -1396,29 +1339,12 @@ const u16 gStatusConditionsStringIds[] =
     STRINGID_PKMNWASPOISONED, STRINGID_PKMNBADLYPOISONED, STRINGID_PKMNWASBURNED, STRINGID_PKMNWASPARALYZED, STRINGID_PKMNFELLASLEEP, STRINGID_PKMNGOTFROSTBITE
 };
 
-const u16 gDamageNonTypesStartStringIds[] =
-{
-    [B_MSG_TRAPPED_WITH_VINES]  = STRINGID_TEAMTRAPPEDWITHVINES,
-    [B_MSG_CAUGHT_IN_VORTEX]    = STRINGID_TEAMCAUGHTINVORTEX,
-    [B_MSG_SURROUNDED_BY_FIRE]  = STRINGID_TEAMSURROUNDEDBYFIRE,
-    [B_MSG_SURROUNDED_BY_ROCKS] = STRINGID_TEAMSURROUNDEDBYROCKS,
-};
-
-const u16 gDamageNonTypesDmgStringIds[] =
-{
-    [B_MSG_HURT_BY_VINES]        = STRINGID_PKMNHURTBYVINES,
-    [B_MSG_HURT_BY_VORTEX]       = STRINGID_PKMNHURTBYVORTEX,
-    [B_MSG_BURNING_UP]           = STRINGID_PKMNBURNINGUP,
-    [B_MSG_HURT_BY_ROCKS_THROWN] = STRINGID_PKMNHURTBYROCKSTHROWN,
-};
-
 const u16 gRemoveHazardsStringIds[] =
 {
     [HAZARDS_SPIKES] = STRINGID_SPIKESDISAPPEAREDFROMTEAM,
     [HAZARDS_STICKY_WEB] = STRINGID_STICKYWEBDISAPPEAREDFROMTEAM,
     [HAZARDS_TOXIC_SPIKES] = STRINGID_TOXICSPIKESDISAPPEAREDFROMTEAM,
     [HAZARDS_STEALTH_ROCK] = STRINGID_STEALTHROCKDISAPPEAREDFROMTEAM,
-    [HAZARDS_STEELSURGE] = STRINGID_SHARPSTEELDISAPPEAREDFROMTEAM,
 };
 
 const u16 gZenModeStringIds[] =
@@ -1475,7 +1401,7 @@ const u8 gText_WhatWillPkmnDo2[] = _("What will\n{B_PLAYER_NAME} do?");
 const u8 gText_WhatWillWallyDo[] = _("What will\nWALLY do?");
 const u8 gText_LinkStandby[] = _("{PAUSE 16}Link standby…");
 const u8 gText_BattleMenu[] = _("Battle{CLEAR_TO 56}Bag\nPokémon{CLEAR_TO 56}Run");
-const u8 gText_SafariZoneMenu[] = _("Ball{CLEAR_TO 56}{POKEBLOCK}\nGo Near{CLEAR_TO 56}Run");
+const u8 gText_SafariZoneMenu[] = _("Ball{CLEAR_TO 56}Watch\nGo Near{CLEAR_TO 56}Run");
 const u8 gText_SafariZoneMenuFrlg[] = _("{PALETTE 5}{COLOR_HIGHLIGHT_SHADOW 13 14 15}BALL{CLEAR_TO 56}BAIT\nROCK{CLEAR_TO 56}RUN");
 const u8 gText_MoveInterfacePP[] = _("PP ");
 const u8 gText_MoveInterfaceType[] = _("TYPE/");
@@ -1505,7 +1431,6 @@ const u8 gText_LineBreak[] = _("\l");
 const u8 gText_NewLine[] = _("\n");
 const u8 gText_Are[] = _("are");
 const u8 gText_Are2[] = _("are");
-const u8 gText_BadEgg[] = _("Bad Egg");
 const u8 gText_BattleWallyName[] = _("WALLY");
 const u8 gText_Win[] = _("{BACKGROUND TRANSPARENT}{ACCENT TRANSPARENT}Win");
 const u8 gText_Loss[] = _("{BACKGROUND TRANSPARENT}{ACCENT TRANSPARENT}Loss");
@@ -1514,13 +1439,6 @@ static const u8 sText_SpaceIs[] = _(" is");
 static const u8 sText_ApostropheS[] = _("'s");
 const u8 gText_BattleTourney[] = _("BATTLE TOURNEY");
 
-const u8 *const gRoundsStringTable[DOME_ROUNDS_COUNT] =
-{
-    [DOME_ROUND1]    = COMPOUND_STRING("Round 1"),
-    [DOME_ROUND2]    = COMPOUND_STRING("Round 2"),
-    [DOME_SEMIFINAL] = COMPOUND_STRING("Semifinal"),
-    [DOME_FINAL]     = COMPOUND_STRING("Final"),
-};
 
 const u8 gText_TheGreatNewHope[] = _("The great new hope!\p");
 const u8 gText_WillChampionshipDreamComeTrue[] = _("Will the championship dream come true?!\p");
@@ -1544,32 +1462,10 @@ static const u8 sText_InGamePartnerSentOutPkmn2[] = _("{B_PARTNER_NAME_WITH_CLAS
 static const u8 sText_InGamePartnerWithdrewPkmn1[] = _("{B_PARTNER_NAME_WITH_CLASS} withdrew {B_PLAYER_MON1_NAME}!");
 static const u8 sText_InGamePartnerWithdrewPkmn2[] = _("{B_PARTNER_NAME_WITH_CLASS} withdrew {B_PLAYER_MON2_NAME}!");
 
-const u16 gBattlePalaceFlavorTextTable[] =
-{
-    [B_MSG_GLINT_IN_EYE]   = STRINGID_GLINTAPPEARSINEYE,
-    [B_MSG_GETTING_IN_POS] = STRINGID_PKMNGETTINGINTOPOSITION,
-    [B_MSG_GROWL_DEEPLY]   = STRINGID_PKMNBEGANGROWLINGDEEPLY,
-    [B_MSG_EAGER_FOR_MORE] = STRINGID_PKMNEAGERFORMORE,
-};
-
-const u8 *const gRefereeStringsTable[] =
-{
-    [B_MSG_REF_NOTHING_IS_DECIDED] = COMPOUND_STRING("REFEREE: If nothing is decided in 3 turns, we will go to judging!"),
-    [B_MSG_REF_THATS_IT]           = COMPOUND_STRING("REFEREE: That's it! We will now go to judging to determine the winner!"),
-    [B_MSG_REF_JUDGE_MIND]         = COMPOUND_STRING("REFEREE: Judging category 1, Mind! The POKéMON showing the most guts!\p"),
-    [B_MSG_REF_JUDGE_SKILL]        = COMPOUND_STRING("REFEREE: Judging category 2, Skill! The POKéMON using moves the best!\p"),
-    [B_MSG_REF_JUDGE_BODY]         = COMPOUND_STRING("REFEREE: Judging category 3, Body! The POKéMON with the most vitality!\p"),
-    [B_MSG_REF_PLAYER_WON]         = COMPOUND_STRING("REFEREE: Judgment: {B_BUFF1} to {B_BUFF2}! The winner is {B_PLAYER_NAME}'s {B_PLAYER_MON1_NAME}!\p"),
-    [B_MSG_REF_OPPONENT_WON]       = COMPOUND_STRING("REFEREE: Judgment: {B_BUFF1} to {B_BUFF2}! The winner is {B_TRAINER1_NAME}'s {B_OPPONENT_MON1_NAME}!\p"),
-    [B_MSG_REF_DRAW]               = COMPOUND_STRING("REFEREE: Judgment: 3 to 3! We have a draw!\p"),
-    [B_MSG_REF_COMMENCE_BATTLE]    = COMPOUND_STRING("REFEREE: {B_PLAYER_MON1_NAME} VS {B_OPPONENT_MON1_NAME}! Commence battling!"),
-};
 
 static const u8 sText_Trainer1Fled[] = _( "{PLAY_SE SE_FLEE}{B_TRAINER1_NAME_WITH_CLASS} fled!");
 static const u8 sText_PlayerLostAgainstTrainer1[] = _("You lost to {B_TRAINER1_NAME_WITH_CLASS}!");
 static const u8 sText_PlayerBattledToDrawTrainer1[] = _("You battled to a draw against {B_TRAINER1_NAME_WITH_CLASS}!");
-const u8 gText_RecordBattleToPass[] = _("Would you like to record your battle\non your Frontier Pass?");
-const u8 gText_BattleRecordedOnPass[] = _("{B_PLAYER_NAME}'s battle result was recorded\non the Frontier Pass.");
 static const u8 sText_LinkTrainerWantsToBattlePause[] = _("You are challenged by {B_LINK_OPPONENT1_NAME}!\p");
 static const u8 sText_TwoLinkTrainersWantToBattlePause[] = _("You are challenged by {B_LINK_OPPONENT1_NAME} and {B_LINK_OPPONENT2_NAME}!\p");
 static const u8 sText_Your1[] = _("Your");
@@ -2133,7 +2029,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_KantoTutorial[] =
         .color.accent = TEXT_DYNAMIC_COLOR_5,
         .color.shadow = TEXT_DYNAMIC_COLOR_6,
     },
-    [B_WIN_OAK_OLD_MAN] = {
+    [B_WIN_TUTORIAL] = {
         .fillValue = PIXEL_FILL(0x1),
         .fontId = FONT_NORMAL,
         .x = 0,
@@ -2147,282 +2043,13 @@ static const struct BattleWindowText sTextOnWindowsInfo_KantoTutorial[] =
     },
 };
 
-static const struct BattleWindowText sTextOnWindowsInfo_Arena[] =
-{
-    [B_WIN_MSG] = {
-        .fillValue = PIXEL_FILL(0xF),
-        .fontId = FONT_NORMAL,
-        .x = 0,
-        .y = 1,
-        .speed = 1,
-        .color.foreground = 1,
-        .color.background = 15,
-        .color.accent = 15,
-        .color.shadow = 6,
-    },
-    [B_WIN_ACTION_PROMPT] = {
-        .fillValue = PIXEL_FILL(0xF),
-        .fontId = FONT_NORMAL,
-        .x = 1,
-        .y = 1,
-        .speed = 0,
-        .color.foreground = 1,
-        .color.background = 15,
-        .color.accent = 15,
-        .color.shadow = 6,
-    },
-    [B_WIN_ACTION_MENU] = {
-        .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
-        .x = 0,
-        .y = 1,
-        .speed = 0,
-        .color.foreground = 13,
-        .color.background = 14,
-        .color.accent = 14,
-        .color.shadow = 15,
-    },
-    [B_WIN_MOVE_NAME_1] = {
-        .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NARROW,
-        .x = 0,
-        .y = 1,
-        .speed = 0,
-        .color.foreground = 13,
-        .color.background = 14,
-        .color.accent = 14,
-        .color.shadow = 15,
-    },
-    [B_WIN_MOVE_NAME_2] = {
-        .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NARROW,
-        .x = 0,
-        .y = 1,
-        .speed = 0,
-        .color.foreground = 13,
-        .color.background = 14,
-        .color.accent = 14,
-        .color.shadow = 15,
-    },
-    [B_WIN_MOVE_NAME_3] = {
-        .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NARROW,
-        .x = 0,
-        .y = 1,
-        .speed = 0,
-        .color.foreground = 13,
-        .color.background = 14,
-        .color.accent = 14,
-        .color.shadow = 15,
-    },
-    [B_WIN_MOVE_NAME_4] = {
-        .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NARROW,
-        .x = 0,
-        .y = 1,
-        .speed = 0,
-        .color.foreground = 13,
-        .color.background = 14,
-        .color.accent = 14,
-        .color.shadow = 15,
-    },
-    [B_WIN_PP] = {
-        .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NARROW,
-        .x = 0,
-        .y = 1,
-        .speed = 0,
-        .color.foreground = B_SHOW_EFFECTIVENESS != SHOW_EFFECTIVENESS_NEVER ? 13 : 12,
-        .color.background = 14,
-        .color.accent = 14,
-        .color.shadow = B_SHOW_EFFECTIVENESS != SHOW_EFFECTIVENESS_NEVER ? 15 : 11,
-    },
-    [B_WIN_DUMMY] = {
-        .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
-        .x = 0,
-        .y = 1,
-        .speed = 0,
-        .color.foreground = 13,
-        .color.background = 14,
-        .color.accent = 14,
-        .color.shadow = 15,
-    },
-    [B_WIN_PP_REMAINING] = {
-        .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
-        .x = 2,
-        .y = 1,
-        .speed = 0,
-        .color.foreground = 12,
-        .color.background = 14,
-        .color.accent = 14,
-        .color.shadow = 11,
-    },
-    [B_WIN_MOVE_TYPE] = {
-        .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NARROW,
-        .x = 0,
-        .y = 1,
-        .speed = 0,
-        .color.foreground = 13,
-        .color.background = 14,
-        .color.accent = 14,
-        .color.shadow = 15,
-    },
-    [B_WIN_SWITCH_PROMPT] = {
-        .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NARROW,
-        .x = 0,
-        .y = 1,
-        .speed = 0,
-        .color.foreground = 13,
-        .color.background = 14,
-        .color.accent = 14,
-        .color.shadow = 15,
-    },
-    [B_WIN_YESNO] = {
-        .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
-        .x = 0,
-        .y = 1,
-        .speed = 0,
-        .color.foreground = 13,
-        .color.background = 14,
-        .color.accent = 14,
-        .color.shadow = 15,
-    },
-    [B_WIN_LEVEL_UP_BOX] = {
-        .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
-        .x = 0,
-        .y = 1,
-        .speed = 0,
-        .color.foreground = 13,
-        .color.background = 14,
-        .color.accent = 14,
-        .color.shadow = 15,
-    },
-    [B_WIN_LEVEL_UP_BANNER] = {
-        .fillValue = PIXEL_FILL(0),
-        .fontId = FONT_NORMAL,
-        .x = 32,
-        .y = 1,
-        .speed = 0,
-        .color.foreground = 1,
-        .color.shadow = 2,
-    },
-    [ARENA_WIN_PLAYER_NAME] = {
-        .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
-        .x = -1,
-        .y = 1,
-        .speed = 0,
-        .color.foreground = 1,
-        .color.background = 14,
-        .color.accent = 14,
-        .color.shadow = 15,
-    },
-    [ARENA_WIN_VS] = {
-        .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
-        .x = -1,
-        .y = 1,
-        .speed = 0,
-        .color.foreground = 13,
-        .color.background = 14,
-        .color.accent = 14,
-        .color.shadow = 15,
-    },
-    [ARENA_WIN_OPPONENT_NAME] = {
-        .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
-        .x = -1,
-        .y = 1,
-        .speed = 0,
-        .color.foreground = 13,
-        .color.background = 14,
-        .color.accent = 14,
-        .color.shadow = 15,
-    },
-    [ARENA_WIN_MIND] = {
-        .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
-        .x = -1,
-        .y = 1,
-        .speed = 0,
-        .color.foreground = 13,
-        .color.background = 14,
-        .color.accent = 14,
-        .color.shadow = 15,
-    },
-    [ARENA_WIN_SKILL] = {
-        .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
-        .x = -1,
-        .y = 1,
-        .speed = 0,
-        .color.foreground = 13,
-        .color.background = 14,
-        .color.accent = 14,
-        .color.shadow = 15,
-    },
-    [ARENA_WIN_BODY] = {
-        .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
-        .x = -1,
-        .y = 1,
-        .speed = 0,
-        .color.foreground = 13,
-        .color.background = 14,
-        .color.accent = 14,
-        .color.shadow = 15,
-    },
-    [ARENA_WIN_JUDGMENT_TITLE] = {
-        .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
-        .x = -1,
-        .y = 1,
-        .speed = 0,
-        .color.foreground = 13,
-        .color.background = 14,
-        .color.accent = 14,
-        .color.shadow = 15,
-    },
-    [ARENA_WIN_JUDGMENT_TEXT] = {
-        .fillValue = PIXEL_FILL(0x1),
-        .fontId = FONT_NORMAL,
-        .x = 0,
-        .y = 1,
-        .speed = 1,
-        .color.foreground = 2,
-        .color.background = 1,
-        .color.accent = 1,
-        .color.shadow = 3,
-    },
-    [B_WIN_MOVE_DESCRIPTION] = {
-        .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NARROW,
-        .x = 0,
-        .y = 1,
-        .letterSpacing = 0,
-        .lineSpacing = 0,
-        .speed = 0,
-        .color.foreground = TEXT_DYNAMIC_COLOR_4,
-        .color.background = TEXT_DYNAMIC_COLOR_5,
-        .color.accent = TEXT_DYNAMIC_COLOR_5,
-        .color.shadow = TEXT_DYNAMIC_COLOR_6,
-    },
-};
 
 static const struct BattleWindowText *const sBattleTextOnWindowsInfo[] =
 {
     [B_WIN_TYPE_NORMAL] = sTextOnWindowsInfo_Normal,
-    [B_WIN_TYPE_ARENA]  = sTextOnWindowsInfo_Arena,
     [B_WIN_TYPE_KANTO_TUTORIAL] = sTextOnWindowsInfo_KantoTutorial,
 };
 
-static const u8 sRecordedBattleTextSpeeds[] = {8, 4, 1, 0};
 
 void BufferStringBattle(enum StringID stringID, enum BattlerId battler)
 {
@@ -2454,42 +2081,27 @@ void BufferStringBattle(enum StringID stringID, enum BattlerId battler)
     case STRINGID_INTROMSG: // first battle msg
         if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
         {
-            if (gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK))
+            if (gBattleTypeFlags & BATTLE_TYPE_LINK)
             {
-                if (gBattleTypeFlags & BATTLE_TYPE_TOWER_LINK_MULTI)
                 {
-                    stringPtr = sText_TwoTrainersWantToBattle;
-                }
-                else if (gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS)
-                {
-                    stringPtr = sText_TwoLinkTrainersWantToBattle;
-                }
-                else if (gBattleTypeFlags & BATTLE_TYPE_MULTI)
-                {
-                    if (gBattleTypeFlags & BATTLE_TYPE_RECORDED)
-                    {
-                        if (gBattleTypeFlags & BATTLE_TYPE_RECORDED_LINK)
-                            stringPtr = sText_LinkTrainerWantsToBattle;
-                        else if (gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS)
-                            stringPtr = sText_TwoTrainersWantToBattle;
-                        else if (!(gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS))
-                            stringPtr = sText_LinkTrainerWantsToBattlePause;
-                        else
-                            stringPtr = sText_TwoLinkTrainersWantToBattlePause;
-                    }
-                    else
+                    if (gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS)
                     {
                         stringPtr = sText_TwoLinkTrainersWantToBattle;
                     }
-                }
-                else
-                {
-                    if (TRAINER_BATTLE_PARAM.opponentA == TRAINER_UNION_ROOM)
-                        stringPtr = sText_Trainer1WantsToBattle;
-                    else if (gBattleTypeFlags & BATTLE_TYPE_RECORDED)
-                        stringPtr = sText_LinkTrainerWantsToBattlePause;
+                    else if (gBattleTypeFlags & BATTLE_TYPE_MULTI)
+                    {
+                        {
+                            stringPtr = sText_TwoLinkTrainersWantToBattle;
+                        }
+                    }
                     else
-                        stringPtr = sText_LinkTrainerWantsToBattle;
+                    {
+                        if (TRAINER_BATTLE_PARAM.opponentA == TRAINER_UNION_ROOM)
+                            stringPtr = sText_Trainer1WantsToBattle;
+                        else {
+                            stringPtr = sText_LinkTrainerWantsToBattle;
+                        }
+                    }
                 }
             }
             else
@@ -2525,7 +2137,7 @@ void BufferStringBattle(enum StringID stringID, enum BattlerId battler)
         {
             if (IsDoubleBattle() && IsValidForBattle(GetBattlerMon(GetPartnerBattler(battler))))
             {
-                if (gBattleTypeFlags & BATTLE_TYPE_MULTI && (gBattleTypeFlags & BATTLE_TYPE_RECORDED_LINK || gBattleTypeFlags & BATTLE_TYPE_LINK))
+                if (gBattleTypeFlags & BATTLE_TYPE_MULTI && gBattleTypeFlags & BATTLE_TYPE_LINK)
                 {
                     if (BattlerIsPlayer(battler))
                         stringPtr = sText_LinkPartnerSentOutPkmn2GoPkmn; // Player is on left
@@ -2557,20 +2169,20 @@ void BufferStringBattle(enum StringID stringID, enum BattlerId battler)
         {
             if (IsDoubleBattle() && IsValidForBattle(GetBattlerMon(GetPartnerBattler(battler))))
             {
-                if (gBattleTypeFlags & BATTLE_TYPE_RECORDED_LINK && BATTLE_TWO_VS_ONE_OPPONENT)
-                    stringPtr = sText_LinkTrainerSentOutTwoPkmn;
-                else if (BATTLE_TWO_VS_ONE_OPPONENT)
-                    stringPtr = sText_Trainer1SentOutTwoPkmn;
-                else if ((gBattleTypeFlags & BATTLE_TYPE_RECORDED_LINK && gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS) || (gBattleTypeFlags & BATTLE_TYPE_MULTI && (gBattleTypeFlags & BATTLE_TYPE_RECORDED_LINK || gBattleTypeFlags & BATTLE_TYPE_LINK)))
-                    stringPtr = sText_TwoLinkTrainersIntroSendOutPkmn;
-                else if (gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS || gBattleTypeFlags & BATTLE_TYPE_TOWER_LINK_MULTI)
-                    stringPtr = sText_TwoTrainersSentPkmn;
-                else if (BattlerIsLink(battler) || (BattlerIsRecorded(battler) && BattlerIsOpponent(battler))) // Link Opponent doubles and test opponent
-                    stringPtr = sText_LinkTrainerSentOutTwoPkmn;
-                else
-                    stringPtr = sText_Trainer1SentOutTwoPkmn;
+                {
+                    if (BATTLE_TWO_VS_ONE_OPPONENT)
+                        stringPtr = sText_Trainer1SentOutTwoPkmn;
+                    else if (gBattleTypeFlags & BATTLE_TYPE_MULTI && gBattleTypeFlags & BATTLE_TYPE_LINK)
+                        stringPtr = sText_TwoLinkTrainersIntroSendOutPkmn;
+                    else if (gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS)
+                        stringPtr = sText_TwoTrainersSentPkmn;
+                    else if (BattlerIsLink(battler) || (BattlerUsesTestController(battler) && BattlerIsOpponent(battler))) // Link Opponent doubles and test opponent
+                        stringPtr = sText_LinkTrainerSentOutTwoPkmn;
+                    else
+                        stringPtr = sText_Trainer1SentOutTwoPkmn;
+                }
             }
-            else if (BattlerIsLink(battler) || (BattlerIsRecorded(battler) && BattlerIsOpponent(battler)))
+            else if (BattlerIsLink(battler) || (BattlerUsesTestController(battler) && BattlerIsOpponent(battler)))
             {
                 if (TRAINER_BATTLE_PARAM.opponentA == TRAINER_UNION_ROOM)
                     stringPtr = sText_Trainer1SentOutPkmn;
@@ -2599,13 +2211,12 @@ void BufferStringBattle(enum StringID stringID, enum BattlerId battler)
             }
             else if (BattlerIsPartner(battler)) // Link or Ingame Partner
             {
-                if (BattlerIsLink(battler) || gBattleTypeFlags & BATTLE_TYPE_RECORDED_LINK)
+                if (BattlerIsLink(battler))
                     stringPtr = sText_LinkPartnerWithdrewPkmn1;
                 else
                     stringPtr = sText_InGamePartnerWithdrewPkmn1;
             }
-            else if (TRAINER_BATTLE_PARAM.opponentA == TRAINER_LINK_OPPONENT
-             || gBattleTypeFlags & BATTLE_TYPE_RECORDED_LINK) // Link Opponent A and test opponent
+            else if (TRAINER_BATTLE_PARAM.opponentA == TRAINER_LINK_OPPONENT) // Link Opponent A and test opponent
             {
                 stringPtr = sText_LinkTrainer1WithdrewPkmn;
             }
@@ -2629,13 +2240,12 @@ void BufferStringBattle(enum StringID stringID, enum BattlerId battler)
             }
             else if (BattlerIsPartner(battler)) // Link or Ingame Partner
             {
-                if (BattlerIsLink(battler) || gBattleTypeFlags & BATTLE_TYPE_RECORDED_LINK)
+                if (BattlerIsLink(battler))
                     stringPtr = sText_LinkPartnerWithdrewPkmn2;
                 else
                     stringPtr = sText_InGamePartnerWithdrewPkmn2;
             }
-            else if (TRAINER_BATTLE_PARAM.opponentA == TRAINER_LINK_OPPONENT
-             || gBattleTypeFlags & BATTLE_TYPE_RECORDED_LINK) // Link Opponent B and test opponent
+            else if (TRAINER_BATTLE_PARAM.opponentA == TRAINER_LINK_OPPONENT) // Link Opponent B and test opponent
             {
                 if (BattleSideHasTwoTrainers(B_SIDE_OPPONENT))
                     stringPtr = sText_LinkTrainer2WithdrewPkmn;
@@ -2668,13 +2278,12 @@ void BufferStringBattle(enum StringID stringID, enum BattlerId battler)
             }
             else if (BattlerIsPartner(gBattleScripting.battler)) // Link or Ingame Partner
             {
-                if (BattlerIsLink(gBattleScripting.battler) || gBattleTypeFlags & BATTLE_TYPE_RECORDED_LINK)
+                if (BattlerIsLink(gBattleScripting.battler))
                     stringPtr = sText_LinkPartnerSentOutPkmn1;
                 else
                     stringPtr = sText_InGamePartnerSentOutPkmn1;
             }
-            else if (TRAINER_BATTLE_PARAM.opponentA == TRAINER_LINK_OPPONENT
-             || gBattleTypeFlags & BATTLE_TYPE_RECORDED_LINK) // Link Opponent A and test opponent
+            else if (TRAINER_BATTLE_PARAM.opponentA == TRAINER_LINK_OPPONENT) // Link Opponent A and test opponent
             {
                 stringPtr = sText_LinkTrainerSentOutPkmn;
             }
@@ -2698,13 +2307,12 @@ void BufferStringBattle(enum StringID stringID, enum BattlerId battler)
             }
             else if (BattlerIsPartner(gBattleScripting.battler)) // Link or Ingame Partner
             {
-                if (BattlerIsLink(gBattleScripting.battler) || gBattleTypeFlags & BATTLE_TYPE_RECORDED_LINK)
+                if (BattlerIsLink(gBattleScripting.battler))
                     stringPtr = sText_LinkPartnerSentOutPkmn2;
                 else
                     stringPtr = sText_InGamePartnerSentOutPkmn2;
             }
-            else if (TRAINER_BATTLE_PARAM.opponentA == TRAINER_LINK_OPPONENT
-             || gBattleTypeFlags & BATTLE_TYPE_RECORDED_LINK) // Link Opponent B and test opponent
+            else if (TRAINER_BATTLE_PARAM.opponentA == TRAINER_LINK_OPPONENT) // Link Opponent B and test opponent
             {
                 if (BattleSideHasTwoTrainers(B_SIDE_OPPONENT))
                     stringPtr = sText_LinkTrainer2SentOutPkmn2;
@@ -2722,9 +2330,7 @@ void BufferStringBattle(enum StringID stringID, enum BattlerId battler)
         }
         break;
     case STRINGID_USEDMOVE: // Pokémon used a move msg
-        if (gBattleMsgDataPtr->currentMove >= MOVES_COUNT
-         && !IsZMove(gBattleMsgDataPtr->currentMove)
-         && !IsMaxMove(gBattleMsgDataPtr->currentMove))
+        if (gBattleMsgDataPtr->currentMove >= MOVES_COUNT)
             StringCopy(gBattleTextBuff3, gTypesInfo[*(&gBattleStruct->stringMoveType)].generic);
         else
             StringCopy(gBattleTextBuff3, GetMoveName(gBattleMsgDataPtr->currentMove));
@@ -2754,10 +2360,9 @@ void BufferStringBattle(enum StringID stringID, enum BattlerId battler)
                 switch (gBattleTextBuff1[0])
                 {
                 case B_OUTCOME_WON:
-                    if (gBattleTypeFlags & BATTLE_TYPE_TOWER_LINK_MULTI)
-                        stringPtr = sText_TwoInGameTrainersDefeated;
-                    else
+                    {
                         stringPtr = sText_TwoLinkTrainersDefeated;
+                    }
                     break;
                 case B_OUTCOME_LOST:
                     stringPtr = sText_PlayerLostToTwo;
@@ -2914,59 +2519,26 @@ static const u8 *BattleStringGetOpponentNameByTrainerId(u16 trainerId, u8 *text,
 {
     const u8 *toCpy = NULL;
 
-    if (gBattleTypeFlags & BATTLE_TYPE_SECRET_BASE)
     {
-        u32 i;
-        for (i = 0; i < ARRAY_COUNT(gBattleResources->secretBase->trainerName); i++)
-            text[i] = gBattleResources->secretBase->trainerName[i];
-        text[i] = EOS;
-        ConvertInternationalString(text, gBattleResources->secretBase->language);
-        toCpy = text;
-    }
-    else if (trainerId == TRAINER_UNION_ROOM)
-    {
-        toCpy = gLinkPlayers[multiplayerId ^ BIT_SIDE].name;
-    }
-    else if (trainerId == TRAINER_LINK_OPPONENT)
-    {
-        if (gBattleTypeFlags & BATTLE_TYPE_MULTI)
-            toCpy = gLinkPlayers[GetBattlerMultiplayerId(battler)].name;
-        else
-            toCpy = gLinkPlayers[GetBattlerMultiplayerId(battler) & BIT_SIDE].name;
-    }
-    else if (trainerId == TRAINER_FRONTIER_BRAIN)
-    {
-        CopyFrontierBrainTrainerName(text);
-        toCpy = text;
-    }
-    else if (gBattleTypeFlags & BATTLE_TYPE_FRONTIER)
-    {
-        GetFrontierTrainerName(text, trainerId);
-        toCpy = text;
-    }
-    else if (gBattleTypeFlags & BATTLE_TYPE_TRAINER_TOWER && gMapHeader.regionMapSectionId == MAPSEC_TRAINER_TOWER_2)
-    {
-        GetTrainerTowerOpponentName(text);
-        toCpy = text;
-    }
-    else if (gBattleTypeFlags & BATTLE_TYPE_TRAINER_HILL)
-    {
-        GetTrainerHillTrainerName(text, trainerId);
-        toCpy = text;
-    }
-    else if (gBattleTypeFlags & BATTLE_TYPE_EREADER_TRAINER)
-    {
-        GetEreaderTrainerName(text);
-        toCpy = text;
-    }
-    else
-    {
-        enum TrainerClassID trainerClass = GetTrainerClassFromId(TRAINER_BATTLE_PARAM.opponentA);
+        if (trainerId == TRAINER_UNION_ROOM)
+        {
+            toCpy = gLinkPlayers[multiplayerId ^ BIT_SIDE].name;
+        }
+        else if (trainerId == TRAINER_LINK_OPPONENT)
+        {
+            if (BattleSideHasTwoTrainers(B_SIDE_OPPONENT))
+                toCpy = gLinkPlayers[GetBattlerMultiplayerId(battler)].name;
+            else
+                toCpy = gLinkPlayers[GetBattlerMultiplayerId(battler) & BIT_SIDE].name;
+        }
+        else {
+            enum TrainerClassID trainerClass = GetTrainerClassFromId(TRAINER_BATTLE_PARAM.opponentA);
 
-        if (trainerClass == TRAINER_CLASS_RIVAL_EARLY_FRLG || trainerClass == TRAINER_CLASS_RIVAL_LATE_FRLG || trainerClass == TRAINER_CLASS_CHAMPION_FRLG)
-            toCpy = GetExpandedPlaceholder(PLACEHOLDER_ID_RIVAL);
-        else
-            toCpy = GetTrainerNameFromId(trainerId);
+            if (trainerClass == TRAINER_CLASS_RIVAL_EARLY_FRLG || trainerClass == TRAINER_CLASS_RIVAL_LATE_FRLG || trainerClass == TRAINER_CLASS_CHAMPION_FRLG)
+                toCpy = GetExpandedPlaceholder(PLACEHOLDER_ID_RIVAL);
+            else
+                toCpy = GetTrainerNameFromId(trainerId);
+        }
     }
 
     assertf(DoesStringProperlyTerminate(toCpy, TRAINER_NAME_LENGTH + 1),"Opponent needs a valid name")
@@ -3006,29 +2578,27 @@ static const u8 *BattleStringGetPlayerName(u8 *text, enum BattlerId battler)
     switch (GetBattlerPosition(battler))
     {
     case B_POSITION_PLAYER_LEFT:
-        if (gBattleTypeFlags & BATTLE_TYPE_RECORDED)
-            toCpy = gLinkPlayers[0].name;
-        else
-            toCpy = gSaveBlock2Ptr->playerName;
+        {
+            toCpy = gSaveData.playerName;
+        }
         break;
     case B_POSITION_PLAYER_RIGHT:
-        if (((gBattleTypeFlags & BATTLE_TYPE_RECORDED) && !(gBattleTypeFlags & (BATTLE_TYPE_MULTI | BATTLE_TYPE_INGAME_PARTNER)))
-            || gTestRunnerEnabled)
+        if (gTestRunnerEnabled && TRAINER_BATTLE_PARAM.opponentA == TRAINER_LINK_OPPONENT
+            && BattleSideHasTwoTrainers(B_SIDE_PLAYER))
         {
-            toCpy = gLinkPlayers[0].name;
+            toCpy = gLinkPlayers[GetBattlerMultiplayerId(battler)].name;
         }
-        else if ((gBattleTypeFlags & BATTLE_TYPE_LINK) && gBattleTypeFlags & (BATTLE_TYPE_RECORDED | BATTLE_TYPE_MULTI))
+        else if ((gBattleTypeFlags & BATTLE_TYPE_LINK) && (gBattleTypeFlags & BATTLE_TYPE_MULTI))
         {
             toCpy = gLinkPlayers[2].name;
         }
         else if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER)
         {
-            GetFrontierTrainerName(text, gPartnerTrainerId);
-            toCpy = text;
+            toCpy = GetTrainerNameFromId(gPartnerTrainerId);
         }
         else
         {
-            toCpy = gSaveBlock2Ptr->playerName;
+            toCpy = gSaveData.playerName;
         }
         break;
     default:
@@ -3050,31 +2620,27 @@ static const u8 *BattleStringGetOpponentClassByTrainerId(u16 trainerId)
 {
     const u8 *toCpy;
 
-    if (gBattleTypeFlags & BATTLE_TYPE_SECRET_BASE)
-        toCpy = gTrainerClasses[GetSecretBaseTrainerClass()].name;
-    else if (trainerId == TRAINER_UNION_ROOM)
-        toCpy = gTrainerClasses[GetUnionRoomTrainerClass()].name;
-    else if (trainerId == TRAINER_FRONTIER_BRAIN)
-        toCpy = gTrainerClasses[GetFrontierBrainTrainerClass()].name;
-    else if (gBattleTypeFlags & BATTLE_TYPE_FRONTIER)
-        toCpy = gTrainerClasses[GetFrontierOpponentClass(trainerId)].name;
-    else if (gBattleTypeFlags & BATTLE_TYPE_TRAINER_TOWER && gMapHeader.regionMapSectionId == MAPSEC_TRAINER_TOWER_2)
-        toCpy = gTrainerClasses[GetTrainerTowerOpponentClass()].name;
-    else if (gBattleTypeFlags & BATTLE_TYPE_TRAINER_HILL)
-        toCpy = gTrainerClasses[GetTrainerHillOpponentClass(trainerId)].name;
-    else if (gBattleTypeFlags & BATTLE_TYPE_EREADER_TRAINER)
-        toCpy = gTrainerClasses[GetEreaderTrainerClassId()].name;
-    else if (trainerId == TRAINER_LINK_OPPONENT)
-        toCpy = gTrainerClasses[TRAINER_NONE].name;
-    else
-        toCpy = gTrainerClasses[GetTrainerClassFromId(trainerId)].name;
+    {
+        if (trainerId == TRAINER_UNION_ROOM)
+            toCpy = gTrainerClasses[GetUnionRoomTrainerClass()].name;
+        else {
+            if (trainerId == TRAINER_LINK_OPPONENT)
+                toCpy = sText_EmptyString4;
+            else
+                toCpy = gTrainerClasses[GetTrainerClassFromId(trainerId)].name;
+        }
+    }
 
     return toCpy;
 }
 
-// Ensure the defined length for an item name can contain the full defined length of a berry name.
-// This ensures that custom Enigma Berry names will fit in the text buffer at the top of BattleStringExpandPlaceholders.
-STATIC_ASSERT(BERRY_NAME_LENGTH + ARRAY_COUNT(sText_BerrySuffix) <= ITEM_NAME_LENGTH, BerryNameTooLong);
+static const u8 *BattleStringGetPartnerClass(void)
+{
+    if (gTestRunnerEnabled && TRAINER_BATTLE_PARAM.opponentA == TRAINER_LINK_OPPONENT)
+        return sText_EmptyString4;
+    return gTrainerClasses[GetTrainerClassFromId(gPartnerTrainerId)].name;
+}
+
 
 u32 BattleStringExpandPlaceholders(const u8 *src, u8 *dst, u32 dstSize)
 {
@@ -3085,10 +2651,9 @@ u32 BattleStringExpandPlaceholders(const u8 *src, u8 *dst, u32 dstSize)
     u8 multiplayerId;
     u8 fontId = FONT_NORMAL;
 
-    if (gBattleTypeFlags & BATTLE_TYPE_RECORDED_LINK)
-        multiplayerId = gRecordedBattleMultiplayerId;
-    else
+    {
         multiplayerId = GetMultiplayerId();
+    }
 
     // Clear destination first
     while (dstID < dstSize)
@@ -3105,6 +2670,7 @@ u32 BattleStringExpandPlaceholders(const u8 *src, u8 *dst, u32 dstSize)
         if (*src == PLACEHOLDER_BEGIN)
         {
             src++;
+            textStart = text;
             u32 classLength = 0;
             u32 nameLength = 0;
             const u8 *classString;
@@ -3214,65 +2780,20 @@ u32 BattleStringExpandPlaceholders(const u8 *src, u8 *dst, u32 dstSize)
                 toCpy = text;
                 break;
             case B_TXT_CURRENT_MOVE: // current move name
-                if (gBattleMsgDataPtr->currentMove >= MOVES_COUNT
-                 && !IsZMove(gBattleMsgDataPtr->currentMove)
-                 && !IsMaxMove(gBattleMsgDataPtr->currentMove))
+                if (gBattleMsgDataPtr->currentMove >= MOVES_COUNT)
                     toCpy = gTypesInfo[gBattleStruct->stringMoveType].generic;
                 else
                     toCpy = GetMoveName(gBattleMsgDataPtr->currentMove);
                 break;
             case B_TXT_LAST_MOVE: // originally used move name
-                if (gBattleMsgDataPtr->originallyUsedMove >= MOVES_COUNT
-                 && !IsZMove(gBattleMsgDataPtr->currentMove)
-                 && !IsMaxMove(gBattleMsgDataPtr->currentMove))
+                if (gBattleMsgDataPtr->originallyUsedMove >= MOVES_COUNT)
                     toCpy = gTypesInfo[gBattleStruct->stringMoveType].generic;
                 else
                     toCpy = GetMoveName(gBattleMsgDataPtr->originallyUsedMove);
                 break;
             case B_TXT_LAST_ITEM: // last used item
-                if (gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK))
-                {
-                    if (gLastUsedItem == ITEM_ENIGMA_BERRY_E_READER)
-                    {
-                        if (!(gBattleTypeFlags & BATTLE_TYPE_MULTI))
-                        {
-                            if ((gBattleScripting.multiplayerId != 0 && (gPotentialItemEffectBattler & BIT_SIDE))
-                                || (gBattleScripting.multiplayerId == 0 && !(gPotentialItemEffectBattler & BIT_SIDE)))
-                            {
-                                StringCopy(text, gEnigmaBerries[gPotentialItemEffectBattler].name);
-                                StringAppend(text, sText_BerrySuffix);
-                                toCpy = text;
-                            }
-                            else
-                            {
-                                toCpy = sText_EnigmaBerry;
-                            }
-                        }
-                        else
-                        {
-                            if (gLinkPlayers[gBattleScripting.multiplayerId].id == gPotentialItemEffectBattler)
-                            {
-                                StringCopy(text, gEnigmaBerries[gPotentialItemEffectBattler].name);
-                                StringAppend(text, sText_BerrySuffix);
-                                toCpy = text;
-                            }
-                            else
-                            {
-                                toCpy = sText_EnigmaBerry;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        CopyItemName(gLastUsedItem, text);
-                        toCpy = text;
-                    }
-                }
-                else
-                {
-                    CopyItemName(gLastUsedItem, text);
-                    toCpy = text;
-                }
+                CopyItemName(gLastUsedItem, text);
+                toCpy = text;
                 break;
             case B_TXT_LAST_ABILITY: // last used ability
                 toCpy = gAbilitiesInfo[gLastUsedAbility].name;
@@ -3303,8 +2824,9 @@ u32 BattleStringExpandPlaceholders(const u8 *src, u8 *dst, u32 dstSize)
                     textStart[classLength] = classString[classLength];
                     classLength++;
                 }
-                textStart[classLength] = CHAR_SPACE;
-                textStart += classLength + 1;
+                if (classLength != 0)
+                    textStart[classLength++] = CHAR_SPACE;
+                textStart += classLength;
                 nameString = BattleStringGetOpponentNameByTrainerId(TRAINER_BATTLE_PARAM.opponentA, textStart, multiplayerId, GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT));
                 if (nameString != textStart)
                 {
@@ -3335,43 +2857,11 @@ u32 BattleStringExpandPlaceholders(const u8 *src, u8 *dst, u32 dstSize)
                 toCpy = BattleStringGetPlayerName(text, GetBattlerAtPosition(B_POSITION_PLAYER_LEFT));
                 break;
             case B_TXT_TRAINER1_LOSE_TEXT: // trainerA lose text
-                if (gBattleTypeFlags & BATTLE_TYPE_FRONTIER)
-                {
-                    CopyFrontierTrainerText(FRONTIER_PLAYER_WON_TEXT, TRAINER_BATTLE_PARAM.opponentA);
-                    toCpy = gStringVar4;
-                }
-                else if (gBattleTypeFlags & BATTLE_TYPE_TRAINER_TOWER && gMapHeader.regionMapSectionId == MAPSEC_TRAINER_TOWER_2)
-                {
-                    GetTrainerTowerOpponentLoseText(gStringVar4, 0);
-                    toCpy = gStringVar4;
-                }
-                else if (gBattleTypeFlags & BATTLE_TYPE_TRAINER_HILL)
-                {
-                    CopyTrainerHillTrainerText(TRAINER_HILL_TEXT_PLAYER_WON, TRAINER_BATTLE_PARAM.opponentA);
-                    toCpy = gStringVar4;
-                }
-                else
                 {
                     toCpy = GetTrainerALoseText();
                 }
                 break;
             case B_TXT_TRAINER1_WIN_TEXT: // trainerA win text
-                if (gBattleTypeFlags & BATTLE_TYPE_FRONTIER)
-                {
-                    CopyFrontierTrainerText(FRONTIER_PLAYER_LOST_TEXT, TRAINER_BATTLE_PARAM.opponentA);
-                    toCpy = gStringVar4;
-                }
-                else if (gBattleTypeFlags & BATTLE_TYPE_TRAINER_TOWER && gMapHeader.regionMapSectionId == MAPSEC_TRAINER_TOWER_2)
-                {
-                    GetTrainerTowerOpponentWinText(gStringVar4, 0);
-                    toCpy = gStringVar4;
-                }
-                else if (gBattleTypeFlags & BATTLE_TYPE_TRAINER_HILL)
-                {
-                    CopyTrainerHillTrainerText(TRAINER_HILL_TEXT_PLAYER_LOST, TRAINER_BATTLE_PARAM.opponentA);
-                    toCpy = gStringVar4;
-                }
-                else
                 {
                     toCpy = GetTrainerWonSpeech();
                 }
@@ -3450,8 +2940,9 @@ u32 BattleStringExpandPlaceholders(const u8 *src, u8 *dst, u32 dstSize)
                     textStart[classLength] = classString[classLength];
                     classLength++;
                 }
-                textStart[classLength] = CHAR_SPACE;
-                textStart += classLength + 1;
+                if (classLength != 0)
+                    textStart[classLength++] = CHAR_SPACE;
+                textStart += classLength;
                 nameString = BattleStringGetOpponentNameByTrainerId(TRAINER_BATTLE_PARAM.opponentB, textStart, multiplayerId, GetBattlerAtPosition(B_POSITION_OPPONENT_RIGHT));
                 if (nameString != textStart)
                 {
@@ -3464,59 +2955,31 @@ u32 BattleStringExpandPlaceholders(const u8 *src, u8 *dst, u32 dstSize)
                 }
                 break;
             case B_TXT_TRAINER2_LOSE_TEXT:
-                if (gBattleTypeFlags & BATTLE_TYPE_FRONTIER)
-                {
-                    CopyFrontierTrainerText(FRONTIER_PLAYER_WON_TEXT, TRAINER_BATTLE_PARAM.opponentB);
-                    toCpy = gStringVar4;
-                }
-                else if (gBattleTypeFlags & BATTLE_TYPE_TRAINER_TOWER && gMapHeader.regionMapSectionId == MAPSEC_TRAINER_TOWER_2)
-                {
-                    GetTrainerTowerOpponentLoseText(gStringVar4, 1);
-                    toCpy = gStringVar4;
-                }
-                else if (gBattleTypeFlags & BATTLE_TYPE_TRAINER_HILL)
-                {
-                    CopyTrainerHillTrainerText(TRAINER_HILL_TEXT_PLAYER_WON, TRAINER_BATTLE_PARAM.opponentB);
-                    toCpy = gStringVar4;
-                }
-                else
                 {
                     toCpy = GetTrainerBLoseText();
                 }
                 break;
             case B_TXT_TRAINER2_WIN_TEXT:
-                if (gBattleTypeFlags & BATTLE_TYPE_FRONTIER)
                 {
-                    CopyFrontierTrainerText(FRONTIER_PLAYER_LOST_TEXT, TRAINER_BATTLE_PARAM.opponentB);
-                    toCpy = gStringVar4;
-                }
-                else if (gBattleTypeFlags & BATTLE_TYPE_TRAINER_TOWER && gMapHeader.regionMapSectionId == MAPSEC_TRAINER_TOWER_2)
-                {
-                    GetTrainerTowerOpponentWinText(gStringVar4, 1);
-                    toCpy = gStringVar4;
-                }
-                else if (gBattleTypeFlags & BATTLE_TYPE_TRAINER_HILL)
-                {
-                    CopyTrainerHillTrainerText(TRAINER_HILL_TEXT_PLAYER_LOST, TRAINER_BATTLE_PARAM.opponentB);
-                    toCpy = gStringVar4;
                 }
                 break;
             case B_TXT_PARTNER_CLASS:
-                toCpy = gTrainerClasses[GetFrontierOpponentClass(gPartnerTrainerId)].name;
+                toCpy = BattleStringGetPartnerClass();
                 break;
             case B_TXT_PARTNER_NAME:
                 toCpy = BattleStringGetPlayerName(text, GetBattlerAtPosition(B_POSITION_PLAYER_RIGHT));
                 break;
             case B_TXT_PARTNER_NAME_WITH_CLASS:
                 toCpy = textStart;
-                classString = gTrainerClasses[GetFrontierOpponentClass(gPartnerTrainerId)].name;
+                classString = BattleStringGetPartnerClass();
                 while (classString[classLength] != EOS)
                 {
                     textStart[classLength] = classString[classLength];
                     classLength++;
                 }
-                textStart[classLength] = CHAR_SPACE;
-                textStart += classLength + 1;
+                if (classLength != 0)
+                    textStart[classLength++] = CHAR_SPACE;
+                textStart += classLength;
                 nameString = BattleStringGetPlayerName(textStart, GetBattlerAtPosition(B_POSITION_PLAYER_RIGHT));
                 if (nameString != textStart)
                 {
@@ -3536,7 +2999,7 @@ u32 BattleStringExpandPlaceholders(const u8 *src, u8 *dst, u32 dstSize)
                 {
                 case B_POSITION_PLAYER_RIGHT:
                     if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER)
-                        toCpy = gTrainerClasses[GetFrontierOpponentClass(gPartnerTrainerId)].name;
+                        toCpy = BattleStringGetPartnerClass();
                     break;
                 case B_POSITION_OPPONENT_LEFT:
                     toCpy = BattleStringGetOpponentClassByTrainerId(TRAINER_BATTLE_PARAM.opponentA);
@@ -3571,7 +3034,7 @@ u32 BattleStringExpandPlaceholders(const u8 *src, u8 *dst, u32 dstSize)
                     {
                     case B_POSITION_PLAYER_RIGHT:
                         if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER)
-                            classString = gTrainerClasses[GetFrontierOpponentClass(gPartnerTrainerId)].name;
+                            classString = BattleStringGetPartnerClass();
                         break;
                     case B_POSITION_OPPONENT_LEFT:
                         classString = BattleStringGetOpponentClassByTrainerId(TRAINER_BATTLE_PARAM.opponentA);
@@ -3592,8 +3055,9 @@ u32 BattleStringExpandPlaceholders(const u8 *src, u8 *dst, u32 dstSize)
                         textStart[classLength] = classString[classLength];
                         classLength++;
                     }
-                    textStart[classLength] = CHAR_SPACE;
-                    textStart += 1 + classLength;
+                    if (classLength != 0)
+                        textStart[classLength++] = CHAR_SPACE;
+                    textStart += classLength;
                     nameString = BattleStringGetTrainerName(textStart, multiplayerId, gBattlerAttacker);
                     if (nameString != textStart)
                     {
@@ -3808,7 +3272,7 @@ void ExpandBattleTextBuffPlaceholders(const u8 *src, u8 *dst)
             srcID += 3;
             break;
         case B_BUFF_NEGATIVE_FLAVOR: // flavor table
-            StringAppend(dst, gPokeblockWasTooXStringTable[src[srcID + 1]]);
+            StringAppend(dst, gBerryFlavorReactionStrings[src[srcID + 1]]);
             srcID += 2;
             break;
         case B_BUFF_ABILITY: // ability names
@@ -3817,29 +3281,7 @@ void ExpandBattleTextBuffPlaceholders(const u8 *src, u8 *dst)
             break;
         case B_BUFF_ITEM: // item name
             hword = T1_READ_16(&src[srcID + 1]);
-            if (gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK))
-            {
-                if (hword == ITEM_ENIGMA_BERRY_E_READER)
-                {
-                    if (gLinkPlayers[gBattleScripting.multiplayerId].id == gPotentialItemEffectBattler)
-                    {
-                        StringCopy(dst, gEnigmaBerries[gPotentialItemEffectBattler].name);
-                        StringAppend(dst, sText_BerrySuffix);
-                    }
-                    else
-                    {
-                        StringAppend(dst, sText_EnigmaBerry);
-                    }
-                }
-                else
-                {
-                    CopyItemName(hword, dst);
-                }
-            }
-            else
-            {
-                CopyItemName(hword, dst);
-            }
+            CopyItemName(hword, dst);
             srcID += 3;
             break;
         }
@@ -3880,11 +3322,7 @@ void BattlePutTextOnWindow(const u8 *text, u8 windowId)
     {
         // We cannot check the actual width of the window because
         // B_WIN_MOVE_NAME_1 and B_WIN_MOVE_NAME_3 are 16 wide for
-        // Z-move details.
-        if (gBattleStruct->zmove.viewing && windowId == B_WIN_MOVE_NAME_1)
-            printerTemplate.fontId = GetFontIdToFit(text, printerTemplate.fontId, printerTemplate.letterSpacing, 16 * TILE_WIDTH);
-        else
-            printerTemplate.fontId = GetFontIdToFit(text, printerTemplate.fontId, printerTemplate.letterSpacing, 8 * TILE_WIDTH);
+        printerTemplate.fontId = GetFontIdToFit(text, printerTemplate.fontId, printerTemplate.letterSpacing, 8 * TILE_WIDTH);
     }
 
     if (printerTemplate.x == 0xFF)
@@ -3894,24 +3332,23 @@ void BattlePutTextOnWindow(const u8 *text, u8 windowId)
         printerTemplate.x = printerTemplate.currentX = alignX;
     }
 
-    if (windowId == ARENA_WIN_JUDGMENT_TEXT || windowId == B_WIN_OAK_OLD_MAN)
+    if (windowId == B_WIN_TUTORIAL)
         gTextFlags.useAlternateDownArrow = FALSE;
     else
         gTextFlags.useAlternateDownArrow = TRUE;
 
-    if ((gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED)) || gTestRunnerEnabled || ((gBattleTypeFlags & BATTLE_TYPE_POKEDUDE) && windowId != B_WIN_OAK_OLD_MAN))
+    if (((gBattleTypeFlags & BATTLE_TYPE_LINK) || gTestRunnerEnabled) || ((gBattleTypeFlags & BATTLE_TYPE_POKEDUDE) && windowId != B_WIN_TUTORIAL))
         gTextFlags.autoScroll = TRUE;
     else
         gTextFlags.autoScroll = FALSE;
 
-    if (windowId == B_WIN_MSG || windowId == ARENA_WIN_JUDGMENT_TEXT || windowId == B_WIN_OAK_OLD_MAN)
+    if (windowId == B_WIN_MSG || windowId == B_WIN_TUTORIAL)
     {
-        if (gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK))
+        if (gBattleTypeFlags & BATTLE_TYPE_LINK)
             speed = 1;
-        else if (gBattleTypeFlags & BATTLE_TYPE_RECORDED)
-            speed = sRecordedBattleTextSpeeds[GetTextSpeedInRecordedBattle()];
-        else
+        else {
             speed = GetPlayerTextSpeedDelay();
+        }
 
         gTextFlags.canABSpeedUpPrint = 1;
     }
@@ -3936,11 +3373,8 @@ void SetPPNumbersPaletteInMoveSelection(enum BattlerId battler)
     const u16 *palPtr = gPPTextPalette;
     u8 var;
 
-    if (!gBattleStruct->zmove.viewing)
-        var = GetCurrentPPToMaxPPState(chooseMoveStruct->currentPP[gMoveSelectionCursor[battler]],
+    var = GetCurrentPPToMaxPPState(chooseMoveStruct->currentPP[gMoveSelectionCursor[battler]],
                          chooseMoveStruct->maxPP[gMoveSelectionCursor[battler]]);
-    else
-        var = 3;
 
     gPlttBufferUnfaded[BG_PLTT_ID(5) + 12] = palPtr[(var * 2) + 0];
     gPlttBufferUnfaded[BG_PLTT_ID(5) + 11] = palPtr[(var * 2) + 1];

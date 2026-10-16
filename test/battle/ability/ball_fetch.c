@@ -116,5 +116,3 @@ SINGLE_BATTLE_TEST("Ball Fetch doesn't trigger in Trainer Battles")
         EXPECT_EQ(player->item, ITEM_NONE);
     }
 }
-
-TO_DO_BATTLE_TEST("Ball Fetch doesn't trigger in Max Raid Battles");

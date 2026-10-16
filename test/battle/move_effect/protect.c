@@ -834,60 +834,6 @@ DOUBLE_BATTLE_TEST("Crafty Shield does not protect against moves that target all
     }
 }
 
-SINGLE_BATTLE_TEST("Protect: Quick Guard, Wide Guard and Crafty Shield don't reduce Max Move demage", s16 damage)
-{
-    s16 dmg[2];
-    enum Move move;
-
-    PARAMETRIZE { move = MOVE_WIDE_GUARD; }
-    PARAMETRIZE { move = MOVE_QUICK_GUARD; }
-    PARAMETRIZE { move = MOVE_CRAFTY_SHIELD; }
-
-    GIVEN {
-        PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_WOBBUFFET);
-    } WHEN {
-        TURN { MOVE(player, MOVE_SCRATCH, gimmick: GIMMICK_DYNAMAX); }
-        TURN { MOVE(player, MOVE_SCRATCH); MOVE(opponent, move); }
-    } SCENE {
-        HP_BAR(opponent, captureDamage: &dmg[0]);
-        HP_BAR(opponent, captureDamage: &dmg[1]);
-    } FINALLY {
-        EXPECT_EQ(dmg[0], dmg[1]);
-    }
-}
-
-SINGLE_BATTLE_TEST("Protect: Quick Guard, Wide Guard and Crafty Shield don't reduce Z-Move demage", s16 damage)
-{
-    bool32 protected;
-    enum Move move;
-
-    PARAMETRIZE { protected = TRUE; move = MOVE_WIDE_GUARD; }
-    PARAMETRIZE { protected = FALSE; move = MOVE_WIDE_GUARD; }
-
-    PARAMETRIZE { protected = TRUE; move = MOVE_QUICK_GUARD; }
-    PARAMETRIZE { protected = FALSE; move = MOVE_QUICK_GUARD; }
-
-    PARAMETRIZE { protected = TRUE; move = MOVE_CRAFTY_SHIELD; }
-    PARAMETRIZE { protected = FALSE; move = MOVE_CRAFTY_SHIELD; }
-
-    GIVEN {
-        ASSUME(GetMoveType(MOVE_SCRATCH) == TYPE_NORMAL);
-        PLAYER(SPECIES_WOBBUFFET) { Item(ITEM_NORMALIUM_Z); }
-        OPPONENT(SPECIES_WOBBUFFET);
-    } WHEN {
-        if (protected)
-            TURN { MOVE(player, MOVE_SCRATCH, gimmick: GIMMICK_Z_MOVE); MOVE(opponent, move); }
-        else
-            TURN { MOVE(player, MOVE_SCRATCH, gimmick: GIMMICK_Z_MOVE); }
-    } SCENE {
-        HP_BAR(opponent, captureDamage: &results[i].damage);
-    } FINALLY {
-        EXPECT_EQ(results[0].damage, results[1].damage);
-        EXPECT_EQ(results[2].damage, results[3].damage);
-        EXPECT_EQ(results[4].damage, results[5].damage);
-    }
-}
 
 SINGLE_BATTLE_TEST("Protect: Protective Pads protects from secondary effects")
 {

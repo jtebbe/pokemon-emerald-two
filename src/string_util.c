@@ -396,6 +396,18 @@ u8 *StringExpandPlaceholders(u8 *dest, const u8 *src)
     }
 }
 
+size_t CountDigits(int value)
+{
+    size_t count = 1;
+
+    while (value >= 10)
+    {
+        value /= 10;
+        count++;
+    }
+    return count;
+}
+
 u8 *StringBraille(u8 *dest, const u8 *src)
 {
     const u8 setBrailleFont[] = {
@@ -441,7 +453,7 @@ static const u8 *ExpandPlaceholder_UnknownStringVar(void)
 
 static const u8 *ExpandPlaceholder_PlayerName(void)
 {
-    return gSaveBlock2Ptr->playerName;
+    return gSaveData.playerName;
 }
 
 static const u8 *ExpandPlaceholder_StringVar1(void)
@@ -461,7 +473,7 @@ static const u8 *ExpandPlaceholder_StringVar3(void)
 
 static const u8 *ExpandPlaceholder_KunChan(void)
 {
-    if (gSaveBlock2Ptr->playerGender == MALE)
+    if (gSaveData.playerGender == MALE)
         return gText_ExpandedPlaceholder_Kun;
     else
         return gText_ExpandedPlaceholder_Chan;
@@ -470,11 +482,11 @@ static const u8 *ExpandPlaceholder_KunChan(void)
 static const u8 *ExpandPlaceholder_RivalName(void)
 {
 #if IS_FRLG
-    if (gSaveBlock1Ptr->rivalName[0] != EOS)
-        return gSaveBlock1Ptr->rivalName;
+    if (gSaveData.rivalName[0] != EOS)
+        return gSaveData.rivalName;
 #endif
 
-    if (gSaveBlock2Ptr->playerGender == MALE)
+    if (gSaveData.playerGender == MALE)
         return (IS_FRLG ? gText_ExpandedPlaceholder_Green : gText_ExpandedPlaceholder_May);
     else
         return (IS_FRLG ? gText_ExpandedPlaceholder_Red : gText_ExpandedPlaceholder_Brendan);

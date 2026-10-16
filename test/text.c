@@ -45,28 +45,6 @@ TEST("Move names fit on Battle Screen")
     EXPECT_LE(GetStringWidth(fontId, GetMoveName(move), 0), widthPx);
 }
 
-TEST("Move names fit on Contest Screen")
-{
-    u32 i;
-    const u32 fontId = FONT_NARROWER, widthPx = 59;
-    enum Move move = MOVE_NONE;
-    for (i = 1; i < MOVES_COUNT; i++)
-    {
-        PARAMETRIZE_LABEL("%S", GetMoveName(i)) { move = i; }
-    }
-    // All moves explicitly listed here are too big to fit.
-    switch (move)
-    {
-    case MOVE_STOMPING_TANTRUM:
-    case MOVE_NATURES_MADNESS:
-    case MOVE_DOUBLE_IRON_BASH:
-        EXPECT_GT(GetStringWidth(fontId, GetMoveName(move), 0), widthPx);
-        break;
-    default:
-        EXPECT_LE(GetStringWidth(fontId, GetMoveName(move), 0), widthPx);
-        break;
-    }
-}
 
 TEST("Move names fit on TMs & HMs Bag Screen")
 {
@@ -125,6 +103,8 @@ TEST("Item names fit on Bag Screen (list)")
     enum Item item = ITEM_NONE;
     for (i = 1; i < ITEMS_COUNT; i++)
     {
+        if (gItemsInfo[i].name == NULL)
+            continue; // Deleted items retain numeric slots but have no text to measure.
         PARAMETRIZE_LABEL("%S", gItemsInfo[i].name) { item = i; }
     }
     //DebugPrintf("Item %d: %S", GetStringWidth(fontId, gItemsInfo[item].name, 0), gItemsInfo[item].name);
@@ -143,6 +123,8 @@ TEST("Item plural names fit on Bag Screen (left box)")
     u8 pluralName[ITEM_NAME_PLURAL_LENGTH + 1];
     for (i = 1; i < ITEMS_COUNT; i++)
     {
+        if (gItemsInfo[i].name == NULL)
+            continue; // Deleted items retain numeric slots but have no text to measure.
         PARAMETRIZE_LABEL("%S", gItemsInfo[i].name) { item = i; }
     }
     CopyItemNameHandlePlural(item, pluralName, 2);
@@ -156,6 +138,8 @@ TEST("Item names fit on PC Storage (list)")
     enum Item item = ITEM_NONE;
     for (i = 1; i < ITEMS_COUNT; i++)
     {
+        if (gItemsInfo[i].name == NULL)
+            continue; // Deleted items retain numeric slots but have no text to measure.
         PARAMETRIZE_LABEL("%S", gItemsInfo[i].name) { item = i; }
     }
     EXPECT_LE(GetStringWidth(fontId, gItemsInfo[item].name, 0), widthPx);
@@ -170,6 +154,8 @@ TEST("Item plural names fit on PC storage (left box)")
     u8 pluralName[ITEM_NAME_PLURAL_LENGTH + 1];
     for (i = 1; i < ITEMS_COUNT; i++)
     {
+        if (gItemsInfo[i].name == NULL)
+            continue; // Deleted items retain numeric slots but have no text to measure.
         PARAMETRIZE_LABEL("%S", gItemsInfo[i].name) { item = i; }
     }
     CopyItemNameHandlePlural(item, pluralName, 2);
@@ -183,6 +169,8 @@ TEST("Item names fit on Pokemon Storage System")
     enum Item item = ITEM_NONE;
     for (i = 1; i < ITEMS_COUNT; i++)
     {
+        if (gItemsInfo[i].name == NULL)
+            continue; // Deleted items retain numeric slots but have no text to measure.
         if (gItemsInfo[i].importance) continue;
         PARAMETRIZE_LABEL("%S", gItemsInfo[i].name) { item = i; }
     }
@@ -210,6 +198,8 @@ TEST("Item names fit on Pokemon Summary Screen")
     enum Item item = ITEM_NONE;
     for (i = 1; i < ITEMS_COUNT; i++)
     {
+        if (gItemsInfo[i].name == NULL)
+            continue; // Deleted items retain numeric slots but have no text to measure.
         if (gItemsInfo[i].importance) continue;
         PARAMETRIZE_LABEL("%S", gItemsInfo[i].name) { item = i; }
     }
@@ -232,6 +222,8 @@ TEST("Item names fit on Shop Screen")
     enum Item item = ITEM_NONE;
     for (i = 1; i < ITEMS_COUNT; i++)
     {
+        if (gItemsInfo[i].name == NULL)
+            continue; // Deleted items retain numeric slots but have no text to measure.
         PARAMETRIZE_LABEL("%S", gItemsInfo[i].name) { item = i; }
     }
     EXPECT_LE(GetStringWidth(fontId, gItemsInfo[item].name, 0), widthPx);
@@ -244,8 +236,11 @@ TEST("Item descriptions fit on Bag and Shop Screen")
     enum Item item = ITEM_NONE;
     for (i = 1; i < ITEMS_COUNT; i++)
     {
-        PARAMETRIZE_LABEL("%S", gItemsInfo[i].description) { item = i; }
+        if (gItemsInfo[i].name == NULL)
+            continue; // Deleted items retain numeric slots but have no text to measure.
+        PARAMETRIZE_LABEL("%S", gItemsInfo[i].name) { item = i; }
     }
+    EXPECT(gItemsInfo[item].description != NULL);
     EXPECT_LE(GetStringWidth(fontId, gItemsInfo[item].description, 0), widthPx);
 }
 
@@ -263,7 +258,7 @@ TEST("Species names fit on Battle Screen HP box")
             PARAMETRIZE_LABEL("%S", gSpeciesInfo[i].speciesName) { species = i; }
         }
     }
-    if (gSpeciesInfo[i].genderRatio != MON_GENDERLESS)
+    if (gSpeciesInfo[species].genderRatio != MON_GENDERLESS)
         EXPECT_LE(GetStringWidth(fontId, gSpeciesInfo[species].speciesName, 0) - genderWidthPx, widthPx);
     else
         EXPECT_LE(GetStringWidth(fontId, gSpeciesInfo[species].speciesName, 0), widthPx);
@@ -344,50 +339,7 @@ TEST("Species names fit on Pokemon Storage System")
     EXPECT_LE(GetStringWidth(FONT_SHORT_NARROWER, gSpeciesInfo[species].speciesName, 0), 60);
 }
 
-TEST("Species names fit on Contest Screen")
-{
-    enum Species i;
-    const u32 fontId = FONT_NARROWER, widthPx = 50;
-    enum Species species = SPECIES_NONE;
-    for (i = SPECIES_NONE + 1; i < NUM_SPECIES; i++)
-    {
-        if (IsSpeciesEnabled(i))
-        {
-            PARAMETRIZE_LABEL("%S", gSpeciesInfo[i].speciesName) { species = i; }
-        }
-    }
-    EXPECT_LE(GetStringWidth(fontId, gSpeciesInfo[species].speciesName, 0), widthPx);
-}
 
-TEST("Species names fit on Contest Screen - Rankings")
-{
-    enum Species i;
-    const u32 fontId = FONT_NARROWER, widthPx = 49;
-    enum Species species = SPECIES_NONE;
-    for (i = SPECIES_NONE + 1; i < NUM_SPECIES; i++)
-    {
-        if (IsSpeciesEnabled(i))
-        {
-            PARAMETRIZE_LABEL("%S", gSpeciesInfo[i].speciesName) { species = i; }
-        }
-    }
-    EXPECT_LE(GetStringWidth(fontId, gSpeciesInfo[species].speciesName, 0), widthPx);
-}
-
-TEST("Species names fit on Battle Dome Screen")
-{
-    enum Species i;
-    const u32 fontId = FONT_SHORT_NARROWER, widthPx = 60;
-    enum Species species = SPECIES_NONE;
-    for (i = SPECIES_NONE + 1; i < NUM_SPECIES; i++)
-    {
-        if (IsSpeciesEnabled(i))
-        {
-            PARAMETRIZE_LABEL("%S", gSpeciesInfo[i].speciesName) { species = i; }
-        }
-    }
-    EXPECT_LE(GetStringWidth(fontId, gSpeciesInfo[species].speciesName, 0), widthPx);
-}
 
 TEST("Species names fit on Hall of Fame")
 {
@@ -408,66 +360,6 @@ TEST("Species names fit on Naming Screen")
 {
     enum Species i;
     const u32 fontId = FONT_NARROWER, widthPx = 64;
-    enum Species species = SPECIES_NONE;
-    for (i = SPECIES_NONE + 1; i < NUM_SPECIES; i++)
-    {
-        if (IsSpeciesEnabled(i))
-        {
-            PARAMETRIZE_LABEL("%S", gSpeciesInfo[i].speciesName) { species = i; }
-        }
-    }
-    EXPECT_LE(GetStringWidth(fontId, gSpeciesInfo[species].speciesName, 0), widthPx);
-}
-
-TEST("Species names fit on PokeNav Condition Screen")
-{
-    enum Species i;
-    const u32 fontId = FONT_NARROWER, widthPx = 57;
-    enum Species species = SPECIES_NONE;
-    for (i = SPECIES_NONE + 1; i < NUM_SPECIES; i++)
-    {
-        if (IsSpeciesEnabled(i))
-        {
-            PARAMETRIZE_LABEL("%S", gSpeciesInfo[i].speciesName) { species = i; }
-        }
-    }
-    EXPECT_LE(GetStringWidth(fontId, gSpeciesInfo[species].speciesName, 0), widthPx);
-}
-
-TEST("Species names fit on PokeNav Condition Search Screen")
-{
-    enum Species i;
-    const u32 fontId = FONT_NARROWER, widthPx = 60;
-    enum Species species = SPECIES_NONE;
-    for (i = SPECIES_NONE + 1; i < NUM_SPECIES; i++)
-    {
-        if (IsSpeciesEnabled(i))
-        {
-            PARAMETRIZE_LABEL("%S", gSpeciesInfo[i].speciesName) { species = i; }
-        }
-    }
-    EXPECT_LE(GetStringWidth(fontId, gSpeciesInfo[species].speciesName, 0), widthPx);
-}
-
-TEST("Species names fit on PokeNav Ribbon Screen")
-{
-    enum Species i;
-    const u32 fontId = FONT_NARROWER, widthPx = 60;
-    enum Species species = SPECIES_NONE;
-    for (i = SPECIES_NONE + 1; i < NUM_SPECIES; i++)
-    {
-        if (IsSpeciesEnabled(i))
-        {
-            PARAMETRIZE_LABEL("%S", gSpeciesInfo[i].speciesName) { species = i; }
-        }
-    }
-    EXPECT_LE(GetStringWidth(fontId, gSpeciesInfo[species].speciesName, 0), widthPx);
-}
-
-TEST("Species names fit on PokeNav Ribbon List Screen")
-{
-    enum Species i;
-    const u32 fontId = FONT_NARROWER, widthPx = 60;
     enum Species species = SPECIES_NONE;
     for (i = SPECIES_NONE + 1; i < NUM_SPECIES; i++)
     {

@@ -69,7 +69,7 @@ AI_SINGLE_BATTLE_TEST("AI prefers moves with better accuracy, but only if they b
 
     GIVEN {
         AI_FLAGS(AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_CHECK_VIABILITY | AI_FLAG_TRY_TO_FAINT);
-        PLAYER(SPECIES_WOBBUFFET) { HP(hp); }
+        PLAYER(SPECIES_WOBBUFFET) { HP(hp); Defense(121); SpDefense(121); }
         PLAYER(SPECIES_WOBBUFFET);
         ASSUME(GetMoveAccuracy(MOVE_SWIFT) == 0);
         ASSUME(GetMovePower(MOVE_SLAM) == GetMovePower(MOVE_STRENGTH));
@@ -90,7 +90,7 @@ AI_SINGLE_BATTLE_TEST("AI prefers moves with better accuracy, but only if they b
         ASSUME(GetMoveCategory(MOVE_ICY_WIND) == DAMAGE_CATEGORY_SPECIAL);
         ASSUME(GetMoveCategory(MOVE_THUNDERBOLT) == DAMAGE_CATEGORY_SPECIAL);
         ASSUME(GetMoveCategory(MOVE_GUST) == DAMAGE_CATEGORY_SPECIAL);
-        OPPONENT(SPECIES_EXPLOUD) { Moves(move1, move2, move3, move4); Ability(abilityAtk); SpAttack(50); } // Low Sp.Atk, so Swift deals less damage than Strength.
+        OPPONENT(SPECIES_EXPLOUD) { Moves(move1, move2, move3, move4); Ability(abilityAtk); Attack(187); SpAttack(50); } // Low Sp.Atk, so Swift deals less damage than Strength.
     } WHEN {
             switch (turns)
             {
@@ -131,6 +131,7 @@ AI_SINGLE_BATTLE_TEST("AI prefers moves which deal more damage instead of moves 
     enum Ability abilityAtk, abilityDef;
 
     abilityAtk = ABILITY_NONE;
+    abilityDef = ABILITY_NONE;
 
     // Scald and Poison Jab take 3 hits, Waterfall takes 2.
     PARAMETRIZE { move1 = MOVE_WATERFALL; move2 = MOVE_SCALD; move3 = MOVE_POISON_JAB; move4 = MOVE_WATER_GUN; expectedMove = MOVE_WATERFALL; turns = 2; }
@@ -144,9 +145,9 @@ AI_SINGLE_BATTLE_TEST("AI prefers moves which deal more damage instead of moves 
         ASSUME(GetMoveCategory(MOVE_WATER_GUN) == DAMAGE_CATEGORY_SPECIAL);
         ASSUME(GetSpeciesBaseAttack(SPECIES_NIDOQUEEN) == 92); // Gen 5's 82 Base Attack causes the test to fail
         AI_FLAGS(AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_CHECK_VIABILITY | AI_FLAG_TRY_TO_FAINT);
-        PLAYER(SPECIES_TYPHLOSION) { Ability(abilityDef); }
+        PLAYER(SPECIES_TYPHLOSION) { Ability(abilityDef); HP(266); Defense(161); SpDefense(175); }
         PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_NIDOQUEEN) { Moves(move1, move2, move3, move4); Ability(abilityAtk); }
+        OPPONENT(SPECIES_NIDOQUEEN) { Moves(move1, move2, move3, move4); Ability(abilityAtk); Attack(189); SpAttack(155); }
     } WHEN {
             switch (turns)
             {
@@ -202,9 +203,9 @@ AI_SINGLE_BATTLE_TEST("AI prefers a weaker move over one with a downside effect 
         ASSUME(GetMovePower(MOVE_FLAMETHROWER) == 90); // In Gen 5, it's 95
         ASSUME(GetMovePower(MOVE_OVERHEAT) == 130); // In Gen 5, it's 140.
         AI_FLAGS(AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_CHECK_VIABILITY | AI_FLAG_TRY_TO_FAINT);
-        PLAYER(SPECIES_WOBBUFFET) { HP(hp); }
+        PLAYER(SPECIES_WOBBUFFET) { HP(hp); SpDefense(121); }
         PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_TYPHLOSION) { Moves(move1, move2, move3, move4); }
+        OPPONENT(SPECIES_TYPHLOSION) { Moves(move1, move2, move3, move4); SpAttack(223); }
     } WHEN {
         switch (turns)
         {
@@ -242,9 +243,9 @@ AI_SINGLE_BATTLE_TEST("AI can choose a status move that boosts the attack by two
         ASSUME(GetMoveCategory(MOVE_STRENGTH) == DAMAGE_CATEGORY_PHYSICAL);
         ASSUME(GetMoveCategory(MOVE_HORN_ATTACK) == DAMAGE_CATEGORY_PHYSICAL);
         AI_FLAGS(AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_CHECK_VIABILITY | AI_FLAG_TRY_TO_FAINT);
-        PLAYER(SPECIES_WOBBUFFET) { HP(277); }
+        PLAYER(SPECIES_WOBBUFFET) { HP(277); Defense(121); }
         PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_KANGASKHAN) { Moves(MOVE_STRENGTH, MOVE_HORN_ATTACK, MOVE_SWORDS_DANCE); }
+        OPPONENT(SPECIES_KANGASKHAN) { Moves(MOVE_STRENGTH, MOVE_HORN_ATTACK, MOVE_SWORDS_DANCE); Attack(195); }
     } WHEN {
         TURN { EXPECT_MOVES(opponent, MOVE_STRENGTH, MOVE_SWORDS_DANCE); }
         TURN { EXPECT_MOVE(opponent, MOVE_STRENGTH); SEND_OUT(player, 1); }
@@ -343,9 +344,9 @@ AI_SINGLE_BATTLE_TEST("AI won't use ground type attacks against flying type Poke
     GIVEN {
         ASSUME(GetMoveCategory(MOVE_EARTHQUAKE) == DAMAGE_CATEGORY_PHYSICAL); // Otherwise, it doesn't KO Crobat
         AI_FLAGS(AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_CHECK_VIABILITY | AI_FLAG_TRY_TO_FAINT);
-        PLAYER(SPECIES_CROBAT);
+        PLAYER(SPECIES_CROBAT) { HP(280); Defense(165); SpDefense(165); }
         PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_NIDOQUEEN) { Moves(MOVE_EARTHQUAKE, MOVE_SCRATCH, MOVE_POISON_STING, MOVE_GUST); }
+        OPPONENT(SPECIES_NIDOQUEEN) { Moves(MOVE_EARTHQUAKE, MOVE_SCRATCH, MOVE_POISON_STING, MOVE_GUST); Attack(189); SpAttack(155); }
     } WHEN {
         TURN { NOT_EXPECT_MOVE(opponent, MOVE_EARTHQUAKE); }
         TURN { MOVE(player, MOVE_GRAVITY); NOT_EXPECT_MOVE(opponent, MOVE_EARTHQUAKE); }
@@ -606,8 +607,8 @@ AI_SINGLE_BATTLE_TEST("AI uses a guaranteed KO move instead of the move with the
         ASSUME(GetMoveType(MOVE_SLASH) == GetMoveType(MOVE_STRENGTH));
         ASSUME(GetMoveCategory(MOVE_SLASH) == GetMoveCategory(MOVE_STRENGTH));
         AI_FLAGS(flags);
-        PLAYER(SPECIES_WOBBUFFET) { HP(225); }
-        OPPONENT(SPECIES_ABSOL) { Ability(ABILITY_SUPER_LUCK); Moves(MOVE_SLASH, MOVE_STRENGTH); }
+        PLAYER(SPECIES_WOBBUFFET) { HP(225); Defense(121); }
+        OPPONENT(SPECIES_ABSOL) { Ability(ABILITY_SUPER_LUCK); Attack(265); Moves(MOVE_SLASH, MOVE_STRENGTH); }
     } WHEN {
         TURN { EXPECT_MOVE(opponent, MOVE_SLASH); }
         if (flags & AI_FLAG_TRY_TO_FAINT)
@@ -1134,7 +1135,7 @@ AI_SINGLE_BATTLE_TEST("AI's Explosion scoring handles multiple move effects and 
         WITH_CONFIG(B_EXPLOSION_DEFENSE, genConfig);
         AI_FLAGS(AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_TRY_TO_FAINT | AI_FLAG_CHECK_VIABILITY | AI_FLAG_SMART_SWITCHING | AI_FLAG_SMART_MON_CHOICES | AI_FLAG_OMNISCIENT);
         PLAYER(SPECIES_CLOYSTER) { Level(44); HP(68); Moves(MOVE_DETECT, MOVE_RAZOR_SHELL, MOVE_ICICLE_SPEAR, MOVE_ICE_SHARD); }
-        OPPONENT(SPECIES_GLALIE_MEGA) { Level(44); HP(1); Ability(ABILITY_REFRIGERATE); Friendship(MAX_FRIENDSHIP); Moves(MOVE_RETURN, MOVE_EARTHQUAKE, MOVE_EXPLOSION, MOVE_CRUNCH); }
+        OPPONENT(SPECIES_GLALIE_MEGA) { Level(44); HP(1); Ability(ABILITY_REFRIGERATE); Moves(MOVE_BODY_SLAM, MOVE_EARTHQUAKE, MOVE_EXPLOSION, MOVE_CRUNCH); }
     } WHEN {
         TURN { MOVE(player, MOVE_DETECT); EXPECT_MOVE(opponent, MOVE_EXPLOSION); }
     }
@@ -1680,4 +1681,21 @@ AI_DOUBLE_BATTLE_TEST("AI sees Dragon Darts damage redirecting if one target is 
     }
 }
 
-TO_DO_BATTLE_TEST("AI doesn't see stomping tantrum as boosted for switch AI if its last move before fainting failed");
+AI_SINGLE_BATTLE_TEST("AI does not inherit Stomping Tantrum's boost when selecting a replacement")
+{
+    GIVEN {
+        AI_FLAGS(AI_FLAG_SMART_MON_CHOICES | AI_FLAG_OMNISCIENT);
+        PLAYER(SPECIES_GOLEM) { HP(200); Defense(200); Speed(1); Ability(ABILITY_SHADOW_TAG); Moves(MOVE_SCRATCH); }
+        OPPONENT(SPECIES_WOBBUFFET) { HP(1); Speed(2); Ability(ABILITY_INNER_FOCUS); Moves(MOVE_THUNDER_WAVE); }
+        OPPONENT(SPECIES_WOBBUFFET) { Attack(100); Speed(2); Moves(MOVE_STOMPING_TANTRUM); }
+        OPPONENT(SPECIES_WOBBUFFET) { Attack(100); Speed(2); Moves(MOVE_EARTHQUAKE); }
+    } WHEN {
+        TURN {
+            MOVE(player, MOVE_SCRATCH);
+            EXPECT_MOVE(opponent, MOVE_THUNDER_WAVE);
+            EXPECT_SEND_OUT(opponent, 2);
+        }
+    } SCENE {
+        MESSAGE("It doesn't affect Golem…");
+    }
+}

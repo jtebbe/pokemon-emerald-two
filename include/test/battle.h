@@ -325,7 +325,6 @@
  * - Speed(n)
  * - Item(item)
  * - Moves(moves...)
- * - Friendship(friendship)
  * - Status1(status1)
  * For example to create a Wobbuffet that is poisoned:
  *     PLAYER(SPECIES_WOBBUFFET) { Status1(STATUS1_POISON); }
@@ -543,7 +542,7 @@
 #include "config_changes.h"
 #include "item.h"
 #include "random.h"
-#include "recorded_battle.h"
+#include "test/battle_fixture.h"
 #include "util.h"
 #include "constants/abilities.h"
 #include "constants/battle_ai.h"
@@ -784,6 +783,7 @@ struct BattleTestData
     u8 explicitMoves[MAX_BATTLE_TRAINERS];
     bool8 hasExplicitSpeeds;
     u8 explicitSpeeds[MAX_BATTLE_TRAINERS];
+    u8 explicitStats[MAX_BATTLE_TRAINERS][PARTY_SIZE];
     u32 slowerThan[MAX_BATTLE_TRAINERS][PARTY_SIZE];
     enum BattleTrainer battlerParty;
     u8 battlerTrainers;
@@ -806,10 +806,11 @@ struct BattleTestData
     bool8 explicitInventory:1;
 
     struct ItemSlot inventory[TEST_ITEM_SLOTS];
-    struct RecordedBattleSave recordedBattle;
-    u8 battleRecordTypes[MAX_BATTLERS_COUNT][BATTLER_RECORD_SIZE];
-    u8 battleRecordTurnNumbers[MAX_BATTLERS_COUNT][BATTLER_RECORD_SIZE];
-    u8 battleRecordSourceLineOffsets[MAX_BATTLERS_COUNT][BATTLER_RECORD_SIZE];
+    struct BattleTestFixture fixture;
+    u16 actionReadIndexes[MAX_BATTLERS_COUNT];
+    u8 battleRecordTypes[MAX_BATTLERS_COUNT][TEST_BATTLE_MAX_ACTIONS];
+    u8 battleRecordTurnNumbers[MAX_BATTLERS_COUNT][TEST_BATTLE_MAX_ACTIONS];
+    u8 battleRecordSourceLineOffsets[MAX_BATTLERS_COUNT][TEST_BATTLE_MAX_ACTIONS];
     u16 recordIndexes[MAX_BATTLERS_COUNT];
     struct BattlerTurn battleRecordTurns[MAX_TURNS][MAX_BATTLERS_COUNT];
 
@@ -873,7 +874,7 @@ bool32 IsAITest(void);
 
 #define AI_TRAINER_NAME "{PKMN} TRAINER LEAF"
 #define AI_TRAINER_2_NAME "{PKMN} TRAINER RED"
-#define AI_PARTNER_NAME "{PKMN} TRAINER 1"
+#define AI_PARTNER_NAME "{PKMN} TRAINER STEVEN"
 
 /* Test */
 
@@ -1043,20 +1044,11 @@ struct moveWithPP {
 #define SpAttack(spAttack) SpAttack_(__LINE__, spAttack)
 #define SpDefense(spDefense) SpDefense_(__LINE__, spDefense)
 #define Speed(speed) Speed_(__LINE__, speed)
-#define HPIV(hpIV) HPIV_(__LINE__, hpIV)
-#define AttackIV(attackIV) AttackIV_(__LINE__, attackIV)
-#define DefenseIV(defenseIV) DefenseIV_(__LINE__, defenseIV)
-#define SpAttackIV(spAttackIV) SpAttackIV_(__LINE__, spAttackIV)
-#define SpDefenseIV(spDefenseIV) SpDefenseIV_(__LINE__, spDefenseIV)
-#define SpeedIV(speedIV) SpeedIV_(__LINE__, speedIV)
 #define Item(item) Item_(__LINE__, item)
 #define Moves(move1, ...) do { u16 moves_[MAX_MON_MOVES] = {move1, __VA_ARGS__}; Moves_(__LINE__, moves_); } while (0)
 #define MovesWithPP(movewithpp1, ...) MovesWithPP_(__LINE__, (struct moveWithPP[MAX_MON_MOVES]) {movewithpp1, __VA_ARGS__})
-#define Friendship(friendship) Friendship_(__LINE__, friendship)
 #define Status1(status1) Status1_(__LINE__, status1)
 #define OTName(otName) do {static const u8 otName_[] = _(otName); OTName_(__LINE__, otName_);} while (0)
-#define DynamaxLevel(dynamaxLevel) DynamaxLevel_(__LINE__, dynamaxLevel)
-#define GigantamaxFactor(gigantamaxFactor) GigantamaxFactor_(__LINE__, gigantamaxFactor)
 #define TeraType(teraType) TeraType_(__LINE__, teraType)
 #define Shadow(isShadow) Shadow_(__LINE__, isShadow)
 #define Shiny(isShiny) Shiny_(__LINE__, isShiny)
@@ -1087,20 +1079,11 @@ void Defense_(u32 sourceLine, u32 defense);
 void SpAttack_(u32 sourceLine, u32 spAttack);
 void SpDefense_(u32 sourceLine, u32 spDefense);
 void Speed_(u32 sourceLine, u32 speed);
-void HPIV_(u32 sourceLine, u32 hpIV);
-void AttackIV_(u32 sourceLine, u32 attackIV);
-void DefenseIV_(u32 sourceLine, u32 defenseIV);
-void SpAttackIV_(u32 sourceLine, u32 spAttackIV);
-void SpDefenseIV_(u32 sourceLine, u32 spDefenseIV);
-void SpeedIV_(u32 sourceLine, u32 speedIV);
 void Item_(u32 sourceLine, u32 item);
 void Moves_(u32 sourceLine, u16 moves[MAX_MON_MOVES]);
 void MovesWithPP_(u32 sourceLine, struct moveWithPP moveWithPP[MAX_MON_MOVES]);
-void Friendship_(u32 sourceLine, u32 friendship);
 void Status1_(u32 sourceLine, u32 status1);
 void OTName_(u32 sourceLine, const u8 *otName);
-void DynamaxLevel_(u32 sourceLine, s16 dynamaxLevel);
-void GigantamaxFactor_(u32 sourceLine, bool32 gigantamaxFactor);
 void TeraType_(u32 sourceLine, enum Type teraType);
 void Shadow_(u32 sourceLine, bool32 isShadow);
 void Shiny_(u32 sourceLine, bool32 isShiny);
@@ -1122,11 +1105,11 @@ struct TestAIScoreStruct
     bool8 explicitTarget;
 };
 
-#define PLAYER_PARTY (gBattleTestRunnerState->data.recordedBattle.parties[B_TRAINER_PLAYER])
-#define OPPONENT_A_PARTY (gBattleTestRunnerState->data.recordedBattle.parties[B_TRAINER_OPPONENT_A])
+#define PLAYER_PARTY (gBattleTestRunnerState->data.fixture.parties[B_TRAINER_PLAYER])
+#define OPPONENT_A_PARTY (gBattleTestRunnerState->data.fixture.parties[B_TRAINER_OPPONENT_A])
 #define OPPONENT_PARTY OPPONENT_A_PARTY
-#define PARTNER_PARTY (gBattleTestRunnerState->data.recordedBattle.parties[B_TRAINER_PARTNER])
-#define OPPONENT_B_PARTY (gBattleTestRunnerState->data.recordedBattle.parties[B_TRAINER_OPPONENT_B])
+#define PARTNER_PARTY (gBattleTestRunnerState->data.fixture.parties[B_TRAINER_PARTNER])
+#define OPPONENT_B_PARTY (gBattleTestRunnerState->data.fixture.parties[B_TRAINER_OPPONENT_B])
 
 /* When */
 

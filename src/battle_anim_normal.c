@@ -365,7 +365,7 @@ static void AnimSimplePaletteBlend(struct Sprite *sprite)
 //   2: F_PAL_TARGET, gBattleAnimTarget OBJ palette
 //   3: F_PAL_ATK_PARTNER, gBattleAnimAttacker partner OBJ palette
 //   4: F_PAL_DEF_PARTNER, gBattleAnimTarget partner OBJ palette
-//   5: F_PAL_ANIM_1, BG palette 8 (or 14, if in Contest)
+//   5: F_PAL_ANIM_1, BG palette 8
 //   6: F_PAL_ANIM_2, BG palette 9
 u32 UnpackSelectedBattlePalettes(s16 selector)
 {
@@ -1129,7 +1129,7 @@ static void AnimHitSplatHandleInvert(struct Sprite *sprite)
     // Matches AnimHitSplatBasic.
     CMD_ARGS(x, y, relativeTo, animation);
 
-    if (!IsOnPlayerSide(gBattleAnimAttacker) && !IsContest())
+    if (!IsOnPlayerSide(gBattleAnimAttacker))
         cmd->y = -cmd->y;
 
     AnimHitSplatBasic(sprite);

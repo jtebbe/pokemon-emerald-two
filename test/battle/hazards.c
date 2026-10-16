@@ -35,7 +35,6 @@ SINGLE_BATTLE_TEST("Hazards are applied based on order of set up")
         EXPECT_EQ(gBattleStruct->hazardsQueue[0][2], HAZARDS_SPIKES);
         EXPECT_EQ(gBattleStruct->hazardsQueue[0][3], HAZARDS_NONE);
         EXPECT_EQ(gBattleStruct->hazardsQueue[0][4], HAZARDS_NONE);
-        EXPECT_EQ(gBattleStruct->hazardsQueue[0][5], HAZARDS_NONE);
     }
 }
 
@@ -92,7 +91,6 @@ SINGLE_BATTLE_TEST("Toxic Spikes can be removed after fainting to other hazards"
         EXPECT_EQ(gBattleStruct->hazardsQueue[0][2], HAZARDS_SPIKES);
         EXPECT_EQ(gBattleStruct->hazardsQueue[0][3], HAZARDS_NONE);
         EXPECT_EQ(gBattleStruct->hazardsQueue[0][4], HAZARDS_NONE);
-        EXPECT_EQ(gBattleStruct->hazardsQueue[0][5], HAZARDS_NONE);
     }
 }
 

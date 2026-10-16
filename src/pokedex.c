@@ -1360,18 +1360,16 @@ void ResetPokedex(void)
 
     sLastSelectedPokemon = 0;
     sPokeBallRotation = POKEBALL_ROTATION_TOP;
-    gSaveBlock2Ptr->pokedex.mode = DEX_MODE_HOENN;
-    gSaveBlock2Ptr->pokedex.order = 0;
-    gSaveBlock2Ptr->pokedex.nationalMagic = 0;
-    gSaveBlock2Ptr->pokedex.unknown2 = 0;
-    gSaveBlock2Ptr->pokedex.unownPersonality = 0;
-    gSaveBlock2Ptr->pokedex.spindaPersonality = 0;
-    gSaveBlock2Ptr->pokedex.unknown3 = 0;
+    gSaveData.pokedex.mode = DEX_MODE_HOENN;
+    gSaveData.pokedex.order = 0;
+    gSaveData.pokedex.nationalMagic = 0;
+    gSaveData.pokedex.unownPersonality = 0;
+    gSaveData.pokedex.spindaPersonality = 0;
     DisableNationalPokedex();
     for (i = 0; i < NUM_DEX_FLAG_BYTES; i++)
     {
-        gSaveBlock1Ptr->dexCaught[i] = 0;
-        gSaveBlock1Ptr->dexSeen[i] = 0;
+        gSaveData.dexCaught[i] = 0;
+        gSaveData.dexSeen[i] = 0;
     }
 }
 
@@ -1467,10 +1465,10 @@ void CB2_OpenPokedex(void)
         sPokedexView = AllocZeroed(sizeof(struct PokedexView));
         ResetPokedexView(sPokedexView);
         CreateTask(Task_OpenPokedexMainPage, 0);
-        sPokedexView->dexMode = gSaveBlock2Ptr->pokedex.mode;
+        sPokedexView->dexMode = gSaveData.pokedex.mode;
         if (!IsNationalPokedexEnabled())
             sPokedexView->dexMode = DEX_MODE_HOENN;
-        sPokedexView->dexOrder = gSaveBlock2Ptr->pokedex.order;
+        sPokedexView->dexOrder = gSaveData.pokedex.order;
         sPokedexView->selectedPokemon = sLastSelectedPokemon;
         sPokedexView->pokeBallRotation = sPokeBallRotation;
         sPokedexView->selectedScreen = AREA_SCREEN;
@@ -1712,10 +1710,10 @@ static void Task_ClosePokedex(u8 taskId)
 {
     if (!gPaletteFade.active)
     {
-        gSaveBlock2Ptr->pokedex.mode = sPokedexView->dexMode;
+        gSaveData.pokedex.mode = sPokedexView->dexMode;
         if (!IsNationalPokedexEnabled())
-            gSaveBlock2Ptr->pokedex.mode = DEX_MODE_HOENN;
-        gSaveBlock2Ptr->pokedex.order = sPokedexView->dexOrder;
+            gSaveData.pokedex.mode = DEX_MODE_HOENN;
+        gSaveData.pokedex.order = sPokedexView->dexOrder;
         ClearMonSprites();
         FreeWindowAndBgBuffers();
         DestroyTask(taskId);
@@ -3401,7 +3399,7 @@ void Task_HandleInfoScreenInput(u8 taskId)
         return;
     }
     if ((JOY_NEW(DPAD_LEFT)
-     || (JOY_NEW(L_BUTTON) && gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_LR))
+     || (JOY_NEW(L_BUTTON) && gSaveData.optionsButtonMode == OPTIONS_BUTTON_MODE_LR))
      && sPokedexView->selectedScreen > 0)
     {
         sPokedexView->selectedScreen--;
@@ -3410,7 +3408,7 @@ void Task_HandleInfoScreenInput(u8 taskId)
         return;
     }
     if ((JOY_NEW(DPAD_RIGHT)
-     || (JOY_NEW(R_BUTTON) && gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_LR))
+     || (JOY_NEW(R_BUTTON) && gSaveData.optionsButtonMode == OPTIONS_BUTTON_MODE_LR))
      && sPokedexView->selectedScreen < CANCEL_SCREEN)
     {
         sPokedexView->selectedScreen++;
@@ -3682,7 +3680,7 @@ void Task_HandleCryScreenInput(u8 taskId)
             return;
         }
         if (JOY_NEW(DPAD_LEFT)
-         || (JOY_NEW(L_BUTTON) && gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_LR))
+         || (JOY_NEW(L_BUTTON) && gSaveData.optionsButtonMode == OPTIONS_BUTTON_MODE_LR))
         {
             BeginNormalPaletteFade(PALETTES_ALL & ~(0x14), 0, 0, 0x10, RGB_BLACK);
             m4aMPlayContinue(&gMPlayInfo_BGM);
@@ -3692,7 +3690,7 @@ void Task_HandleCryScreenInput(u8 taskId)
             return;
         }
         if (JOY_NEW(DPAD_RIGHT)
-         || (JOY_NEW(R_BUTTON) && gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_LR))
+         || (JOY_NEW(R_BUTTON) && gSaveData.optionsButtonMode == OPTIONS_BUTTON_MODE_LR))
         {
             if (!sPokedexListItem->owned)
             {
@@ -3790,7 +3788,7 @@ void Task_LoadSizeScreen(u8 taskId)
             u8 string[64];
 
             StringCopy(string, gText_SizeComparedTo);
-            StringAppend(string, gSaveBlock2Ptr->playerName);
+            StringAppend(string, gSaveData.playerName);
             PrintInfoScreenText(string, GetStringCenterAlignXOffset(FONT_NORMAL, string, DISPLAY_WIDTH), 121);
             gMain.state++;
         }
@@ -3800,7 +3798,7 @@ void Task_LoadSizeScreen(u8 taskId)
         gMain.state++;
         break;
     case 5:
-        spriteId = CreateSizeScreenTrainerPic(PlayerGenderToFrontTrainerPicId(gSaveBlock2Ptr->playerGender), 152, 56, 0);
+        spriteId = CreateSizeScreenTrainerPic(PlayerGenderToFrontTrainerPicId(gSaveData.playerGender), 152, 56, 0);
         gSprites[spriteId].oam.affineMode = ST_OAM_AFFINE_NORMAL;
         gSprites[spriteId].oam.matrixNum = 1;
         gSprites[spriteId].oam.priority = 0;
@@ -3862,7 +3860,7 @@ void Task_HandleSizeScreenInput(u8 taskId)
         PlaySE(SE_PC_OFF);
     }
     else if (JOY_NEW(DPAD_LEFT)
-     || (JOY_NEW(L_BUTTON) && gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_LR))
+     || (JOY_NEW(L_BUTTON) && gSaveData.optionsButtonMode == OPTIONS_BUTTON_MODE_LR))
     {
         BeginNormalPaletteFade(PALETTES_ALL & ~(0x14), 0, 0, 0x10, RGB_BLACK);
         sPokedexView->screenSwitchState = 2;
@@ -4498,16 +4496,16 @@ s8 GetSetPokedexFlag(enum NationalDexOrder nationalDexNo, u8 caseID)
     switch (caseID)
     {
     case FLAG_GET_SEEN:
-        retVal = ((gSaveBlock1Ptr->dexSeen[index] & mask) != 0);
+        retVal = ((gSaveData.dexSeen[index] & mask) != 0);
         break;
     case FLAG_GET_CAUGHT:
-         retVal = ((gSaveBlock1Ptr->dexCaught[index] & mask) != 0);
+         retVal = ((gSaveData.dexCaught[index] & mask) != 0);
         break;
     case FLAG_SET_SEEN:
-        gSaveBlock1Ptr->dexSeen[index] |= mask;
+        gSaveData.dexSeen[index] |= mask;
         break;
     case FLAG_SET_CAUGHT:
-        gSaveBlock1Ptr->dexCaught[index] |= mask;
+        gSaveData.dexCaught[index] |= mask;
         break;
     }
 
@@ -4858,9 +4856,9 @@ static u32 GetPokedexMonPersonality(enum Species species)
     if (species == SPECIES_UNOWN || species == SPECIES_SPINDA)
     {
         if (species == SPECIES_UNOWN)
-            return gSaveBlock2Ptr->pokedex.unownPersonality;
+            return gSaveData.pokedex.unownPersonality;
         else
-            return gSaveBlock2Ptr->pokedex.spindaPersonality;
+            return gSaveData.pokedex.spindaPersonality;
     }
     else
     {
@@ -5253,12 +5251,12 @@ static void Task_HandleSearchMenuInput(u8 taskId)
                 sPokedexView->pokeBallRotationBackup = POKEBALL_ROTATION_TOP;
                 sLastSelectedPokemon = 0;
                 sPokedexView->selectedPokemonBackup = 0;
-                gSaveBlock2Ptr->pokedex.mode = GetSearchModeSelection(taskId, SEARCH_MODE);
+                gSaveData.pokedex.mode = GetSearchModeSelection(taskId, SEARCH_MODE);
                 if (!IsNationalPokedexEnabled())
-                    gSaveBlock2Ptr->pokedex.mode = DEX_MODE_HOENN;
-                sPokedexView->dexModeBackup = gSaveBlock2Ptr->pokedex.mode;
-                gSaveBlock2Ptr->pokedex.order = GetSearchModeSelection(taskId, SEARCH_ORDER);
-                sPokedexView->dexOrderBackup = gSaveBlock2Ptr->pokedex.order;
+                    gSaveData.pokedex.mode = DEX_MODE_HOENN;
+                sPokedexView->dexModeBackup = gSaveData.pokedex.mode;
+                gSaveData.pokedex.order = GetSearchModeSelection(taskId, SEARCH_ORDER);
+                sPokedexView->dexOrderBackup = gSaveData.pokedex.order;
                 PlaySE(SE_PC_OFF);
                 gTasks[taskId].func = Task_ExitSearch;
             }

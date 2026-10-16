@@ -4,72 +4,43 @@
 #include "random.h"
 #include "clock.h"
 #include "pokemon.h"
-#include "roamer.h"
-#include "pokemon_size_record.h"
 #include "script.h"
 #include "lottery_corner.h"
 #include "play_time.h"
-#include "mauville_old_man.h"
-#include "match_call.h"
-#include "lilycove_lady.h"
 #include "load_save.h"
-#include "pokeblock.h"
-#include "dewford_trend.h"
 #include "berry.h"
 #include "rtc.h"
 #include "easy_chat.h"
 #include "event_data.h"
 #include "money.h"
-#include "trainer_hill.h"
-#include "trainer_tower.h"
-#include "tv.h"
 #include "coins.h"
 #include "text.h"
 #include "overworld.h"
 #include "mail.h"
-#include "battle_records.h"
 #include "item.h"
 #include "pokedex.h"
-#include "apprentice.h"
-#include "frontier_util.h"
 #include "pokedex.h"
 #include "save.h"
 #include "link_rfu.h"
 #include "main.h"
-#include "contest.h"
 #include "item_menu.h"
 #include "pokemon_storage_system.h"
-#include "pokemon_jump.h"
-#include "decoration_inventory.h"
-#include "secret_base.h"
 #include "string_util.h"
 #include "player_pc.h"
 #include "field_specials.h"
-#include "berry_powder.h"
-#include "mystery_gift.h"
 #include "union_room_chat.h"
-#include "constants/map_groups.h"
+#include "constants/maps.h"
+#include "constants/heal_locations.h"
 #include "constants/items.h"
 #include "difficulty.h"
 #include "follower_npc.h"
 
-extern const u8 EventScript_ResetAllMapFlags[];
-extern const u8 EventScript_ResetAllMapFlagsFrlg[];
 
-static void ClearFrontierRecord(void);
-static void WarpToTruck(void);
-static void ResetMiniGamesRecords(void);
 static void ResetItemFlags(void);
 static void ResetDexNav(void);
 
 EWRAM_DATA bool8 gDifferentSaveFile = FALSE;
-EWRAM_DATA bool8 gEnableContestDebugging = FALSE;
 
-static const struct ContestWinner sContestWinnerPicDummy =
-{
-    .monName = _(""),
-    .trainerName = _("")
-};
 
 void SetTrainerId(u32 trainerId, u8 *dst)
 {
@@ -94,57 +65,32 @@ void CopyTrainerId(u8 *dst, u8 *src)
 static void InitPlayerTrainerId(void)
 {
     u32 trainerId = (Random() << 16) | GetGeneratedTrainerIdLower();
-    SetTrainerId(trainerId, gSaveBlock2Ptr->playerTrainerId);
+    SetTrainerId(trainerId, gSaveData.playerTrainerId);
 }
 
 // L=A isnt set here for some reason.
 static void SetDefaultOptions(void)
 {
-    gSaveBlock2Ptr->optionsTextSpeed = OPTIONS_TEXT_SPEED_MID;
-    gSaveBlock2Ptr->optionsWindowFrameType = 0;
-    gSaveBlock2Ptr->optionsSound = OPTIONS_SOUND_MONO;
-    gSaveBlock2Ptr->optionsBattleStyle = OPTIONS_BATTLE_STYLE_SHIFT;
-    gSaveBlock2Ptr->optionsBattleSceneOff = FALSE;
-    gSaveBlock2Ptr->regionMapZoom = FALSE;
+    gSaveData.optionsTextSpeed = OPTIONS_TEXT_SPEED_MID;
+    gSaveData.optionsWindowFrameType = 0;
+    gSaveData.optionsSound = OPTIONS_SOUND_MONO;
+    gSaveData.optionsBattleStyle = OPTIONS_BATTLE_STYLE_SHIFT;
+    gSaveData.optionsBattleSceneOff = FALSE;
 }
 
 static void ClearPokedexFlags(void)
 {
-    memset(&gSaveBlock1Ptr->dexCaught, 0, sizeof(gSaveBlock1Ptr->dexCaught));
-    memset(&gSaveBlock1Ptr->dexSeen, 0, sizeof(gSaveBlock1Ptr->dexSeen));
+    memset(&gSaveData.dexCaught, 0, sizeof(gSaveData.dexCaught));
+    memset(&gSaveData.dexSeen, 0, sizeof(gSaveData.dexSeen));
 }
 
-void ClearAllContestWinnerPics(void)
+
+
+
+
+void ResetSaveDataAndOptions(void)
 {
-    s32 i;
-
-    ClearContestWinnerPicsInContestHall();
-
-    // Clear Museum paintings
-    for (i = MUSEUM_CONTEST_WINNERS_START; i < NUM_CONTEST_WINNERS; i++)
-        gSaveBlock1Ptr->contestWinners[i] = sContestWinnerPicDummy;
-}
-
-static void ClearFrontierRecord(void)
-{
-    CpuFill32(0, &gSaveBlock2Ptr->frontier, sizeof(gSaveBlock2Ptr->frontier));
-
-    gSaveBlock2Ptr->frontier.opponentNames[0][0] = EOS;
-    gSaveBlock2Ptr->frontier.opponentNames[1][0] = EOS;
-}
-
-static void WarpToTruck(void)
-{
-    if (IS_FRLG)
-        SetWarpDestination(MAP_GROUP(MAP_PALLET_TOWN_PLAYERS_HOUSE_2F), MAP_NUM(MAP_PALLET_TOWN_PLAYERS_HOUSE_2F), WARP_ID_NONE, 6, 6);
-    else
-        SetWarpDestination(MAP_GROUP(MAP_INSIDE_OF_TRUCK), MAP_NUM(MAP_INSIDE_OF_TRUCK), WARP_ID_NONE, -1, -1);
-    WarpIntoMap();
-}
-
-void Sav2_ClearSetDefault(void)
-{
-    ClearSav2();
+    ResetSaveData();
     SetDefaultOptions();
 }
 
@@ -155,7 +101,6 @@ void ResetMenuAndMonGlobals(void)
     ZeroPlayerPartyMons();
     ZeroEnemyPartyMons();
     ResetBagScrollPositions();
-    ResetPokeblockScrollPositions();
 }
 
 void NewGameInitData(void)
@@ -167,94 +112,54 @@ void NewGameInitData(void)
         RtcReset();
 
 #if IS_FRLG
-    StringCopy(rivalName, gSaveBlock1Ptr->rivalName);
+    StringCopy(rivalName, gSaveData.rivalName);
 #endif
     gDifferentSaveFile = TRUE;
-    gSaveBlock2Ptr->encryptionKey = 0;
     ZeroPlayerPartyMons();
     ZeroEnemyPartyMons();
     ResetPokedex();
-    ClearFrontierRecord();
-    ClearSav1();
-    ClearSav3();
+    ResetGameProgress();
     ClearAllMail();
-    gSaveBlock2Ptr->specialSaveWarpFlags = 0;
-    gSaveBlock2Ptr->gcnLinkFlags = 0;
+    gSaveData.specialSaveWarpFlags = 0;
     InitPlayerTrainerId();
     PlayTimeCounter_Reset();
     ClearPokedexFlags();
     InitEventData();
-    ClearTVShowData();
-    ResetGabbyAndTy();
-    ClearSecretBases();
-    ClearBerryTrees();
-    SetMoney(&gSaveBlock1Ptr->money, 3000);
+    SetMoney(&gSaveData.money, 3000);
     SetCoins(0);
-    ResetLinkContestBoolean();
-    ResetGameStats();
-    ClearAllContestWinnerPics();
-    ClearPlayerLinkBattleRecords();
-    InitSeedotSizeRecord();
-    InitLotadSizeRecord();
     gPartiesCount[B_TRAINER_PLAYER] = 0;
     ZeroPlayerPartyMons();
     ResetPokemonStorageSystem();
-    DeactivateAllRoamers();
-    gSaveBlock1Ptr->registeredItem = ITEM_NONE;
+    gSaveData.registeredItem = ITEM_NONE;
     ClearBag();
     NewGameInitPCItems();
-    ClearPokeblocks();
-    ClearDecorationInventories();
-    InitEasyChatPhrases();
-    SetMauvilleOldMan();
-    InitDewfordTrend();
-    ResetFanClub();
-    ResetLotteryCorner();
     UpdateDailySeed();
-    WarpToTruck();
-    if (IS_FRLG)
-        RunScriptImmediately(EventScript_ResetAllMapFlagsFrlg);
-    else
-        RunScriptImmediately(EventScript_ResetAllMapFlags);
+    SetLastHealLocationWarp(HEAL_LOCATION_OUTDOOR);
+    SetWarpDestinationToHealLocation(HEAL_LOCATION_OUTDOOR);
+    WarpIntoMap();
+    FlagSet(FLAG_RECEIVED_RUNNING_SHOES);
+    FlagSet(FLAG_SYS_POKEDEX_GET);
 #if IS_FRLG
-        StringCopy(gSaveBlock1Ptr->rivalName, rivalName);
+        StringCopy(gSaveData.rivalName, rivalName);
 #endif
-    ResetMiniGamesRecords();
-    InitUnionRoomChatRegisteredTexts();
-    InitLilycoveLady();
-    ResetAllApprenticeData();
-    ClearRankingHallRecords();
-    InitMatchCallCounters();
-    ClearMysteryGift();
-    WipeTrainerNameRecords();
-    ResetTrainerHillResults();
-    ResetTrainerTowerResults();
-    ResetContestLinkResults();
     SetCurrentDifficultyLevel(DIFFICULTY_NORMAL);
     ResetItemFlags();
     ResetDexNav();
     ClearFollowerNPCData();
 }
 
-static void ResetMiniGamesRecords(void)
-{
-    CpuFill16(0, &gSaveBlock2Ptr->berryCrush, sizeof(struct BerryCrush));
-    SetBerryPowder(&gSaveBlock2Ptr->berryCrush.berryPowderAmount, 0);
-    ResetPokemonJumpRecords();
-    CpuFill16(0, &gSaveBlock2Ptr->berryPick, sizeof(struct BerryPickingResults));
-}
 
 static void ResetItemFlags(void)
 {
 #if OW_SHOW_ITEM_DESCRIPTIONS == OW_ITEM_DESCRIPTIONS_FIRST_TIME
-    memset(&gSaveBlock3Ptr->itemFlags, 0, sizeof(gSaveBlock3Ptr->itemFlags));
+    memset(&gSaveData.itemFlags, 0, sizeof(gSaveData.itemFlags));
 #endif
 }
 
 static void ResetDexNav(void)
 {
 #if USE_DEXNAV_SEARCH_LEVELS == TRUE
-    memset(gSaveBlock3Ptr->dexNavSearchLevels, 0, sizeof(gSaveBlock3Ptr->dexNavSearchLevels));
+    memset(gSaveData.dexNavSearchLevels, 0, sizeof(gSaveData.dexNavSearchLevels));
 #endif
-    gSaveBlock3Ptr->dexNavChain = 0;
+    gSaveData.dexNavChain = 0;
 }

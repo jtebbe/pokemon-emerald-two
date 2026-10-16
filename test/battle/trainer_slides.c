@@ -223,12 +223,13 @@ AI_SINGLE_BATTLE_TEST("Trainer Slide: Singles: Self Last Switchin")
 AI_SINGLE_BATTLE_TEST("Trainer Slide: Singles: Opponent Last Half Hp")
 {
     GIVEN {
+        // Make the exact half-HP boundary independent of default stat parity.
         FLAG_SET(TESTING_FLAG_TRAINER_SLIDES);
         VAR_SET(TESTING_VAR_TRAINER_SLIDES, TRAINER_SLIDE_OPPONENT_LAST_HALF_HP);
         ASSUME(GetMoveEffect(MOVE_SUPER_FANG) == EFFECT_FIXED_PERCENT_DAMAGE);
         ASSUME(GetSpeciesBaseHP(SPECIES_WOBBUFFET) == 190);
-        PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_WOBBUFFET);
+        PLAYER(SPECIES_WOBBUFFET) { HP(256); MaxHP(256); }
+        OPPONENT(SPECIES_WOBBUFFET) { HP(256); MaxHP(256); }
     } WHEN {
         TURN { EXPECT_MOVE(opponent, MOVE_SUPER_FANG); }
     } SCENE {
@@ -239,12 +240,13 @@ AI_SINGLE_BATTLE_TEST("Trainer Slide: Singles: Opponent Last Half Hp")
 AI_SINGLE_BATTLE_TEST("Trainer Slide: Singles: Self Last Half Hp")
 {
     GIVEN {
+        // Make the exact half-HP boundary independent of default stat parity.
         FLAG_SET(TESTING_FLAG_TRAINER_SLIDES);
         VAR_SET(TESTING_VAR_TRAINER_SLIDES, TRAINER_SLIDE_SELF_LAST_HALF_HP);
         ASSUME(GetMoveEffect(MOVE_SUPER_FANG) == EFFECT_FIXED_PERCENT_DAMAGE);
         ASSUME(GetSpeciesBaseHP(SPECIES_WOBBUFFET) == 190);
-        PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_WOBBUFFET) { Moves(MOVE_CELEBRATE); }
+        PLAYER(SPECIES_WOBBUFFET) { HP(256); MaxHP(256); }
+        OPPONENT(SPECIES_WOBBUFFET) { HP(256); MaxHP(256); Moves(MOVE_CELEBRATE); }
     } WHEN {
         TURN { MOVE(player, MOVE_SUPER_FANG); }
     } SCENE {
@@ -298,37 +300,6 @@ AI_SINGLE_BATTLE_TEST("Trainer Slide: Singles: Attacker Mega Evolution")
     }
 }
 
-AI_SINGLE_BATTLE_TEST("Trainer Slide: Singles: Attacker Z Move")
-{
-    GIVEN {
-        FLAG_SET(TESTING_FLAG_TRAINER_SLIDES);
-        VAR_SET(TESTING_VAR_TRAINER_SLIDES, TRAINER_SLIDE_SELF_Z_MOVE);
-        PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_WOBBUFFET) { Item(ITEM_NORMALIUM_Z); }
-    } WHEN {
-        TURN { EXPECT_MOVE(opponent, MOVE_QUICK_ATTACK, gimmick: GIMMICK_Z_MOVE); }
-    } SCENE {
-        MESSAGE("Trainer A: This message plays before the battler activates the Z-Move gimmick.{PAUSE_UNTIL_PRESS}");
-        MESSAGE("The opposing Wobbuffet surrounded itself with its Z-Power!");
-        MESSAGE("The opposing Wobbuffet unleashes its full-force Z-Move!");
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_BREAKNECK_BLITZ, opponent);
-    }
-}
-
-AI_SINGLE_BATTLE_TEST("Trainer Slide: Singles: Attacker Dynamax")
-{
-    GIVEN {
-        FLAG_SET(TESTING_FLAG_TRAINER_SLIDES);
-        VAR_SET(TESTING_VAR_TRAINER_SLIDES, TRAINER_SLIDE_SELF_DYNAMAX);
-        PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_WOBBUFFET) { Moves(MOVE_CELEBRATE); }
-    } WHEN {
-            TURN { EXPECT_MOVE(opponent, MOVE_CELEBRATE, gimmick: GIMMICK_DYNAMAX); }
-    } SCENE {
-        MESSAGE("Trainer A: This message plays before the battler activates the Dynamax gimmick.{PAUSE_UNTIL_PRESS}");
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_DYNAMAX_GROWTH, opponent);
-    }
-}
 
 AI_SINGLE_BATTLE_TEST("Trainer Slide: Singles: Attacker Tera")
 {
@@ -362,37 +333,6 @@ AI_SINGLE_BATTLE_TEST("Trainer Slide: Singles: Opponent Mega Evolution")
     }
 }
 
-AI_SINGLE_BATTLE_TEST("Trainer Slide: Singles: Opponent Z Move")
-{
-    GIVEN {
-        FLAG_SET(TESTING_FLAG_TRAINER_SLIDES);
-        VAR_SET(TESTING_VAR_TRAINER_SLIDES, TRAINER_SLIDE_OPPONENT_Z_MOVE);
-        PLAYER(SPECIES_WOBBUFFET) { Item(ITEM_NORMALIUM_Z); }
-        OPPONENT(SPECIES_WOBBUFFET) { Moves(MOVE_CELEBRATE); }
-    } WHEN {
-        TURN { MOVE(player, MOVE_QUICK_ATTACK, gimmick: GIMMICK_Z_MOVE); }
-    } SCENE {
-        MESSAGE("Trainer A: This message plays before the opponent activates the Z-Move gimmick.{PAUSE_UNTIL_PRESS}");
-        MESSAGE("Wobbuffet surrounded itself with its Z-Power!");
-        MESSAGE("Wobbuffet unleashes its full-force Z-Move!");
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_BREAKNECK_BLITZ, player);
-    }
-}
-
-AI_SINGLE_BATTLE_TEST("Trainer Slide: Singles: Opponent Dynamax")
-{
-    GIVEN {
-        FLAG_SET(TESTING_FLAG_TRAINER_SLIDES);
-        VAR_SET(TESTING_VAR_TRAINER_SLIDES, TRAINER_SLIDE_OPPONENT_DYNAMAX);
-        PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_WOBBUFFET) { Moves(MOVE_CELEBRATE); }
-    } WHEN {
-            TURN { MOVE(player, MOVE_CELEBRATE, gimmick: GIMMICK_DYNAMAX); }
-    } SCENE {
-        MESSAGE("Trainer A: This message plays before the opponent activates the Dynamax gimmick.{PAUSE_UNTIL_PRESS}");
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_DYNAMAX_GROWTH, player);
-    }
-}
 
 AI_SINGLE_BATTLE_TEST("Trainer Slide: Singles: Opponent Tera")
 {
@@ -812,47 +752,6 @@ AI_DOUBLE_BATTLE_TEST("Trainer Slide: Doubles: Attacker Mega Evolution")
     }
 }
 
-AI_DOUBLE_BATTLE_TEST("Trainer Slide: Doubles: Attacker Z Move")
-{
-    GIVEN {
-        FLAG_SET(TESTING_FLAG_TRAINER_SLIDES);
-        VAR_SET(TESTING_VAR_TRAINER_SLIDES, TRAINER_SLIDE_SELF_Z_MOVE);
-        PLAYER(SPECIES_WOBBUFFET);
-        PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_WOBBUFFET) { Item(ITEM_NORMALIUM_Z); }
-        OPPONENT(SPECIES_WOBBUFFET) { Moves(MOVE_CELEBRATE); }
-    } WHEN {
-        TURN { EXPECT_MOVE(opponentLeft, MOVE_QUICK_ATTACK, gimmick: GIMMICK_Z_MOVE); }
-    } SCENE {
-        MESSAGE("Trainer A: This message plays before the battler activates the Z-Move gimmick.{PAUSE_UNTIL_PRESS}");
-        NONE_OF {
-            MESSAGE("Trainer A: This message plays before the battler activates the Z-Move gimmick.{PAUSE_UNTIL_PRESS}");
-        }
-        MESSAGE("The opposing Wobbuffet surrounded itself with its Z-Power!");
-        MESSAGE("The opposing Wobbuffet unleashes its full-force Z-Move!");
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_BREAKNECK_BLITZ, opponentLeft);
-    }
-}
-
-AI_DOUBLE_BATTLE_TEST("Trainer Slide: Doubles: Attacker Dynamax")
-{
-    GIVEN {
-        FLAG_SET(TESTING_FLAG_TRAINER_SLIDES);
-        VAR_SET(TESTING_VAR_TRAINER_SLIDES, TRAINER_SLIDE_SELF_DYNAMAX);
-        PLAYER(SPECIES_WOBBUFFET);
-        PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_WOBBUFFET) { Moves(MOVE_CELEBRATE); }
-        OPPONENT(SPECIES_WOBBUFFET) { Moves(MOVE_CELEBRATE); }
-    } WHEN {
-            TURN { EXPECT_MOVE(opponentLeft, MOVE_CELEBRATE, gimmick: GIMMICK_DYNAMAX); }
-    } SCENE {
-        MESSAGE("Trainer A: This message plays before the battler activates the Dynamax gimmick.{PAUSE_UNTIL_PRESS}");
-        NONE_OF {
-            MESSAGE("Trainer A: This message plays before the battler activates the Dynamax gimmick.{PAUSE_UNTIL_PRESS}");
-        }
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_DYNAMAX_GROWTH, opponentLeft);
-    }
-}
 
 AI_DOUBLE_BATTLE_TEST("Trainer Slide: Doubles: Attacker Tera")
 {
@@ -896,47 +795,6 @@ AI_DOUBLE_BATTLE_TEST("Trainer Slide: Doubles: Opponent Mega Evolution")
     }
 }
 
-AI_DOUBLE_BATTLE_TEST("Trainer Slide: Doubles: Opponent Z Move")
-{
-    GIVEN {
-        FLAG_SET(TESTING_FLAG_TRAINER_SLIDES);
-        VAR_SET(TESTING_VAR_TRAINER_SLIDES, TRAINER_SLIDE_OPPONENT_Z_MOVE);
-        PLAYER(SPECIES_WOBBUFFET) { Item(ITEM_NORMALIUM_Z); }
-        PLAYER(SPECIES_WOBBUFFET) { Moves(MOVE_CELEBRATE); }
-        OPPONENT(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_WOBBUFFET);
-    } WHEN {
-        TURN { MOVE(playerLeft, MOVE_QUICK_ATTACK, gimmick: GIMMICK_Z_MOVE); }
-    } SCENE {
-        MESSAGE("Trainer A: This message plays before the opponent activates the Z-Move gimmick.{PAUSE_UNTIL_PRESS}");
-        NONE_OF {
-            MESSAGE("Trainer A: This message plays before the opponent activates the Z-Move gimmick.{PAUSE_UNTIL_PRESS}");
-        }
-        MESSAGE("Wobbuffet surrounded itself with its Z-Power!");
-        MESSAGE("Wobbuffet unleashes its full-force Z-Move!");
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_BREAKNECK_BLITZ, playerLeft);
-    }
-}
-
-AI_DOUBLE_BATTLE_TEST("Trainer Slide: Doubles: Opponent Dynamax")
-{
-    GIVEN {
-        FLAG_SET(TESTING_FLAG_TRAINER_SLIDES);
-        VAR_SET(TESTING_VAR_TRAINER_SLIDES, TRAINER_SLIDE_OPPONENT_DYNAMAX);
-        PLAYER(SPECIES_WOBBUFFET) { Moves(MOVE_CELEBRATE); }
-        PLAYER(SPECIES_WOBBUFFET) { Moves(MOVE_CELEBRATE); }
-        OPPONENT(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_WOBBUFFET);
-    } WHEN {
-            TURN { MOVE(playerLeft, MOVE_CELEBRATE, gimmick: GIMMICK_DYNAMAX); }
-    } SCENE {
-        MESSAGE("Trainer A: This message plays before the opponent activates the Dynamax gimmick.{PAUSE_UNTIL_PRESS}");
-        NONE_OF {
-            MESSAGE("Trainer A: This message plays before the opponent activates the Dynamax gimmick.{PAUSE_UNTIL_PRESS}");
-        }
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_DYNAMAX_GROWTH, playerLeft);
-    }
-}
 
 AI_DOUBLE_BATTLE_TEST("Trainer Slide: Doubles: Opponent Tera")
 {
@@ -1346,15 +1204,16 @@ AI_MULTI_BATTLE_TEST("Trainer Slide: Multi: Opponent Last Switchin")
 AI_MULTI_BATTLE_TEST("Trainer Slide: Multi: Self Last Half Hp")
 {
     GIVEN {
+        // Make the exact half-HP boundary independent of default stat parity.
         FLAG_SET(TESTING_FLAG_TRAINER_SLIDES);
         VAR_SET(TESTING_VAR_TRAINER_SLIDES, TRAINER_SLIDE_SELF_LAST_HALF_HP);
         ASSUME(GetMoveEffect(MOVE_SUPER_FANG) == EFFECT_FIXED_PERCENT_DAMAGE);
         ASSUME(GetSpeciesBaseHP(SPECIES_WOBBUFFET) == 190);
-        PLAYER(SPECIES_WOBBUFFET) { Speed(4); HP(1); }
-        PLAYER(SPECIES_WOBBUFFET) { Speed(4); }
-        PARTNER(SPECIES_WOBBUFFET) { Speed(3); }
-        OPPONENT_A(SPECIES_WOBBUFFET) { Speed(2); Moves(MOVE_SURF); }
-        OPPONENT_B(SPECIES_WOBBUFFET) { Speed(1); Moves(MOVE_SUPER_FANG); }
+        PLAYER(SPECIES_WOBBUFFET) { MaxHP(256); Speed(4); HP(1); }
+        PLAYER(SPECIES_WOBBUFFET) { HP(256); MaxHP(256); Speed(4); }
+        PARTNER(SPECIES_WOBBUFFET) { HP(256); MaxHP(256); Speed(3); }
+        OPPONENT_A(SPECIES_WOBBUFFET) { HP(256); MaxHP(256); Speed(2); Moves(MOVE_SURF); }
+        OPPONENT_B(SPECIES_WOBBUFFET) { HP(256); MaxHP(256); Speed(1); Moves(MOVE_SUPER_FANG); }
     } WHEN {
         TURN { MOVE(playerLeft, MOVE_SUPER_FANG, target: opponentLeft); SEND_OUT(playerLeft, 1);
             MOVE(playerRight, MOVE_SUPER_FANG, target: opponentRight); }
@@ -1368,14 +1227,15 @@ AI_MULTI_BATTLE_TEST("Trainer Slide: Multi: Self Last Half Hp")
 AI_MULTI_BATTLE_TEST("Trainer Slide: Multi: Opponent Last Half Hp")
 {
     GIVEN {
+        // Make the exact half-HP boundary independent of default stat parity.
         FLAG_SET(TESTING_FLAG_TRAINER_SLIDES);
         VAR_SET(TESTING_VAR_TRAINER_SLIDES, TRAINER_SLIDE_OPPONENT_LAST_HALF_HP);
         ASSUME(GetMoveEffect(MOVE_SUPER_FANG) == EFFECT_FIXED_PERCENT_DAMAGE);
         ASSUME(GetSpeciesBaseHP(SPECIES_WOBBUFFET) == 190);
-        PLAYER(SPECIES_WOBBUFFET) { Speed(1); }
-        PARTNER(SPECIES_WOBBUFFET) { Speed(2); }
-        OPPONENT_A(SPECIES_WOBBUFFET) { Speed(3); }
-        OPPONENT_B(SPECIES_WOBBUFFET) { Speed(4); }
+        PLAYER(SPECIES_WOBBUFFET) { HP(256); MaxHP(256); Speed(1); }
+        PARTNER(SPECIES_WOBBUFFET) { HP(256); MaxHP(256); Speed(2); }
+        OPPONENT_A(SPECIES_WOBBUFFET) { HP(256); MaxHP(256); Speed(3); }
+        OPPONENT_B(SPECIES_WOBBUFFET) { HP(256); MaxHP(256); Speed(4); }
     } WHEN {
         TURN {
             MOVE(playerLeft, MOVE_BELLY_DRUM);
@@ -1479,83 +1339,6 @@ AI_MULTI_BATTLE_TEST("Trainer Slide: Multi: Attacker Mega Evolution")
     }
 }
 
-AI_MULTI_BATTLE_TEST("Trainer Slide: Multi: Attacker Z Move")
-{
-    GIVEN {
-        FLAG_SET(TESTING_FLAG_TRAINER_SLIDES);
-        VAR_SET(TESTING_VAR_TRAINER_SLIDES, TRAINER_SLIDE_SELF_Z_MOVE);
-        TIE_BREAK_TARGET(TARGET_TIE_LO, 0);
-        PLAYER(SPECIES_WOBBUFFET) { Speed(4); }
-        PARTNER(SPECIES_WOBBUFFET) { Speed(2); Item(ITEM_NORMALIUM_Z); }
-        OPPONENT_A(SPECIES_WOBBUFFET) { Speed(3); Item(ITEM_NORMALIUM_Z); }
-        OPPONENT_B(SPECIES_WOBBUFFET) { Speed(1); Item(ITEM_NORMALIUM_Z); }
-    } WHEN {
-        TURN {
-            EXPECT_MOVE(opponentLeft, MOVE_QUICK_ATTACK, gimmick: GIMMICK_Z_MOVE);
-            MOVE(playerRight, MOVE_QUICK_ATTACK, gimmick: GIMMICK_Z_MOVE, target: opponentLeft);
-            EXPECT_MOVE(opponentRight, MOVE_QUICK_ATTACK, gimmick: GIMMICK_Z_MOVE);
-        }
-    } SCENE {
-        MESSAGE("Trainer A: This message plays before the battler activates the Z-Move gimmick.{PAUSE_UNTIL_PRESS}");
-        MESSAGE("The opposing Wobbuffet surrounded itself with its Z-Power!");
-        MESSAGE("The opposing Wobbuffet unleashes its full-force Z-Move!");
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_BREAKNECK_BLITZ, opponentLeft);
-
-        MESSAGE("Trainer Partner: This message plays before the battler activates the Z-Move gimmick.{PAUSE_UNTIL_PRESS}");
-        MESSAGE("Wobbuffet surrounded itself with its Z-Power!");
-        MESSAGE("Wobbuffet unleashes its full-force Z-Move!");
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_BREAKNECK_BLITZ, playerRight);
-
-        MESSAGE("Trainer B: This message plays before the battler activates the Z-Move gimmick.{PAUSE_UNTIL_PRESS}");
-        MESSAGE("The opposing Wobbuffet surrounded itself with its Z-Power!");
-        MESSAGE("The opposing Wobbuffet unleashes its full-force Z-Move!");
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_BREAKNECK_BLITZ, opponentRight);
-    }
-}
-
-AI_MULTI_BATTLE_TEST("Trainer Slide: Multi: Attacker Dynamax")
-{
-    s32 dynamaxLevelA = 0, dynamaxLevelB = 0;
-
-    PARAMETRIZE { dynamaxLevelA = 10;  dynamaxLevelB = -1;  }
-    PARAMETRIZE { dynamaxLevelA = -1;   dynamaxLevelB = 10; }
-
-    GIVEN {
-        FLAG_SET(TESTING_FLAG_TRAINER_SLIDES);
-        VAR_SET(TESTING_VAR_TRAINER_SLIDES, TRAINER_SLIDE_SELF_DYNAMAX);
-        PLAYER(SPECIES_WOBBUFFET) { Speed(4); }
-        PARTNER(SPECIES_WOBBUFFET) { Speed(2); DynamaxLevel(10); }
-        OPPONENT_A(SPECIES_WOBBUFFET) { Speed(3); DynamaxLevel(dynamaxLevelA); }
-        OPPONENT_B(SPECIES_WOBBUFFET) { Speed(1); DynamaxLevel(dynamaxLevelB); }
-    } WHEN {
-            TURN {
-                if (dynamaxLevelA == 10)
-                    EXPECT_MOVE(opponentLeft, MOVE_CELEBRATE, gimmick: GIMMICK_DYNAMAX);
-                else
-                    EXPECT_MOVE(opponentLeft, MOVE_CELEBRATE, gimmick: GIMMICK_NONE);
-
-                MOVE(playerRight, MOVE_CELEBRATE, gimmick: GIMMICK_DYNAMAX);
-
-                if (dynamaxLevelB == 10)
-                    EXPECT_MOVE(opponentRight, MOVE_CELEBRATE, gimmick: GIMMICK_DYNAMAX);
-                else
-                    EXPECT_MOVE(opponentRight, MOVE_CELEBRATE, gimmick: GIMMICK_NONE);
-            }
-    } SCENE {
-        if (dynamaxLevelA == 10)
-        {
-            MESSAGE("Trainer A: This message plays before the battler activates the Dynamax gimmick.{PAUSE_UNTIL_PRESS}");
-            ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_DYNAMAX_GROWTH, opponentLeft);
-        }
-        MESSAGE("Trainer Partner: This message plays before the battler activates the Dynamax gimmick.{PAUSE_UNTIL_PRESS}");
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_DYNAMAX_GROWTH, playerRight);
-        if (dynamaxLevelB == 10)
-        {
-            MESSAGE("Trainer B: This message plays before the battler activates the Dynamax gimmick.{PAUSE_UNTIL_PRESS}");
-            ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_DYNAMAX_GROWTH, opponentRight);
-        }
-    }
-}
 
 AI_MULTI_BATTLE_TEST("Trainer Slide: Multi: Attacker Tera")
 {
@@ -1637,83 +1420,6 @@ AI_MULTI_BATTLE_TEST("Trainer Slide: Multi: Opponent Mega Evolution")
     }
 }
 
-AI_MULTI_BATTLE_TEST("Trainer Slide: Multi: Opponent Z Move")
-{
-    GIVEN {
-        FLAG_SET(TESTING_FLAG_TRAINER_SLIDES);
-        VAR_SET(TESTING_VAR_TRAINER_SLIDES, TRAINER_SLIDE_OPPONENT_Z_MOVE);
-        TIE_BREAK_TARGET(TARGET_TIE_LO, 0);
-        PLAYER(SPECIES_WOBBUFFET) { Speed(4); Item(ITEM_NORMALIUM_Z); }
-        PARTNER(SPECIES_WOBBUFFET) { Speed(2); Item(ITEM_NORMALIUM_Z); }
-        OPPONENT_A(SPECIES_WOBBUFFET) { Speed(3); Item(ITEM_NORMALIUM_Z); }
-        OPPONENT_B(SPECIES_WOBBUFFET) { Speed(1); Item(ITEM_NORMALIUM_Z); }
-    } WHEN {
-        TURN {
-            MOVE(playerLeft, MOVE_QUICK_ATTACK, gimmick: GIMMICK_Z_MOVE, target: opponentLeft);
-            EXPECT_MOVE(opponentLeft, MOVE_QUICK_ATTACK, gimmick: GIMMICK_Z_MOVE);
-            MOVE(playerRight, MOVE_QUICK_ATTACK, gimmick: GIMMICK_Z_MOVE, target: opponentLeft);
-            EXPECT_MOVE(opponentRight, MOVE_QUICK_ATTACK, gimmick: GIMMICK_Z_MOVE);
-        }
-    } SCENE {
-        NONE_OF {
-            MESSAGE("Trainer Partner: This message plays before the opponent activates the Z-Move gimmick.{PAUSE_UNTIL_PRESS}");
-            MESSAGE("Trainer B: This message plays before the opponent activates the Z-Move gimmick.{PAUSE_UNTIL_PRESS}");
-        }
-        MESSAGE("Trainer A: This message plays before the opponent activates the Z-Move gimmick.{PAUSE_UNTIL_PRESS}");
-        MESSAGE("Trainer B: This message plays before the opponent activates the Z-Move gimmick.{PAUSE_UNTIL_PRESS}");
-        NONE_OF {
-            MESSAGE("Trainer Partner: This message plays before the opponent activates the Z-Move gimmick.{PAUSE_UNTIL_PRESS}");
-            MESSAGE("Trainer A: This message plays before the opponent activates the Z-Move gimmick.{PAUSE_UNTIL_PRESS}");
-        }
-        MESSAGE("Wobbuffet surrounded itself with its Z-Power!");
-        MESSAGE("Wobbuffet unleashes its full-force Z-Move!");
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_BREAKNECK_BLITZ, playerLeft);
-
-        MESSAGE("Trainer Partner: This message plays before the opponent activates the Z-Move gimmick.{PAUSE_UNTIL_PRESS}");
-        MESSAGE("The opposing Wobbuffet surrounded itself with its Z-Power!");
-        MESSAGE("The opposing Wobbuffet unleashes its full-force Z-Move!");
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_BREAKNECK_BLITZ, opponentLeft);
-
-        NONE_OF {
-            MESSAGE("Trainer Partner: This message plays before the opponent activates the Z-Move gimmick.{PAUSE_UNTIL_PRESS}");
-            MESSAGE("Trainer A: This message plays before the opponent activates the Z-Move gimmick.{PAUSE_UNTIL_PRESS}");
-            MESSAGE("Trainer B: This message plays before the opponent activates the Z-Move gimmick.{PAUSE_UNTIL_PRESS}");
-        }
-
-        MESSAGE("Wobbuffet surrounded itself with its Z-Power!");
-        MESSAGE("Wobbuffet unleashes its full-force Z-Move!");
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_BREAKNECK_BLITZ, playerRight);
-
-        MESSAGE("The opposing Wobbuffet surrounded itself with its Z-Power!");
-        MESSAGE("The opposing Wobbuffet unleashes its full-force Z-Move!");
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_BREAKNECK_BLITZ, opponentRight);
-    }
-}
-
-AI_MULTI_BATTLE_TEST("Trainer Slide: Multi: Opponent Dynamax")
-{
-    GIVEN {
-        FLAG_SET(TESTING_FLAG_TRAINER_SLIDES);
-        VAR_SET(TESTING_VAR_TRAINER_SLIDES, TRAINER_SLIDE_OPPONENT_DYNAMAX);
-        PLAYER(SPECIES_WOBBUFFET) { Speed(4); }
-        PARTNER(SPECIES_WOBBUFFET) { Speed(2); DynamaxLevel(10); }
-        OPPONENT_A(SPECIES_WOBBUFFET) { Speed(3); DynamaxLevel(10); }
-        OPPONENT_B(SPECIES_WOBBUFFET) { Speed(1); Moves(MOVE_CELEBRATE); }
-    } WHEN {
-            TURN {
-                EXPECT_MOVE(opponentLeft, MOVE_CELEBRATE, gimmick: GIMMICK_DYNAMAX);
-                MOVE(playerRight, MOVE_CELEBRATE, gimmick: GIMMICK_DYNAMAX);
-            }
-    } SCENE {
-        MESSAGE("Trainer Partner: This message plays before the opponent activates the Dynamax gimmick.{PAUSE_UNTIL_PRESS}");
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_DYNAMAX_GROWTH, opponentLeft);
-
-        MESSAGE("Trainer A: This message plays before the opponent activates the Dynamax gimmick.{PAUSE_UNTIL_PRESS}");
-        // Ideally we would get both trainer A and B messages, however not currently possible
-        //MESSAGE("Trainer B: This message plays before the opponent activates the Dynamax gimmick.{PAUSE_UNTIL_PRESS}");
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_DYNAMAX_GROWTH, playerRight);
-    }
-}
 
 AI_MULTI_BATTLE_TEST("Trainer Slide: Multi: Opponent Tera")
 {

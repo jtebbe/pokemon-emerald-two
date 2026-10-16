@@ -22,18 +22,14 @@
 #include "decompress.h"
 #include "data.h"
 #include "palette.h"
-#include "contest.h"
 #include "trainer.h"
 #include "trainer_pokemon_sprites.h"
 #include "constants/songs.h"
 #include "constants/rgb.h"
-#include "constants/battle_palace.h"
 #include "constants/battle_move_effects.h"
 #include "constants/event_objects.h" // only for SHADOW_SIZE constants
 
 // this file's functions
-static u8 GetBattlePalaceMoveGroup(enum BattlerId battler, enum Move move);
-static u16 GetBattlePalaceTarget(enum BattlerId battler);
 static void SpriteCB_TrainerSlideVertical(struct Sprite *sprite);
 static bool8 ShouldAnimBeDoneRegardlessOfSubstitute(u8 animId);
 static void Task_ClearBitWhenBattleTableAnimDone(u8 taskId);
@@ -145,253 +141,10 @@ void FreeBattleSpritesData(void)
     FREE_AND_SET_NULL(gBattleSpritesDataPtr);
 }
 
-// Pokémon chooses move to use in Battle Palace rather than player
-u16 ChooseMoveAndTargetInBattlePalace(enum BattlerId battler)
-{
-    s32 i, var1, var2;
-    s32 chosenMoveIndex = -1;
-    struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct *)(&gBattleResources->bufferA[battler][4]);
-    u8 unusableMovesBits = CheckMoveLimitations(battler, 0, MOVE_LIMITATIONS_ALL);
-    s32 percent = Random() % 100;
-
-    // Heavy variable re-use here makes this hard to read without defines
-    // Possibly just optimization? might still match with additional vars
-    #define maxGroupNum var1
-    #define minGroupNum var2
-    #define selectedGroup percent
-    #define selectedMoves var2
-    #define numMovesPerGroup var1
-    #define numMultipleMoveGroups var2
-    #define randSelectGroup var2
-
-    // If battler is < 50% HP and not asleep, use second set of move group likelihoods
-    // otherwise use first set
-    i = (gBattleStruct->palaceFlags & (1u << battler)) ? 2 : 0;
-    minGroupNum = i;
-
-    maxGroupNum = i + 2; // + 2 because there are two percentages per set of likelihoods
-
-    // Each nature has a different percent chance to select a move from one of 3 move groups
-    // If percent is less than 1st check, use move from "Attack" group
-    // If percent is less than 2nd check, use move from "Defense" group
-    // Otherwise use move from "Support" group
-    for (; i < maxGroupNum; i++)
-    {
-        if (gNaturesInfo[GetNatureFromPersonality(gBattleMons[battler].personality)].battlePalacePercents[i] > percent)
-            break;
-    }
-    selectedGroup = i - minGroupNum;
-    if (i == maxGroupNum)
-        selectedGroup = PALACE_MOVE_GROUP_SUPPORT;
-
-    // Flag moves that match selected group, to be passed to AI
-    for (selectedMoves = 0, i = 0; i < MAX_MON_MOVES; i++)
-    {
-        if (moveInfo->moves[i] == MOVE_NONE)
-            break;
-        if (selectedGroup == GetBattlePalaceMoveGroup(battler, moveInfo->moves[i]) && moveInfo->currentPP[i] != 0)
-            selectedMoves |= 1u << i;
-    }
-
-    // Pass selected moves to AI, pick one
-    if (selectedMoves != 0)
-    {
-        // Lower 4 bits of palaceFlags are flags for each battler.
-        // Clear the rest of palaceFlags, then set the selected moves in the upper 4 bits.
-        gBattleStruct->palaceFlags &= (1 << MAX_BATTLERS_COUNT) - 1;
-        gBattleStruct->palaceFlags |= (selectedMoves << MAX_BATTLERS_COUNT);
-        BattleAI_SetupAIData(selectedMoves, battler);
-        chosenMoveIndex = BattleAI_ChooseMoveIndex(battler);
-    }
-
-    // If no moves matched the selected group, pick a new move from groups the Pokémon has
-    // In this case the AI is not checked again, so the choice may be worse
-    // If a move is chosen this way, there's a 50% chance that it will be unable to use it anyway
-    if (chosenMoveIndex == -1 || chosenMoveIndex >= MAX_MON_MOVES)
-    {
-        chosenMoveIndex = -1;
-        if (unusableMovesBits != ALL_MOVES_MASK)
-        {
-            numMovesPerGroup = 0, numMultipleMoveGroups = 0;
-
-            for (i = 0; i < MAX_MON_MOVES; i++)
-            {
-                // Count the number of usable moves the battler has in each move group.
-                // The totals will be stored separately in 3 groups of 4 bits each in numMovesPerGroup.
-                if (GetBattlePalaceMoveGroup(battler, moveInfo->moves[i]) == PALACE_MOVE_GROUP_ATTACK && !((1u << i) & unusableMovesBits))
-                    numMovesPerGroup += (1 << 0);
-                if (GetBattlePalaceMoveGroup(battler, moveInfo->moves[i]) == PALACE_MOVE_GROUP_DEFENSE && !((1u << i) & unusableMovesBits))
-                    numMovesPerGroup += (1 << 4);
-                if (GetBattlePalaceMoveGroup(battler, moveInfo->moves[i]) == PALACE_MOVE_GROUP_SUPPORT && !((1u << i) & unusableMovesBits))
-                    numMovesPerGroup += (1 << 8);
-            }
-
-            // Count the number of move groups for which the battler has at least 2 usable moves.
-            // This is a roundabout way to determine if there is a move group that should be
-            // preferred, because it has multiple move options and the others do not.
-            // The condition intended to check the total for the Support group is accidentally
-            // checking the Defense total, and is never true. As a result the preferences for
-            // random move selection here will skew away from the Support move group.
-            if ((numMovesPerGroup & 0xF) >= 2)
-                numMultipleMoveGroups++;
-            if ((numMovesPerGroup & (0xF << 4)) >= (2 << 4))
-                numMultipleMoveGroups++;
-#ifdef BUGFIX
-            if ((numMovesPerGroup & (0xF << 8)) >= (2 << 8))
-#else
-            if ((numMovesPerGroup & (0xF << 4)) >= (2 << 8))
-#endif
-                numMultipleMoveGroups++;
 
 
-            // By this point we already know the battler only has usable moves from at most 2 of the 3 move groups,
-            // because they had no usable moves from the move group that was selected based on Nature.
-            //
-            // The below condition is effectively 'numMultipleMoveGroups != 1'.
-            // There is no stand-out group with multiple moves to choose from, so we pick randomly.
-            // Note that because of the bug above the battler may actually have any number of Support moves.
-            if (numMultipleMoveGroups > 1 || numMultipleMoveGroups == 0)
-            {
-                do
-                {
-                    i = Random() % MAX_MON_MOVES;
-                    if (!((1u << i) & unusableMovesBits))
-                        chosenMoveIndex = i;
-                } while (chosenMoveIndex == -1);
-            }
-            else
-            {
-                // The battler has just 1 move group with multiple move options to choose from.
-                // Choose a move randomly from this group.
 
-                // Same bug as the previous set of conditions (the condition for Support is never true).
-                // This bug won't cause a softlock below, because if Support is the only group with multiple
-                // moves then it won't have been counted, and the 'numMultipleMoveGroups == 0' above will be true.
-                if ((numMovesPerGroup & 0xF) >= 2)
-                    randSelectGroup = PALACE_MOVE_GROUP_ATTACK;
-                if ((numMovesPerGroup & (0xF << 4)) >= (2 << 4))
-                    randSelectGroup = PALACE_MOVE_GROUP_DEFENSE;
-#ifdef BUGFIX
-                if ((numMovesPerGroup & (0xF << 8)) >= (2 << 8))
-#else
-                if ((numMovesPerGroup & (0xF << 4)) >= (2 << 8))
-#endif
-                    randSelectGroup = PALACE_MOVE_GROUP_SUPPORT;
 
-                do
-                {
-                    i = Random() % MAX_MON_MOVES;
-                    if (!((1u << i) & unusableMovesBits) && randSelectGroup == GetBattlePalaceMoveGroup(battler, moveInfo->moves[i]))
-                        chosenMoveIndex = i;
-                } while (chosenMoveIndex == -1);
-            }
-
-            // Because the selected move was not from the Nature-chosen move group there's a 50% chance
-            // that it will be unable to use it. This could have been checked earlier to avoid the above work.
-            if (Random() % 100 >= 50)
-            {
-                gProtectStructs[battler].palaceUnableToUseMove = TRUE;
-                return 0;
-            }
-        }
-        else
-        {
-            // All the battler's moves were flagged as unusable.
-            gProtectStructs[battler].palaceUnableToUseMove = TRUE;
-            return 0;
-        }
-    }
-
-    enum MoveTarget moveTarget = GetBattlerMoveSelectionTargetType(battler, moveInfo->moves[chosenMoveIndex]);
-
-    if (moveTarget == TARGET_USER || moveTarget == TARGET_USER_OR_ALLY || moveTarget == TARGET_USER_AND_ALLY)
-        chosenMoveIndex |= (battler << 8);
-    else if (moveTarget == TARGET_SELECTED || moveTarget == TARGET_SMART)
-        chosenMoveIndex |= GetBattlePalaceTarget(battler);
-    else
-        chosenMoveIndex |= (GetBattlerLeftFoe(battler) << 8);
-
-    return chosenMoveIndex;
-}
-
-#undef maxGroupNum
-#undef minGroupNum
-#undef selectedGroup
-#undef selectedMoves
-#undef moveTarget
-#undef numMovesPerGroup
-#undef numMultipleMoveGroups
-#undef randSelectGroup
-
-static u8 GetBattlePalaceMoveGroup(enum BattlerId battler, enum Move move)
-{
-    switch (GetBattlerMoveSelectionTargetType(battler, move))
-    {
-    case TARGET_SELECTED:
-    case TARGET_USER_AND_ALLY:
-    case TARGET_SMART:
-    case TARGET_OPPONENT:
-    case TARGET_RANDOM:
-    case TARGET_BOTH:
-    case TARGET_FOES_AND_ALLY:
-    case TARGET_ALL_BATTLERS:
-    case TARGET_FIELD:
-        if (IsBattleMoveStatus(move))
-            return PALACE_MOVE_GROUP_SUPPORT;
-        else
-            return PALACE_MOVE_GROUP_ATTACK;
-        break;
-    case TARGET_DEPENDS:
-    case TARGET_OPPONENTS_FIELD:
-    case TARGET_ALLY:
-    case TARGET_USER_OR_ALLY:
-        return PALACE_MOVE_GROUP_SUPPORT;
-    case TARGET_USER:
-        return PALACE_MOVE_GROUP_DEFENSE;
-    default:
-        return PALACE_MOVE_GROUP_ATTACK;
-    }
-}
-
-static u16 GetBattlePalaceTarget(enum BattlerId battler)
-{
-    if (IsDoubleBattle())
-    {
-        enum BattlerId opposing1, opposing2;
-
-        if (IsOnPlayerSide(battler))
-        {
-            opposing1 = GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT);
-            opposing2 = GetBattlerAtPosition(B_POSITION_OPPONENT_RIGHT);
-        }
-        else
-        {
-            opposing1 = GetBattlerAtPosition(B_POSITION_PLAYER_LEFT);
-            opposing2 = GetBattlerAtPosition(B_POSITION_PLAYER_RIGHT);
-        }
-
-        if (gBattleMons[opposing1].hp == gBattleMons[opposing2].hp)
-            return (GetBattlerLeftFoe(battler) + (Random() & 2)) << 8;
-
-        switch (gNaturesInfo[GetNatureFromPersonality(gBattleMons[battler].personality)].battlePalaceSmokescreen)
-        {
-        case PALACE_TARGET_STRONGER:
-            if (gBattleMons[opposing1].hp > gBattleMons[opposing2].hp)
-                return opposing1 << 8;
-            else
-                return opposing2 << 8;
-        case PALACE_TARGET_WEAKER:
-            if (gBattleMons[opposing1].hp < gBattleMons[opposing2].hp)
-                return opposing1 << 8;
-            else
-                return opposing2 << 8;
-        case PALACE_TARGET_RANDOM:
-            return (GetBattlerLeftFoe(battler) + (Random() & 2)) << 8;
-        }
-    }
-
-    return GetOppositeBattler(battler) << 8;
-}
 
 // Wait for the Pokémon to finish appearing out from the Poké Ball on send out
 void SpriteCB_WaitForBattlerBallReleaseAnim(struct Sprite *sprite)
@@ -641,10 +394,6 @@ void BattleLoadMonSpriteGfx(struct Pokemon *mon, enum BattlerId battler)
     if (gBattleSpritesDataPtr->battlerData[battler].transformSpecies != SPECIES_NONE)
     {
         species = gBattleSpritesDataPtr->battlerData[battler].transformSpecies;
-        // If battler has Gigantamax factor, try convert gfx to G-Max version
-        if (GetActiveGimmick(battler) == GIMMICK_DYNAMAX && GetMonData(mon, MON_DATA_GIGANTAMAX_FACTOR))
-            gBattleSpritesDataPtr->battlerData[battler].transformSpecies = species = GetGMaxTargetSpecies(species);
-
         if (gBattleMons[battler].volatiles.transformed)
         {
             personalityValue = gTransformedPersonalities[battler];
@@ -672,17 +421,6 @@ void BattleLoadMonSpriteGfx(struct Pokemon *mon, enum BattlerId battler)
     {
         BlendPalette(paletteOffset, 16, 6, RGB_WHITE);
         CpuCopy32(&gPlttBufferFaded[paletteOffset], &gPlttBufferUnfaded[paletteOffset], PLTT_SIZEOF(16));
-    }
-
-    // dynamax tint
-    if (GetActiveGimmick(battler) == GIMMICK_DYNAMAX)
-    {
-        // Calyrex and its forms have a blue dynamax aura instead of red.
-        if (GetBaseSpecies(species) == SPECIES_CALYREX)
-            BlendPalette(paletteOffset, 16, 4, RGB(12, 0, 31));
-        else
-            BlendPalette(paletteOffset, 16, 4, RGB(31, 0, 12));
-        CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, PLTT_SIZEOF(16));
     }
 
     // Terastallization's tint
@@ -899,27 +637,11 @@ void HandleSpeciesGfxDataChange(enum BattlerId battlerAtk, enum BattlerId battle
     struct Pokemon *monDef = GetBattlerMon(battlerDef);
     void *dst;
 
-    if (IsContest())
-    {
-        position = B_POSITION_PLAYER_LEFT;
-        targetSpecies = gContestResources->moveAnim->targetSpecies;
-        personalityValue = gContestResources->moveAnim->personality;
-        isShiny = gContestResources->moveAnim->isShiny;
-
-        HandleLoadSpecialPokePic(FALSE,
-                                 gMonSpritesGfxPtr->spritesGfx[position],
-                                 targetSpecies,
-                                 gContestResources->moveAnim->targetPersonality);
-    }
-    else
     {
         position = GetBattlerPosition(battlerAtk);
         if (changeType == SPECIES_GFX_CHANGE_TRANSFORM)
         {
-            // Get base form if its currently Gigantamax
-            if (IsGigantamaxed(battlerDef))
-                targetSpecies = GetBattlerPartyState(battlerDef)->changedSpecies;
-            else if (gBattleStruct->illusion[battlerDef].state == ILLUSION_ON)
+            if (gBattleStruct->illusion[battlerDef].state == ILLUSION_ON)
                 targetSpecies = GetIllusionMonSpecies(battlerDef);
             else
                 targetSpecies = GetMonData(monDef, MON_DATA_SPECIES);
@@ -964,17 +686,6 @@ void HandleSpeciesGfxDataChange(enum BattlerId battlerAtk, enum BattlerId battle
         CpuCopy32(&gPlttBufferFaded[paletteOffset], &gPlttBufferUnfaded[paletteOffset], PLTT_SIZEOF(16));
     }
 
-    // dynamax tint
-    if (GetActiveGimmick(battlerAtk) == GIMMICK_DYNAMAX)
-    {
-        // Calyrex and its forms have a blue dynamax aura instead of red.
-        if (GetBaseSpecies(targetSpecies) == SPECIES_CALYREX)
-            BlendPalette(paletteOffset, 16, 4, RGB(12, 0, 31));
-        else
-            BlendPalette(paletteOffset, 16, 4, RGB(31, 0, 12));
-        CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, PLTT_SIZEOF(16));
-    }
-
     // Terastallization's tint
     if (changeType != SPECIES_GFX_CHANGE_ILLUSION_OFF && GetActiveGimmick(battlerAtk) == GIMMICK_TERA)
     {
@@ -993,14 +704,9 @@ void BattleLoadSubstituteOrMonSpriteGfx(enum BattlerId battler, bool8 loadMonSpr
 
     if (!loadMonSprite)
     {
-        if (IsContest())
-            position = B_POSITION_PLAYER_LEFT;
-        else
-            position = GetBattlerPosition(battler);
+        position = GetBattlerPosition(battler);
 
-        if (IsContest())
-            DecompressDataWithHeaderVram(gBattleAnimSpriteGfx_SubstituteBack, gMonSpritesGfxPtr->spritesGfx[position]);
-        else if (!IsOnPlayerSide(battler))
+        if (!IsOnPlayerSide(battler))
             DecompressDataWithHeaderVram(gBattleAnimSpriteGfx_Substitute, gMonSpritesGfxPtr->spritesGfx[position]);
         else
             DecompressDataWithHeaderVram(gBattleAnimSpriteGfx_SubstituteBack, gMonSpritesGfxPtr->spritesGfx[position]);
@@ -1015,8 +721,7 @@ void BattleLoadSubstituteOrMonSpriteGfx(enum BattlerId battler, bool8 loadMonSpr
     }
     else
     {
-        if (!IsContest())
-            BattleLoadMonSpriteGfx(GetBattlerMon(battler), battler);
+        BattleLoadMonSpriteGfx(GetBattlerMon(battler), battler);
     }
 }
 

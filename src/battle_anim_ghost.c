@@ -16,14 +16,15 @@
 #include "util.h"
 #include "constants/moves.h"
 
+static void AnimTask_NightShadeClone_Step1(u8 taskId);
+static void AnimTask_NightShadeClone_Step2(u8 taskId);
+
 static void AnimConfuseRayBallBounce(struct Sprite *);
 static void AnimConfuseRayBallBounce_Step1(struct Sprite *);
 static void AnimConfuseRayBallBounce_Step2(struct Sprite *);
 static void UpdateConfuseRayBallBlend(struct Sprite *);
 static void AnimConfuseRayBallSpiral(struct Sprite *);
 static void AnimConfuseRayBallSpiral_Step(struct Sprite *);
-static void AnimTask_NightShadeClone_Step1(u8 taskId);
-static void AnimTask_NightShadeClone_Step2(u8 taskId);
 static void AnimShadowBall_Step(struct Sprite *);
 static void AnimLick(struct Sprite *);
 static void AnimLick_Step(struct Sprite *);
@@ -368,6 +369,15 @@ static void AnimConfuseRayBallSpiral_Step(struct Sprite *sprite)
 }
 
 // Creates a large transparent clone of the attacker centered on their position which shrinks to original size
+
+
+// Spins a sprite towards the target, pausing in the middle.
+// Used in Shadow Ball.
+// arg 0: duration step 1 (attacker -> center)
+// arg 1: duration step 2 (spin center)
+// arg 2: duration step 3 (center -> target)
+
+
 void AnimTask_NightShadeClone(u8 taskId)
 {
     u8 spriteId;
@@ -424,11 +434,6 @@ static void AnimTask_NightShadeClone_Step2(u8 taskId)
     }
 }
 
-// Spins a sprite towards the target, pausing in the middle.
-// Used in Shadow Ball.
-// arg 0: duration step 1 (attacker -> center)
-// arg 1: duration step 2 (spin center)
-// arg 2: duration step 3 (center -> target)
 void AnimShadowBall(struct Sprite *sprite)
 {
     s16 oldPosX = sprite->x;
@@ -863,7 +868,6 @@ void AnimTask_DestinyBondWhiteShadow(u8 taskId)
 
     baseX = GetBattlerSpriteCoord(gBattleAnimAttacker, BATTLER_COORD_X_2);
     baseY = GetBattlerSpriteCoordAttr(gBattleAnimAttacker, BATTLER_COORD_ATTR_BOTTOM);
-    if (!IsContest())
     {
         for (battler = 0; battler < MAX_BATTLERS_COUNT; battler++)
         {
@@ -897,30 +901,6 @@ void AnimTask_DestinyBondWhiteShadow(u8 taskId)
                     task->data[12]++;
                 }
             }
-        }
-    }
-    else
-    {
-        if (gAnimMoveIndex == MOVE_DARK_VOID)
-            spriteId = CreateSpriteUnchecked(&gDarkVoidBlackHoleTemplate, baseX, baseY, 55);   //dark void
-        else
-            spriteId = CreateSpriteUnchecked(&gDestinyBondWhiteShadowSpriteTemplate, baseX, baseY, 55);   //destiny bond
-
-        if (spriteId != MAX_SPRITES)
-        {
-            x = 48;
-            y = 40;
-            gSprites[spriteId].data[0] = baseX << 4;
-            gSprites[spriteId].data[1] = baseY << 4;
-            gSprites[spriteId].data[2] = ((x - baseX) << 4) / gBattleAnimArgs[1];
-            gSprites[spriteId].data[3] = ((y - baseY) << 4) / gBattleAnimArgs[1];
-            gSprites[spriteId].data[4] = gBattleAnimArgs[1];
-            gSprites[spriteId].data[5] = x;
-            gSprites[spriteId].data[6] = y;
-            gSprites[spriteId].callback = AnimDestinyBondWhiteShadow_Step;
-
-            task->data[13] = spriteId;
-            task->data[12] = 1;
         }
     }
 
@@ -1018,7 +998,7 @@ void AnimTask_CurseStretchingBlackBg(u8 taskId)
     SetGpuReg(REG_OFFSET_BLDCNT, (BLDCNT_TGT1_BG3 | BLDCNT_EFFECT_DARKEN));
     SetGpuReg(REG_OFFSET_BLDY, 16);
 
-    if (!IsOnPlayerSide(gBattleAnimAttacker) || IsContest())
+    if (!IsOnPlayerSide(gBattleAnimAttacker))
         startX = 40;
     else
         startX = 200;
@@ -1453,75 +1433,6 @@ static void AnimPoltergeistItem(struct Sprite *sprite)
         DestroyAnimSprite(sprite);
 }
 
-//pulverizing pancake - destiny bond shadow from attacker to target
-void AnimTask_PulverizingPancakeWhiteShadow(u8 taskId)
-{
-    if (!TryLoadSpriteAssets(&gDestinyBondWhiteShadowSpriteTemplate))
-    {
-        DestroyAnimVisualTask(taskId);
-        return;
-    }
-
-    struct Task *task;
-    u8 spriteId;
-    s16 baseX, baseY;
-    s16 x, y;
-
-    task = &gTasks[taskId];
-    SetGpuReg(REG_OFFSET_BLDCNT, (BLDCNT_EFFECT_BLEND | BLDCNT_TGT2_ALL));
-    SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(0, 0x10));
-    task->data[5] = 0;
-    task->data[6] = 0;
-    task->data[7] = 0;
-    task->data[8] = 0;
-    task->data[9] = 16;
-    task->data[10] = gBattleAnimArgs[0];
-
-    baseX = GetBattlerSpriteCoord(gBattleAnimAttacker, BATTLER_COORD_X_2);
-    baseY = GetBattlerSpriteCoordAttr(gBattleAnimAttacker, BATTLER_COORD_ATTR_BOTTOM);
-    if (!IsContest())
-    {
-        spriteId = CreateSpriteUnchecked(&gDestinyBondWhiteShadowSpriteTemplate, baseX, baseY, 55);
-        if (spriteId != MAX_SPRITES)
-        {
-            x = GetBattlerSpriteCoord(gBattleAnimTarget, BATTLER_COORD_X_2);
-            y = GetBattlerSpriteCoordAttr(gBattleAnimTarget, BATTLER_COORD_ATTR_BOTTOM);
-            gSprites[spriteId].data[0] = baseX << 4;
-            gSprites[spriteId].data[1] = baseY << 4;
-            gSprites[spriteId].data[2] = ((x - baseX) << 4) / gBattleAnimArgs[1];
-            gSprites[spriteId].data[3] = ((y - baseY) << 4) / gBattleAnimArgs[1];
-            gSprites[spriteId].data[4] = gBattleAnimArgs[1];
-            gSprites[spriteId].data[5] = x;
-            gSprites[spriteId].data[6] = y;
-            gSprites[spriteId].callback = AnimDestinyBondWhiteShadow_Step;
-
-            task->data[task->data[12] + 13] = spriteId;
-            task->data[12]++;
-        }
-    }
-    else
-    {
-        spriteId = CreateSpriteUnchecked(&gDestinyBondWhiteShadowSpriteTemplate, baseX, baseY, 55);
-        if (spriteId != MAX_SPRITES)
-        {
-            x = 48;
-            y = 40;
-            gSprites[spriteId].data[0] = baseX << 4;
-            gSprites[spriteId].data[1] = baseY << 4;
-            gSprites[spriteId].data[2] = ((x - baseX) << 4) / gBattleAnimArgs[1];
-            gSprites[spriteId].data[3] = ((y - baseY) << 4) / gBattleAnimArgs[1];
-            gSprites[spriteId].data[4] = gBattleAnimArgs[1];
-            gSprites[spriteId].data[5] = x;
-            gSprites[spriteId].data[6] = y;
-            gSprites[spriteId].callback = AnimDestinyBondWhiteShadow_Step;
-
-            task->data[13] = spriteId;
-            task->data[12] = 1;
-        }
-    }
-
-    task->func = AnimTask_DestinyBondWhiteShadow_Step;
-}
 
 static void AnimTask_GhostGetOut_Step3(u8 taskId)
 {

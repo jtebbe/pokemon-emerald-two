@@ -55,3 +55,9 @@ gText_CoinCaseIsFull::
 gText_NothingToPutThemIn::
 	.string "Too bad!\n"
 	.string "There's nothing to put them in…$"
+
+gText_PlayerFoundOneTMHM::
+    .string "{PLAYER} found one {STR_VAR_2}!$"
+
+gText_PlayerFoundTMHMs::
+    .string "{PLAYER} found {STR_VAR_3} {STR_VAR_2}!$"

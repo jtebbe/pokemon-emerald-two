@@ -49,9 +49,9 @@ SINGLE_BATTLE_TEST("Battle Bond transforms player's Greninja - Singles")
     } FINALLY {
         if (monsCountOpponent != 1) {
             EXPECT(player->species == SPECIES_GRENINJA_ASH);
-            EXPECT_EQ(player->attack, 295);
-            EXPECT_EQ(player->spAttack, 311);
-            EXPECT_EQ(player->speed, 269);
+            EXPECT_EQ(player->attack, 326);
+            EXPECT_EQ(player->spAttack, 342);
+            EXPECT_EQ(player->speed, 300);
         } else {
             EXPECT(player->species == SPECIES_GRENINJA_BATTLE_BOND);
         }

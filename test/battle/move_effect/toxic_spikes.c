@@ -286,7 +286,6 @@ SINGLE_BATTLE_TEST("Toxic Spikes: Only two layers can be set up")
         EXPECT_EQ(gBattleStruct->hazardsQueue[0][2], HAZARDS_NONE);
         EXPECT_EQ(gBattleStruct->hazardsQueue[0][3], HAZARDS_NONE);
         EXPECT_EQ(gBattleStruct->hazardsQueue[0][4], HAZARDS_NONE);
-        EXPECT_EQ(gBattleStruct->hazardsQueue[0][5], HAZARDS_NONE);
         u32 toxicSpikesAmount = gSideTimers[0].toxicSpikesAmount;
         EXPECT_EQ(toxicSpikesAmount, 2);
     }

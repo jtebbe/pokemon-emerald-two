@@ -31,9 +31,6 @@ Item | Exp.Candy L | Exp. Candy L
 Item | Exp.Candies L | Exp. Candies L
 Item | Exp.Candy XL | Exp. Candy XL
 Item | Exp.Candies XL | Exp. Candies XL
-Item | DynamaxCandy | Dynamax Candy
-Item | DynamaxCandies | Dynamax Candies
-Item | MaxMushrooms | Max Mushrooms
 Item | GoldBottlCap | Gold Bottle Cap
 Item | PrettyFeather | Pretty Feather
 Item | StrngeSouvnr | Strange Souvenir
@@ -47,7 +44,6 @@ Item | YellwApricorn | Yellow Apricorn
 Item | GreenApricorn | Green Apricorn
 Item | WhiteApricorn | White Apricorn
 Item | BlackApricorn | Black Apricorn
-Item | WishingPiece | Wishing Piece
 Item | GalaricaTwig | Galarica Twig
 Item | GalaricaCuff | Galarica Cuff
 Item | GalrcaWreath | Galarica Wreath
@@ -196,7 +192,6 @@ Move | BouncyBubble | Bouncy Bubble
 Move | SparklySwirl | Sparkly Swirl
 Move | VeeveeVolley | Veevee Volley
 Move | DublIronBash | Double Iron Bash
-Move | DynamxCannon | Dynamax Cannon
 Move | FishiousRend | Fishious Rend
 Move | ClngrousSoul | Clangorous Soul
 Move | BehemthBlade | Behemoth Blade

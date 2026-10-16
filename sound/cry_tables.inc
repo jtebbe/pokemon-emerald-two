@@ -2041,9 +2041,9 @@ gCryTable::
 .if P_FUSION_FORMS == TRUE
 	cry Cry_NecrozmaDuskMane
 	cry Cry_NecrozmaDawnWings
-.if P_ULTRA_BURST_FORMS == TRUE
+.if P_MEGA_EVOLUTIONS == TRUE
 	cry Cry_NecrozmaUltra
-.endif @ P_ULTRA_BURST_FORMS
+.endif @ P_MEGA_EVOLUTIONS
 .endif @ P_FUSION_FORMS
 .endif @ P_FAMILY_NECROZMA
 .if P_FAMILY_MAGEARNA == TRUE
@@ -4597,9 +4597,9 @@ gCryTable_Reverse::
 .if P_FUSION_FORMS == TRUE
 	cry_reverse Cry_NecrozmaDuskMane
 	cry_reverse Cry_NecrozmaDawnWings
-.if P_ULTRA_BURST_FORMS == TRUE
+.if P_MEGA_EVOLUTIONS == TRUE
 	cry_reverse Cry_NecrozmaUltra
-.endif @ P_ULTRA_BURST_FORMS
+.endif @ P_MEGA_EVOLUTIONS
 .endif @ P_FUSION_FORMS
 .endif @ P_FAMILY_NECROZMA
 .if P_FAMILY_MAGEARNA == TRUE

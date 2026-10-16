@@ -1,4 +1,12 @@
 # What features are included?
+
+This fork uses one direct save structure and 40 streamed PC boxes (72 bytes per
+boxed Pokémon). Pokémon data has one authoritative species and egg state, with
+fixed maximum stat contributions and maximum move PP. See [PC storage](docs/pc_storage.md)
+and [multiplayer saving](docs/multiplayer_saves.md) for autosave and recovery behavior.
+Legacy facilities, records other than Hall of Fame, contests, rematches, PokéNav,
+Dynamax/Gigantamax, and Z-Moves are removed. Daycare, fusions, and Mega Evolution remain.
+
 ## Table of Contents
 - [What features are included?](#what-features-are-included)
   - [Table of Contents](#table-of-contents)
@@ -29,12 +37,12 @@ A lot of features listed below can be turned off as desired. Check which ones in
 - [Summary screen config](https://github.com/rh-hideout/pokeemerald-expansion/blob/master/include/config/summary_screen.h)
 
 ## Upgraded Battle Engine
-- ***Battle gimmicks:*** Mega Evolution, Primal Reversion, Ultra Burst, Z-Moves, Dynamax, Gigantamax and Terastallization.
+- ***Battle gimmicks:*** Mega Evolution, Primal Reversion and Terastallization.
 - ***Newer game battle types:*** Double Wild Battles, custom Multi Battles, Inverse Battles, 1v2/2v1 battles, Sky Battles.
-- ***Updated battle mechanics:*** Critical capture, Frostbite support, Poké Ball quick menu, Move description menu, no badge boosts, Gen 4 Fog, obedience, Affection, Party swap upon catch, move effectiveness in battle, FRLG/Gen4+ whiteout money calculation, Gen 4-style shadows.
+- ***Updated battle mechanics:*** Critical capture, Frostbite support, Poké Ball quick menu, Move description menu, no badge boosts, Gen 4 Fog, obedience, Party swap upon catch, move effectiveness in battle, FRLG/Gen4+ whiteout money calculation, Gen 4-style shadows.
 - ***Updated move data***: Fairy/Stellar types, Physical/Special split, flags.
 - ***Updated calculations:*** Damage, experience, mid-turn speed, end-battle stats and EVs, Level 100 EVs.
-- ***Every item, ability and move effect up to Gen IX:*** Includes contest data up to SwSh ([source](https://pokemonurpg.com/info/contests/rse-move-list/)).
+- ***Modern items, abilities and move effects:*** The retained battle mechanics include updates through Gen IX; removed mechanics are excluded.
 - ***Initial battle conditions:*** Stat stages, battle terrain, Wild AI flags.
 - ***Faster battles:*** Simultaneous HP reduction, shortcut to "Run" option, faster battle intro, faster HP drain, faster AI calculations.
 - ***Easier customization:*** Cleaner codebase to implement custom moves and effects.
@@ -43,24 +51,24 @@ A lot of features listed below can be turned off as desired. Check which ones in
 
 ## Full Trainer customization
 - ***Compatible with Pokémon Showdown's team syntax:*** Create your trainer teams in the [teambuilder](https://play.pokemonshowdown.com/teambuilder) and paste the results!
-- ***Custom Pokémon data:*** Nicknames, EVs, IVs, Moves, Abilities, Poké Balls, Friendship, Nature, Gender, Shininess, Dynamax level, Gigantamax Factor and Tera Type.
+- ***Custom Pokémon data:*** Nicknames, EVs, Moves, Abilities, Poké Balls, Nature, Gender, Shininess and Tera Type.
   - ***"Ace Pokémon":*** Will save a specific Pokémon for last.
   - ***Trainer Pools:*** A trainer may get a pool of randomized Pokémon instead of set teams.
 - ***Custom sliding trainer messages:*** First Turn, landing a super-effective hit, before Mega Evolution, etc.
 - ***New AI Flag options:*** Customize the intelligence of your trainers.
 - ***Trainer class Poké Balls:*** Divers use Dive Balls, Breeders use Nest Balls, etc.
 ## Pokémon data
-- ***Improved Pokémon Data structure:*** Optimized space to allow fitting more information, such as Tera type, 12-character names, Hyper-trained stats, evolution conditions, saved HP/status effect.
+- ***Improved Pokémon Data structure:*** Direct, unified storage for information such as Tera type, 12-character names, evolution conditions, and saved HP/status effects.
 - ***Updated breeding mechanics:*** Poké Ball/Egg Move/Ability/Nature inheritance, Level 1 eggs automatic incense babies.
-- ***Updated species data:*** Stats, Types, Abilities, Hidden Abilities, Egg Groups, EV Yields, movesets, Battle Facility bans, guaranteed perfect IV counts, ORAS Dex numbers.
+- ***Updated species data:*** Stats, Types, Abilities, Hidden Abilities, Egg Groups, EV Yields, movesets and ORAS Dex numbers.
 - ***Simpler species data manipulation:***: Only requires to edit ~5 files instead of vanilla pokeemerald's 20+ to add a new Pokémon.
 - ***Updated sprites:*** DS-style sprites with support for Emerald's 2-frame animations and gender difference.
 - ***Species toggles:*** You can disable specific groups of Pokémon to save space, including families, cross-gen evolutions, Mega Evolutions, Regional forms, etc.
-- ***Revamped Evolution System***: Multiple Evolution conditions can be stacked in order to create complex methods without additional coding. Every condition except Affection and console gyroscope is supported.
+- ***Revamped Evolution System***: Multiple Evolution conditions can be stacked. Former friendship-based evolutions occur at level 5.
 - ***Form Change System.*** Most form changes can be added without additional coding. This includes support for: Holding/using an item, HP thresholds being met, weather change in and/or out of battle, Fusions, and more.
 
 ## Interface improvements
-- ***Pokémon Summary:*** Move relearner, EV/IV checks, Nature colors ([feature branch](https://github.com/DizzyEggg/pokeemerald/tree/nature_color) by @DizzyEggg).
+- ***Pokémon Summary:*** Move relearner, EV checks, Nature colors ([feature branch](https://github.com/DizzyEggg/pokeemerald/tree/nature_color) by @DizzyEggg).
 - ***Party Menu:*** "Move Item" option.
 - ***Pokémon Storage System:*** Move option as default, access from Box Link item.
 - ***HGSS-style Pokédex*** ([original feature branch](https://github.com/TheXaman/pokeemerald/tree/tx_pokedexPlus_hgss) by @TheXaman): Detailed in-game information accessible to players.
@@ -73,7 +81,7 @@ A lot of features listed below can be turned off as desired. Check which ones in
 - ***High-Quality RNG:*** No more broken vanilla RNG.
 
 ## Overworld improvements
-- ***Modern Mechanics***: Defog field move, B2W2+ Repel system, Running indoors, Removed field poison, Chain fishing, VS. Seeker, FRLG+ whiteout message.
+- ***Modern Mechanics***: Defog field move, B2W2+ Repel system, Running indoors, Removed field poison, Chain fishing, FRLG+ whiteout message.
 - ***Overworld and Follower Pokémon*** ([feature branch](https://github.com/aarant/pokeemerald/tree/followers-expanded-id) by @aarant)
     - *Includes Dynamic overworld palettes (DOWP) and Overworld Expansion for event IDs beyond 255.*
     - *Includes Pokémon sprites up to Generation IX.*

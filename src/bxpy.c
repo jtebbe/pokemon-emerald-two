@@ -15,7 +15,6 @@
 #include "script_pokemon_util.h"
 #include "string_util.h"
 #include "task.h"
-#include "tv.h"
 #include "constants/battle.h"
 
 static enum BXPYHealModes BXPY_GetHealMode(void);
@@ -253,7 +252,7 @@ static void BXPY_ErrorCheck_ClauseSpecialPokemon(void)
         if (species == SPECIES_NONE || species == SPECIES_EGG)
             continue;
 
-        if (!gSpeciesInfo[species].isMythical && !gSpeciesInfo[species].isFrontierBanned)
+        if (!gSpeciesInfo[species].isMythical && !gSpeciesInfo[species].excludeFromBingoPool)
             continue;
 
         bool32 alreadyAdded = FALSE;
@@ -437,17 +436,6 @@ bool8 BXPY_ShouldHideEnemyNature(enum PokemonSummaryScreenMode mode)
         return FALSE;
 
     return !BXPY_OPEN_TEAM_SHEET_SHOW_ENEMY_STAT_NATURE;
-}
-
-bool8 BXPY_ShouldHideEnemyIndividualValues(enum PokemonSummaryScreenMode mode, enum PokemonSummarySkillsMode stats)
-{
-    if (!BXPY_IsSummaryScreenForEnemy(mode))
-        return FALSE;
-
-    if (stats != SUMMARY_SKILLS_MODE_IVS)
-        return FALSE;
-
-    return !BXPY_OPEN_TEAM_SHEET_SHOW_ENEMY_STAT_IV;
 }
 
 bool8 BXPY_ShouldHideEnemyEffortValues(enum PokemonSummaryScreenMode mode, enum PokemonSummarySkillsMode stats)
@@ -704,9 +692,6 @@ bool8 BXPY_SummaryScreen_ShouldHideStats(enum PokemonSummaryScreenMode mode, enu
         return FALSE;
 
     if (BXPY_SummaryScreen_ShouldHideEnemyLevel(mode))
-        return TRUE;
-
-    if (!BXPY_OPEN_TEAM_SHEET_SHOW_ENEMY_STAT_IV)
         return TRUE;
 
     if (!BXPY_OPEN_TEAM_SHEET_SHOW_ENEMY_STAT_EV)

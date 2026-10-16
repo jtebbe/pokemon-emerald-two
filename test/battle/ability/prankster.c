@@ -251,5 +251,3 @@ SINGLE_BATTLE_TEST("Prankster-affected moves that are bounced back by Magic Boun
 }
 
 TO_DO_BATTLE_TEST("Prankster-affected moves called via Nature Power don't affect Dark-type Pokémon");
-TO_DO_BATTLE_TEST("Prankster increases the priority of status Z-Moves by 1");
-TO_DO_BATTLE_TEST("Prankster increases the priority of Extreme Evoboost by 1");

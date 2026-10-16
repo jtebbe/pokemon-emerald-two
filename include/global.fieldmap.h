@@ -89,7 +89,7 @@ enum
 
 // Rows of metatiles do not actually have a strict width.
 // This constant is used for calculations for finding the next row of metatiles
-// for constructing large tiles, such as the Battle Pike's curtain tile.
+// for constructing large tiles.
 #define METATILE_ROW_WIDTH 8
 
 typedef void (*TilesetCB)(void);
@@ -193,7 +193,6 @@ struct BgEvent
             u32 quantity:7;
             u32 underfoot:1;
         } hiddenItem;
-        u32 secretBaseId;
     } bgUnion;
 };
 
@@ -350,7 +349,6 @@ enum {
     PLAYER_AVATAR_STATE_FIELD_MOVE,
     PLAYER_AVATAR_STATE_FISHING,
     PLAYER_AVATAR_STATE_WATERING,
-    PLAYER_AVATAR_STATE_VSSEEKER,
 };
 
 #define PLAYER_AVATAR_FLAG_ON_FOOT      (1 << 0)

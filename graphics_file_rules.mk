@@ -6,13 +6,10 @@ BATTRANSGFXDIR := graphics/battle_transitions
 TYPESGFXDIR := graphics/types
 ROULETTEGFXDIR := graphics/roulette
 SLOTMACHINEGFXDIR := graphics/slot_machine
-PKNAVOPTIONSGFXDIR := graphics/pokenav/options
 WALLPAPERGFXDIR := graphics/pokemon_storage/wallpapers
-JPCONTESTGFXDIR := graphics/contest/japanese
 TITLESCREENGFXDIR := graphics/title_screen
 
 types := none normal fight flying poison ground rock bug ghost steel mystery fire water grass electric psychic ice dragon dark fairy stellar
-contest_types := cool beauty cute smart tough
 
 ### Miscellaneous ###
 
@@ -63,19 +60,6 @@ $(UNUSEDGFXDIR)/redyellowgreen_frame.bin: $(UNUSEDGFXDIR)/red_frame.bin \
 $(BATINTGFXDIR)/ability_pop_up.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 8 -mheight 4
 
-$(JPCONTESTGFXDIR)/composite_1.4bpp: $(JPCONTESTGFXDIR)/frame_1.4bpp \
-                                     $(JPCONTESTGFXDIR)/floor.4bpp \
-                                     $(JPCONTESTGFXDIR)/frame_2.4bpp \
-                                     $(JPCONTESTGFXDIR)/symbols.4bpp \
-                                     $(JPCONTESTGFXDIR)/meter.4bpp \
-                                     $(JPCONTESTGFXDIR)/letters.4bpp \
-                                     $(JPCONTESTGFXDIR)/numbers.4bpp
-	@cat $^ >$@
-
-$(JPCONTESTGFXDIR)/composite_2.4bpp: $(JPCONTESTGFXDIR)/interface.4bpp \
-                                     $(JPCONTESTGFXDIR)/audience.4bpp
-	@cat $^ >$@
-
 $(BTLANMSPRGFXDIR)/ice_crystals.4bpp: $(BTLANMSPRGFXDIR)/ice_crystals_0.4bpp \
                                       $(BTLANMSPRGFXDIR)/ice_crystals_1.4bpp \
                                       $(BTLANMSPRGFXDIR)/ice_crystals_2.4bpp \
@@ -95,7 +79,7 @@ $(BTLANMSPRGFXDIR)/spark.4bpp: $(BTLANMSPRGFXDIR)/spark_0.4bpp \
                                $(BTLANMSPRGFXDIR)/spark_1.4bpp
 	@cat $^ >$@
 
-$(TYPESGFXDIR)/move_types.4bpp: $(types:%=$(TYPESGFXDIR)/%.4bpp) $(contest_types:%=$(TYPESGFXDIR)/contest_%.4bpp)
+$(TYPESGFXDIR)/move_types.4bpp: $(types:%=$(TYPESGFXDIR)/%.4bpp)
 	@cat $^ >$@
 
 $(TYPESGFXDIR)/move_types.gbapal: $(TYPESGFXDIR)/move_types_1.gbapal \
@@ -114,22 +98,6 @@ $(ROULETTEGFXDIR)/wheel_icons.4bpp: $(ROULETTEGFXDIR)/wynaut.4bpp \
                                     $(ROULETTEGFXDIR)/azurill.4bpp \
                                     $(ROULETTEGFXDIR)/skitty.4bpp \
                                     $(ROULETTEGFXDIR)/makuhita.4bpp
-	@cat $^ >$@
-
-$(BATTRANSGFXDIR)/frontier_square_1.4bpp: $(BATTRANSGFXDIR)/frontier_squares_blanktiles.4bpp \
-                                          $(BATTRANSGFXDIR)/frontier_squares_1.4bpp
-	@cat $^ >$@
-
-$(BATTRANSGFXDIR)/frontier_square_2.4bpp: $(BATTRANSGFXDIR)/frontier_squares_blanktiles.4bpp \
-                                          $(BATTRANSGFXDIR)/frontier_squares_2.4bpp
-	@cat $^ >$@
-
-$(BATTRANSGFXDIR)/frontier_square_3.4bpp: $(BATTRANSGFXDIR)/frontier_squares_blanktiles.4bpp \
-                                          $(BATTRANSGFXDIR)/frontier_squares_3.4bpp
-	@cat $^ >$@
-
-$(BATTRANSGFXDIR)/frontier_square_4.4bpp: $(BATTRANSGFXDIR)/frontier_squares_blanktiles.4bpp \
-                                          $(BATTRANSGFXDIR)/frontier_squares_4.4bpp
 	@cat $^ >$@
 
 $(SLOTMACHINEGFXDIR)/reel_time_gfx.4bpp: $(SLOTMACHINEGFXDIR)/reel_time_pikachu.4bpp \
@@ -294,23 +262,4 @@ $(WALLPAPERGFXDIR)/ludicolo/tiles.4bpp: $(WALLPAPERGFXDIR)/friends_frame2.4bpp $
 	@cat $^ >$@
 
 $(WALLPAPERGFXDIR)/whiscash/tiles.4bpp: $(WALLPAPERGFXDIR)/friends_frame2.4bpp $(WALLPAPERGFXDIR)/whiscash/bg.4bpp
-	@cat $^ >$@
-
-
-
-### Pokenav ###
-
-$(PKNAVOPTIONSGFXDIR)/options.4bpp: $(PKNAVOPTIONSGFXDIR)/hoenn_map.4bpp \
-                                    $(PKNAVOPTIONSGFXDIR)/condition.4bpp \
-                                    $(PKNAVOPTIONSGFXDIR)/match_call.4bpp \
-                                    $(PKNAVOPTIONSGFXDIR)/ribbons.4bpp \
-                                    $(PKNAVOPTIONSGFXDIR)/switch_off.4bpp \
-                                    $(PKNAVOPTIONSGFXDIR)/party.4bpp \
-                                    $(PKNAVOPTIONSGFXDIR)/search.4bpp \
-                                    $(PKNAVOPTIONSGFXDIR)/cool.4bpp \
-                                    $(PKNAVOPTIONSGFXDIR)/beauty.4bpp \
-                                    $(PKNAVOPTIONSGFXDIR)/cute.4bpp \
-                                    $(PKNAVOPTIONSGFXDIR)/smart.4bpp \
-                                    $(PKNAVOPTIONSGFXDIR)/tough.4bpp \
-                                    $(PKNAVOPTIONSGFXDIR)/cancel.4bpp
 	@cat $^ >$@

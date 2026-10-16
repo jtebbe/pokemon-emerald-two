@@ -57,24 +57,6 @@ SINGLE_BATTLE_TEST("Revival Herb restores a fainted battler's HP fully")
     }
 }
 
-SINGLE_BATTLE_TEST("Max Honey restores a fainted battler's HP fully")
-{
-    GIVEN {
-        ASSUME(gItemsInfo[ITEM_MAX_HONEY].battleUsage == EFFECT_ITEM_REVIVE);
-        PLAYER(SPECIES_WYNAUT) { HP(1); MaxHP(200); }
-        PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_WOBBUFFET);
-    } WHEN {
-        TURN { MOVE(opponent, MOVE_SCRATCH); SEND_OUT(player, 1); }
-        TURN { USE_ITEM(player, ITEM_MAX_HONEY, partyIndex: 0); }
-        TURN { SWITCH(player, 0); }
-    } SCENE {
-        MESSAGE("Wynaut had its HP restored.");
-    } THEN {
-        EXPECT_EQ(player->hp, 200);
-    }
-}
-
 // Note: this test is oddly specific with implicit moves/speeds, because I had errors/invalids without them.
 DOUBLE_BATTLE_TEST("Revive works for a partner in a double battle")
 {

@@ -34,9 +34,6 @@ gScriptCmdTable::
 	script_cmd_table_entry SCR_OP_CALL_STD                      ScrCmd_callstd,                     requests_effects=1
 	script_cmd_table_entry SCR_OP_GOTO_STD_IF                   ScrCmd_gotostd_if,                  requests_effects=1
 	script_cmd_table_entry SCR_OP_CALL_STD_IF                   ScrCmd_callstd_if,                  requests_effects=1
-	script_cmd_table_entry SCR_OP_RETURNRAM                     ScrCmd_returnram,                   requests_effects=1
-	script_cmd_table_entry SCR_OP_ENDRAM                        ScrCmd_endram,                      requests_effects=1
-	script_cmd_table_entry SCR_OP_SETMYSTERYEVENTSTATUS         ScrCmd_setmysteryeventstatus,       requests_effects=1
 	script_cmd_table_entry SCR_OP_LOAD_WORD                     ScrCmd_loadword,                    requests_effects=1
 	script_cmd_table_entry SCR_OP_LOAD_BYTE                     ScrCmd_loadbyte,                    requests_effects=1
 	script_cmd_table_entry SCR_OP_SETPTR                        ScrCmd_setptr,                      requests_effects=1
@@ -97,10 +94,6 @@ gScriptCmdTable::
 	script_cmd_table_entry SCR_OP_CHECKITEMTYPE                 ScrCmd_checkitemtype,               requests_effects=1
 	script_cmd_table_entry SCR_OP_ADDPCITEM                     ScrCmd_addpcitem,                   requests_effects=1
 	script_cmd_table_entry SCR_OP_CHECKPCITEM                   ScrCmd_checkpcitem,                 requests_effects=1
-	script_cmd_table_entry SCR_OP_ADDDECORATION                 ScrCmd_adddecoration,               requests_effects=1
-	script_cmd_table_entry SCR_OP_REMOVEDECORATION              ScrCmd_removedecoration,            requests_effects=1
-	script_cmd_table_entry SCR_OP_CHECKDECOR                    ScrCmd_checkdecor,                  requests_effects=1
-	script_cmd_table_entry SCR_OP_CHECKDECORSPACE               ScrCmd_checkdecorspace,             requests_effects=1
 	script_cmd_table_entry SCR_OP_APPLYMOVEMENT                 ScrCmd_applymovement,               requests_effects=1
 	script_cmd_table_entry SCR_OP_APPLYMOVEMENTAT               ScrCmd_applymovementat,             requests_effects=1
 	script_cmd_table_entry SCR_OP_WAITMOVEMENT                  ScrCmd_waitmovement,                requests_effects=1
@@ -141,7 +134,6 @@ gScriptCmdTable::
 	script_cmd_table_entry SCR_OP_DRAWBOXTEXT                   ScrCmd_drawboxtext,                 requests_effects=1
 	script_cmd_table_entry SCR_OP_SHOWMONPIC                    ScrCmd_showmonpic,                  requests_effects=1
 	script_cmd_table_entry SCR_OP_HIDEMONPIC                    ScrCmd_hidemonpic,                  requests_effects=1
-	script_cmd_table_entry SCR_OP_SHOWCONTESTPAINTING           ScrCmd_showcontestpainting,         requests_effects=1
 	script_cmd_table_entry SCR_OP_BRAILLEMESSAGE                ScrCmd_braillemessage,              requests_effects=1
 	script_cmd_table_entry SCR_OP_GIVEMON                       ScrCmd_nop1,                        requests_effects=1
 	script_cmd_table_entry SCR_OP_GIVEEGG                       ScrCmd_giveegg,                     requests_effects=1
@@ -151,20 +143,13 @@ gScriptCmdTable::
 	script_cmd_table_entry SCR_OP_BUFFERLEADMONSPECIESNAME      ScrCmd_bufferleadmonspeciesname,    requests_effects=1
 	script_cmd_table_entry SCR_OP_BUFFERPARTYMONNICK            ScrCmd_bufferpartymonnick,          requests_effects=1
 	script_cmd_table_entry SCR_OP_BUFFERITEMNAME                ScrCmd_bufferitemname,              requests_effects=1
-	script_cmd_table_entry SCR_OP_BUFFERDECORATIONNAME          ScrCmd_bufferdecorationname,        requests_effects=1
 	script_cmd_table_entry SCR_OP_BUFFERMOVENAME                ScrCmd_buffermovename,              requests_effects=1
 	script_cmd_table_entry SCR_OP_BUFFERNUMBERSTRING            ScrCmd_buffernumberstring,          requests_effects=1
 	script_cmd_table_entry SCR_OP_BUFFERSTDSTRING               ScrCmd_bufferstdstring,             requests_effects=1
 	script_cmd_table_entry SCR_OP_BUFFERSTRING                  ScrCmd_bufferstring,                requests_effects=1
 	script_cmd_table_entry SCR_OP_POKEMART                      ScrCmd_pokemart,                    requests_effects=1
-	script_cmd_table_entry SCR_OP_POKEMARTDECORATION            ScrCmd_pokemartdecoration,          requests_effects=1
-	script_cmd_table_entry SCR_OP_POKEMARTDECORATION2           ScrCmd_pokemartdecoration2,         requests_effects=1
 	script_cmd_table_entry SCR_OP_PLAYSLOTMACHINE               ScrCmd_playslotmachine,             requests_effects=1
 	script_cmd_table_entry SCR_OP_SETBERRYTREE                  ScrCmd_setberrytree,                requests_effects=1
-	script_cmd_table_entry SCR_OP_CHOOSECONTESTMON              ScrCmd_choosecontestmon,            requests_effects=1
-	script_cmd_table_entry SCR_OP_STARTCONTEST                  ScrCmd_startcontest,                requests_effects=1
-	script_cmd_table_entry SCR_OP_SHOWCONTESTRESULTS            ScrCmd_showcontestresults,          requests_effects=1
-	script_cmd_table_entry SCR_OP_CONTESTLINKTRANSFER           ScrCmd_contestlinktransfer,         requests_effects=1
 	script_cmd_table_entry SCR_OP_RANDOM                        ScrCmd_random,                      requests_effects=1
 	script_cmd_table_entry SCR_OP_ADDMONEY                      ScrCmd_addmoney,                    requests_effects=1
 	script_cmd_table_entry SCR_OP_REMOVEMONEY                   ScrCmd_removemoney,                 requests_effects=1
@@ -172,7 +157,6 @@ gScriptCmdTable::
 	script_cmd_table_entry SCR_OP_SHOWMONEYBOX                  ScrCmd_showmoneybox,                requests_effects=1
 	script_cmd_table_entry SCR_OP_HIDEMONEYBOX                  ScrCmd_hidemoneybox,                requests_effects=1
 	script_cmd_table_entry SCR_OP_UPDATEMONEYBOX                ScrCmd_updatemoneybox,              requests_effects=1
-	script_cmd_table_entry SCR_OP_GETPOKENEWSACTIVE             ScrCmd_getpokenewsactive,           requests_effects=1
 	script_cmd_table_entry SCR_OP_FADESCREEN                    ScrCmd_fadescreen,                  requests_effects=1
 	script_cmd_table_entry SCR_OP_FADESCREENSPEED               ScrCmd_fadescreenspeed,             requests_effects=1
 	script_cmd_table_entry SCR_OP_SETFLASHLEVEL                 ScrCmd_setflashlevel,               requests_effects=1
@@ -188,7 +172,6 @@ gScriptCmdTable::
 	script_cmd_table_entry SCR_OP_RESETWEATHER                  ScrCmd_resetweather,                requests_effects=1
 	script_cmd_table_entry SCR_OP_SETWEATHER                    ScrCmd_setweather,                  requests_effects=1
 	script_cmd_table_entry SCR_OP_DOWEATHER                     ScrCmd_doweather,                   requests_effects=1
-	script_cmd_table_entry SCR_OP_SETSTEPCALLBACK               ScrCmd_setstepcallback,             requests_effects=1
 	script_cmd_table_entry SCR_OP_SETMAPLAYOUTINDEX             ScrCmd_setmaplayoutindex,           requests_effects=1
 	script_cmd_table_entry SCR_OP_SETOBJECTSUBPRIORITY          ScrCmd_setobjectsubpriority,        requests_effects=1
 	script_cmd_table_entry SCR_OP_RESETOBJECTSUBPRIORITY        ScrCmd_resetobjectsubpriority,      requests_effects=1
@@ -217,7 +200,6 @@ gScriptCmdTable::
 	script_cmd_table_entry SCR_OP_SHOWCOINSBOX                  ScrCmd_showcoinsbox,                requests_effects=1
 	script_cmd_table_entry SCR_OP_HIDECOINSBOX                  ScrCmd_hidecoinsbox,                requests_effects=1
 	script_cmd_table_entry SCR_OP_UPDATECOINSBOX                ScrCmd_updatecoinsbox,              requests_effects=1
-	script_cmd_table_entry SCR_OP_INCREMENTGAMESTAT             ScrCmd_incrementgamestat,           requests_effects=1
 	script_cmd_table_entry SCR_OP_SETESCAPEWARP                 ScrCmd_setescapewarp,               requests_effects=1
 	script_cmd_table_entry SCR_OP_WAITMONCRY                    ScrCmd_waitmoncry,                  requests_effects=1
 	script_cmd_table_entry SCR_OP_BUFFERBOXNAME                 ScrCmd_bufferboxname,               requests_effects=1
@@ -227,9 +209,6 @@ gScriptCmdTable::
 	script_cmd_table_entry SCR_OP_SIGNMSG                       ScrCmd_signmsg,                     requests_effects=1
 	script_cmd_table_entry SCR_OP_NORMALMSG                     ScrCmd_normalmsg,                   requests_effects=1
 	script_cmd_table_entry SCR_OP_COMPAREHIDDENVAR              ScrCmd_nop1,                        requests_effects=1
-	script_cmd_table_entry SCR_OP_SETMODERNFATEFULENCOUNTER     ScrCmd_setmodernfatefulencounter,   requests_effects=1
-	script_cmd_table_entry SCR_OP_CHECKMODERNFATEFULENCOUNTER   ScrCmd_checkmodernfatefulencounter, requests_effects=1
-	script_cmd_table_entry SCR_OP_TRYWONDERCARDSCRIPT           ScrCmd_trywondercardscript,         requests_effects=1
 	script_cmd_table_entry SCR_OP_SETWORLDMAPFLAG               ScrCmd_setworldmapflag,             requests_effects=1
 	script_cmd_table_entry SCR_OP_WARPSPINENTER                 ScrCmd_warpspinenter,               requests_effects=1
 	script_cmd_table_entry SCR_OP_SETMONMETLOCATION             ScrCmd_setmonmetlocation,           requests_effects=1
@@ -245,9 +224,7 @@ gScriptCmdTable::
 	script_cmd_table_entry SCR_OP_FADESCREENSWAPBUFFERS         ScrCmd_fadescreenswapbuffers,       requests_effects=1
 	script_cmd_table_entry SCR_OP_BUFFERTRAINERCLASSNAME        ScrCmd_buffertrainerclassname,      requests_effects=1
 	script_cmd_table_entry SCR_OP_BUFFERTRAINERNAME             ScrCmd_buffertrainername,           requests_effects=1
-	script_cmd_table_entry SCR_OP_POKENAVCALL                   ScrCmd_pokenavcall,                 requests_effects=1
 	script_cmd_table_entry SCR_OP_WARPWHITEFADE                 ScrCmd_warpwhitefade,               requests_effects=1
-	script_cmd_table_entry SCR_OP_BUFFERCONTESTNAME             ScrCmd_buffercontestname,           requests_effects=1
 	script_cmd_table_entry SCR_OP_BUFFERITEMNAMEPLURAL          ScrCmd_bufferitemnameplural,        requests_effects=1
 	script_cmd_table_entry SCR_OP_DYNMULTICHOICE                ScrCmd_dynmultichoice,              requests_effects=1
 	script_cmd_table_entry SCR_OP_DYNMULTIPUSH                  ScrCmd_dynmultipush,                requests_effects=1

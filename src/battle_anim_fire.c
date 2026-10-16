@@ -8,6 +8,8 @@
 #include "task.h"
 #include "trig.h"
 
+static void AnimWillOWispFire(struct Sprite *);
+
 static void AnimFireSpiralInward(struct Sprite *);
 static void AnimLargeFlame(struct Sprite *);
 static void AnimLargeFlame_Step(struct Sprite *);
@@ -31,7 +33,6 @@ static void InitEruptionLaunchRockCoordData(struct Sprite *, s16, s16);
 static void UpdateEruptionLaunchRockPos(struct Sprite *);
 static void AnimEruptionFallingRock_Step(struct Sprite *);
 static void AnimWillOWispOrb_Step(struct Sprite *);
-static void AnimWillOWispFire(struct Sprite *);
 static void AnimTask_MoveHeatWaveTargets_Step(u8);
 static void AnimLavaPlumeOrbitScatter(struct Sprite *);
 static void AnimLavaPlumeOrbitScatterStep(struct Sprite *);
@@ -140,6 +141,10 @@ const struct SpriteTemplate gLargeFlameScatterSpriteTemplate =
     .callback = AnimLargeFlame,
 };
 
+
+// Unused
+
+
 const struct SpriteTemplate gFirePlumeSpriteTemplate =
 {
     .tileTag = ANIM_TAG_FIRE_PLUME,
@@ -149,7 +154,6 @@ const struct SpriteTemplate gFirePlumeSpriteTemplate =
     .callback = AnimFirePlume,
 };
 
-// Unused
 static const struct SpriteTemplate sUnusedEmberFirePlumeSpriteTemplate =
 {
     .tileTag = ANIM_TAG_SMALL_EMBER,
@@ -404,6 +408,12 @@ const struct SpriteTemplate gWillOWispOrbSpriteTemplate =
     .callback = AnimWillOWispOrb,
 };
 
+
+// Directions for shaking up/down or left/right in AnimTask_ShakeTargetInPattern
+// Only first 10 values are ever accessed.
+// First pattern results in larger shakes, second results in faster oscillation
+
+
 static const union AnimCmd sAnim_WillOWispFire[] =
 {
     ANIMCMD_FRAME(0, 5),
@@ -427,9 +437,6 @@ const struct SpriteTemplate gWillOWispFireSpriteTemplate =
     .callback = AnimWillOWispFire,
 };
 
-// Directions for shaking up/down or left/right in AnimTask_ShakeTargetInPattern
-// Only first 10 values are ever accessed.
-// First pattern results in larger shakes, second results in faster oscillation
 static const s8 sShakeDirsPattern0[16] =
 {
     -1, -1, 0, 1, 1, 0, 0, -1, -1, 1, 1, 0, 0, -1, 0, 1,
@@ -1243,6 +1250,7 @@ static void AnimWillOWispOrb_Step(struct Sprite *sprite)
     }
 }
 
+
 static void AnimWillOWispFire(struct Sprite *sprite)
 {
     if (!sprite->data[0])
@@ -1254,10 +1262,7 @@ static void AnimWillOWispFire(struct Sprite *sprite)
     sprite->data[3] += 0xC0 * 2;
     sprite->data[4] += 0xA0;
 
-    if (IsDoubleBattle()
-     && !IsContest()
-     && IsBattlerAlive(GetPartnerBattler(gBattleAnimTarget))
-     && GetMoveTarget(gAnimMoveIndex) == TARGET_BOTH)
+    if (IsDoubleBattle() && IsBattlerAlive(GetPartnerBattler(gBattleAnimTarget)) && GetMoveTarget(gAnimMoveIndex) == TARGET_BOTH)
         SetAverageBattlerPositions(gBattleAnimTarget, TRUE, &sprite->x, &sprite->y);
 
     sprite->x2 = Sin(sprite->data[1], sprite->data[3] >> 8);
@@ -1265,19 +1270,11 @@ static void AnimWillOWispFire(struct Sprite *sprite)
 
     sprite->data[1] = (sprite->data[1] + 7) & 0xFF;
 
-    if (!IsContest())
     {
         if (sprite->data[1] < 64 || sprite->data[1] > 195)
             sprite->oam.priority = GetBattlerSpriteBGPriority(gBattleAnimTarget);
         else
             sprite->oam.priority = GetBattlerSpriteBGPriority(gBattleAnimTarget) + 1;
-    }
-    else
-    {
-        if (sprite->data[1] < 64 || sprite->data[1] > 195)
-            sprite->subpriority = 0x1D;
-        else
-            sprite->subpriority = 0x1F;
     }
 
     if (++sprite->data[2] > 0x14)

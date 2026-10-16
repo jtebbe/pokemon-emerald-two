@@ -353,19 +353,14 @@ Avoid using magic numbers when possible - constants help to make clear why a spe
 // Incorrect
         if (gimmick == 5 && mon->teraType != 0)
             return TRUE;
-        if (gimmick == 4 && mon->shouldUseDynamax)
-            return TRUE;
 ```
 
 ```c
 // Correct
 #define TYPE_NONE 0
-#define GIMMICK_DYNAMAX 4
-#define GIMMICK_TERA 5
+#define GIMMICK_TERA 4
 
         if (gimmick == GIMMICK_TERA && mon->teraType != TYPE_NONE)
-            return TRUE;
-        if (gimmick == GIMMICK_DYNAMAX && mon->shouldUseDynamax)
             return TRUE;
 ```
 
@@ -377,16 +372,11 @@ enum Gimmick
 {
     GIMMICK_NONE,
     GIMMICK_MEGA,
-    GIMMICK_ULTRA_BURST,
-    GIMMICK_Z_MOVE,
-    GIMMICK_DYNAMAX,
     GIMMICK_TERA,
     GIMMICKS_COUNT,
 };
 
         if (gimmick == GIMMICK_TERA && mon->teraType != TYPE_NONE)
-            return TRUE;
-        if (gimmick == GIMMICK_DYNAMAX && mon->shouldUseDynamax)
             return TRUE;
 ```
 

@@ -309,7 +309,7 @@ static void AddHatchedMonToParty(u8 id)
     enum Species species;
     enum NationalDexOrder nationalDexNum;
     u8 name[POKEMON_NAME_LENGTH + 1];
-    u32 metLevel, friendship;
+    u32 metLevel, eggCycles;
     enum Language language;
     metloc_u8_t metLocation;
     struct Pokemon *mon = &gParties[B_TRAINER_PLAYER][id];
@@ -330,8 +330,8 @@ static void AddHatchedMonToParty(u8 id)
     language = GAME_LANGUAGE;
     SetMonData(mon, MON_DATA_LANGUAGE, &language);
 
-    friendship = 120;
-    SetMonData(mon, MON_DATA_FRIENDSHIP, &friendship);
+    eggCycles = 0;
+    SetMonData(mon, MON_DATA_EGG_CYCLES, &eggCycles);
 
     // A met level of 0 is interpreted on the summary screen as "hatched at"
     metLevel = 0;
@@ -344,10 +344,8 @@ static void AddHatchedMonToParty(u8 id)
 
     u32 otId = READ_OTID_FROM_SAVE;
     SetMonData(mon, MON_DATA_OT_ID, &otId);
-    SetMonData(mon, MON_DATA_OT_NAME, gSaveBlock2Ptr->playerName);
-    SetMonData(mon, MON_DATA_OT_GENDER, &gSaveBlock2Ptr->playerGender);
-
-    MonRestorePP(mon);
+    SetMonData(mon, MON_DATA_OT_NAME, gSaveData.playerName);
+    SetMonData(mon, MON_DATA_OT_GENDER, &gSaveData.playerGender);
     CalculateMonStats(mon);
 }
 

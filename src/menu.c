@@ -11,7 +11,6 @@
 #include "main.h"
 #include "malloc.h"
 #include "map_name_popup.h"
-#include "match_call.h"
 #include "menu.h"
 #include "menu_helpers.h"
 #include "palette.h"
@@ -134,8 +133,6 @@ static const struct MenuInfoIcon sMenuInfoIcons[] =
     [MENU_INFO_ICON_ACCURACY]  = { 42, 12, 0xC8 },
     [MENU_INFO_ICON_PP]        = { 42, 12, 0xE0 },
     [MENU_INFO_ICON_EFFECT]    = { 42, 12, 0xE8 }, // Unused
-    [MENU_INFO_ICON_BALL_RED]  = {  8,  8, 0xAE }, // For placed decorations in Secret Base
-    [MENU_INFO_ICON_BALL_BLUE] = {  8,  8, 0xAF }, // For placed decorations in player's room
 };
 
 void InitStandardTextBoxWindows(void)
@@ -265,10 +262,7 @@ static void WindowFunc_RedrawDialogueFrame(u8 bg, u8 left, u8 top, u8 width, u8 
 
 void RedrawDialogueFrame(void)
 {
-    if (IsMatchCallTaskActive())
-        RedrawMatchCallTextBoxBorder();
-    else
-        CallWindowFunction(0, WindowFunc_RedrawDialogueFrame);
+    CallWindowFunction(0, WindowFunc_RedrawDialogueFrame);
 }
 
 void DrawStdWindowFrame(u8 windowId, bool8 copyToVram)
@@ -1702,7 +1696,7 @@ void AddTextPrinterParameterized5(u8 windowId, u8 fontId, const u8 *str, u8 left
 void PrintPlayerNameOnWindow(u8 windowId, const u8 *src, u16 x, u16 y)
 {
     int count = 0;
-    while (gSaveBlock2Ptr->playerName[count] != EOS)
+    while (gSaveData.playerName[count] != EOS)
         count++;
 
     StringExpandPlaceholders(gStringVar4, src);
@@ -1841,7 +1835,7 @@ void BufferSaveMenuText(u8 textId, u8 *dest, u8 color)
     switch (textId)
     {
     case SAVE_MENU_NAME:
-        StringCopy(string, gSaveBlock2Ptr->playerName);
+        StringCopy(string, gSaveData.playerName);
         break;
     case SAVE_MENU_CAUGHT:
         if (IsNationalPokedexEnabled())
@@ -1851,9 +1845,9 @@ void BufferSaveMenuText(u8 textId, u8 *dest, u8 color)
         *string = EOS;
         break;
     case SAVE_MENU_PLAY_TIME:
-        string = ConvertIntToDecimalStringN(string, gSaveBlock2Ptr->playTimeHours, STR_CONV_MODE_LEFT_ALIGN, 3);
+        string = ConvertIntToDecimalStringN(string, gSaveData.playTimeHours, STR_CONV_MODE_LEFT_ALIGN, 3);
         *(string++) = CHAR_COLON;
-        ConvertIntToDecimalStringN(string, gSaveBlock2Ptr->playTimeMinutes, STR_CONV_MODE_LEADING_ZEROS, 2);
+        ConvertIntToDecimalStringN(string, gSaveData.playTimeMinutes, STR_CONV_MODE_LEADING_ZEROS, 2);
         break;
     case SAVE_MENU_LOCATION:
         GetMapNameGeneric(string, gMapHeader.regionMapSectionId);

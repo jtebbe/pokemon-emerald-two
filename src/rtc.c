@@ -1,6 +1,4 @@
 #include "global.h"
-#include "battle_pike.h"
-#include "battle_pyramid.h"
 #include "datetime.h"
 #include "rtc.h"
 #include "string_util.h"
@@ -317,7 +315,7 @@ void RtcCalcTimeDifference(struct SiiRtcInfo *rtc, struct Time *result, struct T
 void RtcCalcLocalTime(void)
 {
     RtcGetInfo(&sRtc);
-    RtcCalcTimeDifference(&sRtc, &gLocalTime, &gSaveBlock2Ptr->localTimeOffset);
+    RtcCalcTimeDifference(&sRtc, &gLocalTime, &gSaveData.localTimeOffset);
 }
 
 bool8 IsBetweenHours(s32 hours, s32 begin, s32 end)
@@ -354,7 +352,7 @@ void RtcCalcLocalTimeOffset(s32 days, s32 hours, s32 minutes, s32 seconds)
     if (OW_USE_FAKE_RTC)
         FakeRtc_ManuallySetTime(gLocalTime.days, gLocalTime.hours, gLocalTime.minutes, seconds);
     RtcGetInfo(&sRtc);
-    RtcCalcTimeDifference(&sRtc, &gSaveBlock2Ptr->localTimeOffset, &gLocalTime);
+    RtcCalcTimeDifference(&sRtc, &gSaveData.localTimeOffset, &gLocalTime);
 }
 
 void CalcTimeDifference(struct Time *result, struct Time *t1, struct Time *t2)

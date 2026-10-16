@@ -21,7 +21,6 @@ void BXPY_Init(enum BXPYBattleTypes battleType, u32 bringSize, u32 pickSize, u32
 bool8 BXPY_IsSummaryScreenForEnemy(enum PokemonSummaryScreenMode mode);
 bool8 BXPY_ShouldHideEnemyAbility(enum PokemonSummaryScreenMode mode);
 bool8 BXPY_ShouldHideEnemyNature(enum PokemonSummaryScreenMode mode);
-bool8 BXPY_ShouldHideEnemyIndividualValues(enum PokemonSummaryScreenMode mode, enum PokemonSummarySkillsMode stats);
 bool8 BXPY_ShouldHideEnemyEffortValues(enum PokemonSummaryScreenMode mode, enum PokemonSummarySkillsMode stats);
 bool8 BXPY_ShouldHideEnemyTeraType(enum PokemonSummaryScreenMode mode);
 enum Type BXPY_TransformPageInfoType(enum PokemonSummaryScreenMode mode, enum Type originalTypeId, u32 spriteArrayId, u32 species);

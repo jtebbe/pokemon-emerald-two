@@ -12,11 +12,11 @@ enum {
     REQUEST_MOVE2_BATTLE,
     REQUEST_MOVE3_BATTLE,
     REQUEST_MOVE4_BATTLE,
-    REQUEST_PP_DATA_BATTLE,
-    REQUEST_PPMOVE1_BATTLE,
-    REQUEST_PPMOVE2_BATTLE,
-    REQUEST_PPMOVE3_BATTLE,
-    REQUEST_PPMOVE4_BATTLE,
+    REQUEST_UNUSED_8_BATTLE,
+    REQUEST_UNUSED_9_BATTLE,
+    REQUEST_UNUSED_10_BATTLE,
+    REQUEST_UNUSED_11_BATTLE,
+    REQUEST_UNUSED_12_BATTLE,
     REQUEST_UNUSED_13_BATTLE,
     REQUEST_UNUSED_14_BATTLE,
     REQUEST_UNUSED_15_BATTLE,
@@ -29,21 +29,12 @@ enum {
     REQUEST_SPEED_EV_BATTLE,
     REQUEST_SPATK_EV_BATTLE,
     REQUEST_SPDEF_EV_BATTLE,
-    REQUEST_FRIENDSHIP_BATTLE,
-    REQUEST_POKERUS_BATTLE,
+    REQUEST_UNUSED_27_BATTLE,
     REQUEST_MET_LOCATION_BATTLE,
     REQUEST_MET_LEVEL_BATTLE,
     REQUEST_MET_GAME_BATTLE,
     REQUEST_POKEBALL_BATTLE,
-    REQUEST_ALL_IVS_BATTLE,
-    REQUEST_HP_IV_BATTLE,
-    REQUEST_ATK_IV_BATTLE,
-    REQUEST_DEF_IV_BATTLE,
-    REQUEST_SPEED_IV_BATTLE,
-    REQUEST_SPATK_IV_BATTLE,
-    REQUEST_SPDEF_IV_BATTLE,
     REQUEST_PERSONALITY_BATTLE,
-    REQUEST_CHECKSUM_BATTLE,
     REQUEST_STATUS_BATTLE,
     REQUEST_LEVEL_BATTLE,
     REQUEST_HP_BATTLE,
@@ -53,17 +44,6 @@ enum {
     REQUEST_SPEED_BATTLE,
     REQUEST_SPATK_BATTLE,
     REQUEST_SPDEF_BATTLE,
-    REQUEST_COOL_BATTLE,
-    REQUEST_BEAUTY_BATTLE,
-    REQUEST_CUTE_BATTLE,
-    REQUEST_SMART_BATTLE,
-    REQUEST_TOUGH_BATTLE,
-    REQUEST_SHEEN_BATTLE,
-    REQUEST_COOL_RIBBON_BATTLE,
-    REQUEST_BEAUTY_RIBBON_BATTLE,
-    REQUEST_CUTE_RIBBON_BATTLE,
-    REQUEST_SMART_RIBBON_BATTLE,
-    REQUEST_TOUGH_RIBBON_BATTLE,
 };
 
 enum BattleController
@@ -76,10 +56,9 @@ enum BattleController
     BATTLE_CONTROLLER_LINK_OPPONENT,
     BATTLE_CONTROLLER_SAFARI,
     BATTLE_CONTROLLER_WALLY,
-    BATTLE_CONTROLLER_RECORDED_PLAYER,
-    BATTLE_CONTROLLER_RECORDED_PARTNER,
-    BATTLE_CONTROLLER_RECORDED_OPPONENT,
-    BATTLE_CONTROLLER_OAK_OLD_MAN,
+    BATTLE_CONTROLLER_TEST_PLAYER,
+    BATTLE_CONTROLLER_TEST_PARTNER,
+    BATTLE_CONTROLLER_TEST_OPPONENT,
     BATTLE_CONTROLLERS_COUNT,
 };
 
@@ -222,7 +201,6 @@ struct MovePPInfo
 {
     enum Move moves[MAX_MON_MOVES];
     u8 pp[MAX_MON_MOVES];
-    u8 ppBonuses;
 };
 
 struct ChooseMoveStruct
@@ -232,7 +210,6 @@ struct ChooseMoveStruct
     u8 maxPP[MAX_MON_MOVES];
     enum Species species;
     enum Type monTypes[3];
-    struct ZMoveData zmove;
 };
 
 enum
@@ -307,12 +284,11 @@ void InitBattleControllers(void);
 bool32 IsValidForBattle(struct Pokemon *mon);
 void TryReceiveLinkBattleData(void);
 void PrepareBufferDataTransferLink(enum BattlerId battler, u32 bufferId, u16 size, u8 *data);
-void UpdateFriendshipFromXItem(enum BattlerId battler);
 bool32 IsAiVsAiBattle(void);
 bool32 BattlerIsPlayer(enum BattlerId battlerId);
 bool32 BattlerIsPartner(enum BattlerId battlerId);
 bool32 BattlerIsOpponent(enum BattlerId battlerId);
-bool32 BattlerIsRecorded(enum BattlerId battlerId);
+bool32 BattlerUsesTestController(enum BattlerId battlerId);
 bool32 BattlerIsLink(enum BattlerId battlerId);
 bool32 BattlerIsWally(enum BattlerId battlerId);
 bool32 BattlerHasAi(enum BattlerId battlerId);
@@ -328,7 +304,7 @@ void BtlController_EmitTrainerSlide(enum BattlerId battler, u32 bufferId);
 void BtlController_EmitTrainerSlideBack(enum BattlerId battler, u32 bufferId);
 void BtlController_EmitFaintAnimation(enum BattlerId battler, u32 bufferId);
 void BtlController_EmitBallThrowAnim(enum BattlerId battler, u32 bufferId, u8 caseId);
-void BtlController_EmitMoveAnimation(enum BattlerId battler, u32 bufferId, enum Move move, u8 turnOfMove, u16 movePower, s32 dmg, u8 friendship, u8 multihit);
+void BtlController_EmitMoveAnimation(enum BattlerId battler, u32 bufferId, enum Move move, u8 turnOfMove, u16 movePower, s32 dmg, u8 multihit);
 void BtlController_EmitPrintString(enum BattlerId battler, u32 bufferId, enum StringID stringId);
 void BtlController_EmitPrintSelectionString(enum BattlerId battler, u32 bufferId, enum StringID stringId);
 void BtlController_EmitChooseAction(enum BattlerId battler, u32 bufferId, u8 action, enum Item itemId);
@@ -357,7 +333,7 @@ void BtlController_EmitHidePartyStatusSummary(enum BattlerId battler, u32 buffer
 void BtlController_EmitEndBounceEffect(enum BattlerId battler, u32 bufferId);
 void BtlController_EmitSpriteInvisibility(enum BattlerId battler, u32 bufferId, bool8 isInvisible);
 void BtlController_EmitBattleAnimation(enum BattlerId battler, u32 bufferId, u8 animationId, u16 argument);
-void BtlController_EmitLinkStandbyMsg(enum BattlerId battler, u32 bufferId, u8 mode, bool32 record);
+void BtlController_EmitLinkStandbyMsg(enum BattlerId battler, u32 bufferId, u8 mode);
 void BtlController_EmitResetActionMoveSelection(enum BattlerId battler, u32 bufferId, u8 caseId);
 void BtlController_EmitEndLinkBattle(enum BattlerId battler, u32 bufferId, u8 battleOutcome);
 void BtlController_EmitDebugMenu(enum BattlerId battler, u32 bufferId);
@@ -396,6 +372,7 @@ void BtlController_HandleFaintingCry(enum BattlerId battler);
 void BtlController_HandleIntroSlide(enum BattlerId battler);
 void BtlController_HandleSpriteInvisibility(enum BattlerId battler);
 bool32 TwoPlayerIntroMons(enum BattlerId battlerId); // Double battle with both player Pokémon active.
+enum BattlerId GetBattleIntroPartner(enum BattlerId battler);
 bool32 TwoOpponentIntroMons(enum BattlerId battlerId); // Double battle with both opponent Pokémon active.
 void BtlController_HandleIntroTrainerBallThrow(enum BattlerId battler, u16 tagTrainerPal, const u16 *trainerPal, s16 framesToWait, void (*controllerCallback)(enum BattlerId battler));
 void BtlController_HandleDrawPartyStatusSummary(enum BattlerId battler, enum BattleSide side, bool32 considerDelay);
@@ -425,12 +402,12 @@ void HandleMoveSwitching(enum BattlerId battler);
 void HandleChooseMoveAfterDma3(enum BattlerId battler);
 
 // recorded player controller
-void SetControllerToRecordedPlayer(enum BattlerId battler);
-void RecordedPlayerBufferExecCompleted(enum BattlerId battler);
+void SetControllerToTestPlayer(enum BattlerId battler);
+void TestPlayerBufferExecCompleted(enum BattlerId battler);
 
 // recorded partner controller
-void SetControllerToRecordedPartner(enum BattlerId battler);
-void RecordedPartnerBufferExecCompleted(enum BattlerId battler);
+void SetControllerToTestPartner(enum BattlerId battler);
+void TestPartnerBufferExecCompleted(enum BattlerId battler);
 
 // opponent controller
 void SetControllerToOpponent(enum BattlerId battler);
@@ -451,8 +428,8 @@ void SetControllerToWally(enum BattlerId battler);
 void WallyBufferExecCompleted(enum BattlerId battler);
 
 // recorded opponent controller
-void SetControllerToRecordedOpponent(enum BattlerId battler);
-void RecordedOpponentBufferExecCompleted(enum BattlerId battler);
+void SetControllerToTestOpponent(enum BattlerId battler);
+void TestOpponentBufferExecCompleted(enum BattlerId battler);
 
 // link opponent
 void SetControllerToLinkOpponent(enum BattlerId battler);
@@ -475,27 +452,15 @@ void BtlController_HandleSwitchInSoundAndEnd(enum BattlerId battler);
 void BtlController_HandleSwitchInShowSubstitute(enum BattlerId battler);
 
 // oak and old man controller
-void SetControllerToOakOrOldMan(enum BattlerId battler);
-void OakOldManBufferExecCompleted(enum BattlerId battler);
 
 // These flags are set to signal that the indicated message
 // was already emitted
 
 // Inflicting damage is key
-#define FIRST_BATTLE_MSG_FLAG_INFLICT_DMG    0x1
 // Lowering stats is advantageous
-#define FIRST_BATTLE_MSG_FLAG_STAT_CHG       0x2
 // Keep an eye on your HP
-#define FIRST_BATTLE_MSG_FLAG_HP_RESTORE     0x4
 //
-#define FIRST_BATTLE_MSG_FLAG_PARTY_MENU     0x8
 
-bool8 BtlCtrl_OakOldMan_TestState2Flag(u8 mask);
-void BtlCtrl_OakOldMan_SetState2Flag(u8 mask);
-void PrintOakText_InflictingDamageIsKey(enum BattlerId battler);
-void PrintOakText_HowDisappointing(enum BattlerId battler);
-void PrintOakText_OakNoRunningFromATrainer(enum BattlerId battler);
-void OakOldManHandleInputChooseMove(enum BattlerId battler);
 void BtlCtrl_DrawVoiceoverMessageFrame(void);
 void BtlCtrl_RemoveVoiceoverMessageFrame(void);
 
@@ -510,28 +475,18 @@ void SetFinalChosenTarget(enum BattlerId battler, bool32 checkPartner);
 
 
 // oak and old man controller
-void SetControllerToOakOrOldMan(enum BattlerId battler);
-void OakOldManBufferExecCompleted(enum BattlerId battler);
 
 // These flags are set to signal that the indicated message
 // was already emitted
 
 // Inflicting damage is key
-#define FIRST_BATTLE_MSG_FLAG_INFLICT_DMG    0x1
 // Lowering stats is advantageous
-#define FIRST_BATTLE_MSG_FLAG_STAT_CHG       0x2
 // Keep an eye on your HP
-#define FIRST_BATTLE_MSG_FLAG_HP_RESTORE     0x4
 //
-#define FIRST_BATTLE_MSG_FLAG_PARTY_MENU     0x8
 
-bool8 BtlCtrl_OakOldMan_TestState2Flag(u8 mask);
-void BtlCtrl_OakOldMan_SetState2Flag(u8 mask);
-void PrintOakText_InflictingDamageIsKey(enum BattlerId battler);
-void PrintOakText_HowDisappointing(enum BattlerId battler);
-void PrintOakText_OakNoRunningFromATrainer(enum BattlerId battler);
-void OakOldManHandleInputChooseMove(enum BattlerId battler);
 void BtlCtrl_DrawVoiceoverMessageFrame(void);
 void BtlCtrl_RemoveVoiceoverMessageFrame(void);
+
+u8 GetBattlerLinkPlayerGender(enum BattlerId battler);
 
 #endif // GUARD_BATTLE_CONTROLLERS_H

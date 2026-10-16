@@ -42,36 +42,3 @@ SINGLE_BATTLE_TEST("Gorilla Tactics stacks with Choice Band to reach 2.25x Attac
         EXPECT_MUL_EQ(results[0].damage, Q_4_12(2.25), results[2].damage);
     }
 }
-
-SINGLE_BATTLE_TEST("Gorilla Tactics does not boost damage while Dynamaxed", s16 damage)
-{
-    enum Ability ability;
-    PARAMETRIZE { ability = ABILITY_ZEN_MODE; }
-    PARAMETRIZE { ability = ABILITY_GORILLA_TACTICS; }
-
-    GIVEN {
-        PLAYER(SPECIES_DARMANITAN_GALAR) { Ability(ability); }
-        OPPONENT(SPECIES_WOBBUFFET);
-    } WHEN {
-        TURN { MOVE(player, MOVE_SCRATCH, gimmick: GIMMICK_DYNAMAX); }
-    } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_MAX_STRIKE, player);
-        HP_BAR(opponent, captureDamage: &results[i].damage);
-    } FINALLY {
-        EXPECT_EQ(results[0].damage, results[1].damage);
-    }
-}
-
-SINGLE_BATTLE_TEST("Gorilla Tactics does not lock moves while Dynamaxed")
-{
-    GIVEN {
-        PLAYER(SPECIES_DARMANITAN_GALAR) { Ability(ABILITY_GORILLA_TACTICS); }
-        OPPONENT(SPECIES_WOBBUFFET);
-    } WHEN {
-        TURN { MOVE(player, MOVE_SCRATCH, gimmick: GIMMICK_DYNAMAX); }
-        TURN { MOVE(player, MOVE_FLAME_CHARGE); }
-    } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_MAX_STRIKE, player);
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_MAX_FLARE, player);
-    }
-}

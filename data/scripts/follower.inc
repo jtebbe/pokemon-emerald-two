@@ -21,7 +21,7 @@ EventScript_FollowerEnd::
 	end
 
 EventScript_FollowerLovesYou::
-	applymovement OBJ_EVENT_ID_FOLLOWER, ContestHall_Movement_Heart
+	applymovement OBJ_EVENT_ID_FOLLOWER, Follower_Movement_Heart
 	waitmovement OBJ_EVENT_ID_FOLLOWER
 	waitmoncry
 	msgbox gText_FollowerLovesYou, MSGBOX_DEFAULT
@@ -576,6 +576,10 @@ EventScript_FollowerLookAway::
 	applymovement OBJ_EVENT_ID_FOLLOWER FollowerLookAway
 	waitmovement OBJ_EVENT_ID_FOLLOWER
 	goto EventScript_FollowerGenericSkipFace
+
+Follower_Movement_Heart:
+	emote_heart
+	step_end
 
 EventScript_FollowerLookAwayBark::
 	applymovement OBJ_EVENT_ID_FOLLOWER FollowerLookAwayBark

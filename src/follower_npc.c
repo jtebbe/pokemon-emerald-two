@@ -4,7 +4,6 @@
 #include "battle.h"
 #include "battle_partner.h"
 #include "battle_setup.h"
-#include "battle_tower.h"
 #include "bike.h"
 #include "event_data.h"
 #include "event_object_movement.h"
@@ -18,7 +17,6 @@
 #include "field_weather.h"
 #include "fieldmap.h"
 #include "fldeff_misc.h"
-#include "frontier_util.h"
 #include "item.h"
 #include "load_save.h"
 #include "map_name_popup.h"
@@ -33,7 +31,6 @@
 #include "trig.h"
 #include "constants/event_object_movement.h"
 #include "constants/field_effects.h"
-#include "constants/frontier_util.h"
 #include "constants/map_types.h"
 #include "constants/metatile_behaviors.h"
 #include "constants/songs.h"
@@ -77,40 +74,40 @@ void SetFollowerNPCData(enum FollowerNPCDataTypes type, u32 value)
     switch (type)
     {
     case FNPC_DATA_IN_PROGRESS:
-        gSaveBlock3Ptr->NPCfollower.inProgress = value;
+        gSaveData.NPCfollower.inProgress = value;
         break;
     case FNPC_DATA_WARP_END:
-        gSaveBlock3Ptr->NPCfollower.warpEnd = value;
+        gSaveData.NPCfollower.warpEnd = value;
         break;
     case FNPC_DATA_SURF_BLOB:
-        gSaveBlock3Ptr->NPCfollower.createSurfBlob = value;
+        gSaveData.NPCfollower.createSurfBlob = value;
         break;
     case FNPC_DATA_COME_OUT_DOOR:
-        gSaveBlock3Ptr->NPCfollower.comeOutDoorStairs = value;
+        gSaveData.NPCfollower.comeOutDoorStairs = value;
         break;
     case FNPC_DATA_FORCED_MOVEMENT:
-        gSaveBlock3Ptr->NPCfollower.forcedMovement = value;
+        gSaveData.NPCfollower.forcedMovement = value;
         break;
     case FNPC_DATA_OBJ_ID:
-        gSaveBlock3Ptr->NPCfollower.objId = value;
+        gSaveData.NPCfollower.objId = value;
         break;
     case FNPC_DATA_CURRENT_SPRITE:
-        gSaveBlock3Ptr->NPCfollower.currentSprite = value;
+        gSaveData.NPCfollower.currentSprite = value;
         break;
     case FNPC_DATA_DELAYED_STATE:
-        gSaveBlock3Ptr->NPCfollower.delayedState = value;
+        gSaveData.NPCfollower.delayedState = value;
         break;
     case FNPC_DATA_EVENT_FLAG:
-        gSaveBlock3Ptr->NPCfollower.flag = value;
+        gSaveData.NPCfollower.flag = value;
         break;
     case FNPC_DATA_GFX_ID:
-        gSaveBlock3Ptr->NPCfollower.graphicsId = value;
+        gSaveData.NPCfollower.graphicsId = value;
         break;
     case FNPC_DATA_FOLLOWER_FLAGS:
-        gSaveBlock3Ptr->NPCfollower.flags = value;
+        gSaveData.NPCfollower.flags = value;
         break;
     case FNPC_DATA_BATTLE_PARTNER:
-        gSaveBlock3Ptr->NPCfollower.battlePartner = value;
+        gSaveData.NPCfollower.battlePartner = value;
         break;
     }
 #endif
@@ -119,15 +116,15 @@ void SetFollowerNPCData(enum FollowerNPCDataTypes type, u32 value)
 static void SetFollowerNPCScriptPointer(const u8 *script)
 {
 #if FNPC_ENABLE_NPC_FOLLOWERS
-    gSaveBlock3Ptr->NPCfollower.script = script;
+    gSaveData.NPCfollower.script = script;
 #endif
 }
 
 static void PlayerLogCoordinates(struct ObjectEvent *player)
 {
 #if FNPC_ENABLE_NPC_FOLLOWERS
-    gSaveBlock3Ptr->NPCfollower.log.x = player->currentCoords.x;
-    gSaveBlock3Ptr->NPCfollower.log.y = player->currentCoords.y;
+    gSaveData.NPCfollower.log.x = player->currentCoords.x;
+    gSaveData.NPCfollower.log.y = player->currentCoords.y;
 #endif
 }
 
@@ -135,7 +132,7 @@ const u8 *GetFollowerNPCScriptPointer(void)
 {
 #if FNPC_ENABLE_NPC_FOLLOWERS
     if (PlayerHasFollowerNPC())
-        return gSaveBlock3Ptr->NPCfollower.script;
+        return gSaveData.NPCfollower.script;
 
 #endif
     return NULL;
@@ -147,29 +144,29 @@ u32 GetFollowerNPCData(enum FollowerNPCDataTypes type)
     switch (type)
     {
     case FNPC_DATA_IN_PROGRESS:
-        return gSaveBlock3Ptr->NPCfollower.inProgress;
+        return gSaveData.NPCfollower.inProgress;
     case FNPC_DATA_WARP_END:
-        return gSaveBlock3Ptr->NPCfollower.warpEnd;
+        return gSaveData.NPCfollower.warpEnd;
     case FNPC_DATA_SURF_BLOB:
-        return gSaveBlock3Ptr->NPCfollower.createSurfBlob;
+        return gSaveData.NPCfollower.createSurfBlob;
     case FNPC_DATA_COME_OUT_DOOR:
-        return gSaveBlock3Ptr->NPCfollower.comeOutDoorStairs;
+        return gSaveData.NPCfollower.comeOutDoorStairs;
     case FNPC_DATA_FORCED_MOVEMENT:
-        return gSaveBlock3Ptr->NPCfollower.forcedMovement;
+        return gSaveData.NPCfollower.forcedMovement;
     case FNPC_DATA_OBJ_ID:
-        return gSaveBlock3Ptr->NPCfollower.objId;
+        return gSaveData.NPCfollower.objId;
     case FNPC_DATA_CURRENT_SPRITE:
-        return gSaveBlock3Ptr->NPCfollower.currentSprite;
+        return gSaveData.NPCfollower.currentSprite;
     case FNPC_DATA_DELAYED_STATE:
-        return gSaveBlock3Ptr->NPCfollower.delayedState;
+        return gSaveData.NPCfollower.delayedState;
     case FNPC_DATA_EVENT_FLAG:
-        return gSaveBlock3Ptr->NPCfollower.flag;
+        return gSaveData.NPCfollower.flag;
     case FNPC_DATA_GFX_ID:
-        return gSaveBlock3Ptr->NPCfollower.graphicsId;
+        return gSaveData.NPCfollower.graphicsId;
     case FNPC_DATA_FOLLOWER_FLAGS:
-        return gSaveBlock3Ptr->NPCfollower.flags;
+        return gSaveData.NPCfollower.flags;
     case FNPC_DATA_BATTLE_PARTNER:
-        return gSaveBlock3Ptr->NPCfollower.battlePartner;
+        return gSaveData.NPCfollower.battlePartner;
     }
 #endif
     return 0;
@@ -178,7 +175,7 @@ u32 GetFollowerNPCData(enum FollowerNPCDataTypes type)
 void ClearFollowerNPCData(void)
 {
 #if FNPC_ENABLE_NPC_FOLLOWERS
-    memset(&gSaveBlock3Ptr->NPCfollower, 0, sizeof(gSaveBlock3Ptr->NPCfollower));
+    memset(&gSaveData.NPCfollower, 0, sizeof(gSaveData.NPCfollower));
 #endif
 }
 
@@ -193,7 +190,7 @@ static void TurnNPCIntoFollower(u32 localId, u32 followerFlags, u32 setScript, c
     u32 flag;
     u16 facingDirection = gObjectEvents[eventObjId].facingDirection;
 
-    flag = GetObjectEventFlagIdByLocalIdAndMap(localId, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup);
+    flag = GetObjectEventFlagIdByLocalIdAndMap(localId, gSaveData.location.mapNum, gSaveData.location.mapGroup);
     // If the object does not have an event flag, don't create follower.
     if (flag == 0)
         return;
@@ -208,11 +205,11 @@ static void TurnNPCIntoFollower(u32 localId, u32 followerFlags, u32 setScript, c
     RemoveObjectEvent(&gObjectEvents[eventObjId]);
     FlagSet(flag);
 
-    npc = *GetObjectEventTemplateByLocalIdAndMap(localId, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup);
+    npc = *GetObjectEventTemplateByLocalIdAndMap(localId, gSaveData.location.mapNum, gSaveData.location.mapGroup);
     npc.movementType = 0;
     npc.script = script;
     npc.localId = OBJ_EVENT_ID_NPC_FOLLOWER;
-    SetFollowerNPCData(FNPC_DATA_OBJ_ID, TrySpawnObjectEventTemplate(&npc, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup, npcX, npcY));
+    SetFollowerNPCData(FNPC_DATA_OBJ_ID, TrySpawnObjectEventTemplate(&npc, gSaveData.location.mapNum, gSaveData.location.mapGroup, npcX, npcY));
     follower = &gObjectEvents[GetFollowerNPCData(FNPC_DATA_OBJ_ID)];
     MoveObjectEventToMapCoords(follower, npcX, npcY);
     ObjectEventTurn(follower, facingDirection);
@@ -837,7 +834,7 @@ void CreateFollowerNPC(u32 gfx, u32 followerFlags, const u8 *scriptPtr)
         .script = scriptPtr
     };
 
-    SetFollowerNPCData(FNPC_DATA_OBJ_ID, TrySpawnObjectEventTemplate(&npc, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup, player->currentCoords.x, player->currentCoords.y));
+    SetFollowerNPCData(FNPC_DATA_OBJ_ID, TrySpawnObjectEventTemplate(&npc, gSaveData.location.mapNum, gSaveData.location.mapGroup, player->currentCoords.x, player->currentCoords.y));
     follower = &gObjectEvents[GetFollowerNPCData(FNPC_DATA_OBJ_ID)];
     follower->movementType = MOVEMENT_TYPE_NONE;
     gSprites[follower->spriteId].callback = MovementType_None;
@@ -1140,7 +1137,7 @@ void SetFollowerNPCSprite(u32 spriteIndex)
     SetFollowerNPCData(FNPC_DATA_CURRENT_SPRITE, spriteIndex);
     oldSpriteId = follower->spriteId;
     newGraphicsId = GetFollowerNPCSprite();
-    clone = *GetObjectEventTemplateByLocalIdAndMap(OBJ_EVENT_ID_NPC_FOLLOWER, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup);
+    clone = *GetObjectEventTemplateByLocalIdAndMap(OBJ_EVENT_ID_NPC_FOLLOWER, gSaveData.location.mapNum, gSaveData.location.mapGroup);
 
     backupFollower = *follower;
     backupFollower.graphicsId = newGraphicsId;
@@ -1150,7 +1147,7 @@ void SetFollowerNPCSprite(u32 spriteIndex)
     clone.graphicsId = newGraphicsId;
     clone.movementType = 0;
     clone.localId = OBJ_EVENT_ID_NPC_FOLLOWER;
-    SetFollowerNPCData(FNPC_DATA_OBJ_ID, TrySpawnObjectEventTemplate(&clone, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup, clone.x, clone.y));
+    SetFollowerNPCData(FNPC_DATA_OBJ_ID, TrySpawnObjectEventTemplate(&clone, gSaveData.location.mapNum, gSaveData.location.mapGroup, clone.x, clone.y));
     if (GetFollowerNPCData(FNPC_DATA_OBJ_ID) != OBJECT_EVENTS_COUNT)
     {
         follower = &gObjectEvents[GetFollowerNPCObjectId()];
@@ -1348,7 +1345,7 @@ void CreateFollowerNPCAvatar(void)
     }
 
     // Create NPC and store ID.
-    SetFollowerNPCData(FNPC_DATA_OBJ_ID, TrySpawnObjectEventTemplate(&clone, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup, clone.x, clone.y));
+    SetFollowerNPCData(FNPC_DATA_OBJ_ID, TrySpawnObjectEventTemplate(&clone, gSaveData.location.mapNum, gSaveData.location.mapGroup, clone.x, clone.y));
     if (GetFollowerNPCData(FNPC_DATA_OBJ_ID) == OBJECT_EVENTS_COUNT)
     {
         ClearFollowerNPCData();
@@ -1689,9 +1686,6 @@ void PrepareForFollowerNPCBattle(void)
             SavePlayerParty();
             ChooseFirstThreeEligibleMons();
             ReducePlayerPartyToSelectedMons();
-            VarSet(VAR_0x8004, FRONTIER_UTIL_FUNC_SET_DATA);
-            VarSet(VAR_0x8005, FRONTIER_DATA_SELECTED_MON_ORDER);
-            CallFrontierUtilFunc();
         }
         gPartnerTrainerId = TRAINER_PARTNER(GetFollowerNPCData(FNPC_DATA_BATTLE_PARTNER));
         FillPartnerParty(gPartnerTrainerId);
@@ -1702,8 +1696,12 @@ void RestorePartyAfterFollowerNPCBattle(void)
 {
     if (!AreMultiPartiesFullTeams())
     {
-        VarSet(VAR_0x8004, FRONTIER_UTIL_FUNC_SAVE_PARTY);
-        CallFrontierUtilFunc();
+        for (u32 i = 0; i < MULTI_PARTY_SIZE; i++)
+        {
+            u32 partyIndex = gSelectedOrderFromParty[i] - 1;
+            if (partyIndex < PARTY_SIZE)
+                SavePlayerPartyMon(partyIndex, &gParties[B_TRAINER_PLAYER][i]);
+        }
         LoadPlayerParty();
     }
 }

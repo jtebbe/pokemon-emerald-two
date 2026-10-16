@@ -22,7 +22,6 @@ ball_definition          = re.compile(r'\.ball = ITEM_(\w+)')
 ability_definition       = re.compile(r'\.ability = ABILITY_(\w+)')
 friendship_definition    = re.compile(r'\.friendship = (\d+)')
 shiny_definition         = re.compile(r'\.isShiny = (\w+)')
-ivs_definition           = re.compile(r'\.iv = TRAINER_PARTY_IVS\(([0-9 ]+),([0-9 ]+),([0-9 ]+),([0-9 ]+),([0-9 ]+),([0-9 ]+)\)')
 evs_definition           = re.compile(r'\.ev = TRAINER_PARTY_EVS\(([0-9 ]+),([0-9 ]+),([0-9 ]+),([0-9 ]+),([0-9 ]+),([0-9 ]+)\)')
 moves_definition         = re.compile(r'\.moves = \{([^}]+)\}')
 move_definition          = re.compile(r'MOVE_(\w+)')
@@ -58,7 +57,6 @@ species_replacements = {
     "_FEMALE": "-F",
     "_FLOWER": "",
     "_GALARIAN": "-Galar",
-    "_GIGANTAMAX": "-Gmax",
     "_HISUIAN": "-Hisui",
     "_ICE_RIDER": "-Ice",
     "_NOICE_FACE": "-Noice",
@@ -73,7 +71,7 @@ species_replacements = {
     "_ZEN_MODE": "-Zen",
 }
 
-pokemon_attribute_order = ['Level', 'Ability', 'IVs', 'EVs', 'Happiness', 'Shiny', 'Ball']
+pokemon_attribute_order = ['Level', 'Ability', 'EVs', 'Happiness', 'Shiny', 'Ball']
 
 class Pokemon:
     def __init__(self):
@@ -83,7 +81,6 @@ class Pokemon:
         self.item = None
         self.nature = None
         self.attributes = {}
-        self.attributes['IVs'] = "0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe"
         self.moves = []
 
 def convert_parties(in_path, in_h):
@@ -155,10 +152,6 @@ def convert_parties(in_path, in_h):
                     pokemon.attributes['Shiny'] = 'No'
                 else:
                     raise Exception(f"unknown isShiny: '{shiny}'")
-            elif m := ivs_definition.search(line):
-                [hp, attack, defense, speed, special_attack, special_defense] = [stat.strip() for stat in m.groups()]
-                stats = {"HP": hp, "Atk": attack, "Def": defense, "SpA": special_attack, "SpD": special_defense, "Spe": speed}
-                pokemon.attributes['IVs'] = ' / '.join(f"{value} {key}" for key, value in stats.items())
             elif m := evs_definition.search(line):
                 [hp, attack, defense, speed, special_attack, special_defense] = [stat.strip() for stat in m.groups()]
                 stats = {"HP": hp, "Atk": attack, "Def": defense, "SpA": special_attack, "SpD": special_defense, "Spe": speed}

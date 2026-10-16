@@ -23,7 +23,6 @@ static const enum Species speciesToCheck[] = {
     SPECIES_PIKACHU_ALOLA,
     SPECIES_PIKACHU_PARTNER,
     SPECIES_PIKACHU_WORLD,
-    SPECIES_PIKACHU_GMAX,
 };
 
 SINGLE_BATTLE_TEST("Light Ball doubles Pikachu's Special Attack", s16 damage)
@@ -38,18 +37,10 @@ SINGLE_BATTLE_TEST("Light Ball doubles Pikachu's Special Attack", s16 damage)
 
     GIVEN {
         ASSUME(GetMoveCategory(MOVE_THUNDERSHOCK) == DAMAGE_CATEGORY_SPECIAL);
-        if (species == SPECIES_PIKACHU_GMAX) {
-            PLAYER(SPECIES_PIKACHU) { Item(item); GigantamaxFactor(TRUE); }
-        } else {
-            PLAYER(species) { Item(item); }
-        }
+        PLAYER(species) { Item(item); }
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
-        if (species == SPECIES_PIKACHU_GMAX) {
-            TURN { MOVE(player, MOVE_THUNDERSHOCK, gimmick: GIMMICK_DYNAMAX); }
-        } else {
-            TURN { MOVE(player, MOVE_THUNDERSHOCK); }
-        }
+        TURN { MOVE(player, MOVE_THUNDERSHOCK); }
     } SCENE {
         HP_BAR(opponent, captureDamage: &results[i].damage);
     } THEN {
@@ -76,18 +67,10 @@ SINGLE_BATTLE_TEST("Light Ball doubles Pikachu's Attack (Gen4+)", s16 damage)
     GIVEN {
         WITH_CONFIG(B_LIGHT_BALL_ATTACK_BOOST, config);
         ASSUME(GetMoveCategory(MOVE_SPARK) == DAMAGE_CATEGORY_PHYSICAL);
-        if (species == SPECIES_PIKACHU_GMAX) {
-            PLAYER(SPECIES_PIKACHU) { Item(item); GigantamaxFactor(TRUE); }
-        } else {
-            PLAYER(species) { Item(item); }
-        }
+        PLAYER(species) { Item(item); }
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
-        if (species == SPECIES_PIKACHU_GMAX) {
-            TURN { MOVE(player, MOVE_SPARK, gimmick: GIMMICK_DYNAMAX); }
-        } else {
-            TURN { MOVE(player, MOVE_SPARK); }
-        }
+        TURN { MOVE(player, MOVE_SPARK); }
     } SCENE {
         HP_BAR(opponent, captureDamage: &results[i].damage);
     } THEN {

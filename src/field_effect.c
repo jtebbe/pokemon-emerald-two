@@ -16,7 +16,6 @@
 #include "gpu_regs.h"
 #include "main.h"
 #include "malloc.h"
-#include "mirage_tower.h"
 #include "menu.h"
 #include "metatile_behavior.h"
 #include "oras_dowse.h"
@@ -242,12 +241,6 @@ static void CreateDeoxysRockFragments(struct Sprite *);
 static void SpriteCB_DeoxysRockFragment(struct Sprite *sprite);
 
 static void Task_MoveDeoxysRock(u8 taskId);
-
-static void Task_FldEffUseVsSeeker(u8 taskId);
-static void UseVsSeeker_StopPlayerMovement(struct Task *task);
-static void UseVsSeeker_DoPlayerAnimation(struct Task *task);
-static void UseVsSeeker_ResetPlayerGraphics(struct Task *task);
-static void UseVsSeeker_CleanUpFieldEffect(struct Task *task);
 
 static void Task_UseRockClimb(u8);
 static bool8 RockClimb_Init(struct Task *, struct ObjectEvent *);
@@ -2762,7 +2755,6 @@ static void TeleportWarpOutFieldEffect_End(struct Task *task)
     {
         if (task->data[5] == FALSE)
         {
-            ClearMirageTowerPulseBlendEffect();
             task->data[5] = TRUE;
         }
 
@@ -3479,7 +3471,7 @@ u8 FldEff_NPCFlyOut(void)
     u8 spriteId = CreateSprite(gFieldEffectObjectTemplatePointers[FLDEFFOBJ_BIRD], 0x78, 0, 1);
     struct Sprite *sprite = &gSprites[spriteId];
 
-    sprite->oam.paletteNum = LoadPlayerObjectEventPalette(gSaveBlock2Ptr->playerGender);
+    sprite->oam.paletteNum = LoadPlayerObjectEventPalette(gSaveData.playerGender);
     sprite->oam.priority = 1;
     sprite->callback = SpriteCB_NPCFlyOut;
     sprite->data[1] = gFieldEffectArguments[0];
@@ -3662,7 +3654,7 @@ static u8 CreateFlyBirdSprite(void)
     struct Sprite *sprite;
     spriteId = CreateSprite(gFieldEffectObjectTemplatePointers[FLDEFFOBJ_BIRD], 0xff, 0xb4, 0x1);
     sprite = &gSprites[spriteId];
-    sprite->oam.paletteNum = LoadPlayerObjectEventPalette(gSaveBlock2Ptr->playerGender);
+    sprite->oam.paletteNum = LoadPlayerObjectEventPalette(gSaveData.playerGender);
     sprite->oam.priority = 1;
     sprite->callback = SpriteCB_FlyBirdLeaveBall;
     return spriteId;
@@ -4312,7 +4304,7 @@ static u8 CreateRockClimbBlob(void)
     {
         sprite = &gSprites[spriteId];
         sprite->coordOffsetEnabled = TRUE;
-        sprite->oam.paletteNum = LoadPlayerObjectEventPalette(gSaveBlock2Ptr->playerGender);
+        sprite->oam.paletteNum = LoadPlayerObjectEventPalette(gSaveData.playerGender);
         sprite->data[2] = gFieldEffectArguments[2];
         sprite->data[3] = -1;
         sprite->data[6] = -1;
@@ -4549,72 +4541,6 @@ bool8 IsRockClimbActive(void)
 #undef tVelocityY
 #undef tMoveSteps
 #undef tObjEventId
-
-static void (*const sUseVsSeekerEffectFuncs[])(struct Task *task) = {
-    UseVsSeeker_StopPlayerMovement,
-    UseVsSeeker_DoPlayerAnimation,
-    UseVsSeeker_ResetPlayerGraphics,
-    UseVsSeeker_CleanUpFieldEffect
-};
-
-u32 FldEff_UseVsSeeker(void)
-{
-    CreateTask(Task_FldEffUseVsSeeker, 0xFF);
-    return 0;
-}
-
-static void Task_FldEffUseVsSeeker(u8 taskId)
-{
-    sUseVsSeekerEffectFuncs[gTasks[taskId].data[0]](&gTasks[taskId]);
-}
-
-static void UseVsSeeker_StopPlayerMovement(struct Task *task)
-{
-    LockPlayerFieldControls();
-    FreezeObjectEvents();
-    gPlayerAvatar.preventStep = TRUE;
-    task->data[0]++;
-}
-
-static void UseVsSeeker_DoPlayerAnimation(struct Task *task)
-{
-    struct ObjectEvent * playerObj = &gObjectEvents[gPlayerAvatar.objectEventId];
-    if ((ObjectEventIsMovementOverridden(playerObj) && (!(ObjectEventClearHeldMovementIfFinished(playerObj)))))
-        return;
-
-    if (gMapHeader.mapType != MAP_TYPE_UNDERWATER)
-    {
-        SetPlayerAvatarFieldMove();
-        ObjectEventSetHeldMovement(playerObj, MOVEMENT_ACTION_START_ANIM_IN_DIRECTION);
-    }
-    task->data[0]++;
-}
-
-static void UseVsSeeker_ResetPlayerGraphics(struct Task *task)
-{
-    struct ObjectEvent* playerObj = &gObjectEvents[gPlayerAvatar.objectEventId];
-
-    if (!ObjectEventClearHeldMovementIfFinished(playerObj))
-        return;
-
-    if (gMapHeader.mapType != MAP_TYPE_UNDERWATER)
-    {
-        ObjectEventSetGraphicsId(&gObjectEvents[gPlayerAvatar.objectEventId], GetPlayerAvatarGraphicsIdByCurrentState());
-        ObjectEventForceSetHeldMovement(playerObj, GetFaceDirectionMovementAction(playerObj->facingDirection));
-    }
-    task->data[0]++;
-}
-
-static void UseVsSeeker_CleanUpFieldEffect(struct Task *task)
-{
-    struct ObjectEvent * playerObj = &gObjectEvents[gPlayerAvatar.objectEventId];
-    if (!ObjectEventClearHeldMovementIfFinished(playerObj))
-        return;
-
-    gPlayerAvatar.preventStep = FALSE;
-    FieldEffectActiveListRemove(FLDEFF_USE_VS_SEEKER);
-    DestroyTask(FindTaskIdByFunc(Task_FldEffUseVsSeeker));
-}
 
 static void Task_PhotoFlash(u8 taskId)
 {

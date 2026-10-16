@@ -261,19 +261,18 @@ SINGLE_BATTLE_TEST("Normalize doesn't affect Judgment / Techno Blast / Multi-Att
     }
 }
 
-SINGLE_BATTLE_TEST("Normalize doesn't affect Hidden Power's type")
+SINGLE_BATTLE_TEST("Normalize turns the fixed Psychic Hidden Power into Normal")
 {
     GIVEN {
-        ASSUME(GetMoveEffect(MOVE_HIDDEN_POWER) == EFFECT_HIDDEN_POWER);
-        ASSUME(gTypesInfo[TYPE_ELECTRIC].isHiddenPowerType == TRUE);
-        ASSUME(GetSpeciesType(SPECIES_DIGLETT, 0) == TYPE_GROUND);
-        PLAYER(SPECIES_SKITTY) { Ability(ABILITY_NORMALIZE); HPIV(31); AttackIV(31); DefenseIV(31); SpAttackIV(30); SpDefenseIV(31); SpeedIV(31); } // HP Electric
-        OPPONENT(SPECIES_DIGLETT);
+        ASSUME(GetMoveType(MOVE_HIDDEN_POWER) == TYPE_PSYCHIC);
+        ASSUME(GetSpeciesType(SPECIES_GASTLY, 0) == TYPE_GHOST);
+        PLAYER(SPECIES_SKITTY) { Ability(ABILITY_NORMALIZE); }
+        OPPONENT(SPECIES_GASTLY);
     } WHEN {
         TURN { MOVE(player, MOVE_HIDDEN_POWER); }
     } SCENE {
         NOT { ANIMATION(ANIM_TYPE_MOVE, MOVE_HIDDEN_POWER, player); }
-        MESSAGE("It doesn't affect the opposing Diglett…");
+        MESSAGE("It doesn't affect the opposing Gastly…");
     }
 }
 
@@ -328,21 +327,5 @@ SINGLE_BATTLE_TEST("Normalize doesn't affect Terrain Pulse's type")
         ANIMATION(ANIM_TYPE_MOVE, MOVE_ELECTRIC_TERRAIN, opponent);
         NOT { ANIMATION(ANIM_TYPE_MOVE, MOVE_TERRAIN_PULSE, player); }
         MESSAGE("It doesn't affect the opposing Sandshrew…");
-    }
-}
-
-SINGLE_BATTLE_TEST("Normalize doesn't affect damaging Z-Move types")
-{
-    GIVEN {
-        ASSUME(GetMoveType(MOVE_WATER_GUN) == TYPE_WATER);
-        ASSUME(GetSpeciesType(SPECIES_GOLEM, 0) == TYPE_ROCK || GetSpeciesType(SPECIES_GOLEM, 1) == TYPE_ROCK);
-        PLAYER(SPECIES_SKITTY) { Ability(ABILITY_NORMALIZE); Item(ITEM_WATERIUM_Z); Moves(MOVE_WATER_GUN); }
-        OPPONENT(SPECIES_GOLEM);
-    } WHEN {
-        TURN { MOVE(player, MOVE_WATER_GUN, gimmick: GIMMICK_Z_MOVE); }
-    } SCENE {
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_ZMOVE_ACTIVATE, player);
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_HYDRO_VORTEX, player);
-        MESSAGE("It's extremely effective!");
     }
 }

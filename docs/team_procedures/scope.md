@@ -48,7 +48,7 @@ Quality of Life improvements that appear in a Traditional Pokémon Title **or Po
 Add menu changes / additions from Traditional Pokémon Title **or Pokémon Champions**, such as changes to PC functions.
 
 ### Gimmicks / Special Battle Types
-Gimmicks or Special Battle Types that appear in a Traditional Pokémon Title, such as Dynamax or Triple Battles.
+Gimmicks or Special Battle Types that appear in a Traditional Pokémon Title, such as Mega Evolution or Triple Battles.
 
 ### Overworld Features
 Add overworld changes / additions from Traditional Pokémon titles, such as followers, sideways stairs, etc.

@@ -57,32 +57,25 @@ struct TrainerPicInfo
 #define MON_COORDS_SIZE(width, height) (DIV_ROUND_UP(width, 8) << 4 | DIV_ROUND_UP(height, 8))
 #define GET_MON_COORDS_WIDTH(size) ((size >> 4) * 8)
 #define GET_MON_COORDS_HEIGHT(size) ((size & 0xF) * 8)
-#define TRAINER_PARTY_IVS(hp, atk, def, speed, spatk, spdef) (hp | (atk << 5) | (def << 10) | (speed << 15) | (spatk << 20) | (spdef << 25))
 #define TRAINER_PARTY_EVS(hp, atk, def, speed, spatk, spdef) ((const u8[6]){hp,atk,def,spatk,spdef,speed})
 
-// Shared by both trainer and frontier mons
+// Trainer Pokemon data
 // See CreateNPCTrainerPartyFromTrainer and CreateFacilityMon
 struct TrainerMon
 {
     const u8 *nickname;
     const u8 *ev;
-    u32 iv;
     enum Move moves[MAX_MON_MOVES];
     enum Species species;
     enum Item heldItem;
     enum Ability ability;
     u8 lvl;
     enum PokeBall ball:8;
-    u8 friendship;
     u8 nature:5;
     bool8 gender:2;
     bool8 isShiny:1;
     enum Type teraType:5;
-    bool8 gigantamaxFactor:1;
-    u8 shouldUseDynamax:1;
-    u8 padding1:1;
-    u8 dynamaxLevel:4;
-    u8 padding2:4;
+    u8 padding1:3;
     u32 tags;
 };
 
@@ -159,21 +152,17 @@ struct TypeInfo
     u8 name[TYPE_NAME_LENGTH + 1];
     u8 generic[17];
     u8 palette;
-    u16 zMove;
-    u16 maxMove;
     u16 teraTypeRGBValue;    // Most values pulled from the Tera type icon palette.
     u16 damageCategory:2;    // Used for B_PHYSICAL_SPECIAL_SPLIT <= GEN_3
     u16 useSecondTypeIconPalette:1;
     u16 isSpecialCaseType:1;
-    u16 isHiddenPowerType:1; // Changing this for any type will change the distribution of all Hidden Power types from vanilla.
-    u16 padding:11;
+    u16 padding:12;
     const u16 *const paletteTMHM;
     //enum Item enhanceItem;
     //enum Item berry;
     //enum Item gem;
     //enum Item plate;
     //enum Item memory;
-    //enum Item zCrystal;
     //enum Item teraShard;
     //u16 arceusForm;
 };
@@ -191,8 +180,6 @@ struct FollowerMessagePool
     u16 length;
 };
 
-extern const u16 gMinigameDigits_Pal[];
-extern const u32 gMinigameDigits_Gfx[];
 
 extern const struct SpriteFrameImage gBattlerPicTable_PlayerLeft[];
 extern const struct SpriteFrameImage gBattlerPicTable_OpponentLeft[];
@@ -209,7 +196,6 @@ extern const struct SpriteFrameImage gTrainerBackPicTable_Steven[];
 
 extern const union AffineAnimCmd *const gAffineAnims_BattleSpritePlayerSide[];
 extern const union AffineAnimCmd *const gAffineAnims_BattleSpriteOpponentSide[];
-extern const union AffineAnimCmd *const gAffineAnims_BattleSpriteContest[];
 
 extern const union AnimCmd sAnim_GeneralFrame0[];
 extern const union AnimCmd sAnim_GeneralFrame3[];
@@ -248,8 +234,7 @@ static inline bool8 IsPartnerTrainerId(u16 trainerId)
 
 static inline bool32 IsSpecialTrainer(u16 trainerId)
 {
-    if (trainerId == TRAINER_SECRET_BASE ||
-        trainerId == TRAINER_LINK_OPPONENT ||
+    if (trainerId == TRAINER_LINK_OPPONENT ||
         trainerId == TRAINER_UNION_ROOM)
     {
         return TRUE;

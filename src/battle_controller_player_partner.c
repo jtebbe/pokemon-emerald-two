@@ -7,11 +7,8 @@
 #include "battle_message.h"
 #include "battle_interface.h"
 #include "battle_setup.h"
-#include "battle_tower.h"
-#include "battle_z_move.h"
 #include "bg.h"
 #include "data.h"
-#include "frontier_util.h"
 #include "item_use.h"
 #include "link.h"
 #include "main.h"
@@ -204,14 +201,12 @@ static enum TrainerPicID PlayerPartnerGetTrainerBackPicId(enum DifficultyLevel d
     if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER)
         trainerPicId = gBattlePartners[difficulty][gPartnerTrainerId - TRAINER_PARTNER(PARTNER_NONE)].trainerPic;
     else
-        trainerPicId = GetPlayerTrainerPic(gSaveBlock2Ptr->playerGender, GAME_VERSION);
+        trainerPicId = GetPlayerTrainerPic(gSaveData.playerGender, GAME_VERSION);
 
     return trainerPicId;
 }
 
-// some explanation here
-// in emerald it's possible to have a tag battle in the battle frontier facilities with AI
-// which use the front sprite for both the player and the partner as opposed to any other battles (including the one with Steven) that use the back pic as well as animate it
+// Choose the partner's front or back portrait for this battle type.
 static void PlayerPartnerHandleDrawTrainerPic(enum BattlerId battler)
 {
     bool32 isFrontPic;
@@ -240,7 +235,7 @@ static void PlayerPartnerHandleDrawTrainerPic(enum BattlerId battler)
     }
     else
     {
-        trainerPicId = GetFrontierTrainerFrontSpriteId(gPartnerTrainerId);
+        trainerPicId = GetTrainerPicFromId(gPartnerTrainerId);
         xPos = 32;
         yPos = 80;
     }
@@ -330,7 +325,7 @@ static void PlayerPartnerHandleIntroTrainerBallThrow(enum BattlerId battler)
     else if (IsAiVsAiBattle())
         trainerPal = GetTrainerFrontPicPalette(GetTrainerPicFromId(gPartnerTrainerId));
     else
-        trainerPal = GetTrainerFrontPicPalette(GetFrontierTrainerFrontSpriteId(gPartnerTrainerId)); // 2 vs 2 multi battle in Battle Frontier, load front sprite and pal.
+        trainerPal = GetTrainerFrontPicPalette(GetTrainerPicFromId(gPartnerTrainerId));
 
     BtlController_HandleIntroTrainerBallThrow(battler, 0xD6F9, trainerPal, 24, Controller_PlayerPartnerShowIntroHealthbox);
 }

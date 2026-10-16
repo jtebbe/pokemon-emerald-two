@@ -124,24 +124,6 @@ SINGLE_BATTLE_TEST("Disable fails if the last move used was Struggle (Gen 2+)")
     }
 }
 
-SINGLE_BATTLE_TEST("Disable fails if the last move used was a Max Move")
-{
-    GIVEN {
-        PLAYER(SPECIES_WOBBUFFET) { Speed(1); }
-        OPPONENT(SPECIES_WYNAUT) { Speed(2); }
-    } WHEN {
-        TURN { MOVE(opponent, MOVE_CELEBRATE, gimmick: GIMMICK_DYNAMAX); MOVE(player, MOVE_DISABLE); }
-        TURN { MOVE(opponent, MOVE_SLEEP_TALK); MOVE(player, MOVE_SPORE); }
-        TURN { MOVE(opponent, MOVE_SLEEP_TALK); }
-    } SCENE {
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_DYNAMAX_GROWTH, opponent);
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_MAX_GUARD, opponent);
-        MESSAGE("Wobbuffet used Disable!");
-        NOT ANIMATION(ANIM_TYPE_MOVE, MOVE_DISABLE, player);
-        MESSAGE("But it failed!");
-    }
-}
-
 SINGLE_BATTLE_TEST("Disabled moves can still be used via Sleep Talk")
 {
     GIVEN {

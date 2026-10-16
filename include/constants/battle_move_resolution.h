@@ -58,7 +58,6 @@ enum CancelerState
     CANCELER_GHOST,
     CANCELER_PARALYZED,
     CANCELER_INFATUATION,
-    CANCELER_Z_MOVES,
     CANCELER_CHOICE_LOCK,
     CANCELER_CALLSUBMOVE,
     CANCELER_THAW,
@@ -121,7 +120,6 @@ enum SubstituteBlockStates
     SUBSTITUTE_BLOCK_ADDITIONAL_EFFECTS,
     SUBSTITUTE_BLOCK_ITEM_EFFECT_TARGET,
     SUBSTITUTE_BLOCK_PROTECT_LIKE_EFFECT,
-    // SUBSTITUTE_BLOCK_DYNAMAX_MOVE_EFFECTS,
     SUBSTITUTE_BLOCK_COUNT,
 };
 
@@ -136,7 +134,7 @@ enum DamagedEffectsBlockStates
     DAMAGED_EFFECTS_BLOCK_ATTACKER_ABILITY, // ABILITYEFFECT_MOVE_END_ATTACKER
     DAMAGED_EFFECTS_BLOCK_TARGET_ABILITY, // ABILITYEFFECT_MOVE_END
     DAMAGED_EFFECTS_BLOCK_RESIST_BERRY_MESSAGE,
-    DAMAGED_EFFECTS_BLOCK_ITEM_EFFECTS_TARGET, // Enigma Berry, Weakness Policy, Snowball and similar items, Rocky Helmet, Sticky Barb, Air Balloon
+    DAMAGED_EFFECTS_BLOCK_ITEM_EFFECTS_TARGET, // Weakness Policy, Snowball and similar items, Rocky Helmet, Sticky Barb, Air Balloon
     // DAMAGED_EFFECTS_BLOCK_INCINERATE,
     DAMAGED_EFFECTS_BLOCK_ITEM_EFFECTS_ATTACKER, // King's Rock
     DAMAGED_EFFECTS_BLOCK_JABOCA_ROWAP,
@@ -179,7 +177,7 @@ enum MoveEndState
     MOVEEND_MOVE_HEAVY_RECOIL, // Explosion, Steel Beam and similar moves
     MOVEEND_EFFECTIVENESS_MESSAGE_ALLIED_SIDE, // Multi-target and single-target
     MOVEEND_CRIT_PROTECT_MESSAGE_ALLIED_SIDE, // Crit message, then target couldn't protect itself for each target
-    MOVEEND_ENDURE_DAMAGE_MESSAGE_ALLIED_SIDE, // Endure, False Swipe/Hold Back, Sturdy, Focus Sash/Focus Band, Friendship, in that order
+    MOVEEND_ENDURE_DAMAGE_MESSAGE_ALLIED_SIDE, // Endure, False Swipe/Hold Back, Sturdy, Focus Sash/Focus Band, in that order
     MOVEEND_PROTECT_LIKE_EFFECTS_ALLIED_SIDE,
     MOVEEND_ADDITIONAL_EFFECTS_ALLIED_SIDE,
     MOVEEND_ABSORB_ALLIED_SIDE,
@@ -197,7 +195,7 @@ enum MoveEndState
     MOVEEND_SUBSTITUTE_BLOCK_OPPOSING_SIDE,
     MOVEEND_EFFECTIVENESS_MESSAGE_OPPOSING_SIDE, // Multi-target and single-target
     MOVEEND_CRIT_PROTECT_MESSAGE_OPPOSING_SIDE, // Crit message, then target couldn't protect itself for each target
-    MOVEEND_ENDURE_DAMAGE_MESSAGE_OPPOSING_SIDE, // Endure, False Swipe/Hold Back, Sturdy, Focus Sash/Focus Band, Friendship, in that order
+    MOVEEND_ENDURE_DAMAGE_MESSAGE_OPPOSING_SIDE, // Endure, False Swipe/Hold Back, Sturdy, Focus Sash/Focus Band, in that order
     MOVEEND_PROTECT_LIKE_EFFECTS_OPPOSING_SIDE,
     MOVEEND_ADDITIONAL_EFFECTS_OPPOSING_SIDE,
     MOVEEND_ADDITIONAL_EFFECTS_LOWER_STATS_ATTACKER,

@@ -538,7 +538,6 @@ static inline bool32 IsMoveSheerForceBoosted(enum Move move)
         case MOVE_BONE_CLUB:
         case MOVE_CEASELESS_EDGE:
         case MOVE_CHATTER:
-        case MOVE_CLANGOROUS_SOULBLAZE:
         case MOVE_COMBAT_TORQUE:
         case MOVE_CONSTRICT:
         case MOVE_CROSS_POISON:
@@ -559,7 +558,6 @@ static inline bool32 IsMoveSheerForceBoosted(enum Move move)
         case MOVE_FREEZE_DRY:
         #endif
         case MOVE_FREEZE_SHOCK:
-        case MOVE_GENESIS_SUPERNOVA:
         case MOVE_GLACIATE:
         case MOVE_GRAV_APPLE:
         case MOVE_HEART_STAMP:
@@ -612,7 +610,6 @@ static inline bool32 IsMoveSheerForceBoosted(enum Move move)
         case MOVE_SPRINGTIDE_STORM:
         case MOVE_STEAM_ERUPTION:
         case MOVE_STEAMROLLER:
-        case MOVE_STOKED_SPARKSURFER:
         case MOVE_STRANGE_STEAM:
         case MOVE_SYRUP_BOMB:
         case MOVE_THUNDER_SHOCK:
@@ -1257,7 +1254,7 @@ DOUBLE_BATTLE_TEST("Sheer Force only boosts the damage of moves it's supposed to
 {
     s16 damage1, damage2;
     enum Move move = MOVE_NONE;
-    for (enum Move j = MOVE_DYNAMAX_CANNON; j < MOVES_COUNT_GEN8; j++)
+    for (enum Move j = MOVE_SNIPE_SHOT; j < MOVES_COUNT_GEN8; j++)
     {
         if (GetMoveCategory(j) != DAMAGE_CATEGORY_STATUS && !IgnoreMoveForSheerForceBoost(j))
             PARAMETRIZE { move = j; }

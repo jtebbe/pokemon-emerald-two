@@ -4,27 +4,22 @@
 #include "config_changes.h"
 #include "constants/abilities.h"
 #include "constants/pokemon.h"
-#include "contest_effect.h"
 #include "constants/battle.h"
-#include "constants/battle_factory.h"
 #include "constants/battle_move_effects.h"
 #include "constants/battle_string_ids.h"
-#include "constants/battle_z_move_effects.h"
 #include "constants/battle_set_effect.h"
 #include "constants/moves.h"
 
 #define STAT_CHANGE_FORCE_MAX 7 // Used for belly drum as a way to show that stats are maxed
 
-// For defining EFFECT_HIT etc. with battle TV scores and flags etc.
+// Shared flags for move effects.
 struct __attribute__((packed, aligned(2))) BattleMoveEffect
 {
-    u16 battleTvScore:3;
-    enum FactoryStyle battleFactoryStyle:4;
     u16 encourageEncore:1;
     u16 twoTurnEffect:1;
     u16 semiInvulnerableEffect:1;
     u16 usesProtectCounter:1;
-    u16 padding:5;
+    u16 padding:12;
 };
 
 #define EFFECTS_ARR(...) (const struct AdditionalEffect[]) {__VA_ARGS__}
@@ -57,7 +52,7 @@ struct AdditionalEffect
     u8 onChargeTurnOnly:1;
     u8 sheerForceOverride:1; // Handles edge cases for Sheer Force - if TRUE, boosts when it shouldn't, or doesn't boost when it should
     u8 preAttackEffect:1;
-    u8 onSide:1; // Refers to moves that have an effect on both opposing targets on a single target (see dmax stat drops moves).
+    u8 onSide:1; // Refers to moves whose effect applies to both opposing targets through one target.
     u8 pledgeCombo:1; // If set the move effect only applies during a pledge combo attack
     u8 padding:1;
 
@@ -103,7 +98,6 @@ enum ProtectMethod
     PROTECT_BURNING_BULWARK,
     PROTECT_OBSTRUCT,
     PROTECT_SILK_TRAP,
-    PROTECT_MAX_GUARD,
     PROTECT_WIDE_GUARD,
     PROTECT_QUICK_GUARD,
     PROTECT_CRAFTY_SHIELD,
@@ -135,10 +129,6 @@ struct MoveInfo
     u16 accuracy:7;
     u16 target:9;
     u8 pp;
-    union {
-        u8 effect;
-        u8 powerOverride;
-    } zMove;
     // end of word
     s32 priority:4;
     u32 strikeCount:4; // Max 15 hits. Defaults to 1 if not set. May apply its effect on each hit.
@@ -202,7 +192,6 @@ struct MoveInfo
     bool32 sketchBanned:1;
     bool32 dampBanned:1;
     //Other
-    bool32 validApprenticeMove:1;
     u32 padding2:17;
     // end of word
 
@@ -250,11 +239,6 @@ struct MoveInfo
     // primary/secondary effects
     const struct AdditionalEffect *additionalEffects;
 
-    // contest parameters
-    u8 contestEffect;
-    u8 contestCategory:3;
-    u8 contestComboStarterId;
-    u8 contestComboMoves[MAX_COMBO_MOVES];
     const u8 *battleAnimScript;
 };
 
@@ -328,22 +312,13 @@ static inline enum MoveTarget GetMoveTarget(enum Move moveId)
 
 static inline u32 GetMovePP(enum Move moveId)
 {
-    return gMovesInfo[SanitizeMoveId(moveId)].pp;
+    u32 basePP = gMovesInfo[SanitizeMoveId(moveId)].pp;
+
+    // Persistent PP Ups were removed. Every move now always uses the same
+    // maximum PP it would have after three PP Ups / one PP Max.
+    return basePP + (basePP * 3 / 5);
 }
 
-static inline enum ZEffect GetMoveZEffect(enum Move moveId)
-{
-    moveId = SanitizeMoveId(moveId);
-    assertf(GetMoveCategory(moveId) == DAMAGE_CATEGORY_STATUS, "not a status move: %S", gMovesInfo[moveId].name);
-    return gMovesInfo[moveId].zMove.effect;
-}
-
-static inline u32 GetMoveZPowerOverride(enum Move moveId)
-{
-    moveId = SanitizeMoveId(moveId);
-    assertf(GetMoveCategory(moveId) != DAMAGE_CATEGORY_STATUS, "not a damaging move: %S", gMovesInfo[moveId].name);
-    return gMovesInfo[moveId].zMove.powerOverride;
-}
 
 static inline s32 GetMovePriority(enum Move moveId)
 {
@@ -623,10 +598,6 @@ static inline bool32 IsMoveDampBanned(enum Move moveId)
     return gMovesInfo[SanitizeMoveId(moveId)].dampBanned;
 }
 
-static inline bool32 IsValidApprenticeMove(enum Move moveId)
-{
-    return gMovesInfo[SanitizeMoveId(moveId)].validApprenticeMove;
-}
 
 static inline u32 GetMoveTwoTurnAttackStringId(enum Move moveId)
 {
@@ -852,25 +823,6 @@ static inline const struct AdditionalEffect *GetMoveAdditionalEffectById(enum Mo
     return &gMovesInfo[SanitizeMoveId(moveId)].additionalEffects[effect];
 }
 
-static inline u32 GetMoveContestEffect(enum Move moveId)
-{
-    return gMovesInfo[SanitizeMoveId(moveId)].contestEffect;
-}
-
-static inline enum ContestCategories GetMoveContestCategory(enum Move moveId)
-{
-    return gMovesInfo[SanitizeMoveId(moveId)].contestCategory;
-}
-
-static inline u32 GetMoveContestComboStarter(enum Move moveId)
-{
-    return gMovesInfo[SanitizeMoveId(moveId)].contestComboStarterId;
-}
-
-static inline u32 GetMoveContestComboMoves(enum Move moveId, u32 comboMove)
-{
-    return gMovesInfo[SanitizeMoveId(moveId)].contestComboMoves[comboMove];
-}
 
 static inline const u8 *GetMoveAnimationScript(enum Move moveId)
 {

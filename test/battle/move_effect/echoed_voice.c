@@ -12,8 +12,8 @@ SINGLE_BATTLE_TEST("Echoed Voice's power is multiplied for every consecutive tur
 
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_SOFT_BOILED) == EFFECT_RESTORE_HP);
-        PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_BLISSEY);
+        PLAYER(SPECIES_WOBBUFFET) { SpAttack(71); }
+        OPPONENT(SPECIES_BLISSEY) { SpDefense(275); }
     } WHEN {
         TURN { MOVE(player, MOVE_ECHOED_VOICE); }
         TURN { MOVE(player, MOVE_ECHOED_VOICE); }

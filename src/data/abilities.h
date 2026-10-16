@@ -955,7 +955,7 @@ const struct AbilityInfo gAbilitiesInfo[ABILITIES_COUNT] =
     [ABILITY_MULTITYPE] =
     {
         .name = _("Multitype"),
-        .description = COMPOUND_STRING("Matches Plate or Z-Crystal."),
+        .description = COMPOUND_STRING("Matches its held Plate."),
         .aiRating = 8,
         .cantBeCopied = TRUE,
         .cantBeSwapped = TRUE,

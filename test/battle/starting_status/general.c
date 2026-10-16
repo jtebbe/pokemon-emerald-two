@@ -21,7 +21,6 @@ SINGLE_BATTLE_TEST("SetStartingStatus messages work as intended")
     PARAMETRIZE { status = STARTING_STATUS_TOXIC_SPIKES_OPPONENT_L2; }
     PARAMETRIZE { status = STARTING_STATUS_STICKY_WEB_OPPONENT; }
     PARAMETRIZE { status = STARTING_STATUS_STEALTH_ROCK_OPPONENT; }
-    PARAMETRIZE { status = STARTING_STATUS_SHARP_STEEL_OPPONENT; }
     PARAMETRIZE { status = STARTING_STATUS_WEATHER_SUN_TEMPORARY; }
     PARAMETRIZE { status = STARTING_STATUS_WEATHER_RAIN_TEMPORARY; }
     PARAMETRIZE { status = STARTING_STATUS_WEATHER_SANDSTORM_TEMPORARY; }
@@ -38,7 +37,7 @@ SINGLE_BATTLE_TEST("SetStartingStatus messages work as intended")
     } WHEN {
         TURN {}
         TURN {}
-        TURN { MOVE(player, (status >= STARTING_STATUS_SPIKES_OPPONENT_L3 && status <= STARTING_STATUS_SHARP_STEEL_OPPONENT) ? MOVE_DEFOG : MOVE_CELEBRATE); }
+        TURN { MOVE(player, (status >= STARTING_STATUS_SPIKES_OPPONENT_L3 && status <= STARTING_STATUS_STEALTH_ROCK_OPPONENT) ? MOVE_DEFOG : MOVE_CELEBRATE); }
         TURN {}
         TURN {}
     } SCENE {
@@ -93,10 +92,6 @@ SINGLE_BATTLE_TEST("SetStartingStatus messages work as intended")
         case STARTING_STATUS_STEALTH_ROCK_OPPONENT:
             MESSAGE("Pointed stones float in the air on the opposing side!");
             MESSAGE("Pointed stones dug into the opposing Wobbuffet!");
-            break;
-        case STARTING_STATUS_SHARP_STEEL_OPPONENT:
-            MESSAGE("Sharp-pointed pieces of steel started floating around the opposing Pokémon!");
-            MESSAGE("The sharp steel bit into the opposing Wobbuffet!");
             break;
         case STARTING_STATUS_WEATHER_SUN_TEMPORARY:
             MESSAGE("The sunlight turned harsh!");
@@ -158,9 +153,6 @@ SINGLE_BATTLE_TEST("SetStartingStatus messages work as intended")
             break;
         case STARTING_STATUS_STEALTH_ROCK_OPPONENT:
             MESSAGE("The pointed stones disappeared from the opposing side!");
-            break;
-        case STARTING_STATUS_SHARP_STEEL_OPPONENT:
-            MESSAGE("The pieces of steel surrounding the opposing Pokémon disappeared!");
             break;
         }
 

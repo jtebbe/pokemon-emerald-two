@@ -73750,10 +73750,6 @@
         "Move": "MOVE_FLAMETHROWER"
       },
       {
-        "Level": 56,
-        "Move": "MOVE_DYNAMAX_CANNON"
-      },
-      {
         "Level": 64,
         "Move": "MOVE_COSMIC_POWER"
       },

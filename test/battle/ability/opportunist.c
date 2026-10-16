@@ -398,20 +398,3 @@ SINGLE_BATTLE_TEST("Opportunist copies stat changes from the opponent's X items"
         EXPECT_EQ(opponent->statStages[stat], DEFAULT_STAT_STAGE + 2);
     }
 }
-
-SINGLE_BATTLE_TEST("Opportunist copies stat changes from the opponent's Max Mushrooms")
-{
-    GIVEN {
-        ASSUME(gItemsInfo[ITEM_MAX_MUSHROOMS].battleUsage == EFFECT_ITEM_INCREASE_ALL_STATS);
-        PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_ESPATHRA) { Ability(ABILITY_OPPORTUNIST); }
-    } WHEN {
-        TURN { USE_ITEM(player, ITEM_MAX_MUSHROOMS); }
-    } THEN {
-        for (enum Stat stat = STAT_ATK; stat < NUM_STATS; stat++)
-        {
-            EXPECT_EQ(player->statStages[stat], DEFAULT_STAT_STAGE + 1);
-            EXPECT_EQ(opponent->statStages[stat], DEFAULT_STAT_STAGE + 1);
-        }
-    }
-}

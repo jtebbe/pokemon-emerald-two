@@ -756,37 +756,6 @@ static const union AnimCmd sAnim_FieldMove[] =
     ANIMCMD_END,
 };
 
-static const union AnimCmd sAnim_VSSeeker[] = {
-    ANIMCMD_FRAME(0, 4),
-    ANIMCMD_FRAME(1, 4),
-    ANIMCMD_FRAME(5, 4),
-    ANIMCMD_FRAME(6, 4),
-    ANIMCMD_LOOP(0),
-    ANIMCMD_FRAME(7, 4),
-    ANIMCMD_FRAME(8, 4),
-    ANIMCMD_LOOP(6),
-    ANIMCMD_FRAME(6, 4),
-    ANIMCMD_FRAME(1, 4),
-    ANIMCMD_FRAME(0, 4),
-    ANIMCMD_END,
-};
-
-static const union AnimCmd sAnim_VSSeekerBike[] = {
-    ANIMCMD_FRAME(0, 4),
-    ANIMCMD_FRAME(1, 4),
-    ANIMCMD_FRAME(2, 4),
-    ANIMCMD_FRAME(3, 4),
-    ANIMCMD_LOOP(0),
-    ANIMCMD_FRAME(4, 4),
-    ANIMCMD_FRAME(5, 4),
-    ANIMCMD_LOOP(6),
-    ANIMCMD_FRAME(3, 4),
-    ANIMCMD_FRAME(2, 4),
-    ANIMCMD_FRAME(1, 4),
-    ANIMCMD_FRAME(0, 4),
-    ANIMCMD_END,
-};
-
 static const union AnimCmd sAnim_GetOnOffSurfBlobSouth[] =
 {
     ANIMCMD_FRAME(9, 32),
@@ -1646,12 +1615,4 @@ static const struct StepAnimTable sStepAnimTables[] = {
 
 static const union AnimCmd *const sAnimTable_RedGreenFieldMove[] = {
     sAnim_FieldMove,
-};
-
-static const union AnimCmd *const sAnimTable_RedGreenVSSeeker[] = {
-    sAnim_VSSeeker,
-};
-
-static const union AnimCmd *const sAnimTable_RedGreenVSSeekerBike[] = {
-    sAnim_VSSeekerBike,
 };

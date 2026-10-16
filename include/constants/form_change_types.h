@@ -121,13 +121,6 @@ enum FormChanges
     // Form change that activates automatically when the turn ends.
     // param1: ability to check.
     FORM_CHANGE_BATTLE_TURN_END,
-    // Form change that activates when the mon has the defined item.
-    // If it's on the player's side, it also requires for the player to trigger it by pressing START before selecting a move.
-    // param1: item to hold.
-    FORM_CHANGE_BATTLE_ULTRA_BURST,
-    // Form change that activates when the mon Dynamaxes.
-    // - No parameters
-    FORM_CHANGE_BATTLE_GIGANTAMAX,
     // Form change that activates at a certain time of day in the overworld automatically.
     // param1: time of day to check.
     // - DAY if Form change that activates in the daytime.

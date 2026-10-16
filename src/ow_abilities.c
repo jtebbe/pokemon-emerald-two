@@ -84,7 +84,7 @@ static UNUSED bool32 IsTrueIfUndiscoveredEggGroup(enum Species species)
 
 bool32 DoesLeadingMonHaveAbilityEffect(const enum Ability *abilityArray)
 {
-    if (GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_SANITY_IS_EGG))
+    if (GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_IS_EGG))
         return FALSE;
     enum Ability leadingMonAbility = GetMonAbility(&gParties[B_TRAINER_PLAYER][0]);
     for (u32 i = 0; abilityArray[i] != ABILITY_NONE; i++)
@@ -99,7 +99,7 @@ bool32 DoesPartyMemberHaveAbilityEffect(const enum Ability *abilityArray)
 {
     for (u32 j = 0; j < gPartiesCount[B_TRAINER_PLAYER]; j++)
     {
-        if (GetMonData(&gParties[B_TRAINER_PLAYER][j], MON_DATA_SANITY_IS_EGG))
+        if (GetMonData(&gParties[B_TRAINER_PLAYER][j], MON_DATA_IS_EGG))
             continue;
         enum Ability monAbility = GetMonAbility(&gParties[B_TRAINER_PLAYER][j]);
         for (u32 i = 0; abilityArray[i] != ABILITY_NONE; i++)

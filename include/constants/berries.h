@@ -61,7 +61,6 @@
     F(APICOT) \
     F(LANSAT) \
     F(STARF) \
-    F(ENIGMA) \
     F(MICLE) \
     F(CUSTAP) \
     F(JABOCA) \

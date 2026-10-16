@@ -14,7 +14,6 @@ struct MassOutbreak
     u16 location;
 };
 
-void PrepareTvShowForRandomOutbreak(TVShow *show);
 void UpdateMassOutbreakDaysLeft(u16 days);
 bool32 IsMassOutbreakActive(void);
 bool8 SetUpMassOutbreakEncounter(u8 flags);

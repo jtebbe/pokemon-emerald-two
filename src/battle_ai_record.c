@@ -2,7 +2,6 @@
 #include "battle.h"
 #include "battle_setup.h"
 #include "battle_controllers.h"
-#include "battle_factory.h"
 #include "constants/abilities.h"
 #include "constants/hold_effects.h"
 #include "constants/battle_ai.h"

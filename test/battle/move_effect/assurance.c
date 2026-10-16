@@ -219,8 +219,8 @@ SINGLE_BATTLE_TEST("Assurance doubles in power if the target has been damaged by
     s16 hits[2];
 
     GIVEN {
-        PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_GIBLE) { Ability(ABILITY_ROUGH_SKIN); }
+        PLAYER(SPECIES_WOBBUFFET) { Defense(121); }
+        OPPONENT(SPECIES_GIBLE) { Attack(145); Ability(ABILITY_ROUGH_SKIN); }
     } WHEN {
         TURN { MOVE(opponent, MOVE_ASSURANCE); }
         TURN { MOVE(player, MOVE_POUND); MOVE(opponent, MOVE_ASSURANCE); }
@@ -266,8 +266,8 @@ SINGLE_BATTLE_TEST("Assurance doubles in power if the target has been damaged by
 
     GIVEN {
         ASSUME(MoveHasAdditionalEffect(MOVE_ABSORB, MOVE_EFFECT_ABSORB));
-        PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_TENTACOOL) { Ability(ABILITY_LIQUID_OOZE); }
+        PLAYER(SPECIES_WOBBUFFET) { Defense(121); }
+        OPPONENT(SPECIES_TENTACOOL) { Attack(85); Ability(ABILITY_LIQUID_OOZE); }
     } WHEN {
         TURN { MOVE(opponent, MOVE_ASSURANCE); }
         TURN { MOVE(player, MOVE_ABSORB); MOVE(opponent, MOVE_ASSURANCE); }

@@ -148,8 +148,8 @@ SHELL := bash -o pipefail
 ASFLAGS := -mcpu=arm7tdmi -march=armv4t -meabi=5 --defsym MODERN=1 --defsym $(GAME_VERSION)=1
 
 INCLUDE_DIRS := include
-INCLUDE_CPP_ARGS := $(INCLUDE_DIRS:%=-iquote %)
-INCLUDE_SCANINC_ARGS := $(INCLUDE_DIRS:%=-I %)
+INCLUDE_CPP_ARGS := $(INCLUDE_DIRS:%=-iquote %) -iquote $(OBJ_DIR)
+INCLUDE_SCANINC_ARGS := $(INCLUDE_DIRS:%=-I %) -I $(OBJ_DIR)
 
 ifeq ($(DEBUG),1)
 O_LEVEL ?= g
@@ -300,6 +300,10 @@ ifeq ($(SETUP_PREREQS),1)
   $(foreach line, $(shell $(MAKE) MAP_VERSION=$(MAP_VERSION) generated | sed "s/ /__SPACE__/g"), $(info $(subst __SPACE__, ,$(line))))
   ifneq ($(.SHELLSTATUS),0)
     $(error Errors occurred while generating map-related sources. See error messages above for more details)
+  endif
+  $(shell python3 tools/link_build_id.py $(OBJ_DIR)/link_build_id.h $(GAME_VERSION))
+  ifneq ($(.SHELLSTATUS),0)
+    $(error Could not generate multiplayer build identity)
   endif
 endif
 
@@ -453,7 +457,6 @@ clean-teachables: clean-teachables_intermediates
 	@touch $(C_SUBDIR)/pokemon.c
 
 $(C_BUILDDIR)/librfu_intr.o: CFLAGS := -mthumb-interwork -O2 -mabi=apcs-gnu -mtune=arm7tdmi -march=armv4t -fno-toplevel-reorder -Wno-pointer-to-int-cast
-$(C_BUILDDIR)/berry_crush.o: override CFLAGS += -Wno-address-of-packed-member
 $(C_BUILDDIR)/agb_flash.o: override CFLAGS += -fno-toplevel-reorder
 $(C_BUILDDIR)/pokedex_plus_hgss.o: CFLAGS := -mthumb -mthumb-interwork -O2 -mabi=apcs-gnu -mtune=arm7tdmi -march=armv4t -Wno-pointer-to-int-cast -Wimplicit-fallthrough -std=gnu17 -Werror -Wall -Wno-strict-aliasing -Wno-attribute-alias -Woverride-init
 # Annoyingly we can't turn this on just for src/data/trainers.h

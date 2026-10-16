@@ -192,7 +192,6 @@ static const enum HoldEffect sRandomItemOption0BannedHoldEffects[] =
     HOLD_EFFECT_MEGA_STONE,
     HOLD_EFFECT_PRIMAL_ORB,
     HOLD_EFFECT_MEMORY,
-    HOLD_EFFECT_Z_CRYSTAL,
     HOLD_EFFECT_BOOSTER_ENERGY,
     HOLD_EFFECT_OGERPON_MASK,
 };
@@ -321,7 +320,6 @@ static const enum HoldEffect sRandomItemStandardBannedHoldEffects[] =
     HOLD_EFFECT_MEGA_STONE,
     HOLD_EFFECT_PRIMAL_ORB,
     HOLD_EFFECT_MEMORY,
-    HOLD_EFFECT_Z_CRYSTAL,
     HOLD_EFFECT_BOOSTER_ENERGY,
     HOLD_EFFECT_OGERPON_MASK,
 };

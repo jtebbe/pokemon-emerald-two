@@ -1,7 +1,6 @@
 #include "global.h"
 #include "main.h"
 #include "battle.h"
-#include "battle_records.h"
 #include "battle_setup.h"
 #include "cable_club.h"
 #include "data.h"
@@ -18,7 +17,6 @@
 #include "overworld.h"
 #include "palette.h"
 #include "union_room.h"
-#include "mystery_gift.h"
 #include "script.h"
 #include "script_pokemon_util.h"
 #include "sound.h"
@@ -30,7 +28,6 @@
 #include "trainer_card.h"
 #include "party_menu.h"
 #include "window.h"
-#include "constants/battle_frontier.h"
 #include "constants/cable_club.h"
 #include "constants/songs.h"
 #include "constants/trainers.h"
@@ -65,14 +62,12 @@ static void Task_StopLinkup(u8 taskId);
 static void Task_LinkupFailed(u8 taskId);
 static void Task_LinkupConnectionError(u8 taskId);
 static bool8 TryLinkTimeout(u8 taskId);
-static void Task_ValidateMixingGameLanguage(u8 taskId);
 static void Task_ReestablishLink(u8 taskId);
 static void Task_ReestablishLinkAwaitConnection(u8 taskId);
 static void Task_ReestablishLinkLeader(u8 taskId);
 static void Task_ReestablishLinkAwaitConfirmation(u8 taskId);
 
 #define tState      data[0]
-
 
 #define tMinPlayers data[1]
 #define tMaxPlayers data[2]
@@ -142,7 +137,7 @@ static u32 ExchangeDataAndGetLinkupStatus(u8 minPlayers, u8 maxPlayers)
         ConvertIntToDecimalStringN(gStringVar1, GetLinkPlayerCount_2(), STR_CONV_MODE_LEFT_ALIGN, 1);
         return LINKUP_WRONG_NUM_PLAYERS;
     case EXCHANGE_STAT_7:
-        return LINKUP_FAILED_CONTEST_GMODE;
+        return LINKUP_WRONG_NUM_PLAYERS;
     case EXCHANGE_TIMED_OUT:
     default:
         return LINKUP_ONGOING;
@@ -427,44 +422,7 @@ static void Task_LinkupCheckStatusAfterConfirm(u8 taskId)
     }
 }
 
-bool32 AreBattleTowerLinkSpeciesSame(enum Species *speciesList1, enum Species *speciesList2)
-{
-    int i;
-    int j;
-    bool32 haveSameSpecies = FALSE;
-    int numSameSpecies = 0;
 
-    gStringVar1[0] = EOS;
-    gStringVar2[0] = EOS;
-
-    for (i = 0; i < FRONTIER_MULTI_PARTY_SIZE; i++)
-    {
-        for (j = 0; j < FRONTIER_MULTI_PARTY_SIZE; j++)
-        {
-            if (speciesList1[i] == speciesList2[j])
-            {
-                if (numSameSpecies == 0)
-                {
-                    StringCopy(gStringVar1, GetSpeciesName(speciesList1[i]));
-                    haveSameSpecies = TRUE;
-                }
-
-                if (numSameSpecies == 1)
-                {
-                    StringCopy(gStringVar2, GetSpeciesName(speciesList1[i]));
-                    haveSameSpecies = TRUE;
-                }
-
-                numSameSpecies++;
-            }
-        }
-    }
-
-    // var below is read by BattleFrontier_BattleTowerLobby_EventScript_AbortLink
-    gSpecialVar_0x8005 = numSameSpecies;
-
-    return haveSameSpecies;
-}
 
 static void FinishLinkup(u16 *linkupStatus, u32 taskId)
 {
@@ -472,24 +430,6 @@ static void FinishLinkup(u16 *linkupStatus, u32 taskId)
 
     if (*linkupStatus == LINKUP_SUCCESS)
     {
-        if (gLinkType == LINKTYPE_BATTLE_TOWER_50 || gLinkType == LINKTYPE_BATTLE_TOWER_OPEN)
-        {
-            if (AreBattleTowerLinkSpeciesSame(trainerCards[0].monSpecies, trainerCards[1].monSpecies))
-            {
-                // Unsuccessful battle tower linkup
-                *linkupStatus = LINKUP_FAILED_BATTLE_TOWER;
-                SetCloseLinkCallback();
-                gTasks[taskId].func = Task_StopLinkup;
-            }
-            else
-            {
-                // Successful battle tower linkup
-                ClearLinkPlayerCountWindow(gTasks[taskId].tWindowId);
-                ScriptContext_Enable();
-                DestroyTask(taskId);
-            }
-        }
-        else
         {
             // Successful linkup
             ClearLinkPlayerCountWindow(gTasks[taskId].tWindowId);
@@ -588,14 +528,6 @@ void TryBattleLinkup(void)
         maxPlayers = 4;
         gLinkType = LINKTYPE_MULTI_BATTLE;
         break;
-    case USING_BATTLE_TOWER:
-        minPlayers = 2;
-        if (gSaveBlock2Ptr->frontier.lvlMode == FRONTIER_LVL_50)
-            gLinkType = LINKTYPE_BATTLE_TOWER_50;
-        else
-            gLinkType = LINKTYPE_BATTLE_TOWER_OPEN;
-
-        break;
     }
 
     CreateLinkupTask(minPlayers, maxPlayers);
@@ -614,112 +546,15 @@ void TryTradeLinkup(void)
     CreateLinkupTask(2, 2);
 }
 
-void TryRecordMixLinkup(void)
-{
-    gSpecialVar_Result = LINKUP_ONGOING;
-    gLinkType = LINKTYPE_RECORD_MIX_BEFORE;
-    gBattleTypeFlags = 0;
-    CreateLinkupTask(2, 4);
-}
 
-void ValidateMixingGameLanguage(void)
-{
-    u32 taskId = FindTaskIdByFunc(Task_ValidateMixingGameLanguage);
 
-    if (taskId == TASK_NONE)
-    {
-        taskId = CreateTask(Task_ValidateMixingGameLanguage, 80);
-        gTasks[taskId].tState = 0;
-    }
-}
 
-static void Task_ValidateMixingGameLanguage(u8 taskId)
-{
-    int playerCount;
-    int i;
 
-    switch (gTasks[taskId].tState)
-    {
-    case 0:
-        if (gSpecialVar_Result == LINKUP_SUCCESS)
-        {
-            bool32 mixingForeignGames = FALSE;
-            bool32 isEnglishRSLinked = FALSE;
-            bool32 isJapaneseEmeraldLinked = FALSE;
 
-            playerCount = GetLinkPlayerCount();
-            for (i = 0; i < playerCount; i++)
-            {
-                enum GameVersion version = (u8)gLinkPlayers[i].version;
-                enum Language language = gLinkPlayers[i].language;
 
-                if (version == VERSION_RUBY || version == VERSION_SAPPHIRE)
-                {
-                    if (language == LANGUAGE_JAPANESE)
-                    {
-                        mixingForeignGames = TRUE;
-                        break;
-                    }
-                    else
-                    {
-                        isEnglishRSLinked = TRUE;
-                    }
-                }
-                else if (version == VERSION_EMERALD)
-                {
-                    if (language == LANGUAGE_JAPANESE)
-                    {
-                        isJapaneseEmeraldLinked = TRUE;
-                    }
-                }
-            }
 
-            if (isEnglishRSLinked && isJapaneseEmeraldLinked)
-            {
-                mixingForeignGames = TRUE;
-            }
 
-            if (mixingForeignGames)
-            {
-                gSpecialVar_Result = LINKUP_FOREIGN_GAME;
-                SetCloseLinkCallbackHandleJP();
-                gTasks[taskId].tState = 1;
-                return;
-            }
-        }
-        ScriptContext_Enable();
-        DestroyTask(taskId);
-        break;
-    case 1:
-        if (!gReceivedRemoteLinkPlayers)
-        {
-            ScriptContext_Enable();
-            DestroyTask(taskId);
-        }
-        break;
-    }
-}
 
-void TryBerryBlenderLinkup(void)
-{
-    gLinkType = LINKTYPE_BERRY_BLENDER_SETUP;
-    gBattleTypeFlags = 0;
-    CreateLinkupTask(2, 4);
-}
-
-void TryContestGModeLinkup(void)
-{
-    gLinkType = LINKTYPE_CONTEST_GMODE;
-    gBattleTypeFlags = 0;
-    CreateLinkupTask(4, 4);
-}
-
-void TryContestEModeLinkup(void)
-{
-    gLinkType = LINKTYPE_CONTEST_EMODE;
-    gBattleTypeFlags = 0;
-    CreateLinkupTask(2, 4);
-}
 
 u8 CreateTask_ReestablishCableClubLink(void)
 {
@@ -737,17 +572,8 @@ u8 CreateTask_ReestablishCableClubLink(void)
     case USING_MULTI_BATTLE:
         gLinkType = LINKTYPE_MULTI_BATTLE;
         break;
-    case USING_BATTLE_TOWER:
-        if (gSaveBlock2Ptr->frontier.lvlMode == FRONTIER_LVL_50)
-            gLinkType = LINKTYPE_BATTLE_TOWER_50;
-        else
-            gLinkType = LINKTYPE_BATTLE_TOWER_OPEN;
-        break;
     case USING_TRADE_CENTER:
         gLinkType = LINKTYPE_TRADE;
-        break;
-    case USING_RECORD_CORNER:
-        gLinkType = LINKTYPE_RECORD_MIX_AFTER;
         break;
     }
 
@@ -805,6 +631,13 @@ static void Task_ReestablishLinkAwaitConfirmation(u8 taskId)
 // Unused
 void CableClubSaveGame(void)
 {
+    if (TradeJournalNeedsPeer())
+    {
+        // Recovery must be reachable without overwriting the checkpoint.
+        gSpecialVar_Result = 1;
+        ScriptContext_Enable();
+        return;
+    }
     SaveGame();
 }
 
@@ -822,9 +655,6 @@ static void SetLinkBattleTypeFlags(int linkService)
         ReducePlayerPartyToSelectedMons();
         gBattleTypeFlags = BATTLE_TYPE_DOUBLE | BATTLE_TYPE_LINK | BATTLE_TYPE_TRAINER | BATTLE_TYPE_MULTI;
         break;
-    case USING_BATTLE_TOWER:
-        gBattleTypeFlags = BATTLE_TYPE_BATTLE_TOWER | BATTLE_TYPE_DOUBLE | BATTLE_TYPE_LINK | BATTLE_TYPE_TRAINER | BATTLE_TYPE_MULTI;
-        break;
     }
 }
 
@@ -837,6 +667,7 @@ static void Task_StartWiredCableClubBattle(u8 taskId)
     switch (task->tState)
     {
     case 0:
+        SnapshotLinkBattleState();
         FadeScreen(FADE_TO_BLACK, 0);
         gLinkType = LINKTYPE_BATTLE;
         ClearLinkCallback_2();
@@ -883,6 +714,7 @@ static void Task_StartWirelessCableClubBattle(u8 taskId)
     switch (tState)
     {
     case 0:
+        SnapshotLinkBattleState();
         FadeScreen(FADE_TO_BLACK, 0);
         gLinkType = LINKTYPE_BATTLE;
         ClearLinkCallback_2();
@@ -991,44 +823,36 @@ void CB2_ReturnFromCableClubBattle(void)
 {
     gBattleTypeFlags &= ~BATTLE_TYPE_LINK_IN_BATTLE;
     Overworld_ResetMapMusic();
-    LoadPlayerParty();
-    SavePlayerBag();
-    UpdateTrainerFansAfterLinkBattle();
+    RestoreLinkBattleState();
 
     if (gSpecialVar_0x8004 == USING_SINGLE_BATTLE || gSpecialVar_0x8004 == USING_DOUBLE_BATTLE)
     {
-        UpdatePlayerLinkBattleRecords(gLocalLinkPlayerId ^ 1);
         if (gWirelessCommType)
         {
             switch (gBattleOutcome)
             {
             case B_OUTCOME_WON:
-                MysteryGift_TryIncrementStat(CARD_STAT_BATTLES_WON, gLinkPlayers[GetMultiplayerId() ^ 1].trainerId);
                 break;
             case B_OUTCOME_LOST:
-                MysteryGift_TryIncrementStat(CARD_STAT_BATTLES_LOST, gLinkPlayers[GetMultiplayerId() ^ 1].trainerId);
                 break;
             }
         }
     }
 
-    if (InUnionRoom() == TRUE)
-        gMain.savedCallback = CB2_ReturnFromUnionRoomBattle;
-    else
+    {
         gMain.savedCallback = CB2_ReturnToFieldFromMultiplayer;
+    }
 
-    SetMainCallback2(CB2_SetUpSaveAfterLinkBattle);
+    SetMainCallback2(CB2_ReturnToFieldFromMultiplayer);
 }
 
 void CleanupLinkRoomState(void)
 {
     if (gSpecialVar_0x8004 == USING_SINGLE_BATTLE
      || gSpecialVar_0x8004 == USING_DOUBLE_BATTLE
-     || gSpecialVar_0x8004 == USING_MULTI_BATTLE
-     || gSpecialVar_0x8004 == USING_BATTLE_TOWER)
+     || gSpecialVar_0x8004 == USING_MULTI_BATTLE)
     {
-        LoadPlayerParty();
-        SavePlayerBag();
+        RestoreLinkBattleState();
     }
     SetWarpDestinationToDynamicWarp(WARP_ID_DYNAMIC);
 }
@@ -1321,10 +1145,9 @@ void Task_ReconnectWithLinkPlayers(u8 taskId)
 
 #undef tTimer
 
-void TrySetBattleTowerLinkType(void)
-{
-    if (gWirelessCommType == 0)
-        gLinkType = LINKTYPE_BATTLE_TOWER;
-}
-
 #undef tState
+
+const u8 gText_PleaseWaitForLink[] = _("Please wait for the link.");
+const u8 gText_AwaitingLinkup[] = _("Awaiting linkup…");
+const u8 gText_ConfirmLinkWhenPlayersReady[] = _("Confirm when all players are ready.");
+const u8 gText_ConfirmStartLinkWithXPlayers[] = _("Start with {STR_VAR_1} players?");

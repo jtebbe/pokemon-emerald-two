@@ -20,8 +20,8 @@ SINGLE_BATTLE_TEST("Adamant Orb boosts Dialga's Dragon- and Steel-type move dama
     GIVEN {
         ASSUME(GetMoveType(MOVE_DRAGON_CLAW) == TYPE_DRAGON);
         ASSUME(GetMoveType(MOVE_FLASH_CANNON) == TYPE_STEEL);
-        PLAYER(SPECIES_DIALGA) { Item(item); Moves(move); }
-        OPPONENT(SPECIES_WOBBUFFET);
+        PLAYER(SPECIES_DIALGA) { Attack(245); SpAttack(305); Item(item); Moves(move); }
+        OPPONENT(SPECIES_WOBBUFFET) { Defense(121); SpDefense(121); }
     } WHEN {
         TURN { MOVE(player, move); }
     } SCENE {

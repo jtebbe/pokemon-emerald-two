@@ -164,8 +164,8 @@ SINGLE_BATTLE_TEST("Contrary raises a stat after using a move which would normal
     PARAMETRIZE { ability = ABILITY_TANGLED_FEET; }
     GIVEN {
         ASSUME_STAT_CHANGE(MOVE_GROWL, attack: -1);
-        PLAYER(SPECIES_WOBBUFFET) { Speed(3); }
-        OPPONENT(SPECIES_SPINDA) { Ability(ability); Speed(2); }
+        PLAYER(SPECIES_WOBBUFFET) { Defense(121); Speed(3); }
+        OPPONENT(SPECIES_SPINDA) { Attack(125); Ability(ability); Speed(2); }
     } WHEN {
         TURN { MOVE(player, MOVE_GROWL); MOVE(opponent, MOVE_SCRATCH); }
     } SCENE {
@@ -310,22 +310,5 @@ SINGLE_BATTLE_TEST("Contrary inverts stat changes from X items")
         TURN { USE_ITEM(player, item); }
     } THEN {
         EXPECT_EQ(player->statStages[stat], DEFAULT_STAT_STAGE - 2);
-    }
-}
-
-SINGLE_BATTLE_TEST("Contrary inverts stat changes from Max Mushrooms")
-{
-    GIVEN {
-        ASSUME(gItemsInfo[ITEM_MAX_MUSHROOMS].battleUsage == EFFECT_ITEM_INCREASE_ALL_STATS);
-        PLAYER(SPECIES_SNIVY) { Ability(ABILITY_CONTRARY); }
-        OPPONENT(SPECIES_WOBBUFFET);
-    } WHEN {
-        TURN { USE_ITEM(player, ITEM_MAX_MUSHROOMS); }
-    } THEN {
-        EXPECT_EQ(player->statStages[STAT_ATK], DEFAULT_STAT_STAGE - 1);
-        EXPECT_EQ(player->statStages[STAT_DEF], DEFAULT_STAT_STAGE - 1);
-        EXPECT_EQ(player->statStages[STAT_SPATK], DEFAULT_STAT_STAGE - 1);
-        EXPECT_EQ(player->statStages[STAT_SPDEF], DEFAULT_STAT_STAGE - 1);
-        EXPECT_EQ(player->statStages[STAT_SPEED], DEFAULT_STAT_STAGE - 1);
     }
 }

@@ -12,7 +12,7 @@
 #define MULTICHOICE_DYNAMIC_STACK_SIZE 5
 #define MULTICHOICE_DYNAMIC_STACK_INC 5
 
-extern const u8 *const gStdStrings[];
+const u8 *GetStandardString(u32 index);
 
 struct DynamicMultichoiceStack
 {

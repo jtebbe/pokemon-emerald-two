@@ -42,7 +42,6 @@
   - [How to use Trainer Party Pools](tutorials/how_to_trainer_party_pool.md)
   - [How to Apricorn Tree](tutorials/how_to_apricorn_tree.md)
   - [How to Namebox](tutorials/how_to_namebox.md)
-  - [Vs. Seeker](tutorials/vs_seeker.md)
   - [Teachable Learnsets Explanations](tutorials/teachable_learnsets.md)
   - [Struct Pokemon Generation](tutorials/mon_generation.md)
   - [How to use FRLG](tutorials/how_to_frlg.md)

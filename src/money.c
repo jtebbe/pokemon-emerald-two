@@ -10,7 +10,6 @@
 #include "sprite.h"
 #include "strings.h"
 #include "decompress.h"
-#include "tv.h"
 
 EWRAM_DATA static u8 sMoneyBoxWindowId = 0;
 EWRAM_DATA static u8 sMoneyLabelSpriteId = 0;
@@ -68,12 +67,12 @@ static const struct SpritePalette sSpritePalette_MoneyLabel =
 
 u32 GetMoney(u32 *moneyPtr)
 {
-    return *moneyPtr ^ gSaveBlock2Ptr->encryptionKey;
+    return *moneyPtr;
 }
 
 void SetMoney(u32 *moneyPtr, u32 newValue)
 {
-    *moneyPtr = gSaveBlock2Ptr->encryptionKey ^ newValue;
+    *moneyPtr = newValue;
 }
 
 bool8 IsEnoughMoney(u32 *moneyPtr, u32 cost)
@@ -119,12 +118,12 @@ void RemoveMoney(u32 *moneyPtr, u32 toSub)
 
 bool8 IsEnoughForCostInVar0x8005(void)
 {
-    return IsEnoughMoney(&gSaveBlock1Ptr->money, gSpecialVar_0x8005);
+    return IsEnoughMoney(&gSaveData.money, gSpecialVar_0x8005);
 }
 
 void SubtractMoneyFromVar0x8005(void)
 {
-    RemoveMoney(&gSaveBlock1Ptr->money, gSpecialVar_0x8005);
+    RemoveMoney(&gSaveData.money, gSpecialVar_0x8005);
 }
 
 void PrintMoneyAmountInMoneyBox(u8 windowId, int amount, u8 speed)

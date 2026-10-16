@@ -195,10 +195,10 @@ static bool32 CanBattlerBeHealed(enum BattlerId battler)
         return TRUE;
 
     if (gBattleStruct->battlerState[battler].storedLunarDance
-     && (gBattleMons[battler].pp[0] < CalculatePPWithBonus(gBattleMons[battler].moves[0], gBattleMons[battler].ppBonuses, 0)
-      || gBattleMons[battler].pp[1] < CalculatePPWithBonus(gBattleMons[battler].moves[1], gBattleMons[battler].ppBonuses, 1)
-      || gBattleMons[battler].pp[2] < CalculatePPWithBonus(gBattleMons[battler].moves[2], gBattleMons[battler].ppBonuses, 2)
-      || gBattleMons[battler].pp[3] < CalculatePPWithBonus(gBattleMons[battler].moves[3], gBattleMons[battler].ppBonuses, 3)))
+     && (gBattleMons[battler].pp[0] < GetMovePP(gBattleMons[battler].moves[0])
+      || gBattleMons[battler].pp[1] < GetMovePP(gBattleMons[battler].moves[1])
+      || gBattleMons[battler].pp[2] < GetMovePP(gBattleMons[battler].moves[2])
+      || gBattleMons[battler].pp[3] < GetMovePP(gBattleMons[battler].moves[3])))
     {
         return TRUE;
     }
@@ -221,7 +221,7 @@ static bool32 FirstEventBlockEvents(struct BattleCalcValues *calcValues)
         else if (gBattleStruct->battlerState[battler].storedHealingWish)
         {
             gBattleStruct->battlerState[battler].storedHealingWish = FALSE;
-            SetHealAmount(battler, GetNonDynamaxMaxHP(battler));
+            SetHealAmount(battler, GetBattlerMaxHP(battler));
             gBattleScripting.battler = battler;
             BattleScriptCall(BattleScript_HealingWishActivates);
             effect = TRUE;
@@ -229,20 +229,12 @@ static bool32 FirstEventBlockEvents(struct BattleCalcValues *calcValues)
         else if (gBattleStruct->battlerState[battler].storedLunarDance)
         {
             gBattleStruct->battlerState[battler].storedLunarDance = FALSE;
-            SetHealAmount(battler, GetNonDynamaxMaxHP(battler));
+            SetHealAmount(battler, GetBattlerMaxHP(battler));
             gBattleScripting.battler = battler;
             BattleScriptCall(BattleScript_LunarDanceActivates);
             effect = TRUE;
         }
-        else if (gBattleStruct->zmove.healReplacement & 1u << battler)
-        {
-            gBattleStruct->zmove.healReplacement &= ~(1u << battler);
-            SetHealAmount(battler, GetNonDynamaxMaxHP(battler));
-            gBattleScripting.battler = battler;
-            gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_Z_HP_TRAP;
-            BattleScriptCall(BattleScript_HealReplacementZMove);
-            effect = TRUE;
-        }
+        else ;
         gBattleStruct->eventState.battlerSwitchIn++;
         break;
     case FIRST_EVENT_BLOCK_HAZARDS:
@@ -319,7 +311,7 @@ static bool32 TryHazardsOnSwitchIn(enum BattlerId battler, enum Ability ability,
          && IsBattlerAffectedByHazards(battler, holdEffect, FALSE)
          && IsBattlerGrounded(battler, ability, holdEffect))
         {
-            s32 spikesDmg = GetNonDynamaxMaxHP(battler) / ((5 - gSideTimers[side].spikesAmount) * 2);
+            s32 spikesDmg = GetBattlerMaxHP(battler) / ((5 - gSideTimers[side].spikesAmount) * 2);
             SetPassiveDamageAmount(battler, spikesDmg);
             SetDmgHazardsBattlescript(battler, B_MSG_PKMNHURTBYSPIKES);
             effect = TRUE;
@@ -376,17 +368,6 @@ static bool32 TryHazardsOnSwitchIn(enum BattlerId battler, enum Ability ability,
             if (gBattleStruct->passiveHpUpdate[battler] != 0)
             {
                 SetDmgHazardsBattlescript(battler, B_MSG_STEALTHROCKDMG);
-                effect = TRUE;
-            }
-        }
-        break;
-    case HAZARDS_STEELSURGE:
-        if (IsBattlerAffectedByHazards(battler, holdEffect, FALSE) && ability != ABILITY_MAGIC_GUARD)
-        {
-            gBattleStruct->passiveHpUpdate[battler] = GetStealthHazardDamage(TYPE_SIDE_HAZARD_SHARP_STEEL, battler);
-            if (gBattleStruct->passiveHpUpdate[battler] != 0)
-            {
-                SetDmgHazardsBattlescript(battler, B_MSG_SHARPSTEELDMG);
                 effect = TRUE;
             }
         }

@@ -7,6 +7,5 @@
 
 #define FLDPSN_NO_WHITEOUT        0
 #define FLDPSN_WHITEOUT           1
-#define FLDPSN_FRONTIER_WHITEOUT  2
 
 #endif //GUARD_CONSTANTS_FIELD_POISON_H

@@ -8,8 +8,9 @@ SINGLE_BATTLE_TEST("Brine's power doubles if the target is at 50% or below max H
     PARAMETRIZE { halfHP = TRUE; }
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_BRINE) == EFFECT_BRINE);
-        PLAYER(SPECIES_SQUIRTLE);
+        PLAYER(SPECIES_SQUIRTLE) { SpAttack(105); }
         OPPONENT(SPECIES_BLISSEY){
+            SpDefense(275);
             if (halfHP) {
                 HP((GetMonData(&OPPONENT_PARTY[0], MON_DATA_MAX_HP) / 2) - 1);
             }

@@ -1037,7 +1037,7 @@ AI_SINGLE_BATTLE_TEST("AI_FLAG_SMART_SWITCHING: AI will not switch out if Pokemo
         ASSUME(GetMoveCategory(MOVE_EARTHQUAKE) == DAMAGE_CATEGORY_PHYSICAL);
         ASSUME(GetMoveCategory(MOVE_HEADBUTT) == DAMAGE_CATEGORY_PHYSICAL);
         AI_FLAGS(AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_CHECK_VIABILITY | AI_FLAG_TRY_TO_FAINT | AI_FLAG_SMART_SWITCHING);
-        PLAYER(SPECIES_HITMONTOP) { Level(30); Moves(MOVE_CHARM, MOVE_SCRATCH, MOVE_STEALTH_ROCK, MOVE_EARTHQUAKE); Ability(ABILITY_INTIMIDATE); Speed(5); }
+        PLAYER(SPECIES_HITMONTOP) { Level(30); Moves(MOVE_CHARM, MOVE_SCRATCH, MOVE_STEALTH_ROCK, MOVE_EARTHQUAKE); Ability(ABILITY_INTIMIDATE); Attack(100); Speed(5); }
         OPPONENT(SPECIES_GRIMER) { Level(30); Moves(MOVE_SCRATCH); Item(ITEM_FOCUS_SASH); Speed(4); }
         OPPONENT(SPECIES_PONYTA) { Level(30); Moves(MOVE_HEADBUTT, move1); Speed(4); }
     } WHEN {
@@ -1870,12 +1870,12 @@ AI_SINGLE_BATTLE_TEST("AI_FLAG_SMART_SWITCHING: AI will switch out if all moves 
     GIVEN {
         ASSUME(GetMoveType(MOVE_THUNDER_PUNCH) == TYPE_ELECTRIC);
         ASSUME(GetMoveType(MOVE_FAKE_OUT) == TYPE_NORMAL);
-        ASSUME(GetMoveType(MOVE_RETURN) == TYPE_NORMAL);
+        ASSUME(GetMoveType(MOVE_BODY_SLAM) == TYPE_NORMAL);
         ASSUME(GetMoveType(MOVE_DRAIN_PUNCH) == TYPE_FIGHTING);
         ASSUME(gSpeciesInfo[SPECIES_MAROWAK_ALOLA].types[1] == TYPE_GHOST);
         AI_FLAGS(AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_TRY_TO_FAINT | AI_FLAG_CHECK_VIABILITY | AI_FLAG_SMART_SWITCHING | AI_FLAG_OMNISCIENT);
         PLAYER(SPECIES_MAROWAK_ALOLA) { Ability(ABILITY_LIGHTNING_ROD); Moves(MOVE_SHADOW_BONE); }
-        OPPONENT(SPECIES_LOPUNNY) { Moves(MOVE_FAKE_OUT, MOVE_RETURN, MOVE_DRAIN_PUNCH, MOVE_THUNDER_PUNCH); Ability(ABILITY_LIMBER); }
+        OPPONENT(SPECIES_LOPUNNY) { Moves(MOVE_FAKE_OUT, MOVE_BODY_SLAM, MOVE_DRAIN_PUNCH, MOVE_THUNDER_PUNCH); Ability(ABILITY_LIMBER); }
         OPPONENT(SPECIES_CHANDELURE) { Moves(MOVE_SHADOW_BALL); }
     } WHEN {
         TURN { MOVE(player, MOVE_SHADOW_BONE); EXPECT_SWITCH(opponent, 1); }
@@ -2086,48 +2086,28 @@ AI_SINGLE_BATTLE_TEST("AI_FLAG_SMART_SWITCHING: AI won't send out defensive mon 
             Item(ITEM_MYSTIC_WATER);
             Ability(ABILITY_GLUTTONY);
             Nature(NATURE_MODEST);
-            HPIV(31);
-            AttackIV(31);
-            DefenseIV(31);
-            SpAttackIV(31);
-            SpDefenseIV(31);
-            SpeedIV(31); }
+        }
         OPPONENT(SPECIES_RHYHORN) {
             Level(14);
             Moves(MOVE_ROCK_TOMB, MOVE_HORN_ATTACK, MOVE_BULLDOZE, MOVE_ROCK_SMASH);
             Item(ITEM_RINDO_BERRY);
             Ability(ABILITY_LIGHTNING_ROD);
             Nature(NATURE_ADAMANT);
-            HPIV(31);
-            AttackIV(31);
-            DefenseIV(31);
-            SpAttackIV(31);
-            SpDefenseIV(31);
-            SpeedIV(31); }
+        }
         OPPONENT(SPECIES_GLIGAR) {
             Level(15);
             Moves(MOVE_WING_ATTACK, MOVE_QUICK_ATTACK, MOVE_BULLDOZE);
             Item(ITEM_ORAN_BERRY);
             Ability(ABILITY_SAND_VEIL);
             Nature(NATURE_ADAMANT);
-            HPIV(31);
-            AttackIV(31);
-            DefenseIV(31);
-            SpAttackIV(31);
-            SpDefenseIV(31);
-            SpeedIV(31); }
+        }
         OPPONENT(SPECIES_WOOPER_PALDEA) {
             Level(15);
             Moves(MOVE_MUD_SHOT, MOVE_ACID_SPRAY, MOVE_YAWN, MOVE_SANDSTORM);
             Item(ITEM_ORAN_BERRY);
             Ability(ABILITY_WATER_ABSORB);
             Nature(NATURE_MODEST);
-            HPIV(31);
-            AttackIV(31);
-            DefenseIV(31);
-            SpAttackIV(31);
-            SpDefenseIV(31);
-            SpeedIV(31); }
+        }
     } WHEN {
         TURN { MOVE(player, MOVE_WATER_PULSE); EXPECT_MOVE(opponent, MOVE_BULLDOZE); EXPECT_SEND_OUT(opponent, 1); }
         TURN { MOVE(player, MOVE_WATER_PULSE); EXPECT_MOVE(opponent, MOVE_BULLDOZE); }
@@ -2169,10 +2149,10 @@ AI_SINGLE_BATTLE_TEST("AI_SMART_MON_CHOICES: AI sees its own weather setting abi
     PARAMETRIZE { ability = ABILITY_DRIZZLE; }
     GIVEN {
         AI_FLAGS(AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_CHECK_VIABILITY | AI_FLAG_TRY_TO_FAINT | AI_FLAG_SMART_MON_CHOICES | AI_FLAG_OMNISCIENT);
-        PLAYER(SPECIES_ZIGZAGOON) { Speed(2); Moves(MOVE_SCRATCH); }
+        PLAYER(SPECIES_ZIGZAGOON) { HP(186); Defense(87); SpDefense(87); Speed(2); Moves(MOVE_SCRATCH); }
         OPPONENT(SPECIES_ZIGZAGOON) { Speed(1); Level(1); Moves(MOVE_SCRATCH); }
-        OPPONENT(SPECIES_POLITOED) { Speed(5); Ability(ability); Moves(MOVE_BUBBLE_BEAM); }
-        OPPONENT(SPECIES_CONKELDURR) { Speed(1); Ability(ABILITY_GUTS); Moves(MOVE_SUPERPOWER); }
+        OPPONENT(SPECIES_POLITOED) { SpAttack(185); Speed(5); Ability(ability); Moves(MOVE_BUBBLE_BEAM); }
+        OPPONENT(SPECIES_CONKELDURR) { Attack(285); Speed(1); Ability(ABILITY_GUTS); Moves(MOVE_SUPERPOWER); }
     } WHEN {
         if (ability == ABILITY_DRIZZLE)
             TURN { MOVE(player, MOVE_SCRATCH); EXPECT_MOVE(opponent, MOVE_SCRATCH); EXPECT_SEND_OUT(opponent, 1); }
@@ -2281,18 +2261,18 @@ AI_SINGLE_BATTLE_TEST("AI_FLAG_SMART_SWITCHING: AI will consider player's endure
     }
 }
 
-AI_SINGLE_BATTLE_TEST("AI_FLAG_SMART_SWITCHING: AI will consider Hidden Power when triggering absorbing switches")
+AI_SINGLE_BATTLE_TEST("AI treats Hidden Power as fixed Psychic rather than a Flash Fire trigger")
 {
-    PASSES_RANDOMLY(SHOULD_SWITCH_ABSORBS_HIDDEN_POWER_PERCENTAGE, 100, RNG_AI_SWITCH_ABSORBING_HIDDEN_POWER);
     GIVEN {
-        WITH_CONFIG(B_REDIRECT_ABILITY_IMMUNITY, GEN_5);
+        ASSUME(GetMoveType(MOVE_HIDDEN_POWER) == TYPE_PSYCHIC);
+        ASSUME(GetMovePower(MOVE_HIDDEN_POWER) == 60);
         AI_FLAGS(AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_CHECK_VIABILITY | AI_FLAG_TRY_TO_FAINT | AI_FLAG_SMART_SWITCHING);
-        PLAYER(SPECIES_ZIGZAGOON) { Moves(MOVE_HIDDEN_POWER); HPIV(31); AttackIV(30); DefenseIV(31); SpAttackIV(30); SpDefenseIV(31); SpeedIV(30); }
+        PLAYER(SPECIES_ZIGZAGOON) { Moves(MOVE_HIDDEN_POWER); }
         OPPONENT(SPECIES_ZIGZAGOON) { Moves(MOVE_SCRATCH); }
         OPPONENT(SPECIES_NINETALES) { Moves(MOVE_SCRATCH); Ability(ABILITY_FLASH_FIRE); }
     } WHEN {
         TURN { MOVE(player, MOVE_HIDDEN_POWER); EXPECT_MOVE(opponent, MOVE_SCRATCH); }
-        TURN { MOVE(player, MOVE_HIDDEN_POWER); EXPECT_SWITCH(opponent, 1); }
+        TURN { MOVE(player, MOVE_HIDDEN_POWER); EXPECT_MOVE(opponent, MOVE_SCRATCH); }
     }
 }
 
@@ -2420,10 +2400,10 @@ AI_SINGLE_BATTLE_TEST("AI_SMART_MON_CHOICES: AI sees its own terrain setting abi
 {
     GIVEN {
         AI_FLAGS(AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_TRY_TO_FAINT | AI_FLAG_CHECK_VIABILITY | AI_FLAG_SMART_SWITCHING | AI_FLAG_SMART_MON_CHOICES | AI_FLAG_OMNISCIENT);
-        PLAYER(SPECIES_MACHAMP) { Speed(1); Ability(ABILITY_NO_GUARD); Moves(MOVE_PROTECT, MOVE_SHEER_COLD); }
+        PLAYER(SPECIES_MACHAMP) { HP(290); SpDefense(175); Speed(1); Ability(ABILITY_NO_GUARD); Moves(MOVE_PROTECT, MOVE_SHEER_COLD); }
         OPPONENT(SPECIES_ZIGZAGOON) { Speed(2); Moves(MOVE_EXPLOSION); }
-        OPPONENT(SPECIES_INDEEDEE_F) { Speed(2); Ability(ABILITY_PSYCHIC_SURGE); Moves(MOVE_PSYCHIC); }
-        OPPONENT(SPECIES_INDEEDEE_F) { Speed(2); Ability(ABILITY_INNER_FOCUS); Moves(MOVE_PSYCHIC); }
+        OPPONENT(SPECIES_INDEEDEE_F) { SpAttack(205); Speed(2); Ability(ABILITY_PSYCHIC_SURGE); Moves(MOVE_PSYCHIC); }
+        OPPONENT(SPECIES_INDEEDEE_F) { SpAttack(205); Speed(2); Ability(ABILITY_INNER_FOCUS); Moves(MOVE_PSYCHIC); }
     } WHEN {
         TURN { MOVE(player, MOVE_PROTECT); EXPECT_MOVE(opponent, MOVE_EXPLOSION); EXPECT_SEND_OUT(opponent, 1); }
     }
@@ -2431,7 +2411,6 @@ AI_SINGLE_BATTLE_TEST("AI_SMART_MON_CHOICES: AI sees its own terrain setting abi
 
 AI_SINGLE_BATTLE_TEST("AI_SMART_MON_CHOICES: AI sees its own terrain setting ability's effect on failed moves when considering switchin candidates")
 {
-    KNOWN_FAILING; // Fails because the AI can't currently see the arbitrary terrain passed to AI_CalcDamage in CanAbilityBlockMove
     GIVEN {
         AI_FLAGS(AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_TRY_TO_FAINT | AI_FLAG_CHECK_VIABILITY | AI_FLAG_SMART_SWITCHING | AI_FLAG_SMART_MON_CHOICES | AI_FLAG_OMNISCIENT);
         PLAYER(SPECIES_ZIGZAGOON) { Moves(MOVE_PROTECT, MOVE_QUICK_ATTACK); }
@@ -2652,10 +2631,10 @@ AI_SINGLE_BATTLE_TEST("Retaliate sees damage correctly for post ko switch in")
 {
     GIVEN {
         AI_FLAGS(AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_CHECK_VIABILITY | AI_FLAG_TRY_TO_FAINT | AI_FLAG_SMART_SWITCHING | AI_FLAG_SMART_MON_CHOICES | AI_FLAG_OMNISCIENT);
-        PLAYER(SPECIES_GABITE) { Level(50); Speed(2);}
+        PLAYER(SPECIES_GABITE) { Level(50); HP(128); Defense(70); Speed(2);}
         OPPONENT(SPECIES_ZIGZAGOON) { Level(1); Speed(3); HP(1); Moves(MOVE_TACKLE); }
-        OPPONENT(SPECIES_GROUDON) { Level(85); Speed(3); Moves(MOVE_PRECIPICE_BLADES); }
-        OPPONENT(SPECIES_STOUTLAND) { Level(50); Speed(3); Moves(MOVE_RETALIATE); }
+        OPPONENT(SPECIES_GROUDON) { Attack(260); Level(85); Speed(3); Moves(MOVE_PRECIPICE_BLADES); }
+        OPPONENT(SPECIES_STOUTLAND) { Attack(115); Level(50); Speed(3); Moves(MOVE_RETALIATE); }
     } WHEN {
         TURN { MOVE(player, MOVE_TACKLE); EXPECT_SEND_OUT(opponent, 2); }
     }

@@ -1,6 +1,5 @@
 #include "global.h"
 #include "malloc.h"
-#include "berry_powder.h"
 #include "fake_rtc.h"
 #include "follower_npc.h"
 #include "item.h"
@@ -9,42 +8,30 @@
 #include "overworld.h"
 #include "pokemon.h"
 #include "pokemon_storage_system.h"
+#include "pc_storage.h"
 #include "random.h"
 #include "save_location.h"
 #include "script_pokemon_util.h"
-#include "trainer_hill.h"
 #include "wild_encounter_ow.h"
 #include "gba/flash_internal.h"
-#include "decoration_inventory.h"
 #include "agb_flash.h"
 #include "event_data.h"
 #include "constants/event_objects.h"
 
-static void ApplyNewEncryptionKeyToAllEncryptedData(u32 encryptionKey);
-
-#define SAVEBLOCK_MOVE_RANGE    128
-
-struct LoadedSaveData
+struct LinkInventorySnapshot
 {
- /*0x0000*/ struct Bag bag;
- /*0x02E8*/ struct Mail mail[MAIL_COUNT];
+    struct Bag bag;
+    struct Mail mail[MAIL_COUNT];
 };
 
-// EWRAM DATA
-EWRAM_DATA struct SaveBlock3 gSaveblock3 = {};
-EWRAM_DATA struct SaveBlock2ASLR gSaveblock2 = {0};
-EWRAM_DATA struct SaveBlock1ASLR gSaveblock1 = {0};
-EWRAM_DATA struct PokemonStorageASLR gPokemonStorage = {0};
+// Resident persistent data; boxed Pokemon are streamed through PCStorage.
+EWRAM_DATA struct SaveData gSaveData = {0};
 
-EWRAM_DATA struct LoadedSaveData gLoadedSaveData = {0};
-EWRAM_DATA u32 gLastEncryptionKey = 0;
+static EWRAM_DATA struct LinkInventorySnapshot sLinkInventorySnapshot = {0};
+static EWRAM_DATA bool8 sLinkBattleActive = FALSE;
 
 // IWRAM common
 COMMON_DATA bool32 gFlashMemoryPresent = 0;
-COMMON_DATA struct SaveBlock1 *gSaveBlock1Ptr = NULL;
-COMMON_DATA struct SaveBlock2 *gSaveBlock2Ptr = NULL;
-IWRAM_INIT struct SaveBlock3 *gSaveBlock3Ptr = &gSaveblock3;
-COMMON_DATA struct PokemonStorage *gPokemonStoragePtr = NULL;
 
 // code
 void CheckForFlashMemory(void)
@@ -60,111 +47,75 @@ void CheckForFlashMemory(void)
     }
 }
 
-void ClearSav3(void)
+
+
+
+
+
+
+
+
+void ResetSaveData(void)
 {
-    CpuFill16(0, &gSaveblock3, sizeof(struct SaveBlock3));
+    sLinkBattleActive = FALSE;
+    PCStorageReset(TRUE);
+    memset(&gSaveData, 0, sizeof(gSaveData));
     FakeRtc_Reset();
 }
 
-void ClearSav2(void)
+void ResetGameProgress(void)
 {
-    CpuFill16(0, &gSaveblock2, sizeof(struct SaveBlock2ASLR));
+    sLinkBattleActive = FALSE;
+    PCStorageReset(TRUE);
+    // Preserve player identity, options, and clock settings chosen before starting.
+    memset(&gSaveData.pos, 0, sizeof(gSaveData) - offsetof(struct SaveData, pos));
+    FakeRtc_Reset();
 }
 
-void ClearSav1(void)
-{
-    CpuFill16(0, &gSaveblock1, sizeof(struct SaveBlock1ASLR));
-}
-
-// Offset is the sum of the trainer id bytes
-void SetSaveBlocksPointers(u16 offset)
-{
-    struct SaveBlock1 **sav1_LocalVar = &gSaveBlock1Ptr;
-
-    offset = (offset + Random()) & (SAVEBLOCK_MOVE_RANGE - 4);
-
-    gSaveBlock2Ptr = (void *)(&gSaveblock2) + offset;
-    *sav1_LocalVar = (void *)(&gSaveblock1) + offset;
-    gPokemonStoragePtr = (void *)(&gPokemonStorage) + offset;
-
-    SetBagItemsPointers();
-    SetDecorationInventoriesPointers();
-}
-
-void MoveSaveBlocks_ResetHeap(void)
+void ResetHeapPreservingSaveData(void)
 {
     void *vblankCB, *hblankCB;
-    u32 encryptionKey;
-    struct SaveBlock2 *saveBlock2Copy;
-    struct SaveBlock1 *saveBlock1Copy;
-    struct PokemonStorage *pokemonStorageCopy;
 
     // save interrupt functions and turn them off
     vblankCB = gMain.vblankCallback;
     hblankCB = gMain.hblankCallback;
     gMain.vblankCallback = NULL;
     gMain.hblankCallback = NULL;
-    gTrainerHillVBlankCounter = NULL;
 
-    saveBlock2Copy = (struct SaveBlock2 *)(gHeap);
-    saveBlock1Copy = (struct SaveBlock1 *)(gHeap + sizeof(struct SaveBlock2));
-    pokemonStorageCopy = (struct PokemonStorage *)(gHeap + sizeof(struct SaveBlock2) + sizeof(struct SaveBlock1));
-
-    // backup the saves.
-    *saveBlock2Copy = *gSaveBlock2Ptr;
-    *saveBlock1Copy = *gSaveBlock1Ptr;
-    *pokemonStorageCopy = *gPokemonStoragePtr;
-
-    // change saveblocks' pointers
-    // argument is a sum of the individual trainerId bytes
-    SetSaveBlocksPointers(
-      saveBlock2Copy->playerTrainerId[0] +
-      saveBlock2Copy->playerTrainerId[1] +
-      saveBlock2Copy->playerTrainerId[2] +
-      saveBlock2Copy->playerTrainerId[3]);
-
-    // restore saveblock data since the pointers changed
-    *gSaveBlock2Ptr = *saveBlock2Copy;
-    *gSaveBlock1Ptr = *saveBlock1Copy;
-    *gPokemonStoragePtr = *pokemonStorageCopy;
-
-    // heap was destroyed in the copying process, so reset it
+    // The save data no longer moves through the heap.
     InitHeap(gHeap, HEAP_SIZE);
+    SetBagItemsPointers();
 
     // restore interrupt functions
     gMain.hblankCallback = hblankCB;
     gMain.vblankCallback = vblankCB;
 
-    // create a new encryption key
-    encryptionKey = Random32();
-    ApplyNewEncryptionKeyToAllEncryptedData(encryptionKey);
-    gSaveBlock2Ptr->encryptionKey = encryptionKey;
 }
 
 u32 UseContinueGameWarp(void)
 {
-    return gSaveBlock2Ptr->specialSaveWarpFlags & CONTINUE_GAME_WARP;
+    return gSaveData.specialSaveWarpFlags & CONTINUE_GAME_WARP;
 }
 
 void ClearContinueGameWarpStatus(void)
 {
-    gSaveBlock2Ptr->specialSaveWarpFlags &= ~CONTINUE_GAME_WARP;
+    gSaveData.specialSaveWarpFlags &= ~CONTINUE_GAME_WARP;
 }
 
 void SetContinueGameWarpStatus(void)
 {
-    gSaveBlock2Ptr->specialSaveWarpFlags |= CONTINUE_GAME_WARP;
+    gSaveData.specialSaveWarpFlags |= CONTINUE_GAME_WARP;
 }
 
 void SetContinueGameWarpStatusToDynamicWarp(void)
 {
     SetContinueGameWarpToDynamicWarp(0);
-    gSaveBlock2Ptr->specialSaveWarpFlags |= CONTINUE_GAME_WARP;
+    gSaveData.specialSaveWarpFlags |= CONTINUE_GAME_WARP;
 }
 
 void ClearContinueGameWarpStatus2(void)
 {
-    gSaveBlock2Ptr->specialSaveWarpFlags &= ~CONTINUE_GAME_WARP;
+    gSaveData.specialSaveWarpFlags &= ~CONTINUE_GAME_WARP;
 }
 
 void SavePlayerParty(void)
@@ -178,65 +129,31 @@ void SavePlayerParty(void)
 
 void LoadPlayerParty(void)
 {
-    int i;
-
     gPartiesCount[B_TRAINER_PLAYER] = *GetSavedPlayerPartyCount();
-
-    for (i = 0; i < PARTY_SIZE; i++)
+    for (u32 i = 0; i < PARTY_SIZE; i++)
     {
-        u32 data;
-        gParties[B_TRAINER_PLAYER][i] = *GetSavedPlayerPartyMon(i);
-
-        // TODO: Turn this into a save migration once those are available.
-        // At which point we can remove hp and status from Pokemon entirely.
-        data = gParties[B_TRAINER_PLAYER][i].maxHP - gParties[B_TRAINER_PLAYER][i].hp;
-        SetBoxMonData(&gParties[B_TRAINER_PLAYER][i].box, MON_DATA_HP_LOST, &data);
-        data = gParties[B_TRAINER_PLAYER][i].status;
-        SetBoxMonData(&gParties[B_TRAINER_PLAYER][i].box, MON_DATA_STATUS, &data);
+        if (GetBoxMonData(GetSavedPlayerPartyMon(i), MON_DATA_SPECIES) == SPECIES_NONE)
+            ZeroMonData(&gParties[B_TRAINER_PLAYER][i]);
+        else
+        {
+            BoxMonToMon(GetSavedPlayerPartyMon(i), &gParties[B_TRAINER_PLAYER][i]);
+            gParties[B_TRAINER_PLAYER][i].mail = gSaveData.playerPartyMail[i];
+        }
     }
 }
 
 void SaveObjectEvents(void)
 {
-    int i;
-    u16 graphicsId;
-
-    for (i = 0; i < OBJECT_EVENTS_COUNT; i++)
-    {
-        gSaveBlock1Ptr->objectEvents[i] = gObjectEvents[i];
-        // Swap graphicsId bytes when saving and loading
-        // This keeps compatibility with vanilla,
-        // since the lower graphicsIds will be in the same place as vanilla
-        graphicsId = gObjectEvents[i].graphicsId;
-        gSaveBlock1Ptr->objectEvents[i].graphicsId = (graphicsId >> 8) | (graphicsId << 8);
-        gSaveBlock1Ptr->objectEvents[i].spriteId = 127; // magic number
-        // To avoid crash on vanilla, save follower as inactive
-        if (gObjectEvents[i].localId == OBJ_EVENT_ID_FOLLOWER)
-            gSaveBlock1Ptr->objectEvents[i].active = FALSE;
-    }
+    for (u32 i = 0; i < OBJECT_EVENTS_COUNT; i++)
+        gSaveData.objectEvents[i] = gObjectEvents[i];
 }
 
 void LoadObjectEvents(void)
 {
-    int i;
-    u16 graphicsId;
-
-    for (i = 0; i < OBJECT_EVENTS_COUNT; i++)
+    for (u32 i = 0; i < OBJECT_EVENTS_COUNT; i++)
     {
-        gObjectEvents[i] = gSaveBlock1Ptr->objectEvents[i];
-        // Swap graphicsId bytes when saving and loading
-        // This keeps compatibility with vanilla,
-        // since the lower graphicsIds will be in the same place as vanilla
-        graphicsId = gObjectEvents[i].graphicsId;
-        gObjectEvents[i].graphicsId = (graphicsId >> 8) | (graphicsId << 8);
-        if (gObjectEvents[i].spriteId != 127)
-            gObjectEvents[i].graphicsId &= 0xFF;
+        gObjectEvents[i] = gSaveData.objectEvents[i];
         gObjectEvents[i].spriteId = 0;
-        // Try to restore saved inactive follower
-        if (gObjectEvents[i].localId == OBJ_EVENT_ID_FOLLOWER &&
-            !gObjectEvents[i].active &&
-            gObjectEvents[i].graphicsId & OBJ_EVENT_MON)
-            gObjectEvents[i].active = TRUE;
     }
     SetMinimumOWESpawnTimer();
 }
@@ -253,55 +170,50 @@ void CopyPartyAndObjectsFromSave(void)
     LoadObjectEvents();
 }
 
-void LoadPlayerBag(void)
+void SnapshotLinkInventory(void)
 {
     int i;
 
-    // load player bag.
-    memcpy(&gLoadedSaveData.bag, &gSaveBlock1Ptr->bag, sizeof(struct Bag));
+    // Snapshot inventory so link battles can restore temporary item consumption.
+    memcpy(&sLinkInventorySnapshot.bag, &gSaveData.bag, sizeof(struct Bag));
 
     // load mail.
     for (i = 0; i < MAIL_COUNT; i++)
-        gLoadedSaveData.mail[i] = gSaveBlock1Ptr->mail[i];
+        sLinkInventorySnapshot.mail[i] = gSaveData.mail[i];
 
-    gLastEncryptionKey = gSaveBlock2Ptr->encryptionKey;
 }
 
-void SavePlayerBag(void)
+void RestoreLinkInventory(void)
 {
     int i;
-    u32 encryptionKeyBackup;
-
-    // save player bag.
-    memcpy(&gSaveBlock1Ptr->bag, &gLoadedSaveData.bag, sizeof(struct Bag));
+    // Restore the link-session inventory snapshot.
+    memcpy(&gSaveData.bag, &sLinkInventorySnapshot.bag, sizeof(struct Bag));
 
     // save mail.
     for (i = 0; i < MAIL_COUNT; i++)
-        gSaveBlock1Ptr->mail[i] = gLoadedSaveData.mail[i];
+        gSaveData.mail[i] = sLinkInventorySnapshot.mail[i];
 
-    encryptionKeyBackup = gSaveBlock2Ptr->encryptionKey;
-    gSaveBlock2Ptr->encryptionKey = gLastEncryptionKey;
-    ApplyNewEncryptionKeyToBagItems(encryptionKeyBackup);
-    gSaveBlock2Ptr->encryptionKey = encryptionKeyBackup; // updated twice?
 }
 
-void ApplyNewEncryptionKeyToHword(u16 *hWord, u32 newKey)
+void SnapshotLinkBattleState(void)
 {
-    *hWord ^= gSaveBlock2Ptr->encryptionKey;
-    *hWord ^= newKey;
+    if (sLinkBattleActive)
+        return;
+    SavePlayerParty();
+    SnapshotLinkInventory();
+    sLinkBattleActive = TRUE;
 }
 
-void ApplyNewEncryptionKeyToWord(u32 *word, u32 newKey)
+void RestoreLinkBattleState(void)
 {
-    *word ^= gSaveBlock2Ptr->encryptionKey;
-    *word ^= newKey;
+    if (!sLinkBattleActive)
+        return;
+    LoadPlayerParty();
+    RestoreLinkInventory();
+    sLinkBattleActive = FALSE;
 }
 
-static void ApplyNewEncryptionKeyToAllEncryptedData(u32 encryptionKey)
+bool32 LinkBattleStateActive(void)
 {
-    ApplyNewEncryptionKeyToGameStats(encryptionKey);
-    ApplyNewEncryptionKeyToBagItems(encryptionKey);
-    ApplyNewEncryptionKeyToBerryPowder(encryptionKey);
-    ApplyNewEncryptionKeyToWord(&gSaveBlock1Ptr->money, encryptionKey);
-    ApplyNewEncryptionKeyToHword(&gSaveBlock1Ptr->coins, encryptionKey);
+    return sLinkBattleActive;
 }

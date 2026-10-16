@@ -8,7 +8,6 @@
 #include "gpu_regs.h"
 #include "menu.h"
 #include "overworld.h"
-#include "rotating_gate.h"
 #include "sprite.h"
 #include "text.h"
 
@@ -93,7 +92,7 @@ void GetCameraOffsetWithPan(s16 *x, s16 *y)
 
 void DrawWholeMapView(void)
 {
-    DrawWholeMapViewInternal(gSaveBlock1Ptr->pos.x, gSaveBlock1Ptr->pos.y, gMapHeader.mapLayout);
+    DrawWholeMapViewInternal(gSaveData.pos.x, gSaveData.pos.y, gMapHeader.mapLayout);
     sFieldCameraOffset.copyBGToVRAM = TRUE;
 }
 
@@ -150,7 +149,7 @@ static void RedrawMapSliceNorth(struct FieldCameraOffset *cameraOffset, const st
         temp = cameraOffset->xTileOffset + i;
         if (temp >= 32)
             temp -= 32;
-        DrawMetatileAt(mapLayout, r7 + temp, gSaveBlock1Ptr->pos.x + i / 2, gSaveBlock1Ptr->pos.y + 14);
+        DrawMetatileAt(mapLayout, r7 + temp, gSaveData.pos.x + i / 2, gSaveData.pos.y + 14);
     }
 }
 
@@ -165,7 +164,7 @@ static void RedrawMapSliceSouth(struct FieldCameraOffset *cameraOffset, const st
         temp = cameraOffset->xTileOffset + i;
         if (temp >= 32)
             temp -= 32;
-        DrawMetatileAt(mapLayout, r7 + temp, gSaveBlock1Ptr->pos.x + i / 2, gSaveBlock1Ptr->pos.y);
+        DrawMetatileAt(mapLayout, r7 + temp, gSaveData.pos.x + i / 2, gSaveData.pos.y);
     }
 }
 
@@ -180,7 +179,7 @@ static void RedrawMapSliceEast(struct FieldCameraOffset *cameraOffset, const str
         temp = cameraOffset->yTileOffset + i;
         if (temp >= 32)
             temp -= 32;
-        DrawMetatileAt(mapLayout, temp * 32 + r6, gSaveBlock1Ptr->pos.x, gSaveBlock1Ptr->pos.y + i / 2);
+        DrawMetatileAt(mapLayout, temp * 32 + r6, gSaveData.pos.x, gSaveData.pos.y + i / 2);
     }
 }
 
@@ -197,7 +196,7 @@ static void RedrawMapSliceWest(struct FieldCameraOffset *cameraOffset, const str
         temp = cameraOffset->yTileOffset + i;
         if (temp >= 32)
             temp -= 32;
-        DrawMetatileAt(mapLayout, temp * 32 + r5, gSaveBlock1Ptr->pos.x + 14, gSaveBlock1Ptr->pos.y + i / 2);
+        DrawMetatileAt(mapLayout, temp * 32 + r5, gSaveData.pos.x + 14, gSaveData.pos.y + i / 2);
     }
 }
 
@@ -311,7 +310,7 @@ static void DrawMetatile(s32 metatileLayerType, const u16 *tiles, u16 offset)
 
 static s32 MapPosToBgTilemapOffset(struct FieldCameraOffset *cameraOffset, s32 x, s32 y)
 {
-    x -= gSaveBlock1Ptr->pos.x;
+    x -= gSaveData.pos.x;
     x *= 2;
     if (x >= 32 || x < 0)
         return -1;
@@ -319,7 +318,7 @@ static s32 MapPosToBgTilemapOffset(struct FieldCameraOffset *cameraOffset, s32 x
     if (x >= 32)
         x -= 32;
 
-    y = (y - gSaveBlock1Ptr->pos.y) * 2;
+    y = (y - gSaveData.pos.y) * 2;
     if (y >= 32 || y < 0)
         return -1;
     y = y + cameraOffset->yTileOffset;
@@ -374,7 +373,6 @@ void CameraUpdateNoObjectRefresh(void)
     deltaY = 0;
     curMovementOffsetX = gFieldCamera.x;
     curMovementOffsetY = gFieldCamera.y;
-
 
     if (curMovementOffsetX == 0 && movementSpeedX != 0)
     {
@@ -438,7 +436,6 @@ void CameraUpdate(void)
     curMovementOffsetX = gFieldCamera.x;
     curMovementOffsetY = gFieldCamera.y;
 
-
     if (curMovementOffsetX == 0 && movementSpeedX != 0)
     {
         if (movementSpeedX > 0)
@@ -477,7 +474,6 @@ void CameraUpdate(void)
     {
         CameraMove(deltaX, deltaY);
         UpdateObjectEventsForCameraUpdate(deltaX, deltaY);
-        RotatingGatePuzzleCameraUpdate(deltaX, deltaY);
         SetBerryTreesSeen();
         AddCameraTileOffset(&sFieldCameraOffset, deltaX * 2, deltaY * 2);
         RedrawMapSlicesForCameraUpdate(&sFieldCameraOffset, deltaX * 2, deltaY * 2);

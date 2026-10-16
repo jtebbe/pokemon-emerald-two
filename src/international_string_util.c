@@ -178,25 +178,9 @@ void ConvertInternationalPlayerNameStripChar(u8 *str, u8 removeChar)
     }
 }
 
-void ConvertInternationalContestantName(u8 *str)
-{
-    if (*str++ == EXT_CTRL_CODE_BEGIN && *str++ == EXT_CTRL_CODE_JPN)
-    {
-        while (*str != EOS)
-        {
-            if (str[0] == EXT_CTRL_CODE_BEGIN && str[1] == EXT_CTRL_CODE_ENG)
-                return;
 
-            str++;
-        }
 
-        *str++ = EXT_CTRL_CODE_BEGIN;
-        *str++ = EXT_CTRL_CODE_ENG;
-        *str = EOS;
-    }
-}
-
-void TVShowConvertInternationalString(u8 *dest, const u8 *src, int language)
+void CopyInternationalString(u8 *dest, const u8 *src, int language)
 {
     StringCopy(dest, src);
     ConvertInternationalString(dest, language);

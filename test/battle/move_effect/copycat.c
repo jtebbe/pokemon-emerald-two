@@ -6,7 +6,6 @@ TO_DO_BATTLE_TEST("Copycat can call the user's last move used if it was the last
 TO_DO_BATTLE_TEST("Copycat fails if no move has been made");
 TO_DO_BATTLE_TEST("Copycat chooses a target at random if the copied move wasn't the user's");
 TO_DO_BATTLE_TEST("Copycat can copy moves regardless if they failed or not"); //Has "X used move!"
-TO_DO_BATTLE_TEST("Copycat fails if the last move used is a Z-Move");
 
 // Gen 4
 TO_DO_BATTLE_TEST("Copycat can only copy charging moves after it has been executed (Gen 4)");
@@ -28,8 +27,8 @@ ASSUMPTIONS
 
 SINGLE_BATTLE_TEST("Copycat deducts power points from itself, not the copied move")
 {
-    ASSUME(GetMovePP(MOVE_COPYCAT) == 20);
-    ASSUME(GetMovePP(MOVE_POUND) == 35);
+    ASSUME(GetMovePP(MOVE_COPYCAT) == 32);
+    ASSUME(GetMovePP(MOVE_POUND) == 56);
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET) { Moves(MOVE_COPYCAT); }
         OPPONENT(SPECIES_WOBBUFFET) { Moves(MOVE_POUND); }
@@ -37,8 +36,8 @@ SINGLE_BATTLE_TEST("Copycat deducts power points from itself, not the copied mov
         TURN { MOVE(opponent, MOVE_POUND); MOVE(player, MOVE_COPYCAT); }
     } SCENE {
     } THEN {
-        EXPECT_EQ(opponent->pp[0], 34);
-        EXPECT_EQ(player->pp[0], 19);
+        EXPECT_EQ(opponent->pp[0], GetMovePP(MOVE_POUND) - 1);
+        EXPECT_EQ(player->pp[0], GetMovePP(MOVE_COPYCAT) - 1);
     }
 }
 
@@ -59,21 +58,5 @@ DOUBLE_BATTLE_TEST("Copycat can copy a move that fainted its target")
         HP_BAR(opponentLeft);
         ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, playerRight);
         HP_BAR(opponentRight);
-    }
-}
-
-DOUBLE_BATTLE_TEST("(DYNAMAX) Dynamaxed Pokemon can have their base moves copied by Copycat")
-{
-    GIVEN {
-        WITH_CONFIG(B_MEGA_EVO_TURN_ORDER, GEN_7); // TODO: Decouple this config from other gimmicks
-        PLAYER(SPECIES_WOBBUFFET);
-        PLAYER(SPECIES_WYNAUT);
-        OPPONENT(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_WYNAUT);
-    } WHEN {
-        TURN { MOVE(playerLeft, MOVE_TRICK_ROOM, gimmick: GIMMICK_DYNAMAX, target: opponentLeft); MOVE(playerRight, MOVE_COPYCAT, target: opponentLeft); }
-    } SCENE {
-        MESSAGE("Wobbuffet used Max Guard!");
-        MESSAGE("Wynaut used Trick Room!");
     }
 }

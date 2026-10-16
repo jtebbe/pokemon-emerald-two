@@ -14,18 +14,8 @@
 //    stored in savedata, they're stored as 8-bit values; but much of the
 //    codebase handles them as 16-bit values.
 //
-//  - Although Pokemon Emerald doesn't come close to maxing out RAM, it *does*
-//    use nearly all of its EEPROM. That is: the vanilla game uses 96% of the
-//    flash memory available for storing players' save files, leaving 2172
-//    bytes to spare within each of the game's two save files (primary and
-//    backup). These spare bytes are not contiguous: SaveBlock1 can only grow
-//    by 84 bytes, and SaveBlock2 can only grow by 120 bytes, with the rest
-//    of the free space located after the player's PC-boxed Pokemon.
-//
-//    With so little flash memory to spare, keeping track of how much space
-//    you're using is vital -- and so is arranging struct members to minimize
-//    compiler-inserted padding. It's easier to deal with this when you can
-//    see these types' widths at a glance.
+//  - The game stores one contiguous save image. Explicit-width fields make
+//    the image size and compiler-inserted alignment predictable.
 //
 // Accordingly, this file generally doesn't contain just single types, but
 // rather families of types. For example, Region Map Sections are saved as
@@ -55,13 +45,12 @@ typedef s16 mapsec_s16_t;
 typedef s32 mapsec_s32_t;
 
 // Met Locations for caught Pokemon use the same values as Map Sections,
-// except that 0xFD, 0xFE, and 0xFF have special meanings.
+// except that 0xFD and 0xFE have special meanings.
 //
 // Because this value appears inside every Pokemon's data, widening it will
-// consume a lot more space within flash memory. The space usage will be
-// greater than you expect due to how Pokemon substructs are laid out; you
-// would have to rearrange the substructs' contents in order to minimize
-// how much more space a wider Met Location would consume.
+// consume more flash space. Account for alignment in PokemonData and
+// BoxPokemon when changing it; PC pages and trade journals store the direct
+// BoxPokemon layout, so a size change also requires a save-format update.
 typedef mapsec_u8_t metloc_u8_t;
 
 #endif //GUARD_GAMETYPES_H

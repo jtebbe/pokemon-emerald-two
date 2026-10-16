@@ -1,5 +1,4 @@
 #include "global.h"
-#include "braille_puzzles.h"
 #include "decompress.h"
 #include "event_data.h"
 #include "event_scripts.h"
@@ -49,7 +48,6 @@ static const struct FlashStruct sTransitionTypes[] =
     {MAP_TYPE_OCEAN_ROUTE, MAP_TYPE_UNDERGROUND,  TRUE, FALSE, DoEnterCaveTransition},
     {MAP_TYPE_UNKNOWN,     MAP_TYPE_UNDERGROUND,  TRUE, FALSE, DoEnterCaveTransition},
     {MAP_TYPE_INDOOR,      MAP_TYPE_UNDERGROUND,  TRUE, FALSE, DoEnterCaveTransition},
-    {MAP_TYPE_SECRET_BASE, MAP_TYPE_UNDERGROUND,  TRUE, FALSE, DoEnterCaveTransition},
     {MAP_TYPE_UNDERGROUND, MAP_TYPE_TOWN,        FALSE,  TRUE, DoExitCaveTransition},
     {MAP_TYPE_UNDERGROUND, MAP_TYPE_CITY,        FALSE,  TRUE, DoExitCaveTransition},
     {MAP_TYPE_UNDERGROUND, MAP_TYPE_ROUTE,       FALSE,  TRUE, DoExitCaveTransition},
@@ -57,7 +55,6 @@ static const struct FlashStruct sTransitionTypes[] =
     {MAP_TYPE_UNDERGROUND, MAP_TYPE_OCEAN_ROUTE, FALSE,  TRUE, DoExitCaveTransition},
     {MAP_TYPE_UNDERGROUND, MAP_TYPE_UNKNOWN,     FALSE,  TRUE, DoExitCaveTransition},
     {MAP_TYPE_UNDERGROUND, MAP_TYPE_INDOOR,      FALSE,  TRUE, DoExitCaveTransition},
-    {MAP_TYPE_UNDERGROUND, MAP_TYPE_SECRET_BASE, FALSE,  TRUE, DoExitCaveTransition},
     {},
 };
 
@@ -73,18 +70,13 @@ bool32 SetUpFieldMove_Flash(void)
 {
     // In Ruby and Sapphire, Registeel's tomb is opened by using Fly. In Emerald,
     // Flash is used instead.
-    if (ShouldDoBrailleRegisteelEffect())
     {
-        gSpecialVar_Result = GetCursorSelectionMonId();
-        gFieldCallback2 = FieldCallback_PrepareFadeInFromMenu;
-        gPostMenuFieldCallback = SetUpPuzzleEffectRegisteel;
-        return TRUE;
-    }
-    else if (gMapHeader.cave == TRUE && !FlagGet(FLAG_SYS_USE_FLASH))
-    {
-        gFieldCallback2 = FieldCallback_PrepareFadeInFromMenu;
-        gPostMenuFieldCallback = FieldCallback_Flash;
-        return TRUE;
+        if (gMapHeader.cave == TRUE && !FlagGet(FLAG_SYS_USE_FLASH))
+        {
+            gFieldCallback2 = FieldCallback_PrepareFadeInFromMenu;
+            gPostMenuFieldCallback = FieldCallback_Flash;
+            return TRUE;
+        }
     }
 
     return FALSE;

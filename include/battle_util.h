@@ -17,7 +17,6 @@ struct DamageContext
 
     enum Move move;
     enum Move chosenMove; // For Trump Card and Me First
-    enum Move baseMove; // For z-moves and dynamax-moves
     enum Type moveType;
 
     uq4_12_t typeEffectivenessModifier;
@@ -67,7 +66,7 @@ bool32 TryRunFromBattle(enum BattlerId battler);
 void HandleAction_Run(void);
 void HandleAction_WatchesCarefully(void);
 void HandleAction_SafariZoneBallThrow(void);
-void HandleAction_ThrowPokeblock(void);
+void HandleAction_ThrowBait(void);
 void HandleAction_GoNear(void);
 void HandleAction_SafariZoneRun(void);
 void HandleAction_WallyBallThrow(void);
@@ -160,12 +159,9 @@ void UpdateMoveResultFlags(uq4_12_t modifier, u32 *resultFlags);
 s32 GetStealthHazardDamage(enum TypeSideHazard hazardType, enum BattlerId battler);
 s32 GetStealthHazardDamageByTypesAndHP(enum TypeSideHazard hazardType, enum Type type1, enum Type type2, u32 maxHp);
 bool32 CanMegaEvolve(enum BattlerId battler);
-bool32 CanUltraBurst(enum BattlerId battler);
 void ActivateMegaEvolution(enum BattlerId battler);
-void ActivateUltraBurst(enum BattlerId battler);
 bool32 IsBattlerMegaEvolved(enum BattlerId battler);
 bool32 IsBattlerPrimalReverted(enum BattlerId battler);
-bool32 IsBattlerUltraBursted(enum BattlerId battler);
 enum Species GetBattleFormChangeTargetSpecies(enum BattlerId battler, enum FormChanges method, enum Ability ability);
 bool32 TryRevertPartyMonFormChange(enum PartyMon partyIndex);
 bool32 TryBattleFormChange(enum BattlerId battler, enum FormChanges method, enum Ability ability);
@@ -214,7 +210,7 @@ enum MoveTarget GetBattlerMoveTargetType(enum BattlerId battler, enum Move move)
 bool32 CanTargetBattler(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum Move move);
 void CopyMonLevelAndBaseStatsToBattleMon(enum BattlerId battler, struct Pokemon *mon, bool32 updateSpeedStat);
 void CopyMonAbilityAndTypesToBattleMon(enum BattlerId battler, struct Pokemon *mon);
-void RecalcBattlerStats(enum BattlerId battler, struct Pokemon *mon, bool32 isDynamaxing);
+void RecalcBattlerStats(enum BattlerId battler, struct Pokemon *mon);
 bool32 IsGen6ExpShareEnabled(void);
 bool32 MoveHasAdditionalEffect(enum Move move, enum MoveEffect moveEffect);
 bool32 MoveHasAdditionalEffectOnSide(enum Move move, enum MoveEffect moveEffect);
@@ -246,7 +242,6 @@ bool32 CanBeFrozen(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum Ab
 bool32 CanSetNonVolatileStatus(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum Ability abilityAtk, enum Ability abilityDef, enum MoveEffect secondaryMoveEffect, enum ResultOption option);
 bool32 CanBeConfused(enum BattlerId battlerAtk, enum BattlerId effectBattler);
 bool32 IsSafeguardProtected(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum Ability abilityAtk);
-u32 GetBattlerAffectionHearts(enum BattlerId battler);
 void TryToRevertMimicryAndFlags(void);
 u32 CountBattlerStatIncreases(enum BattlerId battler, bool32 countEvasionAcc);
 bool32 BattlerHasCopyableChanges(enum BattlerId battler);

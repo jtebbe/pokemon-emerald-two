@@ -2,7 +2,6 @@
 #include "config_changes.h"
 #include "malloc.h"
 #include "constants/config_changes.h"
-#include "config/pokerus.h"
 #include "config/ai.h"
 
 #define UNPACK_BATTLE_CONFIG_GEN_CHANGES(_name, _field, ...) ._field = _name,

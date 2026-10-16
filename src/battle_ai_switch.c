@@ -114,7 +114,7 @@ static u32 GetWishHealAmountForBattler(enum BattlerId battler)
     }
     else
     {
-        wishHeal = GetNonDynamaxMaxHP(battler) / 2;
+        wishHeal = GetBattlerMaxHP(battler) / 2;
     }
 
     return wishHeal;
@@ -136,13 +136,6 @@ static void GetIncomingHealInfo(enum BattlerId battler, struct IncomingHealInfo 
         healInfo->hasHealing = TRUE;
         healInfo->healBeforeHazards = TRUE;
         healInfo->curesStatus = TRUE;
-    }
-
-    // Z-Parting Shot / Z-Memento heal after hazards on switch-in
-    if (gBattleStruct->zmove.healReplacement)
-    {
-        healInfo->hasHealing = TRUE;
-        healInfo->healAfterHazards = TRUE;
     }
 
     // Wish heals at end of turn
@@ -496,7 +489,7 @@ static bool32 ShouldSwitchIfAllMovesBad(struct SwitchAiContext *switchContext)
         enum BattlerId opposingPartner = GetPartnerBattler(switchContext->opposingBattler);
         for (u32 moveIndex = 0; moveIndex < MAX_MON_MOVES; moveIndex++)
         {
-            ctx.move = ctx.chosenMove = ctx.baseMove = gBattleMons[switchContext->battler].moves[moveIndex];
+            ctx.move = ctx.chosenMove = gBattleMons[switchContext->battler].moves[moveIndex];
             ctx.moveType = GetBattleMoveType(ctx.move);
             // Check if move is bad in the context of both opposing battlers
             if (!IsMoveBad(&ctx, moveIndex))
@@ -520,7 +513,7 @@ static bool32 ShouldSwitchIfAllMovesBad(struct SwitchAiContext *switchContext)
     {
         for (u32 moveIndex = 0; moveIndex < MAX_MON_MOVES; moveIndex++)
         {
-            ctx.move = ctx.chosenMove = ctx.baseMove = gBattleMons[switchContext->battler].moves[moveIndex];
+            ctx.move = ctx.chosenMove = gBattleMons[switchContext->battler].moves[moveIndex];
             ctx.moveType = GetBattleMoveType(ctx.move);
             if (!IsMoveBad(&ctx, moveIndex))
                 return FALSE;
@@ -581,8 +574,6 @@ static bool32 FindMonThatAbsorbsOpponentsMove(struct SwitchAiContext *switchCont
         incomingType = GetMoveType(switchContext->incomingMove);
 
     if (!(gAiThinkingStruct->aiFlags[switchContext->battler] & AI_FLAG_SMART_SWITCHING))
-        return FALSE;
-    if (GetMoveEffect(switchContext->incomingMove) == EFFECT_HIDDEN_POWER && RandomPercentage(RNG_AI_SWITCH_ABSORBING_HIDDEN_POWER, SHOULD_SWITCH_ABSORBS_HIDDEN_POWER_PERCENTAGE))
         return FALSE;
     if (gBattleStruct->prevTurnSpecies[switchContext->battler] != gBattleMons[switchContext->battler].species && !(gAiThinkingStruct->aiFlags[switchContext->battler] & AI_FLAG_PREDICT_MOVE)) // AI mon has changed, player's behaviour no longer reliable; override this if using AI_FLAG_PREDICT_MOVE
         return FALSE;
@@ -852,13 +843,12 @@ static bool32 CanPalafinZeroSafelyUseHitEscape(enum BattlerId battlerAtk, enum M
     struct DamageContext ctx = {0};
     ctx.aiCalc = TRUE;
     ctx.battlerAtk = battlerAtk;
-    ctx.move = ctx.chosenMove = ctx.baseMove = move;
+    ctx.move = ctx.chosenMove = move;
     ctx.moveType = moveType;
     ctx.weather = GetWeather();
     ctx.terrain = gFieldTimers.terrain; // Curr terrain check
     ctx.holdEffects[ctx.battlerAtk] = gAiLogicData->holdEffects[battlerAtk];
     ctx.abilities[ctx.battlerAtk] = gAiLogicData->abilities[battlerAtk];
-
 
     for (enum BattlerId battlerDef = 0; battlerDef < gBattlersCount; battlerDef++)
     {
@@ -1195,7 +1185,7 @@ static bool32 ShouldSwitchIfBadChoiceLock(struct SwitchAiContext *switchContext)
     struct DamageContext ctx = {0};
     ctx.battlerAtk = switchContext->battler;
     ctx.battlerDef = switchContext->opposingBattler;
-    ctx.move = ctx.chosenMove = ctx.baseMove = choicedMove;
+    ctx.move = ctx.chosenMove = choicedMove;
     ctx.moveType = GetBattleMoveType(choicedMove);
     ctx.abilities[ctx.battlerAtk] = gAiLogicData->abilities[ctx.battlerAtk];
     ctx.abilities[ctx.battlerDef] = gAiLogicData->abilities[ctx.battlerDef];
@@ -1314,8 +1304,6 @@ static bool32 CanBattlerConsiderSwitch(enum BattlerId battler)
     if (IsAbilityPreventingEscape(battler))
         return FALSE;
     if (gBattleStruct->battlerState[battler].commanderSpecies)
-        return FALSE;
-    if (gBattleTypeFlags & BATTLE_TYPE_ARENA)
         return FALSE;
     return TRUE;
 }
@@ -1642,9 +1630,6 @@ static u32 GetSwitchinHazardsDamage(enum BattlerId battler)
         // Stealth Rock
         if (IsHazardOnSide(side, HAZARDS_STEALTH_ROCK) && heldItemEffect != HOLD_EFFECT_HEAVY_DUTY_BOOTS)
             hazardDamage += GetStealthHazardDamage(TYPE_SIDE_HAZARD_POINTED_STONES, battler);
-        // G-Max Steelsurge
-        if (IsHazardOnSide(side, HAZARDS_STEELSURGE) && heldItemEffect != HOLD_EFFECT_HEAVY_DUTY_BOOTS)
-            hazardDamage += GetStealthHazardDamage(TYPE_SIDE_HAZARD_SHARP_STEEL, battler);
         // Spikes
         if (IsHazardOnSide(side, HAZARDS_SPIKES) && AI_IsBattlerGrounded(battler))
         {
@@ -2614,8 +2599,6 @@ enum PartyMon GetMostSuitableMonToSwitchInto(enum BattlerId battler, enum Switch
 
     if (gBattleStruct->monToSwitchIntoId[battler] != PARTY_MON_NONE)
         return gBattleStruct->monToSwitchIntoId[battler];
-    if (gBattleTypeFlags & BATTLE_TYPE_ARENA)
-        return (enum PartyMon)(gBattlerPartyIndexes[battler] + 1);
 
     opposingBattler = GetActiveBattlerIds(battler, &battlerIn1, &battlerIn2);
     party = GetBattlerParty(battler);

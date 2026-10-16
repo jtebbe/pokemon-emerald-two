@@ -570,7 +570,7 @@ AI_DOUBLE_BATTLE_TEST("AI sees type-changing moves as the correct type")
         AI_FLAGS(aiFlags);
         PLAYER(SPECIES_WOBBUFFET);
         PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_WOBBUFFET) { Moves(fieldStatus, MOVE_RETURN, MOVE_TAUNT); }
+        OPPONENT(SPECIES_WOBBUFFET) { Moves(fieldStatus, MOVE_BODY_SLAM, MOVE_TAUNT); }
         OPPONENT(species) { Ability(ability); Moves(MOVE_HYPER_VOICE); }
     } WHEN {
         if (ability != ABILITY_NONE)

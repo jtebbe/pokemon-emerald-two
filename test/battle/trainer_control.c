@@ -33,25 +33,9 @@ TEST("CreateNPCTrainerPartyForTrainer generates customized Pokémon")
     EXPECT(GetMonAbility(&testParty[1]) == ABILITY_SHADOW_TAG);
     EXPECT(GetMonAbility(&testParty[2]) == ABILITY_SHADOW_TAG);
 
-    EXPECT(GetMonData(&testParty[0], MON_DATA_FRIENDSHIP, 0) == 42);
-    EXPECT(GetMonData(&testParty[1], MON_DATA_FRIENDSHIP, 0) == 0);
 
     EXPECT(GetMonData(&testParty[0], MON_DATA_HELD_ITEM, 0) == ITEM_ASSAULT_VEST);
     EXPECT(GetMonData(&testParty[1], MON_DATA_HELD_ITEM, 0) == ITEM_NONE);
-
-    EXPECT(GetMonData(&testParty[0], MON_DATA_HP_IV, 0) == 25);
-    EXPECT(GetMonData(&testParty[0], MON_DATA_ATK_IV, 0) == 26);
-    EXPECT(GetMonData(&testParty[0], MON_DATA_DEF_IV, 0) == 27);
-    EXPECT(GetMonData(&testParty[0], MON_DATA_SPEED_IV, 0) == 28);
-    EXPECT(GetMonData(&testParty[0], MON_DATA_SPATK_IV, 0) == 29);
-    EXPECT(GetMonData(&testParty[0], MON_DATA_SPDEF_IV, 0) == 30);
-
-    EXPECT(GetMonData(&testParty[1], MON_DATA_HP_IV, 0) == 0);
-    EXPECT(GetMonData(&testParty[1], MON_DATA_ATK_IV, 0) == 0);
-    EXPECT(GetMonData(&testParty[1], MON_DATA_DEF_IV, 0) == 0);
-    EXPECT(GetMonData(&testParty[1], MON_DATA_SPEED_IV, 0) == 0);
-    EXPECT(GetMonData(&testParty[1], MON_DATA_SPATK_IV, 0) == 0);
-    EXPECT(GetMonData(&testParty[1], MON_DATA_SPDEF_IV, 0) == 0);
 
     EXPECT(GetMonData(&testParty[0], MON_DATA_HP_EV, 0) == 252);
     EXPECT(GetMonData(&testParty[0], MON_DATA_ATK_EV, 0) == 0);
@@ -84,10 +68,6 @@ TEST("CreateNPCTrainerPartyForTrainer generates customized Pokémon")
     EXPECT(GetMonGender(&testParty[0]) == MON_FEMALE);
     EXPECT(GetNature(&testParty[0]) == NATURE_HASTY);
     EXPECT(GetNature(&testParty[1]) == NATURE_HARDY);
-
-    EXPECT_EQ(GetMonData(&testParty[0], MON_DATA_DYNAMAX_LEVEL), 5);
-    EXPECT_EQ(GetMonData(&testParty[1], MON_DATA_DYNAMAX_LEVEL), 10);
-    EXPECT_EQ(GetMonData(&testParty[2], MON_DATA_DYNAMAX_LEVEL), BLOCK_AI_DYNAMAX);
 
     EXPECT_EQ(GetMonData(&testParty[0], MON_DATA_TERA_TYPE), TYPE_MYSTERY);
     EXPECT_EQ(GetMonData(&testParty[2], MON_DATA_TERA_TYPE), TYPE_WATER);

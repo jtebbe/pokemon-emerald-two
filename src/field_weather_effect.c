@@ -2509,26 +2509,21 @@ static void CreateAbnormalWeatherTask(void)
 #undef tDelay
 
 static enum OverworldWeather TranslateWeatherNum(enum OverworldWeather weather);
-static void UpdateRainCounter(u8, u8);
 static u8 GetDynamicWeather(void);
 
 void SetSavedWeather(enum OverworldWeather weather)
 {
-    u8 oldWeather = gSaveBlock1Ptr->weather;
-    gSaveBlock1Ptr->weather = TranslateWeatherNum(weather);
-    UpdateRainCounter(gSaveBlock1Ptr->weather, oldWeather);
+    gSaveData.weather = TranslateWeatherNum(weather);
 }
 
 u8 GetSavedWeather(void)
 {
-    return gSaveBlock1Ptr->weather;
+    return gSaveData.weather;
 }
 
 void SetSavedWeatherFromCurrMapHeader(void)
 {
-    enum OverworldWeather oldWeather = gSaveBlock1Ptr->weather;
-    gSaveBlock1Ptr->weather = TranslateWeatherNum(gMapHeader.weather);
-    UpdateRainCounter(gSaveBlock1Ptr->weather, oldWeather);
+    gSaveData.weather = TranslateWeatherNum(gMapHeader.weather);
 }
 
 void SetWeather(enum OverworldWeather weather)
@@ -2648,9 +2643,9 @@ static u8 GetDynamicWeather(void)
     rng_value_t localRngState;
     const u32 hashPieces[] =
     {
-        gSaveBlock1Ptr->dailySeed,
-        gSaveBlock1Ptr->location.mapGroup,
-        gSaveBlock1Ptr->location.mapNum,
+        gSaveData.dailySeed,
+        gSaveData.location.mapGroup,
+        gSaveData.location.mapNum,
         gMapHeader.mapLayoutId,
         gMapHeader.regionMapSectionId,
     };
@@ -2684,8 +2679,8 @@ static enum OverworldWeather TranslateWeatherNum(enum OverworldWeather weather)
     case WEATHER_DOWNPOUR:           return WEATHER_DOWNPOUR;
     case WEATHER_UNDERWATER_BUBBLES: return WEATHER_UNDERWATER_BUBBLES;
     case WEATHER_ABNORMAL:           return WEATHER_ABNORMAL;
-    case WEATHER_ROUTE119_CYCLE:     return sWeatherCycleRoute119[gSaveBlock1Ptr->weatherCycleStage];
-    case WEATHER_ROUTE123_CYCLE:     return sWeatherCycleRoute123[gSaveBlock1Ptr->weatherCycleStage];
+    case WEATHER_ROUTE119_CYCLE:     return sWeatherCycleRoute119[gSaveData.weatherCycleStage];
+    case WEATHER_ROUTE123_CYCLE:     return sWeatherCycleRoute123[gSaveData.weatherCycleStage];
     case WEATHER_DYNAMIC:            return GetDynamicWeather();
     }
 
@@ -2694,14 +2689,7 @@ static enum OverworldWeather TranslateWeatherNum(enum OverworldWeather weather)
 
 void UpdateWeatherPerDay(u16 increment)
 {
-    u16 weatherStage = gSaveBlock1Ptr->weatherCycleStage + increment;
+    u16 weatherStage = gSaveData.weatherCycleStage + increment;
     weatherStage %= WEATHER_CYCLE_LENGTH;
-    gSaveBlock1Ptr->weatherCycleStage = weatherStage;
-}
-
-static void UpdateRainCounter(u8 newWeather, u8 oldWeather)
-{
-    if (newWeather != oldWeather
-     && (newWeather == WEATHER_RAIN || newWeather == WEATHER_RAIN_THUNDERSTORM))
-        IncrementGameStat(GAME_STAT_GOT_RAINED_ON);
+    gSaveData.weatherCycleStage = weatherStage;
 }

@@ -93,8 +93,9 @@ SINGLE_BATTLE_TEST("(TERA) Terastallizing boosts moves of the same type to 60 BP
     PARAMETRIZE { tera = GIMMICK_TERA; }
     GIVEN {
         ASSUME(GetMovePower(MOVE_ABSORB) == 20);
-        PLAYER(SPECIES_WOBBUFFET) { TeraType(TYPE_GRASS); }
-        OPPONENT(SPECIES_WOBBUFFET);
+        // Keep fixed damage-formula rounding small relative to the power boost.
+        PLAYER(SPECIES_WOBBUFFET) { SpAttack(400); TeraType(TYPE_GRASS); }
+        OPPONENT(SPECIES_WOBBUFFET) { SpDefense(100); HP(1000); MaxHP(1000); }
     } WHEN {
         TURN { MOVE(player, MOVE_ABSORB, gimmick: tera); }
     } SCENE {

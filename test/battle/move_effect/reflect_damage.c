@@ -295,8 +295,39 @@ SINGLE_BATTLE_TEST("Reflect Damage moves can hit Pokémon immune to their type (
 }
 TO_DO_BATTLE_TEST("Reflect Damage: Counter can return damage dealt to a substitute (Gen 1)");
 
-// Gen 2-3
-TO_DO_BATTLE_TEST("Reflect Damage: Counter can counter Hidden Power regardless of type (Gen 2-3)");
+SINGLE_BATTLE_TEST("Reflect Damage: fixed special Psychic Hidden Power is reflected by Mirror Coat, not Counter")
+{
+    enum Move reflectMove;
+    s16 damage;
+    s16 reflectedDamage;
+    PARAMETRIZE { reflectMove = MOVE_COUNTER; }
+    PARAMETRIZE { reflectMove = MOVE_MIRROR_COAT; }
+
+    GIVEN {
+        ASSUME(GetMoveType(MOVE_HIDDEN_POWER) == TYPE_PSYCHIC);
+        ASSUME(GetMoveCategory(MOVE_HIDDEN_POWER) == DAMAGE_CATEGORY_SPECIAL);
+        ASSUME(GetMovePower(MOVE_HIDDEN_POWER) == 60);
+        PLAYER(SPECIES_WOBBUFFET) { MaxHP(1000); HP(1000); }
+        OPPONENT(SPECIES_WOBBUFFET) { MaxHP(1000); HP(1000); }
+    } WHEN {
+        TURN { MOVE(opponent, MOVE_HIDDEN_POWER); MOVE(player, reflectMove); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_HIDDEN_POWER, opponent);
+        HP_BAR(player, captureDamage: &damage);
+        if (reflectMove == MOVE_COUNTER) {
+            NOT ANIMATION(ANIM_TYPE_MOVE, MOVE_COUNTER, player);
+            MESSAGE("But it failed!");
+        } else {
+            ANIMATION(ANIM_TYPE_MOVE, MOVE_MIRROR_COAT, player);
+            HP_BAR(opponent, captureDamage: &reflectedDamage);
+        }
+    } THEN {
+        if (reflectMove == MOVE_COUNTER)
+            EXPECT_EQ(opponent->hp, opponent->maxHP);
+        else
+            EXPECT_EQ(reflectedDamage, 2 * damage);
+    }
+}
 
 // Gen 2+
 TO_DO_BATTLE_TEST("Reflect Damage: Counter can only counter physical moves (Gen 2+)");

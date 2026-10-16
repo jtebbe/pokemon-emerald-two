@@ -10,6 +10,7 @@ using std::string;
 using std::vector;
 
 #include <algorithm>
+#include <cctype>
 using std::sort; using std::find;
 
 #include <map>
@@ -153,6 +154,8 @@ string generate_map_header_text(Json map_data, Json layouts_data) {
 
     if (map_data.object_items().find("shared_scripts_map") != map_data.object_items().end())
         text << "\t.4byte " << json_to_string(map_data, "shared_scripts_map") << "_MapScripts\n";
+    else if (map_data["scripts"].is_bool() && !map_data["scripts"].bool_value())
+        text << "\t.4byte NULL\n";
     else
         text << "\t.4byte " << mapName << "_MapScripts\n";
 
@@ -368,14 +371,8 @@ string generate_map_events_text(Json map_data) {
                      << quantity << ", "
                      << underfoot << "\n";
             }
-            else if (type == "secret_base") {
-                text << "\tbg_secret_base_event "
-                     << json_to_string(bg_event, "x") << ", "
-                     << json_to_string(bg_event, "y") << ", "
-                     << json_to_string(bg_event, "elevation") << ", "
-                     << json_to_string(bg_event, "secret_base_id") << "\n";
-            } else {
-                FATAL_ERROR("Unknown bg event type '%s'. Expected 'sign', 'hidden_item', or 'secret_base'.\n", type.c_str());
+            else {
+                FATAL_ERROR("Unknown bg event type '%s'. Expected 'sign' or 'hidden_item'.\n", type.c_str());
             }
         }
         text << "\n";
@@ -591,17 +588,6 @@ string generate_events_text(Json groups_data, vector<string> &invalid_maps, stri
     return text.str();
 }
 
-Json parse_required_map_defines(void) {
-    string json_err;
-
-    string json_text = read_text_file("tools/mapjson/required_map_defines.json");
-
-    Json json_data = Json::parse(json_text, json_err);
-    if (json_data == Json())
-        FATAL_ERROR("%s\n", json_err.c_str());
-    return json_data;
-}
-
 string generate_map_constants_text(string groups_filepath, Json groups_data, vector<string> &valid_map_ids) {
     string file_dir = file_parent(groups_filepath) + sep;
 
@@ -620,6 +606,10 @@ string generate_map_constants_text(string groups_filepath, Json groups_data, vec
     for (auto &group : groups_data["group_order"].array_items()) {
         string groupName = json_to_string(group);
         text << "    // " << groupName << "\n";
+        string groupConstant = groupName.substr(string("gMapGroup_").size());
+        std::transform(groupConstant.begin(), groupConstant.end(), groupConstant.begin(),
+            [](unsigned char c) { return std::toupper(c); });
+        text << "    MAP_GROUP_" << groupConstant << " = " << group_num << ",\n";
         vector<string> map_ids;
         size_t max_length = 0;
 
@@ -653,34 +643,6 @@ string generate_map_constants_text(string groups_filepath, Json groups_data, vec
 
     text << "};\n\n";
 
-    text << "//Constants for unused maps\n";
-    int map_id_num = 0;
-    int old_map_group = -1;
-    Json required_map_defines = parse_required_map_defines();
-    map <int, string> filtered_map_defines;
-    size_t max_length = 0;
-    for (auto required_map_id : required_map_defines["required_maps"].array_items()) {
-        string map_id = json_to_string(required_map_id[0]);
-        auto it = find(valid_map_ids.begin(), valid_map_ids.end(), map_id);
-        int current_map_group = required_map_id[1].int_value();
-        if (old_map_group != current_map_group) {
-            map_id_num = 0;
-        } else {
-            map_id_num++;
-        }
-        if (it == valid_map_ids.end()) {
-            filtered_map_defines[(map_id_num + 256 * current_map_group)] = map_id;
-            if (map_id.length() > max_length)
-                max_length = map_id.length();
-        }
-        old_map_group = current_map_group;
-    }
-
-    for ( const auto &[map_value, map_id]: filtered_map_defines) {
-        text << "#define " << map_id << string(max_length - map_id.length(), ' ')
-             << "  " << map_value << "\n";
-    }
-
     text << "\n#define MAP_GROUPS_COUNT " << group_num << "\n\n";
     text << get_include_guard_end(guard_name);
 
@@ -693,34 +655,6 @@ string generate_map_constants_text(string groups_filepath, Json groups_data, vec
     write_text_file(file_dir + ".." + s + ".." + s + "src" + s + "data" + s + "map_group_count.h", mapCountText.str());
 
     return text.str();
-}
-
-void clean_heal_locations(vector<string> &valid_map_ids)
-{
-    std::stringstream new_json;
-    std::ifstream infile("src/data/heal_locations.json");
-    bool deleted_flag = false;
-
-    std::regex map_regex("\"respawn_map\"\\s*:\\s*\"(MAP_\\w+)\"");
-    std::regex npc_regex("LOCALID_\\w+");
-    std::smatch map_match;
-    string line;
-    while (std::getline(infile, line))
-    {
-        if (std::regex_search(line, map_match, map_regex) && !deleted_flag) {
-            auto it = find(valid_map_ids.begin(), valid_map_ids.end(), map_match[1]);
-            if (it == valid_map_ids.end())
-                deleted_flag = true;
-        }
-        if (deleted_flag && std::regex_search(line, npc_regex)) {
-            deleted_flag = false;
-            new_json << std::regex_replace(line, npc_regex, "0") << "\n";
-        } else {
-            new_json << line << "\n";
-        }
-    }
-
-    write_text_file("src/data/heal_locations.json", new_json.str());
 }
 
 // Output paths are directories with trailing path separators
@@ -765,7 +699,6 @@ void process_groups(string groups_filepath, vector<string> &map_filepaths, strin
     string events_text = generate_events_text(groups_data, invalid_maps, output_asm);
     string map_header_text = generate_map_constants_text(groups_filepath, groups_data, valid_map_ids);
 
-    clean_heal_locations(valid_map_ids);
     write_text_file(output_asm + sep + "groups.inc", groups_text);
     write_text_file(output_asm + sep + "connections.inc", connections_text);
     write_text_file(output_asm + sep + "headers.inc", headers_text);
@@ -860,23 +793,6 @@ string generate_layouts_table_text(Json layouts_data) {
     return text.str();
 }
 
-vector<string> parse_required_layout_defines()
-{
-    vector<string> v;
-    string json_err;
-
-    string json_text = read_text_file("tools/mapjson/required_map_defines.json");
-
-    Json json_data = Json::parse(json_text, json_err);
-    if (json_data == Json())
-        FATAL_ERROR("%s\n", json_err.c_str());
-
-    for (auto required_layout : json_data["required_layouts"].array_items()) {
-        v.push_back(json_to_string(required_layout));
-    }
-
-    return v;
-}
 string generate_layouts_constants_text(Json layouts_data) {
     string guard_name = "CONSTANTS_LAYOUTS";
     ostringstream text;
@@ -895,23 +811,6 @@ string generate_layouts_constants_text(Json layouts_data) {
         i++;
     }
 
-    text << "\n//Constants for unused layouts\n";
-    vector<string> required_layout_defines = parse_required_layout_defines();
-    vector<string> filtered_layout_defines;
-    size_t max_length = 0;
-    for (auto &layout : required_layout_defines) {
-        auto it = find(defined_layouts.begin(), defined_layouts.end(), layout);
-        if (it == defined_layouts.end()) {
-            filtered_layout_defines.push_back(layout);
-            if (layout.length() > max_length)
-                max_length = layout.length();
-        }
-    }
-
-    for (auto &layout : filtered_layout_defines) {
-        text << "#define " << layout << string(max_length - layout.length(), ' ')
-             << "  0xFFFF\n";
-    }
     text << "\n" << get_include_guard_end(guard_name);
 
     return text.str();

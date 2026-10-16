@@ -4,7 +4,6 @@
 #include "pokemon.h"
 #include "battle_controllers.h"
 #include "battle_interface.h"
-#include "battle_z_move.h"
 #include "graphics.h"
 #include "sprite.h"
 #include "window.h"
@@ -944,7 +943,6 @@ static void PrintHpOnHealthbox(u32 spriteId, s16 currHp, s16 maxHp, u32 bgColor,
     gSprites[spriteId2].data[1] = savedValue2;
 }
 
-
 static void PrintHPPercentageOnHealthbox(u32 spriteId, s16 currHp, s16 maxHp, u32 bgColor, s8 xOffset, s8 yOffset)
 {
     u32 width;
@@ -980,7 +978,6 @@ static void PrintHPPercentageOnHealthbox(u32 spriteId, s16 currHp, s16 maxHp, u3
     gSprites[spriteId].data[1] = savedValue1;
     gSprites[spriteId2].data[1] = savedValue2;
 }
-
 
 // Note: this is only possible to trigger via debug, it was an unused GF function.
 UNUSED static void UpdateOpponentHpTextDoubles(u32 healthboxSpriteId, u32 barSpriteId, s16 value, u8 maxOrCurrent)
@@ -1152,7 +1149,7 @@ static void UpdateHpTextInHealthboxInDoubles(u32 healthboxSpriteId, u32 maxOrCur
     }
 }
 
-// Prints mon's nature, catch and flee rate. Probably used to test pokeblock-related features.
+// Prints the wild Pokemon's nature, catch rate, and flee rate for debugging.
 UNUSED static void PrintSafariMonInfo(u8 healthboxSpriteId, struct Pokemon *mon)
 {
     u8 text[23];
@@ -1443,15 +1440,12 @@ u8 CreatePartyStatusSummarySprites(enum BattlerId battler, struct HpAndStatus *p
                     // fainted mon
                     gSprites[ballIconSpritesIds[i]].oam.tileNum += 3;
                 }
-                else if (gBattleTypeFlags & BATTLE_TYPE_ARENA && gBattleStruct->arenaLostPlayerMons & (1u << j))
-                {
-                    // fainted arena mon
-                    gSprites[ballIconSpritesIds[i]].oam.tileNum += 3;
-                }
-                else if (partyInfo[j].status != 0)
-                {
-                    // mon with primary status
-                    gSprites[ballIconSpritesIds[i]].oam.tileNum += 2;
+                else {
+                    if (partyInfo[j].status != 0)
+                    {
+                        // mon with primary status
+                        gSprites[ballIconSpritesIds[i]].oam.tileNum += 2;
+                    }
                 }
                 i++;
             }
@@ -1499,15 +1493,12 @@ u8 CreatePartyStatusSummarySprites(enum BattlerId battler, struct HpAndStatus *p
                      // fainted mon
                     gSprites[ballIconSpritesIds[PARTY_SIZE - 1 - var]].oam.tileNum += 3;
                 }
-                else if (gBattleTypeFlags & BATTLE_TYPE_ARENA && gBattleStruct->arenaLostOpponentMons & (1u << j))
-                {
-                     // fainted arena mon
-                    gSprites[ballIconSpritesIds[PARTY_SIZE - 1 - var]].oam.tileNum += 3;
-                }
-                else if (partyInfo[j].status != 0)
-                {
-                     // mon with primary status
-                    gSprites[ballIconSpritesIds[PARTY_SIZE - 1 - var]].oam.tileNum += 2;
+                else {
+                    if (partyInfo[j].status != 0)
+                    {
+                         // mon with primary status
+                        gSprites[ballIconSpritesIds[PARTY_SIZE - 1 - var]].oam.tileNum += 2;
+                    }
                 }
                 var++;
             }
@@ -2051,7 +2042,6 @@ static void UpdateLeftNoOfBallsTextOnHealthbox(u8 healthboxSpriteId)
     s16 savedValue2 = gSprites[healthboxSpriteId2].data[1];
     gSprites[healthboxSpriteId].data[1] = healthboxSpriteId2;
     gSprites[healthboxSpriteId2].data[1] = SPRITE_NONE;
-
 
     txtPtr = StringCopy(text, gText_SafariBallLeft);
     ConvertIntToDecimalStringN(txtPtr, gNumSafariBalls, STR_CONV_MODE_LEFT_ALIGN, 2);
@@ -2985,7 +2975,7 @@ bool32 CanThrowLastUsedBall(void)
         return FALSE;
     if (!CanThrowBall())
         return FALSE;
-    if (gBattleTypeFlags & (BATTLE_TYPE_TRAINER | BATTLE_TYPE_FRONTIER))
+    if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
         return FALSE;
     if (!CheckBagHasItem(gBallToDisplay, 1))
         return FALSE;
@@ -3069,7 +3059,7 @@ void TryToAddMoveInfoWindow(void)
     if (!B_SHOW_MOVE_DESCRIPTION)
         return;
 
-    if (B_MOVE_DESCRIPTION_BUTTON == L_BUTTON && gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_L_EQUALS_A)
+    if (B_MOVE_DESCRIPTION_BUTTON == L_BUTTON && gSaveData.optionsButtonMode == OPTIONS_BUTTON_MODE_L_EQUALS_A)
         return;
 
     LoadSpritePalette(&sSpritePalette_AbilityPopUp);
@@ -3181,7 +3171,7 @@ static void TryHideOrRestoreLastUsedBall(u8 caseId)
 
 void TryHideLastUsedBall(void)
 {
-    if (B_LAST_USED_BALL_BUTTON == L_BUTTON && gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_L_EQUALS_A)
+    if (B_LAST_USED_BALL_BUTTON == L_BUTTON && gSaveData.optionsButtonMode == OPTIONS_BUTTON_MODE_L_EQUALS_A)
         return;
 
     if (B_LAST_USED_BALL == TRUE)
@@ -3193,7 +3183,7 @@ void TryRestoreLastUsedBall(void)
     if (B_LAST_USED_BALL == FALSE)
         return;
 
-    if (B_LAST_USED_BALL_BUTTON == L_BUTTON && gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_L_EQUALS_A)
+    if (B_LAST_USED_BALL_BUTTON == L_BUTTON && gSaveData.optionsButtonMode == OPTIONS_BUTTON_MODE_L_EQUALS_A)
         return;
 
     if (gBattleStruct->ballSpriteIds[0] != MAX_SPRITES)

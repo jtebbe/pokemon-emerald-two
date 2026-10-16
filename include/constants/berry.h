@@ -50,7 +50,7 @@ enum __attribute__((__packed__)) Flavor
 // - BERRY_STAGE_FLOWERING
 #define NUM_WATER_STAGES 4
 
-// IDs for berry tree objects, indexes into berryTrees in SaveBlock1
+// IDs for berry tree objects, indexes into berryTrees in SaveData
 // Named for whatever berry is initially planted there on a new game
 // Those with no initial berry are named "soil"
 #define BERRY_TREE_ROUTE_102_PECHA    1

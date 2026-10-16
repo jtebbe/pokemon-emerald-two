@@ -26,7 +26,7 @@ These Pokemon can be given to your players, be used as enemy trainer Pokemon or 
 
 #### Optional Arguments
 
-> `item`, `ball`, `nature`, `abilityNum`, `gender`, `hpEv`, `atkEv`, `defEv`, `speedEv`, `spAtkEv`, `spDefEv`, `hpIv`, `atkIv`, `defIv`, `speedIv`, `spAtkIv`, `spDefIv`, `move1`, `move2`, `move3`, `move4`, `shinyMode`, `gmaxFactor`, `teraType`, `dmaxLevel`.
+> `item`, `ball`, `nature`, `abilityNum`, `gender`, `hpEv`, `atkEv`, `defEv`, `speedEv`, `spAtkEv`, `spDefEv`, `move1`, `move2`, `move3`, `move4`, `shinyMode`, `teraType`.
 
 The purpose of these arguments is largely self-explanatory but we will briefly discuss what they default to when nothing is explicitly specified.
 
@@ -41,9 +41,6 @@ The purpose of these arguments is largely self-explanatory but we will briefly d
 - **EVs**
   `hpEv, atkEv, defEv, speedEv, spAtkEv, spDefEv` will default to `0`.
 
-- **IVs**
-  `hpIv, atkIv, defIv, speedIv, spAtkIv, spDefIv` will default to `USE_RANDOM_IVS` which tell the game to roll a random IV value (between `0` and `31`). If the generated species has a `perfectIVCount`, only the random values will be eligible to be perfected.
-
 - **moves**
   `move1, move2, move3, move4` will default to `MOVE_DEFAULT` which tells the game to fill the slot with the last level up move available.
 
@@ -51,11 +48,7 @@ The purpose of these arguments is largely self-explanatory but we will briefly d
   - `SHINY_MODE_ALWAYS` forces the Pokemon to be shiny
   - `SHINY_MODE_NEVER` forces the Pokemon to not be shiny
 
-- **gmaxFactor** defaults to `FALSE`.
-
 - **teraType** will default to the value corresponding to the personality they will roll (in practice, it’s random but it will have correlations with other if the Pokemon parameters).
-
-- **dmaxLevel** will default to `0`.
 
 ---
 
@@ -82,7 +75,7 @@ It only takes 3 arguments (or 6 if you want to make it a double wild battle)
 - `species` and `level` refer to the `species` and the `level` of the Pokemon you want to generate.
 - `item` refers to the item the Pokemon is holding. If no argument is provided the Pokemon will not be holding an item.
 - `species2`, `level2`, and `item2` determine the `species`, `level` and `held item` respectively of the second Pokemon generated in case you want to make a double wild battle
-- The other properties like IVs and personality will be set randomly the same way as they are set in regular wild battles.
+- The other properties, such as personality, will be set randomly the same way as they are set in regular wild battles.
 
 Pokemon generated with `setwildbattle` will always be considered static encounters (`STATIC_WILDMON_ORIGIN`) and will thus be eligible to be affected by Synchronize and Cute Charm
 
@@ -123,7 +116,7 @@ To generate a Pokemon ready for battle, you usually need to go through the follo
 
 1. Generate a personality value
 2. Fill the generic mon structure based on `species`, `level` and `personality`.
-3. Set IVs and EVs.
+3. Set EVs.
 4. (Re-)Compute stats (this step does not happen if you are generating a `struct BoxPokemon` instead of `struct Pokemon`).
 5. set the moves.
 
@@ -178,35 +171,9 @@ The values set by `CreateMon` and `CreateBoxMon` are the `gender`, `ability num`
 
 `CreateMon` and `CreateBoxMon` are very similar. In fact, the `CreateMon` function calls `CreateBoxMon` to generate the BoxPokemon part of its structure but it also sets the level and a mail object (to an empty value)
 
-### Setting IVs and EVs
+### Setting EVs
 
-#### IVs
-
-Usually, you will want to use `SetBoxMonIVs(mon->box, ivs)` to set the IVs of the Pokemon being generated. The reason is that not only can you quickly set all ivs of your Pokemon to a single value.
-
-For instance `SetBoxMonIVs(mon->box, 15)` will set all IVs to 15.
-
-You can also use the special argument `USE_RANDOM_IVS`. When used with `USE_RANDOM_IVS`, `SetBoxMonIvs` will not only pick a random value between 0 and 31 for each stat, it will also allocate some perfect iv if the species of the Pokemon has a `perfectIvCount` set in the species data.
-
-For example if you are generating a legendary with a `perfectIvCount` of 3, using `SetBoxMonIVs(mon->box, USE_RANDOM_IVS)` will guarantee that at least 3 IVs are set to 31. This is done using the function `SetBoxMonPerfectIVs`, which can also be used elsewhere to assign a number of random perfect IVs.
-
-The other way to assign IV is to use `SetMonData`, for example:
-
-```c
-SetMonData(mon, MON_DATA_HP_IV, 15)
-```
-
-with the stats being in the order `MON_DATA_HP_IV`, `MON_DATA_ATK_IV`, `MON_DATA_DEF_IV`, `MON_DATA_SPEED_IV`, `MON_DATA_SPATK_IV` and `MON_DATA_SPDEF_IV`
-
-You can also use a loop like this:
-
-```c
-for (i = 0; i < NUM_STATS; i++)
-    SetMonData(mon, MON_DATA_HP_IV + i, iv_array[i])
-```
-
-if you happen to have an array containing the values you want. However, you must be careful about the order of the stats if you use this method.
-#### EVs
+Pokemon no longer store individual values. Stat calculations always use the maximum value of 31.
 
 EVs default to `0` when a Pokemon is generated with `CreateMon` or `CreateBoxMon`. You will not need to anything if you want to keep it that way.
 
@@ -216,74 +183,28 @@ If you want to change them, there are currently no utilities to set EVs. Thus yo
 SetMonData(mon, MON_DATA_HP_EV, 252)
 ```
 
-The stats have the same names as the IVs with I change into an E : `MON_DATA_HP_EV`, `MON_DATA_ATK_EV`, `MON_DATA_DEF_EV`, `MON_DATA_SPEED_EV`, `MON_DATA_SPATK_EV` and `MON_DATA_SPDEF_EV` so the loop method works here as well.
+The stat fields are `MON_DATA_HP_EV`, `MON_DATA_ATK_EV`, `MON_DATA_DEF_EV`, `MON_DATA_SPEED_EV`, `MON_DATA_SPATK_EV` and `MON_DATA_SPDEF_EV`, so a loop over consecutive fields works here as well.
 
 ```c
 for (i = 0; i < NUM_STATS; i++)
     SetMonData(mon, MON_DATA_HP_EV + i, ev_array[i])
 ```
 
-Just be careful when setting IVs and EVs with `SetMonData` because there is no check to make sure the IV and EV values you are setting are valid and this may cause some issues.
+Be careful when setting EVs with `SetMonData` because there is no check to make sure the values are valid.
 
 ### `CalculateMonStats`
 
-After all the IVs and EVs have been set for your Pokemon, it's important to run `CalculateMonStats(mon)`. The function only has one argument so it's pretty simple but don't forget this step or you may have some issues.
+After the EVs have been set for your Pokemon, run `CalculateMonStats(mon)` to update its calculated stats.
 
 ### Setting moves
 
 To set a move in slot `slot`, you would need to write:
 
 ```c
-enum Move move = MOVE_X;
-u32 pp = GetMovePP(move);
-SetMonData(mon, MON_DATA_MOVE1 + slot, &move);
-SetMonData(mon, MON_DATA_PP1 + slot, &spp);
+SetMonMoveSlot(mon, MOVE_X, slot);
 ```
+
+Persistent move PP is not stored. Every move is treated as having the maximum PP provided by PP Max.
 
 where slot can be between 0 and 3 to represent the 1st to 4th move
 You can also call the function `GiveMonInitialMoveset(mon)` that will give your Pokemon its last 4 level-up moves available similarly to the wild Pokemon you might encounter.
-
-## Going from 1.14 to 1.15
-
-When going from 1.14 to 1.15, Expansion deleted multiple functions related to Pokemon generation that were not used in Expansion anymore.
-The following functions were deleted
-
-```c
-void CreateMonWithNature(struct Pokemon *mon, u16 species, u8 level, u8 fixedIV, u8 nature);
-void CreateMonWithGenderNatureLetter(struct Pokemon *mon, u16 species, u8 level, u8 fixedIV, u8 gender, u8 nature, u8 unownLetter);
-void CreateMonWithIVsOTID(struct Pokemon *mon, u16 species, u8 level, u8 *ivs, u32 otId);
-void CreateMonWithEVSpread(struct Pokemon *mon, u16 species, u8 level, u8 fixedIV, u8 evSpread);
-void CreateMonWithEVSpreadNatureOTID(struct Pokemon *mon, u16 species, u8 level, u8 nature, u8 fixedIV, u8 evSpread, u32 otId);
-```
-
-If you add custom code relying on those functions, I would advise to simple recode them using the methods described in the previous section. If you follow the steps, you should be able to rewrite a function with the same effect easily.
-
-However the move to 1.15 also completely rewrote these two functions:
-
-```c
-void CreateMon(struct Pokemon *mon, u16 species, u8 level, u8 fixedIV, u8 hasFixedPersonality, u32 fixedPersonality, u8 otIdType, u32 fixedOtId);
-void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, u8 hasFixedPersonality, u32 fixedPersonality, u8 otIdType, u32 fixedOtId);
-```
-
-`CreateMon` and `CreateBoxMon` now have different arguments and do less things than their 1.14 counterparts. If you have code that used those functions, we recommend you use these legacy version of `CreateMon` and `CreateBoxMon`:
-
-```c
-void CreateMonLegacy(struct Pokemon *mon, u16 species, u8 level, u8 fixedIV, u8 hasFixedPersonality, u32 fixedPersonality, u8 otIdType, u32 fixedOtId)
-{
-    u32 personality = hasFixedPersonality ? fixedPersonality : Random32();
-    struct OriginalTrainerId otId = {otIdType, fixedOtId};
-    CreateMonWithIVs(mon, species, level, personality, otId, fixedIV);
-    GiveMonInitialMoveset(mon);
-}
-
-void CreateBoxMonLegacy(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, u8 hasFixedPersonality, u32 fixedPersonality, u8 otIdType, u32 fixedOtId)
-{
-    u32 personality = hasFixedPersonality ? fixedPersonality : Random32();
-    struct OriginalTrainerId otId = {otIdType, fixedOtId};
-    CreateBoxMon(boxMon, species, level, personality, otId);
-    SetBoxMonIVs(boxMon, fixedIV);
-    GiveBoxMonInitialMoveset(boxMon);
-}
-```
-
-These two legacy functions use the 1.15 functions to recreate the 1.14 versions of `CreateMon` and `CreateBoxMon` with the same arguments and the same effects. Add these two legacy functions to your code then change your custom code that was relying on 1.14 `CreateMon` or `CreateBoxMon` to use `CreateMonLegacy` or `CreateBoxMonLegacy` instead and everything should work the same as before

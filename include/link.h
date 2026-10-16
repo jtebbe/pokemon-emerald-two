@@ -49,24 +49,16 @@
 #define EXTRACT_LINK_ERRORS(status) \
 (((status) & LINK_STAT_ERRORS) >> LINK_STAT_ERRORS_SHIFT)
 
-#define LINKCMD_BLENDER_STOP            0x1111
 #define LINKCMD_SEND_LINK_TYPE          0x2222
-#define LINKCMD_BLENDER_SCORE_MISS      0x2345
 #define LINKCMD_READY_EXIT_STANDBY      0x2FFE
 #define LINKCMD_SEND_PACKET             0x2FFF
-#define LINKCMD_BLENDER_SEND_KEYS       0x4444
-#define LINKCMD_BLENDER_SCORE_BEST      0x4523
-#define LINKCMD_BLENDER_SCORE_GOOD      0x5432
 #define LINKCMD_DUMMY_1                 0x5555
 #define LINKCMD_DUMMY_2                 0x5566
 #define LINKCMD_READY_CLOSE_LINK        0x5FFF
 #define LINKCMD_SEND_EMPTY              0x6666
 #define LINKCMD_SEND_0xEE               0x7777
-#define LINKCMD_BLENDER_PLAY_AGAIN      0x7779
 #define LINKCMD_COUNTDOWN               0x7FFF
 #define LINKCMD_CONT_BLOCK              0x8888
-#define LINKCMD_BLENDER_NO_BERRIES      0x9999
-#define LINKCMD_BLENDER_NO_PBLOCK_SPACE 0xAAAA
 #define LINKCMD_SEND_ITEM               0xAAAB
 #define LINKCMD_READY_TO_TRADE          0xAABB
 #define LINKCMD_READY_FINISH_TRADE      0xABCD
@@ -92,18 +84,6 @@
 #define LINKTYPE_SINGLE_BATTLE         0x2233
 #define LINKTYPE_DOUBLE_BATTLE         0x2244
 #define LINKTYPE_MULTI_BATTLE          0x2255
-#define LINKTYPE_BATTLE_TOWER_50       0x2266
-#define LINKTYPE_BATTLE_TOWER_OPEN     0x2277
-#define LINKTYPE_BATTLE_TOWER          0x2288
-#define LINKTYPE_RECORD_MIX_BEFORE     0x3311
-#define LINKTYPE_RECORD_MIX_AFTER      0x3322
-#define LINKTYPE_BERRY_BLENDER_SETUP   0x4411
-#define LINKTYPE_BERRY_BLENDER         0x4422
-#define LINKTYPE_MYSTERY_EVENT         0x5501
-#define LINKTYPE_EREADER_FRLG          0x5502
-#define LINKTYPE_EREADER_EM            0x5503
-#define LINKTYPE_CONTEST_GMODE         0x6601
-#define LINKTYPE_CONTEST_EMODE         0x6602
 
 enum {
     BLOCK_REQ_SIZE_NONE, // Identical to 200
@@ -127,7 +107,6 @@ struct LinkStatus
 
 #define MASTER_HANDSHAKE  0x8FFF
 #define SLAVE_HANDSHAKE   0xB9A0
-#define EREADER_HANDSHAKE 0xCCD0
 
 #define SIO_MULTI_CNT ((struct SioMultiCnt *)REG_ADDR_SIOCNT)
 
@@ -246,7 +225,6 @@ extern u16 gBlockRecvBuffer[MAX_RFU_PLAYERS][BLOCK_BUFFER_SIZE / 2];
 extern u16 gSendCmd[CMD_LENGTH];
 extern struct LinkPlayer gLinkPlayers[MAX_RFU_PLAYERS];
 extern bool8 gReceivedRemoteLinkPlayers;
-extern u32 gBerryBlenderKeySendAttempts;
 extern bool8 gLinkVSyncDisabled;
 extern u32 gLinkStatus;
 
@@ -291,7 +269,6 @@ void CheckShouldAdvanceLinkState(void);
 void SetCloseLinkCallback(void);
 bool8 HandleLinkConnection(void);
 void SetLinkDebugValues(u32 seed, u32 flags);
-void SetBerryBlenderLinkCallback(void);
 void SetSuppressLinkErrorMessage(bool8 flag);
 void ConvertLinkPlayerName(struct LinkPlayer *player);
 void ClearSavedLinkPlayers(void);
@@ -344,6 +321,5 @@ bool8 DoesLinkPlayerCountMatchSaved(void);
 void SetCloseLinkCallbackAndType(u16 type);
 bool32 IsSendingKeysToLink(void);
 u32 GetLinkRecvQueueLength(void);
-bool32 ShouldCheckForUnionRoom(void);
 
 #endif // GUARD_LINK_H

@@ -1,0 +1,894 @@
+{
+  "counts": {
+    "PASSED": 5362,
+    "TOTAL": 5830,
+    "FAILED": 86,
+    "ASSUMPTIONS_FAILED": 7,
+    "TO_DO": 354,
+    "KNOWN_FAILING": 12,
+    "EXPECT_FAILING": 9
+  },
+  "results": {
+    "TIMEOUT": 17,
+    "FAIL": 64,
+    "INVALID": 5,
+    "CRASH": 2
+  },
+  "failedFiles": [
+    {
+      "file": "test/battle/ability/aerilate.c",
+      "FAILED": 9,
+      "ASSUMPTIONS_FAILED": 1,
+      "PASSED": 2,
+      "TOTAL": 12
+    },
+    {
+      "file": "test/battle/ability/battle_bond.c",
+      "FAILED": 1,
+      "PASSED": 4,
+      "TOTAL": 5
+    },
+    {
+      "file": "test/battle/ability/berserk.c",
+      "FAILED": 1,
+      "KNOWN_FAILING": 1,
+      "PASSED": 5,
+      "TOTAL": 7
+    },
+    {
+      "file": "test/battle/ability/comatose.c",
+      "FAILED": 1,
+      "PASSED": 7,
+      "TOTAL": 8
+    },
+    {
+      "file": "test/battle/ability/contrary.c",
+      "FAILED": 1,
+      "PASSED": 9,
+      "TOTAL": 10
+    },
+    {
+      "file": "test/battle/ability/forecast.c",
+      "FAILED": 1,
+      "PASSED": 16,
+      "TOTAL": 17
+    },
+    {
+      "file": "test/battle/ability/gulp_missile.c",
+      "FAILED": 1,
+      "PASSED": 13,
+      "TOTAL": 14
+    },
+    {
+      "file": "test/battle/ability/liquid_ooze.c",
+      "FAILED": 1,
+      "PASSED": 9,
+      "TOTAL": 10
+    },
+    {
+      "file": "test/battle/ability/mega_sol.c",
+      "FAILED": 1,
+      "PASSED": 16,
+      "TOTAL": 17
+    },
+    {
+      "file": "test/battle/ability/pickpocket.c",
+      "FAILED": 1,
+      "PASSED": 21,
+      "TOTAL": 22
+    },
+    {
+      "file": "test/battle/ability/pickup.c",
+      "FAILED": 2,
+      "PASSED": 14,
+      "TOTAL": 16
+    },
+    {
+      "file": "test/battle/ability/power_construct.c",
+      "FAILED": 1,
+      "TO_DO": 1,
+      "PASSED": 3,
+      "TOTAL": 5
+    },
+    {
+      "file": "test/battle/ability/protosynthesis.c",
+      "FAILED": 1,
+      "PASSED": 15,
+      "TOTAL": 16
+    },
+    {
+      "file": "test/battle/ability/regenerator.c",
+      "FAILED": 1,
+      "PASSED": 2,
+      "TOTAL": 3
+    },
+    {
+      "file": "test/battle/ability/schooling.c",
+      "FAILED": 1,
+      "PASSED": 2,
+      "TOTAL": 3
+    },
+    {
+      "file": "test/battle/ability/truant.c",
+      "FAILED": 1,
+      "PASSED": 42,
+      "TOTAL": 43
+    },
+    {
+      "file": "test/battle/ai/ai_combo_attack.c",
+      "FAILED": 1,
+      "PASSED": 3,
+      "TOTAL": 4
+    },
+    {
+      "file": "test/battle/battle_message.c",
+      "FAILED": 5,
+      "TO_DO": 1,
+      "PASSED": 6,
+      "TOTAL": 12
+    },
+    {
+      "file": "test/battle/capture.c",
+      "FAILED": 3,
+      "PASSED": 5,
+      "TOTAL": 8
+    },
+    {
+      "file": "test/battle/damage_formula.c",
+      "FAILED": 7,
+      "PASSED": 4,
+      "TOTAL": 11
+    },
+    {
+      "file": "test/battle/exp.c",
+      "FAILED": 1,
+      "PASSED": 9,
+      "TOTAL": 10
+    },
+    {
+      "file": "test/battle/form_change/end_battle.c",
+      "FAILED": 2,
+      "PASSED": 17,
+      "TOTAL": 19
+    },
+    {
+      "file": "test/battle/hold_effect/adamant_orb.c",
+      "FAILED": 1,
+      "TOTAL": 1
+    },
+    {
+      "file": "test/battle/hold_effect/lustrous_orb.c",
+      "FAILED": 1,
+      "TOTAL": 1
+    },
+    {
+      "file": "test/battle/hold_effect/red_card.c",
+      "FAILED": 1,
+      "PASSED": 24,
+      "TOTAL": 25
+    },
+    {
+      "file": "test/battle/hold_effect/restore_hp.c",
+      "FAILED": 1,
+      "PASSED": 6,
+      "TOTAL": 7
+    },
+    {
+      "file": "test/battle/move_effect/after_you.c",
+      "FAILED": 1,
+      "PASSED": 5,
+      "TOTAL": 6
+    },
+    {
+      "file": "test/battle/move_effect/assurance.c",
+      "FAILED": 3,
+      "PASSED": 21,
+      "TOTAL": 24
+    },
+    {
+      "file": "test/battle/move_effect/belly_drum.c",
+      "FAILED": 2,
+      "PASSED": 7,
+      "TOTAL": 9
+    },
+    {
+      "file": "test/battle/move_effect/brine.c",
+      "FAILED": 1,
+      "TOTAL": 1
+    },
+    {
+      "file": "test/battle/move_effect/copycat.c",
+      "FAILED": 1,
+      "TO_DO": 14,
+      "PASSED": 1,
+      "TOTAL": 16
+    },
+    {
+      "file": "test/battle/move_effect/curse.c",
+      "FAILED": 1,
+      "PASSED": 5,
+      "TOTAL": 6
+    },
+    {
+      "file": "test/battle/move_effect/echoed_voice.c",
+      "FAILED": 1,
+      "PASSED": 5,
+      "TOTAL": 6
+    },
+    {
+      "file": "test/battle/move_effect/fillet_away.c",
+      "FAILED": 1,
+      "PASSED": 4,
+      "TOTAL": 5
+    },
+    {
+      "file": "test/battle/move_effect/jungle_healing.c",
+      "FAILED": 1,
+      "PASSED": 3,
+      "TOTAL": 4
+    },
+    {
+      "file": "test/battle/move_effect/last_respects.c",
+      "FAILED": 2,
+      "PASSED": 2,
+      "TOTAL": 4
+    },
+    {
+      "file": "test/battle/move_effect/life_dew.c",
+      "FAILED": 1,
+      "PASSED": 6,
+      "TOTAL": 7
+    },
+    {
+      "file": "test/battle/move_effect/low_kick.c",
+      "FAILED": 1,
+      "TOTAL": 1
+    },
+    {
+      "file": "test/battle/move_effect/lunar_dance.c",
+      "FAILED": 3,
+      "PASSED": 1,
+      "TOTAL": 4
+    },
+    {
+      "file": "test/battle/move_effect/me_first.c",
+      "FAILED": 1,
+      "PASSED": 6,
+      "TOTAL": 7
+    },
+    {
+      "file": "test/battle/move_effect/mud_sport.c",
+      "FAILED": 1,
+      "TO_DO": 1,
+      "TOTAL": 2
+    },
+    {
+      "file": "test/battle/move_effect/multi_hit.c",
+      "FAILED": 1,
+      "PASSED": 12,
+      "TOTAL": 13
+    },
+    {
+      "file": "test/battle/move_effect/pursuit.c",
+      "FAILED": 1,
+      "PASSED": 33,
+      "TOTAL": 34
+    },
+    {
+      "file": "test/battle/move_effect/quash.c",
+      "FAILED": 1,
+      "PASSED": 5,
+      "TOTAL": 6
+    },
+    {
+      "file": "test/battle/move_effect/sleep_talk.c",
+      "FAILED": 1,
+      "PASSED": 10,
+      "TOTAL": 11
+    },
+    {
+      "file": "test/battle/move_effect/steal_item.c",
+      "FAILED": 2,
+      "PASSED": 10,
+      "TOTAL": 12
+    },
+    {
+      "file": "test/battle/move_effect/strength_sap.c",
+      "FAILED": 1,
+      "PASSED": 11,
+      "TOTAL": 12
+    },
+    {
+      "file": "test/battle/move_effects_combined/axe_kick.c",
+      "FAILED": 3,
+      "PASSED": 1,
+      "TOTAL": 4
+    },
+    {
+      "file": "test/battle/sleep_clause.c",
+      "FAILED": 1,
+      "KNOWN_FAILING": 1,
+      "PASSED": 59,
+      "TOTAL": 61
+    },
+    {
+      "file": "test/battle/status1/frostbite.c",
+      "FAILED": 1,
+      "PASSED": 3,
+      "TOTAL": 4
+    },
+    {
+      "file": "test/battle/test_runner_features.c",
+      "FAILED": 3,
+      "PASSED": 2,
+      "TOTAL": 5
+    },
+    {
+      "file": "test/battle/weather/strong_winds.c",
+      "FAILED": 1,
+      "PASSED": 10,
+      "TOTAL": 11
+    },
+    {
+      "file": "test/battle/wild_battle.c",
+      "FAILED": 1,
+      "TOTAL": 1
+    }
+  ],
+  "details": [
+    {
+      "file": "test/battle/ability/aerilate.c",
+      "name": "Aerilate doesn't change Tera Blast's type when Terastallized",
+      "result": "TIMEOUT"
+    },
+    {
+      "file": "test/battle/ability/aerilate.c",
+      "name": "Aerilate changes Tera Blast's type when not Terastallized",
+      "result": "TIMEOUT"
+    },
+    {
+      "file": "test/battle/ability/aerilate.c",
+      "name": "Aerilate doesn't affect Terrain Pulse's type",
+      "result": "TIMEOUT"
+    },
+    {
+      "file": "test/battle/ability/aerilate.c",
+      "name": "Aerilate doesn't affect Natural Gift's type 1/2",
+      "result": "TIMEOUT"
+    },
+    {
+      "file": "test/battle/ability/aerilate.c",
+      "name": "Aerilate doesn't override Electrify",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/ability/aerilate.c",
+      "name": "Aerilate boosts power of affected moves by 20% (Gen7+) or 30% (Gen1-6) 1/4",
+      "result": "TIMEOUT"
+    },
+    {
+      "file": "test/battle/ability/aerilate.c",
+      "name": "Aerilate doesn't affect Judgment / Techno Blast / Multi-Attack's type 1/3",
+      "result": "TIMEOUT"
+    },
+    {
+      "file": "test/battle/ability/aerilate.c",
+      "name": "Aerilate can not turn certain moves into Flying type moves 1/6",
+      "result": "TIMEOUT"
+    },
+    {
+      "file": "test/battle/ability/aerilate.c",
+      "name": "Aerilate turns a Normal-type move into Flying-type move",
+      "result": "TIMEOUT"
+    },
+    {
+      "file": "test/battle/ability/battle_bond.c",
+      "name": "Battle Bond transforms player's Greninja - Singles 4/4",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/ability/berserk.c",
+      "name": "Berserk will not activate if the last multi hit move activates a restore berry",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/ability/comatose.c",
+      "name": "Comatose boosts Dream Ball's multiplier 1/2",
+      "result": "TIMEOUT"
+    },
+    {
+      "file": "test/battle/ability/contrary.c",
+      "name": "Contrary raises a stat after using a move which would normally lower it: Growl 2/2",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/ability/forecast.c",
+      "name": "Forecast: All Forecast mons revert on the field if Primal Weather is removed due to fainting",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/ability/gulp_missile.c",
+      "name": "Gulp Missile: triggers even if the user is fainted by opposing mon",
+      "result": "INVALID"
+    },
+    {
+      "file": "test/battle/ability/liquid_ooze.c",
+      "name": "Liquid Ooze causes Strength Sap users to lose HP instead of heal 2/2",
+      "result": "INVALID"
+    },
+    {
+      "file": "test/battle/ability/mega_sol.c",
+      "name": "Synthesis, Morning Sun and Moonlight recover 2/3 of the user's max HP if user has Mega Sol 1/3",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/ability/pickpocket.c",
+      "name": "Pickpocket activates when user has Protective Pads, but not with Punching Glove or Long Reach 1/3",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/ability/pickup.c",
+      "name": "Pickup doesn't grant an used item if its user already restored it",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/ability/pickup.c",
+      "name": "Pickup grants an item used by itself in wild battles (Gen9+)",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/ability/power_construct.c",
+      "name": "Power Construct Zygarde reverts to its original form upon catching 1/2",
+      "result": "TIMEOUT"
+    },
+    {
+      "file": "test/battle/ability/protosynthesis.c",
+      "name": "Protosynthesis damage calculation is correct 1/16",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/ability/regenerator.c",
+      "name": "Regenerator heals the user and not a fainted party member when switching out with a hit escape move",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/ability/schooling.c",
+      "name": "Schooling switches Level 20+ Wishiwashi's form when HP is 25-percent or less at the end of the turn 2/2",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/ability/truant.c",
+      "name": "Gaining Truant after Mega Evolution causes an immediate loafing turn",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/ai/ai_combo_attack.c",
+      "name": "Combo Attack: Fusion moves are only incentivised when partners are adjacent in turn order 2/2",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/battle_message.c",
+      "name": "Battle Message: STRINGID_INTROMSG, STRINGID_INTROSENDOUT, STRINGID_RETURNMON, and STRINGID_SWITCHINMON (1v2)",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/battle_message.c",
+      "name": "Battle Message: STRINGID_INTROMSG, STRINGID_INTROSENDOUT, STRINGID_RETURNMON, and STRINGID_SWITCHINMON (2v1)",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/battle_message.c",
+      "name": "Battle Message: STRINGID_INTROMSG, STRINGID_INTROSENDOUT, STRINGID_RETURNMON, and STRINGID_SWITCHINMON (Doubles)",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/battle_message.c",
+      "name": "Battle Message: STRINGID_INTROMSG, STRINGID_INTROSENDOUT, STRINGID_RETURNMON, and STRINGID_SWITCHINMON (Multi)",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/battle_message.c",
+      "name": "Battle Message: STRINGID_INTROMSG, STRINGID_INTROSENDOUT, STRINGID_RETURNMON, and STRINGID_SWITCHINMON (Singles)",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/capture.c",
+      "name": "Capture: ball data is properly set in captured pokemon 1/28",
+      "result": "TIMEOUT"
+    },
+    {
+      "file": "test/battle/capture.c",
+      "name": "Capture: when CRITICAL_CAPTURE_IF_OWNED is enabled, capture of owned pokemon always appear critical 1/6",
+      "result": "TIMEOUT"
+    },
+    {
+      "file": "test/battle/capture.c",
+      "name": "Capture: when CRITICAL_CAPTURE_IF_OWNED is enabled, failed capture of owned pokemon does not appear critical 1/2",
+      "result": "TIMEOUT"
+    },
+    {
+      "file": "test/battle/damage_formula.c",
+      "name": "Gem boosted Damage calculation 1/16",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/damage_formula.c",
+      "name": "Punching Glove vs Muscle Band Damage calculation 1/16",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/damage_formula.c",
+      "name": "Transistor Damage calculation 1/32",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/damage_formula.c",
+      "name": "A spread move will do correct damage to the second mon if the first target faints from first hit of the spread move (2v1)",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/damage_formula.c",
+      "name": "A spread move will do correct damage to the second mon if the first target faints from first hit of the spread move (multibattle)",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/damage_formula.c",
+      "name": "A spread move will do correct damage to the second mon if the first target faints from first hit of the spread move (1v2)",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/damage_formula.c",
+      "name": "A spread move will do correct damage to the second mon if the first target faints from first hit of the spread move (double battle)",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/exp.c",
+      "name": "Pokemon gain experience after catching a Pokemon (Gen6+) 1/3",
+      "result": "TIMEOUT"
+    },
+    {
+      "file": "test/battle/form_change/end_battle.c",
+      "name": "Zamazenta returns its Hero Form upon battle end",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/form_change/end_battle.c",
+      "name": "Zacian returns its Hero Form upon battle end",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/hold_effect/adamant_orb.c",
+      "name": "Adamant Orb boosts Dialga's Dragon- and Steel-type move damage by 20% 4/4",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/hold_effect/lustrous_orb.c",
+      "name": "Lustrous Orb boosts Palkia's Dragon- and Water-type move damage by 20% 4/4",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/hold_effect/red_card.c",
+      "name": "Red Card is consumed after dragged out replacement has its Speed lowered by Sticky Web",
+      "result": "INVALID"
+    },
+    {
+      "file": "test/battle/hold_effect/restore_hp.c",
+      "name": "Sitrus Berry restores HP before Shields Down form change",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/move_effect/after_you.c",
+      "name": "After You calculates correct turn order if only one Pokémon is left on the opposing side",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/move_effect/assurance.c",
+      "name": "Assurance doubles in power if the target has been damaged by Liquid Ooze",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/move_effect/assurance.c",
+      "name": "Assurance doubles in power if Ice Face has been broken by attacker",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/move_effect/assurance.c",
+      "name": "Assurance doubles in power if the target has been damaged by Rough Skin",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/move_effect/belly_drum.c",
+      "name": "Belly Drum deducts HP if the user has Contrary and is at -6",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/move_effect/belly_drum.c",
+      "name": "Belly Drum cuts the user's HP in half",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/move_effect/brine.c",
+      "name": "Brine's power doubles if the target is at 50% or below max HP 2/2",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/move_effect/copycat.c",
+      "name": "Copycat deducts power points from itself, not the copied move",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/move_effect/curse.c",
+      "name": "Curse cuts the user's HP in half when used by Ghost-types",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/move_effect/echoed_voice.c",
+      "name": "Echoed Voice's power is multiplied for every consecutive turn used, capped at 5",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/move_effect/fillet_away.c",
+      "name": "Fillet Away cuts the user's HP in half",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/move_effect/jungle_healing.c",
+      "name": "Jungle Healing recovers 25% of hp and heals their non volatile for both user and partner",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/move_effect/last_respects.c",
+      "name": "Last Respects power is multiplied by the amount of fainted mon in the user's side - Player 2/3",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/move_effect/last_respects.c",
+      "name": "Last Respects power is multiplied by the amount of fainted mon in the user's side - Opponent 2/3",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/move_effect/life_dew.c",
+      "name": "Life Dew recovers 25% of hp for both user and partner",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/move_effect/low_kick.c",
+      "name": "Low Kick's damage varies based on the target's weight 4/6",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/move_effect/lunar_dance.c",
+      "name": "Lunar Dance causes the user to faint and heals the replacement's HP, PP and status (singles)",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/move_effect/lunar_dance.c",
+      "name": "Lunar Dance causes the user to faint and heals the replacement's HP, PP and status (doubles)",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/move_effect/lunar_dance.c",
+      "name": "Lunar Dance effect activates only if the switched Pokémon can be healed (Gen8+) 3/3",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/move_effect/me_first.c",
+      "name": "Me First deducts power points from itself, not the copied move",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/move_effect/mud_sport.c",
+      "name": "Mud Sport reduces the damage of Electric Type moves by 50% (Gen3-4) or 67% (Gen5+) 2/2",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/move_effect/multi_hit.c",
+      "name": "Scale Shot decreases defense and increases speed after killing opposing with less then 4 hits 1/2",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/move_effect/pursuit.c",
+      "name": "Pursuit doubles in power if attacking while target switches out 2/2",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/move_effect/quash.c",
+      "name": "Quash calculates correct turn order if only one Pokémon is left on the opposing side",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/move_effect/sleep_talk.c",
+      "name": "Sleep Talk deducts power points from itself, not the called move",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/move_effect/steal_item.c",
+      "name": "Thief and Covet steal target's held item but it's restored if the mon is caught (Gen 9+) 1/2",
+      "result": "TIMEOUT"
+    },
+    {
+      "file": "test/battle/move_effect/steal_item.c",
+      "name": "Thief and Covet steal target's held item but it's restored if the mon is caught (Gen 9+) 1/2",
+      "result": "TIMEOUT"
+    },
+    {
+      "file": "test/battle/move_effect/strength_sap.c",
+      "name": "Strength Sap will drain users HP if target has Liquid Ooze 2/2",
+      "result": "INVALID"
+    },
+    {
+      "file": "test/battle/move_effects_combined/axe_kick.c",
+      "name": "Axe Kick deals damage half the hp to user if def battler protected",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/move_effects_combined/axe_kick.c",
+      "name": "Axe Kick deals damage half the hp to user if it fails",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/move_effects_combined/axe_kick.c",
+      "name": "Axe Kick still deals crash damage when boosted by Sheer Force 1/2",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/sleep_clause.c",
+      "name": "Sleep Clause: Sleep clause is deactivated when a sleeping mon is woken up forcefully by Uproar",
+      "result": "INVALID"
+    },
+    {
+      "file": "test/battle/status1/frostbite.c",
+      "name": "Frostbite reduces the special attack by 50 percent",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/test_runner_features.c",
+      "name": "Changing forms doesn't overwrite set stats (HP)",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/test_runner_features.c",
+      "name": "Setting level doesn't overwrite set stats 1/4",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/test_runner_features.c",
+      "name": "Changing forms doesn't overwrite set stats (not HP)",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/weather/strong_winds.c",
+      "name": "Strong winds don't reduce Synthesis, Morning Sun or Moonlight recovery 1/3",
+      "result": "FAIL"
+    },
+    {
+      "file": "test/battle/wild_battle.c",
+      "name": "An item given by the player to the wild mon is not duplicated if the mon is caught",
+      "result": "TIMEOUT"
+    }
+  ],
+  "empty": [
+    {
+      "file": "test/battle/ability/air_lock.c",
+      "empty": true
+    },
+    {
+      "file": "test/battle/ability/armor_tail.c",
+      "empty": true
+    },
+    {
+      "file": "test/battle/ability/as_one.c",
+      "empty": true
+    },
+    {
+      "file": "test/battle/ability/chilling_neigh.c",
+      "empty": true
+    },
+    {
+      "file": "test/battle/ability/full_metal_body.c",
+      "empty": true
+    },
+    {
+      "file": "test/battle/ability/heavy_metal.c",
+      "empty": true
+    },
+    {
+      "file": "test/battle/ability/libero.c",
+      "empty": true
+    },
+    {
+      "file": "test/battle/ability/lingering_aroma.c",
+      "empty": true
+    },
+    {
+      "file": "test/battle/ability/queenly_majesty.c",
+      "empty": true
+    },
+    {
+      "file": "test/battle/ability/shell_armor.c",
+      "empty": true
+    },
+    {
+      "file": "test/battle/ability/white_smoke.c",
+      "empty": true
+    },
+    {
+      "file": "test/battle/hold_effect/cure_brn.c",
+      "empty": true
+    },
+    {
+      "file": "test/battle/hold_effect/cure_confusion.c",
+      "empty": true
+    },
+    {
+      "file": "test/battle/hold_effect/cure_frz.c",
+      "empty": true
+    },
+    {
+      "file": "test/battle/hold_effect/cure_par.c",
+      "empty": true
+    },
+    {
+      "file": "test/battle/hold_effect/cure_psn.c",
+      "empty": true
+    },
+    {
+      "file": "test/battle/hold_effect/cure_slp.c",
+      "empty": true
+    },
+    {
+      "file": "test/battle/hold_effect/restore_pct_hp.c",
+      "empty": true
+    },
+    {
+      "file": "test/battle/move_effect/accuracy_down_2.c",
+      "empty": true
+    },
+    {
+      "file": "test/battle/move_effect/accuracy_up.c",
+      "empty": true
+    },
+    {
+      "file": "test/battle/move_effect/accuracy_up_2.c",
+      "empty": true
+    },
+    {
+      "file": "test/battle/move_effect/evasion_up_2.c",
+      "empty": true
+    },
+    {
+      "file": "test/battle/move_effect/spit_up.c",
+      "empty": true
+    },
+    {
+      "file": "test/battle/move_effect/swallow.c",
+      "empty": true
+    },
+    {
+      "file": "test/battle_controller_opponent.c",
+      "empty": true
+    },
+    {
+      "file": "test/battle_controller_partner.c",
+      "empty": true
+    },
+    {
+      "file": "test/battle_controller_player.c",
+      "empty": true
+    },
+    {
+      "file": "test/test_runner.c",
+      "empty": true
+    },
+    {
+      "file": "test/test_runner_args.c",
+      "empty": true
+    },
+    {
+      "file": "test/test_runner_battle.c",
+      "empty": true
+    }
+  ],
+  "completedFiles": 942,
+  "sourceFiles": 972
+}

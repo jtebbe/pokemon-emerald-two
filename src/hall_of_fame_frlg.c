@@ -466,8 +466,15 @@ static void FreeAllHoFMem(void)
 
 static void Task_Hof_TrySaveData(u8 taskId)
 {
-    gGameContinueCallback = CB2_DoHallOfFameScreenDontSaveDataFrlg;
-    TrySavingData(SAVE_HALL_OF_FAME);
+    if (!TrySavingHallOfFame())
+    {
+        UnsetBgTilemapBuffer(1);
+        UnsetBgTilemapBuffer(3);
+        FreeAllWindowBuffers();
+        FreeAllHoFMem();
+        DestroyTask(taskId);
+        return;
+    }
     PlaySE(SE_SAVE);
     gTasks[taskId].func = Task_Hof_DelayAfterSave;
     gTasks[taskId].data[3] = 32;
@@ -496,7 +503,6 @@ static void Task_Hof_DisplayMon(u8 taskId)
 
     u16 currMonId = gTasks[taskId].data[1];
     struct HallofFameMon* currMon = &sHofMonPtr[0].mon[currMonId];
-
 
     if (gTasks[taskId].data[2] > 3)
     {
@@ -623,7 +629,7 @@ static void Task_Hof_SpawnPlayerPic(u8 taskId)
     ShowBg(0);
     ShowBg(1);
     ShowBg(3);
-    gTasks[taskId].data[4] = CreateTrainerPicSprite(PlayerGenderToFrontTrainerPicId(gSaveBlock2Ptr->playerGender), TRUE, 0x78, 0x48, 6, 0xFFFF);
+    gTasks[taskId].data[4] = CreateTrainerPicSprite(PlayerGenderToFrontTrainerPicId(gSaveData.playerGender), TRUE, 0x78, 0x48, 6, 0xFFFF);
     AddWindow(&sWindowTemplate);
     LoadStdWindowGfx(1, 0x21D, BG_PLTT_ID(13));
     gTasks[taskId].data[3] = 120;
@@ -699,10 +705,9 @@ static void Task_Hof_HandleExit(u8 taskId)
 
 static void SetWarpsToRollCredits(void)
 {
-    VarSet(VAR_MAP_SCENE_INDIGO_PLATEAU_EXTERIOR, 1);
     FlagSet(FLAG_HIDE_MAP_NAME_POPUP);
     gDisableMapMusicChangeOnMapLoad = MUSIC_DISABLE_KEEP;
-    SetWarpDestination(MAP_GROUP(MAP_INDIGO_PLATEAU_EXTERIOR), MAP_NUM(MAP_INDIGO_PLATEAU_EXTERIOR), -1, 11, 6);
+    SetWarpDestination(MAP_GROUP(MAP_OUTDOOR), MAP_NUM(MAP_OUTDOOR), WARP_ID_NONE, 10, 10);
     DoWarp();
     ResetInitialPlayerAvatarState();
 }
@@ -781,7 +786,7 @@ static void Task_HofPC_CopySaveData(u8 taskId)
         else
             gTasks[taskId].data[0] = HALL_OF_FAME_MAX_TEAMS - 1;
 
-        gTasks[taskId].data[1] = GetGameStat(GAME_STAT_ENTERED_HOF);
+        gTasks[taskId].data[1] = GetHallOfFameEntryCount();
 
         gTasks[taskId].func = Task_HofPC_DrawSpritesPrintText;
     }
@@ -1082,9 +1087,9 @@ static void HallOfFame_PrintPlayerInfo(u8 unused1, u8 unused2)
     DrawStdFrameWithCustomTileAndPalette(1, FALSE, 0x21D, 13);
     AddTextPrinterParameterized4(1, FONT_NORMAL, 4, 3, 0, 0, sTextColors[1], 0, gText_Name);
 
-    AddTextPrinterParameterized3(1, FONT_NORMAL, textWidth - GetStringWidth(FONT_NORMAL, gSaveBlock2Ptr->playerName, 0), 3, sTextColors[1], 0, gSaveBlock2Ptr->playerName);
+    AddTextPrinterParameterized3(1, FONT_NORMAL, textWidth - GetStringWidth(FONT_NORMAL, gSaveData.playerName, 0), 3, sTextColors[1], 0, gSaveData.playerName);
 
-    trainerId = (gSaveBlock2Ptr->playerTrainerId[0]) | (gSaveBlock2Ptr->playerTrainerId[1] << 8);
+    trainerId = (gSaveData.playerTrainerId[0]) | (gSaveData.playerTrainerId[1] << 8);
     AddTextPrinterParameterized3(1, FONT_NORMAL, 4, 18, sTextColors[1], 0, gText_IDNumber);
     text[0] = (trainerId % 100000) / 10000 + CHAR_0;
     text[1] = (trainerId % 10000) / 1000 + CHAR_0;
@@ -1095,9 +1100,9 @@ static void HallOfFame_PrintPlayerInfo(u8 unused1, u8 unused2)
     AddTextPrinterParameterized3(1, FONT_NORMAL, textWidth - 30, 18, sTextColors[1], 0, text);
 
     AddTextPrinterParameterized3(1, FONT_NORMAL, 4, 32, sTextColors[1], 0, gText_Time);
-    text[0] = (gSaveBlock2Ptr->playTimeHours / 100) + CHAR_0;
-    text[1] = (gSaveBlock2Ptr->playTimeHours % 100) / 10 + CHAR_0;
-    text[2] = (gSaveBlock2Ptr->playTimeHours % 10) + CHAR_0;
+    text[0] = (gSaveData.playTimeHours / 100) + CHAR_0;
+    text[1] = (gSaveData.playTimeHours % 100) / 10 + CHAR_0;
+    text[2] = (gSaveData.playTimeHours % 10) + CHAR_0;
 
     if (text[0] == CHAR_0)
         text[0] = CHAR_SPACE;
@@ -1105,8 +1110,8 @@ static void HallOfFame_PrintPlayerInfo(u8 unused1, u8 unused2)
         text[1] = CHAR_SPACE;
 
     text[3] = CHAR_COLON;
-    text[4] = (gSaveBlock2Ptr->playTimeMinutes % 100) / 10 + CHAR_0;
-    text[5] = (gSaveBlock2Ptr->playTimeMinutes % 10) + CHAR_0;
+    text[4] = (gSaveData.playTimeMinutes % 100) / 10 + CHAR_0;
+    text[5] = (gSaveData.playTimeMinutes % 10) + CHAR_0;
     text[6] = EOS;
 
     AddTextPrinterParameterized3(1, FONT_NORMAL, textWidth - 36, 32, sTextColors[1], 0, text);

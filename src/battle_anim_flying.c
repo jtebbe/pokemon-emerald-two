@@ -9,6 +9,13 @@
 #include "gpu_regs.h"
 #include "graphics.h"
 
+static void AnimWhirlwindLine_Step(struct Sprite *);
+static void AnimWhirlwindLine(struct Sprite *);
+static void AnimDiveBall(struct Sprite *);
+static void AnimDiveBall_Step1(struct Sprite *);
+static void AnimDiveBall_Step2(struct Sprite *);
+static void AnimTask_AnimateGustTornadoPalette_Step(u8);
+
 extern const struct SpriteTemplate gFlashingHitSplatSpriteTemplate;
 
 static void AnimEllipticalGustCentered(struct Sprite *sprite);
@@ -17,13 +24,8 @@ static void AnimGustToTarget(struct Sprite *);
 static void AnimGustToTarget_Step(struct Sprite *);
 static void AnimFallingFeather(struct Sprite *);
 static void AnimFallingFeather_Step(struct Sprite *);
-static void AnimWhirlwindLine_Step(struct Sprite *);
 static void AnimUnusedBubbleThrow(struct Sprite *);
-static void AnimWhirlwindLine(struct Sprite *);
 static void AnimBounceBallShrink(struct Sprite *);
-static void AnimDiveBall(struct Sprite *);
-static void AnimDiveBall_Step1(struct Sprite *);
-static void AnimDiveBall_Step2(struct Sprite *);
 static void AnimDiveWaterSplash(struct Sprite *);
 static void AnimSprayWaterDroplet(struct Sprite *);
 static void AnimSprayWaterDroplet_Step(struct Sprite *);
@@ -31,7 +33,6 @@ static void AnimUnusedFlashingLight(struct Sprite *);
 static void AnimUnusedFlashingLight_Step(struct Sprite *);
 static void AnimSkyAttackBird(struct Sprite *);
 static void AnimSkyAttackBird_Step(struct Sprite *);
-static void AnimTask_AnimateGustTornadoPalette_Step(u8);
 static void AnimTask_LoadWindstormBackground_Step(u8 taskId);
 
 const struct SpriteTemplate gEllipticalGustCenteredSpriteTemplate =
@@ -126,6 +127,7 @@ const union AffineAnimCmd *const gAffineAnims_FlyBallAttack[] =
     sAffineAnim_FlyBallAttack_1,
 };
 
+
 const struct SpriteTemplate gFlyBallUpSpriteTemplate =
 {
     .tileTag = ANIM_TAG_ROUND_SHADOW,
@@ -180,6 +182,7 @@ static const struct SpriteTemplate sUnusedBubbleThrowSpriteTemplate =
     .callback = AnimUnusedBubbleThrow,
 };
 
+
 static const union AnimCmd sAnim_WhirlwindLines[] =
 {
     ANIMCMD_FRAME(0, 1),
@@ -227,6 +230,7 @@ const struct SpriteTemplate gBounceBallShrinkSpriteTemplate =
     .affineAnims = sAffineAnims_BounceBallShrink,
     .callback = AnimBounceBallShrink,
 };
+
 
 static const union AffineAnimCmd sAffineAnim_BounceBallLand[] =
 {
@@ -359,6 +363,8 @@ static void AnimEllipticalGust_Step(struct Sprite *sprite)
 }
 
 // Animates the palette on the gust tornado to make it look like its spinning
+
+
 void AnimTask_AnimateGustTornadoPalette(u8 taskId)
 {
     gTasks[taskId].data[0] = gBattleAnimArgs[1];
@@ -415,11 +421,7 @@ void AnimAirWaveCrescent(struct Sprite *sprite)
         gBattleAnimArgs[3] = -gBattleAnimArgs[3];
     }
 
-    if (IsContest())
-    {
-        gBattleAnimArgs[1] = -gBattleAnimArgs[1];
-        gBattleAnimArgs[3] = -gBattleAnimArgs[3];
-    }
+    ;
 
     sprite->x = GetBattlerSpriteCoord(gBattleAnimAttacker, BATTLER_COORD_X_2);
     sprite->y = GetBattlerSpriteCoord(gBattleAnimAttacker, BATTLER_COORD_Y_PIC_OFFSET);
@@ -579,10 +581,7 @@ static void AnimFallingFeather(struct Sprite *sprite)
 
     if (data->unk2 >= 64 && data->unk2 <= 191)
     {
-        if (!IsContest())
-            sprite->oam.priority = GetBattlerSpriteBGPriority(battler) + 1;
-        else
-            sprite->oam.priority = GetBattlerSpriteBGPriority(battler);
+        sprite->oam.priority = GetBattlerSpriteBGPriority(battler) + 1;
 
         data->unkE_0 = 0;
 
@@ -662,7 +661,6 @@ static void AnimFallingFeather_Step(struct Sprite *sprite)
                 sprite->animEnded = FALSE;
                 if (data->unk0_0c)
                 {
-                    if (!IsContest())
                     {
                         if (!data->unkE_0)
                         {
@@ -672,19 +670,6 @@ static void AnimFallingFeather_Step(struct Sprite *sprite)
                         else
                         {
                             sprite->oam.priority++;
-                            data->unkE_0 ^= 1;
-                        }
-                    }
-                    else
-                    {
-                        if (!data->unkE_0)
-                        {
-                            sprite->subpriority -= 12;
-                            data->unkE_0 ^= 1;
-                        }
-                        else
-                        {
-                            sprite->subpriority += 12;
                             data->unkE_0 ^= 1;
                         }
                     }
@@ -713,7 +698,6 @@ static void AnimFallingFeather_Step(struct Sprite *sprite)
                 sprite->animEnded = FALSE;
                 if (data->unk0_0c)
                 {
-                    if (!IsContest())
                     {
                         if (!data->unkE_0)
                         {
@@ -723,19 +707,6 @@ static void AnimFallingFeather_Step(struct Sprite *sprite)
                         else
                         {
                             sprite->oam.priority++;
-                            data->unkE_0 ^= 1;
-                        }
-                    }
-                    else
-                    {
-                        if (!data->unkE_0)
-                        {
-                            sprite->subpriority -= 12;
-                            data->unkE_0 ^= 1;
-                        }
-                        else
-                        {
-                            sprite->subpriority += 12;
                             data->unkE_0 ^= 1;
                         }
                     }
@@ -764,7 +735,6 @@ static void AnimFallingFeather_Step(struct Sprite *sprite)
                 sprite->animEnded = FALSE;
                 if (data->unk0_0c)
                 {
-                    if (!IsContest())
                     {
                         if (!data->unkE_0)
                         {
@@ -774,19 +744,6 @@ static void AnimFallingFeather_Step(struct Sprite *sprite)
                         else
                         {
                             sprite->oam.priority++;
-                            data->unkE_0 ^= 1;
-                        }
-                    }
-                    else
-                    {
-                        if (!data->unkE_0)
-                        {
-                            sprite->subpriority -= 12;
-                            data->unkE_0 ^= 1;
-                        }
-                        else
-                        {
-                            sprite->subpriority += 12;
                             data->unkE_0 ^= 1;
                         }
                     }
@@ -814,7 +771,6 @@ static void AnimFallingFeather_Step(struct Sprite *sprite)
                 sprite->animEnded = FALSE;
                 if (data->unk0_0c)
                 {
-                    if (!IsContest())
                     {
                         if (!data->unkE_0)
                         {
@@ -824,19 +780,6 @@ static void AnimFallingFeather_Step(struct Sprite *sprite)
                         else
                         {
                             sprite->oam.priority++;
-                            data->unkE_0 ^= 1;
-                        }
-                    }
-                    else
-                    {
-                        if (!data->unkE_0)
-                        {
-                            sprite->subpriority -= 12;
-                            data->unkE_0 ^= 1;
-                        }
-                        else
-                        {
-                            sprite->subpriority += 12;
                             data->unkE_0 ^= 1;
                         }
                     }
@@ -879,6 +822,7 @@ static void AnimUnusedBubbleThrow(struct Sprite *sprite)
     sprite->y = GetBattlerSpriteCoord(gBattleAnimAttacker, BATTLER_COORD_Y_PIC_OFFSET);
     sprite->callback = TranslateAnimSpriteToTargetMonLocation;
 }
+
 
 static void AnimWhirlwindLine(struct Sprite *sprite)
 {
@@ -997,6 +941,11 @@ void AnimBounceBallLand(struct Sprite *sprite)
 // args[1] - initial y offset
 // args[2] - initial delay before anim
 // args[3] - quadratic delta to sprite y
+
+
+// args[0] - attacker or target
+
+
 static void AnimDiveBall(struct Sprite *sprite)
 {
     InitSpritePosToAnimAttacker(sprite, TRUE);
@@ -1036,7 +985,6 @@ static void AnimDiveBall_Step2(struct Sprite *sprite)
         DestroyAnimSprite(sprite);
 }
 
-// args[0] - attacker or target
 static void AnimDiveWaterSplash(struct Sprite *sprite)
 {
     u32 matrixNum;
@@ -1237,8 +1185,7 @@ void AnimTask_LoadWindstormBackground(u8 taskId)
     SetAnimBgAttribute(1, BG_ANIM_PRIORITY, 1);
     SetAnimBgAttribute(1, BG_ANIM_SCREEN_SIZE, 0);
 
-    if (!IsContest())
-        SetAnimBgAttribute(1, BG_ANIM_CHAR_BASE_BLOCK, 1);
+    SetAnimBgAttribute(1, BG_ANIM_CHAR_BASE_BLOCK, 1);
 
     gBattle_BG1_X = 0;
     gBattle_BG1_Y = 0;
@@ -1247,7 +1194,7 @@ void AnimTask_LoadWindstormBackground(u8 taskId)
 
     GetBattleAnimBg1Data(&animBg);
     AnimLoadCompressedBgGfx(animBg.bgId, gBattleAnimBgImage_Sandstorm, animBg.tilesOffset);
-    AnimLoadCompressedBgTilemapHandleContest(&animBg, gBattleAnimBgTilemap_Sandstorm, 0);
+    AnimLoadCompressedBgTilemapForData(&animBg, gBattleAnimBgTilemap_Sandstorm, 0);
     LoadPalette(gBattleAnimSpritePal_Windstorm, BG_PLTT_ID(animBg.paletteId), PLTT_SIZE_4BPP);
 
     if (gBattleAnimArgs[0] && !IsOnPlayerSide(gBattleAnimAttacker))
@@ -1309,8 +1256,7 @@ static void AnimTask_LoadWindstormBackground_Step(u8 taskId)
         gTasks[taskId].data[12]++;
         break;
     case 4:
-        if (!IsContest())
-            SetAnimBgAttribute(1, BG_ANIM_CHAR_BASE_BLOCK, 0);
+        SetAnimBgAttribute(1, BG_ANIM_CHAR_BASE_BLOCK, 0);
 
         gBattle_BG1_X = 0;
         gBattle_BG1_Y = 0;

@@ -7,7 +7,6 @@ ASSUMPTIONS
     ASSUME(GetMoveType(MOVE_SCRATCH) == TYPE_NORMAL);
     ASSUME(GetMovePower(MOVE_SCRATCH) > 0);
 }
-
 SINGLE_BATTLE_TEST("Aerilate turns a Normal-type move into Flying-type move")
 {
     GIVEN {
@@ -160,16 +159,15 @@ SINGLE_BATTLE_TEST("Aerilate doesn't affect Judgment / Techno Blast / Multi-Atta
 SINGLE_BATTLE_TEST("Aerilate doesn't affect Hidden Power's type")
 {
     GIVEN {
-        ASSUME(GetMoveEffect(MOVE_HIDDEN_POWER) == EFFECT_HIDDEN_POWER);
-        ASSUME(gTypesInfo[TYPE_ELECTRIC].isHiddenPowerType == TRUE);
-        ASSUME(GetSpeciesType(SPECIES_DIGLETT, 0) == TYPE_GROUND);
-        PLAYER(SPECIES_PINSIR) { Item(ITEM_PINSIRITE); HPIV(31); AttackIV(31); DefenseIV(31); SpAttackIV(30); SpDefenseIV(31); SpeedIV(31); } // HP Electric
-        OPPONENT(SPECIES_DIGLETT);
+        ASSUME(GetMoveType(MOVE_HIDDEN_POWER) == TYPE_PSYCHIC);
+        ASSUME(GetSpeciesType(SPECIES_POOCHYENA, 0) == TYPE_DARK);
+        PLAYER(SPECIES_PINSIR) { Item(ITEM_PINSIRITE); }
+        OPPONENT(SPECIES_POOCHYENA);
     } WHEN {
         TURN { MOVE(player, MOVE_HIDDEN_POWER, gimmick: GIMMICK_MEGA); }
     } SCENE {
         NOT { ANIMATION(ANIM_TYPE_MOVE, MOVE_HIDDEN_POWER, player); }
-        MESSAGE("It doesn't affect the opposing Diglett…");
+        MESSAGE("It doesn't affect the opposing Poochyena…");
     }
 }
 
@@ -262,25 +260,3 @@ SINGLE_BATTLE_TEST("Aerilate doesn't affect Terrain Pulse's type")
         MESSAGE("It doesn't affect the opposing Sandshrew…");
     }
 }
-
-SINGLE_BATTLE_TEST("Aerilate doesn't affect damaging Z-Move types")
-{
-    GIVEN {
-        ASSUME(GetMoveType(MOVE_SCRATCH) == TYPE_NORMAL);
-        ASSUME(GetSpeciesType(SPECIES_MACHOP, 0) == TYPE_FIGHTING || GetSpeciesType(SPECIES_MACHOP, 1) == TYPE_FIGHTING);
-        ASSUME(GetMoveEffect(MOVE_SKILL_SWAP) == EFFECT_SKILL_SWAP);
-        PLAYER(SPECIES_WOBBUFFET) { Item(ITEM_NORMALIUM_Z); }
-        OPPONENT(SPECIES_SALAMENCE) { Item(ITEM_SALAMENCITE); Moves(MOVE_SKILL_SWAP); }
-        OPPONENT(SPECIES_MACHOP);
-    } WHEN {
-        TURN { MOVE(opponent, MOVE_SKILL_SWAP, gimmick: GIMMICK_MEGA, target: player); }
-        TURN { SWITCH(opponent, 1); MOVE(player, MOVE_SCRATCH, gimmick: GIMMICK_Z_MOVE); }
-    } SCENE {
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_ZMOVE_ACTIVATE, player);
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_BREAKNECK_BLITZ, player);
-        NOT { MESSAGE("It's super effective!"); }
-    }
-}
-
-TO_DO_BATTLE_TEST("Aerilate doesn't affect Max Strike's type");
-TO_DO_BATTLE_TEST("(DYNAMAX) Aerilate turns Max Strike into Max Airstream"); // All other -ate abilities do this, so interpolating this as no Aerilate mon is available in a Dynamax game

@@ -261,9 +261,7 @@ extern struct BattleMsgData *gBattleMsgDataPtr;
 
 extern const u8 *const gBattleStringsTable[];
 extern const u8 *const gStatNamesTable[NUM_BATTLE_STATS];
-extern const u8 *const gPokeblockWasTooXStringTable[];
-extern const u8 *const gRefereeStringsTable[];
-extern const u8 *const gRoundsStringTable[];
+extern const u8 *const gBerryFlavorReactionStrings[];
 
 extern const u8 gText_PkmnIsEvolving[];
 extern const u8 gText_CongratsPkmnEvolved[];
@@ -304,7 +302,6 @@ extern const u8 gText_LineBreak[];
 extern const u8 gText_NewLine[];
 extern const u8 gText_Are[];
 extern const u8 gText_Are2[];
-extern const u8 gText_BadEgg[];
 extern const u8 gText_BattleWallyName[];
 extern const u8 gText_Win[];
 extern const u8 gText_Loss[];
@@ -331,8 +328,6 @@ extern const u8 gText_Skill[];
 extern const u8 gText_Body[];
 extern const u8 gText_Judgment[];
 extern const u8 gText_EmptyString3[];
-extern const u8 gText_RecordBattleToPass[];
-extern const u8 gText_BattleRecordedOnPass[];
 extern const u8 gText_BattleTourney[];
 extern const u16 gStatUpStringIds[];
 extern const u16 gStatDownStringIds[];

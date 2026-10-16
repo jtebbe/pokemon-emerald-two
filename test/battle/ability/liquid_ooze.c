@@ -86,7 +86,7 @@ SINGLE_BATTLE_TEST("Liquid Ooze causes Strength Sap users to lose HP instead of 
     PARAMETRIZE { atkStat = 490; } // Checks that attacker can faint with no problems.
 
     GIVEN {
-        PLAYER(SPECIES_WOBBUFFET);
+        PLAYER(SPECIES_WOBBUFFET) { MaxHP(490); HP(490); }
         PLAYER(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_TENTACOOL) { Attack(atkStat); Ability(ABILITY_LIQUID_OOZE); }
     } WHEN {

@@ -5,7 +5,7 @@
 
 enum
 {
-    // Warps using this map will instead use the warp data stored in gSaveBlock1Ptr->dynamicWarp.
+    // Warps using this map will instead use the warp data stored in gSaveData.dynamicWarp.
     // Used for warps that need to change destinations, e.g. when stepping off an elevator.
     MAP_DYNAMIC = (0x7F | (0x7F << 8)),
 
@@ -20,7 +20,6 @@ enum
 // dynamic warp should be used, at which point the warp id is ignored. They can be passed
 // as the argument to SetWarpDestinationToDynamicWarp, but this argument is unused.
 // As only one dynamic warp is saved at a time there's no need to distinguish between them.
-#define WARP_ID_SECRET_BASE 0x7E
 #define WARP_ID_DYNAMIC     0x7F
 
 // Used to indicate an invalid warp id, for dummy warps or when a warp should

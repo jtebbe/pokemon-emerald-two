@@ -749,7 +749,7 @@ static const u8 *const sActionStringTable[] =
     [PARTY_MSG_UNUSED]                 = gText_EmptyString2,
     [PARTY_MSG_DO_WHAT_WITH_MON]       = gText_DoWhatWithPokemon,
     [PARTY_MSG_RESTORE_WHICH_MOVE]     = gText_RestoreWhichMove,
-    [PARTY_MSG_BOOST_PP_WHICH_MOVE]    = gText_BoostPP,
+    [PARTY_MSG_UNUSED_23]              = gText_EmptyString2,
     [PARTY_MSG_DO_WHAT_WITH_ITEM]      = gText_DoWhatWithItem,
     [PARTY_MSG_DO_WHAT_WITH_MAIL]      = gText_DoWhatWithMail,
     [PARTY_MSG_ALREADY_HOLDING_ONE]    = gText_AlreadyHoldingOne,
@@ -1129,7 +1129,7 @@ static const union AnimCmd sSpriteAnim_StatusBurn[] =
     ANIMCMD_END
 };
 
-static const union AnimCmd sSpriteAnim_StatusPokerus[] =
+static const union AnimCmd sSpriteAnim_StatusUnused[] =
 {
     ANIMCMD_FRAME(20, 0),
     ANIMCMD_END
@@ -1154,7 +1154,7 @@ static const union AnimCmd *const sSpriteTemplate_StatusCondition[] =
     sSpriteAnim_StatusSleep,
     sSpriteAnim_StatusFrozen,
     sSpriteAnim_StatusBurn,
-    sSpriteAnim_StatusPokerus,
+    sSpriteAnim_StatusUnused,
     sSpriteAnim_StatusFaint,
     sSpriteAnim_StatusFrostbite
 };

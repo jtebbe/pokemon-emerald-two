@@ -283,7 +283,7 @@ u8 CreateWarpArrowSprite(void)
     {
         struct Sprite *sprite = &gSprites[spriteId];
         // Can use either gender's palette, so try to use the one that should be loaded
-        sprite->oam.paletteNum = LoadPlayerObjectEventPalette(gSaveBlock2Ptr->playerGender);
+        sprite->oam.paletteNum = LoadPlayerObjectEventPalette(gSaveData.playerGender);
         sprite->oam.priority = 1;
         sprite->coordOffsetEnabled = TRUE;
         sprite->invisible = TRUE;
@@ -464,11 +464,11 @@ void UpdateTallGrassFieldEffect(struct Sprite *sprite)
     u8 mapNum = sprite->sCurrentMap >> 8;
     u8 mapGroup = sprite->sCurrentMap;
 
-    if (gCamera.active && (gSaveBlock1Ptr->location.mapNum != mapNum || gSaveBlock1Ptr->location.mapGroup != mapGroup))
+    if (gCamera.active && (gSaveData.location.mapNum != mapNum || gSaveData.location.mapGroup != mapGroup))
     {
         sprite->sX -= gCamera.x;
         sprite->sY -= gCamera.y;
-        sprite->sCurrentMap = ((u8)gSaveBlock1Ptr->location.mapNum << 8) | (u8)gSaveBlock1Ptr->location.mapGroup;
+        sprite->sCurrentMap = ((u8)gSaveData.location.mapNum << 8) | (u8)gSaveData.location.mapGroup;
     }
     localId = sprite->sLocalId;
     mapNum = sprite->sMapNum;
@@ -568,11 +568,11 @@ void UpdateLongGrassFieldEffect(struct Sprite *sprite)
     u8 mapNum = sprite->sCurrentMap >> 8;
     u8 mapGroup = sprite->sCurrentMap;
 
-    if (gCamera.active && (gSaveBlock1Ptr->location.mapNum != mapNum || gSaveBlock1Ptr->location.mapGroup != mapGroup))
+    if (gCamera.active && (gSaveData.location.mapNum != mapNum || gSaveData.location.mapGroup != mapGroup))
     {
         sprite->sX -= gCamera.x;
         sprite->sY -= gCamera.y;
-        sprite->sCurrentMap = ((u8)gSaveBlock1Ptr->location.mapNum << 8) | (u8)gSaveBlock1Ptr->location.mapGroup;
+        sprite->sCurrentMap = ((u8)gSaveData.location.mapNum << 8) | (u8)gSaveData.location.mapGroup;
     }
     localId = sprite->sLocalId;
     mapNum = sprite->sMapNum;
@@ -1208,7 +1208,7 @@ u32 FldEff_SurfBlob(void)
         sprite->coordOffsetEnabled = TRUE;
         sprite->sPlayerObjId = gFieldEffectArguments[2];
         // Can use either gender's palette, so try to use the one that should be loaded
-        sprite->oam.paletteNum = LoadPlayerObjectEventPalette(gSaveBlock2Ptr->playerGender);
+        sprite->oam.paletteNum = LoadPlayerObjectEventPalette(gSaveData.playerGender);
         sprite->sVelocity = -1;
         sprite->sPrevX = -1;
         sprite->sPrevY = -1;

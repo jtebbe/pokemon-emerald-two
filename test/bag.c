@@ -3,8 +3,20 @@
 #include "event_data.h"
 #include "item_menu.h"
 #include "pokemon.h"
+#include "string_util.h"
 #include "test/overworld_script.h"
 #include "test/test.h"
+
+TEST("TM moves and labels stay aligned after retiring two moves")
+{
+    EXPECT_EQ(NUM_TECHNICAL_MACHINES, 48);
+    EXPECT_EQ(GetItemTMHMMoveId(ITEM_TM21), MOVE_SOLAR_BEAM);
+    EXPECT_EQ(GetItemTMHMMoveId(ITEM_TM26), MOVE_DIG);
+    EXPECT_EQ(GetItemTMHMMoveId(ITEM_TM48), MOVE_OVERHEAT);
+    EXPECT_EQ(StringCompare(GetItemName(ITEM_TM21), COMPOUND_STRING("TM21")), 0);
+    EXPECT_EQ(StringCompare(GetItemName(ITEM_TM26), COMPOUND_STRING("TM26")), 0);
+    EXPECT_EQ(StringCompare(GetItemName(ITEM_TM48), COMPOUND_STRING("TM48")), 0);
+}
 
 TEST("TMs and HMs are sorted correctly in the bag")
 {
@@ -100,7 +112,7 @@ TEST("Berries are sorted correctly in the bag")
 TEST("Items are correctly sorted and compacted in the bag")
 {
     struct BagPocket *pocket = &gBagPockets[POCKET_ITEMS];
-    memset(pocket->itemSlots, 0, sizeof(gSaveBlock1Ptr->bag.items));
+    memset(pocket->itemSlots, 0, sizeof(gSaveData.bag.items));
 
     ASSUME(GetItemPocket(ITEM_NUGGET) == POCKET_ITEMS);
     ASSUME(GetItemPocket(ITEM_BIG_NUGGET) == POCKET_ITEMS);

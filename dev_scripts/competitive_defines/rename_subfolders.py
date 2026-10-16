@@ -18,4 +18,3 @@ def rename_subdirs(rootDir, old, new):
 rename_subdirs("graphics/pokemon", '/alolan', "/alola")
 rename_subdirs("graphics/pokemon", '/galarian', "/galar")
 rename_subdirs("graphics/pokemon", '/hisuian', "/hisui")
-rename_subdirs("graphics/pokemon", '/gigantamax', "/gmax")

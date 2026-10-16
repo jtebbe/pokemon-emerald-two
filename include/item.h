@@ -43,11 +43,9 @@ enum PACKED ItemSortType
     ITEM_TYPE_EVOLUTION_ITEM,
     ITEM_TYPE_SPECIAL_HELD_ITEM,
     ITEM_TYPE_MEGA_STONE,
-    ITEM_TYPE_Z_CRYSTAL,
     ITEM_TYPE_TERA_SHARD,
     ITEM_TYPE_HELD_ITEM,
     ITEM_TYPE_TYPE_BOOST_HELD_ITEM,
-    ITEM_TYPE_CONTEST_HELD_ITEM,
     ITEM_TYPE_EV_BOOST_HELD_ITEM,
     ITEM_TYPE_GEM,
     ITEM_TYPE_PLATE,
@@ -190,8 +188,6 @@ static inline enum BerryId ItemIdToBerryType(enum Item itemId)
     switch (itemId)
     {
     FOREACH_BERRY(GET_BERRY_ID)
-    case ITEM_ENIGMA_BERRY_E_READER:
-        return BERRY_ID_ENGIMA_E_READER;
     default:
         return BERRY_ID_NONE;
     }
@@ -202,8 +198,6 @@ static inline enum Item BerryTypeToItemId(enum BerryId berryId)
     switch (berryId)
     {
     FOREACH_BERRY(GET_BERRY_ITEM_ID)
-    case BERRY_ID_ENGIMA_E_READER:
-        return ITEM_ENIGMA_BERRY_E_READER;
     default:
         return ITEM_NONE;
     }
@@ -235,13 +229,11 @@ static inline struct ItemSlot GetBagItemIdAndQuantity(enum Pocket pocketId, u32 
     return BagPocket_GetSlotData(&gBagPockets[pocketId], pocketPos);
 }
 
-void ApplyNewEncryptionKeyToBagItems(u32 newKey);
 void SetBagItemsPointers(void);
 u8 *CopyItemName(enum Item itemId, u8 *dst);
 u8 *CopyItemNameHandlePlural(enum Item itemId, u8 *dst, u32 quantity);
 bool32 IsBagPocketNonEmpty(enum Pocket pocketId);
 bool32 CheckBagHasItem(enum Item itemId, u16 count);
-bool32 HasAtLeastOneBerry(void);
 bool32 HasAtLeastOnePokeBall(void);
 bool32 CheckBagHasSpace(enum Item itemId, u16 count);
 u32 GetFreeSpaceForItemInBag(enum Item itemId);
@@ -259,8 +251,6 @@ void MoveItemSlotInPocket(enum Pocket pocketId, u32 from, u32 to);
 void MoveItemSlotInPC(struct ItemSlot *itemSlots, u32 from, u32 to);
 void ClearBag(void);
 u16 CountTotalItemQuantityInBag(enum Item itemId);
-bool32 AddPyramidBagItem(enum Item itemId, u16 count);
-bool32 RemovePyramidBagItem(enum Item itemId, u16 count);
 const u8 *GetItemName(enum Item itemId);
 u32 GetItemPrice(enum Item itemId);
 const u8 *GetItemEffect(enum Item itemId);

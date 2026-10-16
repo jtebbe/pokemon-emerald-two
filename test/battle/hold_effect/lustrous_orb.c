@@ -20,8 +20,8 @@ SINGLE_BATTLE_TEST("Lustrous Orb boosts Palkia's Dragon- and Water-type move dam
     GIVEN {
         ASSUME(GetMoveType(MOVE_DRAGON_CLAW) == TYPE_DRAGON);
         ASSUME(GetMoveType(MOVE_SCALD) == TYPE_WATER);
-        PLAYER(SPECIES_PALKIA) { Item(item); Moves(move); }
-        OPPONENT(SPECIES_WOBBUFFET);
+        PLAYER(SPECIES_PALKIA) { Attack(245); SpAttack(305); Item(item); Moves(move); }
+        OPPONENT(SPECIES_WOBBUFFET) { Defense(121); SpDefense(121); }
     } WHEN {
         TURN { MOVE(player, move); }
     } SCENE {

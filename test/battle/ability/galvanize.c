@@ -7,7 +7,6 @@ ASSUMPTIONS
     ASSUME(GetMoveType(MOVE_SCRATCH) == TYPE_NORMAL);
     ASSUME(GetMovePower(MOVE_SCRATCH) > 0);
 }
-
 SINGLE_BATTLE_TEST("Galvanize turns a normal type move into Electric")
 {
     GIVEN {
@@ -30,7 +29,7 @@ SINGLE_BATTLE_TEST("Galvanize can not turn certain moves into Electric type move
     PARAMETRIZE { move = MOVE_MULTI_ATTACK; }
 
     GIVEN {
-        ASSUME(GetMoveEffect(MOVE_HIDDEN_POWER) == EFFECT_HIDDEN_POWER);
+        ASSUME(GetMoveType(MOVE_HIDDEN_POWER) == TYPE_PSYCHIC);
         ASSUME(GetMoveEffect(MOVE_WEATHER_BALL) == EFFECT_WEATHER_BALL);
         ASSUME(GetMoveEffect(MOVE_MULTI_ATTACK) == EFFECT_CHANGE_TYPE_ON_ITEM);
         PLAYER(SPECIES_KRABBY);
@@ -152,16 +151,15 @@ SINGLE_BATTLE_TEST("Galvanize doesn't affect Judgment / Techno Blast / Multi-Att
 SINGLE_BATTLE_TEST("Galvanize doesn't affect Hidden Power's type")
 {
     GIVEN {
-        ASSUME(GetMoveEffect(MOVE_HIDDEN_POWER) == EFFECT_HIDDEN_POWER);
-        ASSUME(gTypesInfo[TYPE_ELECTRIC].isHiddenPowerType == TRUE);
-        ASSUME(GetSpeciesType(SPECIES_DIGLETT, 0) == TYPE_GROUND);
-        PLAYER(SPECIES_GEODUDE_ALOLA) { Ability(ABILITY_GALVANIZE); HPIV(31); AttackIV(31); DefenseIV(31); SpAttackIV(30); SpDefenseIV(31); SpeedIV(30); } // HP Water
-        OPPONENT(SPECIES_VAPOREON) { Ability(ABILITY_WATER_ABSORB); }
+        ASSUME(GetMoveType(MOVE_HIDDEN_POWER) == TYPE_PSYCHIC);
+        ASSUME(GetSpeciesType(SPECIES_POOCHYENA, 0) == TYPE_DARK);
+        PLAYER(SPECIES_GEODUDE_ALOLA) { Ability(ABILITY_GALVANIZE); }
+        OPPONENT(SPECIES_POOCHYENA);
     } WHEN {
         TURN { MOVE(player, MOVE_HIDDEN_POWER); }
     } SCENE {
         NOT { ANIMATION(ANIM_TYPE_MOVE, MOVE_HIDDEN_POWER, player); }
-        MESSAGE("It doesn't affect the opposing Vaporeon…");
+        MESSAGE("It doesn't affect the opposing Poochyena…");
     }
 }
 
@@ -214,23 +212,3 @@ SINGLE_BATTLE_TEST("Galvanize doesn't affect Terrain Pulse's type")
         MESSAGE("It's super effective!");
     }
 }
-
-SINGLE_BATTLE_TEST("Galvanize doesn't affect damaging Z-Move types")
-{
-    GIVEN {
-        ASSUME(GetMoveType(MOVE_SCRATCH) == TYPE_NORMAL);
-        ASSUME(GetSpeciesType(SPECIES_GYARADOS, 0) == TYPE_WATER || GetSpeciesType(SPECIES_GYARADOS, 1) == TYPE_WATER);
-        PLAYER(SPECIES_GEODUDE_ALOLA) { Ability(ABILITY_GALVANIZE); Item(ITEM_NORMALIUM_Z); }
-        OPPONENT(SPECIES_GYARADOS);
-    } WHEN {
-        TURN { MOVE(player, MOVE_SCRATCH, gimmick: GIMMICK_Z_MOVE); }
-    } SCENE {
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_ZMOVE_ACTIVATE, player);
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_BREAKNECK_BLITZ, player);
-        NOT { MESSAGE("It's super effective!"); }
-    }
-}
-
-TO_DO_BATTLE_TEST("Galvanize doesn't affect Max Strike's type");
-TO_DO_BATTLE_TEST("(DYNAMAX) Galvanize turns Max Strike into Max Lightning when not used by Gigantamax Pikachu/Toxtricity");
-//TO_DO_BATTLE_TEST("(DYNAMAX) Galvanize doesn't turn Max Strike into Max Lightning when used by Gigantamax Pikachu/Toxtricity, instead becoming G-Max Volt Crash/Stun Shock"); // Marked in Bulbapedia as "needs research", so this assumes that it behaves like Pixilate.

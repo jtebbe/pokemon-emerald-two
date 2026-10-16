@@ -153,10 +153,6 @@ enum __attribute__((packed)) MoveEffect
     MOVE_EFFECT_FOCUS_ENERGY,
     MOVE_EFFECT_DRAGON_CHEER,
 
-    // Max move effects happen earlier in the execution chain.
-    // For example stealth rock from G-Max Stonesurge is set up before abilities but from Stone Axe after.
-    // Stone Axe can also fail to set up rocks if user faints where as Stonesurge will always go up.
-    // This means we need to be careful if we want to re-use those effects for (new) vanilla moves
     MOVE_EFFECT_SUN,
     MOVE_EFFECT_RAIN,
     MOVE_EFFECT_SANDSTORM,
@@ -166,22 +162,11 @@ enum __attribute__((packed)) MoveEffect
     MOVE_EFFECT_GRASSY_TERRAIN,
     MOVE_EFFECT_ELECTRIC_TERRAIN,
     MOVE_EFFECT_PSYCHIC_TERRAIN,
-    MOVE_EFFECT_VINE_LASH,
-    MOVE_EFFECT_WILDFIRE,
-    MOVE_EFFECT_CANNONADE,
-    MOVE_EFFECT_CRIT_PLUS, // G-Max Chi Strike
     MOVE_EFFECT_AURORA_VEIL,
     MOVE_EFFECT_DEFOG,
     MOVE_EFFECT_GRAVITY,
-    MOVE_EFFECT_VOLCALITH,
-    MOVE_EFFECT_SAND_TOMB_SIDE,
     MOVE_EFFECT_AROMATHERAPY,
-    MOVE_EFFECT_STEELSURGE, // Steel type rocks
-    MOVE_EFFECT_STEALTH_ROCK, // Max Move rocks, not to be confused with rocks set up from Ceasless Edge (same but differ in execution order)
-    MOVE_EFFECT_FIRE_SPIN_SIDE,
-    MOVE_EFFECT_RESTORE_HP_DYNAMAX,
-    MOVE_EFFECT_FIXED_POWER, // This has no real use outside of dmax moves
-    // Max move effects end. They can be used for (custom) normal moves.
+    MOVE_EFFECT_STEALTH_ROCK,
 
     // For status stat change moves
     STAT_CHANGE_EFFECT_PLUS,

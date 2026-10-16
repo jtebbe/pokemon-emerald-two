@@ -57,23 +57,6 @@ static void ParametrizeMovesAndSpecies(u32 j, enum Move *pMove, enum Species *pS
     }
 }
 
-static u32 ParametrizeFriendship(enum Move move, u32 variation)
-{
-    if (gMovesInfo[move].effect == EFFECT_FRUSTRATION
-        || gMovesInfo[move].effect == EFFECT_RETURN
-        )
-    {
-        if (variation == 0)
-           return 1;
-        else if (variation == 1)
-            return 61;
-        else if (variation == 2)
-            return 101;
-        else if (variation == 3)
-            return 201;
-    }
-    return 0;
-}
 
 static u32 GetParametrizedHP(enum Move move, u32 variation)
 {
@@ -185,9 +168,7 @@ static u32 GetVariationsNumber(enum Move move, bool8 isDouble)
      || gMovesInfo[move].effect == EFFECT_TERRAIN_PULSE
      || move == MOVE_TECHNO_BLAST)
         variationsNumber = 5;
-    else if (gMovesInfo[move].effect == EFFECT_FRUSTRATION
-          || gMovesInfo[move].effect == EFFECT_RETURN
-          || gMovesInfo[move].effect == EFFECT_IVY_CUDGEL
+    else if ( gMovesInfo[move].effect == EFFECT_IVY_CUDGEL
           || move == MOVE_WATER_SPOUT) //we don't use the effect because other moves with the water spout effect don't have animation variations
         variationsNumber = 4;
     else if (gMovesInfo[move].effect == EFFECT_SPIT_UP
@@ -665,7 +646,6 @@ SINGLE_BATTLE_TEST("Move Animations don't leak when used - Singles (player to op
     enum Move move = MOVE_NONE;
     enum Species species = SPECIES_NONE;
     u32 k = 0, variation = 0, variationsNumber;
-    u32 friendship = 0, tempFriendship;
     enum Move tempMove;
     enum Species tempSpecies;
     FORCE_MOVE_ANIM(TRUE);
@@ -673,8 +653,7 @@ SINGLE_BATTLE_TEST("Move Animations don't leak when used - Singles (player to op
         variationsNumber = GetVariationsNumber(j, FALSE);
         for (k = 0; k < variationsNumber; k++) {
             ParametrizeMovesAndSpecies(j, &tempMove, &tempSpecies, k);
-            tempFriendship = ParametrizeFriendship(j, k);
-            PARAMETRIZE { move = tempMove; species = tempSpecies; variation = k; friendship = tempFriendship; }
+            PARAMETRIZE { move = tempMove; species = tempSpecies; variation = k; }
         }
     }
     GIVEN {
@@ -684,7 +663,6 @@ SINGLE_BATTLE_TEST("Move Animations don't leak when used - Singles (player to op
             if (species == SPECIES_WOBBUFFET) Gender(MON_FEMALE);
             if (GetMoveEffect(move) == EFFECT_LAST_RESORT) Moves(move, MOVE_POUND);
             if (species == SPECIES_KLINKLANG) Ability(ABILITY_PLUS);
-            if (friendship) Friendship(friendship);
             if (GetParametrizedShinyness(move, variation)) Shiny(TRUE);
         }
         PLAYER(SPECIES_WOBBUFFET)   {
@@ -716,7 +694,6 @@ SINGLE_BATTLE_TEST("Move Animations don't leak when used - Singles (opponent to 
     enum Move move = MOVE_NONE;
     enum Species species = SPECIES_NONE;
     u32 k = 0, variation = 0, variationsNumber;
-    u32 friendship = 0, tempFriendship;
     enum Move tempMove;
     enum Species tempSpecies;
     FORCE_MOVE_ANIM(TRUE);
@@ -724,8 +701,7 @@ SINGLE_BATTLE_TEST("Move Animations don't leak when used - Singles (opponent to 
         variationsNumber = GetVariationsNumber(j, FALSE);
         for (k = 0; k < variationsNumber; k++) {
             ParametrizeMovesAndSpecies(j, &tempMove, &tempSpecies, k);
-            tempFriendship = ParametrizeFriendship(j, k);
-            PARAMETRIZE { move = tempMove; species = tempSpecies; variation = k; friendship = tempFriendship; }
+            PARAMETRIZE { move = tempMove; species = tempSpecies; variation = k; }
         }
     }
     GIVEN {
@@ -735,7 +711,6 @@ SINGLE_BATTLE_TEST("Move Animations don't leak when used - Singles (opponent to 
             if (species == SPECIES_WOBBUFFET) Gender(MON_FEMALE);
             if (GetMoveEffect(move) == EFFECT_LAST_RESORT) Moves(move, MOVE_POUND);
             if (species == SPECIES_KLINKLANG) Ability(ABILITY_PLUS);
-            if (friendship) Friendship(friendship);
             if (GetParametrizedShinyness(move, variation)) Shiny(TRUE);
         }
         OPPONENT(SPECIES_WOBBUFFET)   {
@@ -767,7 +742,6 @@ DOUBLE_BATTLE_TEST("Move Animations don't leak when used - Doubles (playerLeft t
     enum Move move = MOVE_NONE;
     enum Species species = SPECIES_NONE;
     u32 k = 0, variation = 0, variationsNumber;
-    u32 friendship = 0, tempFriendship;
     enum Move tempMove;
     enum Species tempSpecies;
     FORCE_MOVE_ANIM(TRUE);
@@ -779,8 +753,7 @@ DOUBLE_BATTLE_TEST("Move Animations don't leak when used - Doubles (playerLeft t
         variationsNumber = GetVariationsNumber(j, TRUE);
         for (k = 0; k < variationsNumber; k++) {
             ParametrizeMovesAndSpecies(j, &tempMove, &tempSpecies, k);
-            tempFriendship = ParametrizeFriendship(j, k);
-            PARAMETRIZE { move = tempMove; species = tempSpecies; variation = k; friendship = tempFriendship; }
+            PARAMETRIZE { move = tempMove; species = tempSpecies; variation = k; }
         }
     }
     GIVEN {
@@ -791,7 +764,6 @@ DOUBLE_BATTLE_TEST("Move Animations don't leak when used - Doubles (playerLeft t
                 if (species == SPECIES_WOBBUFFET) Gender(MON_FEMALE);
                 if (GetMoveEffect(move) == EFFECT_LAST_RESORT) Moves(move, MOVE_POUND);
                 if (species == SPECIES_KLINKLANG) Ability(ABILITY_PLUS);
-                if (friendship) Friendship(friendship);
                 if (GetParametrizedShinyness(move, variation)) Shiny(TRUE);
             }
         }
@@ -803,7 +775,6 @@ DOUBLE_BATTLE_TEST("Move Animations don't leak when used - Doubles (playerLeft t
                 if (species == SPECIES_WOBBUFFET) Gender(MON_FEMALE);
                 if (GetMoveEffect(move) == EFFECT_LAST_RESORT) Moves(move, MOVE_POUND);
                 if (species == SPECIES_KLINKLANG) Ability(ABILITY_PLUS);
-                if (friendship) Friendship(friendship);
                 if (GetParametrizedShinyness(move, variation)) Shiny(TRUE);
             }
         }
@@ -841,7 +812,6 @@ DOUBLE_BATTLE_TEST("Move Animations don't leak when used - Doubles (opponentLeft
     enum Move move = MOVE_NONE;
     enum Species species = SPECIES_NONE;
     u32 k = 0, variation = 0, variationsNumber;
-    u32 friendship = 0, tempFriendship;
     enum Move tempMove;
     enum Species tempSpecies;
     FORCE_MOVE_ANIM(TRUE);
@@ -853,8 +823,7 @@ DOUBLE_BATTLE_TEST("Move Animations don't leak when used - Doubles (opponentLeft
         variationsNumber = GetVariationsNumber(j, TRUE);
         for (k = 0; k < variationsNumber; k++) {
             ParametrizeMovesAndSpecies(j, &tempMove, &tempSpecies, k);
-            tempFriendship = ParametrizeFriendship(j, k);
-            PARAMETRIZE { move = tempMove; species = tempSpecies; variation = k; friendship = tempFriendship; }
+            PARAMETRIZE { move = tempMove; species = tempSpecies; variation = k; }
         }
     }
     GIVEN {
@@ -865,7 +834,6 @@ DOUBLE_BATTLE_TEST("Move Animations don't leak when used - Doubles (opponentLeft
                 if (species == SPECIES_WOBBUFFET) Gender(MON_FEMALE);
                 if (GetMoveEffect(move) == EFFECT_LAST_RESORT) Moves(move, MOVE_POUND);
                 if (species == SPECIES_KLINKLANG) Ability(ABILITY_PLUS);
-                if (friendship) Friendship(friendship);
                 if (GetParametrizedShinyness(move, variation)) Shiny(TRUE);
             }
         }
@@ -876,7 +844,6 @@ DOUBLE_BATTLE_TEST("Move Animations don't leak when used - Doubles (opponentLeft
                 if (species == SPECIES_WOBBUFFET) Gender(MON_FEMALE);
                 if (GetMoveEffect(move) == EFFECT_LAST_RESORT) Moves(move, MOVE_POUND);
                 if (species == SPECIES_KLINKLANG) Ability(ABILITY_PLUS);
-                if (friendship) Friendship(friendship);
                 if (GetParametrizedShinyness(move, variation)) Shiny(TRUE);
             }
         }
@@ -916,7 +883,6 @@ DOUBLE_BATTLE_TEST("Move Animations don't leak when used - Doubles (playerLeft t
     enum Move move = MOVE_NONE;
     enum Species species = SPECIES_NONE;
     u32 k = 0, variation = 0, variationsNumber;
-    u32 friendship = 0, tempFriendship;
     enum Move tempMove;
     enum Species tempSpecies;
     FORCE_MOVE_ANIM(TRUE);
@@ -928,8 +894,7 @@ DOUBLE_BATTLE_TEST("Move Animations don't leak when used - Doubles (playerLeft t
         variationsNumber = GetVariationsNumber(j, TRUE);
         for (k = 0; k < variationsNumber; k++) {
             ParametrizeMovesAndSpecies(j, &tempMove, &tempSpecies, k);
-            tempFriendship = ParametrizeFriendship(j, k);
-            PARAMETRIZE { move = tempMove; species = tempSpecies; variation = k; friendship = tempFriendship; }
+            PARAMETRIZE { move = tempMove; species = tempSpecies; variation = k; }
         }
     }
     GIVEN {
@@ -940,7 +905,6 @@ DOUBLE_BATTLE_TEST("Move Animations don't leak when used - Doubles (playerLeft t
                 if (species == SPECIES_WOBBUFFET) Gender(MON_FEMALE);
                 if (GetMoveEffect(move) == EFFECT_LAST_RESORT) Moves(move, MOVE_POUND);
                 if (species == SPECIES_KLINKLANG) Ability(ABILITY_PLUS);
-                if (friendship) Friendship(friendship);
                 if (GetParametrizedShinyness(move, variation)) Shiny(TRUE);
             }
         }
@@ -951,7 +915,6 @@ DOUBLE_BATTLE_TEST("Move Animations don't leak when used - Doubles (playerLeft t
                 if (species == SPECIES_WOBBUFFET) Gender(MON_FEMALE);
                 if (GetMoveEffect(move) == EFFECT_LAST_RESORT) Moves(move, MOVE_POUND);
                 if (species == SPECIES_KLINKLANG) Ability(ABILITY_PLUS);
-                if (friendship) Friendship(friendship);
                 if (GetParametrizedShinyness(move, variation)) Shiny(TRUE);
             }
         }
@@ -991,7 +954,6 @@ DOUBLE_BATTLE_TEST("Move Animations don't leak when used - Doubles (opponentRigh
     enum Move move = MOVE_NONE;
     enum Species species = SPECIES_NONE;
     u32 k = 0, variation = 0, variationsNumber;
-    u32 friendship = 0, tempFriendship;
     enum Move tempMove;
     enum Species tempSpecies;
     FORCE_MOVE_ANIM(TRUE);
@@ -1003,8 +965,7 @@ DOUBLE_BATTLE_TEST("Move Animations don't leak when used - Doubles (opponentRigh
         variationsNumber = GetVariationsNumber(j, TRUE);
         for (k = 0; k < variationsNumber; k++) {
             ParametrizeMovesAndSpecies(j, &tempMove, &tempSpecies, k);
-            tempFriendship = ParametrizeFriendship(j, k);
-            PARAMETRIZE { move = tempMove; species = tempSpecies; variation = k; friendship = tempFriendship; }
+            PARAMETRIZE { move = tempMove; species = tempSpecies; variation = k; }
         }
     }
     GIVEN {
@@ -1015,7 +976,6 @@ DOUBLE_BATTLE_TEST("Move Animations don't leak when used - Doubles (opponentRigh
                 if (species == SPECIES_WOBBUFFET) Gender(MON_FEMALE);
                 if (GetMoveEffect(move) == EFFECT_LAST_RESORT) Moves(move, MOVE_POUND);
                 if (species == SPECIES_KLINKLANG) Ability(ABILITY_PLUS);
-                if (friendship) Friendship(friendship);
                 if (GetParametrizedShinyness(move, variation)) Shiny(TRUE);
             }
         }
@@ -1026,7 +986,6 @@ DOUBLE_BATTLE_TEST("Move Animations don't leak when used - Doubles (opponentRigh
                 if (species == SPECIES_WOBBUFFET) Gender(MON_FEMALE);
                 if (GetMoveEffect(move) == EFFECT_LAST_RESORT) Moves(move, MOVE_POUND);
                 if (species == SPECIES_KLINKLANG) Ability(ABILITY_PLUS);
-                if (friendship) Friendship(friendship);
                 if (GetParametrizedShinyness(move, variation)) Shiny(TRUE);
             }
         }
@@ -1066,7 +1025,6 @@ DOUBLE_BATTLE_TEST("Move Animations don't leak when used - Doubles (playerRight 
     enum Move move = MOVE_NONE;
     enum Species species = SPECIES_NONE;
     u32 k = 0, variation = 0, variationsNumber;
-    u32 friendship = 0, tempFriendship;
     enum Move tempMove;
     enum Species tempSpecies;
     FORCE_MOVE_ANIM(TRUE);
@@ -1078,8 +1036,7 @@ DOUBLE_BATTLE_TEST("Move Animations don't leak when used - Doubles (playerRight 
         variationsNumber = GetVariationsNumber(j, TRUE);
         for (k = 0; k < variationsNumber; k++) {
             ParametrizeMovesAndSpecies(j, &tempMove, &tempSpecies, k);
-            tempFriendship = ParametrizeFriendship(j, k);
-            PARAMETRIZE { move = tempMove; species = tempSpecies; variation = k; friendship = tempFriendship; }
+            PARAMETRIZE { move = tempMove; species = tempSpecies; variation = k; }
         }
     }
     GIVEN {
@@ -1090,7 +1047,6 @@ DOUBLE_BATTLE_TEST("Move Animations don't leak when used - Doubles (playerRight 
                 if (species == SPECIES_WOBBUFFET) Gender(MON_FEMALE);
                 if (GetMoveEffect(move) == EFFECT_LAST_RESORT) Moves(move, MOVE_POUND);
                 if (species == SPECIES_KLINKLANG) Ability(ABILITY_PLUS);
-                if (friendship) Friendship(friendship);
                 if (GetParametrizedShinyness(move, variation)) Shiny(TRUE);
             }
         }
@@ -1101,7 +1057,6 @@ DOUBLE_BATTLE_TEST("Move Animations don't leak when used - Doubles (playerRight 
                 if (species == SPECIES_WOBBUFFET) Gender(MON_FEMALE);
                 if (GetMoveEffect(move) == EFFECT_LAST_RESORT) Moves(move, MOVE_POUND);
                 if (species == SPECIES_KLINKLANG) Ability(ABILITY_PLUS);
-                if (friendship) Friendship(friendship);
                 if (GetParametrizedShinyness(move, variation)) Shiny(TRUE);
             }
         }
@@ -1141,7 +1096,6 @@ DOUBLE_BATTLE_TEST("Move Animations don't leak when used - Doubles (opponentLeft
     enum Move move = MOVE_NONE;
     enum Species species = SPECIES_NONE;
     u32 k = 0, variation = 0, variationsNumber;
-    u32 friendship = 0, tempFriendship;
     enum Move tempMove;
     enum Species tempSpecies;
     FORCE_MOVE_ANIM(TRUE);
@@ -1153,8 +1107,7 @@ DOUBLE_BATTLE_TEST("Move Animations don't leak when used - Doubles (opponentLeft
         variationsNumber = GetVariationsNumber(j, TRUE);
         for (k = 0; k < variationsNumber; k++) {
             ParametrizeMovesAndSpecies(j, &tempMove, &tempSpecies, k);
-            tempFriendship = ParametrizeFriendship(j, k);
-            PARAMETRIZE { move = tempMove; species = tempSpecies; variation = k; friendship = tempFriendship; }
+            PARAMETRIZE { move = tempMove; species = tempSpecies; variation = k; }
         }
     }
     GIVEN {
@@ -1165,7 +1118,6 @@ DOUBLE_BATTLE_TEST("Move Animations don't leak when used - Doubles (opponentLeft
                 if (species == SPECIES_WOBBUFFET) Gender(MON_FEMALE);
                 if (GetMoveEffect(move) == EFFECT_LAST_RESORT) Moves(move, MOVE_POUND);
                 if (species == SPECIES_KLINKLANG) Ability(ABILITY_PLUS);
-                if (friendship) Friendship(friendship);
                 if (GetParametrizedShinyness(move, variation)) Shiny(TRUE);
             }
         }
@@ -1176,7 +1128,6 @@ DOUBLE_BATTLE_TEST("Move Animations don't leak when used - Doubles (opponentLeft
                 if (species == SPECIES_WOBBUFFET) Gender(MON_FEMALE);
                 if (GetMoveEffect(move) == EFFECT_LAST_RESORT) Moves(move, MOVE_POUND);
                 if (species == SPECIES_KLINKLANG) Ability(ABILITY_PLUS);
-                if (friendship) Friendship(friendship);
                 if (GetParametrizedShinyness(move, variation)) Shiny(TRUE);
             }
         }
@@ -1216,7 +1167,6 @@ DOUBLE_BATTLE_TEST("Move Animations don't leak when used - Doubles (playerRight 
     enum Move move = MOVE_NONE;
     enum Species species = SPECIES_NONE;
     u32 k = 0, variation = 0, variationsNumber;
-    u32 friendship = 0, tempFriendship;
     enum Move tempMove;
     enum Species tempSpecies;
     FORCE_MOVE_ANIM(TRUE);
@@ -1228,8 +1178,7 @@ DOUBLE_BATTLE_TEST("Move Animations don't leak when used - Doubles (playerRight 
         variationsNumber = GetVariationsNumber(j, TRUE);
         for (k = 0; k < variationsNumber; k++) {
             ParametrizeMovesAndSpecies(j, &tempMove, &tempSpecies, k);
-            tempFriendship = ParametrizeFriendship(j, k);
-            PARAMETRIZE { move = tempMove; species = tempSpecies; variation = k; friendship = tempFriendship; }
+            PARAMETRIZE { move = tempMove; species = tempSpecies; variation = k; }
         }
     }
     GIVEN {
@@ -1240,7 +1189,6 @@ DOUBLE_BATTLE_TEST("Move Animations don't leak when used - Doubles (playerRight 
                 if (species == SPECIES_WOBBUFFET) Gender(MON_FEMALE);
                 if (GetMoveEffect(move) == EFFECT_LAST_RESORT) Moves(move, MOVE_POUND);
                 if (species == SPECIES_KLINKLANG) Ability(ABILITY_PLUS);
-                if (friendship) Friendship(friendship);
                 if (GetParametrizedShinyness(move, variation)) Shiny(TRUE);
             }
         }
@@ -1251,7 +1199,6 @@ DOUBLE_BATTLE_TEST("Move Animations don't leak when used - Doubles (playerRight 
                 if (species == SPECIES_WOBBUFFET) Gender(MON_FEMALE);
                 if (GetMoveEffect(move) == EFFECT_LAST_RESORT) Moves(move, MOVE_POUND);
                 if (species == SPECIES_KLINKLANG) Ability(ABILITY_PLUS);
-                if (friendship) Friendship(friendship);
                 if (GetParametrizedShinyness(move, variation)) Shiny(TRUE);
             }
         }
@@ -1291,7 +1238,6 @@ DOUBLE_BATTLE_TEST("Move Animations don't leak when used - Doubles (opponentRigh
     enum Move move = MOVE_NONE;
     enum Species species = SPECIES_NONE;
     u32 k = 0, variation = 0, variationsNumber;
-    u32 friendship = 0, tempFriendship;
     enum Move tempMove;
     enum Species tempSpecies;
     FORCE_MOVE_ANIM(TRUE);
@@ -1303,8 +1249,7 @@ DOUBLE_BATTLE_TEST("Move Animations don't leak when used - Doubles (opponentRigh
         variationsNumber = GetVariationsNumber(j, TRUE);
         for (k = 0; k < variationsNumber; k++) {
             ParametrizeMovesAndSpecies(j, &tempMove, &tempSpecies, k);
-            tempFriendship = ParametrizeFriendship(j, k);
-            PARAMETRIZE { move = tempMove; species = tempSpecies; variation = k; friendship = tempFriendship; }
+            PARAMETRIZE { move = tempMove; species = tempSpecies; variation = k; }
         }
     }
     GIVEN {
@@ -1315,7 +1260,6 @@ DOUBLE_BATTLE_TEST("Move Animations don't leak when used - Doubles (opponentRigh
                 if (species == SPECIES_WOBBUFFET) Gender(MON_FEMALE);
                 if (GetMoveEffect(move) == EFFECT_LAST_RESORT) Moves(move, MOVE_POUND);
                 if (species == SPECIES_KLINKLANG) Ability(ABILITY_PLUS);
-                if (friendship) Friendship(friendship);
                 if (GetParametrizedShinyness(move, variation)) Shiny(TRUE);
             }
         }
@@ -1326,7 +1270,6 @@ DOUBLE_BATTLE_TEST("Move Animations don't leak when used - Doubles (opponentRigh
                 if (species == SPECIES_WOBBUFFET) Gender(MON_FEMALE);
                 if (GetMoveEffect(move) == EFFECT_LAST_RESORT) Moves(move, MOVE_POUND);
                 if (species == SPECIES_KLINKLANG) Ability(ABILITY_PLUS);
-                if (friendship) Friendship(friendship);
                 if (GetParametrizedShinyness(move, variation)) Shiny(TRUE);
             }
         }
@@ -1616,7 +1559,6 @@ SINGLE_BATTLE_TEST("Move Animations occur before their stat change animations - 
     enum Move move = MOVE_NONE;
     enum Species species = SPECIES_NONE;
     u32 k = 0, variation = 0, variationsNumber;
-    u32 friendship = 0, tempFriendship;
     enum Move tempMove;
     enum Species tempSpecies;
     FORCE_MOVE_ANIM(TRUE);
@@ -1624,8 +1566,7 @@ SINGLE_BATTLE_TEST("Move Animations occur before their stat change animations - 
         variationsNumber = GetVariationsNumber(j, FALSE);
         for (k = 0; k < variationsNumber; k++) {
             ParametrizeMovesAndSpecies(j, &tempMove, &tempSpecies, k);
-            tempFriendship = ParametrizeFriendship(j, k);
-            PARAMETRIZE { move = tempMove; species = tempSpecies; variation = k; friendship = tempFriendship; }
+            PARAMETRIZE { move = tempMove; species = tempSpecies; variation = k; }
         }
     }
     GIVEN {
@@ -1635,7 +1576,6 @@ SINGLE_BATTLE_TEST("Move Animations occur before their stat change animations - 
             if (species == SPECIES_WOBBUFFET) Gender(MON_FEMALE);
             if (GetMoveEffect(move) == EFFECT_LAST_RESORT) Moves(move, MOVE_POUND);
             if (species == SPECIES_KLINKLANG) Ability(ABILITY_PLUS);
-            if (friendship) Friendship(friendship);
             if (GetParametrizedShinyness(move, variation)) Shiny(TRUE);
         }
         PLAYER(SPECIES_WOBBUFFET)   {
@@ -1674,388 +1614,6 @@ SINGLE_BATTLE_TEST("Move Animations occur before their stat change animations - 
 
 #endif // T_SHOULD_RUN_MOVE_ANIM
 
-//  Z-Moves
-#define Z_MOVE_PARAMETERS PARAMETRIZE { zmove = MOVE_BREAKNECK_BLITZ; species = SPECIES_WOBBUFFET; move = MOVE_TACKLE; item = ITEM_NORMALIUM_Z; } \
-    PARAMETRIZE { zmove = MOVE_INFERNO_OVERDRIVE; species = SPECIES_WOBBUFFET; move = MOVE_EMBER; item = ITEM_FIRIUM_Z; } \
-    PARAMETRIZE { zmove = MOVE_HYDRO_VORTEX; species = SPECIES_WOBBUFFET; move = MOVE_BUBBLE; item = ITEM_WATERIUM_Z; } \
-    PARAMETRIZE { zmove = MOVE_GIGAVOLT_HAVOC; species = SPECIES_WOBBUFFET; move = MOVE_THUNDERBOLT; item = ITEM_ELECTRIUM_Z; } \
-    PARAMETRIZE { zmove = MOVE_BLOOM_DOOM; species = SPECIES_WOBBUFFET; move = MOVE_RAZOR_LEAF; item = ITEM_GRASSIUM_Z; } \
-    PARAMETRIZE { zmove = MOVE_SUBZERO_SLAMMER; species = SPECIES_WOBBUFFET; move = MOVE_ICE_BEAM; item = ITEM_ICIUM_Z; } \
-    PARAMETRIZE { zmove = MOVE_ALL_OUT_PUMMELING; species = SPECIES_WOBBUFFET; move = MOVE_KARATE_CHOP; item = ITEM_FIGHTINIUM_Z; } \
-    PARAMETRIZE { zmove = MOVE_ACID_DOWNPOUR; species = SPECIES_WOBBUFFET; move = MOVE_SLUDGE_BOMB; item = ITEM_POISONIUM_Z; } \
-    PARAMETRIZE { zmove = MOVE_TECTONIC_RAGE; species = SPECIES_WOBBUFFET; move = MOVE_MUD_SLAP; item = ITEM_GROUNDIUM_Z; } \
-    PARAMETRIZE { zmove = MOVE_SUPERSONIC_SKYSTRIKE; species = SPECIES_WOBBUFFET; move = MOVE_AERIAL_ACE; item = ITEM_FLYINIUM_Z; } \
-    PARAMETRIZE { zmove = MOVE_SHATTERED_PSYCHE; species = SPECIES_WOBBUFFET; move = MOVE_CONFUSION; item = ITEM_PSYCHIUM_Z; } \
-    PARAMETRIZE { zmove = MOVE_SAVAGE_SPIN_OUT; species = SPECIES_WOBBUFFET; move = MOVE_BUG_BUZZ; item = ITEM_BUGINIUM_Z; } \
-    PARAMETRIZE { zmove = MOVE_CONTINENTAL_CRUSH; species = SPECIES_WOBBUFFET; move = MOVE_ROCK_SLIDE; item = ITEM_ROCKIUM_Z; } \
-    PARAMETRIZE { zmove = MOVE_NEVER_ENDING_NIGHTMARE; species = SPECIES_WOBBUFFET; move = MOVE_SHADOW_BALL; item = ITEM_GHOSTIUM_Z; } \
-    PARAMETRIZE { zmove = MOVE_DEVASTATING_DRAKE; species = SPECIES_WOBBUFFET; move = MOVE_DRAGON_PULSE; item = ITEM_DRAGONIUM_Z; } \
-    PARAMETRIZE { zmove = MOVE_BLACK_HOLE_ECLIPSE; species = SPECIES_WOBBUFFET; move = MOVE_BITE; item = ITEM_DARKINIUM_Z; } \
-    PARAMETRIZE { zmove = MOVE_CORKSCREW_CRASH; species = SPECIES_WOBBUFFET; move = MOVE_METAL_CLAW; item = ITEM_STEELIUM_Z; } \
-    PARAMETRIZE { zmove = MOVE_TWINKLE_TACKLE; species = SPECIES_WOBBUFFET; move = MOVE_MOONBLAST; item = ITEM_FAIRIUM_Z; } \
-    PARAMETRIZE { zmove = MOVE_CATASTROPIKA; species = SPECIES_PIKACHU; move = MOVE_VOLT_TACKLE; item = ITEM_PIKANIUM_Z; } \
-    PARAMETRIZE { zmove = MOVE_EXTREME_EVOBOOST; species = SPECIES_EEVEE; move = MOVE_LAST_RESORT; item = ITEM_EEVIUM_Z; } \
-    PARAMETRIZE { zmove = MOVE_PULVERIZING_PANCAKE; species = SPECIES_SNORLAX; move = MOVE_GIGA_IMPACT; item = ITEM_SNORLIUM_Z; } \
-    PARAMETRIZE { zmove = MOVE_GENESIS_SUPERNOVA; species = SPECIES_MEW; move = MOVE_PSYCHIC; item = ITEM_MEWNIUM_Z; } \
-    PARAMETRIZE { zmove = MOVE_SINISTER_ARROW_RAID; species = SPECIES_DECIDUEYE; move = MOVE_SPIRIT_SHACKLE; item = ITEM_DECIDIUM_Z; } \
-    PARAMETRIZE { zmove = MOVE_MALICIOUS_MOONSAULT; species = SPECIES_INCINEROAR; move = MOVE_DARKEST_LARIAT; item = ITEM_INCINIUM_Z; } \
-    PARAMETRIZE { zmove = MOVE_OCEANIC_OPERETTA; species = SPECIES_PRIMARINA; move = MOVE_SPARKLING_ARIA; item = ITEM_PRIMARIUM_Z; } \
-    PARAMETRIZE { zmove = MOVE_SPLINTERED_STORMSHARDS; species = SPECIES_LYCANROC_MIDNIGHT; move = MOVE_STONE_EDGE; item = ITEM_LYCANIUM_Z; } \
-    PARAMETRIZE { zmove = MOVE_SPLINTERED_STORMSHARDS; species = SPECIES_LYCANROC_MIDDAY; move = MOVE_STONE_EDGE; item = ITEM_LYCANIUM_Z; } \
-    PARAMETRIZE { zmove = MOVE_SPLINTERED_STORMSHARDS; species = SPECIES_LYCANROC_DUSK; move = MOVE_STONE_EDGE; item = ITEM_LYCANIUM_Z; } \
-    PARAMETRIZE { zmove = MOVE_LETS_SNUGGLE_FOREVER; species = SPECIES_MIMIKYU; move = MOVE_PLAY_ROUGH; item = ITEM_MIMIKIUM_Z; } \
-    PARAMETRIZE { zmove = MOVE_CLANGOROUS_SOULBLAZE; species = SPECIES_KOMMO_O; move = MOVE_CLANGING_SCALES; item = ITEM_KOMMONIUM_Z; } \
-    PARAMETRIZE { zmove = MOVE_GUARDIAN_OF_ALOLA; species = SPECIES_TAPU_KOKO; move = MOVE_NATURES_MADNESS; item = ITEM_TAPUNIUM_Z; } \
-    PARAMETRIZE { zmove = MOVE_SEARING_SUNRAZE_SMASH; species = SPECIES_SOLGALEO; move = MOVE_SUNSTEEL_STRIKE; item = ITEM_SOLGANIUM_Z; } \
-    PARAMETRIZE { zmove = MOVE_MENACING_MOONRAZE_MAELSTROM; species = SPECIES_LUNALA; move = MOVE_MOONGEIST_BEAM; item = ITEM_LUNALIUM_Z; } \
-    PARAMETRIZE { zmove = MOVE_SOUL_STEALING_7_STAR_STRIKE; species = SPECIES_MARSHADOW; move = MOVE_SPECTRAL_THIEF; item = ITEM_MARSHADIUM_Z; } \
-    PARAMETRIZE { zmove = MOVE_STOKED_SPARKSURFER; species = SPECIES_RAICHU_ALOLA; move = MOVE_THUNDERBOLT; item = ITEM_ALORAICHIUM_Z; } \
-    PARAMETRIZE { zmove = MOVE_10_000_000_VOLT_THUNDERBOLT; species = SPECIES_PIKACHU_ALOLA; move = MOVE_THUNDERBOLT; item = ITEM_PIKASHUNIUM_Z; } \
-    PARAMETRIZE { zmove = MOVE_LIGHT_THAT_BURNS_THE_SKY; species = SPECIES_NECROZMA_DAWN_WINGS; move = MOVE_PHOTON_GEYSER; item = ITEM_ULTRANECROZIUM_Z; }
-
-#if T_SHOULD_RUN_MOVE_ANIM
-
-SINGLE_BATTLE_TEST("Z-Moves don't leak when used - Singles (player to opponent)")
-{
-    FORCE_MOVE_ANIM(TRUE);
-    enum Species species;
-    enum Move move, zmove;
-    enum Item item;
-    Z_MOVE_PARAMETERS;
-    GIVEN {
-        PLAYER(species) { Item(item); }
-        OPPONENT(SPECIES_WOBBUFFET) { Item(ITEM_FOCUS_SASH); }
-    } WHEN {
-        if (species == SPECIES_NECROZMA_DAWN_WINGS)
-        {
-            TURN { MOVE(player, MOVE_CELEBRATE, gimmick: GIMMICK_ULTRA_BURST); }
-            TURN { MOVE(player, move, gimmick: GIMMICK_Z_MOVE); }
-        }
-        else
-        {
-            TURN { MOVE(player, move, gimmick: GIMMICK_Z_MOVE); }
-        }
-    } SCENE {
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_ZMOVE_ACTIVATE, player);
-        ANIMATION(ANIM_TYPE_MOVE, zmove, player);
-    } THEN {
-        FORCE_MOVE_ANIM(FALSE);
-        if (gLoadFail || gSpriteAllocs != 0)
-            DebugPrintf("Move failed: %S (%u)", GetMoveName(move), move);
-        EXPECT_EQ(gLoadFail, FALSE);
-        EXPECT_EQ(gSpriteAllocs, 0);
-    }
-}
-
-SINGLE_BATTLE_TEST("Z-Moves don't leak when used - Singles (opponent to player)")
-{
-    FORCE_MOVE_ANIM(TRUE);
-    enum Species species;
-    enum Move move, zmove;
-    enum Item item;
-    Z_MOVE_PARAMETERS;
-    GIVEN {
-        PLAYER(SPECIES_WOBBUFFET) { Item(ITEM_FOCUS_SASH); }
-        OPPONENT(species) { Item(item); }
-    } WHEN {
-        if (species == SPECIES_NECROZMA_DAWN_WINGS)
-        {
-            TURN { MOVE(opponent, MOVE_CELEBRATE, gimmick: GIMMICK_ULTRA_BURST); }
-            TURN { MOVE(opponent, move, gimmick: GIMMICK_Z_MOVE); }
-        }
-        else
-        {
-            TURN { MOVE(opponent, move, gimmick: GIMMICK_Z_MOVE); }
-        }
-    } SCENE {
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_ZMOVE_ACTIVATE, opponent);
-        ANIMATION(ANIM_TYPE_MOVE, zmove, opponent);
-    } THEN {
-        FORCE_MOVE_ANIM(FALSE);
-        if (gLoadFail || gSpriteAllocs != 0)
-            DebugPrintf("Move failed: %S (%u)", GetMoveName(move), move);
-        EXPECT_EQ(gLoadFail, FALSE);
-        EXPECT_EQ(gSpriteAllocs, 0);
-    }
-}
-
-DOUBLE_BATTLE_TEST("Z-Moves don't leak when used - Doubles (playerLeft to opponentLeft)")
-{
-    FORCE_MOVE_ANIM(TRUE);
-    enum Species species;
-    enum Move move, zmove;
-    enum Item item;
-    Z_MOVE_PARAMETERS;
-    GIVEN {
-        PLAYER(species) { Item(item); }
-        PLAYER(SPECIES_WYNAUT);
-        OPPONENT(SPECIES_WOBBUFFET) { Item(ITEM_FOCUS_SASH); }
-        OPPONENT(SPECIES_WYNAUT) { Item(ITEM_FOCUS_SASH); }
-    } WHEN {
-        if (species == SPECIES_NECROZMA_DAWN_WINGS)
-        {
-            TURN { MOVE(playerLeft, MOVE_CELEBRATE, gimmick: GIMMICK_ULTRA_BURST); }
-            TURN { MOVE(playerLeft, move, gimmick: GIMMICK_Z_MOVE, target: opponentLeft); }
-        }
-        else
-        {
-            TURN { MOVE(playerLeft, move, gimmick: GIMMICK_Z_MOVE, target: opponentLeft); }
-        }
-    } SCENE {
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_ZMOVE_ACTIVATE, playerLeft);
-        ANIMATION(ANIM_TYPE_MOVE, zmove, playerLeft);
-    } THEN {
-        FORCE_MOVE_ANIM(FALSE);
-        if (gLoadFail || gSpriteAllocs != 0)
-            DebugPrintf("Move failed: %S (%u)", GetMoveName(move), move);
-        EXPECT_EQ(gLoadFail, FALSE);
-        EXPECT_EQ(gSpriteAllocs, 0);
-    }
-}
-
-DOUBLE_BATTLE_TEST("Z-Moves don't leak when used - Doubles (playerLeft to opponentRight)")
-{
-    FORCE_MOVE_ANIM(TRUE);
-    enum Species species;
-    enum Move move, zmove;
-    enum Item item;
-    Z_MOVE_PARAMETERS;
-    GIVEN {
-        PLAYER(species) { Item(item); }
-        PLAYER(SPECIES_WYNAUT);
-        OPPONENT(SPECIES_WOBBUFFET) { Item(ITEM_FOCUS_SASH); }
-        OPPONENT(SPECIES_WYNAUT) { Item(ITEM_FOCUS_SASH); }
-    } WHEN {
-        if (species == SPECIES_NECROZMA_DAWN_WINGS)
-        {
-            TURN { MOVE(playerLeft, MOVE_CELEBRATE, gimmick: GIMMICK_ULTRA_BURST); }
-            TURN { MOVE(playerLeft, move, gimmick: GIMMICK_Z_MOVE, target: opponentRight); }
-        }
-        else
-        {
-            TURN { MOVE(playerLeft, move, gimmick: GIMMICK_Z_MOVE, target: opponentRight); }
-        }
-    } SCENE {
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_ZMOVE_ACTIVATE, playerLeft);
-        ANIMATION(ANIM_TYPE_MOVE, zmove, playerLeft);
-    } THEN {
-        FORCE_MOVE_ANIM(FALSE);
-        if (gLoadFail || gSpriteAllocs != 0)
-            DebugPrintf("Move failed: %S (%u)", GetMoveName(move), move);
-        EXPECT_EQ(gLoadFail, FALSE);
-        EXPECT_EQ(gSpriteAllocs, 0);
-    }
-}
-
-DOUBLE_BATTLE_TEST("Z-Moves don't leak when used - Doubles (playerRight to opponentLeft)")
-{
-    FORCE_MOVE_ANIM(TRUE);
-    enum Species species;
-    enum Move move, zmove;
-    enum Item item;
-    Z_MOVE_PARAMETERS;
-    GIVEN {
-        PLAYER(SPECIES_WYNAUT);
-        PLAYER(species) { Item(item); }
-        OPPONENT(SPECIES_WOBBUFFET) { Item(ITEM_FOCUS_SASH); }
-        OPPONENT(SPECIES_WYNAUT) { Item(ITEM_FOCUS_SASH); }
-    } WHEN {
-        if (species == SPECIES_NECROZMA_DAWN_WINGS)
-        {
-            TURN { MOVE(playerRight, MOVE_CELEBRATE, gimmick: GIMMICK_ULTRA_BURST); }
-            TURN { MOVE(playerRight, move, gimmick: GIMMICK_Z_MOVE, target: opponentLeft); }
-        }
-        else
-        {
-            TURN { MOVE(playerRight, move, gimmick: GIMMICK_Z_MOVE, target: opponentLeft); }
-        }
-    } SCENE {
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_ZMOVE_ACTIVATE, playerRight);
-        ANIMATION(ANIM_TYPE_MOVE, zmove, playerRight);
-    } THEN {
-        FORCE_MOVE_ANIM(FALSE);
-        if (gLoadFail || gSpriteAllocs != 0)
-            DebugPrintf("Move failed: %S (%u)", GetMoveName(move), move);
-        EXPECT_EQ(gLoadFail, FALSE);
-        EXPECT_EQ(gSpriteAllocs, 0);
-    }
-}
-
-DOUBLE_BATTLE_TEST("Z-Moves don't leak when used - Doubles (playerRight to opponentRight)")
-{
-    FORCE_MOVE_ANIM(TRUE);
-    enum Species species;
-    enum Move move, zmove;
-    enum Item item;
-    Z_MOVE_PARAMETERS;
-    GIVEN {
-        PLAYER(SPECIES_WYNAUT);
-        PLAYER(species) { Item(item); }
-        OPPONENT(SPECIES_WOBBUFFET) { Item(ITEM_FOCUS_SASH); }
-        OPPONENT(SPECIES_WYNAUT) { Item(ITEM_FOCUS_SASH); }
-    } WHEN {
-        if (species == SPECIES_NECROZMA_DAWN_WINGS)
-        {
-            TURN { MOVE(playerRight, MOVE_CELEBRATE, gimmick: GIMMICK_ULTRA_BURST); }
-            TURN { MOVE(playerRight, move, gimmick: GIMMICK_Z_MOVE, target: opponentRight); }
-        }
-        else
-        {
-            TURN { MOVE(playerRight, move, gimmick: GIMMICK_Z_MOVE, target: opponentRight); }
-        }
-    } SCENE {
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_ZMOVE_ACTIVATE, playerRight);
-        ANIMATION(ANIM_TYPE_MOVE, zmove, playerRight);
-    } THEN {
-        FORCE_MOVE_ANIM(FALSE);
-        if (gLoadFail || gSpriteAllocs != 0)
-            DebugPrintf("Move failed: %S (%u)", GetMoveName(move), move);
-        EXPECT_EQ(gLoadFail, FALSE);
-        EXPECT_EQ(gSpriteAllocs, 0);
-    }
-}
-
-DOUBLE_BATTLE_TEST("Z-Moves don't leak when used - Doubles (opponentLeft to playerLeft)")
-{
-    FORCE_MOVE_ANIM(TRUE);
-    enum Species species;
-    enum Move move, zmove;
-    enum Item item;
-    Z_MOVE_PARAMETERS;
-    GIVEN {
-        PLAYER(SPECIES_WOBBUFFET) { Item(ITEM_FOCUS_SASH); }
-        PLAYER(SPECIES_WYNAUT) { Item(ITEM_FOCUS_SASH); }
-        OPPONENT(species) { Item(item); }
-        OPPONENT(SPECIES_WYNAUT);
-    } WHEN {
-        if (species == SPECIES_NECROZMA_DAWN_WINGS)
-        {
-            TURN { MOVE(opponentLeft, MOVE_CELEBRATE, gimmick: GIMMICK_ULTRA_BURST); }
-            TURN { MOVE(opponentLeft, move, gimmick: GIMMICK_Z_MOVE, target: playerLeft); }
-        }
-        else
-        {
-            TURN { MOVE(opponentLeft, move, gimmick: GIMMICK_Z_MOVE, target: playerLeft); }
-        }
-    } SCENE {
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_ZMOVE_ACTIVATE, opponentLeft);
-        ANIMATION(ANIM_TYPE_MOVE, zmove, opponentLeft);
-    } THEN {
-        FORCE_MOVE_ANIM(FALSE);
-        if (gLoadFail || gSpriteAllocs != 0)
-            DebugPrintf("Move failed: %S (%u)", GetMoveName(move), move);
-        EXPECT_EQ(gLoadFail, FALSE);
-        EXPECT_EQ(gSpriteAllocs, 0);
-    }
-}
-
-DOUBLE_BATTLE_TEST("Z-Moves don't leak when used - Doubles (opponentLeft to playerRight)")
-{
-    FORCE_MOVE_ANIM(TRUE);
-    enum Species species;
-    enum Move move, zmove;
-    enum Item item;
-    Z_MOVE_PARAMETERS;
-    GIVEN {
-        PLAYER(SPECIES_WOBBUFFET) { Item(ITEM_FOCUS_SASH); }
-        PLAYER(SPECIES_WYNAUT) { Item(ITEM_FOCUS_SASH); }
-        OPPONENT(species) { Item(item); }
-        OPPONENT(SPECIES_WYNAUT);
-    } WHEN {
-        if (species == SPECIES_NECROZMA_DAWN_WINGS)
-        {
-            TURN { MOVE(opponentLeft, MOVE_CELEBRATE, gimmick: GIMMICK_ULTRA_BURST); }
-            TURN { MOVE(opponentLeft, move, gimmick: GIMMICK_Z_MOVE, target: playerRight); }
-        }
-        else
-        {
-            TURN { MOVE(opponentLeft, move, gimmick: GIMMICK_Z_MOVE, target: playerRight); }
-        }
-    } SCENE {
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_ZMOVE_ACTIVATE, opponentLeft);
-        ANIMATION(ANIM_TYPE_MOVE, zmove, opponentLeft);
-    } THEN {
-        FORCE_MOVE_ANIM(FALSE);
-        if (gLoadFail || gSpriteAllocs != 0)
-            DebugPrintf("Move failed: %S (%u)", GetMoveName(move), move);
-        EXPECT_EQ(gLoadFail, FALSE);
-        EXPECT_EQ(gSpriteAllocs, 0);
-    }
-}
-
-DOUBLE_BATTLE_TEST("Z-Moves don't leak when used - Doubles (opponentRight to playerLeft)")
-{
-    FORCE_MOVE_ANIM(TRUE);
-    enum Species species;
-    enum Move move, zmove;
-    enum Item item;
-    Z_MOVE_PARAMETERS;
-    GIVEN {
-        PLAYER(SPECIES_WOBBUFFET) { Item(ITEM_FOCUS_SASH); }
-        PLAYER(SPECIES_WYNAUT) { Item(ITEM_FOCUS_SASH); }
-        OPPONENT(SPECIES_WYNAUT);
-        OPPONENT(species) { Item(item); }
-    } WHEN {
-        if (species == SPECIES_NECROZMA_DAWN_WINGS)
-        {
-            TURN { MOVE(opponentRight, MOVE_CELEBRATE, gimmick: GIMMICK_ULTRA_BURST); }
-            TURN { MOVE(opponentRight, move, gimmick: GIMMICK_Z_MOVE, target: playerLeft); }
-        }
-        else
-        {
-            TURN { MOVE(opponentRight, move, gimmick: GIMMICK_Z_MOVE, target: playerLeft); }
-        }
-    } SCENE {
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_ZMOVE_ACTIVATE, opponentRight);
-        ANIMATION(ANIM_TYPE_MOVE, zmove, opponentRight);
-    } THEN {
-        FORCE_MOVE_ANIM(FALSE);
-        if (gLoadFail || gSpriteAllocs != 0)
-            DebugPrintf("Move failed: %S (%u)", GetMoveName(move), move);
-        EXPECT_EQ(gLoadFail, FALSE);
-        EXPECT_EQ(gSpriteAllocs, 0);
-    }
-}
-
-DOUBLE_BATTLE_TEST("Z-Moves don't leak when used - Doubles (opponentRight to playerRight)")
-{
-    FORCE_MOVE_ANIM(TRUE);
-    enum Species species;
-    enum Move move, zmove;
-    enum Item item;
-    Z_MOVE_PARAMETERS;
-    GIVEN {
-        PLAYER(SPECIES_WOBBUFFET) { Item(ITEM_FOCUS_SASH); }
-        PLAYER(SPECIES_WYNAUT) { Item(ITEM_FOCUS_SASH); }
-        OPPONENT(SPECIES_WYNAUT);
-        OPPONENT(species) { Item(item); }
-    } WHEN {
-        if (species == SPECIES_NECROZMA_DAWN_WINGS)
-        {
-            TURN { MOVE(opponentRight, MOVE_CELEBRATE, gimmick: GIMMICK_ULTRA_BURST); }
-            TURN { MOVE(opponentRight, move, gimmick: GIMMICK_Z_MOVE, target: playerRight); }
-        }
-        else
-        {
-            TURN { MOVE(opponentRight, move, gimmick: GIMMICK_Z_MOVE, target: playerRight); }
-        }
-    } SCENE {
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_ZMOVE_ACTIVATE, opponentRight);
-        ANIMATION(ANIM_TYPE_MOVE, zmove, opponentRight);
-    } THEN {
-        FORCE_MOVE_ANIM(FALSE);
-        if (gLoadFail || gSpriteAllocs != 0)
-            DebugPrintf("Move failed: %S (%u)", GetMoveName(move), move);
-        EXPECT_EQ(gLoadFail, FALSE);
-        EXPECT_EQ(gSpriteAllocs, 0);
-    }
-}
-
-#endif // T_SHOULD_RUN_MOVE_ANIM
-
-//  Max Moves
-
-// Tera Blast and all type variants
 #define TERA_BLAST_PARAMETERS PARAMETRIZE { species = SPECIES_WOBBUFFET; move = MOVE_TERA_BLAST; type = TYPE_NORMAL; } \
     PARAMETRIZE { species = SPECIES_WOBBUFFET; move = MOVE_TERA_BLAST; type = TYPE_FIGHTING; } \
     PARAMETRIZE { species = SPECIES_WOBBUFFET; move = MOVE_TERA_BLAST; type = TYPE_FLYING; } \
@@ -2358,7 +1916,6 @@ DOUBLE_BATTLE_TEST("Move Animations work Gen1")
     enum Move move = MOVE_NONE;
     enum Species species = SPECIES_NONE;
     u32 k = 0, variation = 0, variationsNumber;
-    u32 friendship = 0, tempFriendship;
     enum Move tempMove;
     enum Species tempSpecies;
     FORCE_MOVE_ANIM(TRUE);
@@ -2370,8 +1927,7 @@ DOUBLE_BATTLE_TEST("Move Animations work Gen1")
         variationsNumber = GetVariationsNumber(j, TRUE);
         for (k = 0; k < variationsNumber; k++) {
             ParametrizeMovesAndSpecies(j, &tempMove, &tempSpecies, k);
-            tempFriendship = ParametrizeFriendship(j, k);
-            PARAMETRIZE { move = tempMove; species = tempSpecies; variation = k; friendship = tempFriendship; }
+            PARAMETRIZE { move = tempMove; species = tempSpecies; variation = k; }
         }
     }
     GIVEN {
@@ -2383,7 +1939,6 @@ DOUBLE_BATTLE_TEST("Move Animations work Gen1")
                 if (species == SPECIES_WOBBUFFET) Gender(MON_FEMALE);
                 if (GetMoveEffect(move) == EFFECT_LAST_RESORT) Moves(move, MOVE_POUND);
                 if (species == SPECIES_KLINKLANG) Ability(ABILITY_PLUS);
-                if (friendship) Friendship(friendship);
                 if (GetParametrizedShinyness(move, variation)) Shiny(TRUE);
             }
         }
@@ -2395,7 +1950,6 @@ DOUBLE_BATTLE_TEST("Move Animations work Gen1")
                 if (species == SPECIES_WOBBUFFET) Gender(MON_FEMALE);
                 if (GetMoveEffect(move) == EFFECT_LAST_RESORT) Moves(move, MOVE_POUND);
                 if (species == SPECIES_KLINKLANG) Ability(ABILITY_PLUS);
-                if (friendship) Friendship(friendship);
                 if (GetParametrizedShinyness(move, variation)) Shiny(TRUE);
             }
         }
@@ -2433,7 +1987,6 @@ DOUBLE_BATTLE_TEST("Move Animations work Gen2")
     enum Move move = MOVE_NONE;
     enum Species species = SPECIES_NONE;
     u32 k = 0, variation = 0, variationsNumber;
-    u32 friendship = 0, tempFriendship;
     enum Move tempMove;
     enum Species tempSpecies;
     FORCE_MOVE_ANIM(TRUE);
@@ -2445,8 +1998,7 @@ DOUBLE_BATTLE_TEST("Move Animations work Gen2")
         variationsNumber = GetVariationsNumber(j, TRUE);
         for (k = 0; k < variationsNumber; k++) {
             ParametrizeMovesAndSpecies(j, &tempMove, &tempSpecies, k);
-            tempFriendship = ParametrizeFriendship(j, k);
-            PARAMETRIZE { move = tempMove; species = tempSpecies; variation = k; friendship = tempFriendship; }
+            PARAMETRIZE { move = tempMove; species = tempSpecies; variation = k; }
         }
     }
 
@@ -2459,7 +2011,6 @@ DOUBLE_BATTLE_TEST("Move Animations work Gen2")
                 if (species == SPECIES_WOBBUFFET) Gender(MON_FEMALE);
                 if (GetMoveEffect(move) == EFFECT_LAST_RESORT) Moves(move, MOVE_POUND);
                 if (species == SPECIES_KLINKLANG) Ability(ABILITY_PLUS);
-                if (friendship) Friendship(friendship);
                 if (GetParametrizedShinyness(move, variation)) Shiny(TRUE);
             }
         }
@@ -2471,7 +2022,6 @@ DOUBLE_BATTLE_TEST("Move Animations work Gen2")
                 if (species == SPECIES_WOBBUFFET) Gender(MON_FEMALE);
                 if (GetMoveEffect(move) == EFFECT_LAST_RESORT) Moves(move, MOVE_POUND);
                 if (species == SPECIES_KLINKLANG) Ability(ABILITY_PLUS);
-                if (friendship) Friendship(friendship);
                 if (GetParametrizedShinyness(move, variation)) Shiny(TRUE);
             }
         }
@@ -2509,7 +2059,6 @@ DOUBLE_BATTLE_TEST("Move Animations work Gen3")
     enum Move move = MOVE_NONE;
     enum Species species = SPECIES_NONE;
     u32 k = 0, variation = 0, variationsNumber;
-    u32 friendship = 0, tempFriendship;
     enum Move tempMove;
     enum Species tempSpecies;
     FORCE_MOVE_ANIM(TRUE);
@@ -2521,8 +2070,7 @@ DOUBLE_BATTLE_TEST("Move Animations work Gen3")
         variationsNumber = GetVariationsNumber(j, TRUE);
         for (k = 0; k < variationsNumber; k++) {
             ParametrizeMovesAndSpecies(j, &tempMove, &tempSpecies, k);
-            tempFriendship = ParametrizeFriendship(j, k);
-            PARAMETRIZE { move = tempMove; species = tempSpecies; variation = k; friendship = tempFriendship; }
+            PARAMETRIZE { move = tempMove; species = tempSpecies; variation = k; }
         }
     }
     GIVEN {
@@ -2534,7 +2082,6 @@ DOUBLE_BATTLE_TEST("Move Animations work Gen3")
                 if (species == SPECIES_WOBBUFFET) Gender(MON_FEMALE);
                 if (GetMoveEffect(move) == EFFECT_LAST_RESORT) Moves(move, MOVE_POUND);
                 if (species == SPECIES_KLINKLANG) Ability(ABILITY_PLUS);
-                if (friendship) Friendship(friendship);
                 if (GetParametrizedShinyness(move, variation)) Shiny(TRUE);
             }
         }
@@ -2546,7 +2093,6 @@ DOUBLE_BATTLE_TEST("Move Animations work Gen3")
                 if (species == SPECIES_WOBBUFFET) Gender(MON_FEMALE);
                 if (GetMoveEffect(move) == EFFECT_LAST_RESORT) Moves(move, MOVE_POUND);
                 if (species == SPECIES_KLINKLANG) Ability(ABILITY_PLUS);
-                if (friendship) Friendship(friendship);
                 if (GetParametrizedShinyness(move, variation)) Shiny(TRUE);
             }
         }
@@ -2584,7 +2130,6 @@ DOUBLE_BATTLE_TEST("Move Animations work Gen4")
     enum Move move = MOVE_NONE;
     enum Species species = SPECIES_NONE;
     u32 k = 0, variation = 0, variationsNumber;
-    u32 friendship = 0, tempFriendship;
     enum Move tempMove;
     enum Species tempSpecies;
     FORCE_MOVE_ANIM(TRUE);
@@ -2596,8 +2141,7 @@ DOUBLE_BATTLE_TEST("Move Animations work Gen4")
         variationsNumber = GetVariationsNumber(j, TRUE);
         for (k = 0; k < variationsNumber; k++) {
             ParametrizeMovesAndSpecies(j, &tempMove, &tempSpecies, k);
-            tempFriendship = ParametrizeFriendship(j, k);
-            PARAMETRIZE { move = tempMove; species = tempSpecies; variation = k; friendship = tempFriendship; }
+            PARAMETRIZE { move = tempMove; species = tempSpecies; variation = k; }
         }
     }
     GIVEN {
@@ -2609,7 +2153,6 @@ DOUBLE_BATTLE_TEST("Move Animations work Gen4")
                 if (species == SPECIES_WOBBUFFET) Gender(MON_FEMALE);
                 if (GetMoveEffect(move) == EFFECT_LAST_RESORT) Moves(move, MOVE_POUND);
                 if (species == SPECIES_KLINKLANG) Ability(ABILITY_PLUS);
-                if (friendship) Friendship(friendship);
                 if (GetParametrizedShinyness(move, variation)) Shiny(TRUE);
             }
         }
@@ -2621,7 +2164,6 @@ DOUBLE_BATTLE_TEST("Move Animations work Gen4")
                 if (species == SPECIES_WOBBUFFET) Gender(MON_FEMALE);
                 if (GetMoveEffect(move) == EFFECT_LAST_RESORT) Moves(move, MOVE_POUND);
                 if (species == SPECIES_KLINKLANG) Ability(ABILITY_PLUS);
-                if (friendship) Friendship(friendship);
                 if (GetParametrizedShinyness(move, variation)) Shiny(TRUE);
             }
         }
@@ -2659,7 +2201,6 @@ DOUBLE_BATTLE_TEST("Move Animations work Gen5")
     enum Move move = MOVE_NONE;
     enum Species species = SPECIES_NONE;
     u32 k = 0, variation = 0, variationsNumber;
-    u32 friendship = 0, tempFriendship;
     enum Move tempMove;
     enum Species tempSpecies;
     FORCE_MOVE_ANIM(TRUE);
@@ -2671,8 +2212,7 @@ DOUBLE_BATTLE_TEST("Move Animations work Gen5")
         variationsNumber = GetVariationsNumber(j, TRUE);
         for (k = 0; k < variationsNumber; k++) {
             ParametrizeMovesAndSpecies(j, &tempMove, &tempSpecies, k);
-            tempFriendship = ParametrizeFriendship(j, k);
-            PARAMETRIZE { move = tempMove; species = tempSpecies; variation = k; friendship = tempFriendship; }
+            PARAMETRIZE { move = tempMove; species = tempSpecies; variation = k; }
         }
     }
     GIVEN {
@@ -2684,7 +2224,6 @@ DOUBLE_BATTLE_TEST("Move Animations work Gen5")
                 if (species == SPECIES_WOBBUFFET) Gender(MON_FEMALE);
                 if (GetMoveEffect(move) == EFFECT_LAST_RESORT) Moves(move, MOVE_POUND);
                 if (species == SPECIES_KLINKLANG) Ability(ABILITY_PLUS);
-                if (friendship) Friendship(friendship);
                 if (GetParametrizedShinyness(move, variation)) Shiny(TRUE);
             }
         }
@@ -2696,7 +2235,6 @@ DOUBLE_BATTLE_TEST("Move Animations work Gen5")
                 if (species == SPECIES_WOBBUFFET) Gender(MON_FEMALE);
                 if (GetMoveEffect(move) == EFFECT_LAST_RESORT) Moves(move, MOVE_POUND);
                 if (species == SPECIES_KLINKLANG) Ability(ABILITY_PLUS);
-                if (friendship) Friendship(friendship);
                 if (GetParametrizedShinyness(move, variation)) Shiny(TRUE);
             }
         }
@@ -2734,7 +2272,6 @@ DOUBLE_BATTLE_TEST("Move Animations work Gen6")
     enum Move move = MOVE_NONE;
     enum Species species = SPECIES_NONE;
     u32 k = 0, variation = 0, variationsNumber;
-    u32 friendship = 0, tempFriendship;
     enum Move tempMove;
     enum Species tempSpecies;
     FORCE_MOVE_ANIM(TRUE);
@@ -2746,8 +2283,7 @@ DOUBLE_BATTLE_TEST("Move Animations work Gen6")
         variationsNumber = GetVariationsNumber(j, TRUE);
         for (k = 0; k < variationsNumber; k++) {
             ParametrizeMovesAndSpecies(j, &tempMove, &tempSpecies, k);
-            tempFriendship = ParametrizeFriendship(j, k);
-            PARAMETRIZE { move = tempMove; species = tempSpecies; variation = k; friendship = tempFriendship; }
+            PARAMETRIZE { move = tempMove; species = tempSpecies; variation = k; }
         }
     }
     GIVEN {
@@ -2759,7 +2295,6 @@ DOUBLE_BATTLE_TEST("Move Animations work Gen6")
                 if (species == SPECIES_WOBBUFFET) Gender(MON_FEMALE);
                 if (GetMoveEffect(move) == EFFECT_LAST_RESORT) Moves(move, MOVE_POUND);
                 if (species == SPECIES_KLINKLANG) Ability(ABILITY_PLUS);
-                if (friendship) Friendship(friendship);
                 if (GetParametrizedShinyness(move, variation)) Shiny(TRUE);
             }
         }
@@ -2771,7 +2306,6 @@ DOUBLE_BATTLE_TEST("Move Animations work Gen6")
                 if (species == SPECIES_WOBBUFFET) Gender(MON_FEMALE);
                 if (GetMoveEffect(move) == EFFECT_LAST_RESORT) Moves(move, MOVE_POUND);
                 if (species == SPECIES_KLINKLANG) Ability(ABILITY_PLUS);
-                if (friendship) Friendship(friendship);
                 if (GetParametrizedShinyness(move, variation)) Shiny(TRUE);
             }
         }
@@ -2809,7 +2343,6 @@ DOUBLE_BATTLE_TEST("Move Animations work Gen7")
     enum Move move = MOVE_NONE;
     enum Species species = SPECIES_NONE;
     u32 k = 0, variation = 0, variationsNumber;
-    u32 friendship = 0, tempFriendship;
     enum Move tempMove;
     enum Species tempSpecies;
     FORCE_MOVE_ANIM(TRUE);
@@ -2821,8 +2354,7 @@ DOUBLE_BATTLE_TEST("Move Animations work Gen7")
         variationsNumber = GetVariationsNumber(j, TRUE);
         for (k = 0; k < variationsNumber; k++) {
             ParametrizeMovesAndSpecies(j, &tempMove, &tempSpecies, k);
-            tempFriendship = ParametrizeFriendship(j, k);
-            PARAMETRIZE { move = tempMove; species = tempSpecies; variation = k; friendship = tempFriendship; }
+            PARAMETRIZE { move = tempMove; species = tempSpecies; variation = k; }
         }
     }
     GIVEN {
@@ -2834,7 +2366,6 @@ DOUBLE_BATTLE_TEST("Move Animations work Gen7")
                 if (species == SPECIES_WOBBUFFET) Gender(MON_FEMALE);
                 if (GetMoveEffect(move) == EFFECT_LAST_RESORT) Moves(move, MOVE_POUND);
                 if (species == SPECIES_KLINKLANG) Ability(ABILITY_PLUS);
-                if (friendship) Friendship(friendship);
                 if (GetParametrizedShinyness(move, variation)) Shiny(TRUE);
             }
         }
@@ -2846,7 +2377,6 @@ DOUBLE_BATTLE_TEST("Move Animations work Gen7")
                 if (species == SPECIES_WOBBUFFET) Gender(MON_FEMALE);
                 if (GetMoveEffect(move) == EFFECT_LAST_RESORT) Moves(move, MOVE_POUND);
                 if (species == SPECIES_KLINKLANG) Ability(ABILITY_PLUS);
-                if (friendship) Friendship(friendship);
                 if (GetParametrizedShinyness(move, variation)) Shiny(TRUE);
             }
         }
@@ -2884,7 +2414,6 @@ DOUBLE_BATTLE_TEST("Move Animations work Gen8")
     enum Move move = MOVE_NONE;
     enum Species species = SPECIES_NONE;
     u32 k = 0, variation = 0, variationsNumber;
-    u32 friendship = 0, tempFriendship;
     enum Move tempMove;
     enum Species tempSpecies;
     FORCE_MOVE_ANIM(TRUE);
@@ -2896,8 +2425,7 @@ DOUBLE_BATTLE_TEST("Move Animations work Gen8")
         variationsNumber = GetVariationsNumber(j, TRUE);
         for (k = 0; k < variationsNumber; k++) {
             ParametrizeMovesAndSpecies(j, &tempMove, &tempSpecies, k);
-            tempFriendship = ParametrizeFriendship(j, k);
-            PARAMETRIZE { move = tempMove; species = tempSpecies; variation = k; friendship = tempFriendship; }
+            PARAMETRIZE { move = tempMove; species = tempSpecies; variation = k; }
         }
     }
     GIVEN {
@@ -2909,7 +2437,6 @@ DOUBLE_BATTLE_TEST("Move Animations work Gen8")
                 if (species == SPECIES_WOBBUFFET) Gender(MON_FEMALE);
                 if (GetMoveEffect(move) == EFFECT_LAST_RESORT) Moves(move, MOVE_POUND);
                 if (species == SPECIES_KLINKLANG) Ability(ABILITY_PLUS);
-                if (friendship) Friendship(friendship);
                 if (GetParametrizedShinyness(move, variation)) Shiny(TRUE);
             }
         }
@@ -2921,7 +2448,6 @@ DOUBLE_BATTLE_TEST("Move Animations work Gen8")
                 if (species == SPECIES_WOBBUFFET) Gender(MON_FEMALE);
                 if (GetMoveEffect(move) == EFFECT_LAST_RESORT) Moves(move, MOVE_POUND);
                 if (species == SPECIES_KLINKLANG) Ability(ABILITY_PLUS);
-                if (friendship) Friendship(friendship);
                 if (GetParametrizedShinyness(move, variation)) Shiny(TRUE);
             }
         }
@@ -2959,7 +2485,6 @@ DOUBLE_BATTLE_TEST("Move Animations work Gen9")
     enum Move move = MOVE_NONE;
     enum Species species = SPECIES_NONE;
     u32 k = 0, variation = 0, variationsNumber;
-    u32 friendship = 0, tempFriendship;
     enum Move tempMove;
     enum Species tempSpecies;
     FORCE_MOVE_ANIM(TRUE);
@@ -2971,8 +2496,7 @@ DOUBLE_BATTLE_TEST("Move Animations work Gen9")
         variationsNumber = GetVariationsNumber(j, TRUE);
         for (k = 0; k < variationsNumber; k++) {
             ParametrizeMovesAndSpecies(j, &tempMove, &tempSpecies, k);
-            tempFriendship = ParametrizeFriendship(j, k);
-            PARAMETRIZE { move = tempMove; species = tempSpecies; variation = k; friendship = tempFriendship; }
+            PARAMETRIZE { move = tempMove; species = tempSpecies; variation = k; }
         }
     }
     GIVEN {
@@ -2984,7 +2508,6 @@ DOUBLE_BATTLE_TEST("Move Animations work Gen9")
                 if (species == SPECIES_WOBBUFFET) Gender(MON_FEMALE);
                 if (GetMoveEffect(move) == EFFECT_LAST_RESORT) Moves(move, MOVE_POUND);
                 if (species == SPECIES_KLINKLANG) Ability(ABILITY_PLUS);
-                if (friendship) Friendship(friendship);
                 if (GetParametrizedShinyness(move, variation)) Shiny(TRUE);
             }
         }
@@ -2996,7 +2519,6 @@ DOUBLE_BATTLE_TEST("Move Animations work Gen9")
                 if (species == SPECIES_WOBBUFFET) Gender(MON_FEMALE);
                 if (GetMoveEffect(move) == EFFECT_LAST_RESORT) Moves(move, MOVE_POUND);
                 if (species == SPECIES_KLINKLANG) Ability(ABILITY_PLUS);
-                if (friendship) Friendship(friendship);
                 if (GetParametrizedShinyness(move, variation)) Shiny(TRUE);
             }
         }
@@ -3028,38 +2550,6 @@ DOUBLE_BATTLE_TEST("Move Animations work Gen9")
     }
 }
 
-SINGLE_BATTLE_TEST("Z-Moves animations work")
-{
-    FORCE_MOVE_ANIM(TRUE);
-    enum Species species;
-    enum Move move, zmove;
-    enum Item item;
-    Z_MOVE_PARAMETERS;
-    GIVEN {
-        DISABLE_SELECTABLE_PARAMETERS;
-        PLAYER(species) { Item(item); }
-        OPPONENT(SPECIES_WOBBUFFET) { Item(ITEM_FOCUS_SASH); }
-    } WHEN {
-        if (species == SPECIES_NECROZMA_DAWN_WINGS)
-        {
-            TURN { MOVE(player, MOVE_CELEBRATE, gimmick: GIMMICK_ULTRA_BURST); }
-            TURN { MOVE(player, move, gimmick: GIMMICK_Z_MOVE); }
-        }
-        else
-        {
-            TURN { MOVE(player, move, gimmick: GIMMICK_Z_MOVE); }
-        }
-    } SCENE {
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_ZMOVE_ACTIVATE, player);
-        ANIMATION(ANIM_TYPE_MOVE, zmove, player);
-    } THEN {
-        FORCE_MOVE_ANIM(FALSE);
-        if (gLoadFail || gSpriteAllocs != 0)
-            DebugPrintf("Move failed: %S (%u)", GetMoveName(move), move);
-        EXPECT_EQ(gLoadFail, FALSE);
-        EXPECT_EQ(gSpriteAllocs, 0);
-    }
-}
 
 SINGLE_BATTLE_TEST("Tera Blast animations work")
 {
@@ -3086,24 +2576,27 @@ SINGLE_BATTLE_TEST("Tera Blast animations work")
     }
 }
 
+
 DOUBLE_BATTLE_TEST("Gimmick Form Change animations work")
 {
     FORCE_MOVE_ANIM(TRUE);
     GIVEN {
+        // Two Primal Reversions, their weather, and two Megas play before turn one.
+        gTestRunnerState.timeoutSeconds = 600;
         PLAYER(SPECIES_RAYQUAZA) { Moves(MOVE_DRAGON_ASCENT, MOVE_CELEBRATE); Speed(2); }
         PLAYER(SPECIES_GROUDON) { Item(ITEM_RED_ORB); Speed(4); }
-        OPPONENT(SPECIES_NECROZMA_DUSK_MANE) { Item(ITEM_ULTRANECROZIUM_Z); Speed(1); };
+        OPPONENT(SPECIES_NECROZMA_DUSK_MANE) { Item(ITEM_NECROZMITE); Speed(1); }
         OPPONENT(SPECIES_KYOGRE) { Item(ITEM_BLUE_ORB); Speed(3); }
     } WHEN {
         TURN {
             MOVE(playerLeft, MOVE_CELEBRATE, gimmick: GIMMICK_MEGA);
-            MOVE(opponentLeft, MOVE_CELEBRATE, gimmick: GIMMICK_ULTRA_BURST);
+            MOVE(opponentLeft, MOVE_CELEBRATE, gimmick: GIMMICK_MEGA);
         }
     } SCENE {
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_PRIMAL_REVERSION, playerRight);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_PRIMAL_REVERSION, opponentRight);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_MEGA_EVOLUTION, playerLeft);
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_ULTRA_BURST, opponentLeft);
+        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_MEGA_EVOLUTION, opponentLeft);
     } THEN {
         FORCE_MOVE_ANIM(FALSE);
         EXPECT_EQ(gLoadFail, FALSE);

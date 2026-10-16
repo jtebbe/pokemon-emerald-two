@@ -24,24 +24,6 @@ SINGLE_BATTLE_TEST("Eerie Spell reduces the PP of the target's last move by 3")
     }
 }
 
-SINGLE_BATTLE_TEST("Eerie Spell reduces the PP of a Max Move's base move by 3")
-{
-    GIVEN {
-        PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_WOBBUFFET);
-    } WHEN {
-        TURN { MOVE(opponent, MOVE_SCRATCH, gimmick: GIMMICK_DYNAMAX); MOVE(player, MOVE_EERIE_SPELL); }
-    } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_MAX_STRIKE, opponent);
-        HP_BAR(player);
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_EERIE_SPELL, player);
-        HP_BAR(opponent);
-        MESSAGE("The opposing Wobbuffet lost 3 PP from Scratch!");
-    } THEN {
-        EXPECT_EQ(opponent->pp[0], GetMovePP(MOVE_SCRATCH) - 4); // 1 from Max Move use + 3 from Eerie Spell
-    }
-}
-
 SINGLE_BATTLE_TEST("Eerie Spell's PP reduction is blocked by Shield Dust")
 {
     GIVEN {

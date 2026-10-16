@@ -13,9 +13,9 @@ SINGLE_BATTLE_TEST("Last Respects power is multiplied by the amount of fainted m
     PARAMETRIZE { faintCount = 1; }
     PARAMETRIZE { faintCount = 2; }
     GIVEN {
-        PLAYER(SPECIES_HITMONLEE); // Not Wobbuffet to omit type effectiveness
+        PLAYER(SPECIES_HITMONLEE) { Attack(245); } // Pin stats for power-ratio comparisons.
         PLAYER(SPECIES_GEODUDE);
-        OPPONENT(SPECIES_WOBBUFFET) { Item(ITEM_LEPPA_BERRY); Moves(MOVE_RECYCLE, MOVE_NONE, MOVE_NONE, MOVE_NONE); }
+        OPPONENT(SPECIES_WOBBUFFET) { Defense(121); Item(ITEM_LEPPA_BERRY); Moves(MOVE_RECYCLE, MOVE_NONE, MOVE_NONE, MOVE_NONE); }
     } WHEN {
         for (j = 0; j < faintCount; j++)
         {
@@ -43,8 +43,8 @@ SINGLE_BATTLE_TEST("Last Respects power is multiplied by the amount of fainted m
     PARAMETRIZE { faintCount = 1; }
     PARAMETRIZE { faintCount = 2; }
     GIVEN {
-        PLAYER(SPECIES_WOBBUFFET) { Item(ITEM_LEPPA_BERRY); Moves(MOVE_RECYCLE, MOVE_NONE, MOVE_NONE, MOVE_NONE); }
-        OPPONENT(SPECIES_HITMONLEE); // Not Wobbuffet to omit type effectiveness
+        PLAYER(SPECIES_WOBBUFFET) { Defense(121); Item(ITEM_LEPPA_BERRY); Moves(MOVE_RECYCLE, MOVE_NONE, MOVE_NONE, MOVE_NONE); }
+        OPPONENT(SPECIES_HITMONLEE) { Attack(245); } // Pin stats for power-ratio comparisons.
         OPPONENT(SPECIES_GEODUDE);
     } WHEN {
         for (j = 0; j < faintCount; j++)

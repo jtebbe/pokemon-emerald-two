@@ -2,9 +2,58 @@
 #include "test/test.h"
 #include "test/overworld_script.h"
 #include "script.h"
-#include "constants/decorations.h"
+#include "script_menu.h"
+#include "event_data.h"
+#include "string_util.h"
+#include "strings.h"
 #include "constants/field_move.h"
 #include "constants/moves.h"
+
+TEST("Retired and invalid standard string IDs safely clear the script buffer")
+{
+    u16 index = 0;
+    for (u32 i = 0; i < 14; i++)
+        PARAMETRIZE { index = i; }
+    for (u32 i = 23; i < 30; i++)
+        PARAMETRIZE { index = i; }
+    PARAMETRIZE { index = 39; }
+    PARAMETRIZE { index = 0xFFFF; }
+
+    EXPECT_EQ(StringCompare(GetStandardString(index), gText_EmptyString2), 0);
+    StringCopy(gStringVar1, COMPOUND_STRING("OLD TEXT"));
+    VarSet(VAR_TEMP_0, index);
+    RUN_OVERWORLD_SCRIPT(
+        bufferstdstring 0, VAR_TEMP_0;
+    );
+    EXPECT_EQ(StringCompare(gStringVar1, gText_EmptyString2), 0);
+}
+
+TEST("Retained standard script strings keep their existing numeric IDs")
+{
+    u16 index;
+    const u8 *expected;
+    PARAMETRIZE { index = STDSTRING_ITEMS; expected = COMPOUND_STRING("ITEMS"); }
+    PARAMETRIZE { index = STDSTRING_KEYITEMS; expected = COMPOUND_STRING("KEY ITEMS"); }
+    PARAMETRIZE { index = STDSTRING_POKEBALLS; expected = COMPOUND_STRING("POKé BALLS"); }
+    PARAMETRIZE { index = STDSTRING_TMHMS; expected = COMPOUND_STRING("TMs & HMs"); }
+    PARAMETRIZE { index = STDSTRING_BERRIES; expected = COMPOUND_STRING("BERRIES"); }
+    PARAMETRIZE { index = STDSTRING_SINGLE; expected = COMPOUND_STRING("SINGLE"); }
+    PARAMETRIZE { index = STDSTRING_DOUBLE; expected = COMPOUND_STRING("DOUBLE"); }
+    PARAMETRIZE { index = STDSTRING_MULTI; expected = COMPOUND_STRING("MULTI"); }
+    PARAMETRIZE { index = STDSTRING_MULTI_LINK; expected = COMPOUND_STRING("MULTI-LINK"); }
+    PARAMETRIZE { index = STDSTRING_BOULDER_BADGE; expected = gText_Boulderbadge; }
+    PARAMETRIZE { index = STDSTRING_EARTH_BADGE; expected = gText_Earthbadge; }
+    PARAMETRIZE { index = STDSTRING_COINS; expected = COMPOUND_STRING("COINS"); }
+
+    EXPECT_EQ(STDSTRING_ITEMS, 14);
+    EXPECT_EQ(STDSTRING_BOULDER_BADGE, 30);
+    EXPECT_EQ(STDSTRING_COINS, 38);
+    VarSet(VAR_TEMP_0, index);
+    RUN_OVERWORLD_SCRIPT(
+        bufferstdstring 0, VAR_TEMP_0;
+    );
+    EXPECT_EQ(StringCompare(gStringVar1, expected), 0);
+}
 
 TEST("Script_HasNoEffect control flow")
 {
@@ -45,15 +94,11 @@ TEST("Script_HasNoEffect variables")
         checkitem ITEM_POTION, 1;
         checkitemtype ITEM_POTION;
         checkpcitem ITEM_POTION, 1;
-        checkdecorspace DECOR_SNORLAX_DOLL;
-        checkdecor DECOR_SNORLAX_DOLL;
         checkfieldmove 0, TRUE; // doesn't work with enums currently
         random 2;
         checkmoney 5000;
-        getpokenewsactive POKENEWS_LILYCOVE;
         checkplayergender;
         checkcoins VAR_RESULT;
-        checkmodernfatefulencounter 0;
         end;
     );
 

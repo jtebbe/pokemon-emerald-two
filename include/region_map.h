@@ -31,7 +31,6 @@ enum {
     MAPSECTYPE_ROUTE,
     MAPSECTYPE_CITY_CANFLY,
     MAPSECTYPE_CITY_CANTFLY,
-    MAPSECTYPE_BATTLE_FRONTIER,
     NUM_MAPSEC_TYPES
 };
 
@@ -137,7 +136,7 @@ void BlendRegionMap(u16 color, u32 coeff);
 void SetRegionMapDataForZoom(void);
 enum RegionMapType GetRegionMapType(u32 mapSecId);
 
-//Pokenav Fly funcs
+// Fly map functions
 u32 FilterFlyDestination(struct RegionMap* regionMap);
 void SetFlyDestination(struct RegionMap* regionMap);
 

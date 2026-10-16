@@ -94,9 +94,9 @@ SINGLE_BATTLE_TEST("Pursuit doubles in power if attacking while target switches 
     PARAMETRIZE { speed = 5; }
     PARAMETRIZE { speed = 3; }
     GIVEN {
-        PLAYER(SPECIES_WOBBUFFET) { Speed(4); }
+        PLAYER(SPECIES_WOBBUFFET) { Defense(121); Speed(4); }
         PLAYER(SPECIES_ZIGZAGOON) { Speed(2); }
-        OPPONENT(SPECIES_WYNAUT) { Speed(speed); }
+        OPPONENT(SPECIES_WYNAUT) { Attack(51); Speed(speed); }
     } WHEN {
         TURN { MOVE(opponent, MOVE_PURSUIT); MOVE(player, MOVE_VOLT_SWITCH); SEND_OUT(player, 1); }
     } SCENE {

@@ -52,7 +52,6 @@ static enum Direction Bike_DPadToDirection(u16);
 static enum Collision GetBikeCollision(enum Direction);
 static enum Collision GetBikeCollisionAt(struct ObjectEvent *, s16, s16, enum Direction, u8);
 static bool8 IsRunningDisallowedByMetatile(u8);
-static void Bike_TryAdvanceCyclingRoadCollisions();
 static u8 CanBikeFaceDirOnMetatile(enum Direction, u8);
 static bool8 WillPlayerCollideWithCollision(enum Collision, enum Direction);
 static void Bike_SetBikeStill(void);
@@ -316,9 +315,7 @@ static void StandardBikeTransition_MoveDirection(u8 direction)
     {
         if (collision == COLLISION_LEDGE_JUMP)
             PlayerJumpLedge(direction);
-        else if (collision == COLLISION_OBJECT_EVENT && IsPlayerCollidingWithFarawayIslandMew(direction))
-            PlayerOnBikeCollideWithFarawayIslandMew(direction);
-        else if (collision < COLLISION_STOP_SURFING || collision > COLLISION_ROTATING_GATE)
+        if (collision < COLLISION_STOP_SURFING || collision > COLLISION_ROTATING_GATE)
             PlayerOnBikeCollide(direction);
     }
     else
@@ -454,9 +451,7 @@ static void MachBikeTransition_TrySpeedUp(enum Direction direction)
             {
                 // we hit a solid object that is not a ledge, so perform the collision.
                 Bike_SetBikeStill();
-                if (collision == COLLISION_OBJECT_EVENT && IsPlayerCollidingWithFarawayIslandMew(direction))
-                    PlayerOnBikeCollideWithFarawayIslandMew(direction);
-                else if (collision < COLLISION_STOP_SURFING || collision > COLLISION_ROTATING_GATE)
+                if (collision < COLLISION_STOP_SURFING || collision > COLLISION_ROTATING_GATE)
                     PlayerOnBikeCollide(direction);
             }
         }
@@ -492,9 +487,7 @@ static void MachBikeTransition_TrySlowDown(enum Direction direction)
         else
         {
             Bike_SetBikeStill();
-            if (collision == COLLISION_OBJECT_EVENT && IsPlayerCollidingWithFarawayIslandMew(direction))
-                PlayerOnBikeCollideWithFarawayIslandMew(direction);
-            else if (collision < COLLISION_STOP_SURFING || collision > COLLISION_ROTATING_GATE)
+            if (collision < COLLISION_STOP_SURFING || collision > COLLISION_ROTATING_GATE)
                 PlayerOnBikeCollide(direction);
         }
     }
@@ -850,9 +843,7 @@ static void AcroBikeTransition_Moving(enum Direction direction)
     {
         if (collision == COLLISION_LEDGE_JUMP)
             PlayerJumpLedge(direction);
-        else if (collision == COLLISION_OBJECT_EVENT && IsPlayerCollidingWithFarawayIslandMew(direction))
-            PlayerOnBikeCollideWithFarawayIslandMew(direction);
-        else if (collision < COLLISION_STOP_SURFING || collision > COLLISION_ROTATING_GATE)
+        if (collision < COLLISION_STOP_SURFING || collision > COLLISION_ROTATING_GATE)
             PlayerOnBikeCollide(direction);
     }
     else
@@ -1198,9 +1189,6 @@ static enum Collision GetBikeCollisionAt(struct ObjectEvent *objectEvent, s16 x,
     if (collision == COLLISION_NONE && IsRunningDisallowedByMetatile(metatileBehavior))
         collision = COLLISION_IMPASSABLE;
 
-    if (collision)
-        Bike_TryAdvanceCyclingRoadCollisions();
-
     return collision;
 }
 
@@ -1213,11 +1201,6 @@ static bool8 IsRunningDisallowedByMetatile(u8 tile)
     return FALSE;
 }
 
-static void Bike_TryAdvanceCyclingRoadCollisions(void)
-{
-    if (gBikeCyclingChallenge != FALSE && gBikeCollisions < 100)
-        gBikeCollisions++;
-}
 
 static bool8 CanBikeFaceDirOnMetatile(enum Direction direction, u8 tile)
 {

@@ -20,7 +20,10 @@ SINGLE_BATTLE_TEST("Frostbite reduces the special attack by 50 percent")
         HP_BAR(opponent);
         ANIMATION(ANIM_TYPE_MOVE, MOVE_SWIFT, opponent);
         HP_BAR(player, captureDamage: &normaleDamage);
-   } THEN { EXPECT_EQ(reducedDamage * 2, normaleDamage); }
+    } THEN {
+        // The damage modifier rounds down when the unmodified damage is odd.
+        EXPECT_EQ(reducedDamage, normaleDamage / 2);
+    }
 }
 
 SINGLE_BATTLE_TEST("Frostbite deals 1/8th damage (Gen1-6) or 1/16th (Gen7+) per turn")

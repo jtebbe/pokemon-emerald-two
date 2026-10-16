@@ -1,5 +1,4 @@
 #include "global.h"
-#include "event_data.h"
 #include "field_door.h"
 #include "field_camera.h"
 #include "fieldmap.h"
@@ -44,7 +43,6 @@ struct DoorSizeInfo
     const struct DoorAnimFrame *closeAnimFrames;
 };
 
-static bool8 ShouldUseMultiCorridorDoor(void);
 
 static const u8 sDoorAnimTiles_Littleroot[] = INCGFX_U8("graphics/door_anims/littleroot.png", ".4bpp");
 static const u16 sDoorNullPalette1[16] = {};
@@ -79,7 +77,6 @@ static const u8 sDoorAnimTiles_Slateport[] = INCGFX_U8("graphics/door_anims/slat
 static const u16 sDoorNullPalette14[16] = {};
 static const u8 sDoorAnimTiles_Dewford[] = INCGFX_U8("graphics/door_anims/dewford.png", ".4bpp");
 static const u16 sDoorNullPalette15[16] = {};
-static const u8 sDoorAnimTiles_Contest[] = INCGFX_U8("graphics/door_anims/contest.png", ".4bpp");
 static const u16 sDoorNullPalette16[16] = {};
 static const u8 sDoorAnimTiles_Mossdeep[] = INCGFX_U8("graphics/door_anims/mossdeep.png", ".4bpp");
 static const u16 sDoorNullPalette17[16] = {};
@@ -113,40 +110,22 @@ static const u8 sDoorAnimTiles_LilycoveDeptStoreElevator[] = INCGFX_U8("graphics
 static const u16 sDoorNullPalette31[16] = {};
 static const u8 sDoorAnimTiles_BattleTowerOld[] = INCGFX_U8("graphics/door_anims/battle_tower_old.png", ".4bpp");
 static const u16 sDoorNullPalette32[16] = {};
-static const u8 sDoorAnimTiles_BattleTowerElevator[] = INCGFX_U8("graphics/door_anims/battle_tower_elevator.png", ".4bpp");
 static const u16 sDoorNullPalette33[16] = {};
-static const u8 sDoorAnimTiles_UnusedBattleFrontier[] = INCGFX_U8("graphics/door_anims/unused_battle_frontier.png", ".4bpp");
 static const u16 sDoorNullPalette34[16] = {};
-static const u8 sDoorAnimTiles_BattleDome[] = INCGFX_U8("graphics/door_anims/battle_dome.png", ".4bpp");
 static const u16 sDoorNullPalette35[16] = {};
-static const u8 sDoorAnimTiles_BattleFactory[] = INCGFX_U8("graphics/door_anims/battle_factory.png", ".4bpp");
 static const u16 sDoorNullPalette36[16] = {};
-static const u8 sDoorAnimTiles_BattleTower[] = INCGFX_U8("graphics/door_anims/battle_tower.png", ".4bpp");
 static const u16 sDoorNullPalette37[16] = {};
-static const u8 sDoorAnimTiles_BattleArena[] = INCGFX_U8("graphics/door_anims/battle_arena.png", ".4bpp");
 static const u16 sDoorNullPalette38[16] = {};
-static const u8 sDoorAnimTiles_BattleArenaLobby[] = INCGFX_U8("graphics/door_anims/battle_arena_lobby.png", ".4bpp");
 static const u16 sDoorNullPalette39[16] = {};
-static const u8 sDoorAnimTiles_BattleDomeLobby[] = INCGFX_U8("graphics/door_anims/battle_dome_lobby.png", ".4bpp");
 static const u16 sDoorNullPalette40[16] = {};
-static const u8 sDoorAnimTiles_BattlePalaceLobby[] = INCGFX_U8("graphics/door_anims/battle_palace_lobby.png", ".4bpp");
-static const u8 sDoorAnimTiles_BattleTent[] = INCGFX_U8("graphics/door_anims/battle_tent.png", ".4bpp");
 static const u16 sDoorNullPalette41[16] = {};
-static const u8 sDoorAnimTiles_BattleDomeCorridor[] = INCGFX_U8("graphics/door_anims/battle_dome_corridor.png", ".4bpp");
 static const u16 sDoorNullPalette42[16] = {};
-static const u8 sDoorAnimTiles_BattleTowerMultiCorridor[] = INCGFX_U8("graphics/door_anims/battle_tower_multi_corridor.png", ".4bpp", "-mwidth 2 -mheight 4");
 static const u16 sDoorNullPalette43[16] = {};
-static const u8 sDoorAnimTiles_BattleFrontier[] = INCGFX_U8("graphics/door_anims/battle_frontier.png", ".4bpp");
 static const u16 sDoorNullPalette44[16] = {};
-static const u8 sDoorAnimTiles_BattleFrontierSliding[] = INCGFX_U8("graphics/door_anims/battle_frontier_sliding.png", ".4bpp");
 static const u16 sDoorNullPalette45[16] = {};
-static const u8 sDoorAnimTiles_BattleDomePreBattleRoom[] = INCGFX_U8("graphics/door_anims/battle_dome_pre_battle_room.png", ".4bpp");
 static const u16 sDoorNullPalette46[16] = {};
-static const u8 sDoorAnimTiles_BattleTentInterior[] = INCGFX_U8("graphics/door_anims/battle_tent_interior.png", ".4bpp");
 static const u16 sDoorNullPalette47[16] = {};
-static const u8 sDoorAnimTiles_TrainerHillLobbyElevator[] = INCGFX_U8("graphics/door_anims/trainer_hill_lobby_elevator.png", ".4bpp");
 static const u16 sDoorNullPalette48[16] = {};
-static const u8 sDoorAnimTiles_TrainerHillRoofElevator[] = INCGFX_U8("graphics/door_anims/trainer_hill_roof_elevator.png", ".4bpp");
 static const u16 sDoorNullPalette49[16] = {};
 
 #if IS_FRLG
@@ -181,8 +160,6 @@ static const u8 sDoorAnimTiles_FourIslandDayCare[] = INCGFX_U8("graphics/door_an
 static const u8 sDoorAnimTiles_RocketWarehouse[] = INCGFX_U8("graphics/door_anims/rocket_warehouse.png", ".4bpp");
 static const u8 sDoorAnimTiles_Sevii67[] = INCGFX_U8("graphics/door_anims/sevii_67.png", ".4bpp");
 static const u8 sDoorAnimTiles_Teleporter[] = INCGFX_U8("graphics/door_anims/teleporter.png", ".4bpp");
-static const u8 sDoorAnimTiles_TrainerTowerLobbyElevator[] = INCGFX_U8("graphics/door_anims/trainer_tower_lobby_elevator.png", ".4bpp");
-static const u8 sDoorAnimTiles_TrainerTowerRoofElevator[] = INCGFX_U8("graphics/door_anims/trainer_tower_roof_elevator.png", ".4bpp");
 
 #endif // IS_FRLG
 
@@ -281,7 +258,6 @@ static const u8 sDoorAnimPalettes_Slateport[] = {6, 6, 1, 1, 1, 1, 1, 1};
 static const u8 sDoorAnimPalettes_Mauville[] = {7, 7, 7, 7, 7, 7, 7, 7};
 static const u8 sDoorAnimPalettes_Verdanturf[] = {6, 6, 5, 5, 5, 5, 5, 5};
 static const u8 sDoorAnimPalettes_LilycoveWooden[] = {5, 5, 5, 5, 5, 5, 5, 5};
-static const u8 sDoorAnimPalettes_Contest[] = {1, 1, 1, 1, 1, 1, 1, 1};
 static const u8 sDoorAnimPalettes_PetalburgGym[] = {6, 6, 6, 6, 6, 6, 6, 6};
 static const u8 sDoorAnimPalettes_CyclingRoad[] = {7, 7, 7, 7, 7, 7, 7, 7};
 static const u8 sDoorAnimPalettes_LilycoveDeptStore[] = {5, 5, 5, 5, 5, 5, 5, 5};
@@ -293,24 +269,7 @@ static const u8 sDoorAnimPalettes_FallarborDarkRoof[] = {11, 11, 7, 7, 7, 7, 7, 
 static const u8 sDoorAnimPalettes_AbandonedShipRoom[] = {7, 7, 7, 7, 7, 7, 7, 7};
 static const u8 sDoorAnimPalettes_LilycoveDeptStoreElevator[] = {6, 6, 7, 7, 7, 7, 7, 7};
 static const u8 sDoorAnimPalettes_BattleTowerOld[] = {9, 9, 9, 9, 9, 9, 9, 9};
-static const u8 sDoorAnimPalettes_BattleTowerElevator[] = {7, 7, 7, 7, 7, 7, 7, 7};
-static const u8 sDoorAnimPalettes_UnusedBattleFrontier[] = {9, 9, 9, 9, 9, 9, 9, 9};
-static const u8 sDoorAnimPalettes_BattleDome[] = {1, 1, 1, 1, 1, 1, 1, 1};
-static const u8 sDoorAnimPalettes_BattleFactory[] = {9, 9, 9, 9, 9, 9, 9, 9};
-static const u8 sDoorAnimPalettes_BattleTower[] = {0, 0, 0, 0, 0, 0, 0, 0};
-static const u8 sDoorAnimPalettes_BattleArena[] = {5, 5, 5, 5, 5, 5, 5, 5};
-static const u8 sDoorAnimPalettes_BattleArenaLobby[] = {7, 7, 7, 7, 7, 7, 7, 7};
-static const u8 sDoorAnimPalettes_BattleDomeLobby[] = {7, 7, 7, 7, 7, 7, 7, 7};
-static const u8 sDoorAnimPalettes_BattlePalaceLobby[] = {7, 7, 7, 7, 7, 7, 7, 7};
-static const u8 sDoorAnimPalettes_BattleTent[] = {1, 1, 1, 1, 1, 1, 1, 1};
-static const u8 sDoorAnimPalettes_BattleDomeCorridor[] = {7, 7, 7, 7, 7, 7, 7, 7};
-static const u8 sDoorAnimPalettes_BattleTowerMultiCorridor[] = {7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7};
 static const u8 sDoorAnimPalettes_Unused[] = {1, 1, 1, 1, 1, 1, 1, 1};
-static const u8 sDoorAnimPalettes_BattleFrontier[] = {1, 1, 1, 1, 1, 1, 1, 1};
-static const u8 sDoorAnimPalettes_BattleDomePreBattleRoom[] = {9, 9, 7, 7, 7, 7, 7, 7};
-static const u8 sDoorAnimPalettes_BattleTentInterior[] = {9, 9, 9, 9, 9, 9, 9, 9};
-static const u8 sDoorAnimPalettes_TrainerHillLobbyElevator[] = {7, 7, 7, 7, 7, 7, 7, 7};
-static const u8 sDoorAnimPalettes_TrainerHillRoofElevator[] = {9, 9, 7, 7, 7, 7, 7, 7};
 
 #if IS_FRLG
 
@@ -344,8 +303,6 @@ static const u8 sDoorAnimPalettes_FourIslandDayCare[] = {3, 3, 3, 3, 3, 3, 3, 3}
 static const u8 sDoorAnimPalettes_RocketWarehouse[] = {10, 10, 10, 10, 10, 10, 10, 10};
 static const u8 sDoorAnimPalettes_Sevii67[] = {5, 5, 5, 5, 5, 5, 5, 5};
 static const u8 sDoorAnimPalettes_Teleporter[] = {8, 8, 8, 8, 8, 8, 8, 8};
-static const u8 sDoorAnimPalettes_TrainerTowerLobbyElevator[] = {8, 8, 2, 2, 2, 2, 2, 2};
-static const u8 sDoorAnimPalettes_TrainerTowerRoofElevator[] = {11, 11, 2, 2, 2, 2, 2, 2};
 
 #endif // IS_FRLG
 
@@ -463,14 +420,6 @@ static const struct DoorGraphics sDoorAnimGraphicsTable[] =
         .size = DOOR_SIZE_1x2,
         .tiles = sDoorAnimTiles_Dewford,
         .palettes = sDoorAnimPalettes_Dewford
-    },
-    {
-        .metatileNum = METATILE_General_Door_Contest,
-        .tileset = &gTileset_General,
-        .sound = DOOR_SOUND_SLIDING,
-        .size = DOOR_SIZE_1x2,
-        .tiles = sDoorAnimTiles_Contest,
-        .palettes = sDoorAnimPalettes_Contest
     },
     {
         .metatileNum = METATILE_Lilycove_Door,
@@ -615,182 +564,24 @@ static const struct DoorGraphics sDoorAnimGraphicsTable[] =
         .tiles = sDoorAnimTiles_BattleTowerOld,
         .palettes = sDoorAnimPalettes_BattleTowerOld
     },
-    {
-        .metatileNum = METATILE_BattleFrontier_Door_Elevator,
-        .tileset = &gTileset_BattleFrontier,
-        .sound = DOOR_SOUND_SLIDING,
-        .size = DOOR_SIZE_1x2,
-        .tiles = sDoorAnimTiles_BattleTowerElevator,
-        .palettes = sDoorAnimPalettes_BattleTowerElevator
-    },
-    {
-        .metatileNum = METATILE_BattleFrontierOutsideWest_Door_BattleDome,
-        .tileset = &gTileset_BattleFrontierOutsideWest,
-        .sound = DOOR_SOUND_SLIDING,
-        .size = DOOR_SIZE_1x2,
-        .tiles = sDoorAnimTiles_BattleDome,
-        .palettes = sDoorAnimPalettes_BattleDome
-    },
-    {
-        .metatileNum = METATILE_BattleFrontierOutsideWest_Door_BattleFactory,
-        .tileset = &gTileset_BattleFrontierOutsideWest,
-        .sound = DOOR_SOUND_SLIDING,
-        .size = DOOR_SIZE_1x2,
-        .tiles = sDoorAnimTiles_BattleFactory,
-        .palettes = sDoorAnimPalettes_BattleFactory
-    },
-    {
-        .metatileNum = METATILE_BattleFrontierOutsideEast_Door_BattleTower,
-        .tileset = &gTileset_BattleFrontierOutsideEast,
-        .sound = DOOR_SOUND_SLIDING,
-        .size = DOOR_SIZE_1x2,
-        .tiles = sDoorAnimTiles_BattleTower,
-        .palettes = sDoorAnimPalettes_BattleTower
-    },
-    {
-        .metatileNum = METATILE_BattleFrontierOutsideEast_Door_BattleArena,
-        .tileset = &gTileset_BattleFrontierOutsideEast,
-        .sound = DOOR_SOUND_NORMAL,
-        .size = DOOR_SIZE_1x2,
-        .tiles = sDoorAnimTiles_BattleArena,
-        .palettes = sDoorAnimPalettes_BattleArena
-    },
-    {
-        .metatileNum = METATILE_BattleArena_Door,
-        .tileset = &gTileset_BattleArena,
-        .sound = DOOR_SOUND_ARENA,
-        .size = DOOR_SIZE_1x2,
-        .tiles = sDoorAnimTiles_BattleArenaLobby,
-        .palettes = sDoorAnimPalettes_BattleArenaLobby
-    },
-    {
-        .metatileNum = METATILE_BattleDome_Door_Lobby,
-        .tileset = &gTileset_BattleDome,
-        .sound = DOOR_SOUND_SLIDING,
-        .size = DOOR_SIZE_1x2,
-        .tiles = sDoorAnimTiles_BattleDomeLobby,
-        .palettes = sDoorAnimPalettes_BattleDomeLobby
-    },
-    {
-        .metatileNum = METATILE_BattlePalace_Door,
-        .tileset = &gTileset_BattlePalace,
-        .sound = DOOR_SOUND_NORMAL,
-        .size = DOOR_SIZE_1x2,
-        .tiles = sDoorAnimTiles_BattlePalaceLobby,
-        .palettes = sDoorAnimPalettes_BattlePalaceLobby
-    },
-    {
-        .metatileNum = METATILE_Slateport_Door_BattleTent,
-        .tileset = &gTileset_Slateport,
-        .sound = DOOR_SOUND_SLIDING,
-        .size = DOOR_SIZE_1x2,
-        .tiles = sDoorAnimTiles_BattleTent,
-        .palettes = sDoorAnimPalettes_BattleTent
-    },
-    {
-        .metatileNum = METATILE_Mauville_Door_BattleTent,
-        .tileset = &gTileset_Mauville,
-        .sound = DOOR_SOUND_SLIDING,
-        .size = DOOR_SIZE_1x2,
-        .tiles = sDoorAnimTiles_BattleTent,
-        .palettes = sDoorAnimPalettes_BattleTent
-    },
-    {
-        .metatileNum = METATILE_Fallarbor_Door_BattleTent,
-        .tileset = &gTileset_Fallarbor,
-        .sound = DOOR_SOUND_SLIDING,
-        .size = DOOR_SIZE_1x2,
-        .tiles = sDoorAnimTiles_BattleTent,
-        .palettes = sDoorAnimPalettes_BattleTent
-    },
-    {
-        .metatileNum = METATILE_BattleDome_Door_Corridor,
-        .tileset = &gTileset_BattleDome,
-        .sound = DOOR_SOUND_SLIDING,
-        .size = DOOR_SIZE_1x2,
-        .tiles = sDoorAnimTiles_BattleDomeCorridor,
-        .palettes = sDoorAnimPalettes_BattleDomeCorridor
-    },
-    {
-        .metatileNum = METATILE_BattleFrontier_Door_MultiCorridor_Left,
-        .tileset = &gTileset_BattleFrontier,
-        .sound = DOOR_SOUND_SLIDING,
-        .size = DOOR_SIZE_2x2_LEFT,
-        .tiles = sDoorAnimTiles_BattleTowerMultiCorridor,
-        .palettes = sDoorAnimPalettes_BattleTowerMultiCorridor
-    },
-    {
-        .metatileNum = METATILE_BattleFrontier_Door_MultiCorridor_Right,
-        .tileset = &gTileset_BattleFrontier,
-        .sound = DOOR_SOUND_SLIDING,
-        .size = DOOR_SIZE_2x2_RIGHT,
-        .tiles = sDoorAnimTiles_BattleTowerMultiCorridor,
-        .palettes = sDoorAnimPalettes_BattleTowerMultiCorridor
-    },
-    {
-        .metatileNum = METATILE_BattleFrontierOutsideWest_Door,
-        .tileset = &gTileset_BattleFrontierOutsideWest,
-        .sound = DOOR_SOUND_NORMAL,
-        .size = DOOR_SIZE_1x2,
-        .tiles = sDoorAnimTiles_BattleFrontier,
-        .palettes = sDoorAnimPalettes_BattleFrontier
-    },
-    {
-        .metatileNum = METATILE_BattleFrontierOutsideWest_Door_Sliding,
-        .tileset = &gTileset_BattleFrontierOutsideWest,
-        .sound = DOOR_SOUND_SLIDING,
-        .size = DOOR_SIZE_1x2,
-        .tiles = sDoorAnimTiles_BattleFrontierSliding,
-        .palettes = sDoorAnimPalettes_BattleFrontier
-    },
-    {
-        .metatileNum = METATILE_BattleFrontierOutsideWest_Door,
-        .tileset = &gTileset_BattleFrontierOutsideEast,
-        .sound = DOOR_SOUND_NORMAL,
-        .size = DOOR_SIZE_1x2,
-        .tiles = sDoorAnimTiles_BattleFrontier,
-        .palettes = sDoorAnimPalettes_BattleFrontier
-    },
-    {
-        .metatileNum = METATILE_BattleFrontierOutsideWest_Door_Sliding,
-        .tileset = &gTileset_BattleFrontierOutsideEast,
-        .sound = DOOR_SOUND_SLIDING,
-        .size = DOOR_SIZE_1x2,
-        .tiles = sDoorAnimTiles_BattleFrontierSliding,
-        .palettes = sDoorAnimPalettes_BattleFrontier
-    },
-    {
-        .metatileNum = METATILE_BattleDome_Door_PreBattleRoom,
-        .tileset = &gTileset_BattleDome,
-        .sound = DOOR_SOUND_SLIDING,
-        .size = DOOR_SIZE_1x2,
-        .tiles = sDoorAnimTiles_BattleDomePreBattleRoom,
-        .palettes = sDoorAnimPalettes_BattleDomePreBattleRoom
-    },
-    {
-        .metatileNum = METATILE_BattleTent_Door,
-        .tileset = &gTileset_BattleTent,
-        .sound = DOOR_SOUND_SLIDING,
-        .size = DOOR_SIZE_1x2,
-        .tiles = sDoorAnimTiles_BattleTentInterior,
-        .palettes = sDoorAnimPalettes_BattleTentInterior
-    },
-    {
-        .metatileNum = METATILE_TrainerHill_Door_Elevator_Lobby,
-        .tileset = &gTileset_TrainerHill,
-        .sound = DOOR_SOUND_SLIDING,
-        .size = DOOR_SIZE_1x2,
-        .tiles = sDoorAnimTiles_TrainerHillLobbyElevator,
-        .palettes = sDoorAnimPalettes_TrainerHillLobbyElevator
-    },
-    {
-        .metatileNum = METATILE_TrainerHill_Door_Elevator_Roof,
-        .tileset = &gTileset_TrainerHill,
-        .sound = DOOR_SOUND_SLIDING,
-        .size = DOOR_SIZE_1x2,
-        .tiles = sDoorAnimTiles_TrainerHillRoofElevator,
-        .palettes = sDoorAnimPalettes_TrainerHillRoofElevator
-    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #else
     {
         .metatileNum = METATILE_GeneralFrlg_Door,
@@ -1024,22 +815,8 @@ static const struct DoorGraphics sDoorAnimGraphicsTable[] =
         .tiles = sDoorAnimTiles_Teleporter,
         .palettes = sDoorAnimPalettes_Teleporter
     },
-    {
-        .metatileNum = METATILE_TrainerTower_LobbyElevatorDoor,
-        .tileset = &gTileset_TrainerTower,
-        .sound = DOOR_SOUND_SLIDING,
-        .size = DOOR_SIZE_1x2,
-        .tiles = sDoorAnimTiles_TrainerTowerLobbyElevator,
-        .palettes = sDoorAnimPalettes_TrainerTowerLobbyElevator
-    },
-    {
-        .metatileNum = METATILE_TrainerTower_RoofElevatorDoor,
-        .tileset = &gTileset_TrainerTower,
-        .sound = DOOR_SOUND_SLIDING,
-        .size = DOOR_SIZE_1x2,
-        .tiles = sDoorAnimTiles_TrainerTowerRoofElevator,
-        .palettes = sDoorAnimPalettes_TrainerTowerRoofElevator
-    },
+
+
 #endif // !IS_FRLG
     {},
 };
@@ -1167,15 +944,11 @@ static void DrawDoor(const struct DoorGraphics *gfx, const struct DoorAnimFrame 
     if (frame->offset == 0xFFFF)
     {
         DrawClosedDoorTiles(gfx, x, y);
-        if (ShouldUseMultiCorridorDoor())
-            DrawClosedDoorTiles(gfx, gSpecialVar_0x8004 + MAP_OFFSET, gSpecialVar_0x8005 + MAP_OFFSET);
     }
     else
     {
         CopyDoorTilesToVram(gfx, frame);
         DrawCurrentDoorAnimFrame(gfx, x, y, gfx->palettes);
-        if (ShouldUseMultiCorridorDoor())
-            DrawCurrentDoorAnimFrame(gfx, gSpecialVar_0x8004 + MAP_OFFSET, gSpecialVar_0x8005 + MAP_OFFSET, gfx->palettes);
     }
 }
 
@@ -1357,18 +1130,4 @@ u32 GetDoorSoundEffect(u32 x, u32 y)
         return SE_REPEL;
     else
         return SE_DOOR;
-}
-
-// Opens the Battle Tower multi partner's door in sync with the player's door
-static bool8 ShouldUseMultiCorridorDoor(void)
-{
-    if (FlagGet(FLAG_ENABLE_MULTI_CORRIDOR_DOOR))
-    {
-        if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_BATTLE_FRONTIER_BATTLE_TOWER_MULTI_CORRIDOR)
-            && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_BATTLE_FRONTIER_BATTLE_TOWER_MULTI_CORRIDOR))
-        {
-            return TRUE;
-        }
-    }
-    return FALSE;
 }

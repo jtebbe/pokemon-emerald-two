@@ -22,7 +22,6 @@ enum PartyMenuType
 {
     PARTY_MENU_TYPE_FIELD,
     PARTY_MENU_TYPE_IN_BATTLE,
-    PARTY_MENU_TYPE_CONTEST,
     PARTY_MENU_TYPE_CHOOSE_MON,
     PARTY_MENU_TYPE_CHOOSE_HALF,                // multi battles, eReader battles, and some battle facilities
     PARTY_MENU_TYPE_MULTI_SHOWCASE,
@@ -31,7 +30,6 @@ enum PartyMenuType
     PARTY_MENU_TYPE_UNION_ROOM_REGISTER,        // trading board
     PARTY_MENU_TYPE_UNION_ROOM_TRADE,           // trading board
     PARTY_MENU_TYPE_SPIN_TRADE,                 // Unused beta for Gen IV's Spin Trade
-    PARTY_MENU_TYPE_MINIGAME,
     PARTY_MENU_TYPE_STORE_PYRAMID_HELD_ITEMS,
     PARTY_MENU_TYPE_MULTI_FULL_SHOWCASE
 };
@@ -95,13 +93,11 @@ void ItemUseCB_Mint(u8 taskId, TaskFunc task);
 void ItemUseCB_ResetEVs(u8 taskId, TaskFunc task);
 void ItemUseCB_ReduceEV(u8 taskId, TaskFunc task);
 void ItemUseCB_PPRecovery(u8 taskId, TaskFunc task);
-void ItemUseCB_PPUp(u8 taskId, TaskFunc task);
 enum Move ItemIdToBattleMoveId(enum Item item);
 bool8 MonKnowsMove(struct Pokemon *mon, enum Move move);
 bool8 BoxMonKnowsMove(struct BoxPokemon *boxMon, enum Move move);
 void ItemUseCB_TMHM(u8 taskId, TaskFunc task);
 void ItemUseCB_RareCandy(u8 taskId, TaskFunc task);
-void ItemUseCB_DynamaxCandy(u8 taskId, TaskFunc task);
 void ItemUseCB_SacredAsh(u8 taskId, TaskFunc task);
 void ItemUseCB_EvolutionStone(u8 taskId, TaskFunc task);
 void ItemUseCB_FormChange(u8 taskId, TaskFunc task);
@@ -117,7 +113,6 @@ void InitChooseHalfPartyForBattle(u8 unused);
 void ClearSelectedPartyOrder(void);
 void ChooseMonForTradingBoard(enum PartyMenuType menuType, MainCallback callback);
 void ChooseMonForMoveTutor(void);
-void ChooseMonForWirelessMinigame(void);
 void OpenPartyMenuInBattle(u8 partyAction);
 void ChooseMonForInBattleItem(void);
 void BufferBattlePartyCurrentOrder(void);
@@ -129,11 +124,8 @@ void ShowPartyMenuToShowcaseMultiBattleParty(void);
 void ChooseMonForDaycare(void);
 bool8 CB2_FadeFromPartyMenu(void);
 void CB2_ReturnToPartyMenuFromSummaryScreen(void);
-void ChooseContestMon(void);
 void ChoosePartyMon(void);
 void ChooseMonForMoveRelearner(void);
-void BattlePyramidChooseMonHeldItems(void);
-void DoBattlePyramidMonsHaveHeldItem(void);
 void IsSelectedMonEgg(void);
 void IsLastMonThatKnowsSurf(void);
 void MoveDeleterForgetMove(void);

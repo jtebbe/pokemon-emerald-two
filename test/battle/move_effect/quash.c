@@ -64,7 +64,7 @@ DOUBLE_BATTLE_TEST("Quash calculates correct turn order if only one Pokémon is 
     GIVEN {
         PLAYER(SPECIES_GRENINJA) { Speed(120); }
         PLAYER(SPECIES_REGIROCK) { Speed(100); }
-        OPPONENT(SPECIES_PIDGEOT) { Speed(10); }
+        OPPONENT(SPECIES_PIDGEOT) { HP(1); Speed(10); }
         OPPONENT(SPECIES_DRAGONITE) { Speed(60); }
     } WHEN {
         TURN {

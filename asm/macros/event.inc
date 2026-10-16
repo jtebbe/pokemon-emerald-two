@@ -61,10 +61,8 @@
 	@ callstd function names
 	STD_OBTAIN_ITEM = 0
 	STD_FIND_ITEM = 1
-	STD_OBTAIN_DECORATION = 7
-	STD_REGISTER_MATCH_CALL = 8
-	STD_PUT_ITEM_AWAY = 11
-	STD_RECEIVED_ITEM = 12
+	STD_PUT_ITEM_AWAY = 7
+	STD_RECEIVED_ITEM = 8
 
 	@ Calls the script in gStdScripts at index function.
 	.macro callstd function:req
@@ -86,21 +84,8 @@
 	.byte \function
 	.endm
 
-	@ Equivalent to the 'return' command for a RAM script.
-	.macro returnram
-	.byte SCR_OP_RETURNRAM
-	.endm
 
-	@ Equivalent to the 'end' command for a RAM script.
-	.macro endram
-	.byte SCR_OP_ENDRAM
-	.endm
 
-	@ Sets the Mystery Event script status (MEVENT_STATUS_*).
-	.macro setmysteryeventstatus value:req
-	.byte SCR_OP_SETMYSTERYEVENTSTATUS
-	.byte \value
-	.endm
 
 	@ Sets the value at the specified script data index to a fixed 4-byte value.
 	.macro loadword destIndex:req, value:req
@@ -615,29 +600,13 @@
 	.endm
 
 	@ Adds a decoration to the player's PC.
-	.macro adddecoration decoration:req
-	.byte SCR_OP_ADDDECORATION
-	.2byte \decoration
-	.endm
 
 	@ Removes a decoration from the player's PC.
-	.macro removedecoration decoration:req
-	.byte SCR_OP_REMOVEDECORATION
-	.2byte \decoration
-	.endm
 
 	@ Checks for decoration in the player's PC.
-	.macro checkdecor decoration:req
-	.byte SCR_OP_CHECKDECOR
-	.2byte \decoration
-	.endm
 
 	@ Checks if the player has enough space in their PC to hold the decoration.
 	@ Sets VAR_RESULT to TRUE if there is room, or FALSE is there is no room.
-	.macro checkdecorspace decoration:req
-	.byte SCR_OP_CHECKDECORSPACE
-	.2byte \decoration
-	.endm
 
 	@ Applies the movement data at movements to the specified (localId) object. If no map is specified, then the current map is used.
 	.macro applymovement localId:req, movements:req, map
@@ -755,17 +724,16 @@
 	OBJ_ID_NONE = 0
 
 	@ Configures the arguments for a trainer battle, then jumps to the appropriate script in scripts/trainer_battle.inc
-	.macro trainerbattle localIdA:req, trainer_a:req, intro_text_a:req, lose_text_a:req, event_script_a:req, localIdB:req, trainer_b:req, intro_text_b:req, lose_text_b:req, event_script_b:req, victory_text:req, cannot_battle:req, isDouble:req, playMusicA:req, playMusicB:req, isRematch:req, continueScript:req, facePlayer: req, earlyRival: req, skipFlagCheck:req, rival_battle_flags=0
+	.macro trainerbattle localIdA:req, trainer_a:req, intro_text_a:req, lose_text_a:req, event_script_a:req, localIdB:req, trainer_b:req, intro_text_b:req, lose_text_b:req, event_script_b:req, victory_text:req, cannot_battle:req, isDouble:req, playMusicA:req, playMusicB:req, continueScript:req, facePlayer: req, earlyRival: req, skipFlagCheck:req, rival_battle_flags=0
 	.byte SCR_OP_TRAINERBATTLE
 	.set trainerbattle_flags, 0
 	.ifgt \isDouble; .set trainerbattle_flags, trainerbattle_flags | (1 << 0); .endif
-	.ifgt \isRematch; .set trainerbattle_flags, trainerbattle_flags | (1 << 1); .endif
-	.ifgt \playMusicA; .set trainerbattle_flags, trainerbattle_flags | (1 << 2); .endif
-	.ifgt \playMusicB; .set trainerbattle_flags, trainerbattle_flags | (1 << 3); .endif
-	.ifgt \continueScript; .set trainerbattle_flags, trainerbattle_flags | (1 << 4); .endif
-	.ifgt \facePlayer; .set trainerbattle_flags, trainerbattle_flags | (1 << 5); .endif
-	.ifgt \earlyRival; .set trainerbattle_flags, trainerbattle_flags | (1 << 6); .endif
-	.ifgt \skipFlagCheck; .set trainerbattle_flags, trainerbattle_flags | (1 << 7); .endif
+	.ifgt \playMusicA; .set trainerbattle_flags, trainerbattle_flags | (1 << 1); .endif
+	.ifgt \playMusicB; .set trainerbattle_flags, trainerbattle_flags | (1 << 2); .endif
+	.ifgt \continueScript; .set trainerbattle_flags, trainerbattle_flags | (1 << 3); .endif
+	.ifgt \facePlayer; .set trainerbattle_flags, trainerbattle_flags | (1 << 4); .endif
+	.ifgt \earlyRival; .set trainerbattle_flags, trainerbattle_flags | (1 << 5); .endif
+	.ifgt \skipFlagCheck; .set trainerbattle_flags, trainerbattle_flags | (1 << 6); .endif
 	.byte trainerbattle_flags
 	.byte \localIdA             @ objEventLocalIdA
 	.2byte \trainer_a           @ opponentA
@@ -808,15 +776,7 @@
 	.endif
 	.endm
 
-	@ Starts a rematch battle. Takes a trainer, intro text and loss text
-	.macro trainerbattle_rematch trainer:req, intro_text:req, lose_text:req
-	trainerbattle LOCALID_NONE, \trainer, \intro_text, \lose_text, NULL, LOCALID_NONE, TRAINER_NONE, NULL, NULL, NULL, NULL, NULL, FALSE, TRUE, FALSE, TRUE, FALSE, TRUE, FALSE, FALSE
-	.endm
 
-	@ Starts a rematch double battle. Takes a trainer, intro text, loss text, and text for when you have too few pokemon
-	.macro trainerbattle_rematch_double trainer:req, intro_text:req, lose_text:req, not_enough_pkmn_text:req
-	trainerbattle LOCALID_NONE, \trainer, \intro_text, \lose_text, NULL, LOCALID_NONE, TRAINER_NONE, NULL, NULL, NULL, NULL, \not_enough_pkmn_text, FALSE, TRUE, FALSE, TRUE, FALSE, TRUE, FALSE, FALSE
-	.endm
 
 	@ Starts a trainer battle, skipping intro text. Takes a trainer and loss text
 	.macro trainerbattle_no_intro trainer:req, lose_text:req
@@ -1021,11 +981,6 @@
 	.byte SCR_OP_HIDEMONPIC
 	.endm
 
-	@ Draws an image of the winner of the contest. winnerId is any CONTEST_WINNER_* constant.
-	.macro showcontestpainting winnerId:req
-	.byte SCR_OP_SHOWCONTESTPAINTING
-	.byte \winnerId
-	.endm
 
 	@ Displays the given string as braille text in a standard message box. The string should use the .braille directive
 	@ to convert text to braille, and be preceded by brailleformat. The brailleformat data is skipped over (in RS, these
@@ -1065,7 +1020,7 @@
 
 	@ Gives the player a Pokémon of the specified species and level, and allows to customize extra parameters.
 	@ VAR_RESULT will be set to MON_GIVEN_TO_PARTY, MON_GIVEN_TO_PC, or MON_CANT_GIVE depending on the outcome.
-	.macro givemon species:req, level:req, item, ball, nature, abilityNum, gender, hpEv, atkEv, defEv, speedEv, spAtkEv, spDefEv, hpIv, atkIv, defIv, speedIv, spAtkIv, spDefIv, move1, move2, move3, move4, shinyMode, gmaxFactor, teraType, dmaxLevel, isEgg, ignoreTotalEvCheck = FALSE
+	.macro givemon species:req, level:req, item, ball, nature, abilityNum, gender, hpEv, atkEv, defEv, speedEv, spAtkEv, spDefEv, move1, move2, move3, move4, shinyMode, teraType, isEgg, ignoreTotalEvCheck = FALSE
 	callnative ScrCmd_createmon, requests_effects=1
 	.byte 0
 	.byte PARTY_SIZE @ assign to first empty slot
@@ -1083,22 +1038,14 @@
 	.ifnb \speedEv; .set givemon_flags, givemon_flags | (1 << 8); .endif
 	.ifnb \spAtkEv; .set givemon_flags, givemon_flags | (1 << 9); .endif
 	.ifnb \spDefEv; .set givemon_flags, givemon_flags | (1 << 10); .endif
-	.ifnb \hpIv; .set givemon_flags, givemon_flags | (1 << 11); .endif
-	.ifnb \atkIv; .set givemon_flags, givemon_flags | (1 << 12); .endif
-	.ifnb \defIv; .set givemon_flags, givemon_flags | (1 << 13); .endif
-	.ifnb \speedIv; .set givemon_flags, givemon_flags | (1 << 14); .endif
-	.ifnb \spAtkIv; .set givemon_flags, givemon_flags | (1 << 15); .endif
-	.ifnb \spDefIv; .set givemon_flags, givemon_flags | (1 << 16); .endif
-	.ifnb \move1; .set givemon_flags, givemon_flags | (1 << 17); .endif
-	.ifnb \move2; .set givemon_flags, givemon_flags | (1 << 18); .endif
-	.ifnb \move3; .set givemon_flags, givemon_flags | (1 << 19); .endif
-	.ifnb \move4; .set givemon_flags, givemon_flags | (1 << 20); .endif
-	.ifnb \shinyMode; .set givemon_flags, givemon_flags | (1 << 21); .endif
-	.ifnb \gmaxFactor; .set givemon_flags, givemon_flags | (1 << 22); .endif
-	.ifnb \teraType; .set givemon_flags, givemon_flags | (1 << 23); .endif
-	.ifnb \dmaxLevel; .set givemon_flags, givemon_flags | (1 << 24); .endif
-	.ifnb \isEgg; .set givemon_flags, givemon_flags | (1 << 25); .endif
-	.if \ignoreTotalEvCheck; .set givemon_flags, givemon_flags | (1 << 26); .endif
+	.ifnb \move1; .set givemon_flags, givemon_flags | (1 << 11); .endif
+	.ifnb \move2; .set givemon_flags, givemon_flags | (1 << 12); .endif
+	.ifnb \move3; .set givemon_flags, givemon_flags | (1 << 13); .endif
+	.ifnb \move4; .set givemon_flags, givemon_flags | (1 << 14); .endif
+	.ifnb \shinyMode; .set givemon_flags, givemon_flags | (1 << 15); .endif
+	.ifnb \teraType; .set givemon_flags, givemon_flags | (1 << 16); .endif
+	.ifnb \isEgg; .set givemon_flags, givemon_flags | (1 << 17); .endif
+	.if \ignoreTotalEvCheck; .set givemon_flags, givemon_flags | (1 << 18); .endif
 	.4byte givemon_flags
 	.ifnb \item; .2byte \item; .endif
 	.ifnb \ball; .2byte \ball; .endif
@@ -1111,26 +1058,18 @@
 	.ifnb \speedEv; .2byte \speedEv; .endif
 	.ifnb \spAtkEv; .2byte \spAtkEv; .endif
 	.ifnb \spDefEv; .2byte \spDefEv; .endif
-	.ifnb \hpIv; .2byte \hpIv; .endif
-	.ifnb \atkIv; .2byte \atkIv; .endif
-	.ifnb \defIv; .2byte \defIv; .endif
-	.ifnb \speedIv; .2byte \speedIv; .endif
-	.ifnb \spAtkIv; .2byte \spAtkIv; .endif
-	.ifnb \spDefIv; .2byte \spDefIv; .endif
 	.ifnb \move1; .2byte \move1; .endif
 	.ifnb \move2; .2byte \move2; .endif
 	.ifnb \move3; .2byte \move3; .endif
 	.ifnb \move4; .2byte \move4; .endif
 	.ifnb \shinyMode; .2byte \shinyMode; .endif
-	.ifnb \gmaxFactor; .2byte \gmaxFactor; .endif
 	.ifnb \teraType; .2byte \teraType; .endif
-	.ifnb \dmaxLevel; .2byte \dmaxLevel; .endif
 	.ifnb \isEgg; .2byte \isEgg; .endif
 	.endm
 
 	@ creates a mon for a given party and slot
 	@ otherwise
-	.macro createmon side:req, slot:req, species:req, level:req, item, ball, nature, abilityNum, gender, hpEv, atkEv, defEv, speedEv, spAtkEv, spDefEv, hpIv, atkIv, defIv, speedIv, spAtkIv, spDefIv, move1, move2, move3, move4, shinyMode, gmaxFactor, teraType, dmaxLevel, isEgg, ignoreTotalEvCheck = FALSE
+	.macro createmon side:req, slot:req, species:req, level:req, item, ball, nature, abilityNum, gender, hpEv, atkEv, defEv, speedEv, spAtkEv, spDefEv, move1, move2, move3, move4, shinyMode, teraType, isEgg, ignoreTotalEvCheck = FALSE
 	callnative ScrCmd_createmon, requests_effects=1
 	.byte \side	 @ 0 - player, 1 - opponent
 	.byte \slot	 @ 0-5
@@ -1148,22 +1087,14 @@
 	.ifnb \speedEv; .set givemon_flags, givemon_flags | (1 << 8); .endif
 	.ifnb \spAtkEv; .set givemon_flags, givemon_flags | (1 << 9); .endif
 	.ifnb \spDefEv; .set givemon_flags, givemon_flags | (1 << 10); .endif
-	.ifnb \hpIv; .set givemon_flags, givemon_flags | (1 << 11); .endif
-	.ifnb \atkIv; .set givemon_flags, givemon_flags | (1 << 12); .endif
-	.ifnb \defIv; .set givemon_flags, givemon_flags | (1 << 13); .endif
-	.ifnb \speedIv; .set givemon_flags, givemon_flags | (1 << 14); .endif
-	.ifnb \spAtkIv; .set givemon_flags, givemon_flags | (1 << 15); .endif
-	.ifnb \spDefIv; .set givemon_flags, givemon_flags | (1 << 16); .endif
-	.ifnb \move1; .set givemon_flags, givemon_flags | (1 << 17); .endif
-	.ifnb \move2; .set givemon_flags, givemon_flags | (1 << 18); .endif
-	.ifnb \move3; .set givemon_flags, givemon_flags | (1 << 19); .endif
-	.ifnb \move4; .set givemon_flags, givemon_flags | (1 << 20); .endif
-	.ifnb \shinyMode; .set givemon_flags, givemon_flags | (1 << 21); .endif
-	.ifnb \gmaxFactor; .set givemon_flags, givemon_flags | (1 << 22); .endif
-	.ifnb \teraType; .set givemon_flags, givemon_flags | (1 << 23); .endif
-	.ifnb \dmaxLevel; .set givemon_flags, givemon_flags | (1 << 24); .endif
-	.ifnb \isEgg; .set givemon_flags, givemon_flags | (1 << 25); .endif
-	.if \ignoreTotalEvCheck; .set givemon_flags, givemon_flags | (1 << 26); .endif
+	.ifnb \move1; .set givemon_flags, givemon_flags | (1 << 11); .endif
+	.ifnb \move2; .set givemon_flags, givemon_flags | (1 << 12); .endif
+	.ifnb \move3; .set givemon_flags, givemon_flags | (1 << 13); .endif
+	.ifnb \move4; .set givemon_flags, givemon_flags | (1 << 14); .endif
+	.ifnb \shinyMode; .set givemon_flags, givemon_flags | (1 << 15); .endif
+	.ifnb \teraType; .set givemon_flags, givemon_flags | (1 << 16); .endif
+	.ifnb \isEgg; .set givemon_flags, givemon_flags | (1 << 17); .endif
+	.if \ignoreTotalEvCheck; .set givemon_flags, givemon_flags | (1 << 18); .endif
 	.4byte givemon_flags
 	.ifnb \item; .2byte \item; .endif
 	.ifnb \ball; .2byte \ball; .endif
@@ -1176,20 +1107,12 @@
 	.ifnb \speedEv; .2byte \speedEv; .endif
 	.ifnb \spAtkEv; .2byte \spAtkEv; .endif
 	.ifnb \spDefEv; .2byte \spDefEv; .endif
-	.ifnb \hpIv; .2byte \hpIv; .endif
-	.ifnb \atkIv; .2byte \atkIv; .endif
-	.ifnb \defIv; .2byte \defIv; .endif
-	.ifnb \speedIv; .2byte \speedIv; .endif
-	.ifnb \spAtkIv; .2byte \spAtkIv; .endif
-	.ifnb \spDefIv; .2byte \spDefIv; .endif
 	.ifnb \move1; .2byte \move1; .endif
 	.ifnb \move2; .2byte \move2; .endif
 	.ifnb \move3; .2byte \move3; .endif
 	.ifnb \move4; .2byte \move4; .endif
 	.ifnb \shinyMode; .2byte \shinyMode; .endif
-	.ifnb \gmaxFactor; .2byte \gmaxFactor; .endif
 	.ifnb \teraType; .2byte \teraType; .endif
-	.ifnb \dmaxLevel; .2byte \dmaxLevel; .endif
 	.ifnb \isEgg; .2byte \isEgg; .endif
 	.endm
 
@@ -1265,11 +1188,6 @@
 	.endm
 
 	@ Writes the name of the specified decoration to the specified buffer.
-	.macro bufferdecorationname stringVarId:req, decoration:req
-	.byte SCR_OP_BUFFERDECORATIONNAME
-	stringvar \stringVarId
-	.2byte \decoration
-	.endm
 
 	@ Writes the name of the specified move to the specified buffer.
 	.macro buffermovename stringVarId:req, move:req
@@ -1315,16 +1233,8 @@
 
 	@ Opens the Pokemart system and treats the list of items as decorations.
 	@ Products should be a list of .2byte decoration values preceded by an .align 2
-	.macro pokemartdecoration products:req
-	.byte SCR_OP_POKEMARTDECORATION
-	.4byte \products
-	.endm
 
 	@ Identical to pokemartdecoration, but with slight changes to the clerk dialogue. See uses of MART_TYPE_DECOR2.
-	.macro pokemartdecoration2 products:req
-	.byte SCR_OP_POKEMARTDECORATION2
-	.4byte \products
-	.endm
 
 	@ Starts up the slot machine minigame. id is a SLOT_MACHINE_* value that influences probabilities of certain reel outcomes.
 	.macro playslotmachine id:req
@@ -1332,7 +1242,7 @@
 	.2byte \id
 	.endm
 
-	@ Sets a berry tree's berry and growth stage. treeId is any BERRY_TREE_* constant (an index into berryTrees in SaveBlock1),
+	@ Sets a berry tree's berry and growth stage. treeId is any BERRY_TREE_* constant (an index into berryTrees in SaveData),
 	@ berryId is any BERRY_ID_X value, and growthStage is any BERRY_STAGE_* constant.
 	.macro setberrytree treeId:req, berryId:req, growthStage:req
 	.if \berryId == 0 || \berryId > NUM_BERRIES
@@ -1344,25 +1254,9 @@
 	.byte \growthStage
 	.endm
 
-	@ Opens the party menu to select a Pokemon for a contest.
-	.macro choosecontestmon
-	.byte SCR_OP_CHOOSECONTESTMON
-	.endm
 
-	@ Starts the appeals round of a contest.
-	.macro startcontest
-	.byte SCR_OP_STARTCONTEST
-	.endm
 
-	@ Shows the results screen of a contest.
-	.macro showcontestresults
-	.byte SCR_OP_SHOWCONTESTRESULTS
-	.endm
 
-	@ Starts communication to initialize a link contest.
-	.macro contestlinktransfer
-	.byte SCR_OP_CONTESTLINKTRANSFER
-	.endm
 
 	@ Stores a random integer between 0 and limit (exclusive of limit) in VAR_RESULT.
 	.macro random limit:req
@@ -1406,10 +1300,6 @@
 	.endm
 
 	@ Gets whether the effects of the specified PokeNews program are active. newsKind is a POKENEWS_* constant.
-	.macro getpokenewsactive newsKind:req
-	.byte SCR_OP_GETPOKENEWSACTIVE
-	.2byte \newsKind
-	.endm
 
 	@ Fades the screen to and from black and white. Modes are FADE_(TO/FROM)_(WHITE/BLACK)
 	.macro fadescreen mode:req
@@ -1520,10 +1410,6 @@
 	.endm
 
 	@ Enables the overworld task specified by stepCbId (STEP_CB_*). Only 1 can be active at a time. See src/field_tasks.c for more.
-	.macro setstepcallback stepCbId:req
-	.byte SCR_OP_SETSTEPCALLBACK
-	.byte \stepCbId
-	.endm
 
 	@ Sets the current map layout to the one specified by index (LAYOUT_*).
 	@ This should be done before the layout is loaded, typically in the ON_TRANSITION map script.
@@ -1549,7 +1435,7 @@
 	.endm
 
 	@ Creates a sprite with object graphics. Used when creating large groups of static NPCs that exceed
-	@ the object event limit (e.g. Contest / Battle Dome audiences and Union Room group members).
+	@ the object event limit (for example, Union Room group members).
 	@ The specified id can be used to refer to the sprite again later with turnvobject.
 	.macro createvobject graphicsId:req, id:req, x:req, y:req, elevation=3, direction=DIR_SOUTH
 	.byte SCR_OP_CREATEVOBJECT
@@ -1656,7 +1542,7 @@
 	.byte SCR_OP_DOWILDBATTLE
 	.endm
 
-	@ Sets a relative address to be used by the other vcommands as part of a Mystery Gift script.
+	@ Sets a relative address to be used by the other vcommands for a relocatable script.
 	.macro setvaddress pointer:req
 	.byte SCR_OP_SETVADDRESS
 	.4byte \pointer
@@ -1724,12 +1610,6 @@
 	.byte SCR_OP_UPDATECOINSBOX
 	.endm
 
-	@ Increases the value of the specified game stat by 1. The maximum value of a stat is 0xFFFFFF. See include/constants/game_stat.h
-	.macro incrementgamestat stat:req
-	.byte SCR_OP_INCREMENTGAMESTAT
-	.byte \stat
-	.endm
-
 	@ Sets the destination that using an Escape Rope or Dig will take the player to.
 	@ Warp commands can be given either the id of which warp location to go to on the destination map
 	@ or a pair of x/y coordinates to go to directly on the destination map.
@@ -1784,24 +1664,6 @@
 	.4byte \value
 	.endm
 
-	@ Sets the modernFatefulEncounter bit for the Pokemon in the specified slot of the player's party.
-	.macro setmodernfatefulencounter slot:req
-	.byte SCR_OP_SETMODERNFATEFULENCOUNTER
-	.2byte \slot
-	.endm
-
-	@ Checks if the modernFatefulEncounter bit is set for the Pokemon in the specified slot of the player's party. If it isn't set,
-	@ VAR_RESULT is TRUE. If the bit is set (or if the specified slot is empty or invalid), VAR_RESULT is FALSE.
-	.macro checkmodernfatefulencounter slot:req
-	.byte SCR_OP_CHECKMODERNFATEFULENCOUNTER
-	.2byte \slot
-	.endm
-
-	@ Jumps to the ram script saved from a Wonder Card. If there is no valid saved Wonder Card or if the
-	@ ram script is invalid then this does nothing.
-	.macro trywondercardscript
-	.byte SCR_OP_TRYWONDERCARDSCRIPT
-	.endm
 
 	@ Used only in FireRed/LeafGreen, does nothing in Emerald.
 	.macro setworldmapflag worldmapflag:req
@@ -1908,12 +1770,6 @@
 	.2byte \trainerId
 	.endm
 
-	@ Starts a Pokenav call with the given text.
-	.macro pokenavcall text:req
-	.byte SCR_OP_POKENAVCALL
-	.4byte \text
-	.endm
-
 	@ Warp with a fade to white. Used during the Sootopolis legendary fight.
 	@ Warp commands can be given either the id of which warp location to go to on the destination map
 	@ or a pair of x/y coordinates to go to directly on the destination map.
@@ -1922,13 +1778,6 @@
 	formatwarp \map, \a, \b, \c
 	.endm
 
-	@ Buffers the name of the contest category to the buffer.
-	@ For example a category of CONTEST_CATEGORY_COOL will buffer the string "COOLNESS CONTEST".
-	.macro buffercontestname stringVarId:req, category:req
-	.byte SCR_OP_BUFFERCONTESTNAME
-	stringvar \stringVarId
-	.2byte \category
-	.endm
 
 	@ Writes the name of the specified item to the specified buffer. If 'item' is a Berry or ITEM_POKE_BALL
 	@ and if the quantity is 2 or more, the buffered string will be pluralized ("IES" or "S" appended).
@@ -2148,8 +1997,6 @@
 	MSGBOX_DEFAULT = 4
 	MSGBOX_YESNO = 5
 	MSGBOX_AUTOCLOSE = 6
-	MSGBOX_GETPOINTS = 9
-	MSGBOX_POKENAV = 10
 
 	YES = 1
 	NO  = 0
@@ -2185,19 +2032,6 @@
 	callstd STD_PUT_ITEM_AWAY
 	.endm
 
-	@ Equivalent to giveitem but for a single decoration.
-	.macro givedecoration decoration:req
-	setorcopyvar VAR_0x8000, \decoration
-	callstd STD_OBTAIN_DECORATION
-	.endm
-
-	@ Registers the specified trainer in Match Call and plays a fanfare with a notification message.
-	.macro register_matchcall trainer:req
-	setvar VAR_0x8004, \trainer
-	special SetMatchCallRegisteredFlag
-	setorcopyvar VAR_0x8000, \trainer
-	callstd STD_REGISTER_MATCH_CALL
-	.endm
 
 	@ Does a sparkle field effect (e.g. when the Trick Master is hiding) at the given coordinates.
 	.macro dofieldeffectsparkle x:req, y:req, priority:req
@@ -2214,7 +2048,7 @@
 	closebraillemessage
 	.endm
 
-	@ Creates a Pokémon with the modernFatefulEncounter bit set for an encounter
+	@ Creates a scripted encounter Pokémon.
 	.macro seteventmon species:req, level:req, item=ITEM_NONE
 	setvar VAR_0x8004, \species
 	setvar VAR_0x8005, \level
@@ -2298,36 +2132,6 @@
 	setvar VAR_0x8004, \trainer1
 	callnative CreateTrainerPartyForPlayer, requests_effects=1
 	trainerbattle_no_intro \trainer2, NULL
-	.endm
-
-	@ Sets VAR_RESULT to TRUE if stat can be hyper trained, or to
-	@ FALSE otherwise.
-	.macro canhypertrain stat:req, slot:req
-	callnative CanHyperTrain, requests_effects=1
-	.byte \stat
-	.2byte \slot
-	.endm
-
-	@ Hyper Trains a stat.
-	.macro hypertrain stat:req, slot:req
-	callnative HyperTrain, requests_effects=1
-	.byte \stat
-	.2byte \slot
-	.endm
-
-	@ Sets VAR_RESULT to TRUE if the Pokemon has the Gigantamax Factor,
-	@ or to FALSE otherwise.
-	.macro hasgigantamaxfactor slot:req
-	callnative HasGigantamaxFactor, requests_effects=1
-	.2byte \slot
-	.endm
-
-	@ Toggles the Gigantamax Factor for a Pokemon.
-	@ Fails for Melmetal (vanilla behavior).
-	@ Sets VAR_RESULT to TRUE if it succeeds, and FALSE otherwise.
-	.macro togglegigantamaxfactor slot:req
-	callnative ToggleGigantamaxFactor, requests_effects=1
-	.2byte \slot
 	.endm
 
 	@ Sets VAR_RESULT to one of the arguments (via setorcopyvar).
@@ -2702,18 +2506,6 @@
 	.2byte \partnerId
 	.endm
 
-	@ facility version of `trainerbattle` macro. Used in Battle Pyramid and Trainer Hill
-	.macro facilitytrainerbattle facility:req
-	callnative FacilityTrainerBattle
-	.byte \facility
-	.endm
-
-	@ immediately starts a battle of the given facility
-	.macro dofacilitytrainerbattle facility:req
-	callnative DoFacilityTrainerBattle
-	.byte \facility
-	.endm
-
 	.macro ingame_trade tradeId:req wantTradeMsg:req, declineTradeJump:req, wrongMonJump:req, tradeCompleteMsg:req
 	setvar VAR_0x8005, \tradeId
 	specialvar VAR_0x8009, GetInGameTradeSpeciesInfo
@@ -2885,12 +2677,6 @@
 	.byte \loBerry
 	.byte \hiBerry
 	giveitem VAR_RESULT
-	.endm
-
-@ VS Seeker
-	.macro vsseeker_rematchid rematchId:req
-	callnative NativeVsSeekerRematchId, requests_effects=1
-	.2byte \rematchId
 	.endm
 
 	@ Sets the move relearner state

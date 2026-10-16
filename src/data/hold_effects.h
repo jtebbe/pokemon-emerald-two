@@ -131,9 +131,6 @@ const struct HoldEffectInfo gHoldEffectsInfo[HOLD_EFFECT_COUNT] =
     {
     },
 
-    [HOLD_EFFECT_FRIENDSHIP_UP] =
-    {
-    },
 
     [HOLD_EFFECT_MENTAL_HERB] =
     {
@@ -355,10 +352,6 @@ const struct HoldEffectInfo gHoldEffectsInfo[HOLD_EFFECT_COUNT] =
     {
     },
 
-    [HOLD_EFFECT_ENIGMA_BERRY] =
-    {
-        .onTargetAfterHit = TRUE,
-    },
 
     [HOLD_EFFECT_RESIST_BERRY] =
     {
@@ -514,9 +507,6 @@ const struct HoldEffectInfo gHoldEffectsInfo[HOLD_EFFECT_COUNT] =
     {
     },
 
-    [HOLD_EFFECT_Z_CRYSTAL] =
-    {
-    },
 
     [HOLD_EFFECT_UTILITY_UMBRELLA] =
     {

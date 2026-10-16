@@ -1,5 +1,4 @@
 #include "global.h"
-#include "battle_pyramid.h"
 #include "bg.h"
 #include "event_data.h"
 #include "field_weather.h"
@@ -17,7 +16,6 @@
 #include "string_util.h"
 #include "task.h"
 #include "text.h"
-#include "constants/battle_frontier.h"
 #include "constants/layouts.h"
 #include "constants/map_types.h"
 #include "constants/region_map_sections.h"
@@ -146,7 +144,6 @@ static const u8 sMapSectionToThemeId[MAPSEC_COUNT - KANTO_MAPSEC_COUNT - 1] =
     [MAPSEC_GRANITE_CAVE] = MAPPOPUP_THEME_STONE,
     [MAPSEC_MT_CHIMNEY] = MAPPOPUP_THEME_STONE,
     [MAPSEC_SAFARI_ZONE] = MAPPOPUP_THEME_WOOD,
-    [MAPSEC_BATTLE_FRONTIER] = MAPPOPUP_THEME_MARBLE,
     [MAPSEC_PETALBURG_WOODS] = MAPPOPUP_THEME_WOOD,
     [MAPSEC_RUSTURF_TUNNEL] = MAPPOPUP_THEME_STONE,
     [MAPSEC_ABANDONED_SHIP] = MAPPOPUP_THEME_WOOD,
@@ -174,7 +171,6 @@ static const u8 sMapSectionToThemeId[MAPSEC_COUNT - KANTO_MAPSEC_COUNT - 1] =
     [MAPSEC_ANCIENT_TOMB] = MAPPOPUP_THEME_STONE,
     [MAPSEC_INSIDE_OF_TRUCK] = MAPPOPUP_THEME_WOOD,
     [MAPSEC_SKY_PILLAR] = MAPPOPUP_THEME_STONE,
-    [MAPSEC_SECRET_BASE] = MAPPOPUP_THEME_STONE,
     [MAPSEC_DYNAMIC] = MAPPOPUP_THEME_MARBLE,
     [MAPSEC_AQUA_HIDEOUT - KANTO_MAPSEC_COUNT] = MAPPOPUP_THEME_STONE,
     [MAPSEC_MAGMA_HIDEOUT - KANTO_MAPSEC_COUNT] = MAPPOPUP_THEME_STONE,
@@ -191,7 +187,6 @@ static const u8 sMapSectionToThemeId[MAPSEC_COUNT - KANTO_MAPSEC_COUNT - 1] =
     [MAPSEC_DESERT_UNDERPASS - KANTO_MAPSEC_COUNT] = MAPPOPUP_THEME_STONE,
     [MAPSEC_ALTERING_CAVE - KANTO_MAPSEC_COUNT] = MAPPOPUP_THEME_STONE,
     [MAPSEC_NAVEL_ROCK - KANTO_MAPSEC_COUNT] = MAPPOPUP_THEME_STONE,
-    [MAPSEC_TRAINER_HILL - KANTO_MAPSEC_COUNT] = MAPPOPUP_THEME_MARBLE,
 };
 
 #if OW_POPUP_GENERATION == GEN_5
@@ -267,7 +262,6 @@ static const u8 sRegionMapSectionId_To_PopUpThemeIdMapping_BW[] =
     [MAPSEC_GRANITE_CAVE] = MAPPOPUP_THEME_BW_DEFAULT,
     [MAPSEC_MT_CHIMNEY] = MAPPOPUP_THEME_BW_DEFAULT,
     [MAPSEC_SAFARI_ZONE] = MAPPOPUP_THEME_BW_DEFAULT,
-    [MAPSEC_BATTLE_FRONTIER] = MAPPOPUP_THEME_BW_DEFAULT,
     [MAPSEC_PETALBURG_WOODS] = MAPPOPUP_THEME_BW_DEFAULT,
     [MAPSEC_RUSTURF_TUNNEL] = MAPPOPUP_THEME_BW_DEFAULT,
     [MAPSEC_ABANDONED_SHIP] = MAPPOPUP_THEME_BW_DEFAULT,
@@ -295,7 +289,6 @@ static const u8 sRegionMapSectionId_To_PopUpThemeIdMapping_BW[] =
     [MAPSEC_ANCIENT_TOMB] = MAPPOPUP_THEME_BW_DEFAULT,
     [MAPSEC_INSIDE_OF_TRUCK] = MAPPOPUP_THEME_BW_DEFAULT,
     [MAPSEC_SKY_PILLAR] = MAPPOPUP_THEME_BW_DEFAULT,
-    [MAPSEC_SECRET_BASE] = MAPPOPUP_THEME_BW_DEFAULT,
     [MAPSEC_DYNAMIC] = MAPPOPUP_THEME_BW_DEFAULT,
     [MAPSEC_AQUA_HIDEOUT - KANTO_MAPSEC_COUNT] = MAPPOPUP_THEME_BW_DEFAULT,
     [MAPSEC_MAGMA_HIDEOUT - KANTO_MAPSEC_COUNT] = MAPPOPUP_THEME_BW_DEFAULT,
@@ -312,29 +305,9 @@ static const u8 sRegionMapSectionId_To_PopUpThemeIdMapping_BW[] =
     [MAPSEC_DESERT_UNDERPASS - KANTO_MAPSEC_COUNT] = MAPPOPUP_THEME_BW_DEFAULT,
     [MAPSEC_ALTERING_CAVE - KANTO_MAPSEC_COUNT] = MAPPOPUP_THEME_BW_DEFAULT,
     [MAPSEC_NAVEL_ROCK - KANTO_MAPSEC_COUNT] = MAPPOPUP_THEME_BW_DEFAULT,
-    [MAPSEC_TRAINER_HILL - KANTO_MAPSEC_COUNT] = MAPPOPUP_THEME_BW_DEFAULT,
 };
 
-static const u8 sText_PyramidFloor1[] = _("PYRAMID FLOOR 1");
-static const u8 sText_PyramidFloor2[] = _("PYRAMID FLOOR 2");
-static const u8 sText_PyramidFloor3[] = _("PYRAMID FLOOR 3");
-static const u8 sText_PyramidFloor4[] = _("PYRAMID FLOOR 4");
-static const u8 sText_PyramidFloor5[] = _("PYRAMID FLOOR 5");
-static const u8 sText_PyramidFloor6[] = _("PYRAMID FLOOR 6");
-static const u8 sText_PyramidFloor7[] = _("PYRAMID FLOOR 7");
-static const u8 sText_Pyramid[] = _("PYRAMID");
 
-static const u8 *const sBattlePyramid_MapHeaderStrings[FRONTIER_STAGES_PER_CHALLENGE + 1] =
-{
-    sText_PyramidFloor1,
-    sText_PyramidFloor2,
-    sText_PyramidFloor3,
-    sText_PyramidFloor4,
-    sText_PyramidFloor5,
-    sText_PyramidFloor6,
-    sText_PyramidFloor7,
-    sText_Pyramid,
-};
 
 static bool8 UNUSED StartMenu_ShowMapNamePopup(void)
 {
@@ -547,13 +520,6 @@ static bool32 IsCeladonDeptStore(const struct MapHeader *mapHeader)
 {
     if (mapHeader->regionMapSectionId != MAPSEC_CELADON_CITY)
         return FALSE;
-    if (mapHeader->mapLayoutId != LAYOUT_CELADON_CITY_DEPARTMENT_STORE_1F
-     && mapHeader->mapLayoutId != LAYOUT_CELADON_CITY_DEPARTMENT_STORE_2F
-     && mapHeader->mapLayoutId != LAYOUT_CELADON_CITY_DEPARTMENT_STORE_3F
-     && mapHeader->mapLayoutId != LAYOUT_CELADON_CITY_DEPARTMENT_STORE_4F
-     && mapHeader->mapLayoutId != LAYOUT_CELADON_CITY_DEPARTMENT_STORE_5F
-     && mapHeader->mapLayoutId != LAYOUT_CELADON_CITY_DEPARTMENT_STORE_ROOF
-     && mapHeader->mapLayoutId != LAYOUT_CELADON_CITY_DEPARTMENT_STORE_ELEVATOR)
     {
         return FALSE;
     }
@@ -580,21 +546,6 @@ static void ShowMapNamePopUpWindow(void)
     const u8 *mapDisplayHeaderSource;
     u8 mapNamePopUpWindowId, secondaryPopUpWindowId;
 
-    if (CurrentBattlePyramidLocation() != PYRAMID_LOCATION_NONE)
-    {
-        if (gMapHeader.mapLayoutId == LAYOUT_BATTLE_FRONTIER_BATTLE_PYRAMID_TOP)
-        {
-            withoutPrefixPtr = &(mapDisplayHeader[MAP_POPUP_PREFIX_BUFFER_LENGTH]);
-            mapDisplayHeaderSource = sBattlePyramid_MapHeaderStrings[FRONTIER_STAGES_PER_CHALLENGE];
-        }
-        else
-        {
-            withoutPrefixPtr = &(mapDisplayHeader[MAP_POPUP_PREFIX_BUFFER_LENGTH]);
-            mapDisplayHeaderSource = sBattlePyramid_MapHeaderStrings[gSaveBlock2Ptr->frontier.curChallengeBattleNum];
-        }
-        StringCopy(withoutPrefixPtr, mapDisplayHeaderSource);
-    }
-    else
     {
         withoutPrefixPtr = &(mapDisplayHeader[MAP_POPUP_PREFIX_BUFFER_LENGTH]);
         GetPopUpMapName(withoutPrefixPtr, &gMapHeader);

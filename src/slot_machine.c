@@ -18,7 +18,6 @@
 #include "gpu_regs.h"
 #include "coins.h"
 #include "strings.h"
-#include "tv.h"
 #include "text_window.h"
 #include "main_menu.h"
 #include "bg.h"
@@ -345,7 +344,6 @@ enum {
 //  - In ReelTime, the reel stops exactly on your input. That is, it won't add
 //    extra turns to manipulate the outcome.
 //  - ReelTime ends early if you win red 7's or blue 7's.
-
 
 // SlotMachine field explanations:
 //
@@ -1225,7 +1223,6 @@ static void InitSlotMachine(void)
         sSlotMachine->reelPixelOffsets[i] = REEL_HEIGHT - sSlotMachine->reelPositions[i] * REEL_SYMBOL_HEIGHT;
         sSlotMachine->reelPixelOffsets[i] %= REEL_HEIGHT;
     }
-    AlertTVThatPlayerPlayedSlotMachine(GetCoins());
 }
 
 static void SlotMachineSetup_InitPalsSpritesTasks(void)
@@ -1437,8 +1434,6 @@ static bool8 SlotTask_StartSpin(struct Task *task)
     SpinSlotReel(MIDDLE_REEL);
     SpinSlotReel(RIGHT_REEL);
 
-    IncrementDailySlotsUses();
-
     task->tTimer = 0;
     if (sSlotMachine->machineBias & BIAS_REELTIME)
     {
@@ -1484,7 +1479,7 @@ static bool8 SlotTask_WaitReelStop(struct Task *task)
 {
     if (JOY_NEW(A_BUTTON))
     {
-        PlaySE(SE_CONTEST_PLACE);
+        PlaySE(SE_RANK_CHIME);
         StopSlotReel(sSlotMachine->currentReel);
         PressStopReelButton(sSlotMachine->currentReel);
         sSlotMachine->state = SLOTTASK_WAIT_ALL_REELS_STOP;
@@ -1588,8 +1583,6 @@ static bool8 SlotTask_EndPayout(struct Task *task)
     {
         sSlotMachine->state = SLOTTASK_RESET_BET_TILES;
 
-        if (sSlotMachine->matches & ((1 << MATCH_RED_7) | (1 << MATCH_BLUE_7)))
-            IncrementGameStat(GAME_STAT_SLOT_JACKPOTS);
 
         if (sSlotMachine->matches & (1 << MATCH_REPLAY))
         {
@@ -1741,7 +1734,6 @@ static bool8 SlotTask_WaitMsg_NoMoreCoins(struct Task *task)
 static bool8 SlotTask_EndGame(struct Task *task)
 {
     SetCoins(sSlotMachine->coins);
-    TryPutFindThatGamerOnAir(GetCoins());
     BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
     sSlotMachine->state++; // SLOTTASK_FREE
     return FALSE;
@@ -5936,7 +5928,6 @@ static const union AnimCmd sAnim_ReelTimeNumber_5[] =
     ANIMCMD_END
 };
 
-
 static const union AnimCmd sAnim_ReelTimeBolt[] =
 {
     ANIMCMD_FRAME(0, 4),
@@ -6081,7 +6072,6 @@ static const union AnimCmd *const sAnims_DigitalDisplay_Number[] =
     sAnim_DigitalDisplay_Number_4,
     sAnim_DigitalDisplay_Number_5
 };
-
 
 static const union AffineAnimCmd sAffineAnim_ReelTimeSmoke[] =
 {

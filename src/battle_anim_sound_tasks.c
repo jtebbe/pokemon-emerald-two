@@ -1,7 +1,6 @@
 #include "global.h"
 #include "battle.h"
 #include "battle_anim.h"
-#include "contest.h"
 #include "m4a.h"
 #include "sound.h"
 #include "task.h"
@@ -136,18 +135,6 @@ void SoundTask_PlayCryHighPitch(u8 taskId)
     enum Species species = 0;
     s8 pan = BattleAnimAdjustPanning(SOUND_PAN_ATTACKER);
     enum AnimBattler animBattler = gBattleAnimArgs[0];
-    if (IsContest())
-    {
-        if (animBattler == ANIM_ATTACKER)
-            species = gContestResources->moveAnim->species;
-    // Destroying the task twice (here and at end of function)
-    // results in an incorrect value for gAnimVisualTaskCount
-    #ifndef BUGFIX
-        else
-            DestroyAnimVisualTask(taskId);
-    #endif
-    }
-    else
     {
         enum BattlerId battler;
 
@@ -189,18 +176,6 @@ void SoundTask_PlayDoubleCry(u8 taskId)
     enum Species species = 0;
     s8 pan = BattleAnimAdjustPanning(SOUND_PAN_ATTACKER);
     enum AnimBattler animBattler = gBattleAnimArgs[0];
-    if (IsContest())
-    {
-        if (animBattler == ANIM_ATTACKER)
-            species = gContestResources->moveAnim->species;
-    // Destroying the task twice (here and at end of function)
-    // results in an incorrect value for gAnimVisualTaskCount
-    #ifndef BUGFIX
-        else
-            DestroyAnimVisualTask(taskId);
-    #endif
-    }
-    else
     {
         enum BattlerId battler;
 
@@ -313,10 +288,7 @@ void SoundTask_PlayCryWithEcho(u8 taskId)
     gTasks[taskId].tLastCry = gBattleAnimArgs[0];
     pan = BattleAnimAdjustPanning(SOUND_PAN_ATTACKER);
 
-    if (IsContest())
-        species = gContestResources->moveAnim->species;
-    else
-        species = (GetIllusionMonSpecies(gBattleAnimAttacker) != SPECIES_NONE) ? GetIllusionMonSpecies(gBattleAnimAttacker) : gAnimBattlerSpecies[gBattleAnimAttacker];
+    species = (GetIllusionMonSpecies(gBattleAnimAttacker) != SPECIES_NONE) ? GetIllusionMonSpecies(gBattleAnimAttacker) : gAnimBattlerSpecies[gBattleAnimAttacker];
 
     gTasks[taskId].tSpecies = species;
     gTasks[taskId].tPan = pan;
@@ -327,12 +299,6 @@ void SoundTask_PlayCryWithEcho(u8 taskId)
         DestroyAnimVisualTask(taskId);
 }
 
-void SoundTask_PlayDynamaxCry(u8 taskId)
-{
-    enum Species species = (GetIllusionMonSpecies(gBattleAnimAttacker) != SPECIES_NONE) ? GetIllusionMonSpecies(gBattleAnimAttacker) : gAnimBattlerSpecies[gBattleAnimAttacker];
-    PlayCry_ByMode(species, BattleAnimAdjustPanning(SOUND_PAN_ATTACKER), CRY_MODE_DYNAMAX);
-    gTasks[taskId].func = SoundTask_WaitForCry;
-}
 
 static void SoundTask_PlayCryWithEcho_Step(u8 taskId)
 {

@@ -39,8 +39,8 @@ DOUBLE_BATTLE_TEST("Jungle Healing recovers 25% of hp and heals their non volati
         HP_BAR(playerRight, captureDamage: &healing[1]);
         STATUS_ICON(playerRight, none: TRUE);
     } THEN {
-        EXPECT_EQ(playerLeft->maxHP / 4, -healing[0]);
-        EXPECT_EQ(playerRight->maxHP / 4, -healing[1]);
+        EXPECT_EQ((playerLeft->maxHP + (B_UPDATED_MOVE_DATA >= GEN_5)) / 4, -healing[0]);
+        EXPECT_EQ((playerRight->maxHP + (B_UPDATED_MOVE_DATA >= GEN_5)) / 4, -healing[1]);
     }
 }
 

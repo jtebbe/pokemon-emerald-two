@@ -12,7 +12,8 @@ SINGLE_BATTLE_TEST("Schooling switches Level 20+ Wishiwashi's form when HP is 25
         PLAYER(SPECIES_WISHIWASHI_SOLO)
         {
             Level(level);
-            HP(GetMonData(&PLAYER_PARTY[0], MON_DATA_MAX_HP) / 2);
+            // Super Fang rounds its damage down: start at an even half-HP value.
+            HP(2 * (GetMonData(&PLAYER_PARTY[0], MON_DATA_MAX_HP) / 4));
             Ability(ABILITY_SCHOOLING);
         }
         OPPONENT(SPECIES_WOBBUFFET);

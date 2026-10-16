@@ -7,7 +7,6 @@ ASSUMPTIONS
     ASSUME(GetMoveType(MOVE_SCRATCH) == TYPE_NORMAL);
     ASSUME(GetMovePower(MOVE_SCRATCH) > 0);
 }
-
 SINGLE_BATTLE_TEST("Refrigerate turns a Normal-type move into a Ice-type move")
 {
     GIVEN {
@@ -125,16 +124,15 @@ SINGLE_BATTLE_TEST("Refrigerate doesn't affect Judgment / Techno Blast / Multi-A
 SINGLE_BATTLE_TEST("Refrigerate doesn't affect Hidden Power's type")
 {
     GIVEN {
-        ASSUME(GetMoveEffect(MOVE_HIDDEN_POWER) == EFFECT_HIDDEN_POWER);
-        ASSUME(gTypesInfo[TYPE_ELECTRIC].isHiddenPowerType == TRUE);
-        ASSUME(GetSpeciesType(SPECIES_DIGLETT, 0) == TYPE_GROUND);
-        PLAYER(SPECIES_AMAURA) { Ability(ABILITY_REFRIGERATE); HPIV(31); AttackIV(31); DefenseIV(31); SpAttackIV(30); SpDefenseIV(31); SpeedIV(31); } // HP Electric
-        OPPONENT(SPECIES_DIGLETT);
+        ASSUME(GetMoveType(MOVE_HIDDEN_POWER) == TYPE_PSYCHIC);
+        ASSUME(GetSpeciesType(SPECIES_POOCHYENA, 0) == TYPE_DARK);
+        PLAYER(SPECIES_AMAURA) { Ability(ABILITY_REFRIGERATE); }
+        OPPONENT(SPECIES_POOCHYENA);
     } WHEN {
         TURN { MOVE(player, MOVE_HIDDEN_POWER); }
     } SCENE {
         NOT { ANIMATION(ANIM_TYPE_MOVE, MOVE_HIDDEN_POWER, player); }
-        MESSAGE("It doesn't affect the opposing Diglett…");
+        MESSAGE("It doesn't affect the opposing Poochyena…");
     }
 }
 
@@ -219,23 +217,3 @@ SINGLE_BATTLE_TEST("Refrigerate doesn't affect Terrain Pulse's type")
         MESSAGE("It doesn't affect the opposing Sandshrew…");
     }
 }
-
-SINGLE_BATTLE_TEST("Refrigerate doesn't affect damaging Z-Move types")
-{
-    GIVEN {
-        ASSUME(GetMoveType(MOVE_SCRATCH) == TYPE_NORMAL);
-        ASSUME(GetSpeciesType(SPECIES_BAGON, 0) == TYPE_DRAGON || GetSpeciesType(SPECIES_BAGON, 1) == TYPE_DRAGON);
-        PLAYER(SPECIES_AMAURA) { Ability(ABILITY_REFRIGERATE); Item(ITEM_NORMALIUM_Z); }
-        OPPONENT(SPECIES_BAGON);
-    } WHEN {
-        TURN { MOVE(player, MOVE_SCRATCH, gimmick: GIMMICK_Z_MOVE); }
-    } SCENE {
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_ZMOVE_ACTIVATE, player);
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_BREAKNECK_BLITZ, player);
-        NOT { MESSAGE("It's super effective!"); }
-    }
-}
-
-TO_DO_BATTLE_TEST("Refrigerate doesn't affect Max Strike's type");
-TO_DO_BATTLE_TEST("(DYNAMAX) Refrigerate turns Max Strike into Max Hailstorm when not used by Gigantamax Lapras");
-//TO_DO_BATTLE_TEST("(DYNAMAX) Refrigerate doesn't turn Max Strike into Max Hailstorm when used by Gigantamax Lapras, instead becoming G-Max Resonance"); // Marked in Bulbapedia as "needs research", so this assumes that it behaves like Pixilate.

@@ -1,15 +1,16 @@
 #include "global.h"
+#include "string_util.h"
 #include "battle.h"
 #include "battle_ai_util.h"
 #include "battle_anim.h"
 #include "battle_controllers.h"
 #include "battle_setup.h"
 #include "battle_gimmick.h"
-#include "battle_z_move.h"
 #include "event_data.h"
 #include "fieldmap.h"
 #include "item_menu.h"
 #include "main.h"
+#include "palette.h"
 #include "malloc.h"
 #include "party_menu.h"
 #include "random.h"
@@ -17,6 +18,7 @@
 #include "trainer_pools.h"
 #include "window.h"
 #include "constants/characters.h"
+#include "constants/rgb.h"
 #include "constants/trainers.h"
 #include "constants/abilities.h"
 
@@ -28,7 +30,7 @@
 #undef TestRunner_Battle_RecordMessage
 #undef TestRunner_Battle_RecordStatus1
 #undef TestRunner_Battle_AfterLastTurn
-#undef TestRunner_Battle_CheckBattleRecordActionType
+#undef TestRunner_Battle_CheckActionType
 #undef TestRunner_Battle_GetForcedAbility
 #undef TestRunner_Battle_RecordEffectivenessSound
 #endif
@@ -371,7 +373,8 @@ static void SetImplicitSpeeds(void)
                 if (!(hasSpeeds & ((1 << (6 * trainer)) << i))
                  && !(DATA.slowerThan[trainer][i] & ~hasSpeeds))
                 {
-                    SetMonData(&DATA.recordedBattle.parties[trainer][i], MON_DATA_SPEED, &speed);
+                    SetMonData(&DATA.fixture.parties[trainer][i], MON_DATA_SPEED, &speed);
+                    DATA.explicitStats[trainer][i] |= 1 << STAT_SPEED;
                     speed--;
                     hasSpeeds |= ((1 << (6 * trainer)) << i);
                     madeProgress = TRUE;
@@ -397,7 +400,7 @@ static void StartBattle(void)
 {
     memset(&DATA.trial, 0, sizeof(DATA.trial));
 
-    SetVariablesForRecordedBattle(&DATA.recordedBattle);
+    TestRunner_Battle_ApplyFixture();
     if (STATE->trials)
         gMain.savedCallback = CB2_BattleTest_NextTrial;
     else if (STATE->parameters)
@@ -421,46 +424,50 @@ static void BattleTest_Run(void *data)
     const rng_value_t defaultSeed = RNG_SEED_DEFAULT;
     const struct BattleTest *test = data;
 
+    // Parameters are separate fixtures: captures must not mark the next one owned.
+    memset(gSaveData.dexCaught, 0, sizeof(gSaveData.dexCaught));
+    memset(gSaveData.dexSeen, 0, sizeof(gSaveData.dexSeen));
     memset(&DATA, 0, sizeof(DATA));
     InitTestBattlers(test);
     TestInitConfigData();
 
     DATA.queuedEventsFailIndex = MAX_QUEUED_EVENTS;
-    DATA.recordedBattle.rngSeed = defaultSeed;
-    DATA.recordedBattle.textSpeed = OPTIONS_TEXT_SPEED_FAST;
+    DATA.fixture.rngSeed = defaultSeed;
+    DATA.fixture.textSpeed = OPTIONS_TEXT_SPEED_FAST;
+    DATA.fixture.scriptedOpponents = !IsAITest() && test->type != BATTLE_TEST_WILD && test->type != BATTLE_TEST_GHOST;
     // Set battle flags and opponent ids.
     switch (test->type)
     {
     case BATTLE_TEST_WILD:
-        DATA.recordedBattle.battleFlags = BATTLE_TYPE_IS_MASTER;
+        DATA.fixture.battleFlags = BATTLE_TYPE_IS_MASTER;
         for (i = 0; i < STATE->battlersCount; i++)
             DATA.currentMonIndexes[i] = i / 2;
         break;
     case BATTLE_TEST_GHOST:
-        DATA.recordedBattle.battleFlags = BATTLE_TYPE_IS_MASTER | BATTLE_TYPE_GHOST;
+        DATA.fixture.battleFlags = BATTLE_TYPE_IS_MASTER | BATTLE_TYPE_GHOST;
         for (i = 0; i < STATE->battlersCount; i++)
             DATA.currentMonIndexes[i] = i / 2;
         break;
     case BATTLE_TEST_AI_SINGLES:
-        DATA.recordedBattle.battleFlags = BATTLE_TYPE_IS_MASTER | BATTLE_TYPE_TRAINER;
-        DATA.recordedBattle.opponentA = TRAINER_LEAF_TEST;
+        DATA.fixture.battleFlags = BATTLE_TYPE_IS_MASTER | BATTLE_TYPE_TRAINER;
+        DATA.fixture.opponentA = TRAINER_LEAF_TEST;
         DATA.hasAI = TRUE;
         for (i = 0; i < STATE->battlersCount; i++)
             DATA.currentMonIndexes[i] = i / 2;
         break;
     case BATTLE_TEST_AI_DOUBLES:
-        DATA.recordedBattle.battleFlags = BATTLE_TYPE_IS_MASTER | BATTLE_TYPE_TRAINER | BATTLE_TYPE_DOUBLE;
-        DATA.recordedBattle.opponentA = TRAINER_LEAF_TEST;
-        DATA.recordedBattle.opponentB = TRAINER_NONE;
+        DATA.fixture.battleFlags = BATTLE_TYPE_IS_MASTER | BATTLE_TYPE_TRAINER | BATTLE_TYPE_DOUBLE;
+        DATA.fixture.opponentA = TRAINER_LEAF_TEST;
+        DATA.fixture.opponentB = TRAINER_NONE;
         DATA.hasAI = TRUE;
         for (i = 0; i < STATE->battlersCount; i++)
             DATA.currentMonIndexes[i] = i / 2;
         break;
     case BATTLE_TEST_AI_MULTI:
-        DATA.recordedBattle.battleFlags = BATTLE_TYPE_IS_MASTER | BATTLE_TYPE_TRAINER | BATTLE_TYPE_DOUBLE | BATTLE_TYPE_INGAME_PARTNER | BATTLE_TYPE_MULTI | BATTLE_TYPE_TWO_OPPONENTS;
-        DATA.recordedBattle.partnerId = TRAINER_PARTNER(PARTNER_STEVEN_TEST);
-        DATA.recordedBattle.opponentA = TRAINER_LEAF_TEST;
-        DATA.recordedBattle.opponentB = TRAINER_RED_TEST;
+        DATA.fixture.battleFlags = BATTLE_TYPE_IS_MASTER | BATTLE_TYPE_TRAINER | BATTLE_TYPE_DOUBLE | BATTLE_TYPE_INGAME_PARTNER | BATTLE_TYPE_MULTI | BATTLE_TYPE_TWO_OPPONENTS;
+        DATA.fixture.partnerId = TRAINER_PARTNER(PARTNER_STEVEN_TEST);
+        DATA.fixture.opponentA = TRAINER_LEAF_TEST;
+        DATA.fixture.opponentB = TRAINER_RED_TEST;
         DATA.hasAI = TRUE;
         DATA.currentMonIndexes[0] = 0; // Player first mon
         DATA.currentMonIndexes[1] = 0; // Opponent A first mon
@@ -468,10 +475,10 @@ static void BattleTest_Run(void *data)
         DATA.currentMonIndexes[3] = 0; // Opponent B first mon
         break;
     case BATTLE_TEST_AI_TWO_VS_ONE:
-        DATA.recordedBattle.battleFlags = BATTLE_TYPE_IS_MASTER | BATTLE_TYPE_TRAINER | BATTLE_TYPE_DOUBLE | BATTLE_TYPE_INGAME_PARTNER | BATTLE_TYPE_MULTI;
-        DATA.recordedBattle.partnerId = TRAINER_PARTNER(PARTNER_STEVEN_TEST);
-        DATA.recordedBattle.opponentA = TRAINER_LEAF_TEST;
-        DATA.recordedBattle.opponentB = 0xFFFF;
+        DATA.fixture.battleFlags = BATTLE_TYPE_IS_MASTER | BATTLE_TYPE_TRAINER | BATTLE_TYPE_DOUBLE | BATTLE_TYPE_INGAME_PARTNER | BATTLE_TYPE_MULTI;
+        DATA.fixture.partnerId = TRAINER_PARTNER(PARTNER_STEVEN_TEST);
+        DATA.fixture.opponentA = TRAINER_LEAF_TEST;
+        DATA.fixture.opponentB = 0xFFFF;
         DATA.currentMonIndexes[0] = 0; // Player first mon
         DATA.currentMonIndexes[1] = 0; // Opponent first mon
         DATA.currentMonIndexes[2] = 0; // Player partner first mon
@@ -479,9 +486,9 @@ static void BattleTest_Run(void *data)
         DATA.hasAI = TRUE;
         break;
     case BATTLE_TEST_AI_ONE_VS_TWO:
-        DATA.recordedBattle.battleFlags = BATTLE_TYPE_IS_MASTER | BATTLE_TYPE_TRAINER | BATTLE_TYPE_DOUBLE | BATTLE_TYPE_TWO_OPPONENTS;
-        DATA.recordedBattle.opponentA = TRAINER_LEAF_TEST;
-        DATA.recordedBattle.opponentB = TRAINER_RED_TEST;
+        DATA.fixture.battleFlags = BATTLE_TYPE_IS_MASTER | BATTLE_TYPE_TRAINER | BATTLE_TYPE_DOUBLE | BATTLE_TYPE_TWO_OPPONENTS;
+        DATA.fixture.opponentA = TRAINER_LEAF_TEST;
+        DATA.fixture.opponentB = TRAINER_RED_TEST;
         DATA.currentMonIndexes[0] = 0; // Player first mon
         DATA.currentMonIndexes[1] = 0; // Opponent A first mon
         DATA.currentMonIndexes[2] = 1; // Player second mon
@@ -489,42 +496,42 @@ static void BattleTest_Run(void *data)
         DATA.hasAI = TRUE;
         break;
     case BATTLE_TEST_SINGLES:
-        DATA.recordedBattle.battleFlags = BATTLE_TYPE_IS_MASTER | BATTLE_TYPE_RECORDED_IS_MASTER | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_TRAINER;
-        DATA.recordedBattle.opponentA = TRAINER_LINK_OPPONENT;
+        DATA.fixture.battleFlags = BATTLE_TYPE_IS_MASTER | BATTLE_TYPE_TRAINER;
+        DATA.fixture.opponentA = TRAINER_LINK_OPPONENT;
         for (i = 0; i < STATE->battlersCount; i++)
             DATA.currentMonIndexes[i] = i / 2;
         break;
     case BATTLE_TEST_DOUBLES:
-        DATA.recordedBattle.battleFlags = BATTLE_TYPE_IS_MASTER | BATTLE_TYPE_RECORDED_IS_MASTER | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_TRAINER | BATTLE_TYPE_DOUBLE;
-        DATA.recordedBattle.opponentA = TRAINER_LINK_OPPONENT;
-        DATA.recordedBattle.opponentB = TRAINER_NONE;
+        DATA.fixture.battleFlags = BATTLE_TYPE_IS_MASTER | BATTLE_TYPE_TRAINER | BATTLE_TYPE_DOUBLE;
+        DATA.fixture.opponentA = TRAINER_LINK_OPPONENT;
+        DATA.fixture.opponentB = TRAINER_NONE;
         for (i = 0; i < STATE->battlersCount; i++)
             DATA.currentMonIndexes[i] = i / 2;
         break;
     case BATTLE_TEST_MULTI:
-        DATA.recordedBattle.battleFlags = BATTLE_TYPE_IS_MASTER | BATTLE_TYPE_RECORDED_IS_MASTER | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_TRAINER | BATTLE_TYPE_DOUBLE | BATTLE_TYPE_INGAME_PARTNER | BATTLE_TYPE_MULTI | BATTLE_TYPE_TWO_OPPONENTS;
-        DATA.recordedBattle.partnerId = TRAINER_PARTNER(PARTNER_STEVEN_TEST);
-        DATA.recordedBattle.opponentA = TRAINER_LINK_OPPONENT;
-        DATA.recordedBattle.opponentB = TRAINER_LINK_OPPONENT;
+        DATA.fixture.battleFlags = BATTLE_TYPE_IS_MASTER | BATTLE_TYPE_TRAINER | BATTLE_TYPE_DOUBLE | BATTLE_TYPE_INGAME_PARTNER | BATTLE_TYPE_MULTI | BATTLE_TYPE_TWO_OPPONENTS;
+        DATA.fixture.partnerId = TRAINER_PARTNER(PARTNER_STEVEN_TEST);
+        DATA.fixture.opponentA = TRAINER_LINK_OPPONENT;
+        DATA.fixture.opponentB = TRAINER_LINK_OPPONENT;
         DATA.currentMonIndexes[0] = 0; // Player first mon
         DATA.currentMonIndexes[1] = 0; // Opponent A first mon
         DATA.currentMonIndexes[2] = 0; // Player partner first mon
         DATA.currentMonIndexes[3] = 0; // Opponent B first mon
         break;
     case BATTLE_TEST_TWO_VS_ONE:
-        DATA.recordedBattle.battleFlags = BATTLE_TYPE_IS_MASTER | BATTLE_TYPE_RECORDED_IS_MASTER | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_TRAINER | BATTLE_TYPE_DOUBLE | BATTLE_TYPE_INGAME_PARTNER | BATTLE_TYPE_MULTI;
-        DATA.recordedBattle.partnerId = TRAINER_PARTNER(PARTNER_STEVEN_TEST);
-        DATA.recordedBattle.opponentA = TRAINER_LINK_OPPONENT;
-        DATA.recordedBattle.opponentB = 0xFFFF;
+        DATA.fixture.battleFlags = BATTLE_TYPE_IS_MASTER | BATTLE_TYPE_TRAINER | BATTLE_TYPE_DOUBLE | BATTLE_TYPE_INGAME_PARTNER | BATTLE_TYPE_MULTI;
+        DATA.fixture.partnerId = TRAINER_PARTNER(PARTNER_STEVEN_TEST);
+        DATA.fixture.opponentA = TRAINER_LINK_OPPONENT;
+        DATA.fixture.opponentB = 0xFFFF;
         DATA.currentMonIndexes[0] = 0; // Player first mon
         DATA.currentMonIndexes[1] = 0; // Opponent first mon
         DATA.currentMonIndexes[2] = 0; // Player partner first mon
         DATA.currentMonIndexes[3] = 1; // Opponent second mon
         break;
     case BATTLE_TEST_ONE_VS_TWO:
-        DATA.recordedBattle.battleFlags = BATTLE_TYPE_IS_MASTER | BATTLE_TYPE_RECORDED_IS_MASTER | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_TRAINER | BATTLE_TYPE_DOUBLE | BATTLE_TYPE_TWO_OPPONENTS;
-        DATA.recordedBattle.opponentA = TRAINER_LINK_OPPONENT;
-        DATA.recordedBattle.opponentB = TRAINER_LINK_OPPONENT;
+        DATA.fixture.battleFlags = BATTLE_TYPE_IS_MASTER | BATTLE_TYPE_TRAINER | BATTLE_TYPE_DOUBLE | BATTLE_TYPE_TWO_OPPONENTS;
+        DATA.fixture.opponentA = TRAINER_LINK_OPPONENT;
+        DATA.fixture.opponentB = TRAINER_LINK_OPPONENT;
         DATA.currentMonIndexes[0] = 0; // Player first mon
         DATA.currentMonIndexes[1] = 0; // Opponent A first mon
         DATA.currentMonIndexes[2] = 1; // Player second mon
@@ -532,14 +539,14 @@ static void BattleTest_Run(void *data)
         break;
     }
 
-    gBattleTypeFlags = DATA.recordedBattle.battleFlags;
+    gBattleTypeFlags = DATA.fixture.battleFlags;
 
     for (i = 0; i < MAX_LINK_PLAYERS; i++)
     {
-        DATA.recordedBattle.playersName[i][0] = CHAR_1 + i;
-        DATA.recordedBattle.playersName[i][1] = EOS;
-        DATA.recordedBattle.playersLanguage[i] = GAME_LANGUAGE;
-        DATA.recordedBattle.playersBattlers |= (i << (2 * (i >> 1) + 4 * (i & BIT_SIDE))); // Trainer0/1 second mon occupies same bits as trainer2/3 mon
+        DATA.fixture.playersName[i][0] = CHAR_1 + i;
+        DATA.fixture.playersName[i][1] = EOS;
+        DATA.fixture.playersLanguage[i] = GAME_LANGUAGE;
+        DATA.fixture.playersBattlers |= (i << (2 * (i >> 1) + 4 * (i & BIT_SIDE))); // Trainer0/1 second mon occupies same bits as trainer2/3 mon
     }
 
     STATE->runRandomly = TRUE;
@@ -585,7 +592,7 @@ static void BattleTest_Run(void *data)
     }
 
     for (i = 0; i < STATE->battlersCount; i++)
-        PushBattlerAction(0, i, RECORDED_BYTE, B_ACTION_NONE);
+        PushBattlerAction(0, i, TEST_BATTLE_BYTE, B_ACTION_NONE);
 
     if (DATA.hasExplicitSpeeds)
     {
@@ -595,7 +602,7 @@ static void BattleTest_Run(void *data)
         {
             for (i = 0; i < PARTY_SIZE; i++)
             {
-                if(GetMonData(&DATA.recordedBattle.parties[trainer][i], MON_DATA_SPECIES) != SPECIES_NONE)
+                if(GetMonData(&DATA.fixture.parties[trainer][i], MON_DATA_SPECIES) != SPECIES_NONE)
                     requiredExplicitSpeeds[trainer] |= 1 << i;
             }
 
@@ -1342,9 +1349,6 @@ static const char *const sGimmickIdentifiers[GIMMICKS_COUNT] =
 {
     [GIMMICK_NONE] = "N/A",
     [GIMMICK_MEGA] = "Mega Evolution",
-    [GIMMICK_ULTRA_BURST] = "Ultra Burst",
-    [GIMMICK_Z_MOVE] = "Z-Move",
-    [GIMMICK_DYNAMAX] = "Dynamax",
     [GIMMICK_TERA] = "Terastallize",
 };
 
@@ -2208,10 +2212,10 @@ static void CB2_BattleTest_NextTrial(void)
     {
         PrintTestName();
         gTestRunnerState.result = TEST_RESULT_PASS;
-        DATA.recordedBattle.rngSeed = MakeRngValue(STATE->runTrial);
+        DATA.fixture.rngSeed = MakeRngValue(STATE->runTrial);
         memset(&DATA.trial, 0, sizeof(DATA.trial));
         ResetTestInventory();
-        SetVariablesForRecordedBattle(&DATA.recordedBattle);
+        TestRunner_Battle_ApplyFixture();
         SetMainCallback2(CB2_InitBattle);
     }
     else
@@ -2250,6 +2254,20 @@ static bool32 BattleTest_CheckProgress(void *data)
     STATE->checkProgressParameter = STATE->runParameter;
     STATE->checkProgressTrial = STATE->runTrial;
     STATE->checkProgressTurn = gBattleResults.battleTurnCounter;
+    if (!madeProgress)
+    {
+        Test_MgbaPrintf("Battle timeout: callback=%p main=%p exec=%x state=%d turn=%d",
+            gMain.callback2, gBattleMainFunc, gBattleControllerExecFlags,
+            gBattleCommunication[MULTIUSE_STATE], gBattleResults.battleTurnCounter);
+        for (u32 i = 0; i < gBattlersCount; i++)
+            Test_MgbaPrintf("Controller %d: %p command=%d position=%d", i,
+                gBattlerControllerFuncs[i], gBattleResources->bufferA[i][0], gBattlerPositions[i]);
+        for (u32 i = 0; i < NUM_TASKS; i++)
+            if (gTasks[i].isActive)
+                Test_MgbaPrintf("Task %d: %p data=%d,%d,%d,%d pan=%d frame=%d prev=%d next=%d", i, gTasks[i].func,
+                    gTasks[i].data[0], gTasks[i].data[1], gTasks[i].data[2], gTasks[i].data[3],
+                    gTasks[i].data[4], gTasks[i].data[8], gTasks[i].prev, gTasks[i].next);
+    }
     return madeProgress;
 }
 
@@ -2299,17 +2317,17 @@ void Randomly(u32 sourceLine, u32 passes, u32 trials, struct RandomlyContext ctx
     else
     {
         const rng_value_t defaultSeed = RNG_SEED_DEFAULT;
-        INVALID_IF(RngSeedNotDefault(&DATA.recordedBattle.rngSeed), "RNG seed already set");
+        INVALID_IF(RngSeedNotDefault(&DATA.fixture.rngSeed), "RNG seed already set");
         STATE->trials = 50;
         STATE->trialRatio = Q_4_12(1) / STATE->trials;
-        DATA.recordedBattle.rngSeed = defaultSeed;
+        DATA.fixture.rngSeed = defaultSeed;
     }
 }
 
 void RNGSeed_(u32 sourceLine, rng_value_t seed)
 {
-    INVALID_IF(RngSeedNotDefault(&DATA.recordedBattle.rngSeed), "RNG seed already set");
-    DATA.recordedBattle.rngSeed = seed;
+    INVALID_IF(RngSeedNotDefault(&DATA.fixture.rngSeed), "RNG seed already set");
+    DATA.fixture.rngSeed = seed;
 }
 
 void AIFlags_(u32 sourceLine, u64 flags)
@@ -2317,7 +2335,7 @@ void AIFlags_(u32 sourceLine, u64 flags)
     INVALID_IF(!IsAITest(), "AI_FLAGS is usable only in AI_SINGLE_BATTLE_TEST, AI_DOUBLE_BATTLE_TEST, AI_MULTI_BATTLE_TEST, AI_TWELVES_BATTLE_TEST, and AI_TWO_VS_ONE_TEST");
     for (u32 i = 0; i < MAX_BATTLERS_COUNT; i++)
     {
-        DATA.recordedBattle.AI_scripts[i] = flags;
+        DATA.fixture.AI_scripts[i] = flags;
     }
     DATA.hasAI = TRUE;
 }
@@ -2326,7 +2344,7 @@ void BattlerAIFlags_(u32 sourceLine, struct BattlePokemon *battler, u64 flags)
 {
     INVALID_IF(!IsAITest(), "AI_FLAGS is usable only in AI_SINGLE_BATTLE_TEST, AI_DOUBLE_BATTLE_TEST, AI_MULTI_BATTLE_TEST, AI_TWELVES_BATTLE_TEST, and AI_TWO_VS_ONE_TEST");
     enum BattlerId battlerId = battler - gBattleMons;
-    DATA.recordedBattle.AI_scripts[battlerId] |= flags;
+    DATA.fixture.AI_scripts[battlerId] |= flags;
     DATA.hasAI = TRUE;
 }
 
@@ -2412,7 +2430,7 @@ void OpenPokemon(u32 sourceLine, enum BattleTrainer trainer, enum Species specie
     ASSUMPTION_FAIL_IF(!IsSpeciesEnabled(species), "Species disabled: %d", species);
 
     partySize = &DATA.partySizes[trainer];
-    party = DATA.recordedBattle.parties[trainer];
+    party = DATA.fixture.parties[trainer];
 
     INVALID_IF(*partySize >= PARTY_SIZE, "Too many Pokemon in party");
     DATA.battlerParty = trainer;
@@ -2427,12 +2445,7 @@ void OpenPokemon(u32 sourceLine, enum BattleTrainer trainer, enum Species specie
     {
         data = MOVE_NONE;
         SetMonData(DATA.currentMon, MON_DATA_MOVE1 + i, &data);
-        data = 0x7F; // Max PP possible
-        SetMonData(DATA.currentMon, MON_DATA_PP1 + i, &data);
     }
-    data = 0;
-    if (B_FRIENDSHIP_BOOST) // This way, we avoid the boost affecting tests unless explicitly stated.
-        SetMonData(DATA.currentMon, MON_DATA_FRIENDSHIP, &data);
     CalculateMonStats(DATA.currentMon);
 }
 
@@ -2479,8 +2492,6 @@ void ClosePokemon(u32 sourceLine)
 static void SetGimmick(u32 sourceLine, enum BattleTrainer trainer, enum PartyMon partyIndex, enum Gimmick gimmick)
 {
     enum Gimmick currentGimmick = DATA.chosenGimmick[trainer][partyIndex];
-    if (!((currentGimmick == GIMMICK_ULTRA_BURST && gimmick == GIMMICK_Z_MOVE)
-       || (currentGimmick == GIMMICK_Z_MOVE && gimmick == GIMMICK_ULTRA_BURST)))
     {
         INVALID_IF(currentGimmick != GIMMICK_NONE && currentGimmick != gimmick, "Cannot set %s because %s already set", sGimmickIdentifiers[gimmick], sGimmickIdentifiers[currentGimmick]);
     }
@@ -2539,9 +2550,28 @@ void Ability_(u32 sourceLine, enum Ability ability)
     }
 }
 
+// Explicit overrides survive recalculation, including form changes. Implicit
+// turn-order speeds survive ordinary recalculation, but not a species change.
+u32 TestRunner_Battle_OverrideStat(struct Pokemon *mon, u32 stat, u32 calculated)
+{
+    if (gTestRunnerState.test->runner != &gBattleTestRunner)
+        return calculated;
+    for (u32 trainer = 0; trainer < MAX_BATTLE_TRAINERS; trainer++)
+        for (u32 i = 0; i < PARTY_SIZE; i++)
+            if ((mon == &DATA.fixture.parties[trainer][i] || mon == &gParties[trainer][i])
+                && (DATA.explicitStats[trainer][i] & (1 << stat)))
+            {
+                if (stat == STAT_SPEED
+                    && !(DATA.explicitSpeeds[trainer] & (1 << i))
+                    && GetMonData(mon, MON_DATA_SPECIES) != GetMonData(&DATA.fixture.parties[trainer][i], MON_DATA_SPECIES))
+                    return calculated;
+                return GetMonData(mon, MON_DATA_MAX_HP + stat);
+            }
+    return calculated;
+}
+
 void Level_(u32 sourceLine, u32 level)
 {
-    // TODO: Preserve any explicitly-set stats.
     enum Species species = GetMonData(DATA.currentMon, MON_DATA_SPECIES);
     INVALID_IF(!DATA.currentMon, "Level outside of PLAYER/OPPONENT");
     INVALID_IF(level == 0 || level > MAX_LEVEL, "Illegal level: %d", level);
@@ -2557,8 +2587,7 @@ void MaxHP_(u32 sourceLine, u32 maxHP)
     INVALID_IF(!DATA.currentMon, "MaxHP outside of PLAYER/OPPONENT");
     INVALID_IF(maxHP == 0, "Illegal max HP: %d", maxHP);
     SetMonData(DATA.currentMon, MON_DATA_MAX_HP, &maxHP);
-    bool32 hyperTrainingFlag = TRUE;
-    SetMonData(DATA.currentMon, MON_DATA_HYPER_TRAINED_HP, &hyperTrainingFlag);
+    DATA.explicitStats[DATA.battlerParty][DATA.currentPartyIndex] |= 1 << STAT_HP;
 }
 
 void HP_(u32 sourceLine, u32 hp)
@@ -2574,8 +2603,7 @@ void Attack_(u32 sourceLine, u32 attack)
     INVALID_IF(!DATA.currentMon, "Attack outside of PLAYER/OPPONENT");
     INVALID_IF(attack == 0, "Illegal attack: %d", attack);
     SetMonData(DATA.currentMon, MON_DATA_ATK, &attack);
-    bool32 hyperTrainingFlag = TRUE;
-    SetMonData(DATA.currentMon, MON_DATA_HYPER_TRAINED_ATK, &hyperTrainingFlag);
+    DATA.explicitStats[DATA.battlerParty][DATA.currentPartyIndex] |= 1 << STAT_ATK;
 }
 
 void Defense_(u32 sourceLine, u32 defense)
@@ -2583,8 +2611,7 @@ void Defense_(u32 sourceLine, u32 defense)
     INVALID_IF(!DATA.currentMon, "Defense outside of PLAYER/OPPONENT");
     INVALID_IF(defense == 0, "Illegal defense: %d", defense);
     SetMonData(DATA.currentMon, MON_DATA_DEF, &defense);
-    bool32 hyperTrainingFlag = TRUE;
-    SetMonData(DATA.currentMon, MON_DATA_HYPER_TRAINED_DEF, &hyperTrainingFlag);
+    DATA.explicitStats[DATA.battlerParty][DATA.currentPartyIndex] |= 1 << STAT_DEF;
 }
 
 void SpAttack_(u32 sourceLine, u32 spAttack)
@@ -2592,8 +2619,7 @@ void SpAttack_(u32 sourceLine, u32 spAttack)
     INVALID_IF(!DATA.currentMon, "SpAttack outside of PLAYER/OPPONENT");
     INVALID_IF(spAttack == 0, "Illegal special attack: %d", spAttack);
     SetMonData(DATA.currentMon, MON_DATA_SPATK, &spAttack);
-    bool32 hyperTrainingFlag = TRUE;
-    SetMonData(DATA.currentMon, MON_DATA_HYPER_TRAINED_SPATK, &hyperTrainingFlag);
+    DATA.explicitStats[DATA.battlerParty][DATA.currentPartyIndex] |= 1 << STAT_SPATK;
 }
 
 void SpDefense_(u32 sourceLine, u32 spDefense)
@@ -2601,8 +2627,7 @@ void SpDefense_(u32 sourceLine, u32 spDefense)
     INVALID_IF(!DATA.currentMon, "SpDefense outside of PLAYER/OPPONENT");
     INVALID_IF(spDefense == 0, "Illegal special defense: %d", spDefense);
     SetMonData(DATA.currentMon, MON_DATA_SPDEF, &spDefense);
-    bool32 hyperTrainingFlag = TRUE;
-    SetMonData(DATA.currentMon, MON_DATA_HYPER_TRAINED_SPDEF, &hyperTrainingFlag);
+    DATA.explicitStats[DATA.battlerParty][DATA.currentPartyIndex] |= 1 << STAT_SPDEF;
 }
 
 void Speed_(u32 sourceLine, u32 speed)
@@ -2610,52 +2635,9 @@ void Speed_(u32 sourceLine, u32 speed)
     INVALID_IF(!DATA.currentMon, "Speed outside of PLAYER/OPPONENT");
     INVALID_IF(speed == 0, "Illegal speed: %d", speed);
     SetMonData(DATA.currentMon, MON_DATA_SPEED, &speed);
-    bool32 hyperTrainingFlag = TRUE;
-    SetMonData(DATA.currentMon, MON_DATA_HYPER_TRAINED_SPEED, &hyperTrainingFlag);
+    DATA.explicitStats[DATA.battlerParty][DATA.currentPartyIndex] |= 1 << STAT_SPEED;
     DATA.hasExplicitSpeeds = TRUE;
     DATA.explicitSpeeds[DATA.battlerParty] |= 1 << DATA.currentPartyIndex;
-}
-
-void HPIV_(u32 sourceLine, u32 hpIV)
-{
-    INVALID_IF(!DATA.currentMon, "HP IV outside of PLAYER/OPPONENT");
-    INVALID_IF(hpIV > MAX_PER_STAT_IVS, "Illegal HP IV: %d", hpIV);
-    SetMonData(DATA.currentMon, MON_DATA_HP_IV, &hpIV);
-}
-
-void AttackIV_(u32 sourceLine, u32 attackIV)
-{
-    INVALID_IF(!DATA.currentMon, "Attack IV outside of PLAYER/OPPONENT");
-    INVALID_IF(attackIV > MAX_PER_STAT_IVS, "Illegal attack IV: %d", attackIV);
-    SetMonData(DATA.currentMon, MON_DATA_ATK_IV, &attackIV);
-}
-
-void DefenseIV_(u32 sourceLine, u32 defenseIV)
-{
-    INVALID_IF(!DATA.currentMon, "Defense IV outside of PLAYER/OPPONENT");
-    INVALID_IF(defenseIV > MAX_PER_STAT_IVS, "Illegal defense IV: %d", defenseIV);
-    SetMonData(DATA.currentMon, MON_DATA_DEF_IV, &defenseIV);
-}
-
-void SpAttackIV_(u32 sourceLine, u32 spAttackIV)
-{
-    INVALID_IF(!DATA.currentMon, "SpAttack IV outside of PLAYER/OPPONENT");
-    INVALID_IF(spAttackIV > MAX_PER_STAT_IVS, "Illegal special attack IV: %d", spAttackIV);
-    SetMonData(DATA.currentMon, MON_DATA_SPATK_IV, &spAttackIV);
-}
-
-void SpDefenseIV_(u32 sourceLine, u32 spDefenseIV)
-{
-    INVALID_IF(!DATA.currentMon, "SpDefense IV outside of PLAYER/OPPONENT");
-    INVALID_IF(spDefenseIV > MAX_PER_STAT_IVS, "Illegal special defense IV: %d", spDefenseIV);
-    SetMonData(DATA.currentMon, MON_DATA_SPDEF_IV, &spDefenseIV);
-}
-
-void SpeedIV_(u32 sourceLine, u32 speedIV)
-{
-    INVALID_IF(!DATA.currentMon, "Speed IV outside of PLAYER/OPPONENT");
-    INVALID_IF(speedIV > MAX_PER_STAT_IVS, "Illegal speed IV: %d", speedIV);
-    SetMonData(DATA.currentMon, MON_DATA_SPEED_IV, &speedIV);
 }
 
 void Item_(u32 sourceLine, u32 item)
@@ -2668,9 +2650,6 @@ void Item_(u32 sourceLine, u32 item)
     case HOLD_EFFECT_MEGA_STONE:
         SetGimmick(sourceLine, DATA.battlerParty, DATA.currentPartyIndex, GIMMICK_MEGA);
         break;
-    case HOLD_EFFECT_Z_CRYSTAL:
-        SetGimmick(sourceLine, DATA.battlerParty, DATA.currentPartyIndex, GIMMICK_Z_MOVE);
-        break;
     default:
         break;
     }
@@ -2680,14 +2659,13 @@ void Moves_(u32 sourceLine, u16 moves[MAX_MON_MOVES])
 {
     s32 i;
     INVALID_IF(!DATA.currentMon, "Moves outside of PLAYER/OPPONENT");
+    DATA.fixture.startingPPMask[DATA.battlerParty][DATA.currentPartyIndex] = 0;
     for (i = 0; i < MAX_MON_MOVES; i++)
     {
         if (moves[i] == MOVE_NONE)
             break;
         INVALID_IF(moves[i] >= MOVES_COUNT, "Illegal move: %d", moves[i]);
         SetMonData(DATA.currentMon, MON_DATA_MOVE1 + i, &moves[i]);
-        u32 pp = GetMovePP(moves[i]);
-        SetMonData(DATA.currentMon, MON_DATA_PP1 + i, &pp);
     }
     DATA.explicitMoves[DATA.battlerParty] |= 1 << DATA.currentPartyIndex;
 }
@@ -2702,16 +2680,12 @@ void MovesWithPP_(u32 sourceLine, struct moveWithPP moveWithPP[MAX_MON_MOVES])
             break;
         INVALID_IF(moveWithPP[i].moveId >= MOVES_COUNT, "Illegal move: %d", &moveWithPP[i].moveId);
         SetMonData(DATA.currentMon, MON_DATA_MOVE1 + i, &moveWithPP[i].moveId);
-        SetMonData(DATA.currentMon, MON_DATA_PP1 + i, &moveWithPP[i].pp);
+        DATA.fixture.startingPP[DATA.battlerParty][DATA.currentPartyIndex][i] = moveWithPP[i].pp;
+        DATA.fixture.startingPPMask[DATA.battlerParty][DATA.currentPartyIndex] |= 1 << i;
     }
     DATA.explicitMoves[DATA.battlerParty] |= 1 << DATA.currentPartyIndex;
 }
 
-void Friendship_(u32 sourceLine, u32 friendship)
-{
-    INVALID_IF(!DATA.currentMon, "Friendship outside of PLAYER/OPPONENT");
-    SetMonData(DATA.currentMon, MON_DATA_FRIENDSHIP, &friendship);
-}
 
 void Status1_(u32 sourceLine, u32 status1)
 {
@@ -2724,21 +2698,6 @@ void OTName_(u32 sourceLine, const u8 *otName)
 {
     INVALID_IF(!DATA.currentMon, "OTName outside of PLAYER/OPPONENT");
     SetMonData(DATA.currentMon, MON_DATA_OT_NAME, &otName);
-}
-
-void DynamaxLevel_(u32 sourceLine, s16 dynamaxLevel)
-{
-    INVALID_IF(!DATA.currentMon, "DynamaxLevel outside of PLAYER/OPPONENT");
-    SetMonData(DATA.currentMon, MON_DATA_DYNAMAX_LEVEL, &dynamaxLevel);
-    if (dynamaxLevel >= 0)
-        SetGimmick(sourceLine, DATA.battlerParty, DATA.currentPartyIndex, GIMMICK_DYNAMAX);
-}
-
-void GigantamaxFactor_(u32 sourceLine, bool32 gigantamaxFactor)
-{
-    INVALID_IF(!DATA.currentMon, "GigantamaxFactor outside of PLAYER/OPPONENT");
-    SetMonData(DATA.currentMon, MON_DATA_GIGANTAMAX_FACTOR, &gigantamaxFactor);
-    SetGimmick(sourceLine, DATA.battlerParty, DATA.currentPartyIndex, GIMMICK_DYNAMAX);
 }
 
 void TeraType_(u32 sourceLine, enum Type teraType)
@@ -2807,28 +2766,28 @@ static const char *BattlerIdentifier(enum BattlerId battlerId)
 static void PushBattlerAction(u32 sourceLine, enum BattlerId battlerId, u32 actionType, u32 byte)
 {
     u32 recordIndex = DATA.recordIndexes[battlerId]++;
-    if (recordIndex >= BATTLER_RECORD_SIZE)
+    if (recordIndex >= TEST_BATTLE_MAX_ACTIONS)
         Test_ExitWithResult(TEST_RESULT_INVALID, SourceLine(0), "Too many actions");
     DATA.battleRecordTypes[battlerId][recordIndex] = actionType;
     DATA.battleRecordTurnNumbers[battlerId][recordIndex] = DATA.turns;
     DATA.battleRecordSourceLineOffsets[battlerId][recordIndex] = SourceLineOffset(sourceLine);
-    DATA.recordedBattle.battleRecord[battlerId][recordIndex] = byte;
+    DATA.fixture.actions[battlerId][recordIndex] = byte;
 }
 
-void TestRunner_Battle_CheckBattleRecordActionType(enum BattlerId battlerId, u32 recordIndex, u32 actionType)
+void TestRunner_Battle_CheckActionType(enum BattlerId battlerId, u32 recordIndex, u32 actionType)
 {
     // An illegal move choice will cause the battle to request a new
     // move slot and target. This detects the move slot.
-    if (actionType == RECORDED_MOVE_SLOT
+    if (actionType == TEST_BATTLE_MOVE_SLOT
      && recordIndex > 0
-     && DATA.battleRecordTypes[battlerId][recordIndex-1] != RECORDED_ACTION_TYPE)
+     && DATA.battleRecordTypes[battlerId][recordIndex-1] != TEST_BATTLE_ACTION_TYPE)
     {
         s32 i;
         const char *filename = gTestRunnerState.test->filename;
         for (i = recordIndex; i > 0; i--)
         {
-            if (DATA.battleRecordTypes[battlerId][i-1] == RECORDED_ACTION_TYPE
-             && DATA.recordedBattle.battleRecord[battlerId][i-1] == B_ACTION_USE_MOVE)
+            if (DATA.battleRecordTypes[battlerId][i-1] == TEST_BATTLE_ACTION_TYPE
+             && DATA.fixture.actions[battlerId][i-1] == B_ACTION_USE_MOVE)
             {
                 u32 line = SourceLine(DATA.battleRecordSourceLineOffsets[battlerId][i-1]);
                 Test_ExitWithResult(TEST_RESULT_INVALID, line, "%s:%d: Illegal MOVE", filename, line);
@@ -2837,7 +2796,7 @@ void TestRunner_Battle_CheckBattleRecordActionType(enum BattlerId battlerId, u32
         Test_ExitWithResult(TEST_RESULT_INVALID, SourceLine(0), "%s:%d: Illegal MOVE", filename, SourceLine(0));
     }
 
-    if (DATA.battleRecordTypes[battlerId][recordIndex] != RECORDED_BYTE)
+    if (DATA.battleRecordTypes[battlerId][recordIndex] != TEST_BATTLE_BYTE)
     {
         DATA.trial.lastActionTurn = gBattleResults.battleTurnCounter;
 
@@ -2849,10 +2808,10 @@ void TestRunner_Battle_CheckBattleRecordActionType(enum BattlerId battlerId, u32
 
             switch (DATA.battleRecordTypes[battlerId][recordIndex])
             {
-            case RECORDED_ACTION_TYPE:
-                actualMacro = sBattleActionNames[DATA.recordedBattle.battleRecord[battlerId][recordIndex]];
+            case TEST_BATTLE_ACTION_TYPE:
+                actualMacro = sBattleActionNames[DATA.fixture.actions[battlerId][recordIndex]];
                 break;
-            case RECORDED_PARTY_INDEX:
+            case TEST_BATTLE_PARTY_INDEX:
                 actualMacro = "SEND_OUT";
                 break;
             }
@@ -2863,7 +2822,7 @@ void TestRunner_Battle_CheckBattleRecordActionType(enum BattlerId battlerId, u32
                 {
                     switch (DATA.battleRecordTypes[battlerId][recordIndex])
                     {
-                    case RECORDED_PARTY_INDEX:
+                    case TEST_BATTLE_PARTY_INDEX:
                         Test_ExitWithResult(TEST_RESULT_INVALID, line, "%s:%d: %s not required (is the send out random?)", filename, line, actualMacro);
                         break;
                     default:
@@ -2873,10 +2832,10 @@ void TestRunner_Battle_CheckBattleRecordActionType(enum BattlerId battlerId, u32
 
                 switch (actionType)
                 {
-                case RECORDED_ACTION_TYPE:
+                case TEST_BATTLE_ACTION_TYPE:
                     Test_ExitWithResult(TEST_RESULT_INVALID, line, "%s:%d: Expected MOVE/SWITCH, got %s", filename, line, actualMacro);
                     break;
-                case RECORDED_PARTY_INDEX:
+                case TEST_BATTLE_PARTY_INDEX:
                     Test_ExitWithResult(TEST_RESULT_INVALID, line, "%s:%d: Expected SEND_OUT, got %s", filename, line, actualMacro);
                 }
             }
@@ -2940,7 +2899,7 @@ void CloseTurn(u32 sourceLine)
     for (i = 0; i < STATE->battlersCount; i++)
     {
         if (!(DATA.actionBattlers & (1 << i)))
-        { // Multi test partner trainers want setting to RecordedPartner controller if no move set in this case; EXPECT_XXXX will set to PlayerPartner.
+        { // Multi test partner trainers want setting to TestPartner controller if no move set in this case; EXPECT_XXXX will set to PlayerPartner.
             if (IsAITest() && (i & BIT_SIDE) == B_SIDE_OPPONENT) // If Move was not specified, allow any move used.
                 SetAiActionToPass(sourceLine, i);
             else
@@ -2954,7 +2913,7 @@ void CloseTurn(u32 sourceLine)
 static struct Pokemon *CurrentMon(enum BattlerId battlerId)
 {
     enum BattleTrainer trainer = Test_GetBattlerTrainer(battlerId);
-    struct Pokemon *party = DATA.recordedBattle.parties[trainer];
+    struct Pokemon *party = DATA.fixture.parties[trainer];
 
     return &party[DATA.currentMonIndexes[battlerId]];
 }
@@ -3028,8 +2987,6 @@ void MoveGetIdAndSlot(enum BattlerId battlerId, struct MoveContext *ctx, u32 *mo
                            && (DATA.explicitMoves[Test_GetBattlerTrainer(battlerId)] & (1 << DATA.currentMonIndexes[battlerId])),
                            "Missing explicit %S", GetMoveName(ctx->move));
                 SetMonData(mon, MON_DATA_MOVE1 + i, &ctx->move);
-                u32 pp = GetMovePP(ctx->move);
-                SetMonData(mon, MON_DATA_PP1 + i, &pp);
                 *moveSlot = i;
                 *moveId = ctx->move;
                 INVALID_IF(GetMovePP(ctx->move) == 0, "%S has 0 PP!", GetMoveName(ctx->move));
@@ -3057,13 +3014,10 @@ void MoveGetIdAndSlot(enum BattlerId battlerId, struct MoveContext *ctx, u32 *mo
 
         // Check invalid item usage.
         INVALID_IF(ctx->gimmick == GIMMICK_MEGA && holdEffect != HOLD_EFFECT_MEGA_STONE && species != SPECIES_RAYQUAZA, "Cannot Mega Evolve without a Mega Stone");
-        INVALID_IF(ctx->gimmick == GIMMICK_Z_MOVE && holdEffect != HOLD_EFFECT_Z_CRYSTAL, "Cannot use a Z-Move without a Z-Crystal");
-        INVALID_IF(ctx->gimmick == GIMMICK_Z_MOVE && GetItemSecondaryId(item) != GetMoveType(*moveId)
-                   && GetSignatureZMove(*moveId, species, item) == MOVE_NONE
-                   && *moveId != MOVE_PHOTON_GEYSER, // exception because test won't recognize Ultra Necrozma pre-Burst
-                   "Cannot turn %S into a Z-Move with %S", GetMoveName(ctx->move), GetItemName(item));
+
+
         INVALID_IF(ctx->gimmick != GIMMICK_MEGA && holdEffect == HOLD_EFFECT_MEGA_STONE, "Cannot use another gimmick while holding a Mega Stone");
-        INVALID_IF(ctx->gimmick != GIMMICK_Z_MOVE && ctx->gimmick != GIMMICK_ULTRA_BURST && holdEffect == HOLD_EFFECT_Z_CRYSTAL, "Cannot use another gimmick while holding a Z-Crystal");
+
 
         // Check multiple gimmick use.
         SetGimmick(sourceLine, Test_GetBattlerTrainer(battlerId), DATA.currentMonIndexes[battlerId], ctx->gimmick);
@@ -3074,7 +3028,7 @@ u32 MoveGetFirstFainted(enum BattlerId battlerId)
 {
     u32 i;
     enum BattleTrainer trainer = Test_GetBattlerTrainer(battlerId);
-    struct Pokemon *party = DATA.recordedBattle.parties[trainer];
+    struct Pokemon *party = DATA.fixture.parties[trainer];
     u32 partySize = DATA.partySizes[trainer];
 
     // Loop through to find fainted battler.
@@ -3137,7 +3091,7 @@ void Move(u32 sourceLine, struct BattlePokemon *battler, struct MoveContext ctx)
 
     if (!(DATA.actionBattlers & (1 << battlerId)))
     {
-        PushBattlerAction(sourceLine, battlerId, RECORDED_ACTION_TYPE, B_ACTION_USE_MOVE);
+        PushBattlerAction(sourceLine, battlerId, TEST_BATTLE_ACTION_TYPE, B_ACTION_USE_MOVE);
     }
 
     if (!ctx.explicitAllowed || ctx.allowed)
@@ -3145,13 +3099,13 @@ void Move(u32 sourceLine, struct BattlePokemon *battler, struct MoveContext ctx)
         u32 recordedMoveSlot = moveSlot;
         if (ctx.explicitGimmick && ctx.gimmick != GIMMICK_NONE)
             recordedMoveSlot |= RET_GIMMICK;
-        PushBattlerAction(sourceLine, battlerId, RECORDED_MOVE_SLOT, recordedMoveSlot);
-        PushBattlerAction(sourceLine, battlerId, RECORDED_MOVE_TARGET,
-                          ctx.explicitTarget ? target : RECORDED_TARGET_DEFAULT);
+        PushBattlerAction(sourceLine, battlerId, TEST_BATTLE_MOVE_SLOT, recordedMoveSlot);
+        PushBattlerAction(sourceLine, battlerId, TEST_BATTLE_MOVE_TARGET,
+                          ctx.explicitTarget ? target : TEST_BATTLE_DEFAULT_TARGET);
     }
 
     if (ctx.explicitPartyIndex)
-        PushBattlerAction(sourceLine, battlerId, RECORDED_PARTY_INDEX, ctx.partyIndex);
+        PushBattlerAction(sourceLine, battlerId, TEST_BATTLE_PARTY_INDEX, ctx.partyIndex);
 
     if (DATA.turnState == TURN_OPEN)
     {
@@ -3167,7 +3121,7 @@ void ForcedMove(u32 sourceLine, struct BattlePokemon *battler)
 {
     enum BattlerId battlerId = battler - gBattleMons;
     INVALID_IF(DATA.turnState == TURN_CLOSED, "SKIP_TURN outside TURN");
-    PushBattlerAction(sourceLine, battlerId, RECORDED_ACTION_TYPE, B_ACTION_USE_MOVE);
+    PushBattlerAction(sourceLine, battlerId, TEST_BATTLE_ACTION_TYPE, B_ACTION_USE_MOVE);
     if (DATA.turnState == TURN_OPEN)
     {
         if (!DATA.hasExplicitSpeeds)
@@ -3353,8 +3307,8 @@ void Switch(u32 sourceLine, struct BattlePokemon *battler, enum PartyMon partyIn
             INVALID_IF((DATA.currentMonIndexes[i] == partyIndex) && Test_BattlersShareParty(battlerId, i), "SWITCH to battler");
     }
 
-    PushBattlerAction(sourceLine, battlerId, RECORDED_ACTION_TYPE, B_ACTION_SWITCH);
-    PushBattlerAction(sourceLine, battlerId, RECORDED_PARTY_INDEX, partyIndex);
+    PushBattlerAction(sourceLine, battlerId, TEST_BATTLE_ACTION_TYPE, B_ACTION_SWITCH);
+    PushBattlerAction(sourceLine, battlerId, TEST_BATTLE_PARTY_INDEX, partyIndex);
     DATA.currentMonIndexes[battlerId] = partyIndex;
 
     DATA.actionBattlers |= 1 << battlerId;
@@ -3410,7 +3364,7 @@ void SendOut(u32 sourceLine, struct BattlePokemon *battler, enum PartyMon partyI
     }
     if (!(DATA.actionBattlers & (1 << battlerId)))
         Move(sourceLine, battler, (struct MoveContext) { move: MOVE_CELEBRATE, explicitMove: TRUE });
-    PushBattlerAction(sourceLine, battlerId, RECORDED_PARTY_INDEX, partyIndex);
+    PushBattlerAction(sourceLine, battlerId, TEST_BATTLE_PARTY_INDEX, partyIndex);
     DATA.currentMonIndexes[battlerId] = partyIndex;
 }
 
@@ -3502,11 +3456,11 @@ void UseItem(u32 sourceLine, struct BattlePokemon *battler, struct ItemContext c
     }
     if (ctx.explicitRNG)
         DATA.battleRecordTurns[DATA.turns][battlerId].rng = ctx.rng;
-    PushBattlerAction(sourceLine, battlerId, RECORDED_ACTION_TYPE, B_ACTION_USE_ITEM);
-    PushBattlerAction(sourceLine, battlerId, RECORDED_ITEM_ID, (ctx.itemId >> 8) & 0xFF);
-    PushBattlerAction(sourceLine, battlerId, RECORDED_ITEM_ID, ctx.itemId & 0xFF);
-    PushBattlerAction(sourceLine, battlerId, RECORDED_ITEM_TARGET, ctx.partyIndex);
-    PushBattlerAction(sourceLine, battlerId, RECORDED_ITEM_MOVE, i);
+    PushBattlerAction(sourceLine, battlerId, TEST_BATTLE_ACTION_TYPE, B_ACTION_USE_ITEM);
+    PushBattlerAction(sourceLine, battlerId, TEST_BATTLE_ITEM_ID, (ctx.itemId >> 8) & 0xFF);
+    PushBattlerAction(sourceLine, battlerId, TEST_BATTLE_ITEM_ID, ctx.itemId & 0xFF);
+    PushBattlerAction(sourceLine, battlerId, TEST_BATTLE_ITEM_TARGET, ctx.partyIndex);
+    PushBattlerAction(sourceLine, battlerId, TEST_BATTLE_ITEM_MOVE, i);
     DATA.actionBattlers |= 1 << battlerId;
 }
 
@@ -4046,6 +4000,61 @@ void AssumeStatChange_(u32 sourceLine, u32 moveId, struct StatChangeAssumption a
     }
 
     ASSUME(hasEffect == TRUE);
+}
+
+void TestRunner_Battle_ApplyPPFixture(enum BattleTrainer trainer, enum PartyMon partyIndex, u8 pp[MAX_MON_MOVES])
+{
+    for (u32 i = 0; i < MAX_MON_MOVES; i++)
+    {
+        if (DATA.fixture.startingPPMask[trainer][partyIndex] & (1 << i))
+            pp[i] = DATA.fixture.startingPP[trainer][partyIndex][i];
+    }
+}
+
+void TestRunner_Battle_ApplyFixture(void)
+{
+    struct BattleTestFixture *fixture = &DATA.fixture;
+
+    for (u32 trainer = 0; trainer < MAX_BATTLE_TRAINERS; trainer++)
+        memcpy(gParties[trainer], fixture->parties[trainer], sizeof(fixture->parties[trainer]));
+
+    for (u32 i = 0; i < MAX_LINK_PLAYERS; i++)
+    {
+        StringCopy(gLinkPlayers[i].name, fixture->playersName[i]);
+        gLinkPlayers[i].language = fixture->playersLanguage[i];
+        gLinkPlayers[i].gender = MALE;
+        gLinkPlayers[i].id = (fixture->playersBattlers >> (2 * (i >> 1) + 4 * (i & BIT_SIDE))) & 3;
+        gLinkPlayers[i].trainerId = 0;
+    }
+
+    memset(DATA.actionReadIndexes, 0, sizeof(DATA.actionReadIndexes));
+    gBattleTypeFlags = fixture->battleFlags;
+    TRAINER_BATTLE_PARAM.opponentA = fixture->opponentA;
+    TRAINER_BATTLE_PARAM.opponentB = fixture->opponentB;
+    gPartnerTrainerId = fixture->partnerId;
+    gRngValue = fixture->rngSeed;
+    gSaveData.optionsTextSpeed = fixture->textSpeed;
+    gSaveData.optionsBattleSceneOff = FALSE;
+    StringCopy(gSaveData.playerName, fixture->playersName[0]);
+}
+
+u8 TestRunner_Battle_GetAction(u32 actionType, enum BattlerId battler)
+{
+    u32 index = DATA.actionReadIndexes[battler]++;
+
+    if (index >= DATA.recordIndexes[battler] || index >= TEST_BATTLE_MAX_ACTIONS)
+        Test_ExitWithResult(TEST_RESULT_FAIL, SourceLine(0), "Battle requested an action beyond the test fixture");
+
+    TestRunner_Battle_CheckActionType(battler, index, actionType);
+    u8 action = DATA.fixture.actions[battler][index];
+    if (DATA.battleRecordTypes[battler][index] == TEST_BATTLE_BYTE && action == B_ACTION_NONE)
+    {
+        gBattleOutcome = B_OUTCOME_PLAYER_TELEPORTED;
+        ResetPaletteFadeControl();
+        BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
+        SetMainCallback2(TestRunner_Battle_EndFixture);
+    }
+    return action;
 }
 
 void AssumeMoveEffectStatChange_(u32 sourceLine, u32 moveId, struct StatChangeAssumption asc)

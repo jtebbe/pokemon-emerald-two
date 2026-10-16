@@ -19,11 +19,9 @@ void SetItemMenuSwapLineInvisibility(bool8 invisible);
 void UpdateItemMenuSwapLinePos(u8 y);
 
 // Note: Because of removing gDecompressionBuffer and allowing to create more than one berry sprite at a time, the memory for gfx is allocated dynamically.
-// For CreateBerryTagSprite and CreateSpinningBerrySprite, the allocated ptr is stored in two last data fields(data[6], data[7]), so make sure to NOT put anything in there!
-// The corresponding code has already been edited in berry_tag_screen.c and berry_blender.c
+// CreateBerryTagSprite stores the allocated pointer in data[6] and data[7]; keep these fields reserved.
 #define BERRY_ICON_GFX_PTR_DATA_ID 6
 u32 CreateBerryTagSprite(u32 id, s32 x, s32 y);
-u32 CreateSpinningBerrySprite(u32 berryId, s32 x, s32 y, bool32 startAffine);
 // Needs to always call either of these after creating a Berry Icon sprite, because it frees allocated memory!
 void DestroyBerryIconSprite(u32 spriteId, u32 berryId, bool32 freePal);
 void DestroyBerryIconSpritePtr(struct Sprite *sprite, u32 berryId, bool32 freePal);

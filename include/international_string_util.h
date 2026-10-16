@@ -5,7 +5,7 @@
 #include "list_menu.h"
 
 void ConvertInternationalPlayerName(u8 *str);
-void TVShowConvertInternationalString(u8 *dest, const u8 *src, int language);
+void CopyInternationalString(u8 *dest, const u8 *src, int language);
 int GetStringCenterAlignXOffset(int fontId, const u8 *str, int totalWidth);
 int GetStringRightAlignXOffset(int fontId, const u8 *str, int totalWidth);
 int GetStringCenterAlignXOffsetWithLetterSpacing(int fontId, const u8 *str, int totalWidth, int letterSpacing);
@@ -17,7 +17,6 @@ void CopyMonCategoryText(enum Species species, u8 *dest);
 u8 *GetStringClearToWidth(u8 *dest, int fontId, const u8 *str, int totalStringWidth);
 void PadNameString(u8 *dest, u8 padChar);
 void ConvertInternationalPlayerNameStripChar(u8 *str, u8 removeChar);
-void ConvertInternationalContestantName(u8 *str);
 enum Language GetNicknameLanguage(u8 *str);
 void FillWindowTilesByRow(int windowId, int columnStart, int rowStart, int numFillTiles, int numRows);
 

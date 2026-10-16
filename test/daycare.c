@@ -13,8 +13,8 @@
 // We don't run the StoreSelectedPokemonInDaycare special because it relies on calling the
 // party select screen and the GetCursorSelectionMonId function, so we store directly to the struct.
 #define STORE_IN_DAYCARE_AND_GET_EGG()                                          \
-    StorePokemonInDaycare(&gParties[B_TRAINER_PLAYER][0], &gSaveBlock1Ptr->daycare.mons[0]);  \
-    StorePokemonInDaycare(&gParties[B_TRAINER_PLAYER][0], &gSaveBlock1Ptr->daycare.mons[1]);  \
+    StorePokemonInDaycare(&gParties[B_TRAINER_PLAYER][0], &gSaveData.daycare.mons[0]);  \
+    StorePokemonInDaycare(&gParties[B_TRAINER_PLAYER][0], &gSaveData.daycare.mons[1]);  \
     RUN_OVERWORLD_SCRIPT( special GiveEggFromDaycare; );
 
 TEST("(Daycare) Pokémon generate Eggs of the lowest member of the evolutionary family")
@@ -182,7 +182,7 @@ TEST("(Daycare) Pokémon can teach egg moves to their daycare partner (Gen 8)")
     PARAMETRIZE { slot = 1; }
 
     ZeroPlayerPartyMons();
-    memset(&gSaveBlock1Ptr->daycare, 0, sizeof(gSaveBlock1Ptr->daycare));
+    memset(&gSaveData.daycare, 0, sizeof(gSaveData.daycare));
 
     SetConfig(CONFIG_EGG_MOVE_TRANSFER, GEN_8);
     RUN_OVERWORLD_SCRIPT(
@@ -213,7 +213,7 @@ TEST("(Daycare) Pokémon don't learn move from their daycare partner if they lac
     PARAMETRIZE { slot = 1; }
 
     ZeroPlayerPartyMons();
-    memset(&gSaveBlock1Ptr->daycare, 0, sizeof(gSaveBlock1Ptr->daycare));
+    memset(&gSaveData.daycare, 0, sizeof(gSaveData.daycare));
 
     SetConfig(CONFIG_EGG_MOVE_TRANSFER, GEN_8);
     RUN_OVERWORLD_SCRIPT(
@@ -243,7 +243,7 @@ TEST("(Daycare) Only Pokémon with the same base species can share egg moves (Ge
     PARAMETRIZE { teacherSpecies = SPECIES_AMOONGUSS; }
 
     ZeroPlayerPartyMons();
-    memset(&gSaveBlock1Ptr->daycare, 0, sizeof(gSaveBlock1Ptr->daycare));
+    memset(&gSaveData.daycare, 0, sizeof(gSaveData.daycare));
 
     gSpecialVar_0x8000 = teacherSpecies;
     RUN_OVERWORLD_SCRIPT(
@@ -273,7 +273,7 @@ TEST("(Daycare) Pokémon can teach egg moves to their daycare partner (Gen 9)")
     PARAMETRIZE { slot = 1; }
 
     ZeroPlayerPartyMons();
-    memset(&gSaveBlock1Ptr->daycare, 0, sizeof(gSaveBlock1Ptr->daycare));
+    memset(&gSaveData.daycare, 0, sizeof(gSaveData.daycare));
 
     SetConfig(CONFIG_EGG_MOVE_TRANSFER, GEN_9);
     RUN_OVERWORLD_SCRIPT(
@@ -303,7 +303,7 @@ TEST("(Daycare) Pokémon need to hold a mirror herb to learn move in daycare (Ge
     PARAMETRIZE { heldItem = ITEM_NONE; }
 
     ZeroPlayerPartyMons();
-    memset(&gSaveBlock1Ptr->daycare, 0, sizeof(gSaveBlock1Ptr->daycare));
+    memset(&gSaveData.daycare, 0, sizeof(gSaveData.daycare));
 
     SetConfig(CONFIG_EGG_MOVE_TRANSFER, GEN_9);
     gSpecialVar_0x8000 = heldItem;
@@ -338,7 +338,7 @@ TEST("(Daycare) Pokémon can't learn through egg move transfer a move they alrea
 
 
     ZeroPlayerPartyMons();
-    memset(&gSaveBlock1Ptr->daycare, 0, sizeof(gSaveBlock1Ptr->daycare));
+    memset(&gSaveData.daycare, 0, sizeof(gSaveData.daycare));
 
     SetConfig(CONFIG_EGG_MOVE_TRANSFER, GEN_9);
     gSpecialVar_0x8001 = knownMove1;
@@ -367,7 +367,7 @@ TEST("(Daycare) Pokémon don't learn move from their daycare partner if they lac
     PARAMETRIZE { slot = 1; }
 
     ZeroPlayerPartyMons();
-    memset(&gSaveBlock1Ptr->daycare, 0, sizeof(gSaveBlock1Ptr->daycare));
+    memset(&gSaveData.daycare, 0, sizeof(gSaveData.daycare));
 
     SetConfig(CONFIG_EGG_MOVE_TRANSFER, GEN_9);
     RUN_OVERWORLD_SCRIPT(
@@ -393,7 +393,7 @@ TEST("GetChildNature always returns a random nature (gen 2)")
     SET_RNG(RNG_DAYCARE_NATURE_INHERITANCE, TRUE);
 
     ZeroPlayerPartyMons();
-    memset(&gSaveBlock1Ptr->daycare, 0, sizeof(gSaveBlock1Ptr->daycare));
+    memset(&gSaveData.daycare, 0, sizeof(gSaveData.daycare));
 
     RUN_OVERWORLD_SCRIPT(
         givemon SPECIES_BULBASAUR, 100, gender=MON_FEMALE, nature=NATURE_LONELY, item=ITEM_EVERSTONE;
@@ -403,7 +403,7 @@ TEST("GetChildNature always returns a random nature (gen 2)")
     StoreSelectedPokemonInDaycare();
     StoreSelectedPokemonInDaycare();
 
-    EXPECT_EQ(GetChildNature(&gSaveBlock1Ptr->daycare), NATURE_RANDOM);
+    EXPECT_EQ(GetChildNature(&gSaveData.daycare), NATURE_RANDOM);
 }
 
 TEST("GetChildNature returns the mom or ditto nature if it's holding an everstone")
@@ -421,7 +421,7 @@ TEST("GetChildNature returns the mom or ditto nature if it's holding an everston
         PARAMETRIZE { species = SPECIES_BULBASAUR; gender = MON_FEMALE; nature = j; }
     }
     ZeroPlayerPartyMons();
-    memset(&gSaveBlock1Ptr->daycare, 0, sizeof(gSaveBlock1Ptr->daycare));
+    memset(&gSaveData.daycare, 0, sizeof(gSaveData.daycare));
 
     gSpecialVar_0x8000 = species;
     gSpecialVar_0x8001 = gender;
@@ -434,7 +434,7 @@ TEST("GetChildNature returns the mom or ditto nature if it's holding an everston
     StoreSelectedPokemonInDaycare();
     StoreSelectedPokemonInDaycare();
 
-    EXPECT_EQ(GetChildNature(&gSaveBlock1Ptr->daycare), nature);
+    EXPECT_EQ(GetChildNature(&gSaveData.daycare), nature);
 }
 
 TEST("GetChildNature doesn't pass a parent's nature if the RNG check fails (gen 3-4)")
@@ -451,7 +451,7 @@ TEST("GetChildNature doesn't pass a parent's nature if the RNG check fails (gen 
     }
     SetConfig(CONFIG_NATURE_INHERITANCE, gen);
     ZeroPlayerPartyMons();
-    memset(&gSaveBlock1Ptr->daycare, 0, sizeof(gSaveBlock1Ptr->daycare));
+    memset(&gSaveData.daycare, 0, sizeof(gSaveData.daycare));
 
     gSpecialVar_0x8002 = nature;
     RUN_OVERWORLD_SCRIPT(
@@ -462,7 +462,7 @@ TEST("GetChildNature doesn't pass a parent's nature if the RNG check fails (gen 
     StoreSelectedPokemonInDaycare();
     StoreSelectedPokemonInDaycare();
 
-    EXPECT_EQ(GetChildNature(&gSaveBlock1Ptr->daycare), NATURE_RANDOM);
+    EXPECT_EQ(GetChildNature(&gSaveData.daycare), NATURE_RANDOM);
 }
 
 TEST("GetChildNature returns the ditto nature if both ditto and a female are holding an everstone (gen 3)")
@@ -475,7 +475,7 @@ TEST("GetChildNature returns the ditto nature if both ditto and a female are hol
     PARAMETRIZE { slot = 0; }
     PARAMETRIZE { slot = 1; }
     ZeroPlayerPartyMons();
-    memset(&gSaveBlock1Ptr->daycare, 0, sizeof(gSaveBlock1Ptr->daycare));
+    memset(&gSaveData.daycare, 0, sizeof(gSaveData.daycare));
 
     RUN_OVERWORLD_SCRIPT(
         givemon SPECIES_BULBASAUR, 100, gender=MON_FEMALE, nature=NATURE_HARDY, item=ITEM_EVERSTONE;
@@ -486,7 +486,7 @@ TEST("GetChildNature returns the ditto nature if both ditto and a female are hol
     gSpecialVar_0x8004 = 0;
     StoreSelectedPokemonInDaycare();
 
-    EXPECT_EQ(GetChildNature(&gSaveBlock1Ptr->daycare), NATURE_LONELY);
+    EXPECT_EQ(GetChildNature(&gSaveData.daycare), NATURE_LONELY);
 }
 
 TEST("GetChildNature doesn't let a female pokemon pass its nature if a ditto is there (gen 3)")
@@ -499,7 +499,7 @@ TEST("GetChildNature doesn't let a female pokemon pass its nature if a ditto is 
     PARAMETRIZE { slot = 0; }
     PARAMETRIZE { slot = 1; }
     ZeroPlayerPartyMons();
-    memset(&gSaveBlock1Ptr->daycare, 0, sizeof(gSaveBlock1Ptr->daycare));
+    memset(&gSaveData.daycare, 0, sizeof(gSaveData.daycare));
 
     RUN_OVERWORLD_SCRIPT(
         givemon SPECIES_BULBASAUR, 100, gender=MON_FEMALE, nature=NATURE_HARDY, item=ITEM_EVERSTONE;
@@ -510,7 +510,7 @@ TEST("GetChildNature doesn't let a female pokemon pass its nature if a ditto is 
     gSpecialVar_0x8004 = 0;
     StoreSelectedPokemonInDaycare();
 
-    EXPECT_EQ(GetChildNature(&gSaveBlock1Ptr->daycare), NATURE_RANDOM);
+    EXPECT_EQ(GetChildNature(&gSaveData.daycare), NATURE_RANDOM);
 }
 
 TEST("GetChildNature returns a random nature when no parent is holding an everstone")
@@ -524,7 +524,7 @@ TEST("GetChildNature returns a random nature when no parent is holding an everst
     PARAMETRIZE { species = SPECIES_DITTO; gender = MON_GENDERLESS; }
     PARAMETRIZE { species = SPECIES_BULBASAUR; gender = MON_FEMALE; }
     ZeroPlayerPartyMons();
-    memset(&gSaveBlock1Ptr->daycare, 0, sizeof(gSaveBlock1Ptr->daycare));
+    memset(&gSaveData.daycare, 0, sizeof(gSaveData.daycare));
 
     gSpecialVar_0x8000 = species;
     gSpecialVar_0x8001 = gender;
@@ -536,7 +536,7 @@ TEST("GetChildNature returns a random nature when no parent is holding an everst
     StoreSelectedPokemonInDaycare();
     StoreSelectedPokemonInDaycare();
 
-    EXPECT_EQ(GetChildNature(&gSaveBlock1Ptr->daycare), NATURE_RANDOM);
+    EXPECT_EQ(GetChildNature(&gSaveData.daycare), NATURE_RANDOM);
 }
 
 TEST("GetChildNature returns a random nature when the father is the one holding the Everstone (gen 3)")
@@ -550,7 +550,7 @@ TEST("GetChildNature returns a random nature when the father is the one holding 
     PARAMETRIZE { species = SPECIES_DITTO; gender = MON_GENDERLESS; }
     PARAMETRIZE { species = SPECIES_BULBASAUR; gender = MON_FEMALE; }
     ZeroPlayerPartyMons();
-    memset(&gSaveBlock1Ptr->daycare, 0, sizeof(gSaveBlock1Ptr->daycare));
+    memset(&gSaveData.daycare, 0, sizeof(gSaveData.daycare));
 
     gSpecialVar_0x8000 = species;
     gSpecialVar_0x8001 = gender;
@@ -562,7 +562,7 @@ TEST("GetChildNature returns a random nature when the father is the one holding 
     StoreSelectedPokemonInDaycare();
     StoreSelectedPokemonInDaycare();
 
-    EXPECT_EQ(GetChildNature(&gSaveBlock1Ptr->daycare), NATURE_RANDOM);
+    EXPECT_EQ(GetChildNature(&gSaveData.daycare), NATURE_RANDOM);
 }
 
 TEST("GetChildNature returns the father's nature if it is holding an Everstone (gen 4+)")
@@ -580,7 +580,7 @@ TEST("GetChildNature returns the father's nature if it is holding an Everstone (
         PARAMETRIZE { species = SPECIES_BULBASAUR; gender = MON_FEMALE; nature = j; }
     }
     ZeroPlayerPartyMons();
-    memset(&gSaveBlock1Ptr->daycare, 0, sizeof(gSaveBlock1Ptr->daycare));
+    memset(&gSaveData.daycare, 0, sizeof(gSaveData.daycare));
 
     gSpecialVar_0x8000 = species;
     gSpecialVar_0x8001 = gender;
@@ -593,7 +593,7 @@ TEST("GetChildNature returns the father's nature if it is holding an Everstone (
     StoreSelectedPokemonInDaycare();
     StoreSelectedPokemonInDaycare();
 
-    EXPECT_EQ(GetChildNature(&gSaveBlock1Ptr->daycare), nature);
+    EXPECT_EQ(GetChildNature(&gSaveData.daycare), nature);
 }
 
 TEST("GetChildNature returns nature of the first pokemon holding an everstone passing its everstone check (gen 4)")
@@ -623,7 +623,7 @@ TEST("GetChildNature returns nature of the first pokemon holding an everstone pa
         }
     }
     ZeroPlayerPartyMons();
-    memset(&gSaveBlock1Ptr->daycare, 0, sizeof(gSaveBlock1Ptr->daycare));
+    memset(&gSaveData.daycare, 0, sizeof(gSaveData.daycare));
 
     SET_RNG(RNG_DAYCARE_PICK_NATURE_PARENT, randomParent);
     gSpecialVar_0x8000 = species0;
@@ -638,7 +638,7 @@ TEST("GetChildNature returns nature of the first pokemon holding an everstone pa
     StoreSelectedPokemonInDaycare();
     StoreSelectedPokemonInDaycare();
 
-    EXPECT_EQ(GetChildNature(&gSaveBlock1Ptr->daycare), NATURE_LONELY);
+    EXPECT_EQ(GetChildNature(&gSaveData.daycare), NATURE_LONELY);
 }
 
 TEST("GetChildNature returns nature of any pokemon holding an everstone without an RNG check (gen 5+)")
@@ -670,7 +670,7 @@ TEST("GetChildNature returns nature of any pokemon holding an everstone without 
         }
     }
     ZeroPlayerPartyMons();
-    memset(&gSaveBlock1Ptr->daycare, 0, sizeof(gSaveBlock1Ptr->daycare));
+    memset(&gSaveData.daycare, 0, sizeof(gSaveData.daycare));
 
     gSpecialVar_0x8000 = species0;
     gSpecialVar_0x8001 = gender0;
@@ -685,7 +685,7 @@ TEST("GetChildNature returns nature of any pokemon holding an everstone without 
     StoreSelectedPokemonInDaycare();
     StoreSelectedPokemonInDaycare();
 
-    EXPECT_EQ(GetChildNature(&gSaveBlock1Ptr->daycare), nature);
+    EXPECT_EQ(GetChildNature(&gSaveData.daycare), nature);
 }
 
 TEST("GetChildNature returns the nature of a random parent if they are both holding an everstone (gen 5+)")
@@ -714,7 +714,7 @@ TEST("GetChildNature returns the nature of a random parent if they are both hold
         }
     }
     ZeroPlayerPartyMons();
-    memset(&gSaveBlock1Ptr->daycare, 0, sizeof(gSaveBlock1Ptr->daycare));
+    memset(&gSaveData.daycare, 0, sizeof(gSaveData.daycare));
 
     SET_RNG(RNG_DAYCARE_PICK_NATURE_PARENT, randomParent);
     gSpecialVar_0x8000 = species0;
@@ -730,222 +730,9 @@ TEST("GetChildNature returns the nature of a random parent if they are both hold
     StoreSelectedPokemonInDaycare();
 
     if (randomParent)
-        EXPECT_EQ(GetChildNature(&gSaveBlock1Ptr->daycare), NATURE_HARDY);
+        EXPECT_EQ(GetChildNature(&gSaveData.daycare), NATURE_HARDY);
     else
-        EXPECT_EQ(GetChildNature(&gSaveBlock1Ptr->daycare), NATURE_LONELY);
-}
-
-TEST("InheritIVs will pass 3 random stats from the parents to the egg")
-{
-    struct Pokemon egg;
-    CreateMonWithIVs(&egg, SPECIES_BULBASAUR, 1, Random32(), OTID_STRUCT_PLAYER_ID, 0);
-
-    u32 rngIv = 0;
-    u32 j;
-    for (j = 0; j < 720; j++)
-    {
-        PARAMETRIZE { rngIv = j; }
-    }
-    SET_RNG(RNG_DAYCARE_INHERITED_STATS, rngIv);
-
-    ZeroPlayerPartyMons();
-    memset(&gSaveBlock1Ptr->daycare, 0, sizeof(gSaveBlock1Ptr->daycare));
-    RUN_OVERWORLD_SCRIPT(
-        givemon SPECIES_BULBASAUR, 100, gender=MON_MALE, hpIv=31, atkIv=31, defIv=31, speedIv=31, spAtkIv=31, spDefIv=31;
-        givemon SPECIES_BULBASAUR, 100, gender=MON_FEMALE, hpIv=31, atkIv=31, defIv=31, speedIv=31, spAtkIv=31, spDefIv=31;
-    );
-
-    gSpecialVar_0x8004 = 0;
-    StoreSelectedPokemonInDaycare();
-    StoreSelectedPokemonInDaycare();
-
-    InheritIVs(&egg, &gSaveBlock1Ptr->daycare);
-    u32 passedIvCount = 0;
-    for (j = 0; j < NUM_STATS; j++)
-    {
-        if (GetMonData(&egg, MON_DATA_HP_IV + j) == 31)
-            passedIvCount++;
-    }
-
-    EXPECT_EQ(passedIvCount, 3);
-}
-
-TEST("InheritIVs will pass 5 random stats from the parents to the egg if one parent is holding a destiny knot")
-{
-    struct Pokemon egg;
-    CreateMonWithIVs(&egg, SPECIES_BULBASAUR, 1, Random32(), OTID_STRUCT_PLAYER_ID, 0);
-
-    u32 j;
-    u32 rngIv = 0;
-    u32 slot = 0;
-    for (j = 0; j < 720; j++)
-    {
-        PARAMETRIZE { rngIv = j; slot = 1; }
-        PARAMETRIZE { rngIv = j; slot = 0; }
-    }
-    SET_RNG(RNG_DAYCARE_INHERITED_STATS, rngIv);
-
-    ZeroPlayerPartyMons();
-    memset(&gSaveBlock1Ptr->daycare, 0, sizeof(gSaveBlock1Ptr->daycare));
-    RUN_OVERWORLD_SCRIPT(
-        givemon SPECIES_BULBASAUR, 100, gender=MON_MALE, hpIv=31, atkIv=31, defIv=31, speedIv=31, spAtkIv=31, spDefIv=31, item=ITEM_DESTINY_KNOT;
-        givemon SPECIES_BULBASAUR, 100, gender=MON_FEMALE, hpIv=31, atkIv=31, defIv=31, speedIv=31, spAtkIv=31, spDefIv=31;
-    );
-
-    gSpecialVar_0x8004 = slot;
-    StoreSelectedPokemonInDaycare();
-    gSpecialVar_0x8004 = 0;
-    StoreSelectedPokemonInDaycare();
-
-    InheritIVs(&egg, &gSaveBlock1Ptr->daycare);
-    u32 passedIvCount = 0;
-    for (j = 0; j < NUM_STATS; j++)
-    {
-        if (GetMonData(&egg, MON_DATA_HP_IV + j) == 31)
-            passedIvCount++;
-    }
-
-    EXPECT_EQ(passedIvCount, 5);
-}
-
-TEST("InheritIVs does not pass more stats when a power item is equipped")
-{
-    struct Pokemon egg;
-    CreateMonWithIVs(&egg, SPECIES_BULBASAUR, 1, Random32(), OTID_STRUCT_PLAYER_ID, 0);
-
-    u32 j;
-    u32 rngIv = 0;
-    enum Item item0 = ITEM_NONE;
-    enum Item item1 = ITEM_NONE;
-    for (j = 0; j < 720; j++)
-    {
-        for (enum Item k = ITEM_POWER_WEIGHT; k <= ITEM_POWER_ANKLET; k++)
-        {
-            PARAMETRIZE { rngIv = j; item0 = k; item1 = ITEM_NONE; }
-            PARAMETRIZE { rngIv = j; item0 = k; item1 = ITEM_DESTINY_KNOT; }
-            PARAMETRIZE { rngIv = j; item0 = k; item1 = ITEM_POWER_WEIGHT; }
-        }
-    }
-    SET_RNG(RNG_DAYCARE_INHERITED_STATS, rngIv);
-
-    ZeroPlayerPartyMons();
-    memset(&gSaveBlock1Ptr->daycare, 0, sizeof(gSaveBlock1Ptr->daycare));
-    gSpecialVar_0x8000 = item0;
-    gSpecialVar_0x8001 = item1;
-    RUN_OVERWORLD_SCRIPT(
-        givemon SPECIES_BULBASAUR, 100, gender=MON_MALE, hpIv=31, atkIv=31, defIv=31, speedIv=31, spAtkIv=31, spDefIv=31, item=VAR_0x8000;
-        givemon SPECIES_BULBASAUR, 100, gender=MON_FEMALE, hpIv=31, atkIv=31, defIv=31, speedIv=31, spAtkIv=31, spDefIv=31, item=VAR_0x8001;
-    );
-
-    gSpecialVar_0x8004 = 0;
-    StoreSelectedPokemonInDaycare();
-    StoreSelectedPokemonInDaycare();
-
-    InheritIVs(&egg, &gSaveBlock1Ptr->daycare);
-    u32 passedIvCount = 0;
-    for (j = 0; j < NUM_STATS; j++)
-    {
-        if (GetMonData(&egg, MON_DATA_HP_IV + j) == 31)
-            passedIvCount++;
-    }
-
-    if (item1 == ITEM_DESTINY_KNOT)
-        EXPECT_EQ(passedIvCount, 5);
-    else
-        EXPECT_EQ(passedIvCount, 3);
-}
-
-TEST("InheritIVs will always pass the preferred stat from the parent holding the parent item")
-{
-    struct Pokemon egg;
-    CreateMonWithIVs(&egg, SPECIES_BULBASAUR, 1, Random32(), OTID_STRUCT_PLAYER_ID, 0);
-    SET_RNG(RNG_DAYCARE_PICK_IVS_PARENT, 31);
-
-    u32 j;
-    u32 rngIv = 0;
-    enum Item item0 = ITEM_NONE;
-    enum Stat powerStat = 0;
-    for (j = 0; j < 720; j++)
-    {
-        for (enum Item k = ITEM_POWER_WEIGHT; k <= ITEM_POWER_ANKLET; k++)
-        {
-            PARAMETRIZE { rngIv = j; item0 = k; powerStat = GetItemSecondaryId(k); }
-        }
-    }
-
-    SET_RNG(RNG_DAYCARE_INHERITED_STATS, rngIv);
-
-    ZeroPlayerPartyMons();
-    memset(&gSaveBlock1Ptr->daycare, 0, sizeof(gSaveBlock1Ptr->daycare));
-    gSpecialVar_0x8000 = item0;
-    RUN_OVERWORLD_SCRIPT(
-        givemon SPECIES_BULBASAUR, 100, gender=MON_MALE, hpIv=0, atkIv=0, defIv=0, speedIv=0, spAtkIv=0, spDefIv=0, item=VAR_0x8000;
-        givemon SPECIES_BULBASAUR, 100, gender=MON_FEMALE, hpIv=1, atkIv=1, defIv=1, speedIv=1, spAtkIv=1, spDefIv=1;
-    );
-
-    u32 value = 31;
-    SetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_HP_IV + powerStat, &value);
-    gSpecialVar_0x8004 = 0;
-    StoreSelectedPokemonInDaycare();
-    StoreSelectedPokemonInDaycare();
-
-    InheritIVs(&egg, &gSaveBlock1Ptr->daycare);
-    u32 passedValues = 0;
-    for (j = 0; j < NUM_STATS; j++)
-    {
-        value = GetMonData(&egg, MON_DATA_HP_IV + j);
-        if (j == powerStat)
-            EXPECT_EQ(value, 31);
-        else if (value == 1)
-            passedValues++;
-        else
-            EXPECT_EQ(value, 0);
-    }
-    EXPECT_EQ(passedValues, 2);
-}
-
-TEST("InheritIVs pick one parent at random to pass its power stat if two power items are equipped")
-{
-    struct Pokemon egg;
-    CreateMonWithIVs(&egg, SPECIES_BULBASAUR, 1, Random32(), OTID_STRUCT_PLAYER_ID, 0);
-
-    enum Item item0 = ITEM_NONE;
-    enum Item item1 = ITEM_NONE;
-    u32 parent = 0;
-    for (enum Item j = ITEM_POWER_WEIGHT; j <= ITEM_POWER_ANKLET; j++)
-    {
-        for (enum Item k = ITEM_POWER_WEIGHT; k <= ITEM_POWER_ANKLET; k++)
-        {
-            PARAMETRIZE { item0 = j; item1 = k; parent = 0; }
-            PARAMETRIZE { item0 = j; item1 = k; parent = 1; }
-        }
-    }
-    SET_RNG(RNG_DAYCARE_PICK_IVS_PARENT, parent);
-    enum Stat powerStat0 = GetItemSecondaryId(item0);
-    enum Stat powerStat1 = GetItemSecondaryId(item1);
-
-    ZeroPlayerPartyMons();
-    memset(&gSaveBlock1Ptr->daycare, 0, sizeof(gSaveBlock1Ptr->daycare));
-    gSpecialVar_0x8000 = item0;
-    gSpecialVar_0x8001 = item1;
-    RUN_OVERWORLD_SCRIPT(
-        givemon SPECIES_BULBASAUR, 100, gender=MON_MALE, hpIv=0, atkIv=0, defIv=0, speedIv=0, spAtkIv=0, spDefIv=0, item=VAR_0x8000;
-        givemon SPECIES_BULBASAUR, 100, gender=MON_FEMALE, hpIv=0, atkIv=0, defIv=0, speedIv=0, spAtkIv=0, spDefIv=0, item=VAR_0x8001;
-    );
-
-    u32 value = 31;
-    SetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_HP_IV + powerStat0, &value);
-    value = 30;
-    SetMonData(&gParties[B_TRAINER_PLAYER][1], MON_DATA_HP_IV + powerStat1, &value);
-    gSpecialVar_0x8004 = 0;
-    StoreSelectedPokemonInDaycare();
-    StoreSelectedPokemonInDaycare();
-
-    InheritIVs(&egg, &gSaveBlock1Ptr->daycare);
-    if (parent == 0)
-        EXPECT_EQ(GetMonData(&egg, MON_DATA_HP_IV + powerStat0), 31);
-    else
-        EXPECT_EQ(GetMonData(&egg, MON_DATA_HP_IV + powerStat1), 30);
+        EXPECT_EQ(GetChildNature(&gSaveData.daycare), NATURE_LONELY);
 }
 
 TEST("InheritPokeball doesn't do anything, all eggs are born in Pokeball (gen5-)")
@@ -959,7 +746,7 @@ TEST("InheritPokeball doesn't do anything, all eggs are born in Pokeball (gen5-)
     }
 
     ZeroPlayerPartyMons();
-    memset(&gSaveBlock1Ptr->daycare, 0, sizeof(gSaveBlock1Ptr->daycare));
+    memset(&gSaveData.daycare, 0, sizeof(gSaveData.daycare));
 
     gSpecialVar_0x8000 = ball;
     RUN_OVERWORLD_SCRIPT(
@@ -991,7 +778,7 @@ TEST("InheritPokeball make eggs inherit their mother ball unless it's a 'forbidd
     }
 
     ZeroPlayerPartyMons();
-    memset(&gSaveBlock1Ptr->daycare, 0, sizeof(gSaveBlock1Ptr->daycare));
+    memset(&gSaveData.daycare, 0, sizeof(gSaveData.daycare));
 
     gSpecialVar_0x8000 = ball0;
     gSpecialVar_0x8001 = ball1;
@@ -1027,7 +814,7 @@ TEST("InheritPokeball give eggs born from a male and a ditto a pokeball (gen6)")
     }
 
     ZeroPlayerPartyMons();
-    memset(&gSaveBlock1Ptr->daycare, 0, sizeof(gSaveBlock1Ptr->daycare));
+    memset(&gSaveData.daycare, 0, sizeof(gSaveData.daycare));
 
     gSpecialVar_0x8000 = ball0;
     RUN_OVERWORLD_SCRIPT(
@@ -1057,7 +844,7 @@ TEST("InheritPokeball give eggs born from a male and a ditto a pokeball (gen6)")
     }
 
     ZeroPlayerPartyMons();
-    memset(&gSaveBlock1Ptr->daycare, 0, sizeof(gSaveBlock1Ptr->daycare));
+    memset(&gSaveData.daycare, 0, sizeof(gSaveData.daycare));
 
     gSpecialVar_0x8000 = ball0;
     RUN_OVERWORLD_SCRIPT(
@@ -1097,7 +884,7 @@ TEST("InheritPokeball give the non-ditto ball to pokemon born from a ditto and a
     }
 
     ZeroPlayerPartyMons();
-    memset(&gSaveBlock1Ptr->daycare, 0, sizeof(gSaveBlock1Ptr->daycare));
+    memset(&gSaveData.daycare, 0, sizeof(gSaveData.daycare));
 
     gSpecialVar_0x8000 = ball0;
     gSpecialVar_0x8001 = ball1;
@@ -1142,7 +929,7 @@ TEST("InheritPokeball give the mother ball to pokemon born two different non-dit
     }
 
     ZeroPlayerPartyMons();
-    memset(&gSaveBlock1Ptr->daycare, 0, sizeof(gSaveBlock1Ptr->daycare));
+    memset(&gSaveData.daycare, 0, sizeof(gSaveData.daycare));
 
     gSpecialVar_0x8000 = ball0;
     gSpecialVar_0x8001 = ball1;
@@ -1185,7 +972,7 @@ TEST("InheritPokeball give a parent ball at random to pokemon born from parents 
     SET_RNG(RNG_DAYCARE_PICK_BALL_PARENT, randomParent);
 
     ZeroPlayerPartyMons();
-    memset(&gSaveBlock1Ptr->daycare, 0, sizeof(gSaveBlock1Ptr->daycare));
+    memset(&gSaveData.daycare, 0, sizeof(gSaveData.daycare));
 
     gSpecialVar_0x8000 = ball0;
     gSpecialVar_0x8001 = ball1;
@@ -1214,7 +1001,7 @@ TEST("InheritPokeball give a parent ball at random to pokemon born from parents 
 TEST("InheritAbility doesn't do anything, ability is chosen randomly (gen4-)")
 {
     struct Pokemon egg;
-    CreateMonWithIVs(&egg, SPECIES_ABRA, 1, Random32(), OTID_STRUCT_PLAYER_ID, 0);
+    CreateMonWithStats(&egg, SPECIES_ABRA, 1, Random32(), OTID_STRUCT_PLAYER_ID);
     u32 value = 3;
     SetMonData(&egg, MON_DATA_ABILITY_NUM, &value);
 
@@ -1231,7 +1018,7 @@ TEST("InheritAbility doesn't do anything, ability is chosen randomly (gen4-)")
     }
 
     ZeroPlayerPartyMons();
-    memset(&gSaveBlock1Ptr->daycare, 0, sizeof(gSaveBlock1Ptr->daycare));
+    memset(&gSaveData.daycare, 0, sizeof(gSaveData.daycare));
     gSpecialVar_0x8000 = abilityNum0;
     gSpecialVar_0x8001 = abilityNum1;
     RUN_OVERWORLD_SCRIPT(
@@ -1243,14 +1030,14 @@ TEST("InheritAbility doesn't do anything, ability is chosen randomly (gen4-)")
     StoreSelectedPokemonInDaycare();
     StoreSelectedPokemonInDaycare();
 
-    InheritAbility(&egg, &gSaveBlock1Ptr->daycare);
+    InheritAbility(&egg, &gSaveData.daycare);
     EXPECT_EQ(GetMonData(&egg, MON_DATA_ABILITY_NUM), 3);
 }
 
 TEST("InheritAbility copy the ability of the mother if the dad is not a ditto (gen5)")
 {
     struct Pokemon egg;
-    CreateMonWithIVs(&egg, SPECIES_ABRA, 1, Random32(), OTID_STRUCT_PLAYER_ID, 0);
+    CreateMonWithStats(&egg, SPECIES_ABRA, 1, Random32(), OTID_STRUCT_PLAYER_ID);
     u32 value = 3;
     SetMonData(&egg, MON_DATA_ABILITY_NUM, &value);
 
@@ -1275,7 +1062,7 @@ TEST("InheritAbility copy the ability of the mother if the dad is not a ditto (g
     }
 
     ZeroPlayerPartyMons();
-    memset(&gSaveBlock1Ptr->daycare, 0, sizeof(gSaveBlock1Ptr->daycare));
+    memset(&gSaveData.daycare, 0, sizeof(gSaveData.daycare));
     gSpecialVar_0x8000 = abilityNum0;
     gSpecialVar_0x8001 = abilityNum1;
     gSpecialVar_0x8002 = species;
@@ -1290,7 +1077,7 @@ TEST("InheritAbility copy the ability of the mother if the dad is not a ditto (g
     gSpecialVar_0x8004 = 0;
     StoreSelectedPokemonInDaycare();
 
-    InheritAbility(&egg, &gSaveBlock1Ptr->daycare);
+    InheritAbility(&egg, &gSaveData.daycare);
     if (species == SPECIES_ABRA)
         EXPECT_EQ(GetMonData(&egg, MON_DATA_ABILITY_NUM), abilityNum0);
     else
@@ -1300,7 +1087,7 @@ TEST("InheritAbility copy the ability of the mother if the dad is not a ditto (g
 TEST("InheritAbility copy the ability of the mother or non-ditto parent (gen6+)")
 {
     struct Pokemon egg;
-    CreateMonWithIVs(&egg, SPECIES_ABRA, 1, Random32(), OTID_STRUCT_PLAYER_ID, 0);
+    CreateMonWithStats(&egg, SPECIES_ABRA, 1, Random32(), OTID_STRUCT_PLAYER_ID);
     u32 value = 3;
     SetMonData(&egg, MON_DATA_ABILITY_NUM, &value);
 
@@ -1326,7 +1113,7 @@ TEST("InheritAbility copy the ability of the mother or non-ditto parent (gen6+)"
     }
 
     ZeroPlayerPartyMons();
-    memset(&gSaveBlock1Ptr->daycare, 0, sizeof(gSaveBlock1Ptr->daycare));
+    memset(&gSaveData.daycare, 0, sizeof(gSaveData.daycare));
     gSpecialVar_0x8000 = 0;
     gSpecialVar_0x8001 = 1;
     gSpecialVar_0x8002 = species0;
@@ -1342,7 +1129,7 @@ TEST("InheritAbility copy the ability of the mother or non-ditto parent (gen6+)"
     StoreSelectedPokemonInDaycare();
     StoreSelectedPokemonInDaycare();
 
-    InheritAbility(&egg, &gSaveBlock1Ptr->daycare);
+    InheritAbility(&egg, &gSaveData.daycare);
     if (gender0 == MON_FEMALE)
         EXPECT_EQ(GetMonData(&egg, MON_DATA_ABILITY_NUM), 0);
     else if (gender1 == MON_FEMALE)

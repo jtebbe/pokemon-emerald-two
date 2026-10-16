@@ -25,7 +25,6 @@ SINGLE_BATTLE_TEST("Entrainment changes the target's Ability to match the user's
         EXPECT(opponent->ability == ABILITY_TELEPATHY);
     }
 }
-
 SINGLE_BATTLE_TEST("Entrainment fails if the user's ability has cantBeCopied flag")
 {
     GIVEN {
@@ -70,22 +69,5 @@ SINGLE_BATTLE_TEST("Entrainment causes primal weather to revert")
         MESSAGE("The extremely harsh sunlight faded!");
     } THEN {
         EXPECT(opponent->ability == ABILITY_TELEPATHY);
-    }
-}
-
-SINGLE_BATTLE_TEST("Entrainment fails on Dynamaxed Pokémon")
-{
-    GIVEN {
-        ASSUME(GetMoveEffect(MOVE_ENTRAINMENT) == EFFECT_ENTRAINMENT);
-        PLAYER(SPECIES_WOBBUFFET) { Ability(ABILITY_SHADOW_TAG); }
-        OPPONENT(SPECIES_WOBBUFFET) { Ability(ABILITY_TELEPATHY); }
-    } WHEN {
-        TURN { MOVE(player, MOVE_SCRATCH, gimmick: GIMMICK_DYNAMAX); MOVE(opponent, MOVE_ENTRAINMENT); }
-    } SCENE {
-        MESSAGE("Wobbuffet used Max Strike!");
-        MESSAGE("The opposing Wobbuffet used Entrainment!");
-        MESSAGE("But it failed!");
-    } THEN {
-        EXPECT_EQ(player->ability, ABILITY_SHADOW_TAG);
     }
 }

@@ -6,14 +6,11 @@
 #include "text.h"
 #include "event_data.h"
 #include "malloc.h"
-#include "secret_base.h"
 #include "item_menu.h"
 #include "party_menu.h"
 #include "strings.h"
 #include "load_save.h"
 #include "item_use.h"
-#include "battle_pyramid.h"
-#include "battle_pyramid_bag.h"
 #include "graphics.h"
 #include "shop_criteria.h"
 #include "constants/battle.h"
@@ -26,11 +23,9 @@
 {                                           \
     .id = POCKET_DUMMY,                     \
     .capacity = PC_ITEMS_COUNT,             \
-    .itemSlots = gSaveBlock1Ptr->pcItems,   \
+    .itemSlots = gSaveData.pcItems,   \
 }
 
-static bool32 CheckPyramidBagHasItem(enum Item itemId, u16 count);
-static bool32 CheckPyramidBagHasSpace(enum Item itemId, u16 count);
 static const u8 *GetItemPluralName(enum Item);
 static bool32 DoesItemHavePluralName(enum Item);
 static void NONNULL BagPocket_CompactItems(struct BagPocket *pocket);
@@ -67,7 +62,7 @@ static inline struct ItemSlot NONNULL BagPocket_GetSlotDataGeneric(struct BagPoc
 {
     return (struct ItemSlot) {
         .itemId = pocket->itemSlots[pocketPos].itemId,
-        .quantity = pocket->itemSlots[pocketPos].quantity ^ gSaveBlock2Ptr->encryptionKey,
+        .quantity = pocket->itemSlots[pocketPos].quantity,
     };
 }
 
@@ -82,7 +77,7 @@ static inline struct ItemSlot NONNULL BagPocket_GetSlotDataPC(struct BagPocket *
 static inline void NONNULL BagPocket_SetSlotDataGeneric(struct BagPocket *pocket, u32 pocketPos, struct ItemSlot newSlot)
 {
     pocket->itemSlots[pocketPos].itemId = newSlot.itemId;
-    pocket->itemSlots[pocketPos].quantity = newSlot.quantity ^ gSaveBlock2Ptr->encryptionKey;
+    pocket->itemSlots[pocketPos].quantity = newSlot.quantity;
 }
 
 static inline void NONNULL BagPocket_SetSlotDataPC(struct BagPocket *pocket, u32 pocketPos, struct ItemSlot newSlot)
@@ -131,17 +126,6 @@ void NONNULL BagPocket_SetSlotData(struct BagPocket *pocket, u32 pocketPos, stru
     }
 }
 
-void ApplyNewEncryptionKeyToBagItems(u32 newKey)
-{
-    enum Pocket pocketId;
-    enum Item item;
-    for (pocketId = 0; pocketId < POCKETS_COUNT; pocketId++)
-    {
-        for (item = ITEM_NONE; item < gBagPockets[pocketId].capacity; item++)
-            ApplyNewEncryptionKeyToHword(&(gBagPockets[pocketId].itemSlots[item].quantity), newKey);
-    }
-}
-
 void InitializeBagPocket(enum Pocket pocket, enum BagCounts count, struct ItemSlot *slot)
 {
     gBagPockets[pocket].itemSlots = slot;
@@ -151,11 +135,11 @@ void InitializeBagPocket(enum Pocket pocket, enum BagCounts count, struct ItemSl
 
 void SetBagItemsPointers(void)
 {
-    InitializeBagPocket(POCKET_ITEMS, BAG_ITEMS_COUNT, gSaveBlock1Ptr->bag.items);
-    InitializeBagPocket(POCKET_KEY_ITEMS, BAG_KEYITEMS_COUNT, gSaveBlock1Ptr->bag.keyItems);
-    InitializeBagPocket(POCKET_POKE_BALLS, BAG_POKEBALLS_COUNT, gSaveBlock1Ptr->bag.pokeBalls);
-    InitializeBagPocket(POCKET_TM_HM, BAG_TMHM_COUNT, gSaveBlock1Ptr->bag.TMsHMs);
-    InitializeBagPocket(POCKET_BERRIES, BAG_BERRIES_COUNT, gSaveBlock1Ptr->bag.berries);
+    InitializeBagPocket(POCKET_ITEMS, BAG_ITEMS_COUNT, gSaveData.bag.items);
+    InitializeBagPocket(POCKET_KEY_ITEMS, BAG_KEYITEMS_COUNT, gSaveData.bag.keyItems);
+    InitializeBagPocket(POCKET_POKE_BALLS, BAG_POKEBALLS_COUNT, gSaveData.bag.pokeBalls);
+    InitializeBagPocket(POCKET_TM_HM, BAG_TMHM_COUNT, gSaveData.bag.TMsHMs);
+    InitializeBagPocket(POCKET_BERRIES, BAG_BERRIES_COUNT, gSaveData.bag.berries);
 }
 
 u8 *CopyItemName(enum Item itemId, u8 *dst)
@@ -213,21 +197,8 @@ bool32 CheckBagHasItem(enum Item itemId, u16 count)
 {
     if (GetItemPocket(itemId) >= POCKETS_COUNT)
         return FALSE;
-    if (CurrentBattlePyramidLocation() != PYRAMID_LOCATION_NONE || FlagGet(FLAG_STORING_ITEMS_IN_PYRAMID_BAG) == TRUE)
-        return CheckPyramidBagHasItem(itemId, count);
 
     return BagPocket_CheckHasItem(&gBagPockets[GetItemPocket(itemId)], itemId, count);
-}
-
-bool32 HasAtLeastOneBerry(void)
-{
-    for (enum BerryId berryId = 1; berryId <= NUM_BERRIES; berryId++)
-    {
-        if (CheckBagHasItem(BerryTypeToItemId(berryId), 1) == TRUE)
-            return (gSpecialVar_Result = TRUE);
-    }
-
-    return (gSpecialVar_Result = FALSE);
 }
 
 bool32 HasAtLeastOnePokeBall(void)
@@ -244,9 +215,6 @@ bool32 CheckBagHasSpace(enum Item itemId, u16 count)
 {
     if (GetItemPocket(itemId) >= POCKETS_COUNT)
         return FALSE;
-
-    if (CurrentBattlePyramidLocation() != PYRAMID_LOCATION_NONE || FlagGet(FLAG_STORING_ITEMS_IN_PYRAMID_BAG) == TRUE)
-        return CheckPyramidBagHasSpace(itemId, count);
 
     return GetFreeSpaceForItemInBag(itemId) >= count;
 }
@@ -346,9 +314,6 @@ bool32 AddBagItem(enum Item itemId, u16 count)
     if (itemId == ITEM_NONE)
         return FALSE;
 
-    // check Battle Pyramid Bag
-    if (CurrentBattlePyramidLocation() != PYRAMID_LOCATION_NONE || FlagGet(FLAG_STORING_ITEMS_IN_PYRAMID_BAG) == TRUE)
-        return AddPyramidBagItem(itemId, count);
 
     return BagPocket_AddItem(&gBagPockets[GetItemPocket(itemId)], itemId, count);
 }
@@ -376,11 +341,7 @@ static bool32 NONNULL BagPocket_RemoveItem(struct BagPocket *pocket, enum Item i
 
     if (totalQuantity >= count) // We have enough of the item
     {
-        if (CurMapIsSecretBase() == TRUE)
-        {
-            VarSet(VAR_SECRET_BASE_LOW_TV_FLAGS, VarGet(VAR_SECRET_BASE_LOW_TV_FLAGS) | SECRET_BASE_USED_BAG);
-            VarSet(VAR_SECRET_BASE_LAST_ITEM_USED, itemId);
-        }
+        ;
 
         // Update the quantities correctly with the items removed
         for (--itemRemoveIndex; itemRemoveIndex < itemLookupIndex; itemRemoveIndex++)
@@ -403,9 +364,6 @@ bool32 RemoveBagItem(enum Item itemId, u16 count)
     if (itemId == ITEM_NONE)
         return FALSE;
 
-    // check Battle Pyramid Bag
-    if (CurrentBattlePyramidLocation() != PYRAMID_LOCATION_NONE || FlagGet(FLAG_STORING_ITEMS_IN_PYRAMID_BAG) == TRUE)
-        return RemovePyramidBagItem(itemId, count);
 
     return BagPocket_RemoveItem(&gBagPockets[GetItemPocket(itemId)], itemId, count);
 }
@@ -503,13 +461,13 @@ void CompactPCItems(void)
 
 void SwapRegisteredBike(void)
 {
-    switch (gSaveBlock1Ptr->registeredItem)
+    switch (gSaveData.registeredItem)
     {
     case ITEM_MACH_BIKE:
-        gSaveBlock1Ptr->registeredItem = ITEM_ACRO_BIKE;
+        gSaveData.registeredItem = ITEM_ACRO_BIKE;
         break;
     case ITEM_ACRO_BIKE:
-        gSaveBlock1Ptr->registeredItem = ITEM_MACH_BIKE;
+        gSaveData.registeredItem = ITEM_MACH_BIKE;
         break;
     }
 }
@@ -552,7 +510,7 @@ void MoveItemSlotInPC(struct ItemSlot *itemSlots, u32 from, u32 to)
 
 void ClearBag(void)
 {
-    CpuFastFill(0, &gSaveBlock1Ptr->bag, sizeof(struct Bag));
+    CpuFastFill(0, &gSaveData.bag, sizeof(struct Bag));
 }
 
 static inline u16 NONNULL BagPocket_CountTotalItemQuantity(struct BagPocket *pocket, enum Item itemId)
@@ -573,207 +531,6 @@ static inline u16 NONNULL BagPocket_CountTotalItemQuantity(struct BagPocket *poc
 u16 CountTotalItemQuantityInBag(enum Item itemId)
 {
     return BagPocket_CountTotalItemQuantity(&gBagPockets[GetItemPocket(itemId)], itemId);
-}
-
-static bool32 CheckPyramidBagHasItem(enum Item itemId, u16 count)
-{
-    u8 i;
-    enum Item *items = gSaveBlock2Ptr->frontier.pyramidBag.itemId[gSaveBlock2Ptr->frontier.lvlMode];
-#if MAX_PYRAMID_BAG_ITEM_CAPACITY > 255
-    u16 *quantities = gSaveBlock2Ptr->frontier.pyramidBag.quantity[gSaveBlock2Ptr->frontier.lvlMode];
-#else
-    u8 *quantities = gSaveBlock2Ptr->frontier.pyramidBag.quantity[gSaveBlock2Ptr->frontier.lvlMode];
-#endif
-
-    for (i = 0; i < PYRAMID_BAG_ITEMS_COUNT; i++)
-    {
-        if (items[i] == itemId)
-        {
-            if (quantities[i] >= count)
-                return TRUE;
-
-            count -= quantities[i];
-            if (count == 0)
-                return TRUE;
-        }
-    }
-
-    return FALSE;
-}
-
-static bool32 CheckPyramidBagHasSpace(enum Item itemId, u16 count)
-{
-    u8 i;
-    enum Item *items = gSaveBlock2Ptr->frontier.pyramidBag.itemId[gSaveBlock2Ptr->frontier.lvlMode];
-#if MAX_PYRAMID_BAG_ITEM_CAPACITY > 255
-    u16 *quantities = gSaveBlock2Ptr->frontier.pyramidBag.quantity[gSaveBlock2Ptr->frontier.lvlMode];
-#else
-    u8 *quantities = gSaveBlock2Ptr->frontier.pyramidBag.quantity[gSaveBlock2Ptr->frontier.lvlMode];
-#endif
-
-    for (i = 0; i < PYRAMID_BAG_ITEMS_COUNT; i++)
-    {
-        if (items[i] == itemId || items[i] == ITEM_NONE)
-        {
-            if (quantities[i] + count <= MAX_PYRAMID_BAG_ITEM_CAPACITY)
-                return TRUE;
-
-            count = (quantities[i] + count) - MAX_PYRAMID_BAG_ITEM_CAPACITY;
-            if (count == 0)
-                return TRUE;
-        }
-    }
-
-    return FALSE;
-}
-
-bool32 AddPyramidBagItem(enum Item itemId, u16 count)
-{
-    u16 i;
-
-    enum Item *items = gSaveBlock2Ptr->frontier.pyramidBag.itemId[gSaveBlock2Ptr->frontier.lvlMode];
-    u16 *newItems = Alloc(PYRAMID_BAG_ITEMS_COUNT * sizeof(*newItems));
-
-#if MAX_PYRAMID_BAG_ITEM_CAPACITY > 255
-    u16 *quantities = gSaveBlock2Ptr->frontier.pyramidBag.quantity[gSaveBlock2Ptr->frontier.lvlMode];
-    u16 *newQuantities = Alloc(PYRAMID_BAG_ITEMS_COUNT * sizeof(*newQuantities));
-#else
-    u8 *quantities = gSaveBlock2Ptr->frontier.pyramidBag.quantity[gSaveBlock2Ptr->frontier.lvlMode];
-    u8 *newQuantities = Alloc(PYRAMID_BAG_ITEMS_COUNT * sizeof(*newQuantities));
-#endif
-
-    memcpy(newItems, items, PYRAMID_BAG_ITEMS_COUNT * sizeof(*newItems));
-    memcpy(newQuantities, quantities, PYRAMID_BAG_ITEMS_COUNT * sizeof(*newQuantities));
-
-    for (i = 0; i < PYRAMID_BAG_ITEMS_COUNT; i++)
-    {
-        if (newItems[i] == itemId && newQuantities[i] < MAX_PYRAMID_BAG_ITEM_CAPACITY)
-        {
-            newQuantities[i] += count;
-            if (newQuantities[i] > MAX_PYRAMID_BAG_ITEM_CAPACITY)
-            {
-                count = newQuantities[i] - MAX_PYRAMID_BAG_ITEM_CAPACITY;
-                newQuantities[i] = MAX_PYRAMID_BAG_ITEM_CAPACITY;
-            }
-            else
-            {
-                count = 0;
-            }
-
-            if (count == 0)
-                break;
-        }
-    }
-
-    if (count > 0)
-    {
-        for (i = 0; i < PYRAMID_BAG_ITEMS_COUNT; i++)
-        {
-            if (newItems[i] == ITEM_NONE)
-            {
-                newItems[i] = itemId;
-                newQuantities[i] = count;
-                if (newQuantities[i] > MAX_PYRAMID_BAG_ITEM_CAPACITY)
-                {
-                    count = newQuantities[i] - MAX_PYRAMID_BAG_ITEM_CAPACITY;
-                    newQuantities[i] = MAX_PYRAMID_BAG_ITEM_CAPACITY;
-                }
-                else
-                {
-                    count = 0;
-                }
-
-                if (count == 0)
-                    break;
-            }
-        }
-    }
-
-    if (count == 0)
-    {
-        memcpy(items, newItems, PYRAMID_BAG_ITEMS_COUNT * sizeof(*items));
-        memcpy(quantities, newQuantities, PYRAMID_BAG_ITEMS_COUNT * sizeof(*quantities));
-        Free(newItems);
-        Free(newQuantities);
-        return TRUE;
-    }
-    else
-    {
-        Free(newItems);
-        Free(newQuantities);
-        return FALSE;
-    }
-}
-
-bool32 RemovePyramidBagItem(enum Item itemId, u16 count)
-{
-    u16 i;
-
-    enum Item *items = gSaveBlock2Ptr->frontier.pyramidBag.itemId[gSaveBlock2Ptr->frontier.lvlMode];
-#if MAX_PYRAMID_BAG_ITEM_CAPACITY > 255
-    u16 *quantities = gSaveBlock2Ptr->frontier.pyramidBag.quantity[gSaveBlock2Ptr->frontier.lvlMode];
-#else
-    u8 *quantities = gSaveBlock2Ptr->frontier.pyramidBag.quantity[gSaveBlock2Ptr->frontier.lvlMode];
-#endif
-
-    i = gPyramidBagMenuState.cursorPosition + gPyramidBagMenuState.scrollPosition;
-    if (items[i] == itemId && quantities[i] >= count)
-    {
-        quantities[i] -= count;
-        if (quantities[i] == 0)
-            items[i] = ITEM_NONE;
-        return TRUE;
-    }
-    else
-    {
-        u16 *newItems = Alloc(PYRAMID_BAG_ITEMS_COUNT * sizeof(*newItems));
-    #if MAX_PYRAMID_BAG_ITEM_CAPACITY > 255
-        u16 *newQuantities = Alloc(PYRAMID_BAG_ITEMS_COUNT * sizeof(*newQuantities));
-    #else
-        u8 *newQuantities = Alloc(PYRAMID_BAG_ITEMS_COUNT * sizeof(*newQuantities));
-    #endif
-
-        memcpy(newItems, items, PYRAMID_BAG_ITEMS_COUNT * sizeof(*newItems));
-        memcpy(newQuantities, quantities, PYRAMID_BAG_ITEMS_COUNT * sizeof(*newQuantities));
-
-        for (i = 0; i < PYRAMID_BAG_ITEMS_COUNT; i++)
-        {
-            if (newItems[i] == itemId)
-            {
-                if (newQuantities[i] >= count)
-                {
-                    newQuantities[i] -= count;
-                    count = 0;
-                    if (newQuantities[i] == 0)
-                        newItems[i] = ITEM_NONE;
-                }
-                else
-                {
-                    count -= newQuantities[i];
-                    newQuantities[i] = 0;
-                    newItems[i] = ITEM_NONE;
-                }
-
-                if (count == 0)
-                    break;
-            }
-        }
-
-        if (count == 0)
-        {
-            memcpy(items, newItems, PYRAMID_BAG_ITEMS_COUNT * sizeof(*items));
-            memcpy(quantities, newQuantities, PYRAMID_BAG_ITEMS_COUNT * sizeof(*quantities));
-            Free(newItems);
-            Free(newQuantities);
-            return TRUE;
-        }
-        else
-        {
-            Free(newItems);
-            Free(newQuantities);
-            return FALSE;
-        }
-    }
 }
 
 static enum Item SanitizeItemId(enum Item itemId)
@@ -827,26 +584,12 @@ static const u8 *GetItemPluralName(enum Item itemId)
 
 const u8 *GetItemEffect(enum Item itemId)
 {
-    if (itemId == ITEM_ENIGMA_BERRY_E_READER)
-    #if FREE_ENIGMA_BERRY == FALSE
-        return gSaveBlock1Ptr->enigmaBerry.itemEffect;
-    #else
-        return NULL;
-    #endif //FREE_ENIGMA_BERRY
-    else
-        return gItemsInfo[SanitizeItemId(itemId)].effect;
+    return gItemsInfo[SanitizeItemId(itemId)].effect;
 }
 
 enum HoldEffect GetItemHoldEffect(enum Item itemId)
 {
-    if (itemId == ITEM_ENIGMA_BERRY_E_READER)
-    #if FREE_ENIGMA_BERRY == FALSE
-        return gSaveBlock1Ptr->enigmaBerry.holdEffect;
-    #else
-        return HOLD_EFFECT_NONE;
-    #endif //FREE_ENIGMA_BERRY
-    else
-        return gItemsInfo[SanitizeItemId(itemId)].holdEffect;
+    return gItemsInfo[SanitizeItemId(itemId)].holdEffect;
 }
 
 u32 GetItemHoldEffectParam(enum Item itemId)
@@ -887,33 +630,7 @@ ItemUseFunc GetItemFieldFunc(enum Item itemId)
 // Returns an item's battle effect script ID.
 enum EffectItem GetItemBattleUsage(enum Item itemId)
 {
-    enum Item item = SanitizeItemId(itemId);
-    // Handle E-Reader berries.
-    if (item == ITEM_ENIGMA_BERRY_E_READER)
-    {
-        switch (GetItemEffectType(gSpecialVar_ItemId))
-        {
-        case ITEM_EFFECT_X_ITEM:
-            return EFFECT_ITEM_INCREASE_STAT;
-        case ITEM_EFFECT_HEAL_HP:
-            return EFFECT_ITEM_RESTORE_HP;
-        case ITEM_EFFECT_CURE_POISON:
-        case ITEM_EFFECT_CURE_SLEEP:
-        case ITEM_EFFECT_CURE_BURN:
-        case ITEM_EFFECT_CURE_FREEZE_FROSTBITE:
-        case ITEM_EFFECT_CURE_PARALYSIS:
-        case ITEM_EFFECT_CURE_ALL_STATUS:
-        case ITEM_EFFECT_CURE_CONFUSION:
-        case ITEM_EFFECT_CURE_INFATUATION:
-            return EFFECT_ITEM_CURE_STATUS;
-        case ITEM_EFFECT_HEAL_PP:
-            return EFFECT_ITEM_RESTORE_PP;
-        default:
-            return 0;
-        }
-    }
-    else
-        return gItemsInfo[item].battleUsage;
+    return gItemsInfo[SanitizeItemId(itemId)].battleUsage;
 }
 
 u32 GetItemSecondaryId(enum Item itemId)
@@ -925,7 +642,6 @@ u32 GetItemFlingPower(enum Item itemId)
 {
     return gItemsInfo[SanitizeItemId(itemId)].flingPower;
 }
-
 
 u32 GetItemStatus1Mask(enum Item itemId)
 {

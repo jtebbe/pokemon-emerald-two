@@ -21,7 +21,6 @@
     F(B_LEVEL_UP_NOTIFICATION,     levelUpNotification,     (u32, GEN_COUNT - 1)) /* TODO: use in tests */ \
     /* Stat settings */ \
     F(B_BADGE_BOOST,               badgeBoost,              (u32, GEN_COUNT - 1)) \
-    F(B_FRIENDSHIP_BOOST,          friendshipBoost,         (u32, GEN_COUNT - 1)) /* TODO: use in tests */ \
     F(B_MAX_LEVEL_EV_GAINS,        maxLevelEvGains,         (u32, GEN_COUNT - 1)) /* TODO: use in tests */ \
     F(B_RECALCULATE_STATS,         recalculateStats,        (u32, GEN_COUNT - 1)) /* TODO: use in tests */ \
     /* Damage settings */ \
@@ -30,7 +29,6 @@
     F(B_BINDING_DAMAGE,            bindingDamage,           (u32, GEN_COUNT - 1)) /* TODO: use in tests */ \
     F(B_PSYWAVE_DMG,               psywaveDmg,              (u32, GEN_COUNT - 1)) /* TODO: use in tests */ \
     F(B_PAYBACK_SWITCH_BOOST,      paybackSwitchBoost,      (u32, GEN_COUNT - 1)) /* TODO: use in tests */ \
-    F(B_HIDDEN_POWER_DMG,          hiddenPowerDmg,          (u32, GEN_COUNT - 1)) /* TODO: use in tests */ \
     F(B_ROUGH_SKIN_DMG,            roughSkinDmg,            (u32, GEN_COUNT - 1)) /* TODO: use in tests */ \
     F(B_KNOCK_OFF_DMG,             knockOffDmg,             (u32, GEN_COUNT - 1)) /* TODO: use in tests */ \
     F(B_SPORT_DMG_REDUCTION,       sportDmgReduction,       (u32, GEN_COUNT - 1)) \
@@ -38,7 +36,6 @@
     F(B_PARENTAL_BOND_DMG,         parentalBondDmg,         (u32, GEN_COUNT - 1)) /* TODO: use in tests */ \
     F(B_MULTIPLE_TARGETS_DMG,      multipleTargetsDmg,      (u32, GEN_COUNT - 1)) /* TODO: use in tests */ \
     F(B_STRUGGLE_RECOIL,           struggleRecoil,          (u32, GEN_COUNT - 1)) \
-    F(B_RETURN_FRUSTRATION_DMG,    returnFrustrationDmg,    (u32, GEN_COUNT - 1)) \
     /* Type settings */ \
     F(B_GHOSTS_ESCAPE,             ghostsEscape,            (u32, GEN_COUNT - 1)) /* TODO: use in tests */ \
     F(B_PARALYZE_ELECTRIC,         paralyzeElectric,        (u32, GEN_COUNT - 1)) \
@@ -50,7 +47,6 @@
     F(B_ROOST_PURE_FLYING,         roostPureFlying,         (u32, GEN_COUNT - 1)) /* TODO: use in tests */ \
     F(B_STATUS_TYPE_IMMUNITY,      statusTypeImmunity,      (u32, GEN_COUNT - 1)) /* TODO: use in tests */ \
     F(B_FIXED_DMG_IGNORES_TYPE,    fixedDmgIgnoresType,     (u32, GEN_COUNT - 1)) \
-    F(B_HIDDEN_POWER_COUNTER,      hiddenPowerCounter,      (u32, GEN_COUNT - 1)) \
     /* Turn settings */ \
     F(B_BINDING_TURNS,             bindingTurns,            (u32, GEN_COUNT - 1)) \
     F(B_UPROAR_TURNS,              uproarTurns,             (u32, GEN_COUNT - 1)) /* TODO: use in tests */ \
@@ -223,7 +219,6 @@
     F(B_DREAM_BALL_MODIFIER,       dreamBallModifier,       (u32, GEN_COUNT - 1)) /* TODO: use in tests */ \
     F(B_SPORT_BALL_MODIFIER,       sportBallModifier,       (u32, GEN_COUNT - 1)) /* TODO: use in tests */ \
     F(B_SAFARI_BALL_MODIFIER,      safariBallModifier,      (u32, GEN_COUNT - 1)) /* TODO: use in tests */ \
-    F(B_FRIEND_BALL_MODIFIER,      friendBallModifier,      (u32, GEN_COUNT - 1)) /* TODO: use in tests */ \
     F(B_SERENE_GRACE_BOOST,        sereneGraceBoost,        (u32, GEN_COUNT - 1)) /* TODO: use in tests */ \
     F(B_IRON_BALL,                 ironBall,                (u32, GEN_COUNT - 1)) /* TODO: use in tests */ \
     F(B_QUEUED_SWITCH_TIMINGS,     queuedSwitchTimings,     (u32, GEN_COUNT - 1)) \
@@ -249,7 +244,6 @@
     F(B_CRITICAL_CAPTURE_IF_OWNED, criticalCaptureIfOwned,  (u32, GEN_COUNT - 1)) \
     /* Other settings */ \
     F(WE_WILD_NATURAL_ENEMIES,     wildNaturalEnemies,      (u32, TRUE))          /* TODO: use in tests */ \
-    F(B_AFFECTION_MECHANICS,       affectionMechanics,      (u32, TRUE))          /* TODO: use in tests */ \
     F(B_OBEDIENCE_MECHANICS,       obedienceMechanics,      (u32, GEN_COUNT - 1)) /* TODO: use in tests */ \
     F(B_USE_FROSTBITE,             useFrostbite,            (u32, GEN_COUNT - 1)) /* TODO: use in tests */ \
     F(B_SANDSTORM_SOLAR_BEAM,      standstormSolarBeam,     (u32, GEN_COUNT - 1)) \
@@ -258,13 +252,6 @@
 
 
 #define POKEMON_CONFIG_DEFINITIONS(F) \
-    F(POKERUS_ENABLED,           pokerusEnabled,          (u32, TRUE))          \
-    F(POKERUS_SPREAD_ADJACENCY,  pokerusSpreadAdjacency,  (u32, GEN_COUNT - 1)) \
-    F(POKERUS_SPREAD_DAYS_LEFT,  pokerusSpreadDaysLeft,   (u32, GEN_COUNT - 1)) \
-    F(POKERUS_INFECT_AGAIN,      pokerusInfectAgain,      (u32, GEN_COUNT - 1)) \
-    F(POKERUS_INFECT_EGG,        pokerusInfectEgg,        (u32, TRUE))          \
-    F(POKERUS_HERD_IMMUNITY,     pokerusHerdImmunity,     (u32, TRUE))          \
-    F(POKERUS_WEAK_VARIANT,      pokerusWeakVariant,      (u32, TRUE))          \
     F(BALL_INHERITANCE,          ballInheritance,         (u32, GEN_COUNT - 1)) \
     F(MOVE_INHERITANCE,          moveInheritance,         (u32, GEN_COUNT - 1)) \
     F(NATURE_INHERITANCE,        natureInheritance,       (u32, GEN_COUNT - 1)) \

@@ -17,7 +17,6 @@ ball_definition          = re.compile(r'\.ball = ITEM_(\w+)')
 ability_definition       = re.compile(r'\.ability = ABILITY_(\w+)')
 friendship_definition    = re.compile(r'\.friendship = (\d+)')
 shiny_definition         = re.compile(r'\.isShiny = (\w+)')
-ivs_definition           = re.compile(r'\.iv = TRAINER_PARTY_IVS\(([0-9 ]+),([0-9 ]+),([0-9 ]+),([0-9 ]+),([0-9 ]+),([0-9 ]+)\)')
 evs_definition           = re.compile(r'\.ev = TRAINER_PARTY_EVS\(([0-9 ]+),([0-9 ]+),([0-9 ]+),([0-9 ]+),([0-9 ]+),([0-9 ]+)\)')
 moves_definition         = re.compile(r'\.moves = \{([^}]+)\}')
 move_definition          = re.compile(r'MOVE_(\w+)')
@@ -73,7 +72,6 @@ species_replacements = {
     "_FEMALE": "-F",
     "_FLOWER": "",
     "_GALARIAN": "-Galar",
-    "_GIGANTAMAX": "-Gmax",
     "_HISUIAN": "-Hisui",
     "_ICE_RIDER": "-Ice",
     "_NOICE_FACE": "-Noice",
@@ -96,7 +94,7 @@ pic_fixups = {
     "Rs": "RS",
 }
 
-pokemon_attribute_order = ['Level', 'Ability', 'IVs', 'EVs', 'Happiness', 'Shiny', 'Ball']
+pokemon_attribute_order = ['Level', 'Ability', 'EVs', 'Happiness', 'Shiny', 'Ball']
 
 class Pokemon:
     def __init__(self):
@@ -106,7 +104,6 @@ class Pokemon:
         self.item = None
         self.nature = None
         self.attributes = {}
-        self.attributes['IVs'] = "0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe"
         self.moves = []
 
 
@@ -172,17 +169,12 @@ def write_tutorial(output):
     output.write('Optional fields for Pokemon:\n')
     output.write('    - Level (Number between 1 and 100, defaults to 100)\n')
     output.write('    - Ability (Ability Name or ABILITY_ABILITY_NAME)\n')
-    output.write('    - IVs (0 HP / 1 Atk / 2 Def / 3 SpA / 4 SpD / 5 Spe, defaults to all 31)\n')
-    output.write('          (Order does not matter)\n')
     output.write('    - EVs (252 HP / 128 Spe / 48 Def, defaults to all 0, is not capped at 512 total)\n')
     output.write('          (Order does not matter)\n')
     output.write('    - Ball (Poke Ball or ITEM_POKE_BALL, defaults to Poke Ball)\n')
     output.write('    - Happiness (Number between 1 and 255)\n')
     output.write('    - Nature (Rash or NATURE_RASH, defaults to Hardy)\n')
     output.write('    - Shiny (Yes/No, defaults to No)\n')
-    output.write('    - Dynamax Level (Number between 0 and 10, default 10, also sets "shouldDynamax" to True)\n')
-    output.write('    - Gigantamax (Yes/No, sets to Gigantamax factor)\n')
-    output.write('                 (doesn\'t do anything to Pokemon without a Gigantamax form, also sets "shouldDynamax" to True)\n')
     output.write('    - Tera Type (Set to a Type, either Fire or TYPE_FIRE, also sets "shouldTerastal" to True)\n')
     output.write('Moves are defined with a - (dash) followed by a single space, then the move name.\n')
     output.write('Either "- Tackle" or "- MOVE_TACKLE" works. One move per line.\n')
@@ -190,7 +182,7 @@ def write_tutorial(output):
     output.write('If no moves are specified, the Pokemon will use the last 4 moves it learns\n')
     output.write('through levelup at its level.\n')
     output.write("\n")
-    output.write('Default IVs and Level can be changed in the "main" function of tools/trainerproc/main.c\n')
+    output.write('The default Level can be changed in the "main" function of tools/trainerproc/main.c\n')
     output.write("\n")
     output.write('This file is processed with a custom preprocessor.\n')
     output.write('*/\n')
@@ -371,10 +363,6 @@ def parse_trainers(content, output):
                     pokemon.attributes['Shiny'] = 'Yes'
                 elif shiny == 'FALSE':
                     pokemon.attributes['Shiny'] = 'No'
-            elif m := ivs_definition.search(line):
-                [hp, attack, defense, speed, special_attack, special_defense] = [stat.strip() for stat in m.groups()]
-                stats = {"HP": hp, "Atk": attack, "Def": defense, "SpA": special_attack, "SpD": special_defense, "Spe": speed}
-                pokemon.attributes['IVs'] = ' / '.join(f"{value} {key}" for key, value in stats.items())
             elif m := evs_definition.search(line):
                 [hp, attack, defense, speed, special_attack, special_defense] = [stat.strip() for stat in m.groups()]
                 stats = {"HP": hp, "Atk": attack, "Def": defense, "SpA": special_attack, "SpD": special_defense, "Spe": speed}

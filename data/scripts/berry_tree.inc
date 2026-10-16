@@ -172,7 +172,6 @@ BerryTree_EventScript_PickBerry::
 	goto_if_eq VAR_0x8004, BERRY_MUTATION_BAG_FULL, BerryTree_EventScript_BerryPocketFull_Mutation
 	goto_if_eq VAR_0x8004, BERRY_MUTATION_SPACE_IN_BAG, BerryTree_EventScript_PickBerry_Mutation
 .endif
-	special IncrementDailyPickedBerries
 	special ObjectEventInteractionRemoveBerryTree
 	message BerryTree_Text_PickedTheBerry
 	delay 10
@@ -246,8 +245,6 @@ BerryTree_EventScript_WaterBerry::
 
 BerryTree_EventScript_PlantBerry::
 	special ObjectEventInteractionPlantBerryTree
-	incrementgamestat GAME_STAT_PLANTED_BERRIES
-	special IncrementDailyPlantedBerries
 	special ObjectEventInteractionGetBerryCountString
 	message BerryTree_Text_PlantedOneBerry
 	waitmessage
@@ -365,7 +362,6 @@ BerryTree_EventScript_BerryPocketFull_Mutation::
 	end
 
 BerryTree_EventScript_PickBerry_Mutation::
-	special IncrementDailyPickedBerries
 	special ObjectEventInteractionRemoveBerryTree
 	message BerryTree_Text_PickedTheBerry_Mutation
 	playfanfare MUS_OBTAIN_BERRY

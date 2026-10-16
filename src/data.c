@@ -12,9 +12,6 @@
 #include "constants/trainers.h"
 #include "constants/battle_ai.h"
 
-const u16 gMinigameDigits_Pal[] = INCGFX_U16("graphics/link/minigame_digits.png", ".gbapal");
-const u32 gMinigameDigits_Gfx[] = INCGFX_U32("graphics/link/minigame_digits.png", ".4bpp.smol");
-static const u32 sMinigameDigitsThin_Gfx[] = INCGFX_U32("graphics/link/minigame_digits2.png", ".4bpp.smol"); // Unused
 
 #define BATTLER_OFFSET(i) (gHeap + 0x8000 + MON_PIC_SIZE * (i))
 
@@ -188,20 +185,6 @@ const union AffineAnimCmd *const gAffineAnims_BattleSpriteOpponentSide[] =
     sAffineAnim_Battler_Spin,
 };
 
-const union AffineAnimCmd *const gAffineAnims_BattleSpriteContest[] =
-{
-    [BATTLER_AFFINE_NORMAL] = sAffineAnim_Battler_Flipped,
-    [BATTLER_AFFINE_EMERGE] = sAffineAnim_Battler_Emerge,
-    [BATTLER_AFFINE_RETURN] = sAffineAnim_Battler_Return,
-    sAffineAnim_Battler_HorizontalSquishLoop,
-    sAffineAnim_Battler_Grow,
-    sAffineAnim_Battler_Shrink,
-    sAffineAnim_Battler_SpinShrink,
-    sAffineAnim_Battler_TipLeft,
-    sAffineAnim_Battler_RotateUpAndBack,
-    sAffineAnim_Battler_BigToSmall,
-    sAffineAnim_Battler_Spin,
-};
 
 
 static const union AnimCmd sAnim_MonPic_0[] =

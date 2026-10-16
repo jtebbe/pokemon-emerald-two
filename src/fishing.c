@@ -11,7 +11,6 @@
 #include "strings.h"
 #include "task.h"
 #include "text.h"
-#include "tv.h"
 #include "wild_encounter.h"
 #include "config/fishing.h"
 
@@ -39,7 +38,6 @@ static bool32 DoesFishingMinigameAllowCancel(void);
 static bool32 Fishing_DoesFirstMonInPartyHaveSuctionCupsOrStickyHold(void);
 static bool32 Fishing_RollForBite(u32, bool32);
 static u32 CalculateFishingBiteOdds(u32, bool32);
-static u32 CalculateFishingFollowerBoost(void);
 static u32 CalculateFishingProximityBoost(void);
 static u32 CalculateFishingTimeOfDayBoost(void);
 
@@ -66,22 +64,6 @@ static const u8 sText_PokemonOnHook[] = _("A POKéMON's on the hook!{PAUSE_UNTIL
 static const u8 sText_NotEvenANibble[] = _("Not even a nibble…{PAUSE_UNTIL_PRESS}");
 static const u8 sText_ItGotAway[] = _("It got away…{PAUSE_UNTIL_PRESS}");
 
-struct FriendshipHookChanceBoost
-{
-    u8 threshold;
-    u8 bonus;
-};
-
-//Needs to be defined in descending order and end with the 0 friendship boost
-//Active if config I_FISHING_FOLLOWER_BOOST is TRUE
-static const struct FriendshipHookChanceBoost sFriendshipHookChanceBoostArray[] =
-{
-    {.threshold = 250, .bonus = 50},
-    {.threshold = 200, .bonus = 40},
-    {.threshold = 150, .bonus = 30},
-    {.threshold = 100, .bonus = 20},
-    {.threshold =   0, .bonus =  0},
-};
 
 #define FISHING_CHAIN_SHINY_STREAK_MAX 20
 
@@ -401,7 +383,6 @@ static bool32 Fishing_StartEncounter(struct Task *task)
         gPlayerAvatar.preventStep = FALSE;
         UnlockPlayerFieldControls();
         FishingWildEncounter(task->tFishingRod);
-        RecordFishingAttemptForTV(TRUE);
         DestroyTask(FindTaskIdByFunc(Task_Fishing));
     }
     return FALSE;
@@ -463,7 +444,6 @@ static bool32 Fishing_EndNoMon(struct Task *task)
         UnlockPlayerFieldControls();
         UnfreezeObjectEvents();
         ClearDialogWindowAndFrame(0, TRUE);
-        RecordFishingAttemptForTV(FALSE);
         DestroyTask(FindTaskIdByFunc(Task_Fishing));
     }
     return FALSE;
@@ -486,7 +466,7 @@ static bool32 Fishing_DoesFirstMonInPartyHaveSuctionCupsOrStickyHold(void)
 {
     enum Ability ability;
 
-    if (GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_SANITY_IS_EGG))
+    if (GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_IS_EGG))
         return FALSE;
 
     ability = GetMonAbility(&gParties[B_TRAINER_PLAYER][0]);
@@ -510,7 +490,6 @@ static u32 CalculateFishingBiteOdds(u32 rod, bool32 isStickyHold)
     if (rod == SUPER_ROD)
         odds = FISHING_SUPER_ROD_ODDS;
 
-    odds += CalculateFishingFollowerBoost();
     odds += CalculateFishingProximityBoost();
     odds += CalculateFishingTimeOfDayBoost();
 
@@ -521,21 +500,7 @@ static u32 CalculateFishingBiteOdds(u32 rod, bool32 isStickyHold)
     return odds;
 }
 
-static u32 CalculateFishingFollowerBoost()
-{
-    u32 friendship;
-    struct Pokemon *mon = GetFirstLiveMon();
 
-    if (!I_FISHING_FOLLOWER_BOOST || !mon)
-        return 0;
-
-    friendship = GetMonData(mon, MON_DATA_FRIENDSHIP);
-    for (u32 i = 0;; i++)
-    {
-        if (friendship >= sFriendshipHookChanceBoostArray[i].threshold)
-            return sFriendshipHookChanceBoostArray[i].bonus;
-    }
-}
 
 static u32 CalculateFishingProximityBoost()
 {

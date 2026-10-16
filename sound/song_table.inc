@@ -30,7 +30,7 @@ gSongTable::
 	song se_pin, MUSIC_PLAYER_SE1, 1
 	song se_boo, MUSIC_PLAYER_SE1, 1
 	song se_ball, MUSIC_PLAYER_SE1, 1
-	song se_contest_place, MUSIC_PLAYER_SE2, 2
+	song se_rank_chime, MUSIC_PLAYER_SE2, 2
 	song se_a, MUSIC_PLAYER_SE1, 1
 	song se_i, MUSIC_PLAYER_SE1, 1
 	song se_u, MUSIC_PLAYER_SE1, 1
@@ -44,7 +44,7 @@ gSongTable::
 	song se_switch, MUSIC_PLAYER_SE1, 1
 	song se_click, MUSIC_PLAYER_SE1, 1
 	song se_fu_zaku, MUSIC_PLAYER_SE1, 1
-	song se_contest_condition_lose, MUSIC_PLAYER_SE1, 1
+	song se_sad_chime, MUSIC_PLAYER_SE1, 1
 	song se_lavaridge_fall_warp, MUSIC_PLAYER_SE1, 1
 	song se_ice_stairs, MUSIC_PLAYER_SE1, 1
 	song se_ice_break, MUSIC_PLAYER_SE1, 1
@@ -59,7 +59,6 @@ gSongTable::
 	song se_truck_stop, MUSIC_PLAYER_SE1, 1
 	song se_truck_unload, MUSIC_PLAYER_SE2, 2
 	song se_truck_door, MUSIC_PLAYER_SE1, 1
-	song se_berry_blender, MUSIC_PLAYER_SE2, 2
 	song se_card, MUSIC_PLAYER_SE1, 1
 	song se_save, MUSIC_PLAYER_SE1, 1
 	song se_ball_bounce_1, MUSIC_PLAYER_SE1, 1
@@ -102,12 +101,9 @@ gSongTable::
 	song se_roulette_ball2, MUSIC_PLAYER_SE2, 2
 	song se_taillow_wing_flap, MUSIC_PLAYER_SE1, 1
 	song se_shop, MUSIC_PLAYER_SE1, 1
-	song se_contest_heart, MUSIC_PLAYER_SE1, 1
-	song se_contest_curtain_rise, MUSIC_PLAYER_SE1, 1
-	song se_contest_curtain_fall, MUSIC_PLAYER_SE1, 1
-	song se_contest_icon_change, MUSIC_PLAYER_SE1, 1
-	song se_contest_icon_clear, MUSIC_PLAYER_SE1, 1
-	song se_contest_mons_turn, MUSIC_PLAYER_SE1, 1
+	song se_curtain_fall, MUSIC_PLAYER_SE1, 1
+	song se_icon_change, MUSIC_PLAYER_SE1, 1
+	song se_icon_clear, MUSIC_PLAYER_SE1, 1
 	song se_shiny, MUSIC_PLAYER_SE1, 1
 	song se_intro_blast, MUSIC_PLAYER_SE1, 1
 	song se_mugshot, MUSIC_PLAYER_SE1, 1
@@ -116,8 +112,8 @@ gSongTable::
 	song se_orb, MUSIC_PLAYER_SE1, 1
 	song se_dex_scroll, MUSIC_PLAYER_SE1, 1
 	song se_dex_page, MUSIC_PLAYER_SE1, 1
-	song se_pokenav_on, MUSIC_PLAYER_SE1, 1
-	song se_pokenav_off, MUSIC_PLAYER_SE1, 1
+	song se_scanner_on, MUSIC_PLAYER_SE1, 1
+	song se_scanner_off, MUSIC_PLAYER_SE1, 1
 	song se_dex_search, MUSIC_PLAYER_SE1, 1
 	song se_egg_hatch, MUSIC_PLAYER_SE1, 1
 	song se_ball_tray_enter, MUSIC_PLAYER_SE1, 1
@@ -267,10 +263,6 @@ gSongTable::
 	song se_rg_help_close, MUSIC_PLAYER_SE1, 1
 	song se_rg_help_error, MUSIC_PLAYER_SE1, 1
 	song se_rg_deoxys_move, MUSIC_PLAYER_SE1, 1
-	song se_rg_poke_jump_success, MUSIC_PLAYER_SE1, 1
-	song se_rg_poke_jump_failure, MUSIC_PLAYER_SE1, 1
-	song se_pokenav_call, MUSIC_PLAYER_SE1, 1
-	song se_pokenav_hang_up, MUSIC_PLAYER_SE1, 1
 	song se_arena_timeup1, MUSIC_PLAYER_SE1, 1
 	song se_arena_timeup2, MUSIC_PLAYER_SE1, 1
 	song se_pike_curtain_close, MUSIC_PLAYER_SE1, 1
@@ -390,7 +382,6 @@ gSongTable::
 	song mus_abandoned_ship, MUSIC_PLAYER_BGM, 0
 	song mus_fortree, MUSIC_PLAYER_BGM, 0
 	song mus_birch_lab, MUSIC_PLAYER_BGM, 0
-	song mus_b_tower_rs, MUSIC_PLAYER_BGM, 0
 	song mus_encounter_swimmer, MUSIC_PLAYER_BGM, 0
 	song mus_cave_of_origin, MUSIC_PLAYER_BGM, 0
 	song mus_obtain_berry, MUSIC_PLAYER_SE2, 2
@@ -399,10 +390,6 @@ gSongTable::
 	song mus_slots_win, MUSIC_PLAYER_SE2, 2
 	song mus_too_bad, MUSIC_PLAYER_SE2, 2
 	song mus_roulette, MUSIC_PLAYER_BGM, 0
-	song mus_link_contest_p1, MUSIC_PLAYER_BGM, 0
-	song mus_link_contest_p2, MUSIC_PLAYER_BGM, 0
-	song mus_link_contest_p3, MUSIC_PLAYER_BGM, 0
-	song mus_link_contest_p4, MUSIC_PLAYER_BGM, 0
 	song mus_encounter_rich, MUSIC_PLAYER_BGM, 0
 	song mus_verdanturf, MUSIC_PLAYER_BGM, 0
 	song mus_rustboro, MUSIC_PLAYER_BGM, 0
@@ -445,41 +432,25 @@ gSongTable::
 	song mus_hall_of_fame, MUSIC_PLAYER_BGM, 0
 	song mus_fallarbor, MUSIC_PLAYER_BGM, 0
 	song mus_sealed_chamber, MUSIC_PLAYER_BGM, 0
-	song mus_contest_winner, MUSIC_PLAYER_BGM, 0
-	song mus_contest, MUSIC_PLAYER_BGM, 0
 	song mus_encounter_magma, MUSIC_PLAYER_BGM, 0
 	song mus_intro_battle, MUSIC_PLAYER_BGM, 0
 	song mus_abnormal_weather, MUSIC_PLAYER_BGM, 0
 	song mus_weather_groudon, MUSIC_PLAYER_BGM, 0
 	song mus_sootopolis, MUSIC_PLAYER_BGM, 0
-	song mus_contest_results, MUSIC_PLAYER_BGM, 0
 	song mus_hall_of_fame_room, MUSIC_PLAYER_BGM, 0
 	song mus_trick_house, MUSIC_PLAYER_BGM, 0
 	song mus_encounter_twins, MUSIC_PLAYER_BGM, 0
 	song mus_encounter_elite_four, MUSIC_PLAYER_BGM, 0
 	song mus_encounter_hiker, MUSIC_PLAYER_BGM, 0
-	song mus_contest_lobby, MUSIC_PLAYER_BGM, 0
 	song mus_encounter_interviewer, MUSIC_PLAYER_BGM, 0
 	song mus_encounter_champion, MUSIC_PLAYER_BGM, 0
 	song mus_credits, MUSIC_PLAYER_BGM, 0
 	song mus_end, MUSIC_PLAYER_BGM, 0
-	song mus_b_frontier, MUSIC_PLAYER_BGM, 0
-	song mus_b_arena, MUSIC_PLAYER_BGM, 0
-	song mus_obtain_b_points, MUSIC_PLAYER_SE2, 2
-	song mus_register_match_call, MUSIC_PLAYER_SE2, 2
-	song mus_b_pyramid, MUSIC_PLAYER_BGM, 0
-	song mus_b_pyramid_top, MUSIC_PLAYER_BGM, 0
-	song mus_b_palace, MUSIC_PLAYER_BGM, 0
 	song mus_rayquaza_appears, MUSIC_PLAYER_BGM, 0
 	song mus_b_tower, MUSIC_PLAYER_BGM, 0
-	song mus_obtain_symbol, MUSIC_PLAYER_SE2, 2
-	song mus_b_dome, MUSIC_PLAYER_BGM, 0
-	song mus_b_pike, MUSIC_PLAYER_BGM, 0
-	song mus_b_factory, MUSIC_PLAYER_BGM, 0
 	song mus_vs_rayquaza, MUSIC_PLAYER_BGM, 0
-	song mus_vs_frontier_brain, MUSIC_PLAYER_BGM, 0
 	song mus_vs_mew, MUSIC_PLAYER_BGM, 0
-	song mus_b_dome_lobby, MUSIC_PLAYER_BGM, 0
+	song mus_bingo_lobby, MUSIC_PLAYER_BGM, 0
 	song mus_vs_wild, MUSIC_PLAYER_BGM, 0
 	song mus_vs_aqua_magma, MUSIC_PLAYER_BGM, 0
 	song mus_vs_trainer, MUSIC_PLAYER_BGM, 0
@@ -544,11 +515,8 @@ gSongTable::
 	song mus_rg_new_game_instruct, MUSIC_PLAYER_BGM, 0
 	song mus_rg_new_game_intro, MUSIC_PLAYER_BGM, 0
 	song mus_rg_new_game_exit, MUSIC_PLAYER_BGM, 0
-	song mus_rg_poke_jump, MUSIC_PLAYER_BGM, 0
 	song mus_rg_union_room, MUSIC_PLAYER_BGM, 0
 	song mus_rg_net_center, MUSIC_PLAYER_BGM, 0
-	song mus_rg_mystery_gift, MUSIC_PLAYER_BGM, 0
-	song mus_rg_berry_pick, MUSIC_PLAYER_BGM, 0
 	song mus_rg_sevii_cave, MUSIC_PLAYER_BGM, 0
 	song mus_rg_teachy_tv_show, MUSIC_PLAYER_BGM, 0
 	song mus_rg_sevii_route, MUSIC_PLAYER_BGM, 0
@@ -562,7 +530,6 @@ gSongTable::
 	song mus_rg_vs_legend, MUSIC_PLAYER_BGM, 0
 	song mus_rg_encounter_gym_leader, MUSIC_PLAYER_BGM, 0
 	song mus_rg_encounter_deoxys, MUSIC_PLAYER_BGM, 0
-	song mus_rg_trainer_tower, MUSIC_PLAYER_BGM, 0
 	song mus_rg_slow_pallet, MUSIC_PLAYER_BGM, 0
 	song mus_rg_teachy_tv_menu, MUSIC_PLAYER_BGM, 0
 	song ph_trap_blend, MUSIC_PLAYER_SE2, 2

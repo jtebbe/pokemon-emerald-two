@@ -7,7 +7,7 @@
 #define AILMENT_SLP   3
 #define AILMENT_FRZ   4
 #define AILMENT_BRN   5
-#define AILMENT_PKRS  6
+#define AILMENT_UNUSED_6 6
 #define AILMENT_FNT   7
 #define AILMENT_FRB   8
 
@@ -24,7 +24,6 @@
 #define PARTY_ACTION_SOFTBOILED         10
 #define PARTY_ACTION_CHOOSE_AND_CLOSE   11
 #define PARTY_ACTION_MOVE_TUTOR         12
-#define PARTY_ACTION_MINIGAME           13
 #define PARTY_ACTION_SEND_MON_TO_BOX    14
 #define PARTY_ACTION_CHOOSE_FAINTED_MON 15
 
@@ -52,7 +51,7 @@
 #define PARTY_MSG_UNUSED                    20
 #define PARTY_MSG_DO_WHAT_WITH_MON          21
 #define PARTY_MSG_RESTORE_WHICH_MOVE        22
-#define PARTY_MSG_BOOST_PP_WHICH_MOVE       23
+#define PARTY_MSG_UNUSED_23                 23
 #define PARTY_MSG_DO_WHAT_WITH_ITEM         24
 #define PARTY_MSG_DO_WHAT_WITH_MAIL         25
 #define PARTY_MSG_ALREADY_HOLDING_ONE       26

@@ -76,23 +76,3 @@ SINGLE_BATTLE_TEST("Super Fang doesn't hit Ghost-type Pokémon (Gen 2+)")
         NOT HP_BAR(opponent);
     }
 }
-
-SINGLE_BATTLE_TEST("Guardian of Alola does 75% damage to the target's current HP")
-{
-    s16 damage;
-
-    GIVEN {
-        ASSUME(GetMoveEffect(MOVE_GUARDIAN_OF_ALOLA) == EFFECT_FIXED_PERCENT_DAMAGE);
-        ASSUME(GetMoveDamagePercentage(MOVE_GUARDIAN_OF_ALOLA) == 75);
-        PLAYER(SPECIES_TAPU_KOKO) { Item(ITEM_TAPUNIUM_Z); Moves(MOVE_NATURES_MADNESS); }
-        OPPONENT(SPECIES_WOBBUFFET) { MaxHP(200); HP(100); }
-    } WHEN {
-        TURN { MOVE(player, MOVE_NATURES_MADNESS, gimmick: GIMMICK_Z_MOVE); }
-    } SCENE {
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_ZMOVE_ACTIVATE, player);
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_GUARDIAN_OF_ALOLA, player);
-        HP_BAR(opponent, captureDamage: &damage);
-    } THEN {
-        EXPECT_EQ(damage, 75);
-    }
-}

@@ -7,7 +7,6 @@
 #include "constants/battle_string_ids.h"
 #include "constants/moves.h"
 #include "constants/songs.h"
-#include "constants/game_stat.h"
 	.include "asm/macros.inc"
 	.include "asm/macros/battle_script.inc"
 	.include "constants/constants.inc"
@@ -33,7 +32,7 @@ gBattlescriptsForUsingItem::
 gBattlescriptsForSafariActions::
 	.4byte BattleScript_ActionWatchesCarefully
 	.4byte BattleScript_ActionGetNear
-	.4byte BattleScript_ActionThrowPokeblock
+	.4byte NULL
 	.4byte BattleScript_ActionWallyThrow
 	.4byte BattleScript_ActionThrowRock
 	.4byte BattleScript_ActionThrowBait
@@ -181,14 +180,12 @@ BattleScript_SafariBallThrow::
 
 BattleScript_SuccessBallThrow::
 	setbyte sMON_CAUGHT, TRUE
-	incrementgamestat GAME_STAT_POKEMON_CAPTURES
 	printstring STRINGID_GOTCHAPKMNCAUGHTPLAYER
 	jumpifbyte CMP_NOT_EQUAL, sEXP_CATCH, TRUE, BattleScript_TryPrintCaughtMonInfo
 	setbyte sGIVEEXP_STATE, 0
 	getexp BS_TARGET
 	sethword gBattle_BG2_X, 0
 BattleScript_TryPrintCaughtMonInfo:
-	jumpifbattletype BATTLE_TYPE_RECORDED, BattleScript_GiveCaughtMonEnd
 	trysetcaughtmondexflags BattleScript_TryNicknameCaughtMon
 	printstring STRINGID_PKMNDATAADDEDTODEX
 	waitstate
@@ -252,14 +249,6 @@ BattleScript_ActionWatchesCarefully:
 
 BattleScript_ActionGetNear:
 	printfromtable gSafariGetNearStringIds
-	waitmessage B_WAIT_TIME_LONG
-	end
-
-BattleScript_ActionThrowPokeblock:
-	printstring STRINGID_THREWPOKEBLOCKATPKMN
-	waitmessage B_WAIT_TIME_LONG
-	playanimation BS_ATTACKER, B_ANIM_POKEBLOCK_THROW, NULL
-	printfromtable gSafariPokeblockResultStringIds
 	waitmessage B_WAIT_TIME_LONG
 	end
 
@@ -337,5 +326,5 @@ BattleScript_ActionThrowRock::
 BattleScript_ActionThrowBait::
 	printstring STRINGID_THREWBAIT
 	waitmessage B_WAIT_TIME_LONG
-	playanimation BS_ATTACKER, B_ANIM_POKEBLOCK_THROW
+	playanimation BS_ATTACKER, B_ANIM_BAIT_THROW
 	end

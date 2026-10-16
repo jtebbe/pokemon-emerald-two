@@ -5,11 +5,8 @@
 #include "battle_controllers.h"
 #include "battle_message.h"
 #include "battle_setup.h"
-#include "battle_tower.h"
-#include "battle_z_move.h"
 #include "data.h"
 #include "event_data.h"
-#include "frontier_util.h"
 #include "graphics.h"
 #include "international_string_util.h"
 #include "item.h"
@@ -17,26 +14,21 @@
 #include "menu.h"
 #include "palette.h"
 #include "party_menu.h"
-#include "recorded_battle.h"
 #include "string_util.h"
 #include "strings.h"
 #include "test_runner.h"
 #include "text.h"
-#include "trainer_hill.h"
 #include "window.h"
 #include "line_break.h"
 #include "constants/abilities.h"
-#include "constants/battle_dome.h"
 #include "constants/battle_string_ids.h"
 #include "constants/comparison_operators.h"
 #include "constants/flags.h"
-#include "constants/frontier_util.h"
 #include "constants/items.h"
 #include "constants/moves.h"
 #include "constants/opponents.h"
 #include "constants/species.h"
 #include "constants/trainers.h"
-#include "constants/trainer_hill.h"
 #include "constants/vars.h"
 #include "constants/weather.h"
 #include "trainer_slide.h"
@@ -64,12 +56,6 @@ static const u8* const sTrainerSlides[DIFFICULTY_COUNT][TRAINER_PARTNER(PARTNER_
     },
 };
 
-static const u8* const sFrontierTrainerSlides[DIFFICULTY_COUNT][FRONTIER_TRAINERS_COUNT][TRAINER_SLIDE_COUNT] =
-{
-    [DIFFICULTY_NORMAL] =
-    {
-    },
-};
 
 #define TRAINER_RED_TEST    1
 #define TRAINER_LEAF_TEST   2
@@ -125,10 +111,9 @@ static const u8* const *GetTrainerSlideArray(enum DifficultyLevel difficulty, u3
 #if TESTING
     return (FlagGet(TESTING_FLAG_TRAINER_SLIDES) ? sTestTrainerSlides[difficulty][trainerId] : NULL);
 #else
-    if (gBattleTypeFlags & BATTLE_TYPE_FRONTIER)
-        return sFrontierTrainerSlides[difficulty][trainerId];
-    else
+    {
         return sTrainerSlides[difficulty][trainerId];
+    }
 #endif // TESTING
 }
 
@@ -400,12 +385,10 @@ enum TrainerSlideTargets ShouldDoTrainerSlide(enum BattlerId battler, enum Train
             break;
         case TRAINER_SLIDE_BEFORE_FIRST_TURN:
         case TRAINER_SLIDE_SELF_MEGA_EVOLUTION:
-        case TRAINER_SLIDE_SELF_Z_MOVE:
-        case TRAINER_SLIDE_SELF_DYNAMAX:
+
         case TRAINER_SLIDE_SELF_TERA:
         case TRAINER_SLIDE_OPPONENT_MEGA_EVOLUTION:
-        case TRAINER_SLIDE_OPPONENT_Z_MOVE:
-        case TRAINER_SLIDE_OPPONENT_DYNAMAX:
+
         case TRAINER_SLIDE_OPPONENT_TERA:
             shouldRun = TRUE;
             break;

@@ -3,7 +3,6 @@
 #include "window.h"
 #include "battle_setup.h"
 #include "trig.h"
-#include "tv.h"
 #include "constants/rgb.h"
 #include "battle_main.h"
 #include "constants/songs.h"

@@ -579,10 +579,6 @@ static void CreateShedinja(enum Species preEvoSpecies, enum Species postEvoSpeci
                 RemoveBagItem(ball, 1);
             }
 
-            for (j = MON_DATA_COOL_RIBBON; j < MON_DATA_COOL_RIBBON + CONTEST_CATEGORIES_COUNT; j++)
-                SetMonData(&gParties[B_TRAINER_PLAYER][gPartiesCount[B_TRAINER_PLAYER]], j, &data);
-            for (j = MON_DATA_CHAMPION_RIBBON; j <= MON_DATA_WORLD_RIBBON; j++)
-                SetMonData(&gParties[B_TRAINER_PLAYER][gPartiesCount[B_TRAINER_PLAYER]], j, &data);
 
             SetMonData(&gParties[B_TRAINER_PLAYER][gPartiesCount[B_TRAINER_PLAYER]], MON_DATA_STATUS, &data);
             data = MAIL_NONE;
@@ -790,7 +786,6 @@ static void Task_EvolutionScene(u8 taskId)
             EvolutionRenameMon(mon, gTasks[taskId].tPreEvoSpecies, gTasks[taskId].tPostEvoSpecies);
             GetSetPokedexFlag(SpeciesToNationalPokedexNum(gTasks[taskId].tPostEvoSpecies), FLAG_SET_SEEN);
             GetSetPokedexFlag(SpeciesToNationalPokedexNum(gTasks[taskId].tPostEvoSpecies), FLAG_SET_CAUGHT);
-            IncrementGameStat(GAME_STAT_EVOLVED_POKEMON);
         }
         break;
     case EVOSTATE_TRY_LEARN_MOVE:
@@ -812,7 +807,7 @@ static void Task_EvolutionScene(u8 taskId)
                 GetMonData(mon, MON_DATA_NICKNAME, nickname);
                 StringCopy_Nickname(gBattleTextBuff1, nickname);
 
-                if (var == MON_HAS_MAX_MOVES)
+                if (var == MON_MOVE_SLOTS_FULL)
                     gTasks[taskId].tState = EVOSTATE_REPLACE_MOVE;
                 else if (var == MON_ALREADY_KNOWS_MOVE)
                     break;
@@ -1013,7 +1008,6 @@ static void Task_EvolutionScene(u8 taskId)
                         // Forget move
                         PREPARE_MOVE_BUFFER(gBattleTextBuff2, move)
 
-                        RemoveMonPPBonus(mon, var);
                         SetMonMoveSlot(mon, gMoveToLearn, var);
                         gTasks[taskId].tLearnMoveState++;
                     }
@@ -1218,7 +1212,6 @@ static void Task_TradeEvolutionScene(u8 taskId)
             EvolutionRenameMon(mon, gTasks[taskId].tPreEvoSpecies, gTasks[taskId].tPostEvoSpecies);
             GetSetPokedexFlag(SpeciesToNationalPokedexNum(gTasks[taskId].tPostEvoSpecies), FLAG_SET_SEEN);
             GetSetPokedexFlag(SpeciesToNationalPokedexNum(gTasks[taskId].tPostEvoSpecies), FLAG_SET_CAUGHT);
-            IncrementGameStat(GAME_STAT_EVOLVED_POKEMON);
         }
         break;
     case T_EVOSTATE_TRY_LEARN_MOVE:
@@ -1234,7 +1227,7 @@ static void Task_TradeEvolutionScene(u8 taskId)
                 GetMonData(mon, MON_DATA_NICKNAME, nickname);
                 StringCopy_Nickname(gBattleTextBuff1, nickname);
 
-                if (var == MON_HAS_MAX_MOVES)
+                if (var == MON_MOVE_SLOTS_FULL)
                     gTasks[taskId].tState = T_EVOSTATE_REPLACE_MOVE;
                 else if (var == MON_ALREADY_KNOWS_MOVE)
                     break;
@@ -1417,7 +1410,6 @@ static void Task_TradeEvolutionScene(u8 taskId)
                         // Forget move
                         PREPARE_MOVE_BUFFER(gBattleTextBuff2, move)
 
-                        RemoveMonPPBonus(mon, var);
                         SetMonMoveSlot(mon, gMoveToLearn, var);
                         BattleStringExpandPlaceholdersToDisplayedString(gBattleStringsTable[STRINGID_123POOF]);
                         DrawTextOnTradeWindow(0, gDisplayedStringBattle, 1);

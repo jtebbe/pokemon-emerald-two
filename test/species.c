@@ -86,8 +86,6 @@ TEST("Forms have the appropriate species form changes")
     for (enum Species i = SPECIES_NONE; i < NUM_SPECIES; i++)
     {
         if (gSpeciesInfo[i].isMegaEvolution
-            || gSpeciesInfo[i].isGigantamax
-            || gSpeciesInfo[i].isUltraBurst
             || gSpeciesInfo[i].isPrimalReversion)
         {
             PARAMETRIZE_LABEL("ID:%d - %S", i, gSpeciesInfo[i].speciesName) { species = i; }
@@ -112,9 +110,7 @@ TEST("Forms have the appropriate species form changes")
     EXPECT(hasBattleEnd);
 
     // Primal Reversion don't change forms upon fainting
-    if (gSpeciesInfo[species].isMegaEvolution
-        || gSpeciesInfo[species].isGigantamax
-        || gSpeciesInfo[species].isUltraBurst)
+    if (gSpeciesInfo[species].isMegaEvolution)
     {
         EXPECT(hasFaint);
     }
@@ -145,12 +141,6 @@ TEST("Form change targets have the appropriate species flags")
             break;
         case FORM_CHANGE_BATTLE_PRIMAL_REVERSION:
             EXPECT(targetSpeciesInfo->isPrimalReversion);
-            break;
-        case FORM_CHANGE_BATTLE_ULTRA_BURST:
-            EXPECT(targetSpeciesInfo->isUltraBurst);
-            break;
-        case FORM_CHANGE_BATTLE_GIGANTAMAX:
-            EXPECT(targetSpeciesInfo->isGigantamax);
             break;
         default:
             break;

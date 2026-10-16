@@ -317,29 +317,6 @@ SINGLE_BATTLE_TEST("Knock Off doesn't knock off Orbs for Primal Reversion from P
     }
 }
 
-SINGLE_BATTLE_TEST("Knock Off doesn't knock off Z-Crystals")
-{
-    GIVEN {
-        PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_WOBBUFFET) { Item(ITEM_ELECTRIUM_Z); }
-    } WHEN {
-        TURN { MOVE(opponent, MOVE_CELEBRATE); MOVE(player, MOVE_KNOCK_OFF); }
-    } SCENE {
-        NOT MESSAGE("Wobbuffet knocked off the opposing Wobbuffet's Electrium Z!");
-    }
-}
-
-SINGLE_BATTLE_TEST("Knock Off doesn't knock off Ultranecrozium Z from Pokemon that actually use it")
-{
-    GIVEN {
-        PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_NECROZMA_DUSK_MANE) { Item(ITEM_ULTRANECROZIUM_Z); }
-    } WHEN {
-        TURN { MOVE(opponent, MOVE_CELEBRATE); MOVE(player, MOVE_KNOCK_OFF); }
-    } SCENE {
-        NOT MESSAGE("Wobbuffet knocked off the opposing Necrozma's Ultranecrozium Z!");
-    }
-}
 
 SINGLE_BATTLE_TEST("Knock Off does knock off other form-change hold items from Pokemon that don't actually use them")
 {
@@ -548,7 +525,7 @@ SINGLE_BATTLE_TEST("Knock Off used by a Paradox mon doesn't knock off a non-Para
 SINGLE_BATTLE_TEST("Knock Off does not remove items that can change the form of the Knock Off user (Gen9-)", s16 damage)
 {
     enum Item item;
-    
+
     PARAMETRIZE { item = ITEM_MASTER_BALL; }
     PARAMETRIZE { item = ITEM_MALAMARITE; }
 
@@ -573,7 +550,7 @@ SINGLE_BATTLE_TEST("Knock Off does not remove items that can change the form of 
 SINGLE_BATTLE_TEST("Knock Off remove items that can change the form of the Knock Off user (Champions)", s16 damage)
 {
     enum Item item;
-    
+
     PARAMETRIZE { item = ITEM_MASTER_BALL; }
     PARAMETRIZE { item = ITEM_MALAMARITE; }
 

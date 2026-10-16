@@ -28,7 +28,6 @@ SINGLE_BATTLE_TEST("SetStartingStatus can start Spikes on the opposing side", s1
         ResetStartingStatuses();
     }
 }
-
 SINGLE_BATTLE_TEST("Starting Toxic Spikes poison the opposing switch-in")
 {
     SetStartingStatus(STARTING_STATUS_TOXIC_SPIKES_OPPONENT_L1);
@@ -104,27 +103,6 @@ SINGLE_BATTLE_TEST("Starting Stealth Rock damages the opposing switch-in")
         s32 maxHP = GetMonData(&OPPONENT_PARTY[1], MON_DATA_MAX_HP);
         HP_BAR(opponent, damage: maxHP / 2);
         MESSAGE("Pointed stones dug into the opposing Charizard!");
-    } THEN {
-        ResetStartingStatuses();
-    }
-}
-
-SINGLE_BATTLE_TEST("Starting sharp steel damages the opposing switch-in")
-{
-    SetStartingStatus(STARTING_STATUS_SHARP_STEEL_OPPONENT);
-
-    GIVEN {
-        ASSUME(gSpeciesInfo[SPECIES_SYLVEON].types[0] == TYPE_FAIRY);
-        PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_SYLVEON);
-    } WHEN {
-        TURN { SWITCH(opponent, 1); }
-    } SCENE {
-        MESSAGE("2 sent out Sylveon!");
-        s32 maxHP = GetMonData(&OPPONENT_PARTY[1], MON_DATA_MAX_HP);
-        HP_BAR(opponent, damage: maxHP / 4);
-        MESSAGE("The sharp steel bit into the opposing Sylveon!");
     } THEN {
         ResetStartingStatuses();
     }
@@ -234,27 +212,6 @@ SINGLE_BATTLE_TEST("Starting Stealth Rock damages the player's switch-in")
         s32 maxHP = GetMonData(&PLAYER_PARTY[1], MON_DATA_MAX_HP);
         HP_BAR(player, damage: maxHP / 2);
         MESSAGE("Pointed stones dug into Charizard!");
-    } THEN {
-        ResetStartingStatuses();
-    }
-}
-
-SINGLE_BATTLE_TEST("Starting sharp steel damages the player's switch-in")
-{
-    SetStartingStatus(STARTING_STATUS_SHARP_STEEL_PLAYER);
-
-    GIVEN {
-        ASSUME(gSpeciesInfo[SPECIES_SYLVEON].types[0] == TYPE_FAIRY);
-        PLAYER(SPECIES_WOBBUFFET);
-        PLAYER(SPECIES_SYLVEON);
-        OPPONENT(SPECIES_WOBBUFFET);
-    } WHEN {
-        TURN { SWITCH(player, 1); }
-    } SCENE {
-        MESSAGE("Go! Sylveon!");
-        s32 maxHP = GetMonData(&PLAYER_PARTY[1], MON_DATA_MAX_HP);
-        HP_BAR(player, damage: maxHP / 4);
-        MESSAGE("The sharp steel bit into Sylveon!");
     } THEN {
         ResetStartingStatuses();
     }

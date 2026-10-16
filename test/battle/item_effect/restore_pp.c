@@ -1,5 +1,7 @@
 #include "global.h"
 #include "test/battle.h"
+#include "item_use.h"
+#include "party_menu.h"
 
 SINGLE_BATTLE_TEST("Ether restores the PP of one of a battler's moves by 10 ")
 {
@@ -15,7 +17,6 @@ SINGLE_BATTLE_TEST("Ether restores the PP of one of a battler's moves by 10 ")
         EXPECT_EQ(player->pp[1], 20);
     }
 }
-
 SINGLE_BATTLE_TEST("Max Ether restores the PP of one of a battler's moves fully")
 {
     GIVEN {
@@ -26,7 +27,7 @@ SINGLE_BATTLE_TEST("Max Ether restores the PP of one of a battler's moves fully"
     } WHEN {
         TURN { USE_ITEM(player, ITEM_MAX_ETHER, partyIndex: 0, move: MOVE_SCRATCH); }
     } THEN {
-        EXPECT_EQ(player->pp[0], 35);
+        EXPECT_EQ(player->pp[0], GetMovePP(MOVE_SCRATCH));
         EXPECT_EQ(player->pp[1], 20);
     }
 }
@@ -58,38 +59,56 @@ SINGLE_BATTLE_TEST("Max Elixir restores the PP of all of a battler's moves fully
     } WHEN {
         TURN { USE_ITEM(player, ITEM_MAX_ELIXIR, partyIndex: 0); }
     } THEN {
-        EXPECT_EQ(player->pp[0], 35);
-        EXPECT_EQ(player->pp[1], 25);
-        EXPECT_EQ(player->pp[2], 35);
-        EXPECT_EQ(player->pp[3], 40);
+        EXPECT_EQ(player->pp[0], GetMovePP(MOVE_SCRATCH));
+        EXPECT_EQ(player->pp[1], GetMovePP(MOVE_CONFUSION));
+        EXPECT_EQ(player->pp[2], GetMovePP(MOVE_SCRATCH));
+        EXPECT_EQ(player->pp[3], GetMovePP(MOVE_GROWL));
     }
 }
 
-TO_DO_BATTLE_TEST("Ether won't work if the selected move has all its PP")
-
-TO_DO_BATTLE_TEST("Elixir can be used if at least one move is missing PP in any slot") // The test system can't currently test this, in a test the item is used without running useability checks
-/*
+SINGLE_BATTLE_TEST("PP items check active battle PP rather than always-full party storage")
 {
-    u8 move1PP;
-    u8 move2PP;
-    u8 move3PP;
-    u8 move4PP;
-    PARAMETRIZE { move1PP = 30; move2PP = 30; move3PP = 20; move4PP = 10; }
-    PARAMETRIZE { move1PP = 40; move2PP = 20; move3PP = 20; move4PP = 10; }
-    PARAMETRIZE { move1PP = 40; move2PP = 30; move3PP = 10; move4PP = 10; }
-    PARAMETRIZE { move1PP = 40; move2PP = 30; move3PP = 20; move4PP = 0; }
+    u32 depletedSlot;
+    PARAMETRIZE { depletedSlot = 0; }
+    PARAMETRIZE { depletedSlot = 1; }
+    PARAMETRIZE { depletedSlot = 2; }
+    PARAMETRIZE { depletedSlot = 3; }
     GIVEN {
-        ASSUME(gItemsInfo[ITEM_ELIXIR].battleUsage == EFFECT_ITEM_RESTORE_PP);
-        ASSUME(gItemsInfo[ITEM_ELIXIR].type == ITEM_USE_PARTY_MENU);
-        PLAYER(SPECIES_WOBBUFFET) { MovesWithPP({MOVE_MEDITATE, move1PP}, {MOVE_AGILITY, move2PP}, {MOVE_PSYBEAM, move3PP}, {MOVE_TRICK, move4PP}); }
+        PLAYER(SPECIES_WOBBUFFET) { Moves(MOVE_SCRATCH, MOVE_CONFUSION, MOVE_GROWL, MOVE_CELEBRATE); }
+        PLAYER(SPECIES_WOBBUFFET) { Moves(MOVE_SCRATCH); }
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
-        TURN { USE_ITEM(player, ITEM_ELIXIR, partyIndex: 0); }
+        TURN { MOVE(player, MOVE_CELEBRATE); }
     } THEN {
-        EXPECT_EQ(player->pp[0], 40);
-        EXPECT_EQ(player->pp[1], 30);
-        EXPECT_EQ(player->pp[2], 20);
-        EXPECT_EQ(player->pp[3], 10);
+        struct Pokemon *mon = &gParties[B_TRAINER_PLAYER][0];
+        gPartyMenu.slotId = 0;
+        for (u32 i = 0; i < MAX_MON_MOVES; i++)
+            player->pp[i] = GetMovePP(player->moves[i]);
+        gPartyMenu.data1 = depletedSlot;
+        EXPECT(CannotUseItemsInBattle(ITEM_ETHER, mon));
+        EXPECT(CannotUseItemsInBattle(ITEM_MAX_ETHER, mon));
+        EXPECT(CannotUseItemsInBattle(ITEM_ELIXIR, mon));
+        player->pp[depletedSlot]--;
+        EXPECT(!CannotUseItemsInBattle(ITEM_ETHER, mon));
+        EXPECT(!CannotUseItemsInBattle(ITEM_MAX_ETHER, mon));
+        EXPECT(!CannotUseItemsInBattle(ITEM_ELIXIR, mon));
+        EXPECT(!CannotUseItemsInBattle(ITEM_MAX_ELIXIR, mon));
+        gPartyMenu.data1 = (depletedSlot + 1) % MAX_MON_MOVES;
+        EXPECT(CannotUseItemsInBattle(ITEM_ETHER, mon));
+        // Benched Pokémon never retain depleted PP.
+        EXPECT(CannotUseItemsInBattle(ITEM_ELIXIR, &gParties[B_TRAINER_PLAYER][1]));
     }
 }
-*/
+
+SINGLE_BATTLE_TEST("Ether caps restored PP at the PP-Max maximum")
+{
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET) { MovesWithPP({MOVE_SCRATCH, GetMovePP(MOVE_SCRATCH) - 2}); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { USE_ITEM(player, ITEM_ETHER, partyIndex: 0, move: MOVE_SCRATCH); }
+    } THEN {
+        EXPECT_EQ(player->pp[0], GetMovePP(MOVE_SCRATCH));
+        EXPECT_EQ(player->pp[1], 0);
+    }
+}

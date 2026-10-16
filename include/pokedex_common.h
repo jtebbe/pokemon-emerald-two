@@ -136,7 +136,6 @@ struct PokemonStats
     u8 eggGroup1;
     u8 eggGroup2;
     u8 eggCycles;
-    u8 friendship;
 };
 
 struct EvoScreenData

@@ -4,7 +4,6 @@
 #include "battle_controllers.h"
 #include "battle_interface.h"
 #include "battle_gimmick.h"
-#include "battle_z_move.h"
 #include "battle_setup.h"
 #include "battle_util.h"
 #include "item.h"
@@ -77,8 +76,6 @@ bool32 ShouldTrainerBattlerUseGimmick(enum BattlerId battler, enum Gimmick gimmi
     struct Pokemon *mon = GetBattlerMon(battler);
     if (gimmick == GIMMICK_TERA && GetMonData(mon, MON_DATA_TERA_TYPE) != TYPE_MYSTERY)
         return TRUE;
-    if (gimmick == GIMMICK_DYNAMAX && GetMonData(mon, MON_DATA_DYNAMAX_LEVEL) != BLOCK_AI_DYNAMAX)
-        return TRUE;
     #endif
 
     return FALSE;
@@ -87,7 +84,7 @@ bool32 ShouldTrainerBattlerUseGimmick(enum BattlerId battler, enum Gimmick gimmi
 // Returns whether a trainer has used a gimmick during a battle.
 bool32 HasTrainerUsedGimmick(enum BattlerId battler, enum Gimmick gimmick)
 {
-    if (IsDoubleBattle() && (IsPartnerMonFromSameTrainer(battler) || (gimmick == GIMMICK_DYNAMAX)))
+    if (IsDoubleBattle() && IsPartnerMonFromSameTrainer(battler))
     {
         enum BattlerId partner = GetPartnerBattler(battler);
         if (gBattleStruct->gimmick.activated[partner][gimmick]
@@ -103,7 +100,7 @@ void SetGimmickAsActivated(enum BattlerId battler, enum Gimmick gimmick)
 {
     gBattleStruct->gimmick.activatedThisTurn |= 1u << battler;
     gBattleStruct->gimmick.activated[battler][gimmick] = TRUE;
-    if (IsDoubleBattle() && (IsPartnerMonFromSameTrainer(battler) || (gimmick == GIMMICK_DYNAMAX)))
+    if (IsDoubleBattle() && IsPartnerMonFromSameTrainer(battler))
         gBattleStruct->gimmick.activated[GetPartnerBattler(battler)][gimmick] = TRUE;
 }
 

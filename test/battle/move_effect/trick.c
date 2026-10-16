@@ -77,26 +77,6 @@ SINGLE_BATTLE_TEST("Trick fails if either item is Mail")
     }
 }
 
-SINGLE_BATTLE_TEST("Trick fails if either item is a Z-Crystal")
-{
-    enum Item atkItem = ITEM_NONE, defItem = ITEM_NONE;
-
-    ASSUME(GetItemHoldEffect(ITEM_FIGHTINIUM_Z) == HOLD_EFFECT_Z_CRYSTAL);
-    PARAMETRIZE { atkItem = ITEM_FIGHTINIUM_Z; defItem = ITEM_NONE; }
-    PARAMETRIZE { atkItem = ITEM_SITRUS_BERRY; defItem = ITEM_FIGHTINIUM_Z; }
-
-    GIVEN {
-        PLAYER(SPECIES_WOBBUFFET) { Item(atkItem); }
-        OPPONENT(SPECIES_WOBBUFFET) { Item(defItem); }
-    } WHEN {
-        TURN { MOVE(player, MOVE_TRICK); }
-    } SCENE {
-        MESSAGE("But it failed!");
-    } THEN {
-        EXPECT(player->item == atkItem);
-        EXPECT(opponent->item == defItem);
-    }
-}
 
 SINGLE_BATTLE_TEST("Trick fails if either battler holds a Mega Stone")
 {

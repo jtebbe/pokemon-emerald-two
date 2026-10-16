@@ -947,7 +947,7 @@
 // {
 //     s32 whichText = 0;
 //     u16 who = FameCheckerGetCursorY();
-//     if (gSaveBlock1Ptr->fameChecker[sFameCheckerData->unlockedPersons[who]].pickState != FCPICKSTATE_COLORED)
+//     if (gSaveData.fameChecker[sFameCheckerData->unlockedPersons[who]].pickState != FCPICKSTATE_COLORED)
 //     {
 //         WipeMsgBoxAndTransfer();
 //         MessageBoxPrintEmptyText();
@@ -1098,7 +1098,7 @@
 //     u8 i;
 //     for (i = 0; i < 6; i++)
 //     {
-//         if ((gSaveBlock1Ptr->fameChecker[sFameCheckerData->unlockedPersons[who]].flavorTextFlags >> i) & 1)
+//         if ((gSaveData.fameChecker[sFameCheckerData->unlockedPersons[who]].flavorTextFlags >> i) & 1)
 //         {
 //             sFameCheckerData->spriteIds[i] = CreateFameCheckerObject(
 //                 sFameCheckerArrayNpcGraphicsIds[sFameCheckerData->unlockedPersons[who] * 6 + i],
@@ -1138,11 +1138,11 @@
 //     u8 i;
 //     for (i = 0; i < NUM_FAMECHECKER_PERSONS; i++)
 //     {
-//         gSaveBlock1Ptr->fameChecker[i].pickState = FCPICKSTATE_NO_DRAW;
-//         gSaveBlock1Ptr->fameChecker[i].flavorTextFlags = 0;
-//         gSaveBlock1Ptr->fameChecker[i].unk_0_E = 0;
+//         gSaveData.fameChecker[i].pickState = FCPICKSTATE_NO_DRAW;
+//         gSaveData.fameChecker[i].flavorTextFlags = 0;
+//         gSaveData.fameChecker[i].unk_0_E = 0;
 //     }
-//     gSaveBlock1Ptr->fameChecker[FAMECHECKER_OAK].pickState = FCPICKSTATE_COLORED;
+//     gSaveData.fameChecker[FAMECHECKER_OAK].pickState = FCPICKSTATE_COLORED;
 // }
 
 // void FullyUnlockFameChecker(void)
@@ -1150,10 +1150,10 @@
 //     u8 i, j;
 //     for (i = 0; i < NUM_FAMECHECKER_PERSONS; i++)
 //     {
-//         gSaveBlock1Ptr->fameChecker[i].pickState = FCPICKSTATE_COLORED;
+//         gSaveData.fameChecker[i].pickState = FCPICKSTATE_COLORED;
 //         for (j = 0; j < 6; j++)
 //         {
-//             gSaveBlock1Ptr->fameChecker[i].flavorTextFlags |= (1 << j);
+//             gSaveData.fameChecker[i].flavorTextFlags |= (1 << j);
 //         }
 //     }
 // }
@@ -1219,7 +1219,7 @@ void SetFlavorTextFlagFromSpecialVars(void)
 {
     // if (gSpecialVar_0x8004 < NUM_FAMECHECKER_PERSONS && gSpecialVar_0x8005 < 6)
     // {
-    //     gSaveBlock1Ptr->fameChecker[gSpecialVar_0x8004].flavorTextFlags |= (1 << gSpecialVar_0x8005);
+    //     gSaveData.fameChecker[gSpecialVar_0x8004].flavorTextFlags |= (1 << gSpecialVar_0x8005);
     //     gSpecialVar_0x8005 = FCPICKSTATE_SILHOUETTE;
     //     UpdatePickStateFromSpecialVar8005();
     // }
@@ -1232,10 +1232,10 @@ void UpdatePickStateFromSpecialVar8005(void)
     //     if (gSpecialVar_0x8005 == FCPICKSTATE_NO_DRAW)
     //         return;
     //     if (   gSpecialVar_0x8005 == FCPICKSTATE_SILHOUETTE
-    //         && gSaveBlock1Ptr->fameChecker[gSpecialVar_0x8004].pickState == FCPICKSTATE_COLORED
+    //         && gSaveData.fameChecker[gSpecialVar_0x8004].pickState == FCPICKSTATE_COLORED
     //        )
     //         return;
-    //     gSaveBlock1Ptr->fameChecker[gSpecialVar_0x8004].pickState = gSpecialVar_0x8005;
+    //     gSaveData.fameChecker[gSpecialVar_0x8004].pickState = gSpecialVar_0x8005;
     // }
 }
 
@@ -1245,7 +1245,7 @@ void UpdatePickStateFromSpecialVar8005(void)
 //     u8 who = sFameCheckerData->unlockedPersons[FameCheckerGetCursorY()];
 //     for (i = 0; i < 6; i++)
 //     {
-//         if (!((gSaveBlock1Ptr->fameChecker[who].flavorTextFlags >> i) & 1))
+//         if (!((gSaveData.fameChecker[who].flavorTextFlags >> i) & 1))
 //             return FALSE;
 //     }
 //     return TRUE;
@@ -1367,7 +1367,7 @@ void UpdatePickStateFromSpecialVar8005(void)
 //         spriteId = CreateTrainerPicSprite(sFameCheckerTrainerPicIdxs[fcPersonIdx], TRUE, PERSON_X, PERSON_Y, PERSON_PAL_NUM, TAG_NONE);
 //     }
 //     gSprites[spriteId].callback = SpriteCB_FCSpinningPokeball;
-//     if (gSaveBlock1Ptr->fameChecker[fcPersonIdx].pickState == FCPICKSTATE_SILHOUETTE)
+//     if (gSaveData.fameChecker[fcPersonIdx].pickState == FCPICKSTATE_SILHOUETTE)
 //         LoadPalette(sSilhouettePalette, OBJ_PLTT_ID(PERSON_PAL_NUM), sizeof(sSilhouettePalette));
 //     return spriteId;
 // }
@@ -1547,7 +1547,7 @@ void UpdatePickStateFromSpecialVar8005(void)
 //     for (i = 0; i < NUM_FAMECHECKER_PERSONS; i++)
 //     {
 //         u8 fameCheckerIdx = AdjustGiovanniIndexIfBeatenInGym(i);
-//         if (gSaveBlock1Ptr->fameChecker[fameCheckerIdx].pickState != FCPICKSTATE_NO_DRAW)
+//         if (gSaveData.fameChecker[fameCheckerIdx].pickState != FCPICKSTATE_NO_DRAW)
 //         {
 //             if (sTrainerIdxs[fameCheckerIdx] < FC_NONTRAINER_START)
 //             {

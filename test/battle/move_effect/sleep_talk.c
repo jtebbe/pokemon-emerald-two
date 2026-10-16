@@ -173,8 +173,8 @@ SINGLE_BATTLE_TEST("Sleep Talk calls move and that move correctly ignores abilit
 
 SINGLE_BATTLE_TEST("Sleep Talk deducts power points from itself, not the called move")
 {
-    ASSUME(GetMovePP(MOVE_SLEEP_TALK) == 10);
-    ASSUME(GetMovePP(MOVE_POUND) == 35);
+    ASSUME(GetMovePP(MOVE_SLEEP_TALK) == 16);
+    ASSUME(GetMovePP(MOVE_POUND) == 56);
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET) { Status1(STATUS1_SLEEP); Moves(MOVE_SLEEP_TALK, MOVE_POUND); }
         OPPONENT(SPECIES_WOBBUFFET);
@@ -184,8 +184,8 @@ SINGLE_BATTLE_TEST("Sleep Talk deducts power points from itself, not the called 
         ANIMATION(ANIM_TYPE_MOVE, MOVE_SLEEP_TALK, player);
         ANIMATION(ANIM_TYPE_MOVE, MOVE_POUND, player);
     } THEN {
-        EXPECT_EQ(player->pp[0], 9);
-        EXPECT_EQ(player->pp[1], 35);
+        EXPECT_EQ(player->pp[0], GetMovePP(MOVE_SLEEP_TALK) - 1);
+        EXPECT_EQ(player->pp[1], GetMovePP(MOVE_POUND));
     }
 }
 

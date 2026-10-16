@@ -20,22 +20,6 @@ static const u8* const sTrainerSlides[DIFFICULTY_COUNT][TRAINERS_COUNT][TRAINER_
 };
 ```
 
-If we were to edit a Trainer that appears in a Battle Facility, `sFrontierTrainerSlides` would be edited instead. Here, we'll give Anabel a line before she uses a Z-Move.
-
-### `src/trainer_slide.c`
-```diff
-static const u8* const sFrontierTrainerSlides[DIFFICULTY_COUNT][FRONTIER_TRAINERS_COUNT][TRAINER_SLIDE_COUNT] =
-{
-    [DIFFICULTY_NORMAL] =
-    {
-+        [TRAINER_ANABEL] =
-+        {
-+            [TRAINER_SLIDE_ENEMY_Z_MOVE] = COMPOUND_STRING("Victory...is ours!"), //{PAUSE_UNTIL_PRESS} is omitted, so the battle will continue as soon as the next is finished printing.
-+        }
-    },
-};
-```
-
 ## Add New Slides
 * [Example Commit](<https://github.com/rh-hideout/pokeemerald-expansion/commit/d6424688007cbd923c861cfd35272e5ebfaa4016>)
 * [Patch](<https://github.com/rh-hideout/pokeemerald-expansion/commit/d6424688007cbd923c861cfd35272e5ebfaa4016.patch>)
@@ -56,8 +40,6 @@ enum TrainerSlideType
     TRAINER_SLIDE_ENEMY_LAST_HALF_HP,
     TRAINER_SLIDE_ENEMY_LAST_LOW_HP,
     TRAINER_SLIDE_ENEMY_MEGA_EVOLUTION,
-    TRAINER_SLIDE_ENEMY_Z_MOVE,
-    TRAINER_SLIDE_ENEMY_DYNAMAX,
     TRAINER_SLIDE_ENEMY_TERA,
     TRAINER_SLIDE_ENEMY_LANDS_FIRST_SUPER_EFFECTIVE_HIT,
     TRAINER_SLIDE_ENEMY_LANDS_FIRST_STAB_MOVE,
@@ -67,8 +49,6 @@ enum TrainerSlideType
     TRAINER_SLIDE_PLAYER_LAST_HALF_HP,
     TRAINER_SLIDE_PLAYER_LAST_LOW_HP,
     TRAINER_SLIDE_PLAYER_MEGA_EVOLUTION,
-    TRAINER_SLIDE_PLAYER_Z_MOVE,
-    TRAINER_SLIDE_PLAYER_DYNAMAX,
     TRAINER_SLIDE_PLAYER_TERA,
     TRAINER_SLIDE_PLAYER_USES_MON_AND_MOVE,
     TRAINER_SLIDE_ENEMY_USES_MON_AND_MOVE,

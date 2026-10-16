@@ -4,8 +4,6 @@
 extern const u32 gTilesetTiles_General[];
 extern const u16 gTilesetPalettes_General[][16];
 
-extern const struct Tileset *const gTilesetPointer_SecretBase;
-extern const struct Tileset *const gTilesetPointer_SecretBaseRedCave;
 
 extern const struct Tileset gTileset_Building;
 extern const struct Tileset gTileset_BuildingFrlg;
@@ -29,17 +27,8 @@ extern const struct Tileset gTileset_InsideShip;
 extern const struct Tileset gTileset_Fallarbor;
 extern const struct Tileset gTileset_Shop;
 extern const struct Tileset gTileset_Dewford;
-extern const struct Tileset gTileset_BattleFrontier;
-extern const struct Tileset gTileset_BattleFrontierOutsideWest;
-extern const struct Tileset gTileset_BattleFrontierOutsideEast;
-extern const struct Tileset gTileset_BattleArena;
-extern const struct Tileset gTileset_BattleDome;
-extern const struct Tileset gTileset_BattlePalace;
 extern const struct Tileset gTileset_Slateport;
 extern const struct Tileset gTileset_Mauville;
-extern const struct Tileset gTileset_BattleFrontierOutsideWest;
-extern const struct Tileset gTileset_BattleTent;
-extern const struct Tileset gTileset_TrainerHill;
 extern const struct Tileset gTileset_General_Frlg;
 extern const struct Tileset gTileset_PalletTown;
 extern const struct Tileset gTileset_ViridianCity;
@@ -59,6 +48,5 @@ extern const struct Tileset gTileset_PokemonCenterFrlg;
 extern const struct Tileset gTileset_SilphCo;
 extern const struct Tileset gTileset_SSAnne;
 extern const struct Tileset gTileset_SeaCottage;
-extern const struct Tileset gTileset_TrainerTower;
 
 #endif //GUARD_tilesets_H

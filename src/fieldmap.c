@@ -1,19 +1,12 @@
 #include "global.h"
-#include "battle_pyramid.h"
 #include "bg.h"
 #include "fieldmap.h"
 #include "fldeff.h"
 #include "fldeff_misc.h"
-#include "frontier_util.h"
 #include "menu.h"
-#include "mirage_tower.h"
 #include "overworld.h"
 #include "palette.h"
-#include "pokenav.h"
 #include "script.h"
-#include "secret_base.h"
-#include "trainer_hill.h"
-#include "tv.h"
 #include "constants/rgb.h"
 #include "constants/layouts.h"
 #include "constants/metatile_behaviors.h"
@@ -45,7 +38,6 @@ static void FillWestConnection(struct MapHeader const *mapHeader, struct MapHead
 static void FillEastConnection(struct MapHeader const *mapHeader, struct MapHeader const *connectedMapHeader, s32 offset);
 static void InitBackupMapLayoutConnections(const struct MapHeader *mapHeader);
 static void LoadSavedMapView(void);
-static bool8 SkipCopyingMetatileFromSavedMap(u16 *mapBlock, u16 mapWidth, u8 yMode);
 static const struct MapConnection *GetIncomingConnection(enum Connection direction, s32 x, s32 y);
 static bool8 IsPosInIncomingConnectingMap(enum Connection direction, s32 x, s32 y, const struct MapConnection *connection);
 static bool8 IsCoordInIncomingConnectingMap(s32 coord, s32 srcMax, s32 destMax, s32 offset);
@@ -135,30 +127,14 @@ const struct MapHeader *const GetMapHeaderFromConnection(const struct MapConnect
 void InitMap(void)
 {
     InitMapLayoutData(&gMapHeader);
-    SetOccupiedSecretBaseEntranceMetatiles(gMapHeader.events);
     RunOnLoadMapScript();
 }
 
 void InitMapFromSavedGame(void)
 {
     InitMapLayoutData(&gMapHeader);
-    InitSecretBaseAppearance(FALSE);
-    SetOccupiedSecretBaseEntranceMetatiles(gMapHeader.events);
     LoadSavedMapView();
     RunOnLoadMapScript();
-    UpdateTVScreensOnMap(gBackupMapLayout.width, gBackupMapLayout.height);
-}
-
-void InitBattlePyramidMap(bool8 setPlayerPosition)
-{
-    CpuFastFill16(MAPGRID_UNDEFINED, sBackupMapData, sizeof(sBackupMapData));
-    GenerateBattlePyramidFloorLayout(sBackupMapData, setPlayerPosition);
-}
-
-void InitTrainerHillMap(void)
-{
-    CpuFastFill16(MAPGRID_UNDEFINED, sBackupMapData, sizeof(sBackupMapData));
-    GenerateTrainerHillFloorLayout(sBackupMapData);
 }
 
 static void InitMapLayoutData(const struct MapHeader *mapHeader)
@@ -531,10 +507,10 @@ void SaveMapView(void)
     s32 x, y;
     u16 *mapView;
     s32 width;
-    mapView = gSaveBlock1Ptr->mapView;
+    mapView = gSaveData.mapView;
     width = gBackupMapLayout.width;
-    x = gSaveBlock1Ptr->pos.x;
-    y = gSaveBlock1Ptr->pos.y;
+    x = gSaveData.pos.x;
+    y = gSaveData.pos.y;
     for (i = y; i < y + MAP_OFFSET_H; i++)
     {
         for (j = x; j < x + MAP_OFFSET_W; j++)
@@ -548,13 +524,12 @@ static bool32 SavedMapViewIsEmpty(void)
     u32 marker = 0;
 
 #ifndef UBFIX
-    for (i = 0; i < sizeof(gSaveBlock1Ptr->mapView); i++)
-        marker |= gSaveBlock1Ptr->mapView[i];
+    for (i = 0; i < sizeof(gSaveData.mapView); i++)
+        marker |= gSaveData.mapView[i];
 #else
-    for (i = 0; i < ARRAY_COUNT(gSaveBlock1Ptr->mapView); i++)
-        marker |= gSaveBlock1Ptr->mapView[i];
+    for (i = 0; i < ARRAY_COUNT(gSaveData.mapView); i++)
+        marker |= gSaveData.mapView[i];
 #endif
-
 
     if (marker == 0)
         return TRUE;
@@ -564,36 +539,27 @@ static bool32 SavedMapViewIsEmpty(void)
 
 static void ClearSavedMapView(void)
 {
-    CpuFill16(0, gSaveBlock1Ptr->mapView, sizeof(gSaveBlock1Ptr->mapView));
+    CpuFill16(0, gSaveData.mapView, sizeof(gSaveData.mapView));
 }
 
 static void LoadSavedMapView(void)
 {
-    u8 yMode;
     s32 i, j;
     s32 x, y;
     u16 *mapView;
     s32 width;
-    mapView = gSaveBlock1Ptr->mapView;
+    mapView = gSaveData.mapView;
     if (SavedMapViewIsEmpty())
         return;
 
     width = gBackupMapLayout.width;
-    x = gSaveBlock1Ptr->pos.x;
-    y = gSaveBlock1Ptr->pos.y;
+    x = gSaveData.pos.x;
+    y = gSaveData.pos.y;
     for (i = y; i < y + MAP_OFFSET_H; i++)
     {
-        if (i == y && i != 0)
-            yMode = 0;
-        else if (i == y + MAP_OFFSET_H - 1 && i != gMapHeader.mapLayout->height - 1)
-            yMode = 1;
-        else
-            yMode = 0xFF;
-
         for (j = x; j < x + MAP_OFFSET_W; j++)
         {
-            if (!SkipCopyingMetatileFromSavedMap(&sBackupMapData[j + width * i], width, yMode))
-                sBackupMapData[j + width * i] = *mapView;
+            sBackupMapData[j + width * i] = *mapView;
             mapView++;
         }
     }
@@ -615,13 +581,13 @@ static void MoveMapViewToBackup(enum Connection direction)
     s32 x, y;
     s32 i, j;
 
-    u16 *mapView = gSaveBlock1Ptr->mapView;
+    u16 *mapView = gSaveData.mapView;
     
     width = gBackupMapLayout.width;
     i = 0;
     j = 0;
-    x0 = gSaveBlock1Ptr->pos.x;
-    y0 = gSaveBlock1Ptr->pos.y;
+    x0 = gSaveData.pos.x;
+    y0 = gSaveData.pos.y;
     x2 = MAP_OFFSET_W;
     y2 = MAP_OFFSET_H;
 
@@ -699,14 +665,14 @@ enum Connection GetMapBorderIdAt(s32 x, s32 y)
 
 enum Connection GetPostCameraMoveMapBorderId(s32 x, s32 y)
 {
-    return GetMapBorderIdAt(gSaveBlock1Ptr->pos.x + MAP_OFFSET + x, gSaveBlock1Ptr->pos.y + MAP_OFFSET + y);
+    return GetMapBorderIdAt(gSaveData.pos.x + MAP_OFFSET + x, gSaveData.pos.y + MAP_OFFSET + y);
 }
 
 bool32 CanCameraMoveInDirection(enum Direction direction)
 {
     s32 x, y;
-    x = gSaveBlock1Ptr->pos.x + MAP_OFFSET + gDirectionToVectors[direction].x;
-    y = gSaveBlock1Ptr->pos.y + MAP_OFFSET + gDirectionToVectors[direction].y;
+    x = gSaveData.pos.x + MAP_OFFSET + gDirectionToVectors[direction].x;
+    y = gSaveData.pos.y + MAP_OFFSET + gDirectionToVectors[direction].y;
 
     if (GetMapBorderIdAt(x, y) == CONNECTION_INVALID)
         return FALSE;
@@ -721,20 +687,20 @@ static void SetPositionFromConnection(const struct MapConnection *connection, en
     switch (direction)
     {
     case CONNECTION_EAST:
-        gSaveBlock1Ptr->pos.x = -x;
-        gSaveBlock1Ptr->pos.y -= connection->offset;
+        gSaveData.pos.x = -x;
+        gSaveData.pos.y -= connection->offset;
         break;
     case CONNECTION_WEST:
-        gSaveBlock1Ptr->pos.x = mapHeader->mapLayout->width;
-        gSaveBlock1Ptr->pos.y -= connection->offset;
+        gSaveData.pos.x = mapHeader->mapLayout->width;
+        gSaveData.pos.y -= connection->offset;
         break;
     case CONNECTION_SOUTH:
-        gSaveBlock1Ptr->pos.x -= connection->offset;
-        gSaveBlock1Ptr->pos.y = -y;
+        gSaveData.pos.x -= connection->offset;
+        gSaveData.pos.y = -y;
         break;
     case CONNECTION_NORTH:
-        gSaveBlock1Ptr->pos.x -= connection->offset;
-        gSaveBlock1Ptr->pos.y = mapHeader->mapLayout->height;
+        gSaveData.pos.x -= connection->offset;
+        gSaveData.pos.y = mapHeader->mapLayout->height;
         break;
     default:
         errorf("invalid direction: %d", direction);
@@ -751,16 +717,15 @@ bool8 CameraMove(s32 x, s32 y)
     direction = GetPostCameraMoveMapBorderId(x, y);
     if (direction == CONNECTION_NONE || direction == CONNECTION_INVALID)
     {
-        gSaveBlock1Ptr->pos.x += x;
-        gSaveBlock1Ptr->pos.y += y;
+        gSaveData.pos.x += x;
+        gSaveData.pos.y += y;
     }
     else
     {
         SaveMapView();
-        ClearMirageTowerPulseBlendEffect();
-        old_x = gSaveBlock1Ptr->pos.x;
-        old_y = gSaveBlock1Ptr->pos.y;
-        connection = GetIncomingConnection(direction, gSaveBlock1Ptr->pos.x, gSaveBlock1Ptr->pos.y);
+        old_x = gSaveData.pos.x;
+        old_y = gSaveData.pos.y;
+        connection = GetIncomingConnection(direction, gSaveData.pos.x, gSaveData.pos.y);
         assertf(connection)
         {
             return gCamera.active;
@@ -769,10 +734,10 @@ bool8 CameraMove(s32 x, s32 y)
         SetPositionFromConnection(connection, direction, x, y);
         LoadMapFromCameraTransition(connection->mapGroup, connection->mapNum);
         gCamera.active = TRUE;
-        gCamera.x = old_x - gSaveBlock1Ptr->pos.x;
-        gCamera.y = old_y - gSaveBlock1Ptr->pos.y;
-        gSaveBlock1Ptr->pos.x += x;
-        gSaveBlock1Ptr->pos.y += y;
+        gCamera.x = old_x - gSaveData.pos.x;
+        gCamera.y = old_y - gSaveData.pos.y;
+        gSaveData.pos.x += x;
+        gSaveData.pos.y += y;
         MoveMapViewToBackup(direction);
     }
 
@@ -896,26 +861,26 @@ const struct MapConnection *GetMapConnectionAtPos(s16 x, s16 y)
 
 void SetCameraFocusCoords(u16 x, u16 y)
 {
-    gSaveBlock1Ptr->pos.x = x - MAP_OFFSET;
-    gSaveBlock1Ptr->pos.y = y - MAP_OFFSET;
+    gSaveData.pos.x = x - MAP_OFFSET;
+    gSaveData.pos.y = y - MAP_OFFSET;
 }
 
 void GetCameraFocusCoords(u16 *x, u16 *y)
 {
-    *x = gSaveBlock1Ptr->pos.x + MAP_OFFSET;
-    *y = gSaveBlock1Ptr->pos.y + MAP_OFFSET;
+    *x = gSaveData.pos.x + MAP_OFFSET;
+    *y = gSaveData.pos.y + MAP_OFFSET;
 }
 
 static void UNUSED SetCameraCoords(u16 x, u16 y)
 {
-    gSaveBlock1Ptr->pos.x = x;
-    gSaveBlock1Ptr->pos.y = y;
+    gSaveData.pos.x = x;
+    gSaveData.pos.y = y;
 }
 
 void GetCameraCoords(u16 *x, u16 *y)
 {
-    *x = gSaveBlock1Ptr->pos.x;
-    *y = gSaveBlock1Ptr->pos.y;
+    *x = gSaveData.pos.x;
+    *y = gSaveData.pos.y;
 }
 
 void MapGridSetMetatileImpassabilityAt(s32 x, s32 y, bool32 impassable)
@@ -929,20 +894,6 @@ void MapGridSetMetatileImpassabilityAt(s32 x, s32 y, bool32 impassable)
     }
 }
 
-static bool8 SkipCopyingMetatileFromSavedMap(u16 *mapBlock, u16 mapWidth, u8 yMode)
-{
-    if (yMode == 0xFF)
-        return FALSE;
-
-    if (yMode == 0)
-        mapBlock -= mapWidth;
-    else
-        mapBlock += mapWidth;
-
-    if (IsLargeBreakableDecoration(UNPACK_METATILE(*mapBlock), yMode) == TRUE)
-        return TRUE;
-    return FALSE;
-}
 
 static void CopyTilesetToVram(struct Tileset const *tileset, u16 numTiles, u16 offset)
 {
@@ -1058,16 +1009,12 @@ bool32 AreCoordsInsideMap(u8 mapGroup, u8 mapNum, s16 x, s16 y)
     x -= MAP_OFFSET;
     y -= MAP_OFFSET;
 
-    if (gMapHeader.mapLayoutId == LAYOUT_BATTLE_FRONTIER_BATTLE_PYRAMID_FLOOR)
-    {
-        width *= PYRAMID_FLOOR_SQUARES_WIDE;
-        height *= PYRAMID_FLOOR_SQUARES_HIGH;
-    }
+    ;
 
     return (x >= 0 && x < width && y >= 0 && y < height);
 }
 
 bool32 AreCoordsInsidePlayerMap(s16 x, s16 y)
 {
-    return AreCoordsInsideMap(gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum, x, y);
+    return AreCoordsInsideMap(gSaveData.location.mapGroup, gSaveData.location.mapNum, x, y);
 }

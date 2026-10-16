@@ -21,7 +21,6 @@
 
 // Stat settings
 #define B_BADGE_BOOST               GEN_LATEST // In Gen4+, Gym Badges no longer boost a Pokémon's stats. (Setting this to GEN_2 does not include the additional boost to the type matching the Gym the Badge is from.)
-#define B_FRIENDSHIP_BOOST          FALSE      // In LGPE only, all stats except HP are boosted by up to 10% depending on on friendship. Unlike B_BADGE_BOOST, these boosts are accounted for when calculating base stats.
 #define B_MAX_LEVEL_EV_GAINS        GEN_LATEST // In Gen5+, level 100 Pokémon can obtain Effort Values from battles.
 #define B_RECALCULATE_STATS         GEN_LATEST // In Gen5+, the stats of Pokémon that participate in battle are recalculated at the end of battle, rather than upon level up or being deposited in the PC.
 
@@ -31,7 +30,6 @@
 #define B_BINDING_DAMAGE            GEN_LATEST // In Gen6+, binding damage is 1/8 of max HP instead of 1/16. If the user is holding a Binding Band, it is 1/6 instead of 1/8.
 #define B_PSYWAVE_DMG               GEN_LATEST // Psywave's damage formula. See DoFixedDamageMoveCalc for details.
 #define B_PAYBACK_SWITCH_BOOST      GEN_LATEST // In Gen5+, Payback's base power no longer doubles if the opponent switches out.
-#define B_HIDDEN_POWER_DMG          GEN_LATEST // In Gen6+, Hidden Power's base power is 60. Previously, it was determined by the Pokémon's IVs.
 #define B_ROUGH_SKIN_DMG            GEN_LATEST // In Gen4+, Rough Skin's contact damage is 1/8 of max HP instead of 1/16. This also applies to Iron Barbs.
 #define B_KNOCK_OFF_DMG             GEN_LATEST // In Gen6+, Knock Off deals 50% more damage if the target is holding an item that can be knocked off.
 #define B_SPORT_DMG_REDUCTION       GEN_LATEST // In Gen5+, Water/Mud Sport reduce Fire-/Electric-type damage by 67% instead of 50%.
@@ -39,7 +37,6 @@
 #define B_PARENTAL_BOND_DMG         GEN_LATEST // In Gen7+, Parental Bond's second hit does 25% of the initial hit's damage instead of 50%.
 #define B_MULTIPLE_TARGETS_DMG      GEN_LATEST // In Gen4+, damage dealt by moves that hit multiple targets at once is reduced to 75%. Previously, it was 50%, unless the move hit the entire field, in which case there was no reduction.
 #define B_STRUGGLE_RECOIL           GEN_LATEST // In Gen4+, Struggle's recoil is 1/4 of the user's max HP. In Gen2-3, it's 1/4 of the damage dealt, and in Gen1, 1/2 of it.
-#define B_RETURN_FRUSTRATION_DMG    GEN_LATEST // In Gen3+, Return and Frustration deal at least 1 damage. In Gen2, they deal none at the friendship value that gives them 0 power.
 
 // Type settings
 #define B_GHOSTS_ESCAPE             GEN_LATEST // In Gen6+, escape prevention fails on Ghost-types. Additionally, attempting to escape from a wild battle is always sucessful.
@@ -80,7 +77,6 @@
 #define B_UPDATED_CONVERSION_2      GEN_LATEST // In Gen5+, Conversion 2 changes the user's type to a type that resists the last move used by the selected target. In Gen4 and earlier, it would consider the last move the user was successfully hit by. Additionally, Struggle was considered Normal-type.
 #define B_PP_REDUCED_BY_SPITE       GEN_LATEST // In Gen4+, Spite reduces the PP of the target's last move by 4 instead of 2-5.
 #define B_EXTRAPOLATED_MOVE_FLAGS   TRUE       // Adds flags to moves that they don't officially have, but would likely have if they were in the latest core series game.
-#define B_HIDDEN_POWER_COUNTER      GEN_LATEST // In Gen3 and earlier, Counter and Mirror Coat treat Hidden Power as physical regardless of type.
 #define B_MODERN_TRICK_CHOICE_LOCK  GEN_LATEST // In Gen5+, if a choice item is swapped for another choice item, the Trick/Switcheroo user can choose another move before being locked into it.
 #define B_PROTECT_FAILURE_RATE      GEN_LATEST // In Gen5+, protection moves fail 1/3 of the time instead of 1/2.
 
@@ -116,7 +112,7 @@
 #define B_WISH_HP_SOURCE                GEN_LATEST // In Gen5+, Wish heals by half of the user's max HP instead of the recipient's.
 #define B_RAMPAGE_CONFUSION             GEN_LATEST // In Gen5+, Rampage is canceled after the move (as opposed to End Turn) and a failed rampage move will cancel the counter, unless it is the last turn.
 #define B_HEAL_BLOCKING                 GEN_LATEST // In Gen5+, Heal Block prevents healing by Black Sludge, Leftovers, and Shell Bell. Affected Pokémon will not consume held HP-restoring Berries or Berry Juice. Abilities will not heal but will prevent damage.
-                                                   // In Gen6+, Heal Block prevents the use of HP-draining moves, as long as they aren't Z-Moves.
+                                                   // In Gen6+, Heal Block prevents the use of HP-draining moves.
 #define B_ROOTED_GROUNDING              GEN_LATEST // In Gen4+, Ingrain causes the user to become grounded.
 #define B_METRONOME_MOVES               GEN_LATEST // Determines up to and including which generation Metronome will call moves from.
 #define B_TELEPORT_BEHAVIOR             GEN_LATEST // In LGPE onwards (Gen8+ here), Teleport switches the user out instead of fleeing.
@@ -270,7 +266,6 @@
 #define B_DREAM_BALL_MODIFIER       GEN_LATEST // In Gen8+, Dream Ball's catch multiplier is 4x when the target is asleep or has the Ability Comatose.
 #define B_SPORT_BALL_MODIFIER       GEN_LATEST // In Gen8+, Sport Ball's catch multiplier was reduced from 1.5x to 1x.
 #define B_SAFARI_BALL_MODIFIER      GEN_LATEST // In Gen8+, Safari Ball's catch multiplier is 1x. In Gens2-6, it's 1.5x. In Gen1, it's 2x.
-#define B_FRIEND_BALL_MODIFIER      GEN_LATEST // In Gen8+, the initial friendship of Pokémon caught in a Friend Ball friendship was reduced from 200 to 150.
 #define B_SERENE_GRACE_BOOST        GEN_LATEST // In Gen5+, Serene Grace boosts the added flinch chance of King's Rock and Razor Fang.
 #define B_IRON_BALL                 GEN_LATEST // In Gen5+, Flying-type Pokémon holding an Iron Ball take neutral damage from Ground-type moves regardless of their other types, except during Inverse Battles or if the Pokémon is grounded by any other effect.
 
@@ -287,7 +282,6 @@
 // Other battle flags
 #define B_FLAG_INVERSE_BATTLE       0     // If this flag is set, the battle's type chart inverted. For example, Fire is super effective against Water.
 #define B_FLAG_AI_VS_AI_BATTLE      0     // If this flag is set, the player's Pokémon will be controlled by the AI in the next battle.
-#define B_FLAG_DYNAMAX_BATTLE       0     // If this flag is set, the ability to Dynamax in battle is enabled for all Trainers.
 #define B_FLAG_TERA_ORB_CHARGED     0     // If this flag is set, the Tera Orb is charged. It is automatically set upon healing and cleared upon Terastallizing once configured.
 #define B_FLAG_TERA_ORB_NO_COST     0     // If this flag is set, the Tera Orb does not use up its charge upon Terastallization. In SV, this occurs after an event with Terapagos.
 #define B_FLAG_SLEEP_CLAUSE         0     // If this flag is set, sleep clause is enabled; if a Pokémon on the one side of the field is asleep, another one on that side cannot be put to sleep. AI requires AI_FLAG_CHECK_BAD_MOVE to understand.
@@ -361,10 +355,8 @@
 #define B_QUICK_MOVE_CURSOR_TO_RUN          FALSE      // If set to TRUE, pushing B in the battle menu in a wild encounter will move the cursor to the Run option.
 #define B_RUN_TRAINER_BATTLE                TRUE       // If set to TRUE, players can run from Trainer battles as in Gen9+. This is treated as a white out.
 #define B_MOVE_DESCRIPTION_BUTTON           L_BUTTON   // If set to a button other than B_LAST_USED_BALL_BUTTON, pressing this button will open the move description menu.
-#define B_SHOW_USELESS_Z_MOVE_INFO          FALSE      // If set to TRUE, Z-Moves without additional effects, like newer generation status moves, will say "No additional effect."
 #define B_ANIMATE_MON_AFTER_KO              TRUE       // If set to TRUE, if a Pokémon on the opposing side faints, the non-fainted Pokémon will play their animations.
 #define B_ANIMATE_MON_AFTER_FAILED_POKEBALL TRUE       // If set to TRUE, a wild Pokémon that breaks of a thrown Poké Ball will play its animation.
-#define B_SHOW_DYNAMAX_MESSAGE              FALSE      // If set to TRUE, an additional battle message is shown after Dynamaxing or Gigantamaxing.
 #define B_HPBAR_COLOR_THRESHOLD             GEN_LATEST // In Gen5+, HP bar color thresholds were changed to be based on the actual HP values instead of the pixel length of the HP bar, leading to more accurate HP bar colors.
 #define B_HP_PERCENTAGE_DISPLAY             FALSE      // If set to TRUE, Pokémon on the opposing side's HP will be displayed in percentage alongside the HP bar. In single battles, this extends the healthbox to add the percentage below the HP bar. In double battles, the same input used to toggle your side's HP values will also toggle the opposing side's percentage display.
 
@@ -389,7 +381,6 @@
 // Other settings
 #define B_MULTI_BATTLE_WHITEOUT         GEN_LATEST // In Gen4+, Multi Battles end when the player as well as their partner don't have any Pokémon left.
 #define B_EVOLUTION_AFTER_WHITEOUT      GEN_LATEST // In Gen6+, Pokémon that qualify for evolution after battle will evolve even if the player loses.
-#define B_AFFECTION_MECHANICS           TRUE       // In Gen6+, there's a stat called affection that can trigger different effects in battle. From LGPE onwards, these effects use friendship instead.
 #define B_TRAINER_CLASS_POKE_BALLS      GEN_LATEST // In Gen7+, Trainers will use certain kinds of Poké Balls depending on their Trainer class.
 #define B_TRAINER_MON_RANDOM_ABILITY    0          // If this is set to 0, trainers mons with no set ability only use the first ability of a mon. If set to 1 it will roll a random non-hidden ability. If set to 2, it will roll any ability (including hidden ability) with equal chance
 #define B_OBEDIENCE_MECHANICS           GEN_LATEST // In PLA onwards (GEN_8 here), obedience restrictions also apply to non-outsider Pokémon, albeit based on their met level rather than their current level.
@@ -460,6 +451,5 @@
 #define B_POOL_RULE_ITEM_CLAUSE             FALSE    // Only allow each item to be picked once.
 #define B_POOL_RULES_USE_ITEM_EXCLUSIONS    FALSE    // Exclude items listed in poolItemClauseExclusions.
 #define B_POOL_RULE_MEGA_STONE_CLAUSE       FALSE    // Pick only 1 Pokémon with a Mega Stone.
-#define B_POOL_RULE_Z_CRYSTAL_CLAUSE        FALSE    // Pick only 1 Pokémon with a Z-Crystal.
 
 #endif // GUARD_CONFIG_BATTLE_H

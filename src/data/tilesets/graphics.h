@@ -1,45 +1,5 @@
-const u32 gTilesetTiles_SecretBase[] = INCGFX_U32("data/tilesets/primary/secret_base/tiles.png", ".4bpp");
 
-const u16 gTilesetPalettes_SecretBase[][16] =
-{
-    INCGFX_U16("data/tilesets/primary/secret_base/palettes/00.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/primary/secret_base/palettes/01.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/primary/secret_base/palettes/02.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/primary/secret_base/palettes/03.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/primary/secret_base/palettes/04.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/primary/secret_base/palettes/05.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/primary/secret_base/palettes/06.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/primary/secret_base/palettes/07.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/primary/secret_base/palettes/08.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/primary/secret_base/palettes/09.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/primary/secret_base/palettes/10.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/primary/secret_base/palettes/11.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/primary/secret_base/palettes/12.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/primary/secret_base/palettes/13.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/primary/secret_base/palettes/14.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/primary/secret_base/palettes/15.pal", ".gbapal"),
-};
 
-const u32 gTilesetTiles_SecretBaseRedCave[] = INCGFX_U32("data/tilesets/secondary/secret_base/red_cave/tiles.png", ".4bpp", "-num_tiles 83 -Wnum_tiles");
-const u16 gTilesetPalettes_SecretBaseRedCave[][16] =
-{
-    INCGFX_U16("data/tilesets/secondary/secret_base/red_cave/palettes/00.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/red_cave/palettes/01.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/red_cave/palettes/02.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/red_cave/palettes/03.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/red_cave/palettes/04.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/red_cave/palettes/05.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/red_cave/palettes/06.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/red_cave/palettes/07.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/red_cave/palettes/08.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/red_cave/palettes/09.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/red_cave/palettes/10.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/red_cave/palettes/11.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/red_cave/palettes/12.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/red_cave/palettes/13.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/red_cave/palettes/14.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/red_cave/palettes/15.pal", ".gbapal"),
-};
 
 
 #if !IS_FRLG
@@ -330,49 +290,9 @@ const u16 gTilesetPalettes_Sootopolis[][16] =
     INCGFX_U16("data/tilesets/secondary/sootopolis/palettes/15.pal", ".gbapal"),
 };
 
-const u32 gTilesetTiles_BattleFrontierOutsideWest[] = INCGFX_U32("data/tilesets/secondary/battle_frontier_outside_west/tiles.png", ".4bpp.fastSmol", "-num_tiles 508 -Wnum_tiles");
 
-const u16 gTilesetPalettes_BattleFrontierOutsideWest[][16] =
-{
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_outside_west/palettes/00.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_outside_west/palettes/01.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_outside_west/palettes/02.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_outside_west/palettes/03.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_outside_west/palettes/04.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_outside_west/palettes/05.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_outside_west/palettes/06.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_outside_west/palettes/07.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_outside_west/palettes/08.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_outside_west/palettes/09.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_outside_west/palettes/10.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_outside_west/palettes/11.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_outside_west/palettes/12.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_outside_west/palettes/13.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_outside_west/palettes/14.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_outside_west/palettes/15.pal", ".gbapal"),
-};
 
-const u32 gTilesetTiles_BattleFrontierOutsideEast[] = INCGFX_U32("data/tilesets/secondary/battle_frontier_outside_east/tiles.png", ".4bpp.fastSmol", "-num_tiles 508 -Wnum_tiles");
 
-const u16 gTilesetPalettes_BattleFrontierOutsideEast[][16] =
-{
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_outside_east/palettes/00.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_outside_east/palettes/01.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_outside_east/palettes/02.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_outside_east/palettes/03.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_outside_east/palettes/04.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_outside_east/palettes/05.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_outside_east/palettes/06.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_outside_east/palettes/07.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_outside_east/palettes/08.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_outside_east/palettes/09.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_outside_east/palettes/10.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_outside_east/palettes/11.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_outside_east/palettes/12.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_outside_east/palettes/13.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_outside_east/palettes/14.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_outside_east/palettes/15.pal", ".gbapal"),
-};
 
 const u32 gTilesetTiles_InsideBuilding[] = INCGFX_U32("data/tilesets/primary/building/tiles.png", ".4bpp.smol", "-num_tiles 502 -Wnum_tiles");
 
@@ -727,111 +647,11 @@ const u16 gTilesetPalettes_RusturfTunnel[][16] =
     INCGFX_U16("data/tilesets/secondary/rusturf_tunnel/palettes/15.pal", ".gbapal"),
 };
 
-const u16 gTilesetPalettes_SecretBaseBrownCave[][16] =
-{
-    INCGFX_U16("data/tilesets/secondary/secret_base/brown_cave/palettes/00.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/brown_cave/palettes/01.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/brown_cave/palettes/02.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/brown_cave/palettes/03.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/brown_cave/palettes/04.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/brown_cave/palettes/05.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/brown_cave/palettes/06.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/brown_cave/palettes/07.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/brown_cave/palettes/08.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/brown_cave/palettes/09.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/brown_cave/palettes/10.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/brown_cave/palettes/11.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/brown_cave/palettes/12.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/brown_cave/palettes/13.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/brown_cave/palettes/14.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/brown_cave/palettes/15.pal", ".gbapal"),
-};
 
-const u16 gTilesetPalettes_SecretBaseTree[][16] =
-{
-    INCGFX_U16("data/tilesets/secondary/secret_base/tree/palettes/00.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/tree/palettes/01.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/tree/palettes/02.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/tree/palettes/03.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/tree/palettes/04.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/tree/palettes/05.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/tree/palettes/06.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/tree/palettes/07.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/tree/palettes/08.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/tree/palettes/09.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/tree/palettes/10.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/tree/palettes/11.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/tree/palettes/12.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/tree/palettes/13.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/tree/palettes/14.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/tree/palettes/15.pal", ".gbapal"),
-};
 
-const u16 gTilesetPalettes_SecretBaseShrub[][16] =
-{
-    INCGFX_U16("data/tilesets/secondary/secret_base/shrub/palettes/00.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/shrub/palettes/01.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/shrub/palettes/02.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/shrub/palettes/03.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/shrub/palettes/04.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/shrub/palettes/05.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/shrub/palettes/06.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/shrub/palettes/07.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/shrub/palettes/08.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/shrub/palettes/09.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/shrub/palettes/10.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/shrub/palettes/11.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/shrub/palettes/12.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/shrub/palettes/13.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/shrub/palettes/14.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/shrub/palettes/15.pal", ".gbapal"),
-};
 
-const u16 gTilesetPalettes_SecretBaseBlueCave[][16] =
-{
-    INCGFX_U16("data/tilesets/secondary/secret_base/blue_cave/palettes/00.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/blue_cave/palettes/01.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/blue_cave/palettes/02.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/blue_cave/palettes/03.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/blue_cave/palettes/04.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/blue_cave/palettes/05.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/blue_cave/palettes/06.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/blue_cave/palettes/07.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/blue_cave/palettes/08.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/blue_cave/palettes/09.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/blue_cave/palettes/10.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/blue_cave/palettes/11.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/blue_cave/palettes/12.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/blue_cave/palettes/13.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/blue_cave/palettes/14.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/blue_cave/palettes/15.pal", ".gbapal"),
-};
 
-const u16 gTilesetPalettes_SecretBaseYellowCave[][16] =
-{
-    INCGFX_U16("data/tilesets/secondary/secret_base/yellow_cave/palettes/00.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/yellow_cave/palettes/01.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/yellow_cave/palettes/02.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/yellow_cave/palettes/03.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/yellow_cave/palettes/04.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/yellow_cave/palettes/05.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/yellow_cave/palettes/06.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/yellow_cave/palettes/07.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/yellow_cave/palettes/08.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/yellow_cave/palettes/09.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/yellow_cave/palettes/10.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/yellow_cave/palettes/11.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/yellow_cave/palettes/12.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/yellow_cave/palettes/13.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/yellow_cave/palettes/14.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/secret_base/yellow_cave/palettes/15.pal", ".gbapal"),
-};
 
-const u32 gTilesetTiles_SecretBaseBrownCave[] = INCGFX_U32("data/tilesets/secondary/secret_base/brown_cave/tiles.png", ".4bpp", "-num_tiles 83 -Wnum_tiles");
-const u32 gTilesetTiles_SecretBaseTree[] = INCGFX_U32("data/tilesets/secondary/secret_base/tree/tiles.png", ".4bpp", "-num_tiles 83 -Wnum_tiles");
-const u32 gTilesetTiles_SecretBaseShrub[] = INCGFX_U32("data/tilesets/secondary/secret_base/shrub/tiles.png", ".4bpp", "-num_tiles 83 -Wnum_tiles");
-const u32 gTilesetTiles_SecretBaseBlueCave[] = INCGFX_U32("data/tilesets/secondary/secret_base/blue_cave/tiles.png", ".4bpp", "-num_tiles 83 -Wnum_tiles");
-const u32 gTilesetTiles_SecretBaseYellowCave[] = INCGFX_U32("data/tilesets/secondary/secret_base/yellow_cave/tiles.png", ".4bpp", "-num_tiles 83 -Wnum_tiles");
 
 const u32 gTilesetTiles_InsideOfTruck[] = INCGFX_U32("data/tilesets/secondary/inside_of_truck/tiles.png", ".4bpp.fastSmol", "-num_tiles 62 -Wnum_tiles");
 
@@ -855,27 +675,7 @@ const u16 gTilesetPalettes_InsideOfTruck[][16] =
     INCGFX_U16("data/tilesets/secondary/inside_of_truck/palettes/15.pal", ".gbapal"),
 };
 
-const u32 gTilesetTiles_Contest[] = INCGFX_U32("data/tilesets/secondary/contest/tiles.png", ".4bpp.fastSmol", "-num_tiles 430 -Wnum_tiles");
 
-const u16 gTilesetPalettes_Contest[][16] =
-{
-    INCGFX_U16("data/tilesets/secondary/contest/palettes/00.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/contest/palettes/01.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/contest/palettes/02.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/contest/palettes/03.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/contest/palettes/04.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/contest/palettes/05.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/contest/palettes/06.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/contest/palettes/07.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/contest/palettes/08.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/contest/palettes/09.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/contest/palettes/10.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/contest/palettes/11.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/contest/palettes/12.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/contest/palettes/13.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/contest/palettes/14.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/contest/palettes/15.pal", ".gbapal"),
-};
 
 const u32 gTilesetTiles_LilycoveMuseum[] = INCGFX_U32("data/tilesets/secondary/lilycove_museum/tiles.png", ".4bpp.fastSmol", "-num_tiles 431 -Wnum_tiles");
 
@@ -1273,159 +1073,19 @@ const u16 gTilesetPalettes_EliteFour[][16] =
     INCGFX_U16("data/tilesets/secondary/elite_four/palettes/15.pal", ".gbapal"),
 };
 
-const u32 gTilesetTiles_BattleFrontier[] = INCGFX_U32("data/tilesets/secondary/battle_frontier/tiles.png", ".4bpp.fastSmol", "-num_tiles 310 -Wnum_tiles");
 
-const u16 gTilesetPalettes_BattleFrontier[][16] =
-{
-    INCGFX_U16("data/tilesets/secondary/battle_frontier/palettes/00.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier/palettes/01.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier/palettes/02.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier/palettes/03.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier/palettes/04.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier/palettes/05.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier/palettes/06.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier/palettes/07.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier/palettes/08.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier/palettes/09.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier/palettes/10.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier/palettes/11.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier/palettes/12.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier/palettes/13.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier/palettes/14.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier/palettes/15.pal", ".gbapal"),
-};
 
-const u32 gTilesetTiles_BattlePalace[] = INCGFX_U32("data/tilesets/secondary/battle_palace/tiles.png", ".4bpp.fastSmol");
 
-const u16 gTilesetPalettes_BattlePalace[][16] =
-{
-    INCGFX_U16("data/tilesets/secondary/battle_palace/palettes/00.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_palace/palettes/01.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_palace/palettes/02.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_palace/palettes/03.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_palace/palettes/04.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_palace/palettes/05.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_palace/palettes/06.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_palace/palettes/07.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_palace/palettes/08.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_palace/palettes/09.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_palace/palettes/10.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_palace/palettes/11.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_palace/palettes/12.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_palace/palettes/13.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_palace/palettes/14.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_palace/palettes/15.pal", ".gbapal"),
-};
 
-const u32 gTilesetTiles_BattleDome[] = INCGFX_U32("data/tilesets/secondary/battle_dome/tiles.png", ".4bpp.fastSmol");
 
-const u16 gTilesetPalettes_BattleDome[][16] =
-{
-    INCGFX_U16("data/tilesets/secondary/battle_dome/palettes/00.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_dome/palettes/01.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_dome/palettes/02.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_dome/palettes/03.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_dome/palettes/04.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_dome/palettes/05.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_dome/palettes/06.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_dome/palettes/07.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_dome/palettes/08.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_dome/palettes/09.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_dome/palettes/10.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_dome/palettes/11.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_dome/palettes/12.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_dome/palettes/13.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_dome/palettes/14.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_dome/palettes/15.pal", ".gbapal"),
-};
 
-const u32 gTilesetTiles_BattleFactory[] = INCGFX_U32("data/tilesets/secondary/battle_factory/tiles.png", ".4bpp.fastSmol", "-num_tiles 424 -Wnum_tiles");
 
-const u16 gTilesetPalettes_BattleFactory[][16] =
-{
-    INCGFX_U16("data/tilesets/secondary/battle_factory/palettes/00.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_factory/palettes/01.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_factory/palettes/02.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_factory/palettes/03.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_factory/palettes/04.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_factory/palettes/05.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_factory/palettes/06.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_factory/palettes/07.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_factory/palettes/08.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_factory/palettes/09.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_factory/palettes/10.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_factory/palettes/11.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_factory/palettes/12.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_factory/palettes/13.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_factory/palettes/14.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_factory/palettes/15.pal", ".gbapal"),
-};
 
-const u32 gTilesetTiles_BattlePike[] = INCGFX_U32("data/tilesets/secondary/battle_pike/tiles.png", ".4bpp.fastSmol", "-num_tiles 382 -Wnum_tiles");
 
-const u16 gTilesetPalettes_BattlePike[][16] =
-{
-    INCGFX_U16("data/tilesets/secondary/battle_pike/palettes/00.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_pike/palettes/01.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_pike/palettes/02.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_pike/palettes/03.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_pike/palettes/04.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_pike/palettes/05.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_pike/palettes/06.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_pike/palettes/07.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_pike/palettes/08.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_pike/palettes/09.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_pike/palettes/10.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_pike/palettes/11.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_pike/palettes/12.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_pike/palettes/13.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_pike/palettes/14.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_pike/palettes/15.pal", ".gbapal"),
-};
 
-const u32 gTilesetTiles_BattleArena[] = INCGFX_U32("data/tilesets/secondary/battle_arena/tiles.png", ".4bpp.fastSmol");
 
-const u16 gTilesetPalettes_BattleArena[][16] =
-{
-    INCGFX_U16("data/tilesets/secondary/battle_arena/palettes/00.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_arena/palettes/01.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_arena/palettes/02.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_arena/palettes/03.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_arena/palettes/04.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_arena/palettes/05.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_arena/palettes/06.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_arena/palettes/07.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_arena/palettes/08.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_arena/palettes/09.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_arena/palettes/10.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_arena/palettes/11.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_arena/palettes/12.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_arena/palettes/13.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_arena/palettes/14.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_arena/palettes/15.pal", ".gbapal"),
-};
 
-const u32 gTilesetTiles_BattlePyramid[] = INCGFX_U32("data/tilesets/secondary/battle_pyramid/tiles.png", ".4bpp.fastSmol");
 
-const u16 gTilesetPalettes_BattlePyramid[][16] =
-{
-    INCGFX_U16("data/tilesets/secondary/battle_pyramid/palettes/00.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_pyramid/palettes/01.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_pyramid/palettes/02.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_pyramid/palettes/03.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_pyramid/palettes/04.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_pyramid/palettes/05.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_pyramid/palettes/06.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_pyramid/palettes/07.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_pyramid/palettes/08.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_pyramid/palettes/09.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_pyramid/palettes/10.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_pyramid/palettes/11.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_pyramid/palettes/12.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_pyramid/palettes/13.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_pyramid/palettes/14.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_pyramid/palettes/15.pal", ".gbapal"),
-};
 
 const u32 gTilesetTiles_MirageTower[] = INCGFX_U32("data/tilesets/secondary/mirage_tower/tiles.png", ".4bpp.fastSmol", "-num_tiles 420 -Wnum_tiles");
 
@@ -1493,27 +1153,7 @@ const u16 gTilesetPalettes_IslandHarbor[][16] =
     INCGFX_U16("data/tilesets/secondary/island_harbor/palettes/15.pal", ".gbapal"),
 };
 
-const u32 gTilesetTiles_TrainerHill[] = INCGFX_U32("data/tilesets/secondary/trainer_hill/tiles.png", ".4bpp.fastSmol", "-num_tiles 374 -Wnum_tiles");
 
-const u16 gTilesetPalettes_TrainerHill[][16] =
-{
-    INCGFX_U16("data/tilesets/secondary/trainer_hill/palettes/00.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/trainer_hill/palettes/01.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/trainer_hill/palettes/02.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/trainer_hill/palettes/03.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/trainer_hill/palettes/04.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/trainer_hill/palettes/05.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/trainer_hill/palettes/06.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/trainer_hill/palettes/07.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/trainer_hill/palettes/08.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/trainer_hill/palettes/09.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/trainer_hill/palettes/10.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/trainer_hill/palettes/11.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/trainer_hill/palettes/12.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/trainer_hill/palettes/13.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/trainer_hill/palettes/14.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/trainer_hill/palettes/15.pal", ".gbapal"),
-};
 
 const u32 gTilesetTiles_NavelRock[] = INCGFX_U32("data/tilesets/secondary/navel_rock/tiles.png", ".4bpp.fastSmol", "-num_tiles 420 -Wnum_tiles");
 
@@ -1537,71 +1177,11 @@ const u16 gTilesetPalettes_NavelRock[][16] =
     INCGFX_U16("data/tilesets/secondary/navel_rock/palettes/15.pal", ".gbapal"),
 };
 
-const u32 gTilesetTiles_BattleFrontierRankingHall[] = INCGFX_U32("data/tilesets/secondary/battle_frontier_ranking_hall/tiles.png", ".4bpp.fastSmol", "-num_tiles 136 -Wnum_tiles");
 
-const u16 gTilesetPalettes_BattleFrontierRankingHall[][16] =
-{
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_ranking_hall/palettes/00.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_ranking_hall/palettes/01.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_ranking_hall/palettes/02.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_ranking_hall/palettes/03.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_ranking_hall/palettes/04.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_ranking_hall/palettes/05.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_ranking_hall/palettes/06.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_ranking_hall/palettes/07.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_ranking_hall/palettes/08.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_ranking_hall/palettes/09.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_ranking_hall/palettes/10.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_ranking_hall/palettes/11.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_ranking_hall/palettes/12.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_ranking_hall/palettes/13.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_ranking_hall/palettes/14.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_frontier_ranking_hall/palettes/15.pal", ".gbapal"),
-};
 
-const u32 gTilesetTiles_BattleTent[] = INCGFX_U32("data/tilesets/secondary/battle_tent/tiles.png", ".4bpp.fastSmol");
 
-const u16 gTilesetPalettes_BattleTent[][16] =
-{
-    INCGFX_U16("data/tilesets/secondary/battle_tent/palettes/00.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_tent/palettes/01.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_tent/palettes/02.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_tent/palettes/03.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_tent/palettes/04.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_tent/palettes/05.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_tent/palettes/06.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_tent/palettes/07.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_tent/palettes/08.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_tent/palettes/09.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_tent/palettes/10.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_tent/palettes/11.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_tent/palettes/12.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_tent/palettes/13.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_tent/palettes/14.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/battle_tent/palettes/15.pal", ".gbapal"),
-};
 
-const u32 gTilesetTiles_MysteryEventsHouse[] = INCGFX_U32("data/tilesets/secondary/mystery_events_house/tiles.png", ".4bpp.fastSmol", "-num_tiles 509 -Wnum_tiles");
 
-const u16 gTilesetPalettes_MysteryEventsHouse[][16] =
-{
-    INCGFX_U16("data/tilesets/secondary/mystery_events_house/palettes/00.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/mystery_events_house/palettes/01.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/mystery_events_house/palettes/02.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/mystery_events_house/palettes/03.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/mystery_events_house/palettes/04.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/mystery_events_house/palettes/05.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/mystery_events_house/palettes/06.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/mystery_events_house/palettes/07.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/mystery_events_house/palettes/08.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/mystery_events_house/palettes/09.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/mystery_events_house/palettes/10.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/mystery_events_house/palettes/11.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/mystery_events_house/palettes/12.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/mystery_events_house/palettes/13.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/mystery_events_house/palettes/14.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/mystery_events_house/palettes/15.pal", ".gbapal"),
-};
 
 const u16 gTilesetPalettes_UnionRoom[][16] =
 {
@@ -2905,27 +2485,7 @@ const u16 gTilesetPalettes_SeviiIslands67[][16] =
     INCGFX_U16("data/tilesets/secondary/sevii_islands_67_frlg/palettes/15.pal", ".gbapal"),
 };
 
-const u32 gTilesetTiles_TrainerTower[] = INCGFX_U32("data/tilesets/secondary/trainer_tower_frlg/tiles.png", ".4bpp.fastSmol");
 
-const u16 gTilesetPalettes_TrainerTower[][16] =
-{
-    INCGFX_U16("data/tilesets/secondary/trainer_tower_frlg/palettes/00.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/trainer_tower_frlg/palettes/01.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/trainer_tower_frlg/palettes/02.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/trainer_tower_frlg/palettes/03.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/trainer_tower_frlg/palettes/04.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/trainer_tower_frlg/palettes/05.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/trainer_tower_frlg/palettes/06.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/trainer_tower_frlg/palettes/07.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/trainer_tower_frlg/palettes/08.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/trainer_tower_frlg/palettes/09.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/trainer_tower_frlg/palettes/10.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/trainer_tower_frlg/palettes/11.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/trainer_tower_frlg/palettes/12.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/trainer_tower_frlg/palettes/13.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/trainer_tower_frlg/palettes/14.pal", ".gbapal"),
-    INCGFX_U16("data/tilesets/secondary/trainer_tower_frlg/palettes/15.pal", ".gbapal"),
-};
 
 const u32 gTilesetTiles_IslandHarbor_Frlg[] = INCGFX_U32("data/tilesets/secondary/island_harbor_frlg/tiles.png", ".4bpp.fastSmol");
 

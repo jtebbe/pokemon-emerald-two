@@ -1,8 +1,6 @@
 #ifndef GUARD_BERRY_H
 #define GUARD_BERRY_H
 
-void SetEnigmaBerry(u8 *src);
-bool32 IsEnigmaBerryValid(void);
 const struct BerryInfo *GetBerryInfo(enum BerryId berry);
 struct BerryTree *GetBerryTreeInfo(u8 id);
 bool32 ObjectEventInteractionWaterBerryTree(void);
@@ -178,7 +176,6 @@ extern const u32 gBerryPic_Petaya[];
 extern const u32 gBerryPic_Apicot[];
 extern const u32 gBerryPic_Lansat[];
 extern const u32 gBerryPic_Starf[];
-extern const u32 gBerryPic_Enigma[];
 extern const u32 gBerryPic_Micle[];
 extern const u32 gBerryPic_Custap[];
 extern const u32 gBerryPic_Jaboca[];
@@ -246,7 +243,6 @@ extern const u16 gBerryPalette_Petaya[];
 extern const u16 gBerryPalette_Apicot[];
 extern const u16 gBerryPalette_Lansat[];
 extern const u16 gBerryPalette_Starf[];
-extern const u16 gBerryPalette_Enigma[];
 extern const u16 gBerryPalette_Micle[];
 extern const u16 gBerryPalette_Custap[];
 extern const u16 gBerryPalette_Jaboca[];

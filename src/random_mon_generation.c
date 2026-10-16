@@ -205,9 +205,7 @@ static bool32 IsRandomSpeciesFormAllowed(enum Species species, const u16 *formTa
     speciesInfo = &gSpeciesInfo[species];
 
     return !speciesInfo->isMegaEvolution
-        && !speciesInfo->isGigantamax
         && !speciesInfo->isTotem
-        && !speciesInfo->isUltraBurst
         && !speciesInfo->cannotBeTraded
         && !speciesInfo->isTeraForm
         && !speciesInfo->isPrimalReversion;

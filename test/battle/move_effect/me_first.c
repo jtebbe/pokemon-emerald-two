@@ -115,8 +115,8 @@ SINGLE_BATTLE_TEST("Me First can be selected under Taunt in Gen5+")
 
 SINGLE_BATTLE_TEST("Me First deducts power points from itself, not the copied move")
 {
-    ASSUME(GetMovePP(MOVE_ME_FIRST) == 20);
-    ASSUME(GetMovePP(MOVE_POUND) == 35);
+    ASSUME(GetMovePP(MOVE_ME_FIRST) == 32);
+    ASSUME(GetMovePP(MOVE_POUND) == 56);
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET) { Speed(100); Moves(MOVE_ME_FIRST); }
         OPPONENT(SPECIES_WOBBUFFET) { Speed(50); Moves(MOVE_POUND); }
@@ -125,8 +125,8 @@ SINGLE_BATTLE_TEST("Me First deducts power points from itself, not the copied mo
     } SCENE {
         ANIMATION(ANIM_TYPE_MOVE, MOVE_ME_FIRST, player);
     } THEN {
-        EXPECT_EQ(opponent->pp[0], 34);
-        EXPECT_EQ(player->pp[0], 19);
+        EXPECT_EQ(opponent->pp[0], GetMovePP(MOVE_POUND) - 1);
+        EXPECT_EQ(player->pp[0], GetMovePP(MOVE_ME_FIRST) - 1);
     }
 }
 

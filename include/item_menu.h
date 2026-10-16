@@ -11,11 +11,7 @@ enum {
     ITEMMENULOCATION_PARTY,
     ITEMMENULOCATION_SHOP,
     ITEMMENULOCATION_BERRY_TREE,
-    ITEMMENULOCATION_BERRY_BLENDER_CRUSH,
     ITEMMENULOCATION_ITEMPC,
-    ITEMMENULOCATION_FAVOR_LADY,
-    ITEMMENULOCATION_QUIZ_LADY,
-    ITEMMENULOCATION_APPRENTICE,
     ITEMMENULOCATION_WALLY,
     ITEMMENULOCATION_PCBOX,
     ITEMMENULOCATION_BERRY_TREE_MULCH,
@@ -98,9 +94,6 @@ extern struct BagMenu *gBagMenu;
 extern enum Item gSpecialVar_ItemId;
 
 void CB2_GoToItemDepositMenu(void);
-void FavorLadyOpenBagMenu(void);
-void QuizLadyOpenBagMenu(void);
-void ApprenticeOpenBagMenu(void);
 void CB2_BagMenuFromBattle(void);
 void UpdatePocketListPosition(u8 pocketId);
 void CB2_ReturnToBagMenuPocket(void);
@@ -110,9 +103,7 @@ bool8 UseRegisteredKeyItemOnField(void);
 void CB2_GoToSellMenu(void);
 void GoToBagMenu(u8 location, u8 pocket, MainCallback exitCallback);
 void DoWallyTutorialBagMenu(void);
-void InitOldManBag(void);
 void ResetBagScrollPositions(void);
-void ChooseBerryForMachine(MainCallback exitCallback);
 void CB2_ChooseBerry(void);
 void CB2_ChooseMulch(void);
 void Task_FadeAndCloseBagMenu(u8 taskId);

@@ -74,7 +74,7 @@ A whole range of constants defining battle variables, such as statuses, weather,
 ### include/constants/moves.h
 Where moves are defined (and nothing else).
 
-**Note:** When adding custom moves, you should add them between the moves from the latest generation and the z moves, then adjust `MOVES_COUNT` accordingly.  Adding a move after `MOVES_COUNT` that is neither a Max Move or a Z Move will result in that move's name not being printed when it is used, instead a generic message will be printed.
+**Note:** Add custom moves after the latest generation's moves and before `MOVES_COUNT`, then adjust `MOVES_COUNT` accordingly. Moves outside that range will display a generic name instead.
 
 ## C files
 ### src/battle_script_commands.c
@@ -130,7 +130,6 @@ To edit a move's basic information, you need only edit the relevant fields in [`
 - pp
 - recoil percentage
 - flags
-- Z-move effect (for status moves) or overwritting its calculated power (for damaging moves)
 
 ### Changing a move's main effect
 To change the main effect of a move to an existing effect, you need only change its `effect` field to one of the options in [`src/data/battle_move_effects.h`](#srcdatabattle_move_effectsh). If you wish to keep the effect but simply modify how it works, you can modify how it plays out on screen by editing its entry in [`data/battle_scripts_1.s`](#databattle_scripts_1s) and any relevant functions in [`src/battle_script_commands.c`](#srcbattle_script_commandsc). To change how a move's dynamic power, accuracy and are calculated, then you need to modify the following functions:

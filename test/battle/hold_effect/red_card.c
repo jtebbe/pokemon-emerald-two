@@ -28,25 +28,6 @@ SINGLE_BATTLE_TEST("Red Card switches the attacker with a random non-fainted rep
     }
 }
 
-SINGLE_BATTLE_TEST("Red Card does not let a switched-out attacker reuse its Z-Move")
-{
-    GIVEN {
-        ASSUME(GetMoveType(MOVE_SCRATCH) == TYPE_NORMAL);
-        PLAYER(SPECIES_WOBBUFFET) { Item(ITEM_NORMALIUM_Z); }
-        PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_WOBBUFFET) { Item(ITEM_RED_CARD); }
-    } WHEN {
-        TURN { MOVE(player, MOVE_SCRATCH, gimmick: GIMMICK_Z_MOVE); }
-        TURN { SWITCH(player, 0); }
-        TURN { MOVE(player, MOVE_SCRATCH); }
-    } SCENE {
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_ZMOVE_ACTIVATE, player);
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_BREAKNECK_BLITZ, player);
-        ITEM_POPUP(opponent, ITEM_RED_CARD);
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, opponent);
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, player);
-    }
-}
 
 DOUBLE_BATTLE_TEST("Red Card switches the target with a random non-battler, non-fainted replacement")
 {
@@ -501,8 +482,8 @@ SINGLE_BATTLE_TEST("Red Card is consumed after dragged out replacement has its S
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_STICKY_WEB) == EFFECT_STICKY_WEB);
-        PLAYER(SPECIES_WOBBUFFET);
-        PLAYER(SPECIES_WYNAUT) { Moves(MOVE_SCRATCH); }
+        PLAYER(SPECIES_WOBBUFFET) { Moves(MOVE_SCRATCH, MOVE_CELEBRATE); }
+        PLAYER(SPECIES_WYNAUT) { Moves(MOVE_SCRATCH, MOVE_CELEBRATE); }
         OPPONENT(SPECIES_WOBBUFFET) { Item(ITEM_RED_CARD); }
     } WHEN {
         TURN { MOVE(opponent, MOVE_STICKY_WEB); }
@@ -584,26 +565,6 @@ SINGLE_BATTLE_TEST("Red Card doesn't prevent Emergency Exit activation when trig
         HP_BAR(opponent);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, opponent);
         ABILITY_POPUP(opponent, ABILITY_EMERGENCY_EXIT);
-    }
-}
-
-SINGLE_BATTLE_TEST("Red Card activates and is consumed but fails if the attacker is Dynamaxed")
-{
-    GIVEN {
-        PLAYER(SPECIES_WOBBUFFET);
-        PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_WOBBUFFET) { Item(ITEM_RED_CARD); }
-    } WHEN {
-        TURN {
-            MOVE(opponent, MOVE_SCRATCH);
-            MOVE(player, MOVE_SCRATCH, gimmick: GIMMICK_DYNAMAX);
-        }
-    } SCENE {
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, opponent);
-        MESSAGE("The opposing Wobbuffet held up its Red Card against Wobbuffet!");
-        NOT MESSAGE("Wobbuffet is switched out with the Eject Button!");
-    } THEN {
-        EXPECT_EQ(opponent->item, ITEM_NONE);
     }
 }
 

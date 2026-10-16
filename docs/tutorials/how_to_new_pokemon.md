@@ -157,7 +157,6 @@ Now, to better understand Mewthree, we also need to understand Mew. Let's look a
         )
         .isMythical = TRUE,
         .isFrontierBanned = TRUE,
-        .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
         .levelUpLearnset = sMewLevelUpLearnset,
         .teachableLearnset = sMewTeachableLearnset,
     },
@@ -708,13 +707,10 @@ We're almost there just a bit left!
         .abilities = { ABILITY_INSOMNIA, ABILITY_NONE, ABILITY_NONE },
         .bodyColor = BODY_COLOR_PURPLE,
 +       .isRestrictedLegendary = TRUE,
-+       .perfectIVCount = LEGENDARY_PERFECT_IV_COUNT,
     },
  };
 ```
 Each species flag provides properties to the species:
-- `perfectIVCount` ***(1.10 onwards)***:
-    - Guarantees that the number of IVs specified here will be perfect.
 - `isRestrictedLegendary`:
     - ***1.14.3 onwards:*** Does nothing.
 - `isSubLegendary`:
@@ -722,18 +718,14 @@ Each species flag provides properties to the species:
 - `isMythical`:
     - Is skipped during Pokédex evaluations.
         - Unless it also has the `dexForceRequired` flag.
-    - Cannot obtain Gigantamax factor via `ToggleGigantamaxFactor`.
-    - ***1.9 and earlier:*** Guaranteed 3 perfect IVs for the species.
 - `isUltraBeast`:
     - Beast Ball's multiplier is set to x5 for this species.
         - All other ball multipliers are set to x0.1.
-    - ***1.9 and earlier:*** Guaranteed 3 perfect IVs for the species.
 - `isParadox` (`isParadoxForm` previous to 1.9):
     - ***1.10 onwards:*** Makes it so that Booster Energy cannot be knocked off.
     - ***1.9 and earlier:*** Does nothing.
 - `isTotem`:
     - ***1.10 onwards:*** Does nothing.
-    - ***1.9 and earlier:*** Guaranteed 3 perfect IVs for the species.
 - `isMegaEvolution`:
     - A Mega indicator is added to the battle box indicating that they're Mega Evolved.
     - The species doesn't receive affection benefits.
@@ -741,11 +733,6 @@ Each species flag provides properties to the species:
 - `isPrimalReversion`:
     - A Primal Reversion indicator (Alpha or Omega for Kyogre/Groudon respectively) is added to the battle box indicating that they're Primal Reverted.
     - Required when adding new Primal Reversions.
-- `isUltraBurst`:
-    - Required when adding new Ultra Burst forms.
-- `isGigantamax`:
-    - Used to determine if Gigantamax forms should have their GMax moves or not.
-    - Required when adding new Gigantamax forms.
 - `isAlolanForm`, `isGalarianForm`, `isHisuianForm`, `isPaldeanForm`:
     - **1.10.3 onwards:** Used to determine breeding offspring from different parents based on their region.
     - **1.10.2 and earlier:** Does nothing.
@@ -1021,12 +1008,11 @@ These tables, unlike the regular form tables, registers how Pokémon can switch 
 static const struct FormChange sGengarFormChangeTable[] =
 {
     {FORM_CHANGE_BATTLE_MEGA_EVOLUTION_ITEM, SPECIES_GENGAR_MEGA, ITEM_GENGARITE},
-    {FORM_CHANGE_BATTLE_GIGANTAMAX,          SPECIES_GENGAR_GIGANTAMAX},
     {FORM_CHANGE_TERMINATOR},
 };
 #endif //P_FAMILY_GASTLY
 ```
-The first value is the type of form change. In the case of Gengar, we have both Mega Evolution and Gigantamax form changes.
+The first value is the type of form change. In the case of Gengar, this is a Mega Evolution form change.
 
 The second value is the target form, to which the Pokémon will change into.
 

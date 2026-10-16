@@ -1,12 +1,12 @@
 #include "global.h"
 #include "malloc.h"
 #include "battle.h"
-#include "berry_blender.h"
 #include "decompress.h"
 #include "event_data.h"
 #include "gpu_regs.h"
 #include "librfu.h"
 #include "link.h"
+#include "link_protocol.h"
 #include "link_rfu.h"
 #include "overworld.h"
 #include "random.h"
@@ -16,7 +16,6 @@
 #include "task.h"
 #include "text.h"
 #include "save.h"
-#include "mystery_gift_menu.h"
 
 enum {
     RFUSTATE_INIT,
@@ -54,12 +53,15 @@ enum {
 
 struct SioInfo
 {
-    char magic[sizeof("PokemonSioInfo")];
+    char magic[16];
     u8 playerCount;
     u8 linkPlayerIdx[RFU_CHILD_MAX];
     struct LinkPlayer linkPlayers[MAX_RFU_PLAYERS];
-    u8 filler[92];
+    char buildMagic[16];
+    u8 filler[76];
 };
+
+STATIC_ASSERT(sizeof(struct SioInfo) <= BLOCK_BUFFER_SIZE, SioInfoFitsLinkBlock);
 
 // Struct is mostly empty, presumably because usage of
 // its fields was largely removed before release
@@ -221,7 +223,6 @@ static const struct BlockRequest sBlockRequests[] = {
 
 static const u16 sAcceptedSerialNos[] = {
     RFU_SERIAL_GAME,
-    RFU_SERIAL_WONDER_DISTRIBUTOR,
     RFU_SERIAL_UNKNOWN,
     RFU_SERIAL_END
 };
@@ -255,7 +256,6 @@ static const TaskFunc sShutdownTasks[] = {
     Task_PlayerExchangeChat
 };
 
-static const char sASCII_PokemonSioInfo[] = "PokemonSioInfo";
 static const char sASCII_LinkLossDisconnect[] = "LINK LOSS DISCONNECT!";
 static const char sASCII_LinkLossRecoveryNow[] = "LINK LOSS RECOVERY NOW";
 ALIGNED(4) static const char sASCII_30Spaces[] = {"                              "};
@@ -1052,20 +1052,6 @@ void ClearLinkRfuCallback(void)
     gRfu.callback = NULL;
 }
 
-static void Rfu_BerryBlenderSendHeldKeys(void)
-{
-    RfuPrepareSendBuffer(RFUCMD_BLENDER_SEND_KEYS);
-    if (GetMultiplayerId() == 0)
-        gSendCmd[BLENDER_COMM_ARROW_POS] = GetBlenderArrowPosition();
-    gBerryBlenderKeySendAttempts++;
-}
-
-void Rfu_SetBerryBlenderLinkCallback(void)
-{
-    if (gRfu.callback == NULL)
-        gRfu.callback = Rfu_BerryBlenderSendHeldKeys;
-}
-
 static void RfuHandleReceiveCommand(u8 unused)
 {
     u16 i;
@@ -1156,7 +1142,6 @@ static void RfuHandleReceiveCommand(u8 unused)
                 ClearSelectedLinkPlayerIds(gRecvCmds[i][1]);
             }
             break;
-        case RFUCMD_BLENDER_SEND_KEYS:
         case RFUCMD_SEND_HELD_KEYS:
             gLinkPartnersHeldKeys[i] = gRecvCmds[i][1];
             break;
@@ -1253,10 +1238,6 @@ static void RfuPrepareSendBuffer(u16 command)
     case RFUCMD_READY_EXIT_STANDBY:
     case RFUCMD_READY_CLOSE_LINK:
         gSendCmd[1] = gRfu.allReadyNum;
-        break;
-    case RFUCMD_BLENDER_SEND_KEYS:
-        gSendCmd[0] = command;
-        gSendCmd[1] = gMain.heldKeys;
         break;
     case RFUCMD_SEND_PACKET:
         for (i = 0; i < RFU_PACKET_SIZE; i++)
@@ -1808,6 +1789,14 @@ static void Task_PlayerExchange(u8 taskId)
     case 5:
         for (i = 0; i < gRfu.playerCount; i++)
         {
+            if (!LinkProtocolCheck((struct LinkPlayerBlock *)gBlockRecvBuffer[i]))
+            {
+                LinkProtocolSetError(LINK_PROTOCOL_WRONG_BUILD);
+                gRfu.playerExchangeActive = FALSE;
+                DestroyTask(taskId);
+                SetMainCallback2(CB2_LinkError);
+                return;
+            }
             LinkPlayerFromBlock(i);
             Rfu_ResetBlockReceivedFlag(i);
         }
@@ -1844,9 +1833,16 @@ static void ClearSelectedLinkPlayerIds(u16 selected)
     }
 }
 
-static void ReceiveRfuLinkPlayers(const struct SioInfo *sioInfo)
+static bool32 ReceiveRfuLinkPlayers(const struct SioInfo *sioInfo)
 {
     s32 i;
+    if (!LinkProtocolCheckMagic(sioInfo->magic, sioInfo->buildMagic)
+        || sioInfo->playerCount < 2 || sioInfo->playerCount > MAX_RFU_PLAYERS)
+    {
+        LinkProtocolSetError(LINK_PROTOCOL_WRONG_BUILD);
+        SetMainCallback2(CB2_LinkError);
+        return FALSE;
+    }
     gRfu.playerCount = sioInfo->playerCount;
     for (i = 0; i < RFU_CHILD_MAX; i++)
         gRfu.linkPlayerIdx[i] = sioInfo->linkPlayerIdx[i];
@@ -1855,13 +1851,16 @@ static void ReceiveRfuLinkPlayers(const struct SioInfo *sioInfo)
         gLinkPlayers[i] = sioInfo->linkPlayers[i];
         ConvertLinkPlayerName(gLinkPlayers + i);
     }
+    return TRUE;
 }
 
 static void ValidateAndReceivePokemonSioInfo(void *recvBuffer)
 {
-    if (strcmp(sASCII_PokemonSioInfo, recvBuffer) == 0)
+    const struct SioInfo *sioInfo = recvBuffer;
+    // Chat also delivers non-player-list blocks through this hook.
+    if (LinkProtocolCheckMagic(sioInfo->magic, sioInfo->buildMagic)
+        && ReceiveRfuLinkPlayers(sioInfo))
     {
-        ReceiveRfuLinkPlayers(recvBuffer);
         CpuFill16(0, recvBuffer, sizeof(struct SioInfo));
         ResetBlockReceivedFlag(0);
     }
@@ -1898,14 +1897,21 @@ static void Task_PlayerExchangeUpdate(u8 taskId)
         {
             ResetBlockReceivedFlag(playerId);
             playerBlock = (struct LinkPlayerBlock *)gBlockRecvBuffer[playerId];
-            gLinkPlayers[playerId] = playerBlock->linkPlayer;
-            ConvertLinkPlayerName(&gLinkPlayers[playerId]);
+            if (!LinkProtocolCheck(playerBlock))
+            {
+                LinkProtocolSetError(LINK_PROTOCOL_WRONG_BUILD);
+                gRfu.playerExchangeActive = FALSE;
+                DestroyTask(taskId);
+                SetMainCallback2(CB2_LinkError);
+                return;
+            }
+            LinkPlayerFromBlock(playerId);
             gTasks[taskId].tState++;
         }
         break;
     case 3:
         sio = (struct SioInfo *)gBlockSendBuffer;
-        memcpy(sio->magic, sASCII_PokemonSioInfo, sizeof sASCII_PokemonSioInfo);
+        LinkProtocolStampMagic(sio->magic, sio->buildMagic);
         sio->playerCount = gRfu.playerCount;
         for (i = 0; i < RFU_CHILD_MAX; i++)
             sio->linkPlayerIdx[i] = gRfu.linkPlayerIdx[i];
@@ -1918,7 +1924,7 @@ static void Task_PlayerExchangeUpdate(u8 taskId)
         for (i = 0; i < RFU_CHILD_MAX; i++)
             sio->linkPlayerIdx[i] = gRfu.linkPlayerIdx[i];
         memcpy(sio->linkPlayers, gLinkPlayers, sizeof(gLinkPlayers));
-        // Send SioInfo but exclude the 92 unused bytes at the end
+        // Send the fingerprint and players, excluding the unused trailing bytes.
         if (SendBlock(0, gBlockSendBuffer, offsetof(struct SioInfo, filler)))
             gTasks[taskId].tState++;
         break;
@@ -1969,7 +1975,11 @@ static void Task_PlayerExchangeChat(u8 taskId)
     case 2:
         if (GetBlockReceivedStatus() & 1)
         {
-            ReceiveRfuLinkPlayers((const struct SioInfo *)gBlockRecvBuffer);
+            if (!ReceiveRfuLinkPlayers((const struct SioInfo *)gBlockRecvBuffer))
+            {
+                DestroyTask(taskId);
+                return;
+            }
             ResetBlockReceivedFlag(0);
             gReceivedRemoteLinkPlayers = 1;
             DestroyTask(taskId);
@@ -1982,7 +1992,7 @@ static void RfuCheckErrorStatus(void)
 {
     if (gRfu.errorState == RFU_ERROR_STATE_OCCURRED && lman.childClockSlave_flag == 0)
     {
-        if (gMain.callback2 == CB2_MysteryGiftEReader || lman.init_param->mboot_flag)
+        if (lman.init_param->mboot_flag)
             gWirelessCommType = 2;
         SetMainCallback2(CB2_LinkError);
         gMain.savedCallback = CB2_LinkError;
@@ -2048,7 +2058,7 @@ bool32 RfuMain2(void)
 
 static void SetHostRfuUsername(void)
 {
-    StringCopy(gHostRfuUsername, gSaveBlock2Ptr->playerName);
+    StringCopy(gHostRfuUsername, gSaveData.playerName);
 }
 
 void ResetHostRfuGameData(void)
@@ -2062,11 +2072,7 @@ void SetHostRfuGameData(u8 activity, u32 partnerInfo, bool32 startedActivity)
     InitHostRfuGameData(&gHostRfuGameData, activity, startedActivity, partnerInfo);
 }
 
-void SetHostRfuWonderFlags(bool32 hasNews, bool32 hasCard)
-{
-    gHostRfuGameData.compatibility.hasNews = hasNews;
-    gHostRfuGameData.compatibility.hasCard = hasCard;
-}
+
 
 void SetTradeBoardRegisteredMonInfo(u32 type, enum Species species, u32 level)
 {
@@ -2578,7 +2584,7 @@ static void UNUSED Debug_RfuIdle(void)
         OpenLink();
         SeedRng(gMain.vblankCounter2);
         for (i = 0; i < TRAINER_ID_LENGTH; i++)
-            gSaveBlock2Ptr->playerTrainerId[i] = Random() % 256;
+            gSaveData.playerTrainerId[i] = Random() % 256;
 
         SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_OBJ_ON | DISPCNT_BG0_ON | DISPCNT_BG2_ON | DISPCNT_OBJ_1D_MAP);
         RunTasks();
@@ -2757,13 +2763,7 @@ static void Task_RfuReconnectWithParent(u8 taskId)
                 if (TryReconnectParent())
                     DestroyTask(taskId);
             }
-            else if (GetHostRfuGameData()->activity == ACTIVITY_WONDER_CARD
-                  || GetHostRfuGameData()->activity == ACTIVITY_WONDER_NEWS)
-            {
-                tTime++;
-            }
-            else
-            {
+            else {
                 // Error, unable to reconnect to parent
                 RfuSetStatus(RFU_STATUS_CONNECTION_ERROR, F_RFU_ERROR_5 | F_RFU_ERROR_6 | F_RFU_ERROR_7);
                 DestroyTask(taskId);

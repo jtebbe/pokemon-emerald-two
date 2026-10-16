@@ -295,9 +295,85 @@ AI_DOUBLE_BATTLE_TEST("AI will not use a status move if partner already chose He
     }
 }
 
-TO_DO_BATTLE_TEST("AI understands Instruct")
-TO_DO_BATTLE_TEST("AI understands Quick Guard")
-TO_DO_BATTLE_TEST("AI understands Wide Guard")
+AI_DOUBLE_BATTLE_TEST("AI uses Instruct on a faster ally's repeatable spread attack")
+{
+    enum Move partnerMove;
+    PARAMETRIZE { partnerMove = MOVE_MUDDY_WATER; }
+    PARAMETRIZE { partnerMove = MOVE_CELEBRATE; }
+    PARAMETRIZE { partnerMove = MOVE_INSTRUCT; }
+    GIVEN {
+        WITH_CONFIG(AI_REVERSE_BATTLER_LOGIC_ORDER_CHANCE, 100);
+        AI_FLAGS(AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_CHECK_VIABILITY | AI_FLAG_OMNISCIENT);
+        PLAYER(SPECIES_WOBBUFFET) { Speed(2); Moves(MOVE_CELEBRATE); }
+        PLAYER(SPECIES_WOBBUFFET) { Speed(3); Moves(MOVE_CELEBRATE); }
+        OPPONENT(SPECIES_ORANGURU) { Speed(1); Attack(5); Moves(MOVE_INSTRUCT, MOVE_SCRATCH); }
+        OPPONENT(SPECIES_WOBBUFFET) { Speed(100); Moves(partnerMove); }
+    } WHEN {
+        if (partnerMove == MOVE_MUDDY_WATER)
+            TURN {
+                SCORE_GT_VAL(opponentLeft, MOVE_INSTRUCT, AI_SCORE_DEFAULT, target: opponentRight);
+                SCORE_LT_VAL(opponentLeft, MOVE_INSTRUCT, AI_SCORE_DEFAULT, target: playerLeft);
+                EXPECT_MOVE(opponentLeft, MOVE_INSTRUCT, target: opponentRight);
+            }
+        else
+            TURN {
+                NOT_EXPECT_MOVE(opponentLeft, MOVE_INSTRUCT);
+                SCORE_LT_VAL(opponentLeft, MOVE_INSTRUCT, AI_SCORE_DEFAULT, target: opponentRight);
+            }
+    }
+}
+
+AI_DOUBLE_BATTLE_TEST("AI understands Quick Guard against priority attacks")
+{
+    enum Move incomingMove;
+    PARAMETRIZE { incomingMove = MOVE_QUICK_ATTACK; }
+    PARAMETRIZE { incomingMove = MOVE_SCRATCH; }
+    GIVEN {
+        AI_FLAGS(AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_CHECK_VIABILITY | AI_FLAG_OMNISCIENT);
+        PLAYER(SPECIES_WOBBUFFET) { Moves(incomingMove); }
+        PLAYER(SPECIES_WOBBUFFET) { Moves(incomingMove); }
+        OPPONENT(SPECIES_HITMONTOP) { Moves(MOVE_QUICK_GUARD, MOVE_SCRATCH); }
+        OPPONENT(SPECIES_WOBBUFFET) { Moves(MOVE_SCRATCH); }
+    } WHEN {
+        TURN { MOVE(playerLeft, incomingMove); MOVE(playerRight, incomingMove); }
+        if (incomingMove == MOVE_QUICK_ATTACK)
+            TURN {
+                EXPECT_MOVE(opponentLeft, MOVE_QUICK_GUARD);
+                SCORE_GT_VAL(opponentLeft, MOVE_QUICK_GUARD, AI_SCORE_DEFAULT, target: playerLeft);
+            }
+        else
+            TURN {
+                NOT_EXPECT_MOVE(opponentLeft, MOVE_QUICK_GUARD);
+                SCORE_LT_VAL(opponentLeft, MOVE_QUICK_GUARD, AI_SCORE_DEFAULT, target: playerLeft);
+            }
+    }
+}
+
+AI_DOUBLE_BATTLE_TEST("AI understands Wide Guard against spread attacks")
+{
+    enum Move incomingMove;
+    PARAMETRIZE { incomingMove = MOVE_SURF; }
+    PARAMETRIZE { incomingMove = MOVE_WATER_GUN; }
+    GIVEN {
+        AI_FLAGS(AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_CHECK_VIABILITY | AI_FLAG_OMNISCIENT);
+        PLAYER(SPECIES_WOBBUFFET) { Moves(incomingMove); }
+        PLAYER(SPECIES_WOBBUFFET) { Moves(incomingMove); }
+        OPPONENT(SPECIES_HITMONTOP) { Moves(MOVE_WIDE_GUARD, MOVE_SCRATCH); }
+        OPPONENT(SPECIES_WOBBUFFET) { Moves(MOVE_SCRATCH); }
+    } WHEN {
+        TURN { MOVE(playerLeft, incomingMove); MOVE(playerRight, incomingMove); }
+        if (incomingMove == MOVE_SURF)
+            TURN {
+                EXPECT_MOVE(opponentLeft, MOVE_WIDE_GUARD);
+                SCORE_GT_VAL(opponentLeft, MOVE_WIDE_GUARD, AI_SCORE_DEFAULT, target: playerLeft);
+            }
+        else
+            TURN {
+                NOT_EXPECT_MOVE(opponentLeft, MOVE_WIDE_GUARD);
+                SCORE_LT_VAL(opponentLeft, MOVE_WIDE_GUARD, AI_SCORE_DEFAULT, target: playerLeft);
+            }
+    }
+}
 
 AI_DOUBLE_BATTLE_TEST("AI won't use the same nondamaging move as its partner for no reason")
 {
@@ -401,7 +477,7 @@ AI_DOUBLE_BATTLE_TEST("AI will not choose Earthquake if it damages the partner w
         PLAYER(SPECIES_WOBBUFFET);
         PLAYER(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_PHANPY) { Moves(MOVE_EARTHQUAKE, MOVE_SCRATCH); }
-        OPPONENT(species) { Moves(MOVE_CELEBRATE); }
+        OPPONENT(species) { HP(1); Moves(MOVE_CELEBRATE); }
     } WHEN {
         if (species == SPECIES_CHARIZARD)
             TURN { EXPECT_MOVE(opponentLeft, MOVE_EARTHQUAKE); }
@@ -580,8 +656,6 @@ AI_DOUBLE_BATTLE_TEST("AI will not use Protect if its left ally is about to trig
 {
     ASSUME(GetMoveEffect(MOVE_BEAT_UP) == EFFECT_BEAT_UP);
     ASSUME(GetMoveType(MOVE_BEAT_UP) == TYPE_DARK);
-
-    KNOWN_FAILING; // partner is protecting
     GIVEN {
         WITH_CONFIG(AI_REVERSE_BATTLER_LOGIC_ORDER_CHANCE, 0);
         AI_FLAGS(AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_CHECK_VIABILITY | AI_FLAG_TRY_TO_FAINT);
@@ -939,9 +1013,9 @@ AI_DOUBLE_BATTLE_TEST("AI sees random rolls correctly")
         ASSUME(GetMoveTarget(MOVE_DISCHARGE) == TARGET_FOES_AND_ALLY);
         ASSUME(GetMoveType(MOVE_DISCHARGE) == TYPE_ELECTRIC);
         AI_FLAGS(AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_CHECK_VIABILITY | AI_FLAG_TRY_TO_FAINT);
-        PLAYER(SPECIES_ZIGZAGOON);
-        PLAYER(SPECIES_ZIGZAGOON);
-        OPPONENT(SPECIES_SLAKING) { Moves(MOVE_DISCHARGE, MOVE_SCRATCH); }
+        PLAYER(SPECIES_ZIGZAGOON) { HP(186); Defense(87); SpDefense(87); }
+        PLAYER(SPECIES_ZIGZAGOON) { HP(186); Defense(87); SpDefense(87); }
+        OPPONENT(SPECIES_SLAKING) { Attack(325); SpAttack(195); Moves(MOVE_DISCHARGE, MOVE_SCRATCH); }
         OPPONENT(SPECIES_PIKACHU) { HP(1); Ability(ABILITY_LIGHTNING_ROD); Moves(MOVE_SCRATCH); }
     } WHEN {
         TURN { EXPECT_MOVE(opponentLeft, MOVE_SCRATCH); }
@@ -1059,7 +1133,7 @@ AI_DOUBLE_BATTLE_TEST("AI sets up weather for its ally")
         AI_FLAGS(aiFlags);
         PLAYER(SPECIES_WOBBUFFET);
         PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_TORNADUS) { Item(ITEM_SAFETY_GOGGLES); Ability(ABILITY_PRANKSTER); Moves(goodWeather, badWeather, MOVE_RETURN, MOVE_TAUNT); }
+        OPPONENT(SPECIES_TORNADUS) { Item(ITEM_SAFETY_GOGGLES); Ability(ABILITY_PRANKSTER); Moves(goodWeather, badWeather, MOVE_BODY_SLAM, MOVE_TAUNT); }
         OPPONENT(SPECIES_WOBBUFFET) { Item(ITEM_SAFETY_GOGGLES); Moves(weatherTrigger, MOVE_EARTH_POWER); }
     } WHEN {
         TURN { EXPECT_MOVE(opponentLeft, goodWeather); }
@@ -1088,7 +1162,7 @@ AI_DOUBLE_BATTLE_TEST("AI sets up terrain for its ally")
         AI_FLAGS(aiFlags);
         PLAYER(SPECIES_WOBBUFFET);
         PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_WOBBUFFET) { Moves(goodTerrain, badTerrain, MOVE_RETURN, MOVE_TAUNT); }
+        OPPONENT(SPECIES_WOBBUFFET) { Moves(goodTerrain, badTerrain, MOVE_BODY_SLAM, MOVE_TAUNT); }
         OPPONENT(SPECIES_WOBBUFFET) { Moves(terrainTrigger, MOVE_EARTH_POWER); }
     } WHEN {
         TURN { EXPECT_MOVE(opponentLeft, goodTerrain); }
@@ -1192,7 +1266,6 @@ AI_DOUBLE_BATTLE_TEST("AI uses Helping Hand if it's about to die")
 
 AI_DOUBLE_BATTLE_TEST("AI uses Helping Hand if the ally does notably more damage")
 {
-    KNOWN_FAILING;  // Failure was masked by test runner issues
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_HELPING_HAND) == EFFECT_HELPING_HAND);
         AI_FLAGS(AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_TRY_TO_FAINT | AI_FLAG_CHECK_VIABILITY | AI_FLAG_OMNISCIENT);
@@ -1201,7 +1274,11 @@ AI_DOUBLE_BATTLE_TEST("AI uses Helping Hand if the ally does notably more damage
         OPPONENT(SPECIES_WOBBUFFET) { Moves(MOVE_HELPING_HAND, MOVE_MUD_SLAP); }
         OPPONENT(SPECIES_WOBBUFFET) { Moves(MOVE_MUDDY_WATER); }
     } WHEN {
-        TURN { EXPECT_MOVE(opponentLeft, MOVE_HELPING_HAND); }
+        TURN {
+            SCORE_GT_VAL(opponentLeft, MOVE_HELPING_HAND, AI_SCORE_DEFAULT, target: opponentRight);
+            SCORE_GT_VAL(opponentLeft, MOVE_HELPING_HAND, AI_SCORE_DEFAULT + BEST_EFFECT, target: opponentRight);
+            EXPECT_MOVE(opponentLeft, MOVE_HELPING_HAND);
+        }
     }
 }
 

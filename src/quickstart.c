@@ -85,12 +85,12 @@ static void CB2_SkipToNewGame(void)
 
     if (!UpdatePaletteFade())
     {
-        gSaveBlock2Ptr->playerGender = SetQuickstartPlayerGender();
-        const u8* textPtr = gSaveBlock2Ptr->playerGender == FEMALE ? sText_PlayerFemale : sText_PlayerMale;
-        StringCopy_PlayerName(gSaveBlock2Ptr->playerName, textPtr);
+        gSaveData.playerGender = SetQuickstartPlayerGender();
+        const u8* textPtr = gSaveData.playerGender == FEMALE ? sText_PlayerFemale : sText_PlayerMale;
+        StringCopy_PlayerName(gSaveData.playerName, textPtr);
 
 #if IS_FRLG
-        StringCopy_PlayerName(gSaveBlock1Ptr->rivalName, sText_Rival);
+        StringCopy_PlayerName(gSaveData.rivalName, sText_Rival);
 #endif  // IS_FRLG
 
         ResetSpriteData();

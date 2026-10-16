@@ -10,10 +10,10 @@ SINGLE_BATTLE_TEST("Healing Wish causes the user to faint and heals the replacem
 {
     GIVEN {
         WITH_CONFIG(B_HEALING_WISH_SWITCH, GEN_7);
-        ASSUME(GetMovePP(MOVE_SCRATCH) == 35);
-        ASSUME(GetMovePP(MOVE_WATER_GUN) == 25);
-        ASSUME(GetMovePP(MOVE_LEAFAGE) == 40);
-        ASSUME(GetMovePP(MOVE_EMBER) == 25);
+        ASSUME(GetMovePP(MOVE_SCRATCH) == 56);
+        ASSUME(GetMovePP(MOVE_WATER_GUN) == 40);
+        ASSUME(GetMovePP(MOVE_LEAFAGE) == 64);
+        ASSUME(GetMovePP(MOVE_EMBER) == 40);
         PLAYER(SPECIES_GARDEVOIR);
         PLAYER(SPECIES_WYNAUT) { HP(1); MaxHP(100); Status1(STATUS1_POISON);
             MovesWithPP({MOVE_SCRATCH, 5}, {MOVE_WATER_GUN, 5}, {MOVE_LEAFAGE, 5}, {MOVE_EMBER, 0}); }
@@ -43,10 +43,10 @@ DOUBLE_BATTLE_TEST("Healing Wish causes the user to faint and heals the replacem
 {
     GIVEN {
         WITH_CONFIG(B_HEALING_WISH_SWITCH, GEN_7);
-        ASSUME(GetMovePP(MOVE_SCRATCH) == 35);
-        ASSUME(GetMovePP(MOVE_WATER_GUN) == 25);
-        ASSUME(GetMovePP(MOVE_LEAFAGE) == 40);
-        ASSUME(GetMovePP(MOVE_EMBER) == 25);
+        ASSUME(GetMovePP(MOVE_SCRATCH) == 56);
+        ASSUME(GetMovePP(MOVE_WATER_GUN) == 40);
+        ASSUME(GetMovePP(MOVE_LEAFAGE) == 64);
+        ASSUME(GetMovePP(MOVE_EMBER) == 40);
         PLAYER(SPECIES_GARDEVOIR) { Speed(300); }
         PLAYER(SPECIES_WOBBUFFET) { Speed(50); }
         PLAYER(SPECIES_WYNAUT) { HP(1); MaxHP(100); Status1(STATUS1_BURN); Speed(50);

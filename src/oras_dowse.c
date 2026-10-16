@@ -321,7 +321,7 @@ u32 FldEff_ORASDowsing(void)
         if (palNum != 0xFF)
             sprite->oam.paletteNum = palNum;
         else
-            sprite->oam.paletteNum = LoadPlayerObjectEventPalette(gSaveBlock2Ptr->playerGender);
+            sprite->oam.paletteNum = LoadPlayerObjectEventPalette(gSaveData.playerGender);
 
         playerObj->fieldEffectSpriteId = spriteId;
         sprite->sDowseState = ORASD_WIGGLE_NONE;
@@ -497,7 +497,7 @@ static void PlayDowseSound(u32 dowseState)
     switch (dowseState)
     {
     case ORASD_WIGGLE_SLOW:
-        PlaySE(SE_CONTEST_ICON_CLEAR);
+        PlaySE(SE_ICON_CLEAR);
         return;
     case ORASD_WIGGLE_NORMAL:
         PlaySE(SE_PIN);

@@ -125,7 +125,7 @@ DOUBLE_BATTLE_TEST("A spread move will do correct damage to the second mon if th
     GIVEN {
         PLAYER(SPECIES_REGIROCK);
         PLAYER(SPECIES_REGIROCK);
-        OPPONENT(SPECIES_WOBBUFFET) { HP(200); }
+        OPPONENT(SPECIES_WOBBUFFET) { HP(180); } // Survives one spread hit, but not two.
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
         TURN { MOVE(playerLeft, MOVE_ROCK_SLIDE); }
@@ -159,7 +159,7 @@ MULTI_BATTLE_TEST("A spread move will do correct damage to the second mon if the
     GIVEN {
         PLAYER(SPECIES_REGIROCK);
         PARTNER(SPECIES_REGIROCK);
-        OPPONENT_A(SPECIES_WOBBUFFET) { HP(200); }
+        OPPONENT_A(SPECIES_WOBBUFFET) { HP(180); } // Survives one spread hit, but not two.
         OPPONENT_B(SPECIES_WOBBUFFET);
     } WHEN {
         TURN { MOVE(playerLeft, MOVE_ROCK_SLIDE); }
@@ -193,7 +193,7 @@ TWO_VS_ONE_BATTLE_TEST("A spread move will do correct damage to the second mon i
     GIVEN {
         PLAYER(SPECIES_REGIROCK);
         PARTNER(SPECIES_REGIROCK);
-        OPPONENT_A(SPECIES_WOBBUFFET) { HP(200); }
+        OPPONENT_A(SPECIES_WOBBUFFET) { HP(180); } // Survives one spread hit, but not two.
         OPPONENT_A(SPECIES_WOBBUFFET);
     } WHEN {
         TURN { MOVE(playerLeft, MOVE_ROCK_SLIDE); }
@@ -227,7 +227,7 @@ ONE_VS_TWO_BATTLE_TEST("A spread move will do correct damage to the second mon i
     GIVEN {
         PLAYER(SPECIES_REGIROCK);
         PLAYER(SPECIES_REGIROCK);
-        OPPONENT_A(SPECIES_WOBBUFFET) { HP(200); }
+        OPPONENT_A(SPECIES_WOBBUFFET) { HP(180); } // Survives one spread hit, but not two.
         OPPONENT_B(SPECIES_WOBBUFFET);
     } WHEN {
         TURN { MOVE(playerLeft, MOVE_ROCK_SLIDE); }
@@ -276,8 +276,9 @@ SINGLE_BATTLE_TEST("Punching Glove vs Muscle Band Damage calculation")
     PARAMETRIZE { expectedDamagePlayer = 174, expectedDamageOpponent = 172; }
     PARAMETRIZE { expectedDamagePlayer = 172, expectedDamageOpponent = 169; }
     GIVEN {
-        PLAYER(SPECIES_MAKUHITA) { Item(ITEM_PUNCHING_GLOVE); }
-        OPPONENT(SPECIES_MAKUHITA) { Item(ITEM_MUSCLE_BAND); }
+        // Explicit benchmark stats keep the golden damage rolls independent of stat generation.
+        PLAYER(SPECIES_MAKUHITA) { Attack(125); Defense(65); Item(ITEM_PUNCHING_GLOVE); }
+        OPPONENT(SPECIES_MAKUHITA) { Attack(125); Defense(65); Item(ITEM_MUSCLE_BAND); }
     } WHEN {
         TURN {
             MOVE(player, MOVE_DRAIN_PUNCH, WITH_RNG(RNG_DAMAGE_MODIFIER, i));
@@ -336,8 +337,8 @@ SINGLE_BATTLE_TEST("Gem boosted Damage calculation")
     PARAMETRIZE { expectedDamage = 231; }
 #endif
     GIVEN {
-        PLAYER(SPECIES_MAKUHITA) { Item(ITEM_FIGHTING_GEM); }
-        OPPONENT(SPECIES_MAKUHITA) { MaxHP(999); HP(999); }
+        PLAYER(SPECIES_MAKUHITA) { Attack(125); Item(ITEM_FIGHTING_GEM); }
+        OPPONENT(SPECIES_MAKUHITA) { Defense(65); MaxHP(999); HP(999); }
     } WHEN {
         TURN {
             MOVE(player, MOVE_DRAIN_PUNCH, WITH_RNG(RNG_DAMAGE_MODIFIER, i));
@@ -390,10 +391,11 @@ DOUBLE_BATTLE_TEST("Transistor Damage calculation", s16 damage)
         ASSUME(GetMoveCategory(MOVE_THUNDER_SHOCK) == DAMAGE_CATEGORY_SPECIAL);
         ASSUME(NUM_DAMAGE_SPREADS == 16);
 
-        PLAYER(SPECIES_REGIELEKI) { Ability(ABILITY_KLUTZ); }
-        PLAYER(SPECIES_REGIELEKI) { Ability(ABILITY_TRANSISTOR); }
-        OPPONENT(SPECIES_REGIELEKI) { Ability(ABILITY_KLUTZ); }
-        OPPONENT(SPECIES_REGIELEKI) { Ability(ABILITY_TRANSISTOR); }
+        // These arrays benchmark the damage formula, not generated species stats.
+        PLAYER(SPECIES_REGIELEKI) { Attack(205); Defense(105); SpAttack(205); SpDefense(105); Ability(ABILITY_KLUTZ); }
+        PLAYER(SPECIES_REGIELEKI) { Attack(205); Defense(105); SpAttack(205); SpDefense(105); Ability(ABILITY_TRANSISTOR); }
+        OPPONENT(SPECIES_REGIELEKI) { Attack(205); Defense(105); SpAttack(205); SpDefense(105); Ability(ABILITY_KLUTZ); }
+        OPPONENT(SPECIES_REGIELEKI) { Attack(205); Defense(105); SpAttack(205); SpDefense(105); Ability(ABILITY_TRANSISTOR); }
     } WHEN {
         TURN {
             MOVE(playerLeft, MOVE_THUNDER_SHOCK, target: opponentLeft, WITH_RNG(RNG_DAMAGE_MODIFIER, 15 - (i % 16)));

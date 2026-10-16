@@ -1,20 +1,17 @@
 #include "global.h"
+#include "main.h"
+#include "overworld.h"
 #include "battle.h"
-#include "battle_pike.h"
-#include "battle_pyramid.h"
 #include "event_data.h"
 #include "event_object_movement.h"
 #include "field_message_box.h"
 #include "field_poison.h"
 #include "fldeff_misc.h"
-#include "frontier_util.h"
 #include "party_menu.h"
-#include "pokenav.h"
 #include "script.h"
 #include "string_util.h"
 #include "strings.h"
 #include "task.h"
-#include "trainer_hill.h"
 #include "constants/field_poison.h"
 #include "constants/form_change_types.h"
 #include "constants/party_menu.h"
@@ -47,7 +44,6 @@ static void FaintFromFieldPoison(u8 partyIdx)
     u32 status = STATUS1_NONE;
 
     if (OW_POISON_DAMAGE < GEN_4)
-        AdjustFriendship(pokemon, FRIENDSHIP_EVENT_FAINT_FIELD_PSN);
 
     SetMonData(pokemon, MON_DATA_STATUS, &status);
     GetMonData(pokemon, MON_DATA_NICKNAME, gStringVar1);
@@ -92,19 +88,7 @@ static void Task_TryFieldPoisonWhiteOut(u8 taskId)
     case 2:
         if (AllMonsFainted())
         {
-            // Battle facilities have their own white out script to handle the challenge loss
-#ifdef BUGFIX
-            if (CurrentBattlePyramidLocation() || InBattlePike() || InTrainerHillChallenge())
-#else
-            if (CurrentBattlePyramidLocation() | InBattlePike() || InTrainerHillChallenge())
-#endif
-                gSpecialVar_Result = FLDPSN_FRONTIER_WHITEOUT;
-            else
-                gSpecialVar_Result = FLDPSN_WHITEOUT;
-        }
-        else
-        {
-            gSpecialVar_Result = FLDPSN_NO_WHITEOUT;
+            SetMainCallback2(CB2_WhiteOut);
             UpdateFollowingPokemon();
         }
         ScriptContext_Enable();
@@ -132,7 +116,7 @@ s32 DoPoisonFieldEffect(void)
 
     for (i = 0; i < PARTY_SIZE; i++)
     {
-        if (GetMonData(pokemon, MON_DATA_SANITY_HAS_SPECIES) && GetAilmentFromStatus(GetMonData(pokemon, MON_DATA_STATUS)) == AILMENT_PSN)
+        if (GetMonData(pokemon, MON_DATA_SPECIES) && GetAilmentFromStatus(GetMonData(pokemon, MON_DATA_STATUS)) == AILMENT_PSN)
         {
             // Apply poison damage
             hp = GetMonData(pokemon, MON_DATA_HP);

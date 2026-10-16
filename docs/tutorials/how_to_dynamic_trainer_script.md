@@ -17,7 +17,7 @@ There may be follow up PRs but their functionality is not covered here.
 
 * **trainerbattle scripts** are those invoked by the `trainerbattle` or `facilitybattle` macros, as well as parameterized versions such as `trainerbattle_single`. These scripts define the events when the player either **talks to** or **is spotted by** an undefeated trainer up to the point the battle intro transition starts, as well as any events immediately following the return to the overworld after the battle ends.
     * e.g. `EventScript_TryDoNormalTrainerBattle` and those that follow
-* **trainerbattle modes** (previously) defined different battle types that could be handled, like single, double and rematch battles. Additionally, they controlled small variations of these standard types. For example, to omit the intro text or to continue to a specified script after the battle ends.
+* **trainerbattle modes** (previously) defined different battle types that could be handled, like single and double battles. Additionally, they controlled small variations of these standard types. For example, to omit the intro text or to continue to a specified script after the battle ends.
     * Different modes can be seen in [`include/constants/battle_setup.h`](https://github.com/rh-hideout/pokeemerald-expansion/blob/1cbbb304a9576c5e665348cd2b48dbff2a98a9a4/include/constants/battle_setup.h#L4), but note that this file has been removed in #8678
 * **event scripts** are the discrete scripts which make up a **trainerbattle script**. Usually prefixed by `EventScript`
 * **event snippets** define *small* **event scripts** that usually define a single event, like showing the intro message. They are the building blocks from which the battle scripts are compiled. A snippet should contain any instruction necessary for an event, but no more than necessary. However, *small* is not a strict qualifier here, so a snippet may contain any number of statements. There are some (loose) rules when working with snippets: 
@@ -73,7 +73,7 @@ static void BattleSetup_ConfigureTrainerBattle(TrainerBattleParameter *battlePar
     PUSH_IF_SET(EventSnippet_PlayTrainerEncounterMusic, battleParams->params.playMusicA)
     PUSH       (EventSnippet_SetTrainerFacingDirection);
 !   PUSH_IF_SET(EventSnippet_ShowTrainerIntroMsg, battleParams->params.introTextA)
-    PUSH_IF_ELSE(EventSnippet_DoRematchTrainerBattle, EventSnippet_DoTrainerBattle, battleParams->params.isRematch)
+    PUSH       (EventSnippet_DoTrainerBattle)
     PUSH_IF_ELSE(EventSnippet_GotoPostBattleScript, EventSnippet_EndTrainerBattle, battleParams->params.continueScript)
 
     return;

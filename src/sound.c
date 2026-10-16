@@ -54,9 +54,6 @@ static const struct Fanfare sFanfares[] = {
     [FANFARE_RG_POKE_FLUTE]       = { MUS_RG_POKE_FLUTE,       450 },
     [FANFARE_RG_OBTAIN_KEY_ITEM]  = { MUS_RG_OBTAIN_KEY_ITEM,  170 },
     [FANFARE_RG_DEX_RATING]       = { MUS_RG_DEX_RATING,       196 },
-    [FANFARE_OBTAIN_B_POINTS]     = { MUS_OBTAIN_B_POINTS,     313 },
-    [FANFARE_OBTAIN_SYMBOL]       = { MUS_OBTAIN_SYMBOL,       318 },
-    [FANFARE_REGISTER_MATCH_CALL] = { MUS_REGISTER_MATCH_CALL, 135 },
 };
 
 void InitMapMusic(void)
@@ -457,12 +454,6 @@ void PlayCryInternal(enum Species species, s8 pan, s8 volume, u8 priority, u8 mo
         [[fallthrough]];
     case CRY_MODE_WEAK:
         pitch = 15000;
-        break;
-    case CRY_MODE_DYNAMAX:
-        length = 255;
-        release = 255;
-        pitch = 12150;
-        chorus = 200;
         break;
     }
 

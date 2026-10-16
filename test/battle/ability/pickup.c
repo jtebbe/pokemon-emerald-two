@@ -28,7 +28,7 @@ WILD_BATTLE_TEST("Pickup grants an item used by itself in wild battles (Gen9+)")
     GIVEN {
         WITH_CONFIG(B_PICKUP_WILD, GEN_9);
         PLAYER(SPECIES_ZIGZAGOON) { Ability(ABILITY_PICKUP); MaxHP(100); HP(51); Item(ITEM_SITRUS_BERRY); }
-        OPPONENT(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_WOBBUFFET) { Attack(50); } // Berry healing must leave the user above half HP.
     } WHEN {
         TURN { MOVE(opponent, MOVE_SCRATCH); }
     } SCENE {
@@ -203,7 +203,7 @@ SINGLE_BATTLE_TEST("Pickup doesn't grant an used item if its user already restor
 {
     GIVEN {
         ASSUME(GetMoveEffect(MOVE_RECYCLE) == EFFECT_RECYCLE);
-        PLAYER(SPECIES_ZIGZAGOON) { Ability(ABILITY_PICKUP); }
+        PLAYER(SPECIES_ZIGZAGOON) { Attack(50); Ability(ABILITY_PICKUP); }
         OPPONENT(SPECIES_WOBBUFFET) { MaxHP(100); HP(51); Item(ITEM_SITRUS_BERRY); }
     } WHEN {
         TURN { MOVE(player, MOVE_SCRATCH); MOVE(opponent, MOVE_RECYCLE); }

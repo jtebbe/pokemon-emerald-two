@@ -1,0 +1,45 @@
+tools/scaninc/scaninc -M build/emerald-test/test/battle/move_effect/reflect_damage.d -g build/assets -I include -I build/emerald-test -I tools/agbcc/include test/battle/move_effect/reflect_damage.c
+/usr/lib/gcc/arm-none-eabi/13.2.1/cc1 -quiet <flags> -o build/emerald-test/test/battle/move_effect/reflect_damage.o test/battle/move_effect/reflect_damage.c
+cd build/emerald-test && arm-none-eabi-ld -T ld_script_test.ld -o ../../pokeemerald-test.elf <objects> <test-objects> <lib>
+tools/gbafix/gbafix pokeemerald-test.elf -t"POKEMON EMER" -cBPEE -m01 -r0 -d0 --silent
+tools/patchelf/patchelf pokeemerald-test.elf gTestRunnerArgv "test/battle/move_effect/reflect_damage.c\0"
+tools/patchelf/patchelf pokeemerald-test-headless.elf gTestRunnerHeadless '\x01' gTestRunnerSkipIsFail "\x00"
+tools/mgba-rom-test-hydra/mgba-rom-test-hydra tools/mgba/mgba-rom-test arm-none-eabi-objcopy pokeemerald-test-headless.elf
+[2] Reflect Damage: Metal Burst deals 1 damage when the attack received is blocked by Disguise: [32mPASS[0m
+[0] Reflect Damage: Metal Burst works when surviving OHKO move with Disguise: [32mPASS[0m
+[1] Reflect Damage: Metal Burst works when surviving OHKO move: [32mPASS[0m
+[3] Reflect Damage: Metal Burst fails if mon that damaged Metal Burst user is no longer on the field (Gen 1-4): [32mPASS[0m
+[0] Reflect Damage: Metal Burst respects Follow Me: [32mPASS[0m
+[1] Reflect Damage: Metal Burst hits the last opponent that hit the user: [32mPASS[0m
+[3] Reflect Damage: Metal Burst will do 150% of the damage received from the opponent: [32mPASS[0m
+[0] Reflect Damage: Mirror Coat works when surviving OHKO move with Disguise: [32mPASS[0m
+[2] Reflect Damage: Metal Burst ignores ally Pokémon's attack from Gen 5 onwards: [32mPASS[0m
+[3] Reflect Damage: Mirror Coat deals 1 damage when the attack received is blocked by Disguise: [32mPASS[0m
+[1] Reflect Damage: Mirror Coat works when surviving OHKO move: [32mPASS[0m
+[0] Reflect Damage: Mirror Coat fails if mon that damaged Mirror Coat user is no longer on the field (Gen 1-4): [32mPASS[0m
+[2] Reflect Damage: Mirror Coat hits the last opponent that hit the user: [32mPASS[0m
+[2] Reflect Damage: Counter cannot hit ghost-type Pokémon (Gen 2+): [33mTO_DO[0m
+[2] Reflect Damage: Counter can return damage dealt to a substitute (Gen 1): [33mTO_DO[0m
+[1] Reflect Damage: Mirror Coat respects Follow Me: [32mPASS[0m
+[1] Reflect Damage: Counter cannot return damage dealt to a substitute (Gen 2+): [33mTO_DO[0m
+[0] Reflect Damage: Mirror Coat will do twice as much damage received from the opponent: [32mPASS[0m
+[0] Reflect Damage: Counter can only counter physical moves (Gen 2+): [33mTO_DO[0m
+[0] Reflect Damage: Counter can only counter Normal and Fighting-type moves (Gen 1): [33mTO_DO[0m
+[2] Reflect Damage: Counter works when surviving OHKO move with Disguise: [32mPASS[0m
+[3] Reflect Damage: Mirror Coat ignores ally Pokémon's attack from Gen 5 onwards: [32mPASS[0m
+[1] Reflect Damage: fixed special Psychic Hidden Power is reflected by Mirror Coat, not Counter: [32mPASS[0m
+[0] Reflect Damage: Counter works when surviving OHKO move: [32mPASS[0m
+[2] Reflect Damage: Counter fails if mon that damaged Counter user is no longer on the field (Gen 1-4): [32mPASS[0m
+[1] Reflect Damage: Counter deals 1 damage when the attack received is blocked by Disguise: [32mPASS[0m
+[3] Reflect Damage moves can hit Pokémon immune to their type (Gen 1): [32mPASS[0m
+[0] Reflect Damage: Counter hits the last opponent that hit the user: [32mPASS[0m
+[2] Reflect Damage: Counter will do twice as much damage received from the opponent: [32mPASS[0m
+[3] Reflect Damage: Counter respects Follow me: [32mPASS[0m
+[1] Reflect Damage: Counter ignores ally Pokémon's attack from Gen 5 onwards: [32mPASS[0m
+[0] Reflect Damage: Counter is not affected by Protect effects if it doesn't damage: [32mPASS[0m
+[3] Reflect Damage: Counter is affected by Protect effects if it was damaged by that battler: [32mPASS[0m
+
+- Tests [33mTO_DO[0m:           5
+- Tests [32mPASSED[0m:          28
+- Tests [34mTOTAL[0m:           33
+

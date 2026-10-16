@@ -12,8 +12,8 @@ SINGLE_BATTLE_TEST("Mud Sport reduces the damage of Electric Type moves by 50% (
     PARAMETRIZE { config = GEN_5; }
     GIVEN {
         WITH_CONFIG(B_SPORT_DMG_REDUCTION, config);
-        PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_WOBBUFFET);
+        PLAYER(SPECIES_WOBBUFFET) { SpAttack(71); SpDefense(121); }
+        OPPONENT(SPECIES_WOBBUFFET) { SpAttack(71); SpDefense(121); }
     } WHEN {
         TURN { MOVE(player, MOVE_SHOCK_WAVE); MOVE(opponent, MOVE_SHOCK_WAVE); }
         TURN { MOVE(player, MOVE_MUD_SPORT); }

@@ -326,13 +326,13 @@ u32 GetPlayerTextSpeed(void)
     if (gTextFlags.forceMidTextSpeed)
         return OPTIONS_TEXT_SPEED_MID;
 
-    if (gSaveBlock2Ptr->optionsTextSpeed > OPTIONS_TEXT_SPEED_INSTANT)
-        gSaveBlock2Ptr->optionsTextSpeed = OPTIONS_TEXT_SPEED_FAST;
+    if (gSaveData.optionsTextSpeed > OPTIONS_TEXT_SPEED_INSTANT)
+        gSaveData.optionsTextSpeed = OPTIONS_TEXT_SPEED_FAST;
 
     if (FlagGet(FLAG_TEXT_SPEED_INSTANT) || TEXT_SPEED_INSTANT)
         return OPTIONS_TEXT_SPEED_INSTANT;
 
-    return gSaveBlock2Ptr->optionsTextSpeed;
+    return gSaveData.optionsTextSpeed;
 }
 
 u32 GetPlayerTextSpeedDelay(void)
@@ -484,7 +484,6 @@ bool32 AddTextPrinter(struct TextPrinterTemplate *printerTemplate, u8 speed, voi
         sTempTextPrinter.printerTemplate.firstSprite = printerTemplate->spriteId;
         sTempTextPrinter.printerTemplate.firstSpriteInRow = printerTemplate->spriteId;
     }
-
 
     GenerateFontHalfRowLookupTable(printerTemplate->color);
     if (speed != TEXT_SKIP_DRAW && speed != 0)
@@ -1349,7 +1348,7 @@ static u16 RenderText(struct TextPrinter *textPrinter)
             return RENDER_UPDATE;
         }
 
-        if (!(gBattleTypeFlags & BATTLE_TYPE_RECORDED) && gTextFlags.autoScroll)
+        if (gTextFlags.autoScroll)
             textPrinter->delayCounter = 3;
         else
             textPrinter->delayCounter = textPrinter->textSpeed;

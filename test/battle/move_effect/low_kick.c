@@ -15,7 +15,7 @@ SINGLE_BATTLE_TEST("Low Kick's damage varies based on the target's weight", s16 
 
     GIVEN {
         ASSUME(GetSpeciesWeight(species) == weight);
-        PLAYER(SPECIES_WOBBUFFET);
+        PLAYER(SPECIES_WOBBUFFET) { Attack(71); }
         OPPONENT(species) { Defense(170); } // Cubone's Defense, the lowest one in hopes of avoid distorting the results.
     } WHEN {
         TURN { MOVE(player, MOVE_LOW_KICK); }

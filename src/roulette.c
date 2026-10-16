@@ -25,7 +25,6 @@
 #include "strings.h"
 #include "task.h"
 #include "trig.h"
-#include "tv.h"
 #include "window.h"
 #include "constants/coins.h"
 #include "constants/rgb.h"
@@ -1176,7 +1175,6 @@ static void InitRouletteTableData(void)
 #define tWonBet          data[5]
 #define tBallNum         data[6]
 #define tTotalBallNum    data[8] // Same as tBallNum but isn't cleared every 6 balls
-#define tConsecutiveWins data[11]
 #define tWinningSquare   data[12]
 #define tCoins           data[13]
 
@@ -1258,7 +1256,6 @@ static void CB2_LoadRoulette(void)
         taskId = sRoulette->playTaskId = CreateTask(Task_StartPlaying, 0);
         gTasks[taskId].tBallNum = BALLS_PER_ROUND;
         gTasks[taskId].tCoins = GetCoins();
-        AlertTVThatPlayerPlayedRoulette(GetCoins());
         sRoulette->spinTaskId = CreateTask(Task_SpinWheel, 1);
         SetMainCallback2(CB2_Roulette);
         return;
@@ -1482,7 +1479,6 @@ static void ProcessBetGridInput(u8 taskId)
 
 static void Task_StartSpin(u8 taskId)
 {
-    IncrementDailyRouletteUses();
     sRoulette->selectionRectDrawState = SELECT_STATE_ERASE;
     if (sRoulette->minBet == 1)
         sRoulette->wheelDelay = 1;
@@ -1784,7 +1780,7 @@ static void Task_FlashBallOnWinningSquare(u8 taskId)
     }
 }
 
-static void Task_TryIncrementWins(u8 taskId)
+static void Task_WaitForResultSound(u8 taskId)
 {
     switch (gTasks[taskId].tWonBet)
     {
@@ -1792,9 +1788,6 @@ static void Task_TryIncrementWins(u8 taskId)
     case 2: // never happens
         if (IsFanfareTaskInactive())
         {
-            u32 wins = GetGameStat(GAME_STAT_CONSECUTIVE_ROULETTE_WINS);
-            if (wins < ++gTasks[taskId].tConsecutiveWins)
-                SetGameStat(GAME_STAT_CONSECUTIVE_ROULETTE_WINS, gTasks[taskId].tConsecutiveWins);
             StartTaskAfterDelayOrInput(taskId, Task_PrintPayout, NO_DELAY, A_BUTTON | B_BUTTON);
         }
         break;
@@ -1802,7 +1795,6 @@ static void Task_TryIncrementWins(u8 taskId)
     default:
         if (!IsSEPlaying())
         {
-            gTasks[taskId].tConsecutiveWins = 0;
             StartTaskAfterDelayOrInput(taskId, Task_EndTurn, NO_DELAY, A_BUTTON | B_BUTTON);
         }
         break;
@@ -1839,7 +1831,7 @@ static void Task_PrintSpinResult(u8 taskId)
         break;
     }
     gTasks[taskId].data[1] = 0;
-    gTasks[taskId].func = Task_TryIncrementWins;
+    gTasks[taskId].func = Task_WaitForResultSound;
 }
 
 #define tPayout data[1]
@@ -1981,7 +1973,6 @@ static void ExitRoulette(u8 taskId)
         gSpecialVar_0x8004 = TRUE;
     else
         gSpecialVar_0x8004 = FALSE;
-    TryPutFindThatGamerOnAir(GetCoins());
     BeginHardwarePaletteFade(0xFF, 0, 0, 16, 0);
     gTasks[taskId].func = Task_ExitRoulette;
 }

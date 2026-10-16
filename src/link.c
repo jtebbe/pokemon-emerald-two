@@ -24,6 +24,8 @@
 #include "trade.h"
 #include "battle.h"
 #include "link.h"
+#include "link_protocol.h"
+#include "load_save.h"
 #include "link_rfu.h"
 #include "constants/rgb.h"
 #include "constants/trade.h"
@@ -95,7 +97,6 @@ COMMON_DATA u8 gLastRecvQueueCount = 0;
 COMMON_DATA u16 gLinkSavedIme = 0;
 
 static EWRAM_DATA u8 sLinkTestDebugValuesEnabled = 0;
-EWRAM_DATA u32 gBerryBlenderKeySendAttempts = 0;
 EWRAM_DATA u16 gBlockRecvBuffer[MAX_RFU_PLAYERS][BLOCK_BUFFER_SIZE / 2] = {};
 EWRAM_DATA u8 gBlockSendBuffer[BLOCK_BUFFER_SIZE] = {};
 static EWRAM_DATA bool8 sLinkOpen = FALSE;
@@ -173,7 +174,6 @@ static const u8 sBGControlRegs[] = {
     REG_OFFSET_BG2CNT,
     REG_OFFSET_BG3CNT
 };
-static const char sASCIIGameFreakInc[] = "GameFreak inc.";
 static const char sASCIITestPrint[] = "TEST PRINT\nP0\nP1\nP2\nP3";
 static const struct BgTemplate sLinkErrorBgTemplates[] = {
     {
@@ -289,7 +289,7 @@ static void UNUSED LinkTestScreen(void)
     OpenLink();
     SeedRng(gMain.vblankCounter2);
     for (i = 0; i < TRAINER_ID_LENGTH; i++)
-        gSaveBlock2Ptr->playerTrainerId[i] = Random() % 256;
+        gSaveData.playerTrainerId[i] = Random() % 256;
 
     InitLinkTestBG(0, 2, 4, 0, 0);
     SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_MODE_0 | DISPCNT_OBJ_1D_MAP | DISPCNT_BG0_ON | DISPCNT_BG2_ON | DISPCNT_OBJ_ON);
@@ -311,12 +311,12 @@ void SetLocalLinkPlayerId(u8 playerId)
 static void InitLocalLinkPlayer(void)
 {
     gLocalLinkPlayer.trainerId = READ_OTID_FROM_SAVE;
-    StringCopy(gLocalLinkPlayer.name, gSaveBlock2Ptr->playerName);
-    gLocalLinkPlayer.gender = gSaveBlock2Ptr->playerGender;
+    StringCopy(gLocalLinkPlayer.name, gSaveData.playerName);
+    gLocalLinkPlayer.gender = gSaveData.playerGender;
     gLocalLinkPlayer.linkType = gLinkType;
     gLocalLinkPlayer.language = gGameLanguage;
     gLocalLinkPlayer.version = gGameVersion + 0x4000;
-    gLocalLinkPlayer.lp_field_2 = 0x8000;
+    gLocalLinkPlayer.lp_field_2 = (u16)LinkProtocolBuildId();
     gLocalLinkPlayer.progressFlags = IsNationalPokedexEnabled();
     if (FlagGet(FLAG_IS_CHAMPION))
     {
@@ -524,14 +524,10 @@ static void ProcessRecvCmds(u8 unused)
             InitLocalLinkPlayer();
             block = &gLocalLinkPlayerBlock;
             block->linkPlayer = gLocalLinkPlayer;
-            memcpy(block->magic1, sASCIIGameFreakInc, sizeof(block->magic1) - 1);
-            memcpy(block->magic2, sASCIIGameFreakInc, sizeof(block->magic2) - 1);
+            LinkProtocolStamp(block);
             InitBlockSend(block, sizeof(*block));
             break;
         }
-        case LINKCMD_BLENDER_SEND_KEYS:
-            gLinkPartnersHeldKeys[i] = gRecvCmds[i][1];
-            break;
         case LINKCMD_DUMMY_1:
             break;
         case LINKCMD_DUMMY_2:
@@ -581,9 +577,10 @@ static void ProcessRecvCmds(u8 unused)
                             linkPlayer->progressFlags = 0;
                         }
                         ConvertLinkPlayerName(linkPlayer);
-                        if (strcmp(block->magic1, sASCIIGameFreakInc) != 0
-                            || strcmp(block->magic2, sASCIIGameFreakInc) != 0)
+                        if (!LinkProtocolCheck(block))
                         {
+                            linkPlayer->lp_field_2 = (u16)~LinkProtocolBuildId();
+                            LinkProtocolSetError(LINK_PROTOCOL_WRONG_BUILD);
                             SetMainCallback2(CB2_LinkError);
                         }
                         else
@@ -603,9 +600,6 @@ static void ProcessRecvCmds(u8 unused)
             break;
         case LINKCMD_READY_EXIT_STANDBY:
             gReadyToExitStandby[i] = TRUE;
-            break;
-        case LINKCMD_BLENDER_NO_PBLOCK_SPACE:
-            SetBerryBlenderLinkCallback();
             break;
         case LINKCMD_SEND_BLOCK_REQ:
             SendBlock(0, sBlockRequests[gRecvCmds[i][1]].address, sBlockRequests[gRecvCmds[i][1]].size);
@@ -628,10 +622,6 @@ static void BuildSendCmd(u16 command)
     case LINKCMD_READY_EXIT_STANDBY:
         gSendCmd[0] = LINKCMD_READY_EXIT_STANDBY;
         break;
-    case LINKCMD_BLENDER_SEND_KEYS:
-        gSendCmd[0] = LINKCMD_BLENDER_SEND_KEYS;
-        gSendCmd[1] = gMain.heldKeys;
-        break;
     case LINKCMD_DUMMY_1:
         gSendCmd[0] = LINKCMD_DUMMY_1;
         break;
@@ -651,9 +641,6 @@ static void BuildSendCmd(u16 command)
         gSendCmd[0] = LINKCMD_INIT_BLOCK;
         gSendCmd[1] = sBlockSend.size;
         gSendCmd[2] = sBlockSend.multiplayerId + 0x80;
-        break;
-    case LINKCMD_BLENDER_NO_PBLOCK_SPACE:
-        gSendCmd[0] = LINKCMD_BLENDER_NO_PBLOCK_SPACE;
         break;
     case LINKCMD_SEND_ITEM:
         gSendCmd[0] = LINKCMD_SEND_ITEM;
@@ -782,12 +769,16 @@ u8 GetLinkPlayerDataExchangeStatusTimed(int minPlayers, int maxPlayers)
     int count;
     u32 index;
     u8 numPlayers;
-    u32 linkType1;
-    u32 linkType2;
 
     count = 0;
     if (gReceivedRemoteLinkPlayers == TRUE)
     {
+        if (!LinkProtocolPlayersCompatible())
+        {
+            LinkProtocolSetError(LINK_PROTOCOL_WRONG_BUILD);
+            SetMainCallback2(CB2_LinkError);
+            return EXCHANGE_TIMED_OUT;
+        }
         numPlayers = GetLinkPlayerCount_2();
         if (minPlayers > numPlayers || numPlayers > maxPlayers)
         {
@@ -833,15 +824,6 @@ u8 GetLinkPlayerDataExchangeStatusTimed(int minPlayers, int maxPlayers)
             else
             {
                 sPlayerDataExchangeStatus = EXCHANGE_DIFF_SELECTIONS;
-                linkType1 = gLinkPlayers[GetMultiplayerId()].linkType;
-                linkType2 = gLinkPlayers[GetMultiplayerId() ^ 1].linkType;
-                if ((linkType1 == LINKTYPE_BATTLE_TOWER_50 && linkType2 == LINKTYPE_BATTLE_TOWER_OPEN)
-                 || (linkType1 == LINKTYPE_BATTLE_TOWER_OPEN && linkType2 == LINKTYPE_BATTLE_TOWER_50))
-                {
-                    // 3 below indicates partner made different level mode selection
-                    // See BattleFrontier_BattleTowerLobby_EventScript_AbortLinkDifferentSelections
-                    gSpecialVar_0x8005 = 3;
-                }
             }
         }
     }
@@ -858,6 +840,11 @@ bool8 IsLinkPlayerDataExchangeComplete(void)
     u8 count;
     bool8 retval;
 
+    if (!LinkProtocolPlayersCompatible())
+    {
+        SetMainCallback2(CB2_LinkError);
+        return FALSE;
+    }
     count = 0;
     for (i = 0; i < GetLinkPlayerCount(); i++)
     {
@@ -953,32 +940,6 @@ static void LinkCB_BlockSend(void)
 static void LinkCB_BlockSendEnd(void)
 {
     gLinkCallback = NULL;
-}
-
-static void LinkCB_BerryBlenderSendHeldKeys(void)
-{
-    GetMultiplayerId();
-    BuildSendCmd(LINKCMD_BLENDER_SEND_KEYS);
-    gBerryBlenderKeySendAttempts++;
-}
-
-void SetBerryBlenderLinkCallback(void)
-{
-    gBerryBlenderKeySendAttempts = 0;
-    if (gWirelessCommType)
-        Rfu_SetBerryBlenderLinkCallback();
-    else
-        gLinkCallback = LinkCB_BerryBlenderSendHeldKeys;
-}
-
-static u32 UNUSED GetBerryBlenderKeySendAttempts(void)
-{
-    return gBerryBlenderKeySendAttempts;
-}
-
-static void UNUSED SendBerryBlenderNoSpaceForPokeblocks(void)
-{
-    BuildSendCmd(LINKCMD_BLENDER_NO_PBLOCK_SPACE);
 }
 
 u8 GetMultiplayerId(void)
@@ -1267,17 +1228,7 @@ bool8 DoesLinkPlayerCountMatchSaved(void)
     for (i = 0; i < gSavedLinkPlayerCount; i++)
     {
         if (gLinkPlayers[i].trainerId == sSavedLinkPlayers[i].trainerId)
-        {
-            if (gLinkType == LINKTYPE_BATTLE_TOWER)
-            {
-                if (gLinkType == gLinkPlayers[i].linkType)
-                    count++;
-            }
-            else
-            {
-                count++;
-            }
-        }
+            count++;
     }
     if (count == gSavedLinkPlayerCount)
     {
@@ -1540,6 +1491,7 @@ void CB2_LinkError(void)
 {
     u8 *tilemapBuffer;
 
+    RestoreLinkBattleState();
     SetGpuReg(REG_OFFSET_DISPCNT, 0);
     m4aMPlayStop(&gMPlayInfo_SE1);
     m4aMPlayStop(&gMPlayInfo_SE2);
@@ -1621,6 +1573,15 @@ static void CB2_PrintErrorMessage(void)
     switch (gMain.state)
     {
     case  00:
+        if (LinkProtocolErrorMessage() != NULL)
+        {
+            LoadBgTiles(0, sCommErrorBg_Gfx, 0x20, 0);
+            FillWindowPixelBuffer(WIN_LINK_ERROR_MID, PIXEL_FILL(0));
+            AddTextPrinterParameterized3(WIN_LINK_ERROR_MID, FONT_SHORT_COPY_1, 2, 0, sTextColors, 0, LinkProtocolErrorMessage());
+            PutWindowTilemap(WIN_LINK_ERROR_MID);
+            CopyWindowToVram(WIN_LINK_ERROR_MID, COPYWIN_FULL);
+            break;
+        }
         // Below is only true for the RFU, so the other error
         // type is inferred to be from a wired connection
         if (sLinkErrorBuffer.disconnected)
@@ -1643,7 +1604,7 @@ static void CB2_PrintErrorMessage(void)
         PlaySE(SE_BOO);
         break;
     case 130:
-        if (gWirelessCommType == 2)
+        if (LinkProtocolErrorMessage() != NULL || gWirelessCommType == 2)
             AddTextPrinterParameterized3(WIN_LINK_ERROR_TOP, FONT_SHORT_COPY_1, 2, 20, sTextColors, 0, gText_ABtnTitleScreen);
         else if (gWirelessCommType == 1)
             AddTextPrinterParameterized3(WIN_LINK_ERROR_TOP, FONT_SHORT_COPY_1, 2, 20, sTextColors, 0, gText_ABtnRegistrationCounter);
@@ -1661,12 +1622,15 @@ static void CB2_PrintErrorMessage(void)
                 ReloadSave();
             }
         }
-        else if (gWirelessCommType == 2)
+        else if (gWirelessCommType == 2 || LinkProtocolErrorMessage() != NULL)
         {
             if (JOY_NEW(A_BUTTON))
             {
-                rfu_REQ_stopMode();
-                rfu_waitREQComplete();
+                if (gWirelessCommType != 0)
+                {
+                    rfu_REQ_stopMode();
+                    rfu_waitREQComplete();
+                }
                 DoSoftReset();
             }
         }
@@ -1710,8 +1674,7 @@ void LocalLinkPlayerToBlock(void)
     InitLocalLinkPlayer();
     block = &gLocalLinkPlayerBlock;
     block->linkPlayer = gLocalLinkPlayer;
-    memcpy(block->magic1, sASCIIGameFreakInc, sizeof(block->magic1) - 1);
-    memcpy(block->magic2, sASCIIGameFreakInc, sizeof(block->magic2) - 1);
+    LinkProtocolStamp(block);
     memcpy(gBlockSendBuffer, block, sizeof(*block));
 }
 
@@ -1726,9 +1689,12 @@ void LinkPlayerFromBlock(u32 who)
     *player = block->linkPlayer;
     ConvertLinkPlayerName(player);
 
-    if (strcmp(block->magic1, sASCIIGameFreakInc) != 0
-     || strcmp(block->magic2, sASCIIGameFreakInc) != 0)
+    if (!LinkProtocolCheck(block))
+    {
+        player->lp_field_2 = (u16)~LinkProtocolBuildId();
+        LinkProtocolSetError(LINK_PROTOCOL_WRONG_BUILD);
         SetMainCallback2(CB2_LinkError);
+    }
 }
 
 // When this function returns TRUE the callbacks are skipped
@@ -2315,18 +2281,4 @@ void ResetRecvBuffer(void)
                 gLink.recvQueue.data[i][j][k] = LINKCMD_NONE;
         }
     }
-}
-
-bool32 ShouldCheckForUnionRoom(void)
-{
-    if (OW_UNION_DISABLE_CHECK)
-        return FALSE;
-
-    if (OW_FLAG_MOVE_UNION_ROOM_CHECK == 0)
-        return TRUE;
-
-    if (FlagGet(OW_FLAG_MOVE_UNION_ROOM_CHECK))
-        return TRUE;
-
-    return FALSE;
 }

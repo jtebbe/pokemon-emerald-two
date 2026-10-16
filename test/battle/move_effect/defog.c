@@ -720,7 +720,6 @@ DOUBLE_BATTLE_TEST("Defog removes everything it can")
             EXPECT_EQ(gBattleStruct->hazardsQueue[0][3], HAZARDS_TOXIC_SPIKES);
         }
         EXPECT_EQ(gBattleStruct->hazardsQueue[0][4], HAZARDS_NONE);
-        EXPECT_EQ(gBattleStruct->hazardsQueue[0][5], HAZARDS_NONE);
 
         if (config == GEN_6) {
             EXPECT_EQ(gBattleStruct->hazardsQueue[1][0], HAZARDS_NONE);
@@ -734,7 +733,6 @@ DOUBLE_BATTLE_TEST("Defog removes everything it can")
             EXPECT_EQ(gBattleStruct->hazardsQueue[1][3], HAZARDS_STEALTH_ROCK);
         }
         EXPECT_EQ(gBattleStruct->hazardsQueue[1][4], HAZARDS_NONE);
-        EXPECT_EQ(gBattleStruct->hazardsQueue[1][5], HAZARDS_NONE);
     }
 }
 

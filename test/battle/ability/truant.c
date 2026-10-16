@@ -547,26 +547,6 @@ SINGLE_BATTLE_TEST("A Truant user switched in while Neutralizing Gas is active a
     }
 }
 
-DOUBLE_BATTLE_TEST("Truant loafs when Neutralizing Gas ends after Dynamax but before its action")
-{
-    GIVEN {
-        WITH_CONFIG(B_TRUANT, GEN_5);
-        PLAYER(SPECIES_WOBBUFFET) { Speed(3); }
-        PLAYER(SPECIES_SLAKING) { Ability(ABILITY_TRUANT); Speed(2); }
-        OPPONENT(SPECIES_KOFFING) { Ability(ABILITY_NEUTRALIZING_GAS); HP(1); Speed(1); }
-        OPPONENT(SPECIES_WYNAUT) { Speed(1); }
-    } WHEN {
-        TURN { MOVE(playerLeft, MOVE_SCRATCH, target: opponentLeft); MOVE(playerRight, MOVE_SCRATCH, gimmick: GIMMICK_DYNAMAX, target: opponentRight); }
-        TURN { MOVE(playerRight, MOVE_EMBER, target: opponentRight); }
-    } SCENE {
-        ABILITY_POPUP(opponentLeft, ABILITY_NEUTRALIZING_GAS);
-        ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_DYNAMAX_GROWTH, playerRight);
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, playerLeft);
-        NOT ANIMATION(ANIM_TYPE_MOVE, MOVE_MAX_STRIKE, playerRight);
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_MAX_FLARE, playerRight);
-    }
-}
-
 DOUBLE_BATTLE_TEST("Ability Shield preserves Truant's counter through Neutralizing Gas")
 {
     GIVEN {

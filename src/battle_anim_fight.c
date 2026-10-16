@@ -6,6 +6,9 @@
 #include "trig.h"
 #include "constants/rgb.h"
 
+static void AnimBrickBreakWallShard(struct Sprite *);
+static void AnimBrickBreakWallShard_Step(struct Sprite *);
+
 static void AnimUnusedHumanoidFoot(struct Sprite *);
 static void AnimSlideHandOrFootToTarget(struct Sprite *);
 static void AnimFistOrFootRandomPos(struct Sprite *);
@@ -17,8 +20,6 @@ static void AnimSlidingKick_Step(struct Sprite *);
 static void AnimStompFoot_Step(struct Sprite *);
 static void AnimStompFoot_End(struct Sprite *);
 static void AnimBrickBreakWall(struct Sprite *);
-static void AnimBrickBreakWallShard(struct Sprite *);
-static void AnimBrickBreakWallShard_Step(struct Sprite *);
 static void AnimSuperpowerOrb(struct Sprite *);
 static void AnimSuperpowerOrb_Step(struct Sprite *);
 static void AnimSuperpowerRock(struct Sprite *);
@@ -202,6 +203,7 @@ const struct SpriteTemplate gBrickBreakWallSpriteTemplate =
     .oam = &gOamData_AffineOff_ObjBlend_64x64,
     .callback = AnimBrickBreakWall,
 };
+
 
 const struct SpriteTemplate gBrickBreakWallShardSpriteTemplate =
 {
@@ -455,11 +457,7 @@ static void AnimSlideHandOrFootToTarget(struct Sprite *sprite)
 
 void AnimJumpKick(struct Sprite *sprite)
 {
-    if (IsContest())
-    {
-        gBattleAnimArgs[1] = -gBattleAnimArgs[1];
-        gBattleAnimArgs[3] = -gBattleAnimArgs[3];
-    }
+    ;
 
     AnimSlideHandOrFootToTarget(sprite);
 }
@@ -769,6 +767,8 @@ void AnimBrickBreakWall_Step(struct Sprite *sprite)
 }
 
 // Piece of shattered defensive wall flies off. Used by Brick Break when the target has a defensive wall
+
+
 static void AnimBrickBreakWallShard(struct Sprite *sprite)
 {
     if (gBattleAnimArgs[0] == ANIM_ATTACKER)
@@ -938,9 +938,7 @@ void AnimSuperpowerFireball(struct Sprite *sprite)
         sprite->oam.priority = GetBattlerSpriteBGPriority(gBattleAnimTarget);
     }
 
-    if (IsContest())
-        sprite->oam.matrixNum |= ST_OAM_HFLIP;
-    else if (IsOnPlayerSide(battler))
+    if (IsOnPlayerSide(battler))
         sprite->oam.matrixNum |= (ST_OAM_HFLIP | ST_OAM_VFLIP);
 
     sprite->data[0] = 16;
@@ -996,11 +994,7 @@ void AnimRevengeScratch(struct Sprite *sprite)
     else
         InitSpritePosToAnimTarget(sprite, FALSE);
 
-    if (IsContest())
-    {
-        StartSpriteAnim(sprite, 2);
-    }
-    else if (!IsOnPlayerSide(gBattleAnimAttacker))
+    if (!IsOnPlayerSide(gBattleAnimAttacker))
     {
         StartSpriteAnim(sprite, 1);
     }

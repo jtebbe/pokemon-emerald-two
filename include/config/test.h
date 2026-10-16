@@ -8,10 +8,8 @@
 #define P_MEGA_EVOLUTIONS                TRUE
 #undef P_PRIMAL_REVERSIONS
 #define P_PRIMAL_REVERSIONS              TRUE
-#undef P_ULTRA_BURST_FORMS
-#define P_ULTRA_BURST_FORMS              TRUE
-#undef P_GIGANTAMAX_FORMS
-#define P_GIGANTAMAX_FORMS               TRUE
+#undef P_CUSTOM_MEGA_FORMS
+#define P_CUSTOM_MEGA_FORMS             TRUE
 #undef P_TERA_FORMS
 #define P_TERA_FORMS                     TRUE
 #undef P_FUSION_FORMS

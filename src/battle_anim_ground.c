@@ -6,14 +6,15 @@
 #include "trig.h"
 #include "constants/rgb.h"
 
+static void AnimDigDirtMound(struct Sprite *);
+static void AnimTask_DigBounceMovement(u8);
+static void AnimTask_DigEndBounceMovementSetInvisible(u8);
+
 static void AnimBonemerangProjectile(struct Sprite *);
 static void AnimDirtPlumeParticle_Step(struct Sprite *);
-static void AnimDigDirtMound(struct Sprite *);
 static void AnimBonemerangProjectile_Step(struct Sprite *);
 static void AnimBonemerangProjectile_End(struct Sprite *);
 static void AnimMudSportDirtFalling(struct Sprite *);
-static void AnimTask_DigBounceMovement(u8);
-static void AnimTask_DigEndBounceMovementSetInvisible(u8);
 static void AnimTask_DigSetVisibleUnderground(u8);
 static void AnimTask_DigRiseUpFromHole(u8);
 static void SetDigScanlineEffect(u8, s16, s16);
@@ -105,6 +106,7 @@ const struct SpriteTemplate gDirtPlumeSpriteTemplate =
     .oam = &gOamData_AffineOff_ObjNormal_8x8,
     .callback = AnimDirtPlumeParticle,
 };
+
 
 const struct SpriteTemplate gDirtMoundSpriteTemplate =
 {
@@ -278,6 +280,7 @@ static void AnimMudSportDirtFalling(struct Sprite *sprite)
         break;
     }
 }
+
 
 void AnimTask_DigDownMovement(u8 taskId)
 {
@@ -534,6 +537,24 @@ static void AnimDirtPlumeParticle_Step(struct Sprite *sprite)
 // arg 0: which mon (0 = attacker, 1 = target)
 // arg 1: oam tile num (0 = left half of image, 1 = right half of image)
 // arg 2: duration
+
+
+#define tState               data[0]
+#define tDelay               data[1]
+#define tTimer               data[2]
+#define tMaxTime             data[3]
+#define tbattlerSpriteIds(i) data[9 + (i)]
+#define tNumBattlers         data[13] // AnimTask_ShakeBattlers
+#define tInitialX            data[13] // AnimTask_ShakePlatforms
+#define tHorizOffset         data[14]
+#define tInitHorizOffset     data[15]
+
+// Shakes battler(s) or the battle platforms back and forth horizontally. Used by e.g. Earthquake, Eruption
+// arg0: What to shake. 0-3 for any specific battler, MAX_BATTLERS_COUNT for all battlers, MAX_BATTLERS_COUNT + 1 for the platforms
+// arg1: Shake intensity, used to calculate horizontal pixel offset (if 0, use move power instead)
+// arg2: Length of time to shake for
+
+
 static void AnimDigDirtMound(struct Sprite *sprite)
 {
     enum BattlerId battler;
@@ -551,20 +572,6 @@ static void AnimDigDirtMound(struct Sprite *sprite)
     sprite->callback = WaitAnimForDuration;
 }
 
-#define tState               data[0]
-#define tDelay               data[1]
-#define tTimer               data[2]
-#define tMaxTime             data[3]
-#define tbattlerSpriteIds(i) data[9 + (i)]
-#define tNumBattlers         data[13] // AnimTask_ShakeBattlers
-#define tInitialX            data[13] // AnimTask_ShakePlatforms
-#define tHorizOffset         data[14]
-#define tInitHorizOffset     data[15]
-
-// Shakes battler(s) or the battle platforms back and forth horizontally. Used by e.g. Earthquake, Eruption
-// arg0: What to shake. 0-3 for any specific battler, MAX_BATTLERS_COUNT for all battlers, MAX_BATTLERS_COUNT + 1 for the platforms
-// arg1: Shake intensity, used to calculate horizontal pixel offset (if 0, use move power instead)
-// arg2: Length of time to shake for
 void AnimTask_HorizontalShake(u8 taskId)
 {
     u16 i;
