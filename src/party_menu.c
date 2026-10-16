@@ -7990,30 +7990,8 @@ static void RestoreMultiPartyFromSummaryScreen(void)
     }
 }
 
-static void PartyMenu_Oak_PrintText(u8 windowId, const u8 *str)
-{
-    StringExpandPlaceholders(gStringVar4, str);
-    gTextFlags.canABSpeedUpPrint = TRUE;
-    AddTextPrinterParameterized2(windowId, FONT_NORMAL, gStringVar4, GetPlayerTextSpeedDelay(), NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
-}
 
-static bool8 FirstBattleEnterParty_CreateWindowAndMsg1Printer(void)
-{
-    u8 windowId = AddWindow(&sWindowTemplate_FirstBattleOakVoiceover);
 
-    LoadMessageBoxGfx(windowId, 0x4F, BG_PLTT_ID(14));
-    DrawDialogFrameWithCustomTileAndPalette(windowId, 1, 0x4F, 0xE);
-    PartyMenu_Oak_PrintText(windowId, gText_OakImportantToGetToKnowPokemonThroughly);
-    return windowId;
-}
-
-static void FirstBattleEnterParty_DestroyVoiceoverWindow(u8 windowId)
-{
-    ClearWindowTilemap(windowId);
-    ClearDialogWindowAndFrameToTransparent(windowId, FALSE);
-    RemoveWindow(windowId);
-    ScheduleBgCopyTilemapToVram(2);
-}
 
 
 

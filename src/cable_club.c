@@ -426,7 +426,6 @@ static void Task_LinkupCheckStatusAfterConfirm(u8 taskId)
 
 static void FinishLinkup(u16 *linkupStatus, u32 taskId)
 {
-    struct TrainerCard *trainerCards = gTrainerCards;
 
     if (*linkupStatus == LINKUP_SUCCESS)
     {
@@ -775,49 +774,6 @@ static void Task_StartWirelessCableClubBattle(u8 taskId)
 
 #undef tTimer
 
-static void CB2_ReturnFromUnionRoomBattle(void)
-{
-    u8 playerCount;
-    int i;
-    bool32 linkedWithFRLG;
-
-    switch (gMain.state)
-    {
-    case 0:
-        playerCount = GetLinkPlayerCount();
-        linkedWithFRLG = FALSE;
-        for (i = 0; i < playerCount; i++)
-        {
-            enum GameVersion version = (u8)gLinkPlayers[i].version;
-            if (version == VERSION_FIRE_RED || version == VERSION_LEAF_GREEN)
-            {
-                linkedWithFRLG = TRUE;
-                break;
-            }
-        }
-
-        if (linkedWithFRLG)
-        {
-            gMain.state = 2;
-        }
-        else
-        {
-            SetCloseLinkCallback();
-            gMain.state = 1;
-        }
-        break;
-    case 1:
-        if (!gReceivedRemoteLinkPlayers)
-        {
-            SetMainCallback2(CB2_ReturnToField);
-        }
-        break;
-    case 2:
-        SetMainCallback2(CB2_ReturnToField);
-        break;
-    }
-    RunTasks();
-}
 
 void CB2_ReturnFromCableClubBattle(void)
 {

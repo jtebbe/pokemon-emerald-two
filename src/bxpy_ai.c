@@ -42,7 +42,6 @@ void BXPY_SetupBattlers()
     bool32 isDouble = IsDoubleBattle();
     bool32 isMaster =  (gBattleTypeFlags & BATTLE_TYPE_IS_MASTER);
     bool32 isMulti = (gBattleTypeFlags & BATTLE_TYPE_MULTI);
-    bool32 isInGamePartner = (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER);
 
     if (!isDouble)
         gBattlersCount = 2;

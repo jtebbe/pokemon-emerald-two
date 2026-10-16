@@ -205,7 +205,6 @@ static bool32 HandleDPadInput(void);
 static void AppendTextToMessage(void);
 static void DeleteLastMessageCharacter(void);
 static void SwitchCaseOfLastMessageCharacter(void);
-static bool32 ChatMessageIsNotEmpty(void);
 static void ResetMessageEntryBuffer(void);
 static u8 *GetEndOfMessagePtr(void);
 static u8 *GetLastCharOfMessagePtr(void);
@@ -1425,13 +1424,6 @@ static void SwitchCaseOfLastMessageCharacter(void)
     }
 }
 
-static bool32 ChatMessageIsNotEmpty(void)
-{
-    if (sChat->bufferCursorPos)
-        return TRUE;
-    else
-        return FALSE;
-}
 
 static void ResetMessageEntryBuffer(void)
 {
@@ -1464,29 +1456,6 @@ static u8 *GetLastCharOfMessagePtr(void)
     return lastChar;
 }
 
-static u16 GetNumOverflowCharsInMessage(void)
-{
-    u8 *str;
-    u32 i, numChars, strLength;
-
-    strLength = StringLength_Multibyte(sChat->messageEntryBuffer);
-    str = sChat->messageEntryBuffer;
-    numChars = 0;
-    if (strLength > 10)
-    {
-        strLength -= 10;
-        for (i = 0; i < strLength; i++)
-        {
-            if (*str == CHAR_EXTRA_SYMBOL)
-                str++;
-
-            str++;
-            numChars++;
-        }
-    }
-
-    return numChars;
-}
 
 static void PrepareSendBuffer_Null(u8 *buffer)
 {
@@ -1589,11 +1558,6 @@ static u8 *GetMessageEntryBuffer(void)
     return sChat->messageEntryBuffer;
 }
 
-static int GetLengthOfMessageEntry(void)
-{
-    u8 *str = GetMessageEntryBuffer();
-    return StringLength_Multibyte(str);
-}
 
 static void GetBufferSelectionRegion(u32 *x, u32 *width)
 {
@@ -1611,22 +1575,6 @@ static void GetBufferSelectionRegion(u32 *x, u32 *width)
     *width = diff;
 }
 
-static u16 GetLimitedMessageStartPos(void)
-{
-    u16 count;
-    u32 i;
-    u16 numChars = GetNumOverflowCharsInMessage();
-    u8 *str = sChat->messageEntryBuffer;
-    for (count = 0, i = 0; i < numChars; count++, i++)
-    {
-        if (*str == CHAR_EXTRA_SYMBOL)
-            str++;
-
-        str++;
-    }
-
-    return count;
-}
 
 static u8 *GetLastReceivedMessage(void)
 {
@@ -2648,7 +2596,6 @@ static void SetKeyboardCursorInvisibility(bool32 invisible)
 static void MoveKeyboardCursor(void)
 {
     u8 x, y;
-    u8 page = GetCurrentKeyboardPage();
     GetCurrentKeyboardColAndRow(&x, &y);
     {
         StartSpriteAnim(sSprites->keyboardCursor, 0);

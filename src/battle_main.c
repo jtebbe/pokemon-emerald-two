@@ -1585,7 +1585,6 @@ void TestRunner_Battle_EndFixture(void)
     FreeAllWindowBuffers();
     SetMainCallback2(gMain.savedCallback);
 }
-#endif
 
 static void FreeRestoreBattleData(void)
 {
@@ -1599,6 +1598,7 @@ static void FreeRestoreBattleData(void)
     FreeBattleResources();
     ResetDynamicAiFunctions();
 }
+#endif
 
 void VBlankCB_Battle(void)
 {

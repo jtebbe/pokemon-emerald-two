@@ -73,7 +73,6 @@ enum
 COMMON_DATA bool8 (*gMenuCallback)(void) = NULL;
 
 // EWRAM
-EWRAM_DATA static u8 sSafariBallsWindowId = 0;
 EWRAM_DATA static u8 sStartMenuCursorPos = 0;
 EWRAM_DATA static u8 sNumStartMenuActions = 0;
 EWRAM_DATA static u8 sCurrentStartMenuActions[9] = {0};
@@ -168,7 +167,6 @@ static void AddStartMenuAction(u8 action);
 static void BuildNormalStartMenu(void);
 static void BuildDebugStartMenu(void);
 static void BuildLinkModeStartMenu(void);
-static void BuildUnionRoomStartMenu(void);
 static bool32 PrintStartMenuActions(s8 *pIndex, u32 count);
 static bool32 InitStartMenuStep(void);
 static void InitStartMenu(void);
@@ -253,15 +251,6 @@ static void BuildLinkModeStartMenu(void)
     AddStartMenuAction(MENU_ACTION_EXIT);
 }
 
-static void BuildUnionRoomStartMenu(void)
-{
-    AddStartMenuAction(MENU_ACTION_POKEMON);
-    AddStartMenuAction(MENU_ACTION_BAG);
-
-    AddStartMenuAction(MENU_ACTION_PLAYER);
-    AddStartMenuAction(MENU_ACTION_OPTION);
-    AddStartMenuAction(MENU_ACTION_EXIT);
-}
 
 
 

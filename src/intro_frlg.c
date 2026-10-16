@@ -11,6 +11,7 @@
 #include "intro_frlg.h"
 #include "malloc.h"
 #include "menu.h"
+#include "multiboot_pokemon_colosseum.h"
 #include "new_game.h"
 #include "palette.h"
 #include "random.h"
@@ -246,8 +247,6 @@ static void SpriteCB_NidorinoRecoil(struct Sprite *sprite);
 static void SpriteCB_NidorinoHop(struct Sprite *sprite);
 static void SpriteCB_NidorinoAttack(struct Sprite *sprite);
 
-extern const u32 gMultiBootProgram_PokemonColosseum_Start[];
-extern const u32 gMultiBootProgram_PokemonColosseum_End[];
 
 static const u16 sCopyright_Pal[] = INCGFX_U16("graphics/intro_frlg/copyright.pal", ".gbapal");
 static const u32 sCopyright_Gfx[]  = INCGFX_U32("graphics/intro_frlg/copyright.png", ".4bpp.smol");

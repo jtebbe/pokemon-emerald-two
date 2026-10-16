@@ -262,8 +262,6 @@ static u32 Debug_GenerateListFlagsMenu(const struct DebugMenuOption *items);
 static void Debug_DestroyMenu(u8 taskId);
 static void DebugAction_Cancel(u8 taskId);
 static void DebugAction_DestroyExtraWindow(u8 taskId);
-static u8 DebugNativeStep_CreateDebugWindow(void);
-static void DebugNativeStep_CloseDebugWindow(u8 taskId);
 
 static void DebugAction_OpenSubMenu(u8 taskId, const struct DebugMenuOption *items);
 static void DebugAction_OpenSubMenuTrainers(u8 taskId, const struct DebugMenuOption *items);
@@ -328,7 +326,6 @@ static void DebugAction_Player_Gender(u8 taskId);
 static void DebugAction_Player_Id(u8 taskId);
 
 static void Debug_CreateInputDisplayWindow(u8 taskId);
-static void DebugNativeStep_DelayedSelection(u8 taskId);
 static void DebugAction_Selection_Init(u8 taskId, const void *params);
 
 extern const u8 Debug_FlagsAndVarNotSetBattleConfigMessage[];
@@ -983,29 +980,7 @@ static void DebugAction_DestroyExtraWindow(u8 taskId)
     UnfreezeObjectEvents();
 }
 
-static u8 DebugNativeStep_CreateDebugWindow(void)
-{
-    u8 windowId;
 
-    LockPlayerFieldControls();
-    FreezeObjectEvents();
-    HideMapNamePopUpWindow();
-    LoadMessageBoxAndBorderGfx();
-    windowId = AddWindow(&sDebugMenuWindowTemplateExtra);
-    DrawStdWindowFrame(windowId, FALSE);
-    CopyWindowToVram(windowId, COPYWIN_FULL);
-
-    return windowId;
-}
-
-static void DebugNativeStep_CloseDebugWindow(u8 taskId)
-{
-    ClearStdWindowAndFrame(gTasks[taskId].tSubWindowId, TRUE);
-    RemoveWindow(gTasks[taskId].tSubWindowId);
-    DestroyTask(taskId);
-    UnfreezeObjectEvents();
-    UnlockPlayerFieldControls();
-}
 
 static void DebugSelection_SetData(u8 taskId, u32 index, u16 value)
 {
@@ -1169,11 +1144,6 @@ static void DebugSelectionStep_ReturnToGiveMenu(u8 taskId)
     DebugAction_OpenSubMenu(taskId, sDebugMenu_Actions_Give);
 }
 
-static void DebugSelectionStep_ReturnToEditPokemonMenu(u8 taskId)
-{
-    Debug_RemoveCallbackMenu();
-    DebugAction_OpenSubMenu(taskId, sDebugMenu_Actions_EditPokemon);
-}
 
 static void DebugSelectionStep_ReturnToTrainersMenu(u8 taskId)
 {
@@ -3810,18 +3780,6 @@ void DebugNative_GetAbilityNames(void)
     StringCopy(gStringVar3, gAbilitiesInfo[GetAbilityBySpecies(species, 2)].name);
 }
 
-#define tPartyId               data[6]
-
-static void DebugNativeStep_InitAfterPartyMenu(u8 taskId)
-{
-    gTasks[taskId].tSubWindowId = DebugNativeStep_CreateDebugWindow();
-    gTasks[taskId].tPartyId = gSpecialVar_0x8004;
-}
-
-static void DebugNativeStep_DelayedSelection(u8 taskId)
-{
-    DebugAction_Selection_Init(taskId, (void *)GetWordTaskArg(taskId, 14));
-}
 
 
 
@@ -3834,7 +3792,8 @@ static void DebugNativeStep_DelayedSelection(u8 taskId)
 
 
 
-#undef tPartyId
+
+
 
 #undef tMenuTaskId
 #undef tWindowId

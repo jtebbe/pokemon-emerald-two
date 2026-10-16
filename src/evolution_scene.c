@@ -564,7 +564,6 @@ static void CreateShedinja(enum Species preEvoSpecies, enum Species postEvoSpeci
          && gPartiesCount[B_TRAINER_PLAYER] < PARTY_SIZE
          && DoesMonMeetAdditionalConditions(mon, evolutions[i].params, NULL, PARTY_MON_NONE, NULL, CHECK_EVO))
         {
-            s32 j;
             struct Pokemon *shedinja = &gParties[B_TRAINER_PLAYER][gPartiesCount[B_TRAINER_PLAYER]];
 
             CopyMon(&gParties[B_TRAINER_PLAYER][gPartiesCount[B_TRAINER_PLAYER]], mon, sizeof(struct Pokemon));

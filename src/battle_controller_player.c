@@ -992,7 +992,6 @@ void HandleMoveSwitching(enum BattlerId battler)
 
     if (JOY_NEW(A_BUTTON | SELECT_BUTTON))
     {
-        struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct *)(&gBattleResources->bufferA[battler][4]);
         PlaySE(SE_SELECT);
 
         if (gMoveSelectionCursor[battler] != gMultiUsePlayerCursor)
@@ -2007,8 +2006,6 @@ void HandleChooseMoveAfterDma3(enum BattlerId battler)
 void PlayerHandleChooseMove(enum BattlerId battler)
 {
     {
-        struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct *)(&gBattleResources->bufferA[battler][4]);
-
         TryToHideBattleStatusHint();
         InitMoveSelectionsVarsAndStrings(battler);
         gBattleStruct->gimmick.playerSelect = FALSE;

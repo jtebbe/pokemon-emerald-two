@@ -543,7 +543,6 @@ static void ShowMapNamePopUpWindow(void)
     u8 mapDisplayHeader[MAP_POPUP_STRING_BUFFER_LENGTH];
     u8 *withoutPrefixPtr;
     u8 x;
-    const u8 *mapDisplayHeaderSource;
     u8 mapNamePopUpWindowId, secondaryPopUpWindowId;
 
     {
