@@ -2,6 +2,9 @@
 
 - [README](./README.md)
 - [FEATURES](./FEATURES.md)
+- [Save system]()
+  - [Streamed PC storage](./pc_storage.md)
+  - [Multiplayer saves](./multiplayer_saves.md)
 - [Installation](./INSTALL.md)
     - [Setting up WSL1 (Legacy Portion)](./legacy_WSL1_INSTALL.md)
     - [ChromeOS](./install/chromeos/CHROME_OS.md)
