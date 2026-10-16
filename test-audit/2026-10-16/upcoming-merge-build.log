@@ -1,0 +1,11 @@
+tools/scaninc/scaninc -M build/emerald/src/link_protocol.d -g build/assets -I include -I build/emerald -I tools/agbcc/include src/link_protocol.c
+tools/scaninc/scaninc -M build/emerald/src/battle_info.d -g build/assets -I include -I build/emerald -I tools/agbcc/include src/battle_info.c
+/usr/lib/gcc/arm-none-eabi/13.2.1/cc1 -quiet <flags> -o build/emerald/src/link_protocol.o src/link_protocol.c
+Memory region         Used Size  Region Size  %age Used
+           EWRAM:      196368 B       256 KB     74.91%
+           IWRAM:       27444 B        32 KB     83.75%
+             ROM:    23077828 B        32 MB     68.78%
+cd build/emerald && arm-none-eabi-ld -Map ../../pokeemerald.map --print-memory-usage --gc-sections -T ../../ld_script_modern.ld -o ../../pokeemerald.elf <objs> <libs> | cat
+tools/gbafix/gbafix pokeemerald.elf -t"POKEMON EMER" -cBPEE -m01 -r0 --silent
+arm-none-eabi-objcopy -O binary pokeemerald.elf pokeemerald.gba
+tools/gbafix/gbafix pokeemerald.gba -p --silent

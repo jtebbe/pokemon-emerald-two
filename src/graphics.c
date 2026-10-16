@@ -1294,6 +1294,7 @@ const u32 gVsLettersGfx[] = INCGFX_U32("graphics/battle_transitions/vs.png", ".4
 
 
 const u16 gBattleWindowTextPalette[] = INCGFX_U16("graphics/battle_interface/text.pal", ".gbapal");
+const u16 gBattleInfoTextPalette[] = INCBIN_U16("graphics/battle_interface/battle_status_text.gbapal");
 const u16 gPPTextPalette[] = INCGFX_U16("graphics/battle_interface/text_pp.pal", ".gbapal");
 
 

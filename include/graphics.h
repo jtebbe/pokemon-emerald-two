@@ -1849,6 +1849,7 @@ extern const u16 gTitleScreenEmeraldVersionPal[];
 
 
 extern const u16 gBattleWindowTextPalette[];
+extern const u16 gBattleInfoTextPalette[];
 
 
 extern const u32 gSmokescreenImpactTiles[];
