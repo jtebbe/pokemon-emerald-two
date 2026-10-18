@@ -1329,7 +1329,7 @@ void GetShouldSwitchMoveData(struct SwitchAiContext *switchContext)
                 bestPlayerMove = playerMove;
                 minHitsToKOAI = hitsToKOAI;
             }
-            if (GetBattleMovePriority(switchContext->opposingBattler, gAiLogicData->abilities[switchContext->opposingBattler], playerMove) > 0 && hitsToKOAI < minHitsToKOAIPriority && !AI_DoesChoiceEffectBlockMove(switchContext->opposingBattler, playerMove))
+            if (GetBattleMovePriorityForTarget(switchContext->opposingBattler, gAiLogicData->abilities[switchContext->opposingBattler], playerMove, switchContext->battler) > 0 && hitsToKOAI < minHitsToKOAIPriority && !AI_DoesChoiceEffectBlockMove(switchContext->opposingBattler, playerMove))
             {
                 bestPlayerPriorityMove = playerMove;
                 minHitsToKOAIPriority = hitsToKOAI;
@@ -2091,10 +2091,10 @@ static s32 GetMaxPriorityDamagePlayerCouldDealToSwitchin(enum BattlerId battler,
     for (u32 moveIndex = 0; moveIndex < MAX_MON_MOVES; moveIndex++)
     {
         // If player is choiced into a non-priority move, AI understands that it can't deal priority damage
-        if (gBattleStruct->choicedMove[opposingBattler] != MOVE_NONE && GetMovePriority(gBattleStruct->choicedMove[opposingBattler]) < 1)
+        if (gBattleStruct->choicedMove[opposingBattler] != MOVE_NONE && GetBattleMovePriorityForTarget(opposingBattler, gAiLogicData->abilities[opposingBattler], gBattleStruct->choicedMove[opposingBattler], battler) < 1)
             break;
         playerMove = SMART_SWITCHING_OMNISCIENT ? gBattleMons[opposingBattler].moves[moveIndex] : playerMoves[moveIndex];
-        if (GetBattleMovePriority(opposingBattler, gAiLogicData->abilities[opposingBattler], playerMove) > 0
+        if (GetBattleMovePriorityForTarget(opposingBattler, gAiLogicData->abilities[opposingBattler], playerMove, battler) > 0
             && playerMove != MOVE_NONE && !IsBattleMoveStatus(playerMove) && GetMoveEffect(playerMove) != EFFECT_FOCUS_PUNCH && gBattleMons[opposingBattler].pp[moveIndex] > 0)
         {
             damageTaken = AI_GetDamage(opposingBattler, battler, moveIndex, AI_SWITCHIN_DEFENDING, gAiLogicData);

@@ -9,6 +9,7 @@
 #include "battle_stat_change.h"
 #include "battle_scripts.h"
 #include "battle_anim_scripts.h"
+#include "battle_main.h"
 #include "item.h"
 #include "battle_controllers.h"
 #include "move.h"
@@ -566,6 +567,21 @@ static enum CancelerResult CancelerCallSubmove(struct BattleCalcValues *cv)
     case EFFECT_ME_FIRST:
         calledMove = GetMeFirstMove();
         break;
+    case EFFECT_DARK_IMITATION:
+        if (gChosenActionByBattler[cv->battlerDef] == B_ACTION_USE_MOVE
+         && !gProtectStructs[cv->battlerDef].noValidMoves)
+        {
+            enum Move selected = GetBattlerChosenMove(cv->battlerDef);
+            if (!IsMoveDarkImitationBanned(selected))
+            {
+                // Unlike accuracy-free callers, Dark Imitation must first hit its target.
+                if (DoesMoveMissTarget(cv))
+                    AddBattlerMoveResultFlag(cv->battlerDef, MOVE_RESULT_MISSED);
+                else
+                    calledMove = selected;
+            }
+        }
+        break;
     default:
         noEffect = TRUE;
         break;
@@ -1039,7 +1055,16 @@ static enum CancelerResult CancelerPPDeduction(struct BattleCalcValues *cv)
         if (gBattleStruct->submoveAnnouncement == SUBMOVE_FAILURE)
         {
             gBattleStruct->submoveAnnouncement = SUBMOVE_NO_EFFECT;
-            gBattlescriptCurrInstr = BattleScript_ButItFailed;
+            if (cv->move == MOVE_DARK_IMITATION && IsBattlerMoveResultSet(cv->battlerDef, MOVE_RESULT_MISSED))
+            {
+                gBattleScripting.battler = cv->battlerDef;
+                gLastLandedMoves[cv->battlerDef] = MOVE_NONE;
+                gLastHitByType[cv->battlerDef] = TYPE_NONE;
+                gBattleStruct->blunderPolicy = cv->holdEffects[cv->battlerAtk] == HOLD_EFFECT_BLUNDER_POLICY;
+                gBattlescriptCurrInstr = BattleScript_MoveMissed;
+            }
+            else
+                gBattlescriptCurrInstr = BattleScript_ButItFailed;
             return CANCELER_RESULT_FAILURE;
         }
         else if (CancelerVolatileBlocked(cv) == CANCELER_RESULT_FAILURE) // Check Gravity/Heal Block/Throat Chop for Submove
@@ -2311,9 +2336,18 @@ static enum CancelerResult CancelerMultihitMoves(struct BattleCalcValues *cv)
 {
     SetPossibleNewSmartTarget(cv->move);
 
+    if (cv->move == MOVE_DAZZLING_DASH)
+        gBattleStruct->dazzlingDashWasSlower = GetBattlerTotalSpeedStat(cv->battlerAtk, cv->abilities[cv->battlerAtk], cv->holdEffects[cv->battlerAtk])
+            < GetBattlerTotalSpeedStat(cv->battlerDef, cv->abilities[cv->battlerDef], cv->holdEffects[cv->battlerDef]);
+
     if (IsBattlerUnaffectedByMove(gBattlerTarget))
     {
         gMultiHitCounter = 0;
+    }
+    else if (cv->moveEffect == EFFECT_HAUNTING_SHRIEKS)
+    {
+        gMultiHitCounter = GetHauntingShrieksHitCount(cv->battlerAtk);
+        PREPARE_BYTE_NUMBER_BUFFER(gBattleScripting.multihitString, 1, 0)
     }
     else if (IsMultiHitMove(cv->move))
     {
@@ -2333,7 +2367,7 @@ static enum CancelerResult CancelerMultihitMoves(struct BattleCalcValues *cv)
 
         PREPARE_BYTE_NUMBER_BUFFER(gBattleScripting.multihitString, 1, 0)
     }
-    else if (GetMoveStrikeCount(cv->move) > 1)
+    else if (GetBattlerMoveStrikeCount(cv->battlerAtk, cv->move) > 1)
     {
         if (GetMoveEffect(cv->move) == EFFECT_POPULATION_BOMB
          && cv->holdEffects[cv->battlerAtk] == HOLD_EFFECT_LOADED_DICE
@@ -2343,7 +2377,7 @@ static enum CancelerResult CancelerMultihitMoves(struct BattleCalcValues *cv)
         }
         else
         {
-            gMultiHitCounter = GetMoveStrikeCount(cv->move);
+            gMultiHitCounter = GetBattlerMoveStrikeCount(cv->battlerAtk, cv->move);
         }
 
         PREPARE_BYTE_NUMBER_BUFFER(gBattleScripting.multihitString, 3, 0)
@@ -2719,6 +2753,7 @@ static enum CancelerResult CancelerDamageCalc(struct BattleCalcValues *cv)
         .randomFactor = TRUE,
         .updateFlags = TRUE,
         .useStoredTypeEffectiveness = TRUE,
+        .hitIndex = cv->moveEffect == EFFECT_HAUNTING_SHRIEKS ? gBattleScripting.multihitString[4] : 0,
     };
 
     for (enum BattlerId battler = B_BATTLER_0; battler < gBattlersCount; battler++)
@@ -4749,6 +4784,13 @@ static enum MoveEndResult MoveEndDefrost(struct BattleCalcValues *cv)
 
 static enum MoveEndResult MoveEndMoveBlockRecoil(struct BattleCalcValues *cv)
 {
+    if (gBattleStruct->hauntingShrieksBgActive)
+    {
+        gBattleStruct->hauntingShrieksBgActive = FALSE;
+        BattleScriptCall(BattleScript_HauntingShrieksEnd);
+        gBattleScripting.moveendState++;
+        return MOVEEND_RESULT_RUN_SCRIPT;
+    }
     enum MoveEndResult result = MOVEEND_RESULT_CONTINUE;
 
     switch (cv->moveEffect)
@@ -5095,7 +5137,8 @@ static enum MoveEndResult MoveEndMoveBlock(struct BattleCalcValues *cv)
             }
             break;
         case EFFECT_CEASELESS_EDGE:
-            if (gSideTimers[side].spikesAmount < 3
+            if ((cv->move != MOVE_SERRATED_SLICE || IS_BATTLER_OF_TYPE(battlerDef, TYPE_STEEL))
+             && gSideTimers[side].spikesAmount < 3
              && IsBattlerTurnDamaged(battlerDef, INCLUDING_SUBSTITUTES)
              && IsBattlerAlive(cv->battlerAtk))
             {
@@ -5114,6 +5157,28 @@ static enum MoveEndResult MoveEndMoveBlock(struct BattleCalcValues *cv)
                     gBattleScripting.moveendState++;
                     return MOVEEND_RESULT_RUN_SCRIPT;
                 }
+            }
+            break;
+        case EFFECT_DAZZLING_DASH:
+            if (IsBattlerAlive(cv->battlerAtk)
+             && IsBattlerTurnDamaged(battlerDef, INCLUDING_SUBSTITUTES)
+             && gBattleStruct->dazzlingDashWasSlower)
+            {
+                SetStatChange(cv->battlerAtk, STAT_SPEED, 1);
+                BattleScriptCall(BattleScript_MoveEffectStatChange);
+                gBattleStruct->eventState.moveEndBattler = 0;
+                gBattleScripting.moveendState++;
+                return MOVEEND_RESULT_RUN_SCRIPT;
+            }
+            break;
+        case EFFECT_SUNBLOOM:
+            if (IsBattlerTurnDamaged(battlerDef, INCLUDING_SUBSTITUTES)
+             && TryChangeBattleWeather(cv->battlerAtk, BATTLE_WEATHER_SUN, ABILITY_NONE) == WEATHER_FAILURE_SUCCESS)
+            {
+                BattleScriptCall(BattleScript_MoveEffectSetWeather);
+                gBattleStruct->eventState.moveEndBattler = 0;
+                gBattleScripting.moveendState++;
+                return MOVEEND_RESULT_RUN_SCRIPT;
             }
             break;
         case EFFECT_SCALE_SHOT:
@@ -6666,7 +6731,7 @@ static enum Move GetMetronomeMove(void)
     enum Move move = MOVE_NONE;
 
 #if B_METRONOME_MOVES >= GEN_9
-    u32 moveCount = MOVES_COUNT_GEN9;
+    u32 moveCount = MOVES_COUNT;
 #elif B_METRONOME_MOVES >= GEN_8
     u32 moveCount = MOVES_COUNT_GEN8;
 #elif B_METRONOME_MOVES >= GEN_7

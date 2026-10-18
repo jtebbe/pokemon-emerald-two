@@ -3833,9 +3833,39 @@ s32 GetChosenMovePriority(enum BattlerId battler, enum Ability ability)
 
 s32 GetBattleMovePriority(enum BattlerId battler, enum Ability ability, enum Move move)
 {
+    return GetBattleMovePriorityForTarget(battler, ability, move, gBattleStruct->moveTarget[battler]);
+}
+
+s32 GetBattleMovePriorityForTarget(enum BattlerId battler, enum Ability ability, enum Move move, enum BattlerId target)
+{
     s32 priority = 0;
 
     priority = GetMovePriority(move);
+
+    if (target < gBattlersCount && IsBattlerAlive(target))
+    {
+        if ((move == MOVE_FIERCE_RUSHDOWN && (u32)gBattleMons[target].hp * 2 <= gBattleMons[target].maxHP)
+         || (move == MOVE_DARK_IMITATION && !IsBattlerAtMaxHp(target)))
+            priority++;
+        else if (move == MOVE_SIMPLIFY)
+        {
+            enum Type types[3];
+            enum Type firstType = TYPE_MYSTERY;
+            GetBattlerTypes(target, FALSE, types);
+            for (u32 i = 0; i < ARRAY_COUNT(types); i++)
+            {
+                if (types[i] == TYPE_MYSTERY)
+                    continue;
+                if (firstType == TYPE_MYSTERY)
+                    firstType = types[i];
+                else if (types[i] != firstType)
+                {
+                    priority++;
+                    break;
+                }
+            }
+        }
+    }
 
     if (gProtectStructs[battler].quash)
     {

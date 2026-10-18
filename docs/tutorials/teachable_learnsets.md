@@ -3,7 +3,11 @@
 # Generating and editing teachable learnsets
 
 ## Basics:
-When you `make`, a file will be generated in `src/data/pokemon/teachable_learnsets.h` containing the learnsets of your Pokemon. The generated learnset of a pokemon is based on 3 things, its potential moveset defined in `src/data/pokemon/all_learnables.json`, the teaching type of the species defined in the species data files, and the TMs and tutors available in your game. We will explain each of these one by one. 
+When you `make`, a file will be generated in `src/data/pokemon/teachable_learnsets.h` containing the learnsets of your Pokemon. The generated learnset of a pokemon is based on 3 things, its potential moveset defined in `src/data/pokemon/custom_learnables.json`, the teaching type of the species defined in the species data files, and the TMs and tutors available in your game. We will explain each of these one by one.
+
+This project uses `src/data/pokemon/level_up_learnsets/custom.h` for level-up moves. It was initially copied from the active Generation 9 learnsets. Edit that header directly; the `gen_*.h` headers are retained only as reference data.
+
+For egg moves, edit `src/data/pokemon/custom_egg_moves.h`. Every base-stage species has an explicit list, including empty lists for species without egg moves. The original `egg_moves.h` is reference data only. These lists preserve existing inheritance; breeding eligibility still comes from species egg groups.
 
 ### Table of Contents:
 
@@ -19,13 +23,13 @@ When you `make`, a file will be generated in `src/data/pokemon/teachable_learnse
 
 ## Potential Teachables
 
-The potential moveset of each pokemon is defined in `src/data/pokemon/all_learnables.json`. If you don't have the file yet, a version will be generated automatically after you run `make`. 
-On its first creation, the file is based on the list of moves a pokemon can learn in official Pokemon games. Those lists are found in `tools/learnset_helpers/porymoves_files`, if a Pokemon learned a move in any way in the game (from level-up, egg move, tm or tutor), it will be added to its teachable learnset. You can delete some of the files mix-and-match from different games list. This is justa  tool to help you quickly generate a vanilla-ish etachable learnset.
-After `src/data/pokemon/all_learnables.json` has been created, this file will NEVER be modified by running `make` so you don't have to worry abour your changes being reverted. However you can choose to remake the file by using a different set of game move list by running `make clean-teachables` and then running `make` again.
+The potential moveset of each pokemon is defined in `src/data/pokemon/custom_learnables.json`. Edit each species' list of quoted `MOVE_*` constants to change its TM/HM and tutor compatibility. This file was initially copied from the existing `all_learnables.json`, preserving the current learnsets and Corrode replacement. The old JSON and the import files in `tools/learnset_helpers/porymoves_files` are reference data, not active build inputs.
+
+The custom JSON is tracked source data: neither `make` nor `make clean-teachables` deletes or regenerates it. Changes to it automatically rebuild `teachable_learnsets.h` on the next build. `make clean-teachables` clears only generated headers and helper intermediates, so the next build regenerates those from the custom JSON. Do not edit the generated header directly.
 
 ## Teaching Types
 
-In addition to their teachable learnset described in `src/data/pokemon/all_learnables.json`, Pokemon will be able to learn additional moves based on their teaching types defined in their species data (found in `species/data/pokemon/species_info/gen_X_families.h` for vanilla Pokemon and `species/data/pokemon/species_info.h` for fakemons). There are currently three teaching types in Expansion: Default Learning, TM Illiterate and All Teahcables
+In addition to their teachable learnset described in `src/data/pokemon/custom_learnables.json`, Pokemon will be able to learn additional moves based on their teaching types defined in their species data (found in `src/data/pokemon/species_info/gen_X_families.h` for vanilla Pokemon and `src/data/pokemon/species_info.h` for fakemons). There are currently three teaching types in Expansion: Default Learning, TM Illiterate and All Teachables.
 
 ### Default Learning
 

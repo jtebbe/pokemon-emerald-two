@@ -32,6 +32,33 @@ TEST("(Daycare) Pokémon generate Eggs of the lowest member of the evolutionary 
     EXPECT_EQ(GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_SPECIES), SPECIES_PICHU);
 }
 
+TEST("(Daycare) Custom egg moves preserve Blipbug Cranidos and Shieldon inheritance")
+{
+    enum Species species;
+    enum Move eggMove;
+    PARAMETRIZE { species = SPECIES_BLIPBUG; eggMove = MOVE_RECOVER; }
+    PARAMETRIZE { species = SPECIES_CRANIDOS; eggMove = MOVE_CRUNCH; }
+    PARAMETRIZE { species = SPECIES_SHIELDON; eggMove = MOVE_STEALTH_ROCK; }
+    ASSUME(IsSpeciesEnabled(species));
+
+    ZeroPlayerPartyMons();
+    memset(&gSaveData.daycare, 0, sizeof(gSaveData.daycare));
+    VarSet(VAR_0x8000, species);
+    VarSet(VAR_0x8001, eggMove);
+    RUN_OVERWORLD_SCRIPT(
+        givemon VAR_0x8000, 100, gender=MON_MALE, move1=VAR_0x8001;
+        givemon VAR_0x8000, 100, gender=MON_FEMALE;
+    );
+    STORE_IN_DAYCARE_AND_GET_EGG();
+
+    struct Pokemon *egg = &gParties[B_TRAINER_PLAYER][0];
+    EXPECT_EQ(GetMonData(egg, MON_DATA_SPECIES), species);
+    bool8 inherited = FALSE;
+    for (u32 i = 0; i < MAX_MON_MOVES; i++)
+        inherited |= GetMonData(egg, MON_DATA_MOVE1 + i) == eggMove;
+    EXPECT(inherited);
+}
+
 TEST("(Daycare) Pokémon offspring species is based off the mother's species")
 {
     u32 offspring = 0;

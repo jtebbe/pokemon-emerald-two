@@ -1,7 +1,11 @@
 # Summary
 
+- [Gameplay options](gameplay_options.md)
+
 - [README](./README.md)
 - [FEATURES](./FEATURES.md)
+- [Custom moves](./custom_moves.md)
+- [Comfy Anims](./comfy_anims.md)
 - [Save system]()
   - [Streamed PC storage](./pc_storage.md)
   - [Multiplayer saves](./multiplayer_saves.md)

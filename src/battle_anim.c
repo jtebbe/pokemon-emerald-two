@@ -30,6 +30,21 @@
     battle_anim_script.inc and used in battle_anim_scripts.s
 */
 
+// Only retarget after all sprites from the first target have finished.
+void AnimTask_TryCustomSpreadPartner(u8 taskId)
+{
+    enum BattlerId partner = GetPartnerBattler(gBattleAnimTarget);
+    gBattleAnimArgs[ARG_RET_ID] = FALSE;
+    if (IsDoubleBattle() && IsBattlerAlive(partner)
+     && GetBattlerMoveTargetType(gBattleAnimAttacker, gAnimMoveIndex) == TARGET_BOTH
+     && !IsBattlerMoveResultSet(partner, MOVE_RESULT_INVALID_TARGET))
+    {
+        gBattleAnimTarget = partner;
+        gBattleAnimArgs[ARG_RET_ID] = TRUE;
+    }
+    DestroyAnimVisualTask(taskId);
+}
+
 static void Cmd_unloadspritegfx(void);
 static void Cmd_unloadspritepal(void);
 static void Cmd_createsprite(void);
@@ -226,6 +241,7 @@ static const u8* const sBattleAnims_General[NUM_B_ANIMS_GENERAL] =
     [B_ANIM_FORM_CHANGE_DISGUISE]   = gBattleAnimGeneral_FormChangeDisguise,
     [B_ANIM_SLIDE_OFFSCREEN]        = gBattleAnimGeneral_SlideOffScreen,
     [B_ANIM_RESTORE_BG]             = gBattleAnimGeneral_RestoreBg,
+    [B_ANIM_HAUNTING_SHRIEKS_END]    = gBattleAnimGeneral_RestoreBg,
     [B_ANIM_TOTEM_FLARE]            = gBattleAnimGeneral_TotemFlare,
     [B_ANIM_GULP_MISSILE]           = gBattleAnimGeneral_GulpMissile,
     [B_ANIM_STRONG_WINDS]           = gBattleAnimGeneral_StrongWinds,

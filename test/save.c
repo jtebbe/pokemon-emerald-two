@@ -52,12 +52,16 @@ TEST("Resetting game progress preserves chosen player identity and options")
     gSaveData.playerName[0] = 12;
     gSaveData.playerGender = FEMALE;
     gSaveData.optionsTextSpeed = OPTIONS_TEXT_SPEED_FAST;
+    gSaveData.optionsLevelCaps = TRUE;
+    gSaveData.optionsTrainerScaling = TRUE;
     gSaveData.money = 300;
     gSaveData.currentBox = 3;
     ResetGameProgress();
     EXPECT_EQ(gSaveData.playerName[0], 12);
     EXPECT_EQ(gSaveData.playerGender, FEMALE);
     EXPECT_EQ((u32)gSaveData.optionsTextSpeed, OPTIONS_TEXT_SPEED_FAST);
+    EXPECT_EQ((u32)gSaveData.optionsLevelCaps, TRUE);
+    EXPECT_EQ((u32)gSaveData.optionsTrainerScaling, TRUE);
     EXPECT_EQ(gSaveData.money, 0);
     EXPECT_EQ(gSaveData.currentBox, 0);
 }

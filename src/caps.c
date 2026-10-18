@@ -5,6 +5,11 @@
 #include "pokemon.h"
 
 
+bool32 IsLevelCapEnabled(void)
+{
+    return gSaveData.optionsLevelCaps && B_EXP_CAP_TYPE != EXP_CAP_NONE;
+}
+
 u32 GetCurrentLevelCap(void)
 {
     static const u32 sLevelCapFlagMap[][2] =
@@ -21,6 +26,9 @@ u32 GetCurrentLevelCap(void)
     };
 
     u32 i;
+
+    if (!IsLevelCapEnabled())
+        return MAX_LEVEL;
 
     if (B_LEVEL_CAP_TYPE == LEVEL_CAP_FLAG_LIST)
     {
@@ -46,7 +54,7 @@ u32 GetSoftLevelCapExpValue(u32 level, u32 expValue)
     u32 levelDifference;
     u32 currentLevelCap = GetCurrentLevelCap();
 
-    if (B_EXP_CAP_TYPE == EXP_CAP_NONE)
+    if (!IsLevelCapEnabled())
         return expValue;
 
     if (level < currentLevelCap)

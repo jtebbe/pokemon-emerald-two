@@ -380,6 +380,25 @@ TEST("PC streaming preserves resident fusion, daycare, box name and wallpaper da
     TearDownStorage(flash);
 }
 
+TEST("Gameplay options survive saving and reloading independently")
+{
+    bool32 caps, scaling;
+    PARAMETRIZE { caps = FALSE; scaling = FALSE; }
+    PARAMETRIZE { caps = TRUE; scaling = FALSE; }
+    PARAMETRIZE { caps = FALSE; scaling = TRUE; }
+    PARAMETRIZE { caps = TRUE; scaling = TRUE; }
+    u8 *flash = SetUpStorage();
+    gSaveData.optionsLevelCaps = caps;
+    gSaveData.optionsTrainerScaling = scaling;
+    gSaveData.optionsTextSpeed = OPTIONS_TEXT_SPEED_INSTANT;
+    EXPECT(PCStorageAutosave());
+    Restart();
+    EXPECT_EQ((u32)gSaveData.optionsLevelCaps, caps);
+    EXPECT_EQ((u32)gSaveData.optionsTrainerScaling, scaling);
+    EXPECT_EQ((u32)gSaveData.optionsTextSpeed, OPTIONS_TEXT_SPEED_INSTANT);
+    TearDownStorage(flash);
+}
+
 TEST("PC streaming no longer reserves boxed Pokemon inside the resident save image")
 {
     EXPECT_EQ(NUM_SECTORS_PER_SLOT, 24);
@@ -1639,6 +1658,9 @@ TEST("PC compact cartridge moves finish in small bounded write steps")
     struct Pokemon carried;
     for (u32 move = 0; move < 2; move++)
     {
+        // Match the PC's once-per-rendered-frame callback phase. Starting at an
+        // arbitrary point in a frame can count an extra VBlank for identical work.
+        VBlankIntrWait();
         u32 start = gMain.vblankCounter1, bytes = PCStorageTestProgramBytes();
         if (!move) PickupForTest(0, 0, &carried);
         else { SetBoxMonAt(0, 1, &carried.box); PCStorageCarryEnd(); }
@@ -1646,6 +1668,7 @@ TEST("PC compact cartridge moves finish in small bounded write steps")
         u32 staging = gMain.vblankCounter1 - start, steps = 0, maximum = 0;
         while (PCStorageBusy() && steps < 100)
         {
+            VBlankIntrWait();
             start = gMain.vblankCounter1;
             EXPECT(PCStorageTick());
             maximum = max(maximum, gMain.vblankCounter1 - start);

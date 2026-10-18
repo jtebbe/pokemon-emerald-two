@@ -322,6 +322,7 @@ static bool32 InitStartMenuStep(void)
         break;
     case 5:
         sStartMenuCursorPos = InitMenuNormal(GetStartMenuWindowId(), FONT_NORMAL, 0, 9, 16, sNumStartMenuActions, sStartMenuCursorPos);
+        Menu_SetCursorEasing(TRUE);
         CopyWindowToVram(GetStartMenuWindowId(), COPYWIN_MAP);
         return TRUE;
     }
@@ -381,11 +382,21 @@ void Task_ShowStartMenu(u8 taskId)
         ;
 
         gMenuCallback = HandleStartMenuInput;
+        task->data[1] = (s16)(gMain.vblankCounter1 - 1);
         task->data[0]++;
         break;
     case 1:
         if (gMenuCallback() == TRUE)
+        {
+            Menu_SetCursorEasing(FALSE);
             DestroyTask(taskId);
+        }
+        else if (task->data[1] != (s16)gMain.vblankCounter1)
+        {
+            // Link-overworld processing can run tasks twice in one frame.
+            task->data[1] = gMain.vblankCounter1;
+            Menu_UpdateCursorEasing();
+        }
         break;
     }
 }

@@ -5479,6 +5479,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .isParadox = TRUE,
         .levelUpLearnset = sGreatTuskLevelUpLearnset,
         .teachableLearnset = sGreatTuskTeachableLearnset,
+        .eggMoveLearnset = sGreatTuskEggMoveLearnset,
     },
 #endif //P_FAMILY_GREAT_TUSK
 
@@ -5544,6 +5545,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .isParadox = TRUE,
         .levelUpLearnset = sScreamTailLevelUpLearnset,
         .teachableLearnset = sScreamTailTeachableLearnset,
+        .eggMoveLearnset = sScreamTailEggMoveLearnset,
     },
 #endif //P_FAMILY_SCREAM_TAIL
 
@@ -5609,6 +5611,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .isParadox = TRUE,
         .levelUpLearnset = sBruteBonnetLevelUpLearnset,
         .teachableLearnset = sBruteBonnetTeachableLearnset,
+        .eggMoveLearnset = sBruteBonnetEggMoveLearnset,
     },
 #endif //P_FAMILY_BRUTE_BONNET
 
@@ -5677,6 +5680,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .isParadox = TRUE,
         .levelUpLearnset = sFlutterManeLevelUpLearnset,
         .teachableLearnset = sFlutterManeTeachableLearnset,
+        .eggMoveLearnset = sFlutterManeEggMoveLearnset,
     },
 #endif //P_FAMILY_FLUTTER_MANE
 
@@ -5741,6 +5745,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .isParadox = TRUE,
         .levelUpLearnset = sSlitherWingLevelUpLearnset,
         .teachableLearnset = sSlitherWingTeachableLearnset,
+        .eggMoveLearnset = sSlitherWingEggMoveLearnset,
     },
 #endif //P_FAMILY_SLITHER_WING
 
@@ -5806,6 +5811,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .isParadox = TRUE,
         .levelUpLearnset = sSandyShocksLevelUpLearnset,
         .teachableLearnset = sSandyShocksTeachableLearnset,
+        .eggMoveLearnset = sSandyShocksEggMoveLearnset,
     },
 #endif //P_FAMILY_SANDY_SHOCKS
 
@@ -5871,6 +5877,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .isParadox = TRUE,
         .levelUpLearnset = sIronTreadsLevelUpLearnset,
         .teachableLearnset = sIronTreadsTeachableLearnset,
+        .eggMoveLearnset = sIronTreadsEggMoveLearnset,
     },
 #endif //P_FAMILY_IRON_TREADS
 
@@ -5936,6 +5943,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .isParadox = TRUE,
         .levelUpLearnset = sIronBundleLevelUpLearnset,
         .teachableLearnset = sIronBundleTeachableLearnset,
+        .eggMoveLearnset = sIronBundleEggMoveLearnset,
     },
 #endif //P_FAMILY_IRON_BUNDLE
 
@@ -6001,6 +6009,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .isParadox = TRUE,
         .levelUpLearnset = sIronHandsLevelUpLearnset,
         .teachableLearnset = sIronHandsTeachableLearnset,
+        .eggMoveLearnset = sIronHandsEggMoveLearnset,
     },
 #endif //P_FAMILY_IRON_HANDS
 
@@ -6067,6 +6076,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .isParadox = TRUE,
         .levelUpLearnset = sIronJugulisLevelUpLearnset,
         .teachableLearnset = sIronJugulisTeachableLearnset,
+        .eggMoveLearnset = sIronJugulisEggMoveLearnset,
     },
 #endif //P_FAMILY_IRON_JUGULIS
 
@@ -6133,6 +6143,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .isParadox = TRUE,
         .levelUpLearnset = sIronMothLevelUpLearnset,
         .teachableLearnset = sIronMothTeachableLearnset,
+        .eggMoveLearnset = sIronMothEggMoveLearnset,
     },
 #endif //P_FAMILY_IRON_MOTH
 
@@ -6198,6 +6209,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .isParadox = TRUE,
         .levelUpLearnset = sIronThornsLevelUpLearnset,
         .teachableLearnset = sIronThornsTeachableLearnset,
+        .eggMoveLearnset = sIronThornsEggMoveLearnset,
     },
 #endif //P_FAMILY_IRON_THORNS
 
@@ -6508,6 +6520,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         )
         .levelUpLearnset = sGimmighoulLevelUpLearnset,
         .teachableLearnset = sGimmighoulTeachableLearnset,
+        .eggMoveLearnset = sGimmighoulEggMoveLearnset,
         .formSpeciesIdTable = sGimmighoulFormSpeciesIdTable,
         .evolutions = EVOLUTION({EVO_LEVEL, 0, SPECIES_GHOLDENGO, CONDITIONS({IF_BAG_ITEM_COUNT, ITEM_GIMMIGHOUL_COIN, 999})}),
     },
@@ -6698,6 +6711,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .isSubLegendary = TRUE,
         .levelUpLearnset = sWoChienLevelUpLearnset,
         .teachableLearnset = sWoChienTeachableLearnset,
+        .eggMoveLearnset = sWoChienEggMoveLearnset,
     },
 #endif //P_FAMILY_WO_CHIEN
 
@@ -6762,6 +6776,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .isSubLegendary = TRUE,
         .levelUpLearnset = sChienPaoLevelUpLearnset,
         .teachableLearnset = sChienPaoTeachableLearnset,
+        .eggMoveLearnset = sChienPaoEggMoveLearnset,
     },
 #endif //P_FAMILY_CHIEN_PAO
 
@@ -6826,6 +6841,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .isSubLegendary = TRUE,
         .levelUpLearnset = sTingLuLevelUpLearnset,
         .teachableLearnset = sTingLuTeachableLearnset,
+        .eggMoveLearnset = sTingLuEggMoveLearnset,
     },
 #endif //P_FAMILY_TING_LU
 
@@ -6891,6 +6907,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .isSubLegendary = TRUE,
         .levelUpLearnset = sChiYuLevelUpLearnset,
         .teachableLearnset = sChiYuTeachableLearnset,
+        .eggMoveLearnset = sChiYuEggMoveLearnset,
     },
 #endif //P_FAMILY_CHI_YU
 
@@ -6957,6 +6974,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .isParadox = TRUE,
         .levelUpLearnset = sRoaringMoonLevelUpLearnset,
         .teachableLearnset = sRoaringMoonTeachableLearnset,
+        .eggMoveLearnset = sRoaringMoonEggMoveLearnset,
     },
 #endif //P_FAMILY_ROARING_MOON
 
@@ -7021,6 +7039,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .isParadox = TRUE,
         .levelUpLearnset = sIronValiantLevelUpLearnset,
         .teachableLearnset = sIronValiantTeachableLearnset,
+        .eggMoveLearnset = sIronValiantEggMoveLearnset,
     },
 #endif //P_FAMILY_IRON_VALIANT
 
@@ -7086,6 +7105,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .excludeFromBingoPool = TRUE,
         .levelUpLearnset = sKoraidonLevelUpLearnset,
         .teachableLearnset = sKoraidonTeachableLearnset,
+        .eggMoveLearnset = sKoraidonEggMoveLearnset,
     },
 #endif //P_FAMILY_KORAIDON
 
@@ -7152,6 +7172,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .excludeFromBingoPool = TRUE,
         .levelUpLearnset = sMiraidonLevelUpLearnset,
         .teachableLearnset = sMiraidonTeachableLearnset,
+        .eggMoveLearnset = sMiraidonEggMoveLearnset,
     },
 #endif //P_FAMILY_MIRAIDON
 
@@ -7216,6 +7237,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .isParadox = TRUE,
         .levelUpLearnset = sWalkingWakeLevelUpLearnset,
         .teachableLearnset = sWalkingWakeTeachableLearnset,
+        .eggMoveLearnset = sWalkingWakeEggMoveLearnset,
     },
 #endif //P_FAMILY_WALKING_WAKE
 
@@ -7280,6 +7302,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .isParadox = TRUE,
         .levelUpLearnset = sIronLeavesLevelUpLearnset,
         .teachableLearnset = sIronLeavesTeachableLearnset,
+        .eggMoveLearnset = sIronLeavesEggMoveLearnset,
     },
 #endif //P_FAMILY_IRON_LEAVES
 
@@ -7344,6 +7367,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         )
         .levelUpLearnset = sPoltchageistLevelUpLearnset,
         .teachableLearnset = sPoltchageistTeachableLearnset,
+        .eggMoveLearnset = sPoltchageistEggMoveLearnset,
         .evolutions = EVOLUTION({EVO_ITEM, ITEM_UNREMARKABLE_TEACUP, SPECIES_SINISTCHA_UNREMARKABLE}),
         .formSpeciesIdTable = sPoltchageistFormSpeciesIdTable,
     },
@@ -7600,6 +7624,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .isSubLegendary = TRUE,
         .levelUpLearnset = sOkidogiLevelUpLearnset,
         .teachableLearnset = sOkidogiTeachableLearnset,
+        .eggMoveLearnset = sOkidogiEggMoveLearnset,
     },
 #endif //P_FAMILY_OKIDOGI
 
@@ -7664,6 +7689,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .isSubLegendary = TRUE,
         .levelUpLearnset = sMunkidoriLevelUpLearnset,
         .teachableLearnset = sMunkidoriTeachableLearnset,
+        .eggMoveLearnset = sMunkidoriEggMoveLearnset,
     },
 #endif //P_FAMILY_MUNKIDORI
 
@@ -7728,6 +7754,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .isSubLegendary = TRUE,
         .levelUpLearnset = sFezandipitiLevelUpLearnset,
         .teachableLearnset = sFezandipitiTeachableLearnset,
+        .eggMoveLearnset = sFezandipitiEggMoveLearnset,
     },
 #endif //P_FAMILY_FEZANDIPITI
 
@@ -7788,6 +7815,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         )                                                                                                  \
         .levelUpLearnset = sOgerponLevelUpLearnset,                                                        \
         .teachableLearnset = sOgerponTeachableLearnset,                                                    \
+        .eggMoveLearnset = sOgerponEggMoveLearnset, \
         .formSpeciesIdTable = sOgerponFormSpeciesIdTable,                                                  \
         .formChangeTable = sOgerpon##Form1##FormChangeTable,                                               \
         .isSubLegendary = TRUE,                                                                            \
@@ -7869,6 +7897,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .isParadox = TRUE,
         .levelUpLearnset = sGougingFireLevelUpLearnset,
         .teachableLearnset = sGougingFireTeachableLearnset,
+        .eggMoveLearnset = sGougingFireEggMoveLearnset,
     },
 #endif //P_FAMILY_GOUGING_FIRE
 
@@ -7934,6 +7963,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .isParadox = TRUE,
         .levelUpLearnset = sRagingBoltLevelUpLearnset,
         .teachableLearnset = sRagingBoltTeachableLearnset,
+        .eggMoveLearnset = sRagingBoltEggMoveLearnset,
     },
 #endif //P_FAMILY_RAGING_BOLT
 
@@ -7998,6 +8028,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .isParadox = TRUE,
         .levelUpLearnset = sIronBoulderLevelUpLearnset,
         .teachableLearnset = sIronBoulderTeachableLearnset,
+        .eggMoveLearnset = sIronBoulderEggMoveLearnset,
     },
 #endif //P_FAMILY_IRON_BOULDER
 
@@ -8063,6 +8094,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .isParadox = TRUE,
         .levelUpLearnset = sIronCrownLevelUpLearnset,
         .teachableLearnset = sIronCrownTeachableLearnset,
+        .eggMoveLearnset = sIronCrownEggMoveLearnset,
     },
 #endif //P_FAMILY_IRON_CROWN
 
@@ -8129,6 +8161,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .excludeFromBingoPool = TRUE,
         .levelUpLearnset = sTerapagosLevelUpLearnset,
         .teachableLearnset = sTerapagosTeachableLearnset,
+        .eggMoveLearnset = sTerapagosEggMoveLearnset,
         .formSpeciesIdTable = sTerapagosFormSpeciesIdTable,
         .formChangeTable = sTerapagosFormChangeTable,
     },
@@ -8335,6 +8368,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .excludeFromBingoPool = TRUE,
         .levelUpLearnset = sPecharuntLevelUpLearnset,
         .teachableLearnset = sPecharuntTeachableLearnset,
+        .eggMoveLearnset = sPecharuntEggMoveLearnset,
     },
 #endif //P_FAMILY_PECHARUNT
 

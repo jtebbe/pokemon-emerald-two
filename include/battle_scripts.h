@@ -2,6 +2,7 @@
 #define GUARD_BATTLE_SCRIPTS_H
 
 extern const u8 BattleScript_MoveResolution[];
+extern const u8 BattleScript_HauntingShrieksEnd[];
 extern const u8 BattleScript_SupersweetSyrupActivates[];
 extern const u8 BattleScript_OpportunistCopyStatChange[];
 extern const u8 BattleScript_MirrorHerbCopyStatChange[];
@@ -572,6 +573,7 @@ extern const u8 BattleScript_MoveEffectIonDeluge[];
 extern const u8 BattleScript_WaitMessage[];
 extern const u8 BattleScript_MoveEffectTeatime[];
 extern const u8 BattleScript_RestoreHpEffectBattler[];
+extern const u8 BattleScript_MudBath[];
 extern const u8 BattleScript_Purify[];
 extern const u8 BattleScript_PurifyCureStatus[];
 extern const u8 BattleScript_MoveEffectTrick[];

@@ -336,6 +336,14 @@ static void HandleSetEffectRemoveArgType(struct BattleCalcValues *cv, struct Set
 {
     enum Type type = GetMoveArgType(cv->move);
 
+    // Corrode strips only a type the target actually has.
+    if (cv->move == MOVE_CORRODE && !IS_BATTLER_OF_TYPE(se->effectBattler, type))
+    {
+        gBattlescriptCurrInstr = se->script;
+        return;
+    }
+
+    PREPARE_TYPE_BUFFER(gBattleTextBuff1, type);
     BattleScriptPush(se->script);
 
     switch (type)
@@ -634,11 +642,30 @@ static void HandleSetEffectBugBite(struct BattleCalcValues *cv, struct SetEffect
     }
 }
 
+static bool32 IsStormSacrificeBlocked(void)
+{
+    return gBattleStruct->overworldWeatherPresent
+        || gBattleStruct->isSkyBattle
+        || (gBattleWeather & B_WEATHER_PRIMAL_ANY);
+}
+
 static void HandleSetEffectRecoilHp25(struct BattleCalcValues *cv, struct SetEffect *se)
 {
     s32 recoil;
 
-    if (GetConfig(B_STRUGGLE_RECOIL) < GEN_4)
+    if (cv->onlyChecking)
+    {
+        if (cv->move == MOVE_STORM_SACRIFICE)
+            se->effectFailed = IsStormSacrificeBlocked();
+        return;
+    }
+
+    if (cv->move == MOVE_STORM_SACRIFICE)
+    {
+        // A direct HP payment, not preventable recoil. Always round down.
+        recoil = gBattleMons[se->effectBattler].maxHP / 4;
+    }
+    else if (GetConfig(B_STRUGGLE_RECOIL) < GEN_4)
     {
         u32 recoilPercentage = GetConfig(B_STRUGGLE_RECOIL) == GEN_1 ? 50 : 25;
         recoil = gBattleStruct->moveDamage[gBattlerTarget] * recoilPercentage / 100;
@@ -648,13 +675,14 @@ static void HandleSetEffectRecoilHp25(struct BattleCalcValues *cv, struct SetEff
         recoil = (gBattleMons[se->effectBattler].maxHP) / 4;
     }
 
-    if (GetConfig(B_STRUGGLE_RECOIL) >= GEN_5 && (gBattleMons[se->effectBattler].maxHP % 4) >= 2) // Account for standard rounding (Gen5+)
+    if (cv->move != MOVE_STORM_SACRIFICE && GetConfig(B_STRUGGLE_RECOIL) >= GEN_5 && (gBattleMons[se->effectBattler].maxHP % 4) >= 2) // Account for standard rounding (Gen5+)
         recoil++;
 
     recoil = max(1, recoil);
 
     SetPassiveDamageAmount(se->effectBattler, recoil);
-    TryUpdateEvolutionTracker(IF_RECOIL_DAMAGE_GE, gBattleStruct->passiveHpUpdate[cv->battlerAtk], MOVE_NONE);
+    if (cv->move != MOVE_STORM_SACRIFICE)
+        TryUpdateEvolutionTracker(IF_RECOIL_DAMAGE_GE, gBattleStruct->passiveHpUpdate[cv->battlerAtk], MOVE_NONE);
     BattleScriptPush(se->script);
     gBattlescriptCurrInstr = BattleScript_MoveEffectRecoilHP25;
 }
@@ -1247,6 +1275,30 @@ static void SetEffectRestoreHp(struct BattleCalcValues *cv, struct SetEffect *se
     }
 }
 
+static void HandleSetEffectMudBath(struct BattleCalcValues *cv, struct SetEffect *se)
+{
+    enum BattlerId battler = se->effectBattler;
+    if (GetActiveGimmick(battler) == GIMMICK_TERA || IS_BATTLER_OF_TYPE(battler, TYPE_GROUND))
+    {
+        SetEffectFail(BattleScript_ButItFailedRet, cv->isStatusMove);
+    }
+    else if (!cv->onlyChecking)
+    {
+        gBattleMons[battler].types[1] = TYPE_GROUND;
+        PREPARE_TYPE_BUFFER(gBattleTextBuff1, TYPE_GROUND);
+        if (gBattleMons[battler].hp < gBattleMons[battler].maxHP)
+        {
+            SetHealAmount(battler, max(1, gBattleMons[battler].maxHP / 3));
+            BattleScriptPush(se->script);
+            BattleScriptPushAndSet(BattleScript_RestoreHpEffectBattler, BattleScript_MudBath);
+        }
+        else
+        {
+            BattleScriptPushAndSet(se->script, BattleScript_MudBath);
+        }
+    }
+}
+
 static void HandleSetEffectRoost(struct BattleCalcValues *cv, struct SetEffect *se)
 {
     SetEffectRestoreHp(cv, se);
@@ -1442,9 +1494,19 @@ static void HandleSetEffectWeather(struct BattleCalcValues *cv, struct SetEffect
     if (cv->onlyChecking)
     {
         bool32 currWeatherBlocked = gBattleWeather & (B_WEATHER_PRIMAL_ANY | gBattleWeatherInfo[weather].flag);
+        if (cv->move == MOVE_STORM_SACRIFICE)
+            currWeatherBlocked = IsStormSacrificeBlocked();
         se->effectFailed = gBattleStruct->overworldWeatherPresent || currWeatherBlocked;
         if (cv->moveEffect == EFFECT_WEATHER_AND_SWITCH && CanBattlerSwitch(cv->battlerAtk))
             se->effectFailed = FALSE;
+        return;
+    }
+
+    if (cv->move == MOVE_STORM_SACRIFICE && gBattleWeather & B_WEATHER_RAIN)
+    {
+        gBattleStruct->weatherDuration = 0;
+        gBattleStruct->weatherDurationTotal = 0;
+        gBattleStruct->weatherSide = GetBattlerSide(cv->battlerAtk);
         return;
     }
 
@@ -1454,6 +1516,11 @@ static void HandleSetEffectWeather(struct BattleCalcValues *cv, struct SetEffect
         SetEffectFail(BattleScript_FailOnPrimalWeather, cv->isStatusMove);
         break;
     case WEATHER_FAILURE_SUCCESS:
+        if (cv->move == MOVE_STORM_SACRIFICE)
+        {
+            gBattleStruct->weatherDuration = 0;
+            gBattleStruct->weatherDurationTotal = 0;
+        }
         BattleScriptPushAndSet(se->script, BattleScript_MoveEffectSetWeather);
         break;
     case WEATHER_FAILURE_SAME_WEATHER:
@@ -1485,13 +1552,29 @@ static void HandleSetEffectTerrain(struct BattleCalcValues *cv, struct SetEffect
         break;
     }
 
-    if (gBattleStruct->isSkyBattle || terrain == gFieldTimers.terrain)
+    if (gBattleStruct->isSkyBattle || (terrain == gFieldTimers.terrain && cv->move != MOVE_STORM_SACRIFICE))
+        se->effectFailed = TRUE;
+
+    if (cv->move == MOVE_STORM_SACRIFICE && IsStormSacrificeBlocked())
         se->effectFailed = TRUE;
 
     if (cv->onlyChecking) return;
 
+    if (cv->move == MOVE_STORM_SACRIFICE && terrain == gFieldTimers.terrain)
+    {
+        gFieldTimers.terrainTimer = 0;
+        gFieldTimers.terrainTimerTotal = 0;
+        gFieldTimers.terrainSide = GetBattlerSide(cv->battlerAtk);
+        return;
+    }
+
     if (TryChangeBattleTerrain(cv->battlerAtk, terrain))
     {
+        if (cv->move == MOVE_STORM_SACRIFICE)
+        {
+            gFieldTimers.terrainTimer = 0;
+            gFieldTimers.terrainTimerTotal = 0;
+        }
         BattleScriptPushAndSet(se->script, BattleScript_MoveEffectSetTerrain);
     }
     else
@@ -3371,9 +3454,9 @@ static void HandleSetEffectOverwriteType(struct BattleCalcValues *cv, struct Set
     GetBattlerTypes(se->effectBattler, FALSE, types);
     enum Type typeToSet = se->additionalEffect->argument.type;
 
-    if (cv->abilities[se->effectBattler] == ABILITY_MULTITYPE
-     || cv->abilities[se->effectBattler] == ABILITY_RKS_SYSTEM
-     || (types[0] == typeToSet && types[1] == typeToSet)
+    if ((cv->move != MOVE_SIMPLIFY && (cv->abilities[se->effectBattler] == ABILITY_MULTITYPE
+     || cv->abilities[se->effectBattler] == ABILITY_RKS_SYSTEM))
+     || (types[0] == typeToSet && types[1] == typeToSet && (types[2] == TYPE_MYSTERY || types[2] == typeToSet))
      || GetActiveGimmick(se->effectBattler) == GIMMICK_TERA)
     {
         SetEffectFail(BattleScript_ButItFailedRet, cv->isStatusMove);
@@ -4168,6 +4251,7 @@ static void (*const sSetEffectHandlers[])(struct BattleCalcValues *cv, struct Se
     [MOVE_EFFECT_WISH] = HandleSetEffectWish,
     [MOVE_EFFECT_ROOST] = HandleSetEffectRoost,
     [MOVE_EFFECT_RESTORE_HP] = HandleSetEffectRestoreHp,
+    [MOVE_EFFECT_MUD_BATH] = HandleSetEffectMudBath,
     [MOVE_EFFECT_RESTORE_HP_ON_WEATHER] = HandleSetEffectRestoreHpOnWeather,
     [MOVE_EFFECT_HEAL_PULSE] = HandleSetEffectHealPulse,
     [MOVE_EFFECT_POLLEN_PUFF] = HandleSetEffectPollenPuff,

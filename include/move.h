@@ -558,6 +558,14 @@ static inline bool32 IsMoveCopycatBanned(enum Move moveId)
     return gMovesInfo[SanitizeMoveId(moveId)].copycatBanned;
 }
 
+static inline bool32 IsMoveDarkImitationBanned(enum Move move)
+{
+    // Do not recursively call other move callers, or copy moves with special selection rules.
+    return move == MOVE_NONE || move >= MOVES_COUNT || IsMoveCopycatBanned(move)
+        || IsMoveMeFirstBanned(move) || GetMoveEffect(move) == EFFECT_DARK_IMITATION
+        || GetMoveEffect(move) == EFFECT_NATURE_POWER || GetMoveEffect(move) == EFFECT_SLEEP_TALK;
+}
+
 static inline bool32 IsMoveAssistBanned(enum Move moveId)
 {
     return gMovesInfo[SanitizeMoveId(moveId)].assistBanned;
@@ -808,7 +816,10 @@ static inline enum Ability GetMoveOverwriteAbility(enum Move move)
 
 static inline enum BattleWeather GetMoveWeatherType(enum Move move)
 {
-    assertf(gMovesInfo[move].effect == EFFECT_WEATHER || gMovesInfo[move].effect == EFFECT_WEATHER_AND_SWITCH, "not a move that sets weather: %S", gMovesInfo[move].name);
+    assertf(gMovesInfo[move].effect == EFFECT_WEATHER
+         || gMovesInfo[move].effect == EFFECT_WEATHER_AND_SWITCH
+         || gMovesInfo[move].effect == EFFECT_STORM_SACRIFICE,
+         "not a move that sets weather: %S", gMovesInfo[move].name);
     return gMovesInfo[SanitizeMoveId(move)].argument.weatherType;
 }
 

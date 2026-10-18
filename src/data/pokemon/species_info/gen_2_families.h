@@ -3999,6 +3999,7 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .teachingType = TM_ILLITERATE,                                                                  \
         .levelUpLearnset = sUnownLevelUpLearnset,                                                       \
         .teachableLearnset = sUnownTeachableLearnset,                                                   \
+        .eggMoveLearnset = sUnownEggMoveLearnset, \
         .formSpeciesIdTable = sUnownFormSpeciesIdTable,                                                 \
     }
 
@@ -4101,6 +4102,7 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .teachingType = TM_ILLITERATE,
         .levelUpLearnset = sWynautLevelUpLearnset,
         .teachableLearnset = sWynautTeachableLearnset,
+        .eggMoveLearnset = sWynautEggMoveLearnset,
         .evolutions = EVOLUTION({EVO_LEVEL, 15, SPECIES_WOBBUFFET}),
     },
 #endif //P_GEN_3_CROSS_EVOS
@@ -7711,6 +7713,7 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .teachingType = TM_ILLITERATE,
         .levelUpLearnset = sSmeargleLevelUpLearnset,
         .teachableLearnset = sSmeargleTeachableLearnset,
+        .eggMoveLearnset = sSmeargleEggMoveLearnset,
     },
 #endif //P_FAMILY_SMEARGLE
 
@@ -7863,6 +7866,7 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .isSubLegendary = TRUE,
         .levelUpLearnset = sRaikouLevelUpLearnset,
         .teachableLearnset = sRaikouTeachableLearnset,
+        .eggMoveLearnset = sRaikouEggMoveLearnset,
     },
 #endif //P_FAMILY_RAIKOU
 
@@ -7941,6 +7945,7 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .isSubLegendary = TRUE,
         .levelUpLearnset = sEnteiLevelUpLearnset,
         .teachableLearnset = sEnteiTeachableLearnset,
+        .eggMoveLearnset = sEnteiEggMoveLearnset,
     },
 #endif //P_FAMILY_ENTEI
 
@@ -8019,6 +8024,7 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .isSubLegendary = TRUE,
         .levelUpLearnset = sSuicuneLevelUpLearnset,
         .teachableLearnset = sSuicuneTeachableLearnset,
+        .eggMoveLearnset = sSuicuneEggMoveLearnset,
     },
 #endif //P_FAMILY_SUICUNE
 
@@ -8386,6 +8392,7 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .excludeFromBingoPool = TRUE,
         .levelUpLearnset = sLugiaLevelUpLearnset,
         .teachableLearnset = sLugiaTeachableLearnset,
+        .eggMoveLearnset = sLugiaEggMoveLearnset,
     },
 #endif //P_FAMILY_LUGIA
 
@@ -8463,6 +8470,7 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .excludeFromBingoPool = TRUE,
         .levelUpLearnset = sHoOhLevelUpLearnset,
         .teachableLearnset = sHoOhTeachableLearnset,
+        .eggMoveLearnset = sHoOhEggMoveLearnset,
     },
 #endif //P_FAMILY_HO_OH
 
@@ -8542,6 +8550,7 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .excludeFromBingoPool = TRUE,
         .levelUpLearnset = sCelebiLevelUpLearnset,
         .teachableLearnset = sCelebiTeachableLearnset,
+        .eggMoveLearnset = sCelebiEggMoveLearnset,
     },
 #endif //P_FAMILY_CELEBI
 

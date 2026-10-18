@@ -1,6 +1,8 @@
 #include "global.h"
 #include "battle.h"
 #include "battle_anim.h"
+#include "battle_util.h"
+#include "pokemon.h"
 #include "m4a.h"
 #include "sound.h"
 #include "task.h"
@@ -299,6 +301,21 @@ void SoundTask_PlayCryWithEcho(u8 taskId)
         DestroyAnimVisualTask(taskId);
 }
 
+
+void AnimTask_HauntingShrieksBackground(u8 taskId)
+{
+    gBattleAnimArgs[7] = gBattleStruct->hauntingShrieksBgActive;
+    gBattleStruct->hauntingShrieksBgActive = TRUE;
+    DestroyAnimVisualTask(taskId);
+}
+
+void SoundTask_PlayHauntingCry(u8 taskId)
+{
+    struct Pokemon *contributor = GetHauntingShrieksContributor(gBattleAnimAttacker, gBattleScripting.multihitString[4]);
+    SoundTask_PlayCryWithEcho(taskId);
+    if (contributor != NULL)
+        gTasks[taskId].tSpecies = GetMonData(contributor, MON_DATA_SPECIES);
+}
 
 static void SoundTask_PlayCryWithEcho_Step(u8 taskId)
 {

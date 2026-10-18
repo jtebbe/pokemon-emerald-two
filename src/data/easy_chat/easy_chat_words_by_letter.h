@@ -29,7 +29,6 @@ const u16 gEasyChatWordsByLetter_A[] = {
     EC_WORD_ABSOLUTELY,
     EC_MOVE(ABSORB),
     EC_WORD_ACCEPT,
-    EC_MOVE2(ACID),
     EC_MOVE2(ACID_ARMOR),
     EC_WORD_ADORE,
     EC_WORD_ADULT,
@@ -289,6 +288,7 @@ const u16 gEasyChatWordsByLetter_C[] = {
     EC_WORD_COOLNESS,
     EC_POKEMON(CORPHISH),
     EC_WORD_CORRECT,
+    EC_MOVE2(CORRODE),
     DOUBLE_SPECIES_NAME
     EC_POKEMON(CORSOLA),
     EC_POKEMON_NATIONAL(CORSOLA),
@@ -2360,7 +2360,7 @@ const u16 gEasyChatWordsByLetter_UnusedJapaneseYu[] = {
 const u16 gEasyChatWordsByLetter_UnusedJapaneseYo[] = {
     EC_WORD_WITHOUT,
     EC_WORD_YO,
-    EC_MOVE2(ACID),
+    EC_MOVE2(CORRODE),
     EC_WORD_COME_OVER,
     EC_WORD_KINDERGARTEN,
     EC_WORD_CHLOROPHYLL,

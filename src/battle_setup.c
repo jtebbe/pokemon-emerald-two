@@ -1282,6 +1282,10 @@ void CreateNPCTrainerPartyFromTrainer(struct Pokemon *party, const struct Traine
     u32 monIndices[monsCount];
     struct TrainerGenerator *trainerGen = AllocZeroed(sizeof(struct TrainerGenerator));
     MakeTrainerGenerator(trainerGen, trainer);
+    // Script/debug helpers can also use this function to replace the player's
+    // party. Only NPC trainer parties should receive scaled levels.
+    if (party != gParties[B_TRAINER_PLAYER])
+        trainerGen->levelOverride = GetTrainerScalingLevel();
     DoTrainerPartyPool(trainer, monIndices, monsCount, gBattleTypeFlags);
 
     for (i = 0; i < monsCount; i++)

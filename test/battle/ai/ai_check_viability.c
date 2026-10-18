@@ -289,7 +289,7 @@ AI_DOUBLE_BATTLE_TEST("AI chooses moves that cure self or partner")
         AI_FLAGS(AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_CHECK_VIABILITY | AI_FLAG_TRY_TO_FAINT);
         PLAYER(SPECIES_WOBBUFFET);
         PLAYER(SPECIES_WOBBUFFET);
-        OPPONENT(SPECIES_REGIROCK) { Moves(MOVE_ROCK_SLIDE, move, MOVE_ACID); Status1(status1_0); }
+        OPPONENT(SPECIES_REGIROCK) { Moves(MOVE_ROCK_SLIDE, move, MOVE_WATER_GUN); Status1(status1_0); }
         OPPONENT(SPECIES_EXPLOUD) { Status1(status1_1); Ability(partnerAbility); }
     } WHEN {
         if (status1_0 != STATUS1_NONE || (status1_1 != STATUS1_NONE && partnerAbility != ABILITY_SOUNDPROOF))

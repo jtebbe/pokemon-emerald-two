@@ -589,6 +589,8 @@ struct BattleStruct
     // When using a move which hits multiple opponents which is then bounced by a target, we need to make sure, the move hits both opponents, the one with bounce, and the one without.
     enum Species beatUpSpecies[PARTY_SIZE]; // Species for Gen5+ Beat Up, otherwise party indexes
     u8 beatUpSlot:3;
+    bool8 hauntingShrieksBgActive;
+    bool8 dazzlingDashWasSlower;
     enum PledgeCombo pledgeState:2;
     enum DamageCategory dynamicMoveCategory:3;
     enum Item flingItem:14;

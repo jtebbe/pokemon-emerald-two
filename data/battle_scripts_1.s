@@ -25,6 +25,11 @@ BattleScript_MoveResolution::
 	attackcanceler
 	goto BattleScript_MoveEnd
 
+BattleScript_HauntingShrieksEnd::
+	playanimation BS_ATTACKER, B_ANIM_HAUNTING_SHRIEKS_END
+	waitanimation
+	return
+
 BattleScript_TryRevertWeatherForms::
 	savebattlerorderindex
 	setbyte gBattlerOrderIndex, 0
@@ -543,6 +548,13 @@ BattleScript_Purify::
 	return
 
 BattleScript_PurifyCureStatus::
+	curestatus BS_EFFECT_BATTLER
+	updatestatusicon BS_EFFECT_BATTLER
+	return
+
+BattleScript_MudBath::
+	printstring STRINGID_THIRDTYPEADDED
+	waitmessage B_WAIT_TIME_LONG
 	curestatus BS_EFFECT_BATTLER
 	updatestatusicon BS_EFFECT_BATTLER
 	return

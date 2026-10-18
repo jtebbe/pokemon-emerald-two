@@ -5,6 +5,7 @@
 #include "task.h"
 #include "trig.h"
 #include "constants/rgb.h"
+#include "constants/moves.h"
 
 static void AnimBrickBreakWallShard(struct Sprite *);
 static void AnimBrickBreakWallShard_Step(struct Sprite *);
@@ -938,10 +939,12 @@ void AnimSuperpowerFireball(struct Sprite *sprite)
         sprite->oam.priority = GetBattlerSpriteBGPriority(gBattleAnimTarget);
     }
 
-    if (IsOnPlayerSide(battler))
+    if (gAnimMoveIndex == MOVE_AURA_PULSE)
+        TrySetSpriteRotScale(sprite, FALSE, 0x200, 0x200, IsOnPlayerSide(battler) ? 0x8000 : 0);
+    else if (IsOnPlayerSide(battler))
         sprite->oam.matrixNum |= (ST_OAM_HFLIP | ST_OAM_VFLIP);
 
-    sprite->data[0] = 16;
+    sprite->data[0] = gAnimMoveIndex == MOVE_AURA_PULSE ? 8 : 16;
     sprite->data[1] = sprite->x;
     sprite->data[2] = GetBattlerSpriteCoord(battler, BATTLER_COORD_X_2);
     sprite->data[3] = sprite->y;

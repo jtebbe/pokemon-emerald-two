@@ -4948,6 +4948,7 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         )
         .levelUpLearnset = sCarbinkLevelUpLearnset,
         .teachableLearnset = sCarbinkTeachableLearnset,
+        .eggMoveLearnset = sCarbinkEggMoveLearnset,
     },
 #endif //P_FAMILY_CARBINK
 
@@ -6436,6 +6437,7 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         .excludeFromBingoPool = TRUE,
         .levelUpLearnset = sXerneasLevelUpLearnset,
         .teachableLearnset = sXerneasTeachableLearnset,
+        .eggMoveLearnset = sXerneasEggMoveLearnset,
         .formSpeciesIdTable = sXerneasFormSpeciesIdTable,
         .formChangeTable = sXerneasFormChangeTable,
     },
@@ -6570,6 +6572,7 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         .excludeFromBingoPool = TRUE,
         .levelUpLearnset = sYveltalLevelUpLearnset,
         .teachableLearnset = sYveltalTeachableLearnset,
+        .eggMoveLearnset = sYveltalEggMoveLearnset,
     },
 #endif //P_FAMILY_YVELTAL
 
@@ -6632,6 +6635,7 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         .excludeFromBingoPool = TRUE,
         .levelUpLearnset = sZygardeLevelUpLearnset,
         .teachableLearnset = sZygardeTeachableLearnset,
+        .eggMoveLearnset = sZygardeEggMoveLearnset,
         .formSpeciesIdTable = sZygardeFormSpeciesIdTable,
         .formChangeTable = sZygarde50AuraBreakFormChangeTable,
     },
@@ -7020,6 +7024,7 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         .excludeFromBingoPool = TRUE,
         .levelUpLearnset = sDiancieLevelUpLearnset,
         .teachableLearnset = sDiancieTeachableLearnset,
+        .eggMoveLearnset = sDiancieEggMoveLearnset,
         .formSpeciesIdTable = sDiancieFormSpeciesIdTable,
         .formChangeTable = sDiancieFormChangeTable,
     },
@@ -7173,6 +7178,7 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         .excludeFromBingoPool = TRUE,
         .levelUpLearnset = sHoopaConfinedLevelUpLearnset,
         .teachableLearnset = sHoopaConfinedTeachableLearnset,
+        .eggMoveLearnset = sHoopaConfinedEggMoveLearnset,
         .formSpeciesIdTable = sHoopaFormSpeciesIdTable,
         .formChangeTable = sHoopaFormChangeTable,
     },
@@ -7312,6 +7318,7 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         .excludeFromBingoPool = TRUE,
         .levelUpLearnset = sVolcanionLevelUpLearnset,
         .teachableLearnset = sVolcanionTeachableLearnset,
+        .eggMoveLearnset = sVolcanionEggMoveLearnset,
     },
 #endif //P_FAMILY_VOLCANION
 

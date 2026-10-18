@@ -100,6 +100,7 @@ void SwapTurnOrder(u8 id1, u8 id2);
 u32 GetBattlerTotalSpeedStat(enum BattlerId battler, enum Ability ability, enum HoldEffect holdEffect);
 s32 GetChosenMovePriority(enum BattlerId battler, enum Ability ability);
 s32 GetBattleMovePriority(enum BattlerId battler, enum Ability ability, enum Move move);
+s32 GetBattleMovePriorityForTarget(enum BattlerId battler, enum Ability ability, enum Move move, enum BattlerId target);
 s32 GetWhichBattlerFasterArgs(struct BattleCalcValues *calcValues, bool32 ignoreChosenMoves, u32 speedBattler1, u32 speedBattler2, s32 priority1, s32 priority2);
 s32 GetWhichBattlerFasterOrTies(struct BattleCalcValues *calcValues, bool32 ignoreChosenMoves);
 s32 GetWhichBattlerFaster(struct BattleCalcValues *calcValues, bool32 ignoreChosenMoves);

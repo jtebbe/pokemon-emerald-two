@@ -519,7 +519,7 @@ static inline bool32 IsMoveSheerForceBoosted(enum Move move)
         case MOVE_WATERFALL:
         case MOVE_ZAP_CANNON:
         case MOVE_ZEN_HEADBUTT:
-        case MOVE_ACID:
+        case MOVE_CORRODE:
         case MOVE_ACID_SPRAY:
         case MOVE_ALLURING_VOICE:
         case MOVE_ANCHOR_SHOT:
@@ -620,6 +620,10 @@ static inline bool32 IsMoveSheerForceBoosted(enum Move move)
         case MOVE_TROP_KICK:
         case MOVE_TWINEEDLE:
         case MOVE_VOLT_TACKLE:
+        case MOVE_VOLTAIC_RUSH:
+        case MOVE_INFERNAL_FISTS:
+        case MOVE_FRIGID_CLAWS:
+        case MOVE_HARSH_ZEPHYR:
         case MOVE_WICKED_TORQUE:
         case MOVE_WILDBOLT_STORM:
         case MOVE_ZING_ZAP:
@@ -1354,7 +1358,19 @@ DOUBLE_BATTLE_TEST("Sheer Force only boosts the damage of moves it's supposed to
         OPPONENT(SPECIES_STEELIX) { Ability(ABILITY_STURDY); Item(ITEM_BLUK_BERRY); }
         OPPONENT(SPECIES_WOBBUFFET) { Ability(ABILITY_TELEPATHY); Level(100); Item(ITEM_BLUK_BERRY); }
     } WHEN {
-        if (move == MOVE_ALLURING_VOICE || move == MOVE_BURNING_JEALOUSY) // Alluring Voice requires the target to boost stats to have an effect
+        if (move == MOVE_SUNBLOOM)
+        {
+            // Compare under the same weather: the first hit must not boost only the second user's move.
+            TURN { MOVE(playerRight, MOVE_SUNNY_DAY); }
+            TURN { MOVE(playerLeft, move, target: opponentRight); MOVE(opponentLeft, move, target: playerRight); }
+        }
+        else if (move == MOVE_DAZZLING_DASH)
+        {
+            // Player badge boosts must not give only one side a guaranteed crit.
+            TURN { MOVE(opponentRight, MOVE_AGILITY); MOVE(playerRight, MOVE_AGILITY); }
+            TURN { MOVE(playerLeft, move, target: opponentRight); MOVE(opponentLeft, move, target: playerRight); }
+        }
+        else if (move == MOVE_ALLURING_VOICE || move == MOVE_BURNING_JEALOUSY) // Alluring Voice requires the target to boost stats to have an effect
             TURN { MOVE(opponentRight, MOVE_AGILITY); MOVE(playerRight, MOVE_AGILITY); MOVE(playerLeft, move, target: opponentRight); MOVE(opponentLeft, move, target: playerRight); }
         else if (move == MOVE_UPPER_HAND) // Upper Hand requires the target to be using a damaging priority move
             TURN { MOVE(opponentRight, MOVE_QUICK_ATTACK, target: playerLeft); MOVE(playerRight, move, target: opponentLeft); MOVE(playerLeft, move, target: opponentRight); MOVE(opponentLeft, move, target: playerRight); }

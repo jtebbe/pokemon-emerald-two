@@ -24,6 +24,7 @@
 
 static u32 GetAIEffectGroup(enum BattleMoveEffects effect);
 static u32 GetAIEffectGroupFromMove(enum BattlerId battler, enum Move move);
+static bool32 HasBodyPressUsingStat(enum BattlerId battler, enum Stat stat);
 
 // Functions
 enum Ability AI_GetMoldBreakerSanitizedAbility(enum BattlerId battlerAtk, enum Ability abilityAtk, enum Ability abilityDef, enum HoldEffect holdEffectDef, enum Move move)
@@ -79,6 +80,8 @@ static bool32 AI_CanBattlerHitBothFoesInTerrain(enum BattlerId battler, enum Mov
 enum MoveTarget AI_GetBattlerMoveTargetType(enum BattlerId battler, enum Move move)
 {
     enum BattleMoveEffects effect = GetMoveEffect(move);
+    if (move == MOVE_HARSH_ZEPHYR && (gSideStatuses[GetBattlerSide(battler)] & SIDE_STATUS_TAILWIND))
+        return TARGET_BOTH;
     if (effect == EFFECT_CURSE && !IS_BATTLER_OF_TYPE(battler, TYPE_GHOST))
         return TARGET_USER;
     if (AI_CanBattlerHitBothFoesInTerrain(battler, move, effect))
@@ -500,7 +503,7 @@ bool32 IsTruantMonVulnerable(enum BattlerId battlerAI, enum BattlerId opposingBa
 
 bool32 Ai_IsPriorityBlocked(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum Move move, struct AiLogicData *aiData)
 {
-    s32 atkPriority = GetBattleMovePriority(battlerAtk, aiData->abilities[battlerAtk], move);
+    s32 atkPriority = GetBattleMovePriorityForTarget(battlerAtk, aiData->abilities[battlerAtk], move, battlerDef);
 
     if (atkPriority <= 0 || IsBattlerAlly(battlerAtk, battlerDef))
         return FALSE;
@@ -519,7 +522,8 @@ bool32 Ai_IsPriorityBlocked(enum BattlerId battlerAtk, enum BattlerId battlerDef
 
 bool32 AI_CanMoveBeBlockedByTarget(struct DamageContext *ctx)
 {
-    s32 priority = GetBattleMovePriority(ctx->battlerAtk, ctx->abilities[ctx->battlerAtk], ctx->move);
+    enum Move priorityMove = ctx->chosenMove == MOVE_DARK_IMITATION ? ctx->chosenMove : ctx->move;
+    s32 priority = GetBattleMovePriorityForTarget(ctx->battlerAtk, ctx->abilities[ctx->battlerAtk], priorityMove, ctx->battlerDef);
     return CanMoveBeBlockedByTarget(ctx, priority)
         || CanPsychicTerrainProtectTarget(ctx, priority);
 }
@@ -702,12 +706,16 @@ static inline void CalcDynamicMoveDamage(struct DamageContext *ctx, struct Simul
 {
     enum BattleMoveEffects effect = GetMoveEffect(ctx->move);
 
+    // This move is already summed contributor-by-contributor in AI_CalcDamage.
+    if (effect == EFFECT_HAUNTING_SHRIEKS)
+        return;
+
     u32 median = simDamage->median;
     u32 minimum = simDamage->minimum;
     u32 maximum = simDamage->maximum;
     u32 random = simDamage->random;
 
-    u32 strikeCount = GetMoveStrikeCount(ctx->move);
+    u32 strikeCount = GetBattlerMoveStrikeCount(ctx->battlerAtk, ctx->move);
 
     if (effect == EFFECT_BEAT_UP && GetConfig(B_BEAT_UP) >= GEN_5)
     {
@@ -870,7 +878,8 @@ static s32 HandleKOThroughBerryReduction(struct DamageContext *ctx, s32 dmg)
 static void AI_ApplyModifiersAfterDmgRoll(struct DamageContext *ctx, struct SimulatedDamage *simDamage)
 {
     // Precalculate modifiers to apply to all 4 considered AI rolls at once
-    if (GetActiveGimmick(ctx->battlerAtk) == GIMMICK_TERA)
+    if (GetActiveGimmick(ctx->battlerAtk) == GIMMICK_TERA
+     && !(GetMoveEffect(ctx->move) == EFFECT_HAUNTING_SHRIEKS && ctx->hitIndex != 0))
     {
         uq4_12_t teraModifier = GetTeraMultiplier(ctx);
         AI_DAMAGE_APPLY_MODIFIER(teraModifier);
@@ -918,6 +927,17 @@ struct SimulatedDamage AI_CalcDamage(struct AiCalcValues *aiCalc, enum BattlerId
         moveEffect = GetMoveEffect(move);
     }
 
+    if (moveEffect == EFFECT_DARK_IMITATION)
+    {
+        move = GetIncomingMove(battlerAtk, battlerDef, aiData);
+        if (IsMoveDarkImitationBanned(move) || IsBattlerPredictedToSwitch(battlerDef))
+        {
+            aiData->aiCalcInProgress = FALSE;
+            return simDamage;
+        }
+        moveEffect = GetMoveEffect(move);
+    }
+
     // Temporarily enable gimmicks for damage calcs if planned
     if (aiCalc->gimmickAtk != GIMMICK_NONE && GetActiveGimmick(battlerAtk) == GIMMICK_NONE)
     {
@@ -941,6 +961,8 @@ struct SimulatedDamage AI_CalcDamage(struct AiCalcValues *aiCalc, enum BattlerId
     ctx.battlerAtk = battlerAtk;
     ctx.battlerDef = battlerDef;
     ctx.move = ctx.chosenMove = move;
+    if (aiCalc->move == MOVE_DARK_IMITATION)
+        ctx.chosenMove = MOVE_DARK_IMITATION;
     ctx.randomFactor = FALSE;
     ctx.updateFlags = FALSE;
     ctx.terrain = aiCalc->terrain;
@@ -976,6 +998,25 @@ struct SimulatedDamage AI_CalcDamage(struct AiCalcValues *aiCalc, enum BattlerId
         if (fixedDamage != INT32_MAX)
         {
             simDamage.minimum = simDamage.median = simDamage.maximum = simDamage.random = fixedDamage;
+        }
+        else if (moveEffect == EFFECT_HAUNTING_SHRIEKS)
+        {
+            u32 hits = GetHauntingShrieksHitCount(battlerAtk);
+            for (u32 hitIndex = 0; hitIndex < hits; hitIndex++)
+            {
+                struct SimulatedDamage hit = {0};
+                ctx.hitIndex = hitIndex;
+                u32 damage = CalculateMoveDamageVars(&ctx);
+                hit.minimum = GetDamageByRollType(damage, DMG_ROLL_LOWEST);
+                hit.median = GetDamageByRollType(damage, DMG_ROLL_MEDIAN);
+                hit.maximum = GetDamageByRollType(damage, DMG_ROLL_HIGHEST);
+                hit.random = GetDamageByRollType(damage, DMG_ROLL_RANDOM);
+                AI_ApplyModifiersAfterDmgRoll(&ctx, &hit);
+                simDamage.minimum += hit.minimum;
+                simDamage.median += hit.median;
+                simDamage.maximum += hit.maximum;
+                simDamage.random += hit.random;
+            }
         }
         else if (moveEffect == EFFECT_TRIPLE_KICK)
         {
@@ -1178,7 +1219,7 @@ static bool32 AI_IsMoveEffectInMinus(enum BattlerId battlerAtk, enum BattlerId b
     enum Ability abilityAtk = gAiLogicData->abilities[battlerAtk];
     enum Ability abilityDef = gAiLogicData->abilities[battlerDef];
 
-    if (GetMoveStrikeCount(move) > 1 || IsMultiHitMove(move))
+    if (GetBattlerMoveStrikeCount(battlerAtk, move) > 1 || IsMultiHitMove(move))
     {
         if (AI_MoveMakesContact(battlerAtk, battlerDef, abilityAtk, gAiLogicData->holdEffects[battlerAtk], move)
          && abilityAtk != ABILITY_MAGIC_GUARD
@@ -1408,8 +1449,8 @@ s32 AI_WhoStrikesFirst(enum BattlerId battlerAI, enum BattlerId battler, enum Mo
 
     if (considerPriority == CONSIDER_PRIORITY)
     {
-        s8 aiPriority = GetBattleMovePriority(battlerAI, abilityAI, aiMoveConsidered);
-        s8 playerPriority = GetBattleMovePriority(battler, abilityPlayer, playerMoveConsidered);
+        s8 aiPriority = GetBattleMovePriorityForTarget(battlerAI, abilityAI, aiMoveConsidered, battler);
+        s8 playerPriority = GetBattleMovePriorityForTarget(battler, abilityPlayer, playerMoveConsidered, battlerAI);
 
         if (aiPriority > playerPriority)
             return AI_IS_FASTER;
@@ -1469,7 +1510,7 @@ bool32 CanEndureHit(enum BattlerId battler, enum BattlerId battlerTarget, enum M
     if (gAiLogicData->abilities[battler] == ABILITY_PARENTAL_BOND && AI_IsDoubleSpreadMove(battler, move))
         return FALSE;
 
-    if (GetMoveStrikeCount(move) > 1 && !DragonDartsHitsBothTargets(battler, battlerTarget, move))
+    if (GetBattlerMoveStrikeCount(battler, move) > 1 && !DragonDartsHitsBothTargets(battler, battlerTarget, move))
         return FALSE;
 
     if (gAiLogicData->holdEffects[battlerTarget] == HOLD_EFFECT_FOCUS_SASH)
@@ -2457,7 +2498,8 @@ enum AIScore IncreaseStatDownScore(enum BattlerId battlerAtk, enum BattlerId bat
         break;
     case STAT_DEF:
         if (HasMoveWithCategory(battlerAtk, DAMAGE_CATEGORY_PHYSICAL)
-         || HasMoveWithCategory(GetPartnerBattler(battlerAtk), DAMAGE_CATEGORY_PHYSICAL))
+         || HasMoveWithCategory(GetPartnerBattler(battlerAtk), DAMAGE_CATEGORY_PHYSICAL)
+         || HasBodyPressUsingStat(battlerDef, STAT_DEF))
             tempScore += DECENT_EFFECT;
         break;
     case STAT_SPEED:
@@ -2474,7 +2516,8 @@ enum AIScore IncreaseStatDownScore(enum BattlerId battlerAtk, enum BattlerId bat
         break;
     case STAT_SPDEF:
         if (HasMoveWithCategory(battlerAtk, DAMAGE_CATEGORY_SPECIAL)
-         || HasMoveWithCategory(GetPartnerBattler(battlerAtk), DAMAGE_CATEGORY_SPECIAL))
+         || HasMoveWithCategory(GetPartnerBattler(battlerAtk), DAMAGE_CATEGORY_SPECIAL)
+         || HasBodyPressUsingStat(battlerDef, STAT_SPDEF))
             tempScore += DECENT_EFFECT;
         break;
     case STAT_ACC:
@@ -2778,6 +2821,35 @@ bool32 HasMoveWithEffect(enum BattlerId battler, enum BattleMoveEffects effect)
     return FALSE;
 }
 
+static bool32 HasBodyPressUsingStat(enum BattlerId battler, enum Stat stat)
+{
+    enum Move *moves = GetMovesArray(battler);
+    for (u32 slot = 0; slot < MAX_MON_MOVES; slot++)
+    {
+        if (moves[slot] != MOVE_NONE && moves[slot] != MOVE_UNAVAILABLE && GetMoveEffect(moves[slot]) == EFFECT_BODY_PRESS)
+        {
+            enum Stat attackingStat = IsBattleMoveSpecial(moves[slot]) || (gFieldStatuses & STATUS_FIELD_WONDER_ROOM)
+                ? STAT_SPDEF : STAT_DEF;
+            if (attackingStat == stat)
+                return TRUE;
+        }
+    }
+    return FALSE;
+}
+
+static bool32 HasMoveUsingOwnOffensiveStat(enum BattlerId battler, enum DamageCategory category)
+{
+    enum Move *moves = GetMovesArray(battler);
+    for (u32 slot = 0; slot < MAX_MON_MOVES; slot++)
+    {
+        if (moves[slot] != MOVE_NONE && moves[slot] != MOVE_UNAVAILABLE
+         && GetMoveCategory(moves[slot]) == category
+         && GetMoveEffect(moves[slot]) != EFFECT_BODY_PRESS)
+            return TRUE;
+    }
+    return FALSE;
+}
+
 bool32 HasMoveWithAIEffect(enum BattlerId battler, u32 aiEffect)
 {
     enum Move *moves = GetMovesArray(battler);
@@ -3045,7 +3117,12 @@ bool32 HasHealingEffect(enum BattlerId battlerId)
     for (u32 moveIndex = 0; moveIndex < MAX_MON_MOVES; moveIndex++)
     {
         if (moves[moveIndex] != MOVE_NONE && moves[moveIndex] != MOVE_UNAVAILABLE && IsHealingMove(moves[moveIndex]))
+        {
+            if (moves[moveIndex] == MOVE_MUD_BATH
+             && (IS_BATTLER_OF_TYPE(battlerId, TYPE_GROUND) || GetActiveGimmick(battlerId) == GIMMICK_TERA))
+                continue;
             return TRUE;
+        }
     }
 
     return FALSE;
@@ -4694,7 +4771,7 @@ bool32 IsRecycleEncouragedItem(enum Item item)
     return FALSE;
 }
 
-static bool32 HasMoveThatChangesKOThreshold(enum BattlerId battlerId, u32 noOfHitsToFaint)
+static bool32 HasMoveThatChangesKOThreshold(enum BattlerId battlerId, enum BattlerId target, u32 noOfHitsToFaint)
 {
     enum Move *moves = GetMovesArray(battlerId);
 
@@ -4704,7 +4781,7 @@ static bool32 HasMoveThatChangesKOThreshold(enum BattlerId battlerId, u32 noOfHi
             continue;
         if (noOfHitsToFaint <= 2)
         {
-            if (GetMovePriority(moves[moveIndex]) > 0)
+            if (GetBattleMovePriorityForTarget(battlerId, gAiLogicData->abilities[battlerId], moves[moveIndex], target) > 0)
                 return TRUE;
 
             u32 additionalEffectCount = GetMoveAdditionalEffectCount(moves[moveIndex]);
@@ -4748,7 +4825,7 @@ static enum AIScore IncreaseStatUpScoreInternal(enum BattlerId battlerAtk, enum 
         return NO_INCREASE;
 
     // Don't increase stats if player has a move that can change the KO threshold
-    if (aiIsFaster && HasMoveThatChangesKOThreshold(battlerDef, noOfHitsToFaint))
+    if (aiIsFaster && HasMoveThatChangesKOThreshold(battlerDef, battlerAtk, noOfHitsToFaint))
         return NO_INCREASE;
 
     // Don't increase stat if AI is at +4
@@ -4780,7 +4857,7 @@ static enum AIScore IncreaseStatUpScoreInternal(enum BattlerId battlerAtk, enum 
     switch (statId)
     {
     case STAT_ATK:
-        if (HasMoveWithCategory(battlerAtk, DAMAGE_CATEGORY_PHYSICAL) && shouldSetUp)
+        if (HasMoveUsingOwnOffensiveStat(battlerAtk, DAMAGE_CATEGORY_PHYSICAL) && shouldSetUp)
         {
             if (stages == 1)
                 tempScore += DECENT_EFFECT;
@@ -4793,7 +4870,7 @@ static enum AIScore IncreaseStatUpScoreInternal(enum BattlerId battlerAtk, enum 
     case STAT_DEF:
     {
         bool32 defRelevant = (HasMoveWithCategory(battlerDef, DAMAGE_CATEGORY_PHYSICAL) || !HasMoveWithCategory(battlerDef, DAMAGE_CATEGORY_SPECIAL));
-        bool32 bodyPressCheck = (HasMoveWithEffect(battlerAtk, EFFECT_BODY_PRESS) && !(gFieldStatuses & STATUS_FIELD_WONDER_ROOM) && shouldSetUp);
+        bool32 bodyPressCheck = HasBodyPressUsingStat(battlerAtk, STAT_DEF) && shouldSetUp;
 
         if (defRelevant || bodyPressCheck)
         {
@@ -4816,7 +4893,7 @@ static enum AIScore IncreaseStatUpScoreInternal(enum BattlerId battlerAtk, enum 
         }
         break;
     case STAT_SPATK:
-        if (HasMoveWithCategory(battlerAtk, DAMAGE_CATEGORY_SPECIAL) && shouldSetUp)
+        if (HasMoveUsingOwnOffensiveStat(battlerAtk, DAMAGE_CATEGORY_SPECIAL) && shouldSetUp)
         {
             if (stages == 1)
                 tempScore += DECENT_EFFECT;
@@ -4828,7 +4905,7 @@ static enum AIScore IncreaseStatUpScoreInternal(enum BattlerId battlerAtk, enum 
     {
         bool32 spDefRelevant = (HasMoveWithCategory(battlerDef, DAMAGE_CATEGORY_SPECIAL) || !HasMoveWithCategory(battlerDef, DAMAGE_CATEGORY_PHYSICAL));
         // Wonder Room makes Body Press use Sp. Def stages for its damage calculation.
-        bool32 bodyPressCheck = (HasMoveWithEffect(battlerAtk, EFFECT_BODY_PRESS) && (gFieldStatuses & STATUS_FIELD_WONDER_ROOM) && shouldSetUp);
+        bool32 bodyPressCheck = HasBodyPressUsingStat(battlerAtk, STAT_SPDEF) && shouldSetUp;
 
         if (spDefRelevant || bodyPressCheck)
         {
@@ -4970,6 +5047,7 @@ void IncreaseParalyzeScore(enum BattlerId battlerAtk, enum BattlerId battlerDef,
 
         if ((defSpeed >= atkSpeed && defSpeed / 2 < atkSpeed) // You'll go first after paralyzing foe
           || IsPowerBasedOnStatus(battlerAtk, EFFECT_DOUBLE_POWER_ON_ARG_STATUS, STATUS1_PARALYSIS)
+          || IsPowerBasedOnStatus(GetPartnerBattler(battlerAtk), EFFECT_DOUBLE_POWER_ON_ARG_STATUS, STATUS1_PARALYSIS)
           || (HasMoveWithMoveEffectExcept(battlerAtk, MOVE_EFFECT_FLINCH, EFFECT_FIRST_TURN_ONLY)) // filter out Fake Out
           || gBattleMons[battlerDef].volatiles.infatuation
           || gBattleMons[battlerDef].volatiles.confusionTimer > 0)
@@ -5255,7 +5333,7 @@ enum AIConsiderGimmick ShouldTeraFromCalcs(enum BattlerId battler, enum BattlerI
         if (dealtWithTera[moveIndex].median >= oppHp)
         {
             enum Move move = aiMoves[moveIndex];
-            if (killingMove == MOVE_NONE || GetBattleMovePriority(battler, gAiLogicData->abilities[battler], move) > GetBattleMovePriority(battler, gAiLogicData->abilities[battler], killingMove))
+            if (killingMove == MOVE_NONE || GetBattleMovePriorityForTarget(battler, gAiLogicData->abilities[battler], move, opposingBattler) > GetBattleMovePriorityForTarget(battler, gAiLogicData->abilities[battler], killingMove, opposingBattler))
                 killingMove = move;
         }
         if (dealtWithoutTera[moveIndex].median >= oppHp)
@@ -5287,7 +5365,7 @@ enum AIConsiderGimmick ShouldTeraFromCalcs(enum BattlerId battler, enum BattlerI
         if (takenWithTera[moveIndex].maximum >= aiHp)
         {
             enum Move move = oppMoves[moveIndex];
-            if (hardPunishingMove == MOVE_NONE || GetBattleMovePriority(opposingBattler, gAiLogicData->abilities[opposingBattler], move) > GetBattleMovePriority(opposingBattler, gAiLogicData->abilities[opposingBattler], hardPunishingMove))
+            if (hardPunishingMove == MOVE_NONE || GetBattleMovePriorityForTarget(opposingBattler, gAiLogicData->abilities[opposingBattler], move, battler) > GetBattleMovePriorityForTarget(opposingBattler, gAiLogicData->abilities[opposingBattler], hardPunishingMove, battler))
                 hardPunishingMove = move;
         }
     }
@@ -5339,7 +5417,7 @@ enum AIConsiderGimmick ShouldTeraFromCalcs(enum BattlerId battler, enum BattlerI
         {
             enum Move predictedMove = GetPredictedMove(battler, opposingBattler, gAiLogicData);
             // will we go first?
-            if (AI_IsFaster(battler, opposingBattler, killingMove, predictedMove, CONSIDER_PRIORITY) && GetBattleMovePriority(battler, gAiLogicData->abilities[battler], killingMove) >= GetBattleMovePriority(opposingBattler, gAiLogicData->abilities[opposingBattler], hardPunishingMove))
+            if (AI_IsFaster(battler, opposingBattler, killingMove, predictedMove, CONSIDER_PRIORITY) && GetBattleMovePriorityForTarget(battler, gAiLogicData->abilities[battler], killingMove, opposingBattler) >= GetBattleMovePriorityForTarget(opposingBattler, gAiLogicData->abilities[opposingBattler], hardPunishingMove, battler))
                 return USE_GIMMICK;
         }
     }
@@ -5427,6 +5505,23 @@ bool32 AI_ShouldCopyStatChanges(enum BattlerId battlerAtk, enum BattlerId battle
 //TODO - track entire opponent party data to determine hazard effectiveness
 bool32 AI_ShouldSetUpHazards(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum Move move, struct AiLogicData *aiData)
 {
+    enum BattleSide side = GetBattlerSide(battlerDef);
+    enum BattleMoveEffects effect = GetMoveEffect(move);
+
+    if ((effect == EFFECT_CEASELESS_EDGE || effect == EFFECT_SPIKES) && gSideTimers[side].spikesAmount >= 3)
+        return FALSE;
+    if (effect == EFFECT_TOXIC_SPIKES && gSideTimers[side].toxicSpikesAmount >= 2)
+        return FALSE;
+    if ((effect == EFFECT_STONE_AXE || effect == EFFECT_STEALTH_ROCK) && IsHazardOnSide(side, HAZARDS_STEALTH_ROCK))
+        return FALSE;
+    if (effect == EFFECT_STICKY_WEB && IsHazardOnSide(side, HAZARDS_STICKY_WEB))
+        return FALSE;
+    if (gBattleStruct->isSkyBattle)
+        return FALSE;
+
+    if (move == MOVE_SERRATED_SLICE && !IS_BATTLER_OF_TYPE(battlerDef, TYPE_STEEL))
+        return FALSE;
+
     if (CountUsablePartyMons(battlerDef) == 0
      || HasBattlerSideMoveWithAIEffect(battlerDef, AI_EFFECT_CLEAR_HAZARDS))
         return FALSE;
@@ -5442,6 +5537,9 @@ bool32 AI_ShouldSetUpHazards(enum BattlerId battlerAtk, enum BattlerId battlerDe
     }
     else
     {
+        // These hazards are primary after-hit effects, including through substitutes.
+        if (effect == EFFECT_CEASELESS_EDGE || effect == EFFECT_STONE_AXE)
+            return TRUE;
         if (DoesBattlerIgnoreAbilityChecks(battlerAtk, aiData->abilities[battlerAtk], move))
             return TRUE;
         if (aiData->abilities[battlerDef] == ABILITY_SHIELD_DUST)

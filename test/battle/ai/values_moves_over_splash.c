@@ -628,6 +628,7 @@ AI_DOUBLE_BATTLE_TEST("AI values moves above Splash, 801-900")
         // tests exist elsewhere
         case EFFECT_STAT_CHANGE:
         case EFFECT_DRAGON_CHEER:
+        case EFFECT_DARK_IMITATION: // Requires a known/predicted move; covered in claws_cuts_priority.c.
             break;
         case EFFECT_WEATHER:
             if (GetMoveWeatherType(j) == BATTLE_WEATHER_SNOW)

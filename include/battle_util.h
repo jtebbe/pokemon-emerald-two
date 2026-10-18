@@ -36,7 +36,8 @@ struct DamageContext
     u32 runScript:1;  // Used during actual combat where scripts have to be run / flags need to be set
     u32 terrain:4;
     u32 useStoredTypeEffectiveness:1;
-    u32 padding:17;
+    u32 hitIndex:3; // Contributor index for Haunting Shrieks; zero is the user.
+    u32 padding:14;
 };
 
 // Helper struct to keep the arg list small and prevent constant recalculations of abilities/hold effects.
@@ -51,6 +52,9 @@ struct BattleCalcValues
     u32 onlyChecking:1;
     u32 isStatusMove:1;
 };
+
+u32 GetHauntingShrieksHitCount(enum BattlerId battler);
+struct Pokemon *GetHauntingShrieksContributor(enum BattlerId battler, u32 hitIndex);
 
 void HandleAction_ThrowBall(void);
 enum BattleWeather GetBattleWeather(u32 weather);
@@ -207,6 +211,7 @@ u32 GetAttackerWeather(enum HoldEffect holdEffect, enum Ability ability, u32 wea
 bool32 IsBattlerWeatherAffected(enum HoldEffect holdEffect, u32 weather, u32 weatherFlags);
 enum MoveTarget GetBattlerMoveSelectionTargetType(enum BattlerId battler, enum Move move);
 enum MoveTarget GetBattlerMoveTargetType(enum BattlerId battler, enum Move move);
+u32 GetBattlerMoveStrikeCount(enum BattlerId battler, enum Move move);
 bool32 CanTargetBattler(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum Move move);
 void CopyMonLevelAndBaseStatsToBattleMon(enum BattlerId battler, struct Pokemon *mon, bool32 updateSpeedStat);
 void CopyMonAbilityAndTypesToBattleMon(enum BattlerId battler, struct Pokemon *mon);

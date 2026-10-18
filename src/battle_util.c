@@ -361,6 +361,32 @@ bool32 EndOrContinueWeather(void)
     return FALSE;
 }
 
+struct Pokemon *GetHauntingShrieksContributor(enum BattlerId battler, u32 hitIndex)
+{
+    struct Pokemon *party = GetBattlerParty(battler);
+
+    if (hitIndex == 0)
+        return NULL;
+
+    for (u32 i = 0; i < PARTY_SIZE; i++)
+    {
+        if (GetMonData(&party[i], MON_DATA_SPECIES) != SPECIES_NONE
+         && !GetMonData(&party[i], MON_DATA_IS_EGG)
+         && GetMonData(&party[i], MON_DATA_HP) == 0
+         && --hitIndex == 0)
+            return &party[i];
+    }
+    return NULL;
+}
+
+u32 GetHauntingShrieksHitCount(enum BattlerId battler)
+{
+    u32 count = 1;
+    while (count < PARTY_SIZE && GetHauntingShrieksContributor(battler, count) != NULL)
+        count++;
+    return count;
+}
+
 // Gen5+
 static u32 CalcBeatUpPower(void)
 {
@@ -6234,6 +6260,10 @@ static inline u32 CalcMoveBasePower(struct DamageContext *ctx)
         if (GetAttackerWeather(ctx->holdEffects[ctx->battlerAtk], ctx->abilities[ctx->battlerAtk], ctx->weather) & (B_WEATHER_ANY & ~B_WEATHER_STRONG_WINDS))
             basePower *= 2;
         break;
+    case EFFECT_SUNBLOOM:
+        if (ctx->weather & B_WEATHER_SUN)
+            basePower = basePower * 3 / 2;
+        break;
     case EFFECT_PURSUIT:
         if (gBattleStruct->battlerState[battlerDef].pursuitTarget)
             basePower *= 2;
@@ -6720,7 +6750,7 @@ static inline u32 CalcMoveBasePowerAfterModifiers(struct DamageContext *ctx)
         || (GetBattlerTeraType(battlerAtk) == TYPE_STELLAR && IsTypeStellarBoosted(battlerAtk, moveType)))
         && uq4_12_multiply_by_int_half_down(modifier, basePower) < 60
         && GetMovePower(move) > 1
-        && GetMoveStrikeCount(move) < 2
+        && GetBattlerMoveStrikeCount(battlerAtk, move) < 2
         && !IsMultiHitMove(move)
         && moveEffect != EFFECT_POWER_BASED_ON_USER_HP
         && moveEffect != EFFECT_POWER_BASED_ON_TARGET_HP
@@ -6790,7 +6820,15 @@ static inline u32 CalcAttackStat(struct DamageContext *ctx)
 
     atkBaseSpeciesId = GetBaseSpecies(gBattleMons[battlerAtk].species);
 
-    if (moveEffect == EFFECT_FOUL_PLAY)
+    struct Pokemon *contributor = moveEffect == EFFECT_HAUNTING_SHRIEKS
+        ? GetHauntingShrieksContributor(battlerAtk, ctx->hitIndex) : NULL;
+
+    if (contributor != NULL)
+    {
+        atkStat = GetMonData(contributor, MON_DATA_SPATK);
+        atkStage = DEFAULT_STAT_STAGE;
+    }
+    else if (moveEffect == EFFECT_FOUL_PLAY)
     {
         if (IsBattleMovePhysical(move))
         {
@@ -7265,6 +7303,16 @@ static inline uq4_12_t GetParentalBondModifier(enum BattlerId battlerAtk)
 
 uq4_12_t GetSameTypeAttackBonusModifier(struct DamageContext *ctx)
 {
+    if (GetMoveEffect(ctx->move) == EFFECT_HAUNTING_SHRIEKS && ctx->hitIndex != 0)
+    {
+        struct Pokemon *contributor = GetHauntingShrieksContributor(ctx->battlerAtk, ctx->hitIndex);
+        if (contributor != NULL)
+        {
+            enum Species species = GetMonData(contributor, MON_DATA_SPECIES);
+            return (gSpeciesInfo[species].types[0] == ctx->moveType || gSpeciesInfo[species].types[1] == ctx->moveType)
+                ? UQ_4_12(1.5) : UQ_4_12(1.0);
+        }
+    }
     if (ctx->moveType != TYPE_MYSTERY)
     {
         if ((IS_BATTLER_OF_TYPE(ctx->battlerAtk, ctx->moveType) && ctx->move != MOVE_STRUGGLE)
@@ -7661,7 +7709,8 @@ static inline s32 DoMoveDamageCalcVars(struct DamageContext *ctx)
 s32 ApplyModifiersAfterDmgRoll(struct DamageContext *ctx, s32 dmg)
 {
     // When adding a new modifier here, also add it to AI_ApplyModifiersAfterDmgRoll
-    if (GetActiveGimmick(ctx->battlerAtk) == GIMMICK_TERA)
+    if (GetActiveGimmick(ctx->battlerAtk) == GIMMICK_TERA
+     && !(GetMoveEffect(ctx->move) == EFFECT_HAUNTING_SHRIEKS && ctx->hitIndex != 0))
         DAMAGE_APPLY_MODIFIER(GetTeraMultiplier(ctx));
     else
         DAMAGE_APPLY_MODIFIER(GetSameTypeAttackBonusModifier(ctx));
@@ -7877,6 +7926,10 @@ s32 CalcCritChanceStage(struct DamageContext *ctx)
     }
     else if (gBattleMons[ctx->battlerAtk].volatiles.laserFocusTimer > 0
           || MoveAlwaysCrits(ctx->move)
+          || (ctx->move == MOVE_INFERNAL_FISTS && gBattleMons[ctx->battlerDef].status1 & STATUS1_BURN)
+          || (ctx->move == MOVE_DAZZLING_DASH
+           && GetBattlerTotalSpeedStat(ctx->battlerAtk, ctx->abilities[ctx->battlerAtk], ctx->holdEffects[ctx->battlerAtk])
+            > GetBattlerTotalSpeedStat(ctx->battlerDef, ctx->abilities[ctx->battlerDef], ctx->holdEffects[ctx->battlerDef]))
           || (ctx->abilities[ctx->battlerAtk] == ABILITY_MERCILESS && gBattleMons[ctx->battlerDef].status1 & STATUS1_PSN_ANY))
     {
         critChance = CRITICAL_HIT_ALWAYS;
@@ -9364,6 +9417,8 @@ static u32 CanBattlerHitBothFoesInTerrain(enum BattlerId battler, enum Move move
 enum MoveTarget GetBattlerMoveSelectionTargetType(enum BattlerId battler, enum Move move)
 {
     enum BattleMoveEffects effect = GetMoveEffect(move);
+    if (move == MOVE_HARSH_ZEPHYR && (gSideStatuses[GetBattlerSide(battler)] & SIDE_STATUS_TAILWIND))
+        return TARGET_BOTH;
     if (effect == EFFECT_CURSE && !IS_BATTLER_OF_TYPE(battler, TYPE_GHOST))
         return TARGET_USER;
     if (effect == EFFECT_TERA_STARSTORM && gBattleMons[battler].species == SPECIES_TERAPAGOS_STELLAR)
@@ -9378,6 +9433,13 @@ enum MoveTarget GetBattlerMoveTargetType(enum BattlerId battler, enum Move move)
         return TARGET_BOTH;
 
     return GetBattlerMoveSelectionTargetType(battler, move);
+}
+
+u32 GetBattlerMoveStrikeCount(enum BattlerId battler, enum Move move)
+{
+    if (move == MOVE_GEMSHOT && IsHazardOnSide(GetBattlerSide(GetOppositeBattler(battler)), HAZARDS_STEALTH_ROCK))
+        return 2;
+    return GetMoveStrikeCount(move);
 }
 
 bool32 CanTargetBattler(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum Move move)

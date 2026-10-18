@@ -1,4 +1,5 @@
 #include "global.h"
+#include "comfy_anim.h"
 #include "bg.h"
 #include "blit.h"
 #include "decompress.h"
@@ -66,6 +67,9 @@ static EWRAM_DATA u8 sStartMenuWindowId = 0;
 static EWRAM_DATA u8 sMapNamePopupWindowId = 0;
 static EWRAM_DATA u8 sSecondaryPopupWindowId = 0;
 static EWRAM_DATA struct Menu sMenu = {0};
+static EWRAM_DATA struct ComfyAnim sMenuCursorAnim = {0};
+static EWRAM_DATA bool8 sMenuCursorEasing = FALSE;
+static EWRAM_DATA s16 sMenuCursorY = 0;
 static EWRAM_DATA u16 sTileNum = 0;
 static EWRAM_DATA u8 sPaletteNum = 0;
 static EWRAM_DATA u8 sYesNoWindowId = 0;
@@ -137,6 +141,7 @@ static const struct MenuInfoIcon sMenuInfoIcons[] =
 
 void InitStandardTextBoxWindows(void)
 {
+    Menu_SetCursorEasing(FALSE);
     ResetNameboxData();
     InitWindows(sStandardTextBox_WindowTemplates);
     sStartMenuWindowId = WINDOW_NONE;
@@ -147,6 +152,7 @@ void InitStandardTextBoxWindows(void)
 
 void FreeAllOverworldWindowBuffers(void)
 {
+    Menu_SetCursorEasing(FALSE);
     FreeAllWindowBuffers();
 }
 
@@ -400,6 +406,8 @@ void RemoveStartMenuWindow(void)
 {
     if (sStartMenuWindowId != WINDOW_NONE)
     {
+        if (sMenu.windowId == sStartMenuWindowId)
+            Menu_SetCursorEasing(FALSE);
         RemoveWindow(sStartMenuWindowId);
         sStartMenuWindowId = WINDOW_NONE;
     }
@@ -631,6 +639,7 @@ static u8 InitMenu(u8 windowId, u8 fontId, u8 left, u8 top, u8 cursorHeight, u8 
 {
     s32 pos;
 
+    Menu_SetCursorEasing(FALSE);
     sMenu.left = left;
     sMenu.top = top;
     sMenu.minCursorPos = 0;
@@ -663,14 +672,76 @@ static u8 UNUSED InitMenuDefaultCursorHeight(u8 windowId, u8 fontId, u8 left, u8
     return InitMenuNormal(windowId, fontId, left, top, cursorHeight, numChoices, initialCursorPos);
 }
 
-void RedrawMenuCursor(u8 oldPos, u8 newPos)
+static void DrawMenuCursorAtY(s16 oldY, s16 newY)
 {
     u8 width, height;
 
     width = GetMenuCursorDimensionByFont(sMenu.fontId, 0);
     height = GetMenuCursorDimensionByFont(sMenu.fontId, 1);
-    FillWindowPixelRect(sMenu.windowId, PIXEL_FILL(1), sMenu.left, sMenu.optionHeight * oldPos + sMenu.top, width, height);
-    AddTextPrinterParameterized(sMenu.windowId, sMenu.fontId, gText_SelectorArrow3, sMenu.left, sMenu.optionHeight * newPos + sMenu.top, 0, 0);
+    FillWindowPixelRect(sMenu.windowId, PIXEL_FILL(1), sMenu.left, oldY, width, height);
+    AddTextPrinterParameterized(sMenu.windowId, sMenu.fontId, gText_SelectorArrow3, sMenu.left, newY,
+                               sMenuCursorEasing ? TEXT_SKIP_DRAW : 0, NULL);
+    if (sMenuCursorEasing)
+    {
+        // Only the tile rows spanning the old/new arrow need to be uploaded.
+        u32 top = min(oldY, newY) / 8;
+        u32 bottom = (max(oldY, newY) + height + 7) / 8;
+        CopyWindowRectToVram(sMenu.windowId, COPYWIN_GFX, sMenu.left / 8, top,
+                            (sMenu.left % 8 + width + 7) / 8, bottom - top);
+    }
+}
+
+void Menu_SetCursorEasing(bool32 enabled)
+{
+    sMenuCursorEasing = enabled;
+    sMenuCursorAnim.inUse = FALSE;
+    if (enabled)
+    {
+        struct ComfyAnimEasingConfig config;
+        InitComfyAnimConfig_Easing(&config);
+        sMenuCursorY = sMenu.optionHeight * sMenu.cursorPos + sMenu.top;
+        config.from = config.to = Q_24_8(sMenuCursorY);
+        InitComfyAnim_Easing(&config, &sMenuCursorAnim);
+    }
+}
+
+void Menu_UpdateCursorEasing(void)
+{
+    if (sMenuCursorEasing)
+    {
+        if (sMenu.windowId >= WINDOWS_MAX || gWindows[sMenu.windowId].tileData == NULL)
+        {
+            Menu_SetCursorEasing(FALSE);
+            return;
+        }
+        TryAdvanceComfyAnim(&sMenuCursorAnim);
+        s16 y = ReadComfyAnimValueSmooth(&sMenuCursorAnim);
+        if (y != sMenuCursorY)
+        {
+            DrawMenuCursorAtY(sMenuCursorY, y);
+            sMenuCursorY = y;
+        }
+    }
+}
+
+void RedrawMenuCursor(u8 oldPos, u8 newPos)
+{
+    s16 destination = sMenu.optionHeight * newPos + sMenu.top;
+    if (sMenuCursorEasing)
+    {
+        if (sMenuCursorAnim.config.data.easing.to != Q_24_8(destination))
+        {
+            struct ComfyAnimEasingConfig config;
+            InitComfyAnimConfig_Easing(&config);
+            config.from = sMenuCursorAnim.position;
+            config.to = Q_24_8(destination);
+            config.durationFrames = 6;
+            config.easingFunc = ComfyAnimEasing_EaseOutCubic;
+            InitComfyAnim_Easing(&config, &sMenuCursorAnim);
+        }
+        return;
+    }
+    DrawMenuCursorAtY(sMenu.optionHeight * oldPos + sMenu.top, destination);
 }
 
 u8 Menu_MoveCursor(s8 cursorDelta)
@@ -1010,6 +1081,7 @@ static u8 InitMenuGrid(u8 windowId, u8 fontId, u8 left, u8 top, u8 optionWidth, 
 {
     s32 pos;
 
+    Menu_SetCursorEasing(FALSE);
     sMenu.left = left;
     sMenu.top = top;
     sMenu.minCursorPos = 0;
@@ -1426,6 +1498,7 @@ u8 InitMenuActionGrid(u8 windowId, u8 optionWidth, u8 columns, u8 rows, u8 initi
 {
     s32 pos;
 
+    Menu_SetCursorEasing(FALSE);
     sMenu.left = 0;
     sMenu.top = 1;
     sMenu.minCursorPos = 0;

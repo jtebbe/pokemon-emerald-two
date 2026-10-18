@@ -1627,12 +1627,12 @@ void TestRunner_Battle_CheckAiMoveScores(enum BattlerId battlerId)
     if (aiAction->actionSet && !aiAction->pass)
     {
         s32 target = aiAction->target;
-        // AI's move targets self, but points for this move are distributed for all other battlers
+        // Self moves are scored against opponents, not as moves aimed at the partner.
         if (aiAction->target == battlerId)
         {
             for (i = 0; i < MAX_BATTLERS_COUNT; i++)
             {
-                if (i != battlerId && IsBattlerAlive(i))
+                if (!IsBattlerAlly(battlerId, i) && IsBattlerAlive(i))
                     CheckIfMaxScoreEqualExpectMove(battlerId, i, aiAction, filename);
             }
         }

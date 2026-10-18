@@ -2,7 +2,6 @@
 #include "battle.h"
 #include "blit.h"
 #include "dynamic_placeholder_text_util.h"
-#include "event_data.h"
 #include "field_name_box.h"
 #include "fonts.h"
 #include "m4a.h"
@@ -328,9 +327,6 @@ u32 GetPlayerTextSpeed(void)
 
     if (gSaveData.optionsTextSpeed > OPTIONS_TEXT_SPEED_INSTANT)
         gSaveData.optionsTextSpeed = OPTIONS_TEXT_SPEED_FAST;
-
-    if (FlagGet(FLAG_TEXT_SPEED_INSTANT) || TEXT_SPEED_INSTANT)
-        return OPTIONS_TEXT_SPEED_INSTANT;
 
     return gSaveData.optionsTextSpeed;
 }

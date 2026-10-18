@@ -509,7 +509,9 @@ static enum FieldEffectOutcome BenefitsFromTrickRoom(enum BattlerId battler)
         for (u32 moveIndex = 0; moveIndex < MAX_MON_MOVES; moveIndex++)
         {
             enum Move move = aiMoves[moveIndex];
-            if (GetBattleMovePriority(battler, gAiLogicData->abilities[battler], move) > 0 && !(GetMovePriority(move) > 0 && IsBattleMoveStatus(move)))
+            if (GetBattleMovePriorityForTarget(battler, gAiLogicData->abilities[battler], move, GetBattlerLeftFoe(battler)) > 0
+             && GetBattleMovePriorityForTarget(battler, gAiLogicData->abilities[battler], move, GetBattlerRightFoe(battler)) > 0
+             && !IsBattleMoveStatus(move))
             {
                 return FIELD_EFFECT_POSITIVE;
             }

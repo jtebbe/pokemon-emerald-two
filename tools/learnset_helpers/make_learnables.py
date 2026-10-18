@@ -27,7 +27,7 @@ def from_single(fname: pathlib.Path) -> dict[str, set[str]]:
 
 
 def from_batch(dir: pathlib.Path) -> dict[str, set[str]]:
-    return reduce(
+    learnables = reduce(
         lambda acc, single: {
             species: acc.get(species, set()) | single.get(species, set())
             for species in acc.keys() | single.keys()
@@ -35,6 +35,11 @@ def from_batch(dir: pathlib.Path) -> dict[str, set[str]]:
         map(from_single, dir.glob("*.json")),
         {},
     )
+    # Preserve the historical import files while applying this fork's move replacement.
+    return {
+        species: {"MOVE_CORRODE" if move == "MOVE_ACID" else move for move in moves}
+        for species, moves in learnables.items()
+    }
 
 
 def main():

@@ -92,8 +92,29 @@ bool32 SetCorrectAbilityNum(struct Pokemon *mon, enum Species species, enum Abil
     return TRUE;
 }
 
+u8 GetTrainerScalingLevel(void)
+{
+    u8 highestLevel = 0;
+
+    if (!gSaveData.optionsTrainerScaling)
+        return 0;
+
+    // Eggs and empty slots do not count; fainted party members still do.
+    for (u32 i = 0; i < PARTY_SIZE; i++)
+    {
+        struct Pokemon *mon = &gParties[B_TRAINER_PLAYER][i];
+        if (GetMonData(mon, MON_DATA_SPECIES) == SPECIES_NONE || GetMonData(mon, MON_DATA_IS_EGG))
+            continue;
+        u8 level = GetMonData(mon, MON_DATA_LEVEL);
+        if (level > highestLevel)
+            highestLevel = level;
+    }
+    return highestLevel;
+}
+
 void MakeTrainerGenerator(struct TrainerGenerator *trainerGen, const struct Trainer *trainer)
 {
+    trainerGen->levelOverride = 0;
     trainerGen->gender = trainer->gender;
     if (trainer->aiFlags & AI_FLAG_SMART_TERA)
         trainerGen->smartTera = TRUE;
@@ -106,6 +127,7 @@ void MakeTrainerGenerator(struct TrainerGenerator *trainerGen, const struct Trai
 void MakePartnerGenerator(struct TrainerGenerator *trainerGen, const struct Trainer *partner)
 {
     u32 otID;
+    trainerGen->levelOverride = GetTrainerScalingLevel();
     trainerGen->gender = partner->gender;
     if (partner->aiFlags & AI_FLAG_SMART_TERA)
         trainerGen->smartTera = TRUE;
@@ -131,7 +153,7 @@ void GenerateMonFromTrainerMon(struct Pokemon *mon, const struct TrainerMon *tra
         errorf("Unkwown trainer mon gender value %d", trainerMon->gender);
     personality |= genderValue;
     ModifyPersonalityForNature(&personality, trainerMon->nature);
-    CreateMon(mon, trainerMon->species, trainerMon->lvl, personality, trainer->otID);
+    CreateMon(mon, trainerMon->species, trainer->levelOverride ?: trainerMon->lvl, personality, trainer->otID);
     if (trainerMon->nickname != NULL)
         SetMonData(mon, MON_DATA_NICKNAME, trainerMon->nickname);
     if (trainerMon->ev) //ev in struct TrainerMon are stored in Showdown order not vanilla Emerald order

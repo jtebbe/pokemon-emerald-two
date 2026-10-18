@@ -447,6 +447,63 @@ TEST("Pokémon level up learnsets fit within MAX_RELEARNER_MOVES")
     EXPECT_LT(count, MAX_RELEARNER_MOVES - 1); // - 1 because at least one move is already known
 }
 
+TEST("Base and regional egg species have explicit custom egg move lists")
+{
+    bool8 hasPreEvolution[NUM_SPECIES] = {0};
+
+    for (enum Species species = SPECIES_BULBASAUR; species < NUM_SPECIES; species++)
+    {
+        if (!IsSpeciesEnabled(species))
+            continue;
+        const struct Evolution *evolutions = GetSpeciesEvolutions(species);
+        if (evolutions == NULL)
+            continue;
+        for (u32 i = 0; evolutions[i].method != EVOLUTIONS_END; i++)
+        {
+            if (IsSpeciesEnabled(evolutions[i].targetSpecies))
+                hasPreEvolution[evolutions[i].targetSpecies] = TRUE;
+        }
+    }
+
+    for (enum Species species = SPECIES_BULBASAUR; species < NUM_SPECIES; species++)
+    {
+        // Battle forms do not have evolution entries of their own. Their base
+        // form's predecessor still makes them evolved species, not egg species.
+        if (!IsSpeciesEnabled(species) || hasPreEvolution[species]
+         || hasPreEvolution[GetBaseSpecies(species)])
+            continue;
+        if (GetBaseSpecies(species) == species
+         || gSpeciesInfo[species].isAlolanForm
+         || gSpeciesInfo[species].isGalarianForm
+         || gSpeciesInfo[species].isHisuianForm
+         || gSpeciesInfo[species].isPaldeanForm)
+            EXPECT(gSpeciesInfo[species].eggMoveLearnset != NULL);
+    }
+}
+
+TEST("Custom empty egg move lists remain empty")
+{
+    enum Species species;
+    PARAMETRIZE { species = SPECIES_CATERPIE; }
+    PARAMETRIZE { species = SPECIES_MAGNEMITE; }
+    PARAMETRIZE { species = SPECIES_WYNAUT; }
+    PARAMETRIZE { species = SPECIES_IMPIDIMP; }
+    PARAMETRIZE { species = SPECIES_MEWTWO; }
+    ASSUME(IsSpeciesEnabled(species));
+
+    EXPECT(gSpeciesInfo[species].eggMoveLearnset != NULL);
+    EXPECT_EQ(GetSpeciesEggMoves(species)[0], MOVE_UNAVAILABLE);
+}
+
+TEST("Evolved regional battle forms have no standalone egg move list")
+{
+    ASSUME(IsSpeciesEnabled(SPECIES_DARMANITAN_GALAR_ZEN));
+    EXPECT(gSpeciesInfo[SPECIES_DARMANITAN_GALAR_ZEN].eggMoveLearnset == NULL);
+    EXPECT_EQ(GetSpeciesEggMoves(SPECIES_DARMANITAN_GALAR_ZEN)[0], MOVE_UNAVAILABLE);
+    EXPECT(gSpeciesInfo[SPECIES_DARUMAKA_GALAR].eggMoveLearnset != NULL);
+    EXPECT(SpeciesHasEggMove(SPECIES_DARUMAKA_GALAR, MOVE_FREEZE_DRY));
+}
+
 TEST("Optimised GetMonData")
 {
     CreateMon(&gParties[B_TRAINER_PLAYER][0], SPECIES_WOBBUFFET, 5, Random32(), OTID_STRUCT_PRESET(0x12345678));

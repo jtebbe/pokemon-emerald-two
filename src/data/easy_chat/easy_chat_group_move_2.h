@@ -1,7 +1,6 @@
 #include "constants/moves.h"
 
 const u16 gEasyChatGroup_Move2[] = {
-    MOVE_ACID,
     MOVE_ACID_ARMOR,
     MOVE_AERIAL_ACE,
     MOVE_AMNESIA,
@@ -31,6 +30,7 @@ const u16 gEasyChatGroup_Move2[] = {
     MOVE_CONFUSION,
     MOVE_CONVERSION,
     MOVE_CONVERSION_2,
+    MOVE_CORRODE,
     MOVE_COTTON_SPORE,
     MOVE_COVET,
     MOVE_CRUSH_CLAW,

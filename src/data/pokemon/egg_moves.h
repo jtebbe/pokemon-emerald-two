@@ -2049,7 +2049,7 @@ static const u16 sShuckleEggMoveLearnset[] = {
     MOVE_ACUPRESSURE,
     MOVE_SAND_TOMB,
     MOVE_MUD_SLAP,
-    MOVE_ACID,
+    MOVE_CORRODE,
     MOVE_ROCK_BLAST,
     MOVE_FINAL_GAMBIT,
     MOVE_UNAVAILABLE,
@@ -3047,7 +3047,7 @@ static const u16 sTrapinchEggMoveLearnset[] = {
 #if P_FAMILY_CACNEA
 static const u16 sCacneaEggMoveLearnset[] = {
     MOVE_GRASS_WHISTLE,
-    MOVE_ACID,
+    MOVE_CORRODE,
     MOVE_TEETER_DANCE,
     MOVE_DYNAMIC_PUNCH,
     MOVE_COUNTER,
@@ -4746,7 +4746,7 @@ static const u16 sLitwickEggMoveLearnset[] = {
     MOVE_HAZE,
     MOVE_ENDURE,
     MOVE_CAPTIVATE,
-    MOVE_ACID,
+    MOVE_CORRODE,
     MOVE_CLEAR_SMOG,
     MOVE_POWER_SPLIT,
     MOVE_UNAVAILABLE,

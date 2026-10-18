@@ -76,6 +76,8 @@ static void SetDefaultOptions(void)
     gSaveData.optionsSound = OPTIONS_SOUND_MONO;
     gSaveData.optionsBattleStyle = OPTIONS_BATTLE_STYLE_SHIFT;
     gSaveData.optionsBattleSceneOff = FALSE;
+    gSaveData.optionsLevelCaps = FALSE;
+    gSaveData.optionsTrainerScaling = FALSE;
 }
 
 static void ClearPokedexFlags(void)

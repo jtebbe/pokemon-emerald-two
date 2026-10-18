@@ -455,7 +455,7 @@
   ],
   "CACTURNE": [
     "MOVE_ABSORB",
-    "MOVE_ACID",
+    "MOVE_CORRODE",
     "MOVE_ASSURANCE",
     "MOVE_ATTRACT",
     "MOVE_BELCH",
@@ -4712,7 +4712,7 @@
     "MOVE_VENOSHOCK"
   ],
   "ARBOK": [
-    "MOVE_ACID",
+    "MOVE_CORRODE",
     "MOVE_ACID_SPRAY",
     "MOVE_AQUA_TAIL",
     "MOVE_ATTRACT",
@@ -5617,7 +5617,7 @@
     "MOVE_ZAP_CANNON"
   ],
   "NAGANADEL": [
-    "MOVE_ACID",
+    "MOVE_CORRODE",
     "MOVE_ACROBATICS",
     "MOVE_AERIAL_ACE",
     "MOVE_AIR_CUTTER",
@@ -5891,7 +5891,7 @@
     "MOVE_WORK_UP"
   ],
   "LICKITUNG": [
-    "MOVE_ACID",
+    "MOVE_CORRODE",
     "MOVE_AMNESIA",
     "MOVE_AQUA_TAIL",
     "MOVE_ATTRACT",
@@ -9531,7 +9531,7 @@
     "MOVE_WORK_UP"
   ],
   "TENTACOOL": [
-    "MOVE_ACID",
+    "MOVE_CORRODE",
     "MOVE_ACID_ARMOR",
     "MOVE_ACID_SPRAY",
     "MOVE_ACUPRESSURE",
@@ -10319,7 +10319,7 @@
     "MOVE_WORK_UP"
   ],
   "LITWICK": [
-    "MOVE_ACID",
+    "MOVE_CORRODE",
     "MOVE_ACID_ARMOR",
     "MOVE_ALLY_SWITCH",
     "MOVE_ASTONISH",
@@ -14213,7 +14213,7 @@
     "MOVE_WORK_UP"
   ],
   "CHANDELURE": [
-    "MOVE_ACID",
+    "MOVE_CORRODE",
     "MOVE_ACID_ARMOR",
     "MOVE_ALLY_SWITCH",
     "MOVE_ASTONISH",
@@ -14589,7 +14589,7 @@
     "MOVE_ZEN_HEADBUTT"
   ],
   "LILEEP": [
-    "MOVE_ACID",
+    "MOVE_CORRODE",
     "MOVE_AMNESIA",
     "MOVE_ANCIENT_POWER",
     "MOVE_ASTONISH",
@@ -14913,7 +14913,7 @@
     "MOVE_ZEN_HEADBUTT"
   ],
   "SKRELP": [
-    "MOVE_ACID",
+    "MOVE_CORRODE",
     "MOVE_ACID_ARMOR",
     "MOVE_ACID_SPRAY",
     "MOVE_AQUA_TAIL",
@@ -17891,7 +17891,7 @@
     "MOVE_ZEN_HEADBUTT"
   ],
   "SHUCKLE": [
-    "MOVE_ACID",
+    "MOVE_CORRODE",
     "MOVE_ACUPRESSURE",
     "MOVE_AFTER_YOU",
     "MOVE_ANCIENT_POWER",
@@ -19869,7 +19869,7 @@
     "MOVE_WORK_UP"
   ],
   "CRADILY": [
-    "MOVE_ACID",
+    "MOVE_CORRODE",
     "MOVE_AMNESIA",
     "MOVE_ANCIENT_POWER",
     "MOVE_ASTONISH",
@@ -20843,7 +20843,7 @@
     "MOVE_WORRY_SEED"
   ],
   "SLOWKING_GALAR": [
-    "MOVE_ACID",
+    "MOVE_CORRODE",
     "MOVE_ACID_SPRAY",
     "MOVE_AMNESIA",
     "MOVE_ATTRACT",
@@ -21568,7 +21568,7 @@
     "MOVE_WORRY_SEED"
   ],
   "SEISMITOAD": [
-    "MOVE_ACID",
+    "MOVE_CORRODE",
     "MOVE_AFTER_YOU",
     "MOVE_AQUA_RING",
     "MOVE_ATTRACT",
@@ -24083,7 +24083,7 @@
     "MOVE_X_SCISSOR"
   ],
   "POIPOLE": [
-    "MOVE_ACID",
+    "MOVE_CORRODE",
     "MOVE_CHARM",
     "MOVE_CONFIDE",
     "MOVE_COVET",
@@ -28840,7 +28840,7 @@
     "MOVE_TRAILBLAZE"
   ],
   "EELEKTRIK": [
-    "MOVE_ACID",
+    "MOVE_CORRODE",
     "MOVE_ACID_SPRAY",
     "MOVE_ACROBATICS",
     "MOVE_AQUA_TAIL",
@@ -29574,7 +29574,7 @@
     "MOVE_U_TURN"
   ],
   "EKANS": [
-    "MOVE_ACID",
+    "MOVE_CORRODE",
     "MOVE_ACID_SPRAY",
     "MOVE_AQUA_TAIL",
     "MOVE_ATTRACT",
@@ -33391,7 +33391,7 @@
   ],
   "SHELMET": [
     "MOVE_ABSORB",
-    "MOVE_ACID",
+    "MOVE_CORRODE",
     "MOVE_ACID_ARMOR",
     "MOVE_ATTRACT",
     "MOVE_BATON_PASS",
@@ -36492,7 +36492,7 @@
     "MOVE_X_SCISSOR"
   ],
   "BELLSPROUT": [
-    "MOVE_ACID",
+    "MOVE_CORRODE",
     "MOVE_ACID_SPRAY",
     "MOVE_ATTRACT",
     "MOVE_BELCH",
@@ -37327,7 +37327,7 @@
   ],
   "VILEPLUME": [
     "MOVE_ABSORB",
-    "MOVE_ACID",
+    "MOVE_CORRODE",
     "MOVE_ACID_SPRAY",
     "MOVE_AFTER_YOU",
     "MOVE_AROMATHERAPY",
@@ -44732,7 +44732,7 @@
     "MOVE_ZEN_HEADBUTT"
   ],
   "LAMPENT": [
-    "MOVE_ACID",
+    "MOVE_CORRODE",
     "MOVE_ACID_ARMOR",
     "MOVE_ALLY_SWITCH",
     "MOVE_ASTONISH",
@@ -45660,7 +45660,7 @@
     "MOVE_ZEN_HEADBUTT"
   ],
   "TOXTRICITY_AMPED": [
-    "MOVE_ACID",
+    "MOVE_CORRODE",
     "MOVE_ACID_SPRAY",
     "MOVE_ATTRACT",
     "MOVE_BELCH",
@@ -46099,7 +46099,7 @@
   ],
   "ODDISH": [
     "MOVE_ABSORB",
-    "MOVE_ACID",
+    "MOVE_CORRODE",
     "MOVE_ACID_SPRAY",
     "MOVE_AFTER_YOU",
     "MOVE_ATTRACT",
@@ -48703,7 +48703,7 @@
     "MOVE_ZEN_HEADBUTT"
   ],
   "NIHILEGO": [
-    "MOVE_ACID",
+    "MOVE_CORRODE",
     "MOVE_ACID_SPRAY",
     "MOVE_ALLY_SWITCH",
     "MOVE_BIND",
@@ -49395,7 +49395,7 @@
     "MOVE_TRICK_ROOM"
   ],
   "SLOWPOKE_GALAR": [
-    "MOVE_ACID",
+    "MOVE_CORRODE",
     "MOVE_AMNESIA",
     "MOVE_ATTRACT",
     "MOVE_AVALANCHE",
@@ -51582,7 +51582,7 @@
     "MOVE_ZEN_HEADBUTT"
   ],
   "WEEPINBELL": [
-    "MOVE_ACID",
+    "MOVE_CORRODE",
     "MOVE_ACID_SPRAY",
     "MOVE_ATTRACT",
     "MOVE_BELCH",
@@ -54551,7 +54551,7 @@
     "MOVE_WRAP"
   ],
   "SLOWBRO_GALAR": [
-    "MOVE_ACID",
+    "MOVE_CORRODE",
     "MOVE_ACID_SPRAY",
     "MOVE_AMNESIA",
     "MOVE_ATTRACT",
@@ -57586,7 +57586,7 @@
     "MOVE_WORK_UP"
   ],
   "VICTREEBEL": [
-    "MOVE_ACID",
+    "MOVE_CORRODE",
     "MOVE_ACID_SPRAY",
     "MOVE_ATTRACT",
     "MOVE_BELCH",
@@ -59076,7 +59076,7 @@
     "MOVE_ZEN_HEADBUTT"
   ],
   "EELEKTROSS": [
-    "MOVE_ACID",
+    "MOVE_CORRODE",
     "MOVE_ACID_SPRAY",
     "MOVE_ACROBATICS",
     "MOVE_AQUA_TAIL",
@@ -61558,7 +61558,7 @@
     "MOVE_X_SCISSOR"
   ],
   "TOXTRICITY_LOW_KEY": [
-    "MOVE_ACID",
+    "MOVE_CORRODE",
     "MOVE_ACID_SPRAY",
     "MOVE_ATTRACT",
     "MOVE_BELCH",
@@ -68868,7 +68868,7 @@
   ],
   "ACCELGOR": [
     "MOVE_ABSORB",
-    "MOVE_ACID",
+    "MOVE_CORRODE",
     "MOVE_ACID_ARMOR",
     "MOVE_ACID_SPRAY",
     "MOVE_AGILITY",
@@ -71165,7 +71165,7 @@
     "MOVE_WILD_CHARGE"
   ],
   "DRAGALGE": [
-    "MOVE_ACID",
+    "MOVE_CORRODE",
     "MOVE_ACID_ARMOR",
     "MOVE_ACID_SPRAY",
     "MOVE_AQUA_TAIL",
@@ -71615,7 +71615,7 @@
     "MOVE_WATER_PULSE"
   ],
   "TYMPOLE": [
-    "MOVE_ACID",
+    "MOVE_CORRODE",
     "MOVE_AFTER_YOU",
     "MOVE_AQUA_RING",
     "MOVE_ATTRACT",
@@ -72636,7 +72636,7 @@
   ],
   "GLOOM": [
     "MOVE_ABSORB",
-    "MOVE_ACID",
+    "MOVE_CORRODE",
     "MOVE_ACID_SPRAY",
     "MOVE_AFTER_YOU",
     "MOVE_ATTRACT",
@@ -76775,7 +76775,7 @@
     "MOVE_ZAP_CANNON"
   ],
   "TENTACRUEL": [
-    "MOVE_ACID",
+    "MOVE_CORRODE",
     "MOVE_ACID_ARMOR",
     "MOVE_ACID_SPRAY",
     "MOVE_ACUPRESSURE",
@@ -79743,7 +79743,7 @@
   ],
   "CACNEA": [
     "MOVE_ABSORB",
-    "MOVE_ACID",
+    "MOVE_CORRODE",
     "MOVE_ASSURANCE",
     "MOVE_ATTRACT",
     "MOVE_BELCH",
@@ -86048,7 +86048,7 @@
     "MOVE_WHIRLPOOL"
   ],
   "PALPITOAD": [
-    "MOVE_ACID",
+    "MOVE_CORRODE",
     "MOVE_AFTER_YOU",
     "MOVE_AQUA_RING",
     "MOVE_ATTRACT",
@@ -86385,7 +86385,7 @@
     "MOVE_ZEN_HEADBUTT"
   ],
   "TOXEL": [
-    "MOVE_ACID",
+    "MOVE_CORRODE",
     "MOVE_ATTRACT",
     "MOVE_BELCH",
     "MOVE_CHARM",
@@ -87196,7 +87196,7 @@
   ],
   "BELLOSSOM": [
     "MOVE_ABSORB",
-    "MOVE_ACID",
+    "MOVE_CORRODE",
     "MOVE_ACID_SPRAY",
     "MOVE_AFTER_YOU",
     "MOVE_ATTRACT",
