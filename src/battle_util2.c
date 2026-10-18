@@ -2,6 +2,7 @@
 #include "battle.h"
 #include "battle_anim.h"
 #include "battle_controllers.h"
+#include "battle_interface.h"
 #include "malloc.h"
 #include "pokemon.h"
 #include "party_menu.h"
@@ -28,6 +29,7 @@ void CloseMainBattleScreen(void)
 {
     FreeBattleGfxResources();
     FreeAllWindowBuffers();
+    HideWeatherIndicator(TRUE);
 }
 
 void AllocateBattleResources(void)

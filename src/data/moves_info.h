@@ -15627,7 +15627,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .makesContact = TRUE,
         .bitingMove = TRUE,
         .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_TRAP_BOTH,
+            .moveEffect = MOVE_EFFECT_JAW_LOCK,
         }),
         .battleAnimScript = gBattleAnimMove_JawLock,
     },
