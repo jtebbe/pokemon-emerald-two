@@ -297,6 +297,12 @@ extern const u8 BattleScript_PsychicSurgeActivates[];
 extern const u8 BattleScript_GrassySurgeActivates[];
 extern const u8 BattleScript_MistySurgeActivates[];
 extern const u8 BattleScript_ElectricSurgeActivates[];
+extern const u8 BattleScript_GravitationActivates[];
+extern const u8 BattleScript_ApexMeteoriteRevealed[];
+extern const u8 BattleScript_IlexWhimsyActivates[];
+extern const u8 BattleScript_RootboundActivates[];
+extern const u8 BattleScript_BlazingGloryActivates[];
+extern const u8 BattleScript_TimeDominusCompressed[];
 extern const u8 BattleScript_HadronEngineActivates[];
 extern const u8 BattleScript_HadronEngineActivatesInTerrain[];
 extern const u8 BattleScript_PowderMoveNoEffect[];
@@ -605,5 +611,8 @@ extern const u8 BattleScript_TarShotMessage[];
 extern const u8 BattleScript_Stockpile[];
 extern const u8 BattleScript_Memento[];
 extern const u8 BattleScript_TakeHeart[];
+
+extern const u8 BattleScript_MeteoricWrathArrived[];
+extern const u8 BattleScript_MeteoricWrathImpact[];
 
 #endif // GUARD_BATTLE_SCRIPTS_H

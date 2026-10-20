@@ -266,6 +266,7 @@ struct SpeciesInfo {
     u8 growthRate;
     enum EggGroup eggGroups[EGG_GROUPS_PER_MON];
     enum Ability abilities[NUM_ABILITY_SLOTS]; // 3 abilities, no longer u8 because we have over 255 abilities now.
+    enum Ability apexAbility; // ABILITY_NONE when omitted, independently configurable for every species/form.
     u8 safariZoneFleeRate;
 
     // Pokédex data
@@ -626,6 +627,8 @@ u8 GetMonsStateToDoubles(void);
 u8 GetMonsStateToDoubles_2(void);
 enum Ability GetAbilityBySpecies(enum Species species, u8 abilityNum);
 enum Ability GetMonAbility(struct Pokemon *mon);
+enum Ability GetSpeciesApexAbility(enum Species species);
+enum Ability GetAbilityBySpeciesAndItem(enum Species species, u8 abilityNum, enum Item item);
 bool8 IsPlayerPartyAndPokemonStorageFull(void);
 bool8 IsPokemonStorageFull(void);
 const u8 *GetSpeciesName(enum Species species);
@@ -663,14 +666,14 @@ bool8 IsMonPastEvolutionLevel(struct Pokemon *mon);
 enum Species NationalPokedexNumToSpecies(enum NationalDexOrder nationalNum);
 u32 NationalToRegionalOrder(enum NationalDexOrder nationalNum);
 enum KantoDexOrder NationalToKantoOrder(enum NationalDexOrder nationalNum);
-enum HoennDexOrder NationalToHoennOrder(enum NationalDexOrder nationalNum);
+enum CalicadeaDexOrder NationalToCalicadeaOrder(enum NationalDexOrder nationalNum);
 enum NationalDexOrder SpeciesToNationalPokedexNum(enum Species species);
 u32 SpeciesToRegionalPokedexNum(enum Species species);
 enum KantoDexOrder SpeciesToKantoPokedexNum(enum Species species);
-enum HoennDexOrder SpeciesToHoennPokedexNum(enum Species species);
+enum CalicadeaDexOrder SpeciesToCalicadeaPokedexNum(enum Species species);
 enum NationalDexOrder RegionalToNationalOrder(u32 regionNum);
 enum NationalDexOrder KantoToNationalOrder(enum KantoDexOrder kantoNum);
-enum NationalDexOrder HoennToNationalOrder(enum HoennDexOrder hoennNum);
+enum NationalDexOrder CalicadeaToNationalOrder(enum CalicadeaDexOrder calicadeaNum);
 void EvolutionRenameMon(struct Pokemon *mon, enum Species oldSpecies, enum Species newSpecies);
 u8 GetPlayerFlankId(void);
 u16 GetLinkTrainerFlankId(u8 linkPlayerId);
@@ -684,7 +687,7 @@ bool32 CanLearnTeachableMove(enum Species species, enum Move move);
 u16 SpeciesToPokedexNum(enum Species species);
 bool32 IsSpeciesInRegionalDex(enum Species species);
 bool32 IsSpeciesInKantoDex(enum Species species);
-bool32 IsSpeciesInHoennDex(enum Species species);
+bool32 IsSpeciesInCalicadeaDex(enum Species species);
 u16 GetBattleBGM(void);
 void PlayBattleBGM(void);
 void PlayMapChosenOrBattleBGM(u16 songId);

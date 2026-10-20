@@ -434,6 +434,7 @@ enum BattleRoom
 #define STATUS_FIELD_GRAVITY                        (1 << 5)
 #define STATUS_FIELD_ION_DELUGE                     (1 << 6)
 #define STATUS_FIELD_FAIRY_LOCK                     (1 << 7)
+#define STATUS_FIELD_INVERSION                      (1 << 8)
 
 enum MoveResultFlags
 {

@@ -188,11 +188,12 @@ struct MoveInfo
     bool32 instructBanned:1;
     bool32 encoreBanned:1;
     bool32 parentalBondBanned:1;
+    bool32 reverberationsBanned:1; // Sound moves that must not echo.
     bool32 skyBattleBanned:1;
     bool32 sketchBanned:1;
     bool32 dampBanned:1;
     //Other
-    u32 padding2:17;
+    u32 padding2:16;
     // end of word
 
     union {
@@ -589,6 +590,11 @@ static inline bool32 IsMoveEncoreBanned(enum Move moveId)
 static inline bool32 IsMoveParentalBondBanned(enum Move moveId)
 {
     return gMovesInfo[SanitizeMoveId(moveId)].parentalBondBanned;
+}
+
+static inline bool32 IsMoveReverberationsBanned(enum Move moveId)
+{
+    return gMovesInfo[SanitizeMoveId(moveId)].reverberationsBanned;
 }
 
 static inline bool32 IsMoveSkyBattleBanned(enum Move moveId)

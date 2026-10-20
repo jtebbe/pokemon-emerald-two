@@ -1670,7 +1670,7 @@ const u32 gRouletteMultiplier_Gfx[] = INCGFX_U32("graphics/roulette/multiplier.p
 
 
 // Pokédex
-const u16 gPokedexBgHoenn_Pal[] = INCGFX_U16("graphics/pokedex/bg_hoenn.pal", ".gbapal");
+const u16 gPokedexBgCalicadea_Pal[] = INCGFX_U16("graphics/pokedex/bg_calicadea.pal", ".gbapal");
 const u16 gPokedexSearchResults_Pal[] = INCGFX_U16("graphics/pokedex/search_results_bg.pal", ".gbapal");
 const u16 gPokedexBgNational_Pal[] = INCGFX_U16("graphics/pokedex/bg_national.pal", ".gbapal");
 const u32 gPokedexMenu_Gfx[] = INCGFX_U32("graphics/pokedex/menu.png", ".4bpp.smol");
@@ -1688,7 +1688,7 @@ const u32 gPokedexCryScreen_Tilemap[] = INCGFX_U32("graphics/pokedex/cry_screen.
 const u16 gPokedexSearchMenu_Pal[] = INCGFX_U16("graphics/pokedex/search_menu.pal", ".gbapal");
 const u32 gPokedexSearchMenu_Gfx[] = INCGFX_U32("graphics/pokedex/search_menu.png", ".4bpp.smol");
 const u32 gPokedexSearchMenuNational_Tilemap[] = INCGFX_U32("graphics/pokedex/search_menu_national.bin", ".smolTM");
-const u32 gPokedexSearchMenuHoenn_Tilemap[] = INCGFX_U32("graphics/pokedex/search_menu_hoenn.bin", ".smolTM");
+const u32 gPokedexSearchMenuCalicadea_Tilemap[] = INCGFX_U32("graphics/pokedex/search_menu_calicadea.bin", ".smolTM");
 
 const u16 gSummaryScreen_MoveEffect_Battle_Tilemap[] = INCBIN_U16("graphics/summary_screen/effect_battle.bin");
 const u16 gSummaryScreen_MoveEffect_Cancel_Tilemap[] = INCBIN_U16("graphics/summary_screen/effect_cancel.bin");

@@ -29,6 +29,8 @@ static bool32 HasBodyPressUsingStat(enum BattlerId battler, enum Stat stat);
 // Functions
 enum Ability AI_GetMoldBreakerSanitizedAbility(enum BattlerId battlerAtk, enum Ability abilityAtk, enum Ability abilityDef, enum HoldEffect holdEffectDef, enum Move move)
 {
+    if (holdEffectDef == HOLD_EFFECT_APEX_METEORITE || abilityDef == ABILITY_TIME_DOMINUS)
+        return abilityDef;
     if (MoveIgnoresTargetAbility(move))
         return ABILITY_NONE;
 
@@ -388,7 +390,9 @@ void SetBattlerData(enum BattlerId battlerId)
         }
 
         // Use the known battler's ability.
-        if (gAiPartyData->mons[side][gBattlerPartyIndexes[battlerId]].ability != ABILITY_NONE)
+        if (gAiPartyData->mons[side][gBattlerPartyIndexes[battlerId]].heldEffect == HOLD_EFFECT_APEX_METEORITE)
+            gBattleMons[battlerId].ability = GetBattlerApexAbility(battlerId);
+        else if (gAiPartyData->mons[side][gBattlerPartyIndexes[battlerId]].ability != ABILITY_NONE)
             gBattleMons[battlerId].ability = gAiPartyData->mons[side][gBattlerPartyIndexes[battlerId]].ability;
         // Check if mon can only have one ability.
         else if (GetSpeciesAbility(species, 1) == ABILITY_NONE
@@ -706,8 +710,9 @@ static inline void CalcDynamicMoveDamage(struct DamageContext *ctx, struct Simul
 {
     enum BattleMoveEffects effect = GetMoveEffect(ctx->move);
 
-    // This move is already summed contributor-by-contributor in AI_CalcDamage.
-    if (effect == EFFECT_HAUNTING_SHRIEKS)
+    // These attacks are already summed hit-by-hit in AI_CalcDamage.
+    if (effect == EFFECT_HAUNTING_SHRIEKS
+     || (ctx->abilities[ctx->battlerAtk] == ABILITY_REVERBERATIONS && IsMoveReverberationsAffected(ctx->battlerAtk, ctx->move)))
         return;
 
     u32 median = simDamage->median;
@@ -912,6 +917,8 @@ struct SimulatedDamage AI_CalcDamage(struct AiCalcValues *aiCalc, enum BattlerId
     bool32 toggledGimmickAtk = FALSE;
     bool32 toggledGimmickDef = FALSE;
     struct AiLogicData *aiData = gAiLogicData;
+    bool32 savedDistortionCached = aiData->distortionCached;
+    bool32 savedDistortionActive = aiData->distortionActive;
     gAiLogicData->aiCalcInProgress = TRUE;
 
     if (moveEffect == EFFECT_HIT_ENEMY_HEAL_ALLY
@@ -950,6 +957,12 @@ struct SimulatedDamage AI_CalcDamage(struct AiCalcValues *aiCalc, enum BattlerId
         toggledGimmickDef = TRUE;
         SetActiveGimmick(battlerDef, aiCalc->gimmickDef);
     }
+
+    // The field cannot gain/lose a holder during this damage simulation. Cache
+    // this aura once instead of scanning all battlers for every category query.
+    aiData->distortionCached = FALSE;
+    aiData->distortionActive = IsDistortionActive();
+    aiData->distortionCached = TRUE;
 
     // We can set those globals because they are going to get rerolled on attack execution
     gBattleStruct->magnitudeBasePower = 70;
@@ -1018,6 +1031,51 @@ struct SimulatedDamage AI_CalcDamage(struct AiCalcValues *aiCalc, enum BattlerId
                 simDamage.random += hit.random;
             }
         }
+        else if (ctx.abilities[battlerAtk] == ABILITY_REVERBERATIONS && IsMoveReverberationsAffected(battlerAtk, move))
+        {
+            u32 savedBondState = gSpecialStatuses[battlerAtk].parentalBondState;
+            u32 savedTargets = gSpecialStatuses[battlerAtk].reverberationsTargets;
+            u8 savedStages[NUM_BATTLE_STATS];
+            memcpy(savedStages, gBattleMons[battlerAtk].statStages, sizeof(savedStages));
+            gSpecialStatuses[battlerAtk].reverberationsTargets = 1u << battlerDef;
+            for (u32 hitIndex = 0; hitIndex < 2; hitIndex++)
+            {
+                struct SimulatedDamage hit = {0};
+                gSpecialStatuses[battlerAtk].parentalBondState = hitIndex == 0 ? PARENTAL_BOND_1ST_HIT : PARENTAL_BOND_2ND_HIT;
+                u32 damage = CalculateMoveDamageVars(&ctx);
+                hit.minimum = GetDamageByRollType(damage, DMG_ROLL_LOWEST);
+                hit.median = GetDamageByRollType(damage, DMG_ROLL_MEDIAN);
+                hit.maximum = GetDamageByRollType(damage, DMG_ROLL_HIGHEST);
+                hit.random = GetDamageByRollType(damage, DMG_ROLL_RANDOM);
+                AI_ApplyModifiersAfterDmgRoll(&ctx, &hit);
+                simDamage.minimum += max(1, hit.minimum);
+                simDamage.median += max(1, hit.median);
+                simDamage.maximum += max(1, hit.maximum);
+                simDamage.random += max(1, hit.random);
+
+                // Guaranteed self boosts, notably Torch Song, apply before the echo.
+                if (hitIndex == 0)
+                {
+                    for (u32 i = 0; i < GetMoveAdditionalEffectCount(move); i++)
+                    {
+                        const struct AdditionalEffect *effect = GetMoveAdditionalEffectById(move, i);
+                        if (!effect->self || (effect->chance != 0 && effect->chance != 100)
+                         || (effect->moveEffect != STAT_CHANGE_EFFECT_PLUS && effect->moveEffect != STAT_CHANGE_EFFECT_MINUS))
+                            continue;
+                        for (enum Stat stat = STAT_ATK; stat < NUM_BATTLE_STATS; stat++)
+                        {
+                            s32 change = GetStatStage(stat, effect);
+                            if (effect->moveEffect == STAT_CHANGE_EFFECT_MINUS)
+                                change = -change;
+                            gBattleMons[battlerAtk].statStages[stat] = max(MIN_STAT_STAGE, min(MAX_STAT_STAGE, gBattleMons[battlerAtk].statStages[stat] + change));
+                        }
+                    }
+                }
+            }
+            memcpy(gBattleMons[battlerAtk].statStages, savedStages, sizeof(savedStages));
+            gSpecialStatuses[battlerAtk].parentalBondState = savedBondState;
+            gSpecialStatuses[battlerAtk].reverberationsTargets = savedTargets;
+        }
         else if (moveEffect == EFFECT_TRIPLE_KICK)
         {
             for (gMultiHitCounter = GetMoveStrikeCount(move); gMultiHitCounter > 0; gMultiHitCounter--) // The global is used to simulate actual damage done
@@ -1067,6 +1125,8 @@ struct SimulatedDamage AI_CalcDamage(struct AiCalcValues *aiCalc, enum BattlerId
     gBattleStruct->battlerState[battlerAtk].ateBoost = FALSE;
     gSpecialStatuses[battlerAtk].gemBoost = FALSE;
 
+    aiData->distortionCached = savedDistortionCached;
+    aiData->distortionActive = savedDistortionActive;
     gAiLogicData->aiCalcInProgress = FALSE;
     return simDamage;
 }
@@ -1108,7 +1168,7 @@ static bool32 AI_IsMoveEffectInPlus(enum BattlerId battlerAtk, enum BattlerId ba
     }
 
     u32 isAttackerAtMaxHp = IsBattlerAtMaxHp(battlerAtk);
-    enum DamageCategory moveCategory = GetMoveCategory(GetIncomingMove(battlerAtk, battlerDef, gAiLogicData));
+    enum DamageCategory moveCategory = GetBattleMoveCategory(GetIncomingMove(battlerAtk, battlerDef, gAiLogicData));
 
     u32 additionalEffectCount = GetMoveAdditionalEffectCount(move);
     for (u32 effectIndex = 0; effectIndex < additionalEffectCount; effectIndex++)
@@ -1300,7 +1360,7 @@ static bool32 AI_IsMoveEffectInMinus(enum BattlerId battlerAtk, enum BattlerId b
                 }
                 break;
             case MOVE_EFFECT_RECHARGE:
-                return additionalEffect->self;
+                return additionalEffect->self && gAiLogicData->abilities[battlerAtk] != ABILITY_TIME_DOMINUS;
             default:
                 break;
             }
@@ -1507,6 +1567,9 @@ bool32 CanEndureHit(enum BattlerId battler, enum BattlerId battlerTarget, enum M
     if (!IsBattlerAtMaxHp(battlerTarget) || IsMultiHitMove(move))
         return FALSE;
 
+    if (gAiLogicData->abilities[battler] == ABILITY_REVERBERATIONS && IsMoveReverberationsAffected(battler, move))
+        return FALSE;
+
     if (gAiLogicData->abilities[battler] == ABILITY_PARENTAL_BOND && AI_IsDoubleSpreadMove(battler, move))
         return FALSE;
 
@@ -1523,7 +1586,7 @@ bool32 CanEndureHit(enum BattlerId battler, enum BattlerId battlerTarget, enum M
         if (IsMimikyuDisguised(battlerTarget))
             return TRUE;
         if (gAiLogicData->abilities[battlerTarget] == ABILITY_ICE_FACE
-            && gBattleMons[battlerTarget].species == SPECIES_EISCUE_ICE && GetMoveCategory(move) == DAMAGE_CATEGORY_PHYSICAL)
+            && gBattleMons[battlerTarget].species == SPECIES_EISCUE_ICE && GetBattleMoveCategory(move) == DAMAGE_CATEGORY_PHYSICAL)
             return TRUE;
     }
 
@@ -1821,6 +1884,10 @@ enum Ability AI_DecideKnownAbilityForTurn(enum BattlerId battlerId)
     enum Ability indexAbility;
     enum Ability abilityAiRatings[NUM_ABILITY_SLOTS] = {0};
 
+    // A revealed Meteorite identifies the independently configured Apex ability.
+    if (gAiPartyData->mons[GetBattlerSide(battlerId)][gBattlerPartyIndexes[battlerId]].heldEffect == HOLD_EFFECT_APEX_METEORITE)
+        return GetBattlerApexAbility(battlerId);
+
     // We've had ability overwritten by e.g. Worry Seed. It is not part of gAiPartyData in case of switching
     if (gBattleMons[battlerId].volatiles.overwrittenAbility)
         return gBattleMons[battlerId].volatiles.overwrittenAbility;
@@ -1871,6 +1938,9 @@ enum HoldEffect AI_DecideHoldEffectForTurn(enum BattlerId battlerId)
         holdEffect = gAiPartyData->mons[GetBattlerSide(battlerId)][gBattlerPartyIndexes[battlerId]].heldEffect;
     else
         holdEffect = GetBattlerHoldEffectIgnoreNegation(battlerId);
+
+    if (holdEffect == HOLD_EFFECT_APEX_METEORITE)
+        return holdEffect;
 
     if (gAiThinkingStruct->aiFlags[battlerId] & AI_FLAG_NEGATE_UNAWARE)
         return holdEffect;
@@ -2112,7 +2182,9 @@ bool32 IsAllyProtectingFromMove(enum BattlerId battlerAtk, enum Move attackerMov
 {
     enum BattleMoveEffects effect = GetMoveEffect(allyMove);
 
-    if (effect != EFFECT_PROTECT)
+    if (effect != EFFECT_PROTECT
+     || MoveIgnoresProtect(attackerMove)
+     || AI_CanBypassProtect(battlerAtk, GetPartnerBattler(battlerAtk), attackerMove))
     {
         return FALSE;
     }
@@ -2185,7 +2257,8 @@ bool32 ShouldTryOHKO(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum 
     if (!DoesBattlerIgnoreAbilityChecks(battlerAtk, atkAbility, move) && defAbility == ABILITY_STURDY)
         return FALSE;
 
-    bool32 sureHit = (gBattleMons[battlerAtk].volatiles.battlerWithSureHit == battlerDef + 1) || atkAbility == ABILITY_NO_GUARD || defAbility == ABILITY_NO_GUARD;
+    bool32 sureHit = (gBattleMons[battlerAtk].volatiles.battlerWithSureHit == battlerDef + 1)
+                 || atkAbility == ABILITY_NO_GUARD || atkAbility == ABILITY_SPACE_DOMINUS || defAbility == ABILITY_NO_GUARD;
     if (sureHit && gBattleMons[battlerAtk].level >= gBattleMons[battlerDef].level)
     {
         return TRUE;
@@ -2306,6 +2379,7 @@ static bool32 ShouldAvoidProtectingAgainstPartnerMove(enum BattlerId battler, en
     if (partnerMove == MOVE_NONE
      || partnerMove == MOVE_UNAVAILABLE
      || MoveIgnoresProtect(partnerMove)
+     || AI_CanBypassProtect(partner, battler, partnerMove)
      || !AI_IsFaster(battler, partner, protectMove, partnerMove, CONSIDER_PRIORITY)
      || !IsAllyProtectingFromMove(partner, partnerMove, protectMove)
      || CanIndexMoveFaintTarget(partner, battler, gAiBattleData->chosenMoveIndex[partner], AI_ATTACKING))
@@ -2356,13 +2430,24 @@ s32 ProtectChecks(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum Mov
             return WORST_EFFECT;
     }
 
-    if (AI_CanContactBypassProtect(battlerDef, battlerAtk, predictedMove))
+    if (AI_CanBypassProtect(battlerDef, battlerAtk, predictedMove))
     {
         return WORST_EFFECT;
     }
 
     if (ShouldAvoidProtectingAgainstPartnerMove(battlerAtk, move))
         return WORST_EFFECT;
+
+    if (gAiLogicData->abilities[battlerAtk] == ABILITY_BLAZING_GLORY)
+    {
+        if (GetBattlerSecondaryDamage(battlerAtk) >= gBattleMons[battlerAtk].hp)
+            return WORST_EFFECT;
+        // Protect can safely buy a useful boost, but cannot prevent the HP cost.
+        if (gBattleMons[battlerAtk].statStages[STAT_SPEED] < MAX_STAT_STAGE
+         || (gBattleMons[battlerAtk].statStages[STAT_ATK] < MAX_STAT_STAGE && HasMoveWithCategory(battlerAtk, DAMAGE_CATEGORY_PHYSICAL))
+         || (gBattleMons[battlerAtk].statStages[STAT_SPATK] < MAX_STAT_STAGE && HasMoveWithCategory(battlerAtk, DAMAGE_CATEGORY_SPECIAL)))
+            score += GOOD_EFFECT;
+    }
 
     /*if (GetMoveResultFlags(predictedMove) & (MOVE_RESULT_NO_EFFECT | MOVE_RESULT_MISSED))
     {
@@ -2843,7 +2928,7 @@ static bool32 HasMoveUsingOwnOffensiveStat(enum BattlerId battler, enum DamageCa
     for (u32 slot = 0; slot < MAX_MON_MOVES; slot++)
     {
         if (moves[slot] != MOVE_NONE && moves[slot] != MOVE_UNAVAILABLE
-         && GetMoveCategory(moves[slot]) == category
+         && GetBattleMoveCategory(moves[slot]) == category
          && GetMoveEffect(moves[slot]) != EFFECT_BODY_PRESS)
             return TRUE;
     }
@@ -3535,6 +3620,9 @@ u32 GetBattlerSecondaryDamage(enum BattlerId battlerId)
      + GetPoisonDamage(battlerId)
      + GetWeatherDamage(battlerId);
 
+    if (gAiLogicData->abilities[battlerId] == ABILITY_BLAZING_GLORY)
+        secondaryDamage += max(1, GetBattlerMaxHP(battlerId) / 6);
+
     return secondaryDamage;
 }
 
@@ -3671,6 +3759,7 @@ bool32 IsBattlerIncapacitated(enum BattlerId battler, enum Ability ability)
 bool32 AI_CanPutToSleep(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum Ability defAbility, enum Move move, enum Move partnerMove)
 {
     if (!CanBeSlept(battlerAtk, battlerDef, defAbility, BLOCKED_BY_SLEEP_CLAUSE)
+      || IsSafeguardProtected(battlerAtk, battlerDef, gAiLogicData->abilities[battlerAtk])
       || DoesSubstituteBlockMove(battlerAtk, battlerDef, move)
       || PartnerMoveEffectIsStatusSameTarget(GetPartnerBattler(battlerAtk), battlerDef, partnerMove))   // shouldn't try to sleep mon that partner is trying to make sleep
         return FALSE;
@@ -3781,6 +3870,7 @@ bool32 ShouldParalyze(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum
 bool32 AI_CanPoison(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum Ability defAbility, enum Move move, enum Move partnerMove)
 {
     if (!CanBePoisoned(battlerAtk, battlerDef, gAiLogicData->abilities[battlerAtk], defAbility)
+      || IsSafeguardProtected(battlerAtk, battlerDef, gAiLogicData->abilities[battlerAtk])
       || gAiLogicData->effectiveness[battlerAtk][battlerDef][gAiThinkingStruct->movesetIndex] == UQ_4_12(0.0)
       || DoesSubstituteBlockMove(battlerAtk, battlerDef, move)
       || PartnerMoveEffectIsStatusSameTarget(GetPartnerBattler(battlerAtk), battlerDef, partnerMove))
@@ -3792,6 +3882,7 @@ bool32 AI_CanPoison(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum A
 bool32 AI_CanParalyze(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum Ability defAbility, enum Move move, enum Move partnerMove)
 {
     if (!CanBeParalyzed(battlerAtk, battlerDef, defAbility)
+      || IsSafeguardProtected(battlerAtk, battlerDef, gAiLogicData->abilities[battlerAtk])
       || gAiLogicData->effectiveness[battlerAtk][battlerDef][gAiThinkingStruct->movesetIndex] == UQ_4_12(0.0)
       || DoesSubstituteBlockMove(battlerAtk, battlerDef, move)
       || PartnerMoveEffectIsStatusSameTarget(GetPartnerBattler(battlerAtk), battlerDef, partnerMove))
@@ -3827,6 +3918,7 @@ bool32 AI_CanConfuse(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum 
 bool32 AI_CanBurn(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum Ability defAbility, enum BattlerId battlerAtkPartner, enum Move move, enum Move partnerMove)
 {
     if (!CanBeBurned(battlerAtk, battlerDef, defAbility)
+      || IsSafeguardProtected(battlerAtk, battlerDef, gAiLogicData->abilities[battlerAtk])
       || gAiLogicData->effectiveness[battlerAtk][battlerDef][gAiThinkingStruct->movesetIndex] == UQ_4_12(0.0)
       || DoesSubstituteBlockMove(battlerAtk, battlerDef, move)
       || PartnerMoveEffectIsStatusSameTarget(battlerAtkPartner, battlerDef, partnerMove))
@@ -3839,6 +3931,7 @@ bool32 AI_CanBurn(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum Abi
 bool32 AI_CanGiveFrostbite(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum Ability defAbility, enum BattlerId battlerAtkPartner, enum Move move, enum Move partnerMove)
 {
     if (!CanBeFrozen(battlerAtk, battlerDef, defAbility)
+      || IsSafeguardProtected(battlerAtk, battlerDef, gAiLogicData->abilities[battlerAtk])
       || gAiLogicData->effectiveness[battlerAtk][battlerDef][gAiThinkingStruct->movesetIndex] == UQ_4_12(0.0)
       || DoesSubstituteBlockMove(battlerAtk, battlerDef, move)
       || PartnerMoveEffectIsStatusSameTarget(battlerAtkPartner, battlerDef, partnerMove))
@@ -5015,7 +5108,7 @@ void IncreaseBurnScore(enum BattlerId battlerAtk, enum BattlerId battlerDef, enu
                 if (defBestMoves[moveIndex] == MOVE_NONE)
                     break;
 
-                if (GetMoveCategory(defBestMoves[moveIndex]) == DAMAGE_CATEGORY_PHYSICAL)
+                if (GetBattleMoveCategory(defBestMoves[moveIndex]) == DAMAGE_CATEGORY_PHYSICAL)
                 {
                     hasPhysical = TRUE;
                     break;
@@ -5129,7 +5222,7 @@ void IncreaseFrostbiteScore(enum BattlerId battlerAtk, enum BattlerId battlerDef
                 if (defBestMoves[moveIndex] == MOVE_NONE)
                     break;
 
-                if (GetMoveCategory(defBestMoves[moveIndex]) == DAMAGE_CATEGORY_SPECIAL)
+                if (GetBattleMoveCategory(defBestMoves[moveIndex]) == DAMAGE_CATEGORY_SPECIAL)
                 {
                     hasSpecial = TRUE;
                     break;
@@ -5169,10 +5262,12 @@ bool32 AI_MoveMakesContact(enum BattlerId battlerAtk, enum BattlerId battlerDef,
     return TRUE;
 }
 
-bool32 AI_CanContactBypassProtect(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum Move move)
+bool32 AI_CanBypassProtect(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum Move move)
 {
     if (move == MOVE_NONE || move == MOVE_UNAVAILABLE)
         return FALSE;
+    if (CanApexAbilityBypassProtect(battlerAtk, battlerDef, gAiLogicData->abilities[battlerAtk], move))
+        return TRUE;
     if (gAiLogicData->abilities[battlerAtk] != ABILITY_UNSEEN_FIST && gAiLogicData->abilities[battlerAtk] != ABILITY_PIERCING_DRILL)
         return FALSE;
     if (GetMoveEffect(move) == EFFECT_SHELL_SIDE_ARM)
@@ -5737,6 +5832,13 @@ bool32 CanEffectChangeAbility(enum BattlerId battlerAtk, enum BattlerId battlerD
 {
     enum BattleMoveEffects effect = GetMoveEffect(move);
 
+    if (HasApexAbility(battlerDef))
+        return FALSE;
+    if (HasApexAbility(battlerAtk)
+     && (effect == EFFECT_ROLE_PLAY || effect == EFFECT_DOODLE
+      || effect == EFFECT_ENTRAINMENT || effect == EFFECT_SKILL_SWAP))
+        return FALSE;
+
     if (gBattleMons[battlerDef].volatiles.gastroAcid)
         return FALSE;
 
@@ -6216,6 +6318,9 @@ s32 AI_GetAdjustedStatStage(enum BattlerId battler, enum Move move, s32 stage)
      && GetAttackerWeather(gAiLogicData->holdEffects[battler], gAiLogicData->abilities[battler], AI_GetWeather()) & B_WEATHER_SUN)
         stage = 2;
 
+    if (GetMoveEffect(move) == EFFECT_GROWTH && gAiLogicData->abilities[battler] == ABILITY_ROOTBOUND)
+        stage *= 2;
+
     if (stage == STAT_CHANGE_FORCE_MAX)
         stage = 12;
 
@@ -6281,6 +6386,8 @@ s32 GetSelfStatChangeScore(enum BattlerId battlerAtk, enum BattlerId battlerDef,
         for (enum Stat stat = STAT_ATK; stat < NUM_BATTLE_STATS; stat++)
         {
             s32 stage = GetStatStage(stat, effect);
+            if (gAiLogicData->abilities[battlerAtk] == ABILITY_REVERBERATIONS && IsMoveReverberationsAffected(battlerAtk, move))
+                stage *= 2;
 
             if (stage == 0)
                 continue;
@@ -6333,6 +6440,8 @@ s32 GetFoeStatChangeScore(enum BattlerId battlerAtk, enum BattlerId battlerDef, 
         for (enum Stat stat = STAT_ATK; stat < NUM_BATTLE_STATS; stat++)
         {
             s32 stage = GetStatStage(stat, effect);
+            if (gAiLogicData->abilities[battlerAtk] == ABILITY_REVERBERATIONS && IsMoveReverberationsAffected(battlerAtk, move))
+                stage *= 2;
 
             if (stage == 0)
                 continue;
@@ -6391,6 +6500,8 @@ s32 GetAllyStatChangeScore(enum BattlerId battlerAtk, enum BattlerId partner, en
         for (enum Stat stat = STAT_ATK; stat < NUM_BATTLE_STATS; stat++)
         {
             s32 stage = GetStatStage(stat, effect);
+            if (gAiLogicData->abilities[battlerAtk] == ABILITY_REVERBERATIONS && IsMoveReverberationsAffected(battlerAtk, move))
+                stage *= 2;
 
             if (stage == 0)
                 continue;
@@ -6522,6 +6633,8 @@ bool32 AI_CanAnyStatChange(enum BattlerId battlerAtk, enum BattlerId battlerDef,
         {
             st.stat = stat;
             st.stage = GetStatStage(stat, effect);
+            if (gAiLogicData->abilities[battlerAtk] == ABILITY_REVERBERATIONS && IsMoveReverberationsAffected(battlerAtk, move))
+                st.stage *= 2;
 
             if (st.stage == 0)
                 continue;

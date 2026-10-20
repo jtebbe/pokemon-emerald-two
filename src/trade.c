@@ -2365,6 +2365,9 @@ static enum CanTradeMon CanTradeSelectedMon(struct Pokemon *playerParty, int par
     enum Species species[PARTY_SIZE];
     enum Species species2[PARTY_SIZE];
 
+    if (GetMonData(&playerParty[monIdx], MON_DATA_HELD_ITEM) == ITEM_APEX_METEORITE)
+        return CANT_TRADE_INVALID_MON;
+
     for (i = 0; i < partyCount; i++)
     {
         species2[i] = GetMonData(&playerParty[i], MON_DATA_SPECIES_OR_EGG);
@@ -2550,6 +2553,9 @@ enum CanTradeMon CanSpinTradeMon(struct Pokemon *mon, u16 monIdx)
 {
     int i, version, versions, canTradeAnyMon, numMonsLeft;
     enum Species speciesArray[PARTY_SIZE];
+
+    if (GetMonData(&mon[monIdx], MON_DATA_HELD_ITEM) == ITEM_APEX_METEORITE)
+        return CANT_TRADE_INVALID_MON;
 
     // Make Eggs not count for numMonsLeft
     for (i = 0; i < gPartiesCount[B_TRAINER_PLAYER]; i++)
@@ -4601,6 +4607,8 @@ static void GetInGameTradeMail(struct Mail *mail, const struct InGameTrade *trad
 enum Species GetTradeSpecies(void)
 {
     struct BoxPokemon *boxmon = GetSelectedBoxMonFromPcOrParty();
+    if (GetBoxMonData(boxmon, MON_DATA_HELD_ITEM) == ITEM_APEX_METEORITE)
+        return SPECIES_NONE;
     if (GetBoxMonData(boxmon, MON_DATA_IS_EGG))
         return SPECIES_NONE;
     enum Species species = GetBoxMonData(boxmon, MON_DATA_SPECIES);

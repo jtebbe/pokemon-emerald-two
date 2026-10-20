@@ -137,7 +137,7 @@ void NewGameInitData(void)
     NewGameInitPCItems();
     UpdateDailySeed();
     SetLastHealLocationWarp(HEAL_LOCATION_OUTDOOR);
-    SetWarpDestinationToHealLocation(HEAL_LOCATION_OUTDOOR);
+    SetWarpDestination(MAP_GROUP(MAP_OUTDOOR), MAP_NUM(MAP_OUTDOOR), WARP_ID_NONE, 25, 6);
     WarpIntoMap();
     FlagSet(FLAG_RECEIVED_RUNNING_SHOES);
     FlagSet(FLAG_SYS_POKEDEX_GET);

@@ -26,6 +26,12 @@ SINGLE_BATTLE_TEST("Custom move animations finish and release their resources fr
         PARAMETRIZE { move = MOVE_MUD_BATH; opponentUsesMove = j; }
         PARAMETRIZE { move = MOVE_GEMSHOT; opponentUsesMove = j; }
         PARAMETRIZE { move = MOVE_HARSH_ZEPHYR; opponentUsesMove = j; }
+        PARAMETRIZE { move = MOVE_METEORIC_WRATH; opponentUsesMove = j; }
+        PARAMETRIZE { move = MOVE_INVERSION; opponentUsesMove = j; }
+        PARAMETRIZE { move = MOVE_CLOTHESLINE; opponentUsesMove = j; }
+        PARAMETRIZE { move = MOVE_ANGSTY_SCREAM; opponentUsesMove = j; }
+        PARAMETRIZE { move = MOVE_VOID_BLAST; opponentUsesMove = j; }
+        PARAMETRIZE { move = MOVE_SUPERPOWER; opponentUsesMove = j; }
     }
     FORCE_MOVE_ANIM(TRUE);
     GIVEN {

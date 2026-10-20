@@ -784,6 +784,13 @@ static void AdjustStatStage(struct BattleCalcValues *cv, struct StatChange *st)
     if (cv->moveEffect == EFFECT_GROWTH && GetAttackerWeather(cv->holdEffects[cv->battlerDef], cv->abilities[cv->battlerDef], GetWeather()) & B_WEATHER_SUN)
         st->stage = 2;
 
+    if (cv->moveEffect == EFFECT_GROWTH && cv->abilities[cv->battlerDef] == ABILITY_ROOTBOUND)
+    {
+        st->stage *= 2;
+        if (!st->onlyChecking)
+            RecordAbilityBattle(cv->battlerDef, ABILITY_ROOTBOUND);
+    }
+
     if (st->stage == STAT_CHANGE_FORCE_MAX)
         st->stage = 12;
 

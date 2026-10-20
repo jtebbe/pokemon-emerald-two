@@ -2794,7 +2794,7 @@ static void Cmd_switchindataupdate(void)
     gBattleMons[battler].types[0] = GetSpeciesType(gBattleMons[battler].species, 0);
     gBattleMons[battler].types[1] = GetSpeciesType(gBattleMons[battler].species, 1);
     gBattleMons[battler].types[2] = TYPE_MYSTERY;
-    gBattleMons[battler].ability = GetAbilityBySpecies(gBattleMons[battler].species, gBattleMons[battler].abilityNum);
+    gBattleMons[battler].ability = GetAbilityBySpeciesAndItem(gBattleMons[battler].species, gBattleMons[battler].abilityNum, gBattleMons[battler].item);
     #if TESTING
     if (gTestRunnerEnabled)
     {
@@ -3870,6 +3870,7 @@ static void Cmd_removeitem(void)
     }
     else if (gBattleScripting.overrideBerryRequirements
           || gBattleStruct->flungItem == FLUNG_ITEM_REMOVED
+          || itemId == ITEM_APEX_METEORITE
           || itemId == ITEM_NONE)
     {
         // bug bite / pluck / no item - don't remove current item
@@ -4956,7 +4957,7 @@ static void Cmd_setmist(void)
     }
     else
     {
-        gSideTimers[GetBattlerSide(gBattlerAttacker)].mistTimer = 5;
+        gSideTimers[GetBattlerSide(gBattlerAttacker)].mistTimer = GetBattleEffectDuration(gBattlerAttacker, 5);
         gSideStatuses[GetBattlerSide(gBattlerAttacker)] |= SIDE_STATUS_MIST;
         gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SET_MIST;
     }
@@ -5058,7 +5059,6 @@ static void Cmd_healpartystatus(void)
     for (i = 0; i < PARTY_SIZE; i++)
     {
         enum Species species = GetMonData(&party[i], MON_DATA_SPECIES_OR_EGG);
-        u8 abilityNum = GetMonData(&party[i], MON_DATA_ABILITY_NUM);
 
         if (species != SPECIES_NONE && species != SPECIES_EGG)
         {
@@ -5077,12 +5077,12 @@ static void Cmd_healpartystatus(void)
                 ability = GetBattlerAbility(partner);
             else
             {
-                ability = GetAbilityBySpecies(species, abilityNum);
+                ability = GetMonAbility(&party[i]);
                 #if TESTING
                 if (gTestRunnerEnabled)
                 {
                     enum BattleTrainer trainer = GetBattlerTrainer(gBattlerAttacker);
-                    if (TestRunner_Battle_GetForcedAbility(trainer, i))
+                    if (GetMonData(&party[i], MON_DATA_HELD_ITEM) != ITEM_APEX_METEORITE && TestRunner_Battle_GetForcedAbility(trainer, i))
                         ability = TestRunner_Battle_GetForcedAbility(trainer, i);
                 }
                 #endif
@@ -7571,17 +7571,15 @@ static void UpdatePokeFlutePartyStatus(struct Pokemon* party, enum BattlerPositi
     enum BattlerId battler;
     u32 monToCheck, status;
     enum Species species;
-    u16 abilityNum;
     monToCheck = 0;
     for (i = 0; i < PARTY_SIZE; i++)
     {
         species = GetMonData(&party[i], MON_DATA_SPECIES_OR_EGG);
-        abilityNum = GetMonData(&party[i], MON_DATA_ABILITY_NUM);
         status = GetMonData(&party[i], MON_DATA_STATUS);
         if (species != SPECIES_NONE
             && species != SPECIES_EGG
             && status & AILMENT_FNT
-            && GetAbilityBySpecies(species, abilityNum) != ABILITY_SOUNDPROOF)
+            && GetMonAbility(&party[i]) != ABILITY_SOUNDPROOF)
             monToCheck |= (1 << i);
     }
     if (monToCheck)
@@ -7812,7 +7810,7 @@ void BS_JumpIfAbilityCantBeReactivated(void)
         gBattlescriptCurrInstr = cmd->jumpInstr;
         break;
     default:
-        if (gAbilitiesInfo[ability].cantBeSuppressed)
+        if (HasApexAbility(battler) || gAbilitiesInfo[ability].cantBeSuppressed)
             gBattlescriptCurrInstr = cmd->jumpInstr;
         else
             gBattlescriptCurrInstr = cmd->nextInstr;
@@ -8244,6 +8242,15 @@ void BS_PlayMoveAnimation(void)
         gMultiHitCounter);
     MarkBattlerForControllerExec(gBattlerAttacker);
     gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
+void BS_TryGroundAirborneBattler(void)
+{
+    NATIVE_ARGS();
+    gBattlescriptCurrInstr = cmd->nextInstr;
+    if (IsBattlerAlive(gEffectBattler)
+     && TryGroundAirborneBattler(gEffectBattler, GetBattlerAbility(gEffectBattler)))
+        BattleScriptCall(BattleScript_GroundAirborneBattler);
 }
 
 void BS_SetLastUsedAbility(void)
@@ -9125,6 +9132,24 @@ void BS_DestroyItemPopup(void)
 
     FreeAbilityPopUpGfx();
 
+    gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
+void BS_SetMeteoricWrathImpact(void)
+{
+    NATIVE_ARGS();
+
+    if (gEffectBattler < gBattlersCount && IsBattlerPresent(gEffectBattler))
+    {
+        gBattleCommunication[0] = TRUE;
+        gBattlerTarget = gEffectBattler;
+        // Field damage, not a hit: ignores Substitute, Protect and survival items.
+        SetPassiveDamageAmount(gEffectBattler, gBattleMons[gEffectBattler].hp);
+    }
+    else
+    {
+        gBattleCommunication[0] = FALSE;
+    }
     gBattlescriptCurrInstr = cmd->nextInstr;
 }
 

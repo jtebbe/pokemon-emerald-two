@@ -74,4 +74,38 @@ Gender: Male
 Music: Male
 Double Battle: No
 
+=== TRAINER_BINGUS_SINGLES ===
+Name: Bingus
+Class: Pkmn Trainer 1
+Pic: Youngster
+Gender: Male
+Music: Male
+Battle Type: Singles
+
+Bulbasaur
+Level: 5
+
+Charmander
+Level: 5
+
+Squirtle
+Level: 5
+
+=== TRAINER_BINGUS_DOUBLES ===
+Name: Bingus
+Class: Pkmn Trainer 1
+Pic: Youngster
+Gender: Male
+Music: Male
+Battle Type: Doubles
+
+Bulbasaur
+Level: 5
+
+Charmander
+Level: 5
+
+Squirtle
+Level: 5
+
 /* Unused trainer IDs are reserved in constants/opponents.h. */

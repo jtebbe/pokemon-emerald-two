@@ -22162,6 +22162,18 @@ gBattleAnimMove_Assist::
 	end
 
 gBattleAnimMove_Superpower::
+	call SuperpowerAnimation
+	end
+
+gBattleAnimMove_VoidBlast::
+	fadetobg BG_DARK
+	waitbgfadein
+	call SuperpowerAnimation
+	restorebg
+	waitbgfadein
+	end
+
+SuperpowerAnimation:
 	monbg ANIM_ATK_PARTNER
 	splitbgprio ANIM_ATTACKER
 	setalpha 12, 8
@@ -22190,7 +22202,7 @@ gBattleAnimMove_Superpower::
 	clearmonbg ANIM_ATK_PARTNER
 	blendoff
 	delay 1
-	end
+	return
 
 gBattleAnimMove_Recycle::
 	monbg ANIM_ATTACKER
@@ -29319,4 +29331,30 @@ gBattleAnimGeneral_ProtectedItself::
 	createvisualtask AnimTask_ShakeMon2, 2, ANIM_TARGET, 2, 0, 10, 1
 	waitforvisualfinish
 	clearmonbg ANIM_ATTACKER
+	end
+
+gBattleAnimGeneral_MeteoricWrathImpact::
+	fadetobg BG_COSMIC
+	waitbgfadeout
+	createvisualtask AnimTask_StartSlidingBg, 2, 0, 128, 0, -1
+	waitbgfadein
+	playsewithpan SE_FALL, SOUND_PAN_MIDDLE
+	createsprite gMeteoricWrathMeteorSpriteTemplate, ANIM_ATTACKER, 2
+	waitforvisualfinish
+	playsewithpan SE_M_EXPLOSION, SOUND_PAN_MIDDLE
+	createvisualtask AnimTask_ShakeMon2, 5, ANIM_PLAYER_LEFT, 8, 0, 40, 1
+	createvisualtask AnimTask_ShakeMon2, 5, ANIM_PLAYER_RIGHT, 8, 0, 40, 1
+	createvisualtask AnimTask_ShakeMon2, 5, ANIM_OPPONENT_LEFT, 8, 0, 40, 1
+	createvisualtask AnimTask_ShakeMon2, 5, ANIM_OPPONENT_RIGHT, 8, 0, 40, 1
+	shake_battle_platforms x_offset=4, y_offset=2, shakes=20, delay=1
+	createsprite gMeteoricWrathExplosionSpriteTemplate, ANIM_ATTACKER, 3, 0, 0
+	delay 3
+	createsprite gMeteoricWrathExplosionSpriteTemplate, ANIM_ATTACKER, 3, 24, -16
+	createsprite gMeteoricWrathExplosionSpriteTemplate, ANIM_ATTACKER, 3, -24, -16
+	delay 3
+	createsprite gMeteoricWrathExplosionSpriteTemplate, ANIM_ATTACKER, 3, 20, 16
+	createsprite gMeteoricWrathExplosionSpriteTemplate, ANIM_ATTACKER, 3, -20, 16
+	waitforvisualfinish
+	call UnsetBackground
+	blendoff
 	end

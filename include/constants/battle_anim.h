@@ -584,7 +584,8 @@ enum AnimBattler
 #define B_ANIM_PROTECTED_ITSELF         64
 #define B_ANIM_BAIT_THROW               65
 #define B_ANIM_HAUNTING_SHRIEKS_END      66
-#define NUM_B_ANIMS_GENERAL             67
+#define B_ANIM_METEORIC_WRATH_IMPACT     67
+#define NUM_B_ANIMS_GENERAL             68
 
 // special animations table (sBattleAnims_Special)
 #define B_ANIM_LVL_UP                   0

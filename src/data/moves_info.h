@@ -1039,6 +1039,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_ROAR] =
     {
+        .reverberationsBanned = TRUE,
         .name = COMPOUND_STRING("Roar"),
         .description = COMPOUND_STRING(
             "The foe is scared to switch\n"
@@ -1071,6 +1072,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SING] =
     {
+        .reverberationsBanned = TRUE,
         .name = COMPOUND_STRING("Sing"),
         .description = COMPOUND_STRING(
             "A soothing song lulls the\n"
@@ -1095,6 +1097,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SUPERSONIC] =
     {
+        .reverberationsBanned = TRUE,
         .name = COMPOUND_STRING("Supersonic"),
         .description = COMPOUND_STRING(
             "Emits bizarre sound waves\n"
@@ -4517,6 +4520,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_PERISH_SONG] =
     {
+        .reverberationsBanned = TRUE,
         .name = COMPOUND_STRING("Perish Song"),
         .description = COMPOUND_STRING(
             "Any Pokémon hearing this\n"
@@ -7401,6 +7405,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_GRASS_WHISTLE] =
     {
+        .reverberationsBanned = TRUE,
         .name = COMPOUND_STRING("Grass Whistle"),
         .description = COMPOUND_STRING(
             "Lulls the foe into sleep\n"
@@ -13002,6 +13007,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_PARTING_SHOT] =
     {
+        .reverberationsBanned = TRUE,
         .name = COMPOUND_STRING("Parting Shot"),
         .description = COMPOUND_STRING(
             "Lowers the foe's Attack and\n"
@@ -18960,6 +18966,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_DRAGON_CHEER] =
     {
+        .reverberationsBanned = TRUE,
         .name = COMPOUND_STRING("Dragon Cheer"),
         .description = COMPOUND_STRING(
             "Raises allies' critical-hit\n"
@@ -19139,6 +19146,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_HAUNTING_SHRIEKS] =
     {
+        .reverberationsBanned = TRUE,
         .name = COMPOUND_STRING("Haunting Shrieks"),
         .description = COMPOUND_STRING(
             "Fallen allies join in.\n"
@@ -19412,6 +19420,100 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             .chance = 50,
         }),
         .battleAnimScript = gBattleAnimMove_MalignantChain,
+    },
+
+    [MOVE_METEORIC_WRATH] =
+    {
+        .name = COMPOUND_STRING("Meteoric Wrath"),
+        .description = COMPOUND_STRING(
+            "Calls a meteor that KOs all\n"
+            "battlers after 2 turns."),
+        .effect = EFFECT_METEORIC_WRATH,
+        .type = TYPE_PSYCHIC,
+        .accuracy = 0,
+        .pp = 1,
+        .target = TARGET_FIELD,
+        .category = DAMAGE_CATEGORY_STATUS,
+        .additionalEffects = ADDITIONAL_EFFECTS({ .moveEffect = MOVE_EFFECT_METEORIC_WRATH }),
+        .battleAnimScript = gBattleAnimMove_CosmicPower,
+    },
+
+    [MOVE_INVERSION] =
+    {
+        .name = COMPOUND_STRING("Inversion"),
+        .description = COMPOUND_STRING(
+            "Inverts type matchups\n"
+            "until used again."),
+        .effect = EFFECT_INVERSION,
+        .type = TYPE_NORMAL,
+        .accuracy = 0,
+        .pp = 1,
+        .target = TARGET_FIELD,
+        .category = DAMAGE_CATEGORY_STATUS,
+        .mirrorMoveBanned = TRUE,
+        .additionalEffects = ADDITIONAL_EFFECTS({ .moveEffect = MOVE_EFFECT_INVERSION }),
+        .battleAnimScript = gBattleAnimMove_TrickRoom,
+    },
+
+    [MOVE_CLOTHESLINE] =
+    {
+        .name = COMPOUND_STRING("Clothesline"),
+        .description = COMPOUND_STRING(
+            "Power rises with both\n"
+            "battlers' Speed boosts."),
+        .effect = EFFECT_CLOTHESLINE,
+        .power = 40,
+        .type = TYPE_FIGHTING,
+        .accuracy = 95,
+        .pp = 10,
+        .target = TARGET_SELECTED,
+        .category = DAMAGE_CATEGORY_PHYSICAL,
+        .makesContact = TRUE,
+        .battleAnimScript = gBattleAnimMove_VitalThrow,
+    },
+
+    [MOVE_ANGSTY_SCREAM] =
+    {
+        .name = COMPOUND_STRING("Angsty Scream"),
+        .description = COMPOUND_STRING(
+            "Power doubles in danger or\n"
+            "while suffering a status."),
+        .effect = EFFECT_ANGSTY_SCREAM,
+        .power = 60,
+        .type = TYPE_DARK,
+        .accuracy = 100,
+        .pp = 10,
+        .target = TARGET_SELECTED,
+        .category = DAMAGE_CATEGORY_SPECIAL,
+        .soundMove = TRUE,
+        .ignoresSubstitute = TRUE,
+        .battleAnimScript = gBattleAnimMove_Snarl,
+    },
+
+    [MOVE_VOID_BLAST] =
+    {
+        .name = COMPOUND_STRING("Void Blast"),
+        .description = COMPOUND_STRING(
+            "A dark blast that lowers\n"
+            "all five of the user's stats."),
+        .effect = EFFECT_HIT,
+        .power = 130,
+        .type = TYPE_DARK,
+        .accuracy = 90,
+        .pp = 5,
+        .target = TARGET_SELECTED,
+        .category = DAMAGE_CATEGORY_SPECIAL,
+        .ballisticMove = TRUE,
+        .additionalEffects = ADDITIONAL_EFFECTS({
+            .moveEffect = MOVE_EFFECT_STAT_MINUS,
+            .attack = 1,
+            .defense = 1,
+            .spAtk = 1,
+            .spDef = 1,
+            .speed = 1,
+            .self = TRUE,
+        }),
+        .battleAnimScript = gBattleAnimMove_VoidBlast,
     },
 
 

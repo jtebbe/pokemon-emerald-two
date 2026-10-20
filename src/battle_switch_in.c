@@ -6,6 +6,7 @@
 #include "battle_scripts.h"
 #include "battle_switch_in.h"
 #include "battle_controllers.h"
+#include "battle_ai_record.h"
 #include "config_changes.h"
 #include "constants/battle.h"
 #include "constants/moves.h"
@@ -39,6 +40,31 @@ bool32 DoSwitchInEvents(void)
         gBattleStruct->eventState.battlerSwitchIn = 0;
         gBattleStruct->eventState.switchIn++;
         // fallthrough
+    case SWITCH_IN_EVENTS_APEX_METEORITE:
+        while (gBattleStruct->switchInBattlerCounter < gBattlersCount)
+        {
+            battler = gBattlersBySpeed[gBattleStruct->switchInBattlerCounter++];
+            if (!IsBattlerAlive(battler) || !gBattleStruct->battlerState[battler].switchIn || !HasApexAbility(battler))
+                continue;
+
+            RecordItemEffectBattle(battler, HOLD_EFFECT_APEX_METEORITE);
+            RecordAbilityBattle(battler, GetBattlerApexAbility(battler));
+            struct AiPartyMon *aiMon = &gAiPartyData->mons[GetBattlerTrainer(battler)][gBattlerPartyIndexes[battler]];
+            aiMon->item = gBattleMons[battler].item;
+            aiMon->heldEffect = HOLD_EFFECT_APEX_METEORITE;
+            aiMon->ability = GetBattlerApexAbility(battler);
+            if (!GetBattlerPartyState(battler)->apexRevealed)
+            {
+                GetBattlerPartyState(battler)->apexRevealed = TRUE;
+                gBattleScripting.battler = battler;
+                gLastUsedItem = gBattleMons[battler].item;
+                BattleScriptCall(BattleScript_ApexMeteoriteRevealed);
+                return TRUE;
+            }
+        }
+        gBattleStruct->switchInBattlerCounter = 0;
+        gBattleStruct->eventState.switchIn++;
+        break;
     case SWITCH_IN_EVENTS_TERA_SHIFT:
         while (gBattleStruct->switchInBattlerCounter < gBattlersCount)
         {

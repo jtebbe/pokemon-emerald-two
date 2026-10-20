@@ -211,6 +211,7 @@ enum MoveEndState
     MOVEEND_MIRROR_MOVE,
     MOVEEND_BOUNCED_MOVE,
     MOVEEND_MULTIHIT_MOVE_BLOCK, // HP threshold items, effectiveness message, end move
+    MOVEEND_REVERBERATIONS,
     MOVEEND_DEFROST,
     MOVEEND_MOVE_BLOCK_RECOIL, // Recoil effects should still happen even if Sheer Force applies
     MOVEEND_SHEER_FORCE, // If move is Sheer Force affected, jump to effects that are not suppressed

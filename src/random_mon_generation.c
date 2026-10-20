@@ -18,7 +18,7 @@
 enum RandomSpeciesDexMode
 {
     RANDOM_MON_DEX_NATIONAL,
-    RANDOM_MON_DEX_HOENN,
+    RANDOM_MON_DEX_CALICADEA,
 };
 
 struct RandomSpeciesGeneratorOptions
@@ -273,9 +273,9 @@ enum Species GetRandomSpeciesWithSeed(rng_value_t *rng, u32 optionId, const stru
         }
         poolSize = options->speciesPoolCount;
     }
-    else if (options->dexMode == RANDOM_MON_DEX_HOENN)
+    else if (options->dexMode == RANDOM_MON_DEX_CALICADEA)
     {
-        poolSize = HOENN_DEX_COUNT - 1;
+        poolSize = CALICADEA_DEX_COUNT - 1;
     }
     else
     {
@@ -289,10 +289,10 @@ enum Species GetRandomSpeciesWithSeed(rng_value_t *rng, u32 optionId, const stru
         for (u32 i = 0; i < poolSize; i++)
             speciesIndexes[i] = options->speciesPool[i];
     }
-    else if (options->dexMode == RANDOM_MON_DEX_HOENN)
+    else if (options->dexMode == RANDOM_MON_DEX_CALICADEA)
     {
         for (u32 i = 0; i < poolSize; i++)
-            speciesIndexes[i] = HoennToNationalOrder(i + 1);
+            speciesIndexes[i] = NationalPokedexNumToSpecies(CalicadeaToNationalOrder(i + 1));
     }
     else
     {

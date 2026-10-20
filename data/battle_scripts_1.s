@@ -30,6 +30,51 @@ BattleScript_HauntingShrieksEnd::
 	waitanimation
 	return
 
+BattleScript_MeteoricWrathArrived::
+	printstring STRINGID_METEORARRIVED
+	waitmessage B_WAIT_TIME_LONG
+	return
+
+BattleScript_MeteoricWrathImpact::
+	playanimation BS_ATTACKER, B_ANIM_METEORIC_WRATH_IMPACT
+	waitanimation
+	setbyte gEffectBattler, B_BATTLER_0
+	callnative BS_SetMeteoricWrathImpact
+	jumpifbyte CMP_EQUAL, gBattleCommunication, FALSE, BattleScript_MeteoricWrathImpactBattler1
+	healthbarupdate BS_EFFECT_BATTLER
+	datahpupdate BS_EFFECT_BATTLER, ASSURANCE_DOUBLE
+BattleScript_MeteoricWrathImpactBattler1:
+	setbyte gEffectBattler, B_BATTLER_1
+	callnative BS_SetMeteoricWrathImpact
+	jumpifbyte CMP_EQUAL, gBattleCommunication, FALSE, BattleScript_MeteoricWrathImpactBattler2
+	healthbarupdate BS_EFFECT_BATTLER
+	datahpupdate BS_EFFECT_BATTLER, ASSURANCE_DOUBLE
+BattleScript_MeteoricWrathImpactBattler2:
+	setbyte gEffectBattler, B_BATTLER_2
+	callnative BS_SetMeteoricWrathImpact
+	jumpifbyte CMP_EQUAL, gBattleCommunication, FALSE, BattleScript_MeteoricWrathImpactBattler3
+	healthbarupdate BS_EFFECT_BATTLER
+	datahpupdate BS_EFFECT_BATTLER, ASSURANCE_DOUBLE
+BattleScript_MeteoricWrathImpactBattler3:
+	setbyte gEffectBattler, B_BATTLER_3
+	callnative BS_SetMeteoricWrathImpact
+	jumpifbyte CMP_EQUAL, gBattleCommunication, FALSE, BattleScript_MeteoricWrathImpactFaint
+	healthbarupdate BS_EFFECT_BATTLER
+	datahpupdate BS_EFFECT_BATTLER, ASSURANCE_DOUBLE
+BattleScript_MeteoricWrathImpactFaint:
+	@ All HP is removed before any faint effects or replacements can activate.
+	setbyte gEffectBattler, B_BATTLER_0
+	tryfaintmon BS_EFFECT_BATTLER
+	setbyte gEffectBattler, B_BATTLER_1
+	tryfaintmon BS_EFFECT_BATTLER
+	jumpifbyte CMP_EQUAL, gBattlersCount, 2, BattleScript_MeteoricWrathImpactEnd
+	setbyte gEffectBattler, B_BATTLER_2
+	tryfaintmon BS_EFFECT_BATTLER
+	setbyte gEffectBattler, B_BATTLER_3
+	tryfaintmon BS_EFFECT_BATTLER
+BattleScript_MeteoricWrathImpactEnd:
+	return
+
 BattleScript_TryRevertWeatherForms::
 	savebattlerorderindex
 	setbyte gBattlerOrderIndex, 0
@@ -3172,6 +3217,22 @@ BattleScript_HarvestActivates::
 BattleScript_HarvestActivatesEnd:
 	return
 
+BattleScript_BlazingGloryActivates::
+	call BattleScript_AbilityPopUp
+	healthbarupdate BS_ATTACKER
+	datahpupdate BS_ATTACKER, ASSURANCE_DOUBLE
+	jumpifhasnohp BS_ATTACKER, BattleScript_BlazingGloryFaint
+	printstring STRINGID_BLAZINGGLORYBURNING
+	waitmessage B_WAIT_TIME_LONG
+	copybyte gEffectBattler, gBattlerAttacker
+	trystatchanges BS_ATTACKER, STAT_CHANGE_IGNORE_SELF
+	return
+BattleScript_BlazingGloryFaint:
+	printstring STRINGID_BLAZINGGLORYFAINT
+	waitmessage B_WAIT_TIME_LONG
+	tryfaintmon BS_ATTACKER
+	return
+
 BattleScript_SolarPowerActivates::
 	call BattleScript_AbilityPopUp
 	healthbarupdate BS_ATTACKER
@@ -3336,6 +3397,67 @@ BattleScript_ElectricSurgeActivates::
 	waitmessage B_WAIT_TIME_LONG
 	playanimation BS_SCRIPTING, B_ANIM_RESTORE_BG
 	call BattleScript_ActivateTerrainEffects
+	return
+
+BattleScript_TimeDominusCompressed::
+	printstring STRINGID_TIMECOMPRESSED
+	waitmessage B_WAIT_TIME_LONG
+	return
+
+BattleScript_ApexMeteoriteRevealed::
+	call BattleScript_ItemPopUpScripting
+	printstring STRINGID_APEXPOTENTIAL
+	waitmessage B_WAIT_TIME_LONG
+	destroyitempopup
+	return
+
+BattleScript_RootboundActivates::
+	saveattacker
+	savetarget
+	copybyte gBattlerAttacker, sBATTLER
+	copybyte gBattlerTarget, sBATTLER
+	call BattleScript_AbilityStatChange
+	playmoveanimation MOVE_INGRAIN
+	waitanimation
+	copybyte gEffectBattler, sBATTLER
+	printstring STRINGID_PKMNPLANTEDROOTS
+	waitmessage B_WAIT_TIME_LONG
+	restoreattacker
+	restoretarget
+	return
+
+BattleScript_IlexWhimsyActivates::
+	saveattacker
+	savetarget
+	copybyte gBattlerAttacker, sBATTLER
+	copybyte gBattlerTarget, sBATTLER
+	call BattleScript_AbilityPopUp
+	playmoveanimation MOVE_LUCKY_CHANT
+	waitanimation
+	printstring STRINGID_ILEXWHIMSYSHIELD
+	waitmessage B_WAIT_TIME_LONG
+	restoreattacker
+	restoretarget
+	return
+
+BattleScript_GravitationActivates::
+	saveattacker
+	savetarget
+	copybyte gBattlerAttacker, sBATTLER
+	copybyte gBattlerTarget, sBATTLER
+	call BattleScript_AbilityPopUp
+	playmoveanimation MOVE_GRAVITY
+	waitanimation
+	printstring STRINGID_GRAVITYINTENSIFIED
+	waitmessage B_WAIT_TIME_LONG
+	setbyte gEffectBattler, 0
+BattleScript_GravitationGroundBattlers:
+	callnative BS_TryGroundAirborneBattler
+	addbyte gEffectBattler, 1
+	jumpifbytenotequal gEffectBattler, gBattlersCount, BattleScript_GravitationGroundBattlers
+	copybyte gEffectBattler, sBATTLER
+	restoreattacker
+	restoretarget
 	return
 
 BattleScript_HadronEngineActivates::

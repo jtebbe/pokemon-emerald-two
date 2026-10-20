@@ -1060,14 +1060,14 @@ gCryTable::
 	cry Cry_SalamenceMega
 .endif @ P_MODIFIED_MEGA_CRIES
 .endif @ P_FAMILY_BAGON
-.if P_FAMILY_BELDUM == TRUE
+.if P_FAMILY_BELDUM == TRUE || P_FAMILY_BELBUOY == TRUE
 	cry Cry_Beldum
 	cry Cry_Metang
 	cry Cry_Metagross
 .if P_MODIFIED_MEGA_CRIES == TRUE
 	cry Cry_MetagrossMega
 .endif @ P_MODIFIED_MEGA_CRIES
-.endif @ P_FAMILY_BELDUM
+.endif @ P_FAMILY_BELDUM || P_FAMILY_BELBUOY
 .if P_FAMILY_REGIROCK == TRUE
 	cry Cry_Regirock
 .endif @ P_FAMILY_REGIROCK
@@ -3616,14 +3616,14 @@ gCryTable_Reverse::
 	cry_reverse Cry_SalamenceMega
 .endif @ P_MODIFIED_MEGA_CRIES
 .endif @ P_FAMILY_BAGON
-.if P_FAMILY_BELDUM == TRUE
+.if P_FAMILY_BELDUM == TRUE || P_FAMILY_BELBUOY == TRUE
 	cry_reverse Cry_Beldum
 	cry_reverse Cry_Metang
 	cry_reverse Cry_Metagross
 .if P_MODIFIED_MEGA_CRIES == TRUE
 	cry_reverse Cry_MetagrossMega
 .endif @ P_MODIFIED_MEGA_CRIES
-.endif @ P_FAMILY_BELDUM
+.endif @ P_FAMILY_BELDUM || P_FAMILY_BELBUOY
 .if P_FAMILY_REGIROCK == TRUE
 	cry_reverse Cry_Regirock
 .endif @ P_FAMILY_REGIROCK

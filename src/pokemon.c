@@ -104,17 +104,17 @@ static const struct CombinedMove sCombinedMoves[2] =
 // To reorder the pokedex, see the values in include/constants/pokedex.h.
 
 #define KANTO_TO_NATIONAL(name)     [KANTO_DEX_##name - 1] = NATIONAL_DEX_##name,
-#define HOENN_TO_NATIONAL(name)     [HOENN_DEX_##name - 1] = NATIONAL_DEX_##name,
+#define CALICADEA_TO_NATIONAL(name)     [CALICADEA_DEX_##name - 1] = NATIONAL_DEX_##name,
 
 static const enum NationalDexOrder sKantoToNationalOrder[KANTO_DEX_COUNT] =
 {
     FOREACH_SPECIES_IN_KANTO_DEX_ORDER(KANTO_TO_NATIONAL)
 };
 
-// Assigns all Hoenn Dex Indexes to a National Dex Index
-static const enum NationalDexOrder sHoennToNationalOrder[HOENN_DEX_COUNT - 1] =
+// Assigns all Calicadea Dex Indexes to a National Dex Index
+static const enum NationalDexOrder sCalicadeaToNationalOrder[CALICADEA_DEX_COUNT - 1] =
 {
-    FOREACH_SPECIES_IN_HOENN_DEX_ORDER(HOENN_TO_NATIONAL)
+    FOREACH_SPECIES_IN_CALICADEA_DEX_ORDER(CALICADEA_TO_NATIONAL)
 };
 
 const struct NatureInfo gNaturesInfo[NUM_NATURES] =
@@ -2055,6 +2055,18 @@ enum Ability GetMonAbility(struct Pokemon *mon)
 {
     enum Species species = GetMonData(mon, MON_DATA_SPECIES);
     u8 abilityNum = GetMonData(mon, MON_DATA_ABILITY_NUM);
+    return GetAbilityBySpeciesAndItem(species, abilityNum, GetMonData(mon, MON_DATA_HELD_ITEM));
+}
+
+enum Ability GetSpeciesApexAbility(enum Species species)
+{
+    return gSpeciesInfo[SanitizeSpeciesId(species)].apexAbility;
+}
+
+enum Ability GetAbilityBySpeciesAndItem(enum Species species, u8 abilityNum, enum Item item)
+{
+    if (item == ITEM_APEX_METEORITE)
+        return gLastUsedAbility = GetSpeciesApexAbility(species);
     return GetAbilityBySpecies(species, abilityNum);
 }
 
@@ -2275,7 +2287,7 @@ void PokemonToBattleMon(struct Pokemon *src, struct BattlePokemon *dst)
     dst->types[1] = GetSpeciesType(dst->species, 1);
     dst->types[2] = TYPE_MYSTERY;
     dst->isShiny = IsMonShiny(src);
-    dst->ability = GetAbilityBySpecies(dst->species, dst->abilityNum);
+    dst->ability = GetAbilityBySpeciesAndItem(dst->species, dst->abilityNum, dst->item);
     GetMonData(src, MON_DATA_NICKNAME, nickname);
     StringCopy_Nickname(dst->nickname, nickname);
     GetMonData(src, MON_DATA_OT_NAME, dst->otName);
@@ -3315,9 +3327,7 @@ enum Species NationalPokedexNumToSpecies(enum NationalDexOrder nationalNum)
 
 u32 NationalToRegionalOrder(enum NationalDexOrder nationalNum)
 {
-    if (IS_FRLG)
-        return NationalToKantoOrder(nationalNum);
-    return NationalToHoennOrder(nationalNum);
+    return NationalToCalicadeaOrder(nationalNum);
 }
 
 enum KantoDexOrder NationalToKantoOrder(enum NationalDexOrder nationalNum)
@@ -3338,22 +3348,22 @@ enum KantoDexOrder NationalToKantoOrder(enum NationalDexOrder nationalNum)
     return kantoNum + 1;
 }
 
-enum HoennDexOrder NationalToHoennOrder(enum NationalDexOrder nationalNum)
+enum CalicadeaDexOrder NationalToCalicadeaOrder(enum NationalDexOrder nationalNum)
 {
-    u16 hoennNum;
+    u16 calicadeaNum;
 
     if (!nationalNum)
         return 0;
 
-    hoennNum = 0;
+    calicadeaNum = 0;
 
-    while (hoennNum < (HOENN_DEX_COUNT - 1) && sHoennToNationalOrder[hoennNum] != nationalNum)
-        hoennNum++;
+    while (calicadeaNum < (CALICADEA_DEX_COUNT - 1) && sCalicadeaToNationalOrder[calicadeaNum] != nationalNum)
+        calicadeaNum++;
 
-    if (hoennNum >= HOENN_DEX_COUNT - 1)
+    if (calicadeaNum >= CALICADEA_DEX_COUNT - 1)
         return 0;
 
-    return hoennNum + 1;
+    return calicadeaNum + 1;
 }
 
 enum NationalDexOrder SpeciesToNationalPokedexNum(enum Species species)
@@ -3367,9 +3377,7 @@ enum NationalDexOrder SpeciesToNationalPokedexNum(enum Species species)
 
 u32 SpeciesToRegionalPokedexNum(enum Species species)
 {
-    if (IS_FRLG)
-        return SpeciesToKantoPokedexNum(species);
-    return SpeciesToHoennPokedexNum(species);
+    return SpeciesToCalicadeaPokedexNum(species);
 }
 
 enum KantoDexOrder SpeciesToKantoPokedexNum(enum Species species)
@@ -3379,18 +3387,14 @@ enum KantoDexOrder SpeciesToKantoPokedexNum(enum Species species)
     return NationalToKantoOrder(gSpeciesInfo[species].natDexNum);
 }
 
-enum HoennDexOrder SpeciesToHoennPokedexNum(enum Species species)
+enum CalicadeaDexOrder SpeciesToCalicadeaPokedexNum(enum Species species)
 {
-    if (!species)
-        return 0;
-    return NationalToHoennOrder(gSpeciesInfo[species].natDexNum);
+    return NationalToCalicadeaOrder(SpeciesToNationalPokedexNum(species));
 }
 
 enum NationalDexOrder RegionalToNationalOrder(u32 regionalNum)
 {
-    if (IS_FRLG)
-        return KantoToNationalOrder(regionalNum);
-    return HoennToNationalOrder(regionalNum);
+    return CalicadeaToNationalOrder(regionalNum);
 }
 
 enum NationalDexOrder KantoToNationalOrder(enum KantoDexOrder kantoNum)
@@ -3401,12 +3405,12 @@ enum NationalDexOrder KantoToNationalOrder(enum KantoDexOrder kantoNum)
     return sKantoToNationalOrder[kantoNum - 1];
 }
 
-enum NationalDexOrder HoennToNationalOrder(enum HoennDexOrder hoennNum)
+enum NationalDexOrder CalicadeaToNationalOrder(enum CalicadeaDexOrder calicadeaNum)
 {
-    if (!hoennNum || hoennNum >= HOENN_DEX_COUNT)
+    if (!calicadeaNum || calicadeaNum >= CALICADEA_DEX_COUNT)
         return 0;
 
-    return sHoennToNationalOrder[hoennNum - 1];
+    return sCalicadeaToNationalOrder[calicadeaNum - 1];
 }
 
 void EvolutionRenameMon(struct Pokemon *mon, enum Species oldSpecies, enum Species newSpecies)
@@ -3642,9 +3646,7 @@ u16 SpeciesToPokedexNum(enum Species species)
 
 bool32 IsSpeciesInRegionalDex(enum Species species)
 {
-    if (IS_FRLG)
-        return IsSpeciesInKantoDex(species);
-    return IsSpeciesInHoennDex(species);
+    return IsSpeciesInCalicadeaDex(species);
 }
 
 bool32 IsSpeciesInKantoDex(enum Species species)
@@ -3655,12 +3657,10 @@ bool32 IsSpeciesInKantoDex(enum Species species)
         return TRUE;
 }
 
-bool32 IsSpeciesInHoennDex(enum Species species)
+bool32 IsSpeciesInCalicadeaDex(enum Species species)
 {
-    if (SpeciesToHoennPokedexNum(species) > HOENN_DEX_COUNT)
-        return FALSE;
-    else
-        return TRUE;
+    u32 regionalNum = SpeciesToCalicadeaPokedexNum(species);
+    return regionalNum != 0 && regionalNum < CALICADEA_DEX_COUNT;
 }
 
 u16 GetBattleBGM(void)
@@ -4431,7 +4431,7 @@ enum Species GetFormChangeTargetSpeciesBoxMon(struct BoxPokemon *boxMon, enum Fo
         .method = method,
         .currentSpecies = species,
         .heldItem = GetBoxMonData(boxMon, MON_DATA_HELD_ITEM),
-        .ability = GetAbilityBySpecies(species, GetBoxMonData(boxMon, MON_DATA_ABILITY_NUM)),
+        .ability = GetAbilityBySpeciesAndItem(species, GetBoxMonData(boxMon, MON_DATA_ABILITY_NUM), GetBoxMonData(boxMon, MON_DATA_HELD_ITEM)),
         .partyItemUsed = gSpecialVar_ItemId,
         .multichoiceSelection = gSpecialVar_Result,
         .status = GetBoxMonData(boxMon, MON_DATA_STATUS),

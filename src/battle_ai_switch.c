@@ -72,6 +72,9 @@ static enum Ability GetPartyMonAbilityForSwitchCalc(enum BattlerId battler, enum
 static void InitializeSwitchinCandidate(enum BattlerId switchinBattler, enum PartyMon monIndex, struct Pokemon *mon)
 {
     enum PartyMon storeCurrBattlerPartyIndex = gBattlerPartyIndexes[switchinBattler]; // Rage Fist fix
+    enum BattleSide side = GetBattlerSide(switchinBattler);
+    u32 savedSideStatus = gSideStatuses[side];
+    struct SideTimer savedSideTimer = gSideTimers[side];
     PokemonToBattleMon(mon, &gBattleMons[switchinBattler]);
     gBattlerPartyIndexes[switchinBattler] = monIndex;
     CopyMonAbilityAndTypesToBattleMon(switchinBattler, mon);
@@ -83,6 +86,22 @@ static void InitializeSwitchinCandidate(enum BattlerId switchinBattler, enum Par
     SetBattlerVolatilesForSwitchin(switchinBattler, switchinWeather, switchinTerrain);
 
     SetBattlerStatusForSwitchin(switchinBattler);
+    bool32 rootbound = gAiLogicData->abilities[switchinBattler] == ABILITY_ROOTBOUND;
+    if (rootbound)
+    {
+        // Entry boosts happen once, not once per opposing battler in doubles.
+        gBattleMons[switchinBattler].statStages[STAT_DEF] = min(MAX_STAT_STAGE, gBattleMons[switchinBattler].statStages[STAT_DEF] + 1);
+        gBattleMons[switchinBattler].statStages[STAT_SPDEF] = min(MAX_STAT_STAGE, gBattleMons[switchinBattler].statStages[STAT_SPDEF] + 1);
+    }
+    // Hazards apply before Ilex Whimsy. Simulate its protections for subsequent
+    // stat-drop/critical-hit predictions, without leaking them to the real field.
+    if (gAiLogicData->abilities[switchinBattler] == ABILITY_ILEX_WHIMSY)
+    {
+        gSideStatuses[side] |= SIDE_STATUS_MIST | SIDE_STATUS_SAFEGUARD | SIDE_STATUS_LUCKY_CHANT;
+        gSideTimers[side].mistTimer = max(gSideTimers[side].mistTimer, 5);
+        gSideTimers[side].safeguardTimer = max(gSideTimers[side].safeguardTimer, 5);
+        gSideTimers[side].luckyChantTimer = max(gSideTimers[side].luckyChantTimer, 5);
+    }
     gBattlerPartyIndexes[switchinBattler] = monIndex;
     gAiLogicData->switchInCalc = TRUE;
 
@@ -90,13 +109,20 @@ static void InitializeSwitchinCandidate(enum BattlerId switchinBattler, enum Par
     {
         if (switchinBattler == battlerIndex || !IsBattlerAlive(battlerIndex))
             continue;
+        if (rootbound)
+            gBattleMons[switchinBattler].volatiles.root = FALSE;
         SetBattlerStatStagesForSwitchin(switchinBattler, battlerIndex, switchinTerrain);
         SetBattlerHPChangeForSwitch(switchinBattler, battlerIndex);
+        // Ingrain starts after entry hazards, as it does in actual battles.
+        if (rootbound)
+            gBattleMons[switchinBattler].volatiles.root = TRUE;
         CalcBattlerAiMovesData(gAiLogicData, switchinBattler, battlerIndex, switchinWeather, switchinTerrain);
         CalcBattlerAiMovesData(gAiLogicData, battlerIndex, switchinBattler, switchinWeather, switchinTerrain);
     }
 
     gAiLogicData->switchInCalc = FALSE;
+    gSideStatuses[side] = savedSideStatus;
+    gSideTimers[side] = savedSideTimer;
     gBattlerPartyIndexes[switchinBattler] = storeCurrBattlerPartyIndex;
     gAiThinkingStruct->saved[switchinBattler].saved = FALSE;
 }
@@ -1794,6 +1820,9 @@ static u32 GetSwitchinRecurringDamage(enum BattlerId battler)
                 passiveDamage = 1;
         }
     }
+    if (ability == ABILITY_BLAZING_GLORY)
+        passiveDamage += max(1, maxHP / 6);
+
     return passiveDamage;
 }
 

@@ -264,6 +264,35 @@ static bool32 HandleEndTurnFutureSight(enum BattlerId battler)
     return effect;
 }
 
+static bool32 HandleEndTurnMeteoricWrath(enum BattlerId battler)
+{
+    if (gBattleStruct->meteoricWrathTimer == 0 && gBattleStruct->eventState.endTurnBlock == 0)
+    {
+        gBattleStruct->eventState.endTurnBattler = gBattlersCount;
+        return FALSE;
+    }
+
+    if (gBattleStruct->meteoricWrathTimer > 1)
+    {
+        gBattleStruct->meteoricWrathTimer--;
+        gBattleStruct->eventState.endTurnBattler = gBattlersCount;
+        return FALSE;
+    }
+
+    if (gBattleStruct->eventState.endTurnBlock == 0)
+    {
+        gBattleStruct->meteoricWrathTimer = 0;
+        gBattleStruct->eventState.endTurnBlock = 1;
+        BattleScriptCall(BattleScript_MeteoricWrathArrived);
+        return TRUE;
+    }
+
+    gBattleStruct->eventState.endTurnBattler = gBattlersCount;
+    gBattlerAttacker = gBattleStruct->meteoricWrathBattler;
+    BattleScriptCall(BattleScript_MeteoricWrathImpact);
+    return TRUE;
+}
+
 static bool32 HandleEndTurnWish(enum BattlerId battler)
 {
     bool32 effect = FALSE;
@@ -1312,6 +1341,7 @@ static bool32 HandleEndTurnThirdEventBlock(enum BattlerId battler)
         case ABILITY_MOODY:
         case ABILITY_PICKUP:
         case ABILITY_SPEED_BOOST:
+        case ABILITY_BLAZING_GLORY:
             if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ability, MOVE_NONE, TRUE))
                 effect = TRUE;
             break;
@@ -1496,6 +1526,7 @@ static bool32 (*const sEndTurnEffectHandlers[])(enum BattlerId battler) =
     [ENDTURN_WEATHER_DAMAGE] = HandleEndTurnWeatherDamage,
     [ENDTURN_SEND_OUT_REPLACEMENTS_1] = HandleEndTurnSendOutReplacements,
     [ENDTURN_FUTURE_SIGHT] = HandleEndTurnFutureSight,
+    [ENDTURN_METEORIC_WRATH] = HandleEndTurnMeteoricWrath,
     [ENDTURN_WISH] = HandleEndTurnWish,
     [ENDTURN_FIRST_EVENT_BLOCK] = HandleEndTurnFirstEventBlock,
     [ENDTURN_SEND_OUT_REPLACEMENTS_2] = HandleEndTurnSendOutReplacements,

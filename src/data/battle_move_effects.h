@@ -1221,6 +1221,10 @@ const struct BattleMoveEffect gBattleMoveEffects[NUM_BATTLE_MOVE_EFFECTS] =
     [EFFECT_SUNBLOOM] = {},
     [EFFECT_DARK_IMITATION] = {},
     [EFFECT_MUD_BATH] = { .encourageEncore = TRUE },
+    [EFFECT_METEORIC_WRATH] = { .encourageEncore = TRUE },
+    [EFFECT_INVERSION] = { .encourageEncore = TRUE },
+    [EFFECT_CLOTHESLINE] = {},
+    [EFFECT_ANGSTY_SCREAM] = {},
 
     [EFFECT_SECRET_POWER] =
     {

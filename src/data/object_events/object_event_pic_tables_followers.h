@@ -2915,7 +2915,7 @@ static const struct SpriteFrameImage sPicTable_SalamenceMega[] = {
 #endif // OW_BATTLE_ONLY_FORMS
 #endif //P_FAMILY_BAGON
 
-#if P_FAMILY_BELDUM
+#if P_FAMILY_BELDUM || P_FAMILY_BELBUOY
 static const struct SpriteFrameImage sPicTable_Beldum[] = {
     overworld_ascending_frames(gObjectEventPic_Beldum, 4, 4),
 };
@@ -2932,7 +2932,7 @@ static const struct SpriteFrameImage sPicTable_MetagrossMega[] = {
 };
 #endif // P_MEGA_EVOLUTIONS
 #endif // OW_BATTLE_ONLY_FORMS
-#endif //P_FAMILY_BELDUM
+#endif //P_FAMILY_BELDUM || P_FAMILY_BELBUOY
 
 #if P_FAMILY_REGIROCK
 static const struct SpriteFrameImage sPicTable_Regirock[] = {

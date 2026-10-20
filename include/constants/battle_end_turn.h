@@ -11,6 +11,7 @@ enum EndTurnResolutionOrder
     ENDTURN_WEATHER_DAMAGE,
     ENDTURN_SEND_OUT_REPLACEMENTS_1, // For Emergency Exit/Wimp Out activations
     ENDTURN_FUTURE_SIGHT,
+    ENDTURN_METEORIC_WRATH,
     ENDTURN_WISH,
     ENDTURN_FIRST_EVENT_BLOCK,
     ENDTURN_SEND_OUT_REPLACEMENTS_2, // For Emergency Exit/Wimp Out activations

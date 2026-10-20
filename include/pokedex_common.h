@@ -218,12 +218,13 @@ struct PokedexView
 };
 
 extern const u8 sCaughtBall_Gfx[];
+void RenderCalicadeaCounterLabel(void);
 
 extern const struct SpriteTemplate sScrollBarSpriteTemplate;
 extern const struct SpriteTemplate sScrollArrowSpriteTemplate;
 extern const struct SpriteTemplate sSeenOwnTextSpriteTemplate;
-extern const struct SpriteTemplate sHoennNationalTextSpriteTemplate;
-extern const struct SpriteTemplate sHoennDexSeenOwnNumberSpriteTemplate;
+extern const struct SpriteTemplate sCalicadeaNationalTextSpriteTemplate;
+extern const struct SpriteTemplate sCalicadeaDexSeenOwnNumberSpriteTemplate;
 extern const struct SpriteTemplate sNationalDexSeenOwnNumberSpriteTemplate;
 extern const struct SpriteTemplate sDexListStartMenuCursorSpriteTemplate;
 

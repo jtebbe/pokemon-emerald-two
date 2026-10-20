@@ -14161,6 +14161,25 @@ const struct ItemInfo gItemsInfo[] =
         .iconPalette = gItemIconPalette_Key,
     },
 
+    [ITEM_APEX_METEORITE] =
+    {
+        .name = ITEM_NAME("Apex Meteorite"),
+        .price = 0,
+        .holdEffect = HOLD_EFFECT_APEX_METEORITE,
+        .importance = 1,
+        .notConsumed = TRUE,
+        .description = COMPOUND_STRING(
+            "A held stone that\n"
+            "awakens an\n"
+            "Apex Ability."),
+        .pocket = POCKET_ITEMS,
+        .sortType = ITEM_TYPE_SPECIAL_HELD_ITEM,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_Meteorite,
+        .iconPalette = gItemIconPalette_Meteorite,
+    },
+
     [ITEM_METEORITE] =
     {
         .name = ITEM_NAME("Meteorite"),

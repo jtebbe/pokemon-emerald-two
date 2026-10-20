@@ -180,7 +180,7 @@ static const u32 sPokedexPlusHGSS_ScreenEvolution_Tilemap_PE[] = INCGFX_U32("gra
 static const u32 sPokedexPlusHGSS_ScreenForms_Tilemap[] = INCGFX_U32("graphics/pokedex/hgss/tilemap_forms_screen.bin", ".smolTM");
 static const u32 sPokedexPlusHGSS_ScreenCry_Tilemap[] = INCGFX_U32("graphics/pokedex/hgss/tilemap_cry_screen.bin", ".smolTM");
 static const u32 sPokedexPlusHGSS_ScreenSize_Tilemap[] = INCGFX_U32("graphics/pokedex/hgss/tilemap_size_screen.bin", ".smolTM");
-static const u32 sPokedexPlusHGSS_ScreenSearchHoenn_Tilemap[] = INCGFX_U32("graphics/pokedex/hgss/tilemap_search_screen_hoenn.bin", ".smolTM");
+static const u32 sPokedexPlusHGSS_ScreenSearchCalicadea_Tilemap[] = INCGFX_U32("graphics/pokedex/hgss/tilemap_search_screen_calicadea.bin", ".smolTM");
 static const u32 sPokedexPlusHGSS_ScreenSearchNational_Tilemap[] = INCGFX_U32("graphics/pokedex/hgss/tilemap_search_screen_national.bin", ".smolTM");
 
 #define MAX_EVOLUTION_ICONS 8
@@ -656,6 +656,7 @@ static bool8 LoadPokedexListPage(u8 page)
         LoadCompressedSpriteSheet(&sInterfaceSpriteSheet[HGSS_DECAPPED]);
         LoadSpritePalette(&sInterfaceSpritePalette[HGSS_DARK_MODE]);
         LoadSpritePalettes(sStatBarSpritePal);
+        RenderCalicadeaCounterLabel();
         CreateInterfaceSprites(page);
         gMain.state++;
         break;
@@ -835,15 +836,15 @@ static void CreateInterfaceSprites(u8 page)
 
     if (!IsNationalPokedexEnabled() && page == PAGE_MAIN)
     {
-        // Hoenn text
-        CreateSprite(&sHoennNationalTextSpriteTemplate, LIST_RIGHT_SIDE_TEXT_X, 40 - LIST_RIGHT_SIDE_TEXT_Y_OFFSET - 6, 1);
-        // Hoenn seen
+        // Calicadea text
+        CreateSprite(&sCalicadeaNationalTextSpriteTemplate, LIST_RIGHT_SIDE_TEXT_X, 40 - LIST_RIGHT_SIDE_TEXT_Y_OFFSET - 6, 1);
+        // Calicadea seen
         CreateSprite(&sSeenOwnTextSpriteTemplate, LIST_RIGHT_SIDE_TEXT_X, 45 - LIST_RIGHT_SIDE_TEXT_Y_OFFSET + 6, 1);
-        // Hoenn own
+        // Calicadea own
         spriteId = CreateSprite(&sSeenOwnTextSpriteTemplate, LIST_RIGHT_SIDE_TEXT_X, 55 - LIST_RIGHT_SIDE_TEXT_Y_OFFSET + 7, 1);
         StartSpriteAnim(&gSprites[spriteId], 1);
 
-        // Hoenn seen value - 100s
+        // Calicadea seen value - 100s
         drawNextDigit = FALSE;
         spriteId = CreateSprite(&sNationalDexSeenOwnNumberSpriteTemplate, LIST_RIGHT_SIDE_TEXT_X + LIST_RIGHT_SIDE_TEXT_X_OFFSET, 45 - LIST_RIGHT_SIDE_TEXT_Y_OFFSET, 1);
         digitNum = sPokedexView->seenCount / 100;
@@ -853,7 +854,7 @@ static void CreateInterfaceSprites(u8 page)
         else
             gSprites[spriteId].invisible = TRUE;
 
-        // Hoenn seen value - 10s
+        // Calicadea seen value - 10s
         spriteId = CreateSprite(&sNationalDexSeenOwnNumberSpriteTemplate, LIST_RIGHT_SIDE_TEXT_X + LIST_RIGHT_SIDE_TEXT_X_OFFSET + 8, 45 - LIST_RIGHT_SIDE_TEXT_Y_OFFSET, 1);
         digitNum = (sPokedexView->seenCount % 100) / 10;
         if (digitNum != 0 || drawNextDigit)
@@ -861,13 +862,13 @@ static void CreateInterfaceSprites(u8 page)
         else
             gSprites[spriteId].invisible = TRUE;
 
-        // Hoenn seen value - 1s
+        // Calicadea seen value - 1s
         spriteId = CreateSprite(&sNationalDexSeenOwnNumberSpriteTemplate, LIST_RIGHT_SIDE_TEXT_X + LIST_RIGHT_SIDE_TEXT_X_OFFSET + 16, 45 - LIST_RIGHT_SIDE_TEXT_Y_OFFSET, 1);
         digitNum = (sPokedexView->seenCount % 100) % 10;
         StartSpriteAnim(&gSprites[spriteId], digitNum);
 
 
-        // Hoenn owned value - 100s
+        // Calicadea owned value - 100s
         drawNextDigit = FALSE;
         spriteId = CreateSprite(&sNationalDexSeenOwnNumberSpriteTemplate, LIST_RIGHT_SIDE_TEXT_X + LIST_RIGHT_SIDE_TEXT_X_OFFSET, 55 - LIST_RIGHT_SIDE_TEXT_Y_OFFSET, 1);
         digitNum = sPokedexView->ownCount / 100;
@@ -877,7 +878,7 @@ static void CreateInterfaceSprites(u8 page)
         else
             gSprites[spriteId].invisible = TRUE;
 
-        // Hoenn owned value - 10s
+        // Calicadea owned value - 10s
         spriteId = CreateSprite(&sNationalDexSeenOwnNumberSpriteTemplate, LIST_RIGHT_SIDE_TEXT_X + LIST_RIGHT_SIDE_TEXT_X_OFFSET + 8, 55 - LIST_RIGHT_SIDE_TEXT_Y_OFFSET, 1);
         digitNum = (sPokedexView->ownCount % 100) / 10;
         if (digitNum != 0 || drawNextDigit)
@@ -885,7 +886,7 @@ static void CreateInterfaceSprites(u8 page)
         else
             gSprites[spriteId].invisible = TRUE;
 
-        // Hoenn owned value - 1s
+        // Calicadea owned value - 1s
         spriteId = CreateSprite(&sNationalDexSeenOwnNumberSpriteTemplate, LIST_RIGHT_SIDE_TEXT_X + LIST_RIGHT_SIDE_TEXT_X_OFFSET + 16, 55 - LIST_RIGHT_SIDE_TEXT_Y_OFFSET, 1);
         digitNum = (sPokedexView->ownCount % 100) % 10;
         StartSpriteAnim(&gSprites[spriteId], digitNum);
@@ -899,16 +900,16 @@ static void CreateInterfaceSprites(u8 page)
         u8 counterX100s  = counterX10s - counterXDist;
         u8 counterX1000s = counterX100s - counterXDist;
 
-        // Hoenn text
-        CreateSprite(&sHoennNationalTextSpriteTemplate, LIST_RIGHT_SIDE_TEXT_X, 40 - LIST_RIGHT_SIDE_TEXT_Y_OFFSET - 6, 1);
-        // Hoenn seen
+        // Calicadea text
+        CreateSprite(&sCalicadeaNationalTextSpriteTemplate, LIST_RIGHT_SIDE_TEXT_X, 40 - LIST_RIGHT_SIDE_TEXT_Y_OFFSET - 6, 1);
+        // Calicadea seen
         CreateSprite(&sSeenOwnTextSpriteTemplate, LIST_RIGHT_SIDE_TEXT_X, 45 - LIST_RIGHT_SIDE_TEXT_Y_OFFSET + 6, 1);
-        // Hoenn own
+        // Calicadea own
         spriteId = CreateSprite(&sSeenOwnTextSpriteTemplate, LIST_RIGHT_SIDE_TEXT_X, 55 - LIST_RIGHT_SIDE_TEXT_Y_OFFSET + 7, 1);
         StartSpriteAnim(&gSprites[spriteId], 1);
 
         // National text
-        spriteId = CreateSprite(&sHoennNationalTextSpriteTemplate, LIST_RIGHT_SIDE_TEXT_X, 73 - LIST_RIGHT_SIDE_TEXT_Y_OFFSET - 6, 1);
+        spriteId = CreateSprite(&sCalicadeaNationalTextSpriteTemplate, LIST_RIGHT_SIDE_TEXT_X, 73 - LIST_RIGHT_SIDE_TEXT_Y_OFFSET - 6, 1);
         StartSpriteAnim(&gSprites[spriteId], 1);
         // National seen
         CreateSprite(&sSeenOwnTextSpriteTemplate, LIST_RIGHT_SIDE_TEXT_X, 78 - LIST_RIGHT_SIDE_TEXT_Y_OFFSET + 6, 1);
@@ -916,7 +917,7 @@ static void CreateInterfaceSprites(u8 page)
         spriteId = CreateSprite(&sSeenOwnTextSpriteTemplate, LIST_RIGHT_SIDE_TEXT_X, 88 - LIST_RIGHT_SIDE_TEXT_Y_OFFSET + 6, 1);
         StartSpriteAnim(&gSprites[spriteId], 1);
 
-        // Hoenn seen value - 100s
+        // Calicadea seen value - 100s
         seenOwnedCount = GetRegionalPokedexCount(FLAG_GET_SEEN);
         drawNextDigit = FALSE;
         spriteId = CreateSprite(&sNationalDexSeenOwnNumberSpriteTemplate, counterX100s, 45 - LIST_RIGHT_SIDE_TEXT_Y_OFFSET, 1);
@@ -927,7 +928,7 @@ static void CreateInterfaceSprites(u8 page)
         else
             gSprites[spriteId].invisible = TRUE;
 
-        // Hoenn seen value - 10s
+        // Calicadea seen value - 10s
         spriteId = CreateSprite(&sNationalDexSeenOwnNumberSpriteTemplate, counterX10s, 45 - LIST_RIGHT_SIDE_TEXT_Y_OFFSET, 1);
         digitNum = (seenOwnedCount % 100) / 10;
         if (digitNum != 0 || drawNextDigit)
@@ -935,13 +936,13 @@ static void CreateInterfaceSprites(u8 page)
         else
             gSprites[spriteId].invisible = TRUE;
 
-        // Hoenn seen value - 1s
+        // Calicadea seen value - 1s
         spriteId = CreateSprite(&sNationalDexSeenOwnNumberSpriteTemplate, counterX1s, 45 - LIST_RIGHT_SIDE_TEXT_Y_OFFSET, 1);
         digitNum = (seenOwnedCount % 100) % 10;
         StartSpriteAnim(&gSprites[spriteId], digitNum);
 
         seenOwnedCount = GetRegionalPokedexCount(FLAG_GET_CAUGHT);
-        // Hoenn owned value - 100s
+        // Calicadea owned value - 100s
         drawNextDigit = FALSE;
         spriteId = CreateSprite(&sNationalDexSeenOwnNumberSpriteTemplate, counterX100s, 55 - LIST_RIGHT_SIDE_TEXT_Y_OFFSET, 1);
         digitNum = seenOwnedCount / 100;
@@ -951,7 +952,7 @@ static void CreateInterfaceSprites(u8 page)
         else
             gSprites[spriteId].invisible = TRUE;
 
-        // Hoenn owned value - 10s
+        // Calicadea owned value - 10s
         spriteId = CreateSprite(&sNationalDexSeenOwnNumberSpriteTemplate, counterX10s, 55 - LIST_RIGHT_SIDE_TEXT_Y_OFFSET, 1);
         digitNum = (seenOwnedCount % 100) / 10;
         if (digitNum != 0 || drawNextDigit)
@@ -959,7 +960,7 @@ static void CreateInterfaceSprites(u8 page)
         else
             gSprites[spriteId].invisible = TRUE;
 
-        // Hoenn owned value - 1s
+        // Calicadea owned value - 1s
         spriteId = CreateSprite(&sNationalDexSeenOwnNumberSpriteTemplate, counterX1s, 55 - LIST_RIGHT_SIDE_TEXT_Y_OFFSET, 1);
         digitNum = (seenOwnedCount % 100) % 10;
         StartSpriteAnim(&gSprites[spriteId], digitNum);
@@ -1330,7 +1331,7 @@ bool32 Task_TryLoadInfoScreen_HGSS(u8 taskId)
         gMain.state++;
         break;
     case 4:
-        PrintMonInfo(sPokedexListItem->dexNum, sPokedexView->dexMode == DEX_MODE_HOENN ? FALSE : TRUE, sPokedexListItem->owned, 0);
+        PrintMonInfo(sPokedexListItem->dexNum, sPokedexView->dexMode == DEX_MODE_CALICADEA ? FALSE : TRUE, sPokedexListItem->owned, 0);
         if (!sPokedexListItem->owned)
             LoadPalette(gPlttBufferUnfaded + 1, BG_PLTT_ID(3) + 1, PLTT_SIZEOF(16 - 1));
         CopyWindowToVram(WIN_INFO, COPYWIN_FULL);
@@ -2011,7 +2012,7 @@ static void Task_LoadStatsScreen(u8 taskId)
         break;
     case 6:
         gTasks[taskId].data[5] = 0;
-        PrintStatsScreen_NameGender(taskId, sPokedexListItem->dexNum, sPokedexView->dexMode == DEX_MODE_HOENN ? FALSE : TRUE);
+        PrintStatsScreen_NameGender(taskId, sPokedexListItem->dexNum, sPokedexView->dexMode == DEX_MODE_CALICADEA ? FALSE : TRUE);
         PrintStatsScreen_Left(taskId);
         PrintStatsScreen_Abilities(taskId);
         PrintStatsScreen_Moves_Top(taskId);
@@ -4546,7 +4547,7 @@ bool32 TryLoadSearchMenu_HGSS(u8 taskId)
             else
                 DecompressAndLoadBgGfxUsingHeap(3, sPokedexPlusHGSS_MenuSearch_DECA_Gfx, 0x2000, 0, 0);
             if (!IsNationalPokedexEnabled())
-                CopyToBgTilemapBuffer(3, sPokedexPlusHGSS_ScreenSearchHoenn_Tilemap, 0, 0);
+                CopyToBgTilemapBuffer(3, sPokedexPlusHGSS_ScreenSearchCalicadea_Tilemap, 0, 0);
             else
                 CopyToBgTilemapBuffer(3, sPokedexPlusHGSS_ScreenSearchNational_Tilemap, 0, 0);
             if (!HGSS_DARK_MODE)

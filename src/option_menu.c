@@ -8,6 +8,7 @@
 #include "menu.h"
 #include "palette.h"
 #include "scanline_effect.h"
+#include "sound.h"
 #include "sprite.h"
 #include "string_util.h"
 #include "strings.h"
@@ -17,6 +18,7 @@
 #include "window.h"
 #include "gba/m4a_internal.h"
 #include "constants/rgb.h"
+#include "constants/songs.h"
 
 #define tMenuSelection data[0]
 #define tTextSpeed data[1]
@@ -395,6 +397,7 @@ static void Task_OptionMenuProcessInput(u8 taskId)
     }
     else if (JOY_NEW(DPAD_UP))
     {
+        PlaySE(SE_SELECT);
         if (gTasks[taskId].tMenuSelection > 0)
             gTasks[taskId].tMenuSelection--;
         else
@@ -403,6 +406,7 @@ static void Task_OptionMenuProcessInput(u8 taskId)
     }
     else if (JOY_NEW(DPAD_DOWN))
     {
+        PlaySE(SE_SELECT);
         if (gTasks[taskId].tMenuSelection < MENUITEM_CANCEL)
             gTasks[taskId].tMenuSelection++;
         else
@@ -475,6 +479,7 @@ static void Task_OptionMenuProcessInput(u8 taskId)
 
         if (sArrowPressed)
         {
+            PlaySE(SE_SELECT);
             sArrowPressed = FALSE;
             UpdateOptionMenuCursors(taskId);
             CopyWindowToVram(WIN_OPTIONS, COPYWIN_GFX);

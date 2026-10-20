@@ -7365,3 +7365,9 @@ static const u16 sPecharuntEggMoveLearnset[] = {
     MOVE_UNAVAILABLE,
 };
 #endif // P_FAMILY_PECHARUNT
+
+#if P_FAMILY_BELBUOY
+static const u16 sBelbuoyEggMoveLearnset[] = {
+    MOVE_UNAVAILABLE,
+};
+#endif // P_FAMILY_BELBUOY

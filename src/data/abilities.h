@@ -2556,4 +2556,96 @@ const struct AbilityInfo gAbilitiesInfo[ABILITIES_COUNT] =
         .name = _("Aura Guard"),
         .description = COMPOUND_STRING("Halves damage from contact."),
     },
+
+    [ABILITY_GRAVITATION] =
+    {
+        .name = _("Gravitation"),
+        .description = COMPOUND_STRING("Sets gravity upon entry."),
+        .aiRating = 6,
+    },
+
+    [ABILITY_REVERBERATIONS] =
+    {
+        .name = _("Reverberations"),
+        .description = COMPOUND_STRING("Sound moves echo once."),
+        .aiRating = 9,
+    },
+
+    [ABILITY_TIME_DOMINUS] =
+    {
+        .name = _("Time Dominus"),
+        .description = COMPOUND_STRING("Extends time. No charging."),
+        .aiRating = 10,
+        .cantBeCopied = TRUE,
+        .cantBeSwapped = TRUE,
+        .cantBeTraced = TRUE,
+        .cantBeSuppressed = TRUE,
+        .cantBeOverwritten = TRUE,
+    },
+    [ABILITY_ILEX_WHIMSY] =
+    {
+        .name = _("Ilex Whimsy"),
+        .description = COMPOUND_STRING("Shields its side on entry."),
+        .aiRating = 9,
+        .cantBeCopied = TRUE,
+        .cantBeSwapped = TRUE,
+        .cantBeTraced = TRUE,
+        .cantBeSuppressed = TRUE,
+        .cantBeOverwritten = TRUE,
+    },
+    [ABILITY_DISTORTION] =
+    {
+        .name = _("Distortion"),
+        .description = COMPOUND_STRING("Restores type-based attacks."),
+        .aiRating = 9,
+        .cantBeCopied = TRUE,
+        .cantBeSwapped = TRUE,
+        .cantBeTraced = TRUE,
+        .cantBeSuppressed = TRUE,
+        .cantBeOverwritten = TRUE,
+    },
+    [ABILITY_SPACE_DOMINUS] =
+    {
+        .name = _("Space Dominus"),
+        .description = COMPOUND_STRING("Sure hits. Crit moves pierce."),
+        .aiRating = 10,
+        .cantBeCopied = TRUE,
+        .cantBeSwapped = TRUE,
+        .cantBeTraced = TRUE,
+        .cantBeSuppressed = TRUE,
+        .cantBeOverwritten = TRUE,
+    },
+    [ABILITY_OMNIPOTENCE] =
+    {
+        .name = _("Omnipotence"),
+        .description = COMPOUND_STRING("Neutral minimum. Pierces."),
+        .aiRating = 10,
+        .cantBeCopied = TRUE,
+        .cantBeSwapped = TRUE,
+        .cantBeTraced = TRUE,
+        .cantBeSuppressed = TRUE,
+        .cantBeOverwritten = TRUE,
+    },
+    [ABILITY_ROOTBOUND] =
+    {
+        .name = _("Rootbound"),
+        .description = COMPOUND_STRING("Roots, bulk and double Growth."),
+        .aiRating = 10,
+        .cantBeCopied = TRUE,
+        .cantBeSwapped = TRUE,
+        .cantBeTraced = TRUE,
+        .cantBeSuppressed = TRUE,
+        .cantBeOverwritten = TRUE,
+    },
+    [ABILITY_BLAZING_GLORY] =
+    {
+        .name = _("Blazing Glory"),
+        .description = COMPOUND_STRING("Loses HP to boost offenses."),
+        .aiRating = 10,
+        .cantBeCopied = TRUE,
+        .cantBeSwapped = TRUE,
+        .cantBeTraced = TRUE,
+        .cantBeSuppressed = TRUE,
+        .cantBeOverwritten = TRUE,
+    },
 };

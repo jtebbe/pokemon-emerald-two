@@ -2275,6 +2275,8 @@ static void BattleStartClearSetData(void)
 
     gLastUsedMove = 0;
     gFieldStatuses = 0;
+    gBattleStruct->meteoricWrathTimer = 0;
+    gBattleStruct->meteoricWrathBattler = 0;
 
     gHasFetchedBall = FALSE;
     gLastUsedBall = 0;
@@ -2616,7 +2618,7 @@ static void DoBattleIntro(void)
                 gBattleMons[battler].types[0] = GetSpeciesType(gBattleMons[battler].species, 0);
                 gBattleMons[battler].types[1] = GetSpeciesType(gBattleMons[battler].species, 1);
                 gBattleMons[battler].types[2] = TYPE_MYSTERY;
-                gBattleMons[battler].ability = GetAbilityBySpecies(gBattleMons[battler].species, gBattleMons[battler].abilityNum);
+                gBattleMons[battler].ability = GetAbilityBySpeciesAndItem(gBattleMons[battler].species, gBattleMons[battler].abilityNum, gBattleMons[battler].item);
                 gBattleStruct->battlerState[battler].hpOnSwitchout = gBattleMons[battler].hp;
                 memset(&gBattleMons[battler].volatiles, 0, sizeof(struct Volatiles));
                 for (i = 0; i < NUM_BATTLE_STATS; i++)
@@ -4182,6 +4184,8 @@ static void TurnValuesCleanUp(bool32 endTurn)
             gBattleStruct->battlerState[i].commandingDondozo = FALSE;
 
         gSpecialStatuses[i].parentalBondState = PARENTAL_BOND_OFF;
+        gSpecialStatuses[i].reverberationsTargets = 0;
+        gSpecialStatuses[i].reverberationsEcho = FALSE;
         gBattleStruct->battlerState[i].usedEjectItem = FALSE;
         gProtectStructs[i].lashOutAffected = FALSE;
         gBattleMons[i].volatiles.endured = FALSE;

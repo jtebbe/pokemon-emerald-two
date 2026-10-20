@@ -1319,3 +1319,14 @@ const struct Tileset gTileset_HallOfFame =
 };
 
 #endif // IS_FRLG
+
+const struct Tileset gTileset_LumberVillage =
+{
+    .isCompressed = TRUE,
+    .isSecondary = FALSE,
+    .tiles = gTilesetTiles_LumberVillage,
+    .palettes = gTilesetPalettes_LumberVillage,
+    .metatiles = gMetatiles_LumberVillage,
+    .metatileAttributes = gMetatileAttributes_LumberVillage,
+    .callback = NULL,
+};

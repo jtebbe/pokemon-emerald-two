@@ -298,6 +298,8 @@ static const u8 sContextMenuItems_ItemsPocket[] = {
     ACTION_TOSS,        ACTION_CANCEL
 };
 
+static const u8 sContextMenuItems_ApexMeteorite[] = {ACTION_GIVE, ACTION_CANCEL};
+
 static const u8 sContextMenuItems_KeyItemsPocket[] = {
     ACTION_USE,         ACTION_REGISTER,
     ACTION_DUMMY,       ACTION_CANCEL
@@ -945,7 +947,8 @@ static void BagMenu_ItemPrintCallback(u8 windowId, u32 itemIndex, u8 y)
         if (gBagPosition.pocket == POCKET_TM_HM && GetItemTMHMIndex(itemSlot.itemId) > NUM_TECHNICAL_MACHINES)
             BlitBitmapToWindow(windowId, gBagMenuHMIcon_Gfx, 8, y - 1, 16, 16);
 
-        if (gBagPosition.pocket != POCKET_KEY_ITEMS && GetItemImportance(itemSlot.itemId) == FALSE)
+        // The Meteorite remains protected, but multiple copies can be held in the bag.
+        if (gBagPosition.pocket != POCKET_KEY_ITEMS && (!GetItemImportance(itemSlot.itemId) || itemSlot.itemId == ITEM_APEX_METEORITE))
         {
             // Print item quantity
             ConvertIntToDecimalStringN(gStringVar1, itemSlot.quantity, STR_CONV_MODE_RIGHT_ALIGN, MAX_ITEM_DIGITS);
@@ -1585,6 +1588,12 @@ static void OpenContextMenu(u8 taskId)
             switch (gBagPosition.pocket)
             {
             case POCKET_ITEMS:
+                if (gSpecialVar_ItemId == ITEM_APEX_METEORITE)
+                {
+                    gBagMenu->contextMenuItemsPtr = sContextMenuItems_ApexMeteorite;
+                    gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_ApexMeteorite);
+                    break;
+                }
                 gBagMenu->contextMenuItemsPtr = gBagMenu->contextMenuItemsBuffer;
                 gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_ItemsPocket);
                 memcpy(&gBagMenu->contextMenuItemsBuffer, &sContextMenuItems_ItemsPocket, sizeof(sContextMenuItems_ItemsPocket));
@@ -1788,6 +1797,11 @@ static void ItemMenu_Toss(u8 taskId)
     s16 *data = gTasks[taskId].data;
 
     RemoveContextWindow();
+    if (gSpecialVar_ItemId == ITEM_APEX_METEORITE)
+    {
+        DisplayItemMessage(taskId, FONT_NORMAL, COMPOUND_STRING("The Apex Meteorite can't be discarded."), HandleErrorMessage);
+        return;
+    }
     tItemCount = 1;
     if (tQuantity == 1)
     {
@@ -1928,7 +1942,7 @@ static void ItemMenu_Give(u8 taskId)
     {
         DisplayItemMessage(taskId, FONT_NORMAL, gText_CantWriteMail, HandleErrorMessage);
     }
-    else if (!GetItemImportance(gSpecialVar_ItemId))
+    else if (!GetItemImportance(gSpecialVar_ItemId) || gSpecialVar_ItemId == ITEM_APEX_METEORITE)
     {
         if (CalculatePlayerPartyCount() == 0)
         {
@@ -2012,7 +2026,7 @@ static void Task_ItemContext_GiveToParty(u8 taskId)
     {
         DisplayItemMessage(taskId, FONT_NORMAL, gText_CantWriteMail, HandleErrorMessage);
     }
-    else if (gBagPosition.pocket != POCKET_KEY_ITEMS && !GetItemImportance(gSpecialVar_ItemId))
+    else if (gBagPosition.pocket != POCKET_KEY_ITEMS && (!GetItemImportance(gSpecialVar_ItemId) || gSpecialVar_ItemId == ITEM_APEX_METEORITE))
     {
         Task_FadeAndCloseBagMenu(taskId);
     }
@@ -2027,7 +2041,7 @@ static void Task_ItemContext_GiveToPC(u8 taskId)
 {
     if (ItemIsMail(gSpecialVar_ItemId) == TRUE)
         DisplayItemMessage(taskId, FONT_NORMAL, gText_CantWriteMail, HandleErrorMessage);
-    else if (gBagPosition.pocket != POCKET_KEY_ITEMS && !GetItemImportance(gSpecialVar_ItemId))
+    else if (gBagPosition.pocket != POCKET_KEY_ITEMS && (!GetItemImportance(gSpecialVar_ItemId) || gSpecialVar_ItemId == ITEM_APEX_METEORITE))
         gTasks[taskId].func = Task_FadeAndCloseBagMenu;
     else
         PrintItemCantBeHeld(taskId);

@@ -37,7 +37,8 @@ struct DamageContext
     u32 terrain:4;
     u32 useStoredTypeEffectiveness:1;
     u32 hitIndex:3; // Contributor index for Haunting Shrieks; zero is the user.
-    u32 padding:14;
+    u32 deferredTeraShellFactors:3; // Apply defensive ability resistance after Omnipotence's chart floor.
+    u32 padding:11;
 };
 
 // Helper struct to keep the arg list small and prevent constant recalculations of abilities/hold effects.
@@ -117,6 +118,9 @@ enum Ability GetBattlerAbilityIgnoreMoldBreaker(enum BattlerId battler);
 enum Ability GetBattlerAbilityNoAbilityShield(enum BattlerId battler);
 enum Ability GetBattlerAbilityInternal(enum BattlerId battler, bool32 ignoreMoldBreaker, bool32 noAbilityShield);
 enum Ability GetBattlerAbility(enum BattlerId battler);
+bool32 HasApexAbility(enum BattlerId battler);
+enum Ability GetBattlerApexAbility(enum BattlerId battler);
+u32 GetBattleEffectDuration(enum BattlerId battler, u32 normalDuration);
 bool32 IsAbilityOnSideWithArr(enum BattlerId effectBattler, enum Ability ability, enum Ability abilities[], enum BattlerId *abilityBattler);
 bool32 IsBattlerLoafing(enum BattlerId battler);
 bool32 AreEndTurnEventsRunning(void);
@@ -129,6 +133,7 @@ u32 IsAbilityOnSide(enum BattlerId battler, enum Ability ability);
 u32 IsAbilityOnField(enum Ability ability);
 u32 IsAbilityPreventingEscape(enum BattlerId battler);
 bool32 IsBattlerProtected(struct BattleCalcValues *cv);
+bool32 CanApexAbilityBypassProtect(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum Ability ability, enum Move move);
 enum ProtectType GetProtectType(enum ProtectMethod method);
 bool32 CanBattlerEscape(enum BattlerId battler); // no ability check
 void BattleScriptExecute(const u8 *BS_ptr);
@@ -182,6 +187,7 @@ enum ImmunityHealStatusOutcome TryImmunityAbilityHealStatus(enum BattlerId battl
 bool32 ShouldGetStatBadgeBoost(u16 flagId, enum BattlerId battler);
 uq4_12_t GetBadgeBoostModifier(void);
 enum DamageCategory GetBattleMoveCategory(enum Move move);
+bool32 IsDistortionActive(void);
 void SetDynamicMoveCategory(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum Move move);
 bool32 CanFling(enum BattlerId battlerAtk, enum Ability abilityAtk);
 bool32 IsTelekinesisBannedSpecies(enum Species species);
@@ -212,6 +218,7 @@ bool32 IsBattlerWeatherAffected(enum HoldEffect holdEffect, u32 weather, u32 wea
 enum MoveTarget GetBattlerMoveSelectionTargetType(enum BattlerId battler, enum Move move);
 enum MoveTarget GetBattlerMoveTargetType(enum BattlerId battler, enum Move move);
 u32 GetBattlerMoveStrikeCount(enum BattlerId battler, enum Move move);
+bool32 IsMoveReverberationsAffected(enum BattlerId battler, enum Move move);
 bool32 CanTargetBattler(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum Move move);
 void CopyMonLevelAndBaseStatsToBattleMon(enum BattlerId battler, struct Pokemon *mon, bool32 updateSpeedStat);
 void CopyMonAbilityAndTypesToBattleMon(enum BattlerId battler, struct Pokemon *mon);
@@ -342,5 +349,7 @@ uq4_12_t GetBurnOrFrostBiteModifier(struct DamageContext *ctx);
 uq4_12_t GetSameTypeAttackBonusModifier(struct DamageContext *ctx);
 uq4_12_t GetMoveAgainstProtectionModifier(struct DamageContext *ctx);
 uq4_12_t GetOtherModifiers(struct DamageContext *ctx);
+
+bool32 IsTypeChartInverted(void);
 
 #endif // GUARD_BATTLE_UTIL_H

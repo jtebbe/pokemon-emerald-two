@@ -13669,7 +13669,7 @@ const u32 gObjectEventPic_Substitute[] = INCGFX_COMP("graphics/pokemon/question_
 #endif //P_MEGA_EVOLUTIONS
 #endif //P_FAMILY_BAGON
 
-#if P_FAMILY_BELDUM
+#if P_FAMILY_BELDUM || P_FAMILY_BELBUOY
 #if !P_GBA_STYLE_SPECIES_GFX
     const u32 gMonFrontPic_Beldum[] = INCGFX_U32("graphics/pokemon/beldum/anim_front.png", ".4bpp.smol");
     const u16 gMonPalette_Beldum[] = INCGFX_U16("graphics/pokemon/beldum/normal.pal", ".gbapal");
@@ -13765,7 +13765,7 @@ const u32 gObjectEventPic_Substitute[] = INCGFX_COMP("graphics/pokemon/question_
 #endif //OW_PKMN_OBJECTS_SHARE_PALETTES
 #endif //OW_POKEMON_OBJECT_EVENTS && OW_BATTLE_ONLY_FORMS
 #endif //P_MEGA_EVOLUTIONS
-#endif //P_FAMILY_BELDUM
+#endif //P_FAMILY_BELDUM || P_FAMILY_BELBUOY
 
 #if P_FAMILY_REGIROCK
 #if !P_GBA_STYLE_SPECIES_GFX

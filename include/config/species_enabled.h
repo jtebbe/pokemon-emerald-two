@@ -30,6 +30,9 @@
 // Fusion forms
 #define P_FUSION_FORMS                   TRUE
 
+// Custom species families.
+#define P_FAMILY_BELBUOY                 TRUE
+
 // Regional Forms. Includes Regional Form evolutions, like Sirfetch'd.
 #define P_REGIONAL_FORMS                 TRUE
 #define P_ALOLAN_FORMS                   P_REGIONAL_FORMS

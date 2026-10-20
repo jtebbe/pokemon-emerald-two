@@ -38,14 +38,14 @@ TEST("Empty world has exactly the four requested map groups")
     EXPECT(gMapGroups[MAP_GROUP_SPECIAL] == NULL);
 }
 
-TEST("Empty world Outdoor is a 20 by 20 General and Petalburg map")
+TEST("Outdoor is a 30 by 30 Lumber Village and Mirage Tower map")
 {
     const struct MapHeader *map = Overworld_GetMapHeaderByGroupAndId(MAP_GROUP(MAP_OUTDOOR), MAP_NUM(MAP_OUTDOOR));
     EXPECT_EQ(map->mapLayoutId, LAYOUT_OUTDOOR);
-    EXPECT_EQ(map->mapLayout->width, 20);
-    EXPECT_EQ(map->mapLayout->height, 20);
-    EXPECT(map->mapLayout->primaryTileset == &gTileset_General);
-    EXPECT(map->mapLayout->secondaryTileset == &gTileset_Petalburg);
+    EXPECT_EQ(map->mapLayout->width, 30);
+    EXPECT_EQ(map->mapLayout->height, 30);
+    EXPECT(map->mapLayout->primaryTileset == &gTileset_LumberVillage);
+    EXPECT(map->mapLayout->secondaryTileset == &gTileset_MirageTower);
     EXPECT(map->allowRunning);
     EXPECT(!map->allowEscaping);
 }
@@ -68,33 +68,38 @@ TEST("Empty world Outdoor has no scripts connections or events")
     EXPECT(MapHeaderGetScriptTable(MAP_SCRIPT_ON_LOAD) == NULL);
 }
 
-TEST("Empty world Outdoor grass is walkable and its border is blocked")
+TEST("Outdoor loads its authored terrain and its border is blocked")
 {
     gMapHeader = *Overworld_GetMapHeaderByGroupAndId(MAP_GROUP(MAP_OUTDOOR), MAP_NUM(MAP_OUTDOOR));
+    const struct MapLayout *layout = gMapHeader.mapLayout;
     InitMap();
-    for (u32 y = 0; y < 20; y++)
+    for (u32 y = 0; y < layout->height; y++)
     {
-        for (u32 x = 0; x < 20; x++)
+        for (u32 x = 0; x < layout->width; x++)
         {
-            EXPECT_EQ(MapGridGetCollisionAt(x + MAP_OFFSET, y + MAP_OFFSET), 0);
-            EXPECT_EQ(MapGridGetElevationAt(x + MAP_OFFSET, y + MAP_OFFSET), 3);
+            u16 block = layout->map[y * layout->width + x];
+            EXPECT_EQ(MapGridGetMetatileIdAt(x + MAP_OFFSET, y + MAP_OFFSET), UNPACK_METATILE(block));
+            EXPECT_EQ(MapGridGetCollisionAt(x + MAP_OFFSET, y + MAP_OFFSET), UNPACK_COLLISION(block));
+            EXPECT_EQ(MapGridGetElevationAt(x + MAP_OFFSET, y + MAP_OFFSET), UNPACK_ELEVATION(block));
         }
     }
-    EXPECT_EQ(MapGridGetCollisionAt(MAP_OFFSET - 1, MAP_OFFSET), 1);
-    EXPECT_EQ(MapGridGetCollisionAt(MAP_OFFSET + 20, MAP_OFFSET), 1);
-    EXPECT_EQ(MapGridGetCollisionAt(MAP_OFFSET, MAP_OFFSET - 1), 1);
-    EXPECT_EQ(MapGridGetCollisionAt(MAP_OFFSET, MAP_OFFSET + 20), 1);
+    EXPECT_NE(MapGridGetCollisionAt(MAP_OFFSET - 1, MAP_OFFSET), 0);
+    EXPECT_NE(MapGridGetCollisionAt(MAP_OFFSET + layout->width, MAP_OFFSET), 0);
+    EXPECT_NE(MapGridGetCollisionAt(MAP_OFFSET, MAP_OFFSET - 1), 0);
+    EXPECT_NE(MapGridGetCollisionAt(MAP_OFFSET, MAP_OFFSET + layout->height), 0);
+    EXPECT_EQ(MapGridGetCollisionAt(MAP_OFFSET + 25, MAP_OFFSET + 6), 0);
+    EXPECT_EQ(MapGridGetCollisionAt(MAP_OFFSET + 10, MAP_OFFSET + 10), 0);
 }
 
-TEST("Empty world new game and whiteout both start at Outdoor 10 10")
+TEST("New game starts at Outdoor 25 6 while whiteout retains Outdoor 10 10")
 {
     struct WarpData respawn;
     SetBagItemsPointers();
     NewGameInitData();
     EXPECT_EQ(gSaveData.location.mapGroup, MAP_GROUP(MAP_OUTDOOR));
     EXPECT_EQ(gSaveData.location.mapNum, MAP_NUM(MAP_OUTDOOR));
-    EXPECT_EQ(gSaveData.pos.x, 10);
-    EXPECT_EQ(gSaveData.pos.y, 10);
+    EXPECT_EQ(gSaveData.pos.x, 25);
+    EXPECT_EQ(gSaveData.pos.y, 6);
     EXPECT_EQ(gSaveData.mapLayoutId, LAYOUT_OUTDOOR);
     EXPECT_EQ(GetHealLocationIndexByWarpData(&gSaveData.lastHealLocation), HEAL_LOCATION_OUTDOOR);
     EXPECT_EQ(GetHealNpcLocalId(HEAL_LOCATION_OUTDOOR), LOCALID_NONE);

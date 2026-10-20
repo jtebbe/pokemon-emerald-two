@@ -177,7 +177,7 @@ extern const u16 gBattleEnvironmentPalette_StadiumWallace[];
 
 // Pokédex
 extern const u32 gPokedexInterface_Gfx[];
-extern const u16 gPokedexBgHoenn_Pal[];
+extern const u16 gPokedexBgCalicadea_Pal[];
 extern const u32 gPokedexMenu_Gfx[];
 extern const u32 gPokedexList_Tilemap[];
 extern const u32 gPokedexListUnderlay_Tilemap[];
@@ -192,7 +192,7 @@ extern const u32 gPokedexScreenSelectBarMain_Tilemap[];
 extern const u32 gPokedexScreenSelectBarSubmenu_Tilemap[];
 extern const u16 gPokedexCaughtScreen_Pal[];
 extern const u32 gPokedexSearchMenu_Gfx[];
-extern const u32 gPokedexSearchMenuHoenn_Tilemap[];
+extern const u32 gPokedexSearchMenuCalicadea_Tilemap[];
 extern const u32 gPokedexSearchMenuNational_Tilemap[];
 extern const u16 gPokedexSearchMenu_Pal[];
 

@@ -22,6 +22,7 @@ struct SetEffect
 void SetMoveEffect(struct BattleCalcValues *cv, struct SetEffect *se);
 void SetMoveEffectHelper(enum BattlerId battlerAtk, enum BattlerId effectBattler, enum MoveEffect moveEffect, const u8 *battleScript, enum SetMoveEffectFlags effectFlags);
 bool32 CanTransformBattler(enum BattlerId battlerAtk, enum BattlerId battlerDef);
+bool32 TryGroundAirborneBattler(enum BattlerId battler, enum Ability ability);
 void TryTransformBattler(enum BattlerId battlerAtk, enum BattlerId battlerDef);
 u32 NumAffectedSpreadMoveTargets(void);
 

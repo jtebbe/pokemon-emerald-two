@@ -3807,6 +3807,7 @@ static void CursorCb_Trade2(u8 taskId)
     case CANT_TRADE_LAST_MON:
         StringExpandPlaceholders(gStringVar4, gText_OnlyPkmnForBattle);
         break;
+    case CANT_TRADE_INVALID_MON:
     case CANT_TRADE_NATIONAL:
         StringExpandPlaceholders(gStringVar4, gText_PkmnCantBeTradedNow);
         break;

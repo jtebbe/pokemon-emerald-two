@@ -55,7 +55,7 @@
 #define P_BASE_HP_1_SHEDINJA_HANDLING    FALSE       // If TRUE, all species with 1 Base HP will have their handling match Shedinja's.
 
 // Learnset helper toggles
-#define P_LEARNSET_HELPER_TEACHABLE      TRUE   // If FALSE, track teachable_learnsets.h in git. If TRUE, generate it from src/data/pokemon/custom_learnables.json based on available TMs and tutors.
+#define P_LEARNSET_HELPER_TEACHABLE      TRUE   // If FALSE, track teachable_learnsets.h in git. If TRUE, generate it from tools/learnset_helpers/porymoves_files/custom.json based on available TMs and tutors.
 
 // Flag settings
 // To use the following features in scripting, replace the 0s with the flag ID you're assigning it to.

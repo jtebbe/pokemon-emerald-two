@@ -133,6 +133,7 @@ enum HoldEffect
     HOLD_EFFECT_OGERPON_MASK,
     // Gen2 hold effect
     HOLD_EFFECT_BERSERK_GENE,
+    HOLD_EFFECT_APEX_METEORITE,
     HOLD_EFFECT_COUNT
 };
 

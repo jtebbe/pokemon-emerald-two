@@ -187,6 +187,8 @@ enum __attribute__((packed)) MoveEffect
     SECRET_POWER_ACC_MINUS_1,
 
     MOVE_EFFECT_MUD_BATH,
+    MOVE_EFFECT_METEORIC_WRATH,
+    MOVE_EFFECT_INVERSION,
     NUM_MOVE_EFFECTS
 };
 

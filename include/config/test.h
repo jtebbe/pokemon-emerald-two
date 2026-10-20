@@ -423,6 +423,8 @@
 #define P_FAMILY_BAGON                   TRUE
 #undef P_FAMILY_BELDUM
 #define P_FAMILY_BELDUM                  TRUE
+#undef P_FAMILY_BELBUOY
+#define P_FAMILY_BELBUOY                 TRUE
 #undef P_FAMILY_REGIROCK
 #define P_FAMILY_REGIROCK                TRUE
 #undef P_FAMILY_REGICE

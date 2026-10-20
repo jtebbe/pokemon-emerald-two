@@ -3792,7 +3792,7 @@ Cry_SalamenceMega::
 .endif @ P_MODIFIED_MEGA_CRIES
 .endif @ P_FAMILY_BAGON
 
-.if P_FAMILY_BELDUM == TRUE
+.if P_FAMILY_BELDUM == TRUE || P_FAMILY_BELBUOY == TRUE
 	.align 2
 Cry_Beldum::
 .if TESTING == FALSE
@@ -3818,7 +3818,7 @@ Cry_MetagrossMega::
 	.incbin "sound/direct_sound_samples/cries/metagross_mega.bin"
 .endif
 .endif @ P_MODIFIED_MEGA_CRIES
-.endif @ P_FAMILY_BELDUM
+.endif @ P_FAMILY_BELDUM || P_FAMILY_BELBUOY
 
 .if P_FAMILY_REGIROCK == TRUE
 	.align 2

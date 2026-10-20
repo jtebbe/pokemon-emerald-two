@@ -1344,6 +1344,7 @@ static s32 AI_CheckBadMove(enum BattlerId battlerAtk, enum BattlerId battlerDef,
      && (GetMoveEffect(predictedMove) == EFFECT_SEMI_INVULNERABLE || GetMoveEffect(predictedMove) == EFFECT_SKY_DROP)
      && AI_IsSlower(battlerAtk, battlerDef, move, predictedMove, CONSIDER_PRIORITY)
      && moveEffect != EFFECT_SEMI_INVULNERABLE
+     && abilityDef != ABILITY_TIME_DOMINUS
      && aiData->holdEffects[battlerDef] != HOLD_EFFECT_POWER_HERB)
     {
         if (!BreaksThroughSemiInvulnerableState(battlerAtk, battlerDef, abilityAtk, abilityDef, move, GetTwoTurnMoveSemiInvulnerability(predictedMove)))
@@ -1356,7 +1357,7 @@ static s32 AI_CheckBadMove(enum BattlerId battlerAtk, enum BattlerId battlerDef,
         if (IsTwoTurnNotSemiInvulnerableMove(battlerAtk, move))
             RETURN_SCORE_MINUS(10);
 
-        if (moveEffect == EFFECT_SEMI_INVULNERABLE && aiData->holdEffects[battlerAtk] != HOLD_EFFECT_POWER_HERB)
+        if (moveEffect == EFFECT_SEMI_INVULNERABLE && abilityAtk != ABILITY_TIME_DOMINUS && aiData->holdEffects[battlerAtk] != HOLD_EFFECT_POWER_HERB)
         {
             if (abilityAtk == ABILITY_NO_GUARD || abilityDef == ABILITY_NO_GUARD)
                 RETURN_SCORE_MINUS(10);
@@ -1708,6 +1709,14 @@ static s32 AI_CheckBadMove(enum BattlerId battlerAtk, enum BattlerId battlerDef,
         else if (!AI_CanAnyStatChange(battlerAtk, battlerAtk, move))
             ADJUST_SCORE(-10);
         break;
+    case EFFECT_INVERSION:
+        if (IsTypeChartInverted())
+            ADJUST_SCORE(-20);
+        break;
+    case EFFECT_METEORIC_WRATH:
+        if (gBattleStruct->meteoricWrathTimer != 0 || GetMoveEffect(aiData->partnerMove) == EFFECT_METEORIC_WRATH)
+            ADJUST_SCORE(-10);
+        break;
     case EFFECT_TOXIC_THREAD:
         if (!AI_CanAnyStatChange(battlerAtk, battlerDef, move)
          && !AI_CanPoison(battlerAtk, battlerDef, aiData->abilities[battlerDef], move, aiData->partnerMove))
@@ -1826,7 +1835,7 @@ static s32 AI_CheckBadMove(enum BattlerId battlerAtk, enum BattlerId battlerDef,
             ADJUST_SCORE(-10);
         break;
     case EFFECT_ROAR:
-        if (CountUsablePartyMons(battlerDef) == 0)
+        if (gBattleMons[battlerDef].volatiles.root || CountUsablePartyMons(battlerDef) == 0)
             ADJUST_SCORE(-10);
         else if (aiData->abilities[battlerDef] == ABILITY_SUCTION_CUPS)
             ADJUST_SCORE(-10);
@@ -2330,6 +2339,7 @@ static s32 AI_CheckBadMove(enum BattlerId battlerAtk, enum BattlerId battlerDef,
     case EFFECT_LOCK_ON:
         if (gBattleMons[battlerAtk].volatiles.battlerWithSureHit != 0
           || aiData->abilities[battlerAtk] == ABILITY_NO_GUARD
+          || aiData->abilities[battlerAtk] == ABILITY_SPACE_DOMINUS
           || aiData->abilities[battlerDef] == ABILITY_NO_GUARD
           || DoesPartnerHaveSameMoveEffect(GetPartnerBattler(battlerAtk), battlerDef, move, aiData->partnerMove))
             ADJUST_SCORE(-10);
@@ -2409,7 +2419,7 @@ static s32 AI_CheckBadMove(enum BattlerId battlerAtk, enum BattlerId battlerDef,
                     break;
                 }
             }
-            if (AI_CanContactBypassProtect(battlerDef, battlerAtk, incomingMove))
+            if (AI_CanBypassProtect(battlerDef, battlerAtk, incomingMove))
             {
                 ADJUST_SCORE(-10);
                 break;
@@ -3207,6 +3217,7 @@ static bool32 ShouldAvoidRedundantTarget(enum BattlerId battlerAtk, enum Battler
      || (aiData->abilities[partner] == ABILITY_TRUANT && gBattleMons[partner].volatiles.truantToggle)
      || (GetMoveEffect(partnerMove) == EFFECT_SEMI_INVULNERABLE
       && !IsSemiInvulnerable(partner, CHECK_ALL)
+      && aiData->abilities[partner] != ABILITY_TIME_DOMINUS
       && aiData->holdEffects[partner] != HOLD_EFFECT_POWER_HERB)
      || (IsTwoTurnNotSemiInvulnerableMove(partner, partnerMove) && !gBattleMons[partner].volatiles.multipleTurns)
      || GetMoveEffect(partnerMove) == EFFECT_FUTURE_SIGHT
@@ -3434,6 +3445,15 @@ static s32 AI_DoubleBattle(enum BattlerId battlerAtk, enum BattlerId battlerDef,
     // consider global move effects
     switch (effect)
     {
+    case EFFECT_METEORIC_WRATH:
+        if (IsTargetingPartner(battlerAtk, battlerDef)
+         && gBattleStruct->meteoricWrathTimer == 0
+         && GetMoveEffect(aiData->partnerMove) != EFFECT_METEORIC_WRATH
+         && GetMoveEffect(aiData->partnerMove) != EFFECT_HELPING_HAND
+         && !CanAIFaintTarget(battlerAtk, GetBattlerLeftFoe(battlerAtk), 1)
+         && !CanAIFaintTarget(battlerAtk, GetBattlerRightFoe(battlerAtk), 1))
+            ADJUST_SCORE(PERFECT_EFFECT);
+        break;
     // Both Pokemon use Trick Room on the final turn of Trick Room to anticipate both opponents Protecting to stall out.
     // This unsets Trick Room and resets it with a full timer.
     case EFFECT_TRICK_ROOM:
@@ -4689,7 +4709,7 @@ static s32 AI_CalcMoveEffectScore(enum BattlerId battlerAtk, enum BattlerId batt
         ADJUST_SCORE(GetStatChangeScore(battlerAtk, battlerDef, move));
         break;
     case EFFECT_GEOMANCY:
-        if (aiData->holdEffects[battlerAtk] != HOLD_EFFECT_POWER_HERB)
+        if (aiData->abilities[battlerAtk] != ABILITY_TIME_DOMINUS && aiData->holdEffects[battlerAtk] != HOLD_EFFECT_POWER_HERB)
             break; // Don't incrase stats if no Power Herb
         ADJUST_SCORE(GetStatChangeScore(battlerAtk, battlerDef, move));
         break;
@@ -4740,7 +4760,8 @@ static s32 AI_CalcMoveEffectScore(enum BattlerId battlerAtk, enum BattlerId batt
         score += AI_TryToClearStats(battlerAtk, battlerDef, moveTargetsBothOpponents);
         break;
     case EFFECT_ROAR:
-        if ((IsSoundMove(move) && aiData->abilities[battlerDef] == ABILITY_SOUNDPROOF)
+        if (gBattleMons[battlerDef].volatiles.root
+          || (IsSoundMove(move) && aiData->abilities[battlerDef] == ABILITY_SOUNDPROOF)
           || aiData->abilities[battlerDef] == ABILITY_SUCTION_CUPS)
             break;
         score += AI_TryToClearStats(battlerAtk, battlerDef, moveTargetsBothOpponents);
@@ -4833,7 +4854,7 @@ static s32 AI_CalcMoveEffectScore(enum BattlerId battlerAtk, enum BattlerId batt
         if (ShouldSetScreen(battlerAtk, battlerDef, moveEffect))
         {
             ADJUST_SCORE(BEST_EFFECT);
-            if (aiData->holdEffects[battlerAtk] == HOLD_EFFECT_LIGHT_CLAY)
+            if (aiData->holdEffects[battlerAtk] == HOLD_EFFECT_LIGHT_CLAY || aiData->abilities[battlerAtk] == ABILITY_TIME_DOMINUS)
                 ADJUST_SCORE(DECENT_EFFECT);
         }
         break;
@@ -5123,7 +5144,24 @@ static s32 AI_CalcMoveEffectScore(enum BattlerId battlerAtk, enum BattlerId batt
             ADJUST_SCORE(GOOD_EFFECT);
         break;
     case EFFECT_WEATHER:
-        ADJUST_SCORE(CalcWeatherScore(battlerAtk, battlerDef, move, aiData));
+    {
+        s32 weatherScore = CalcWeatherScore(battlerAtk, battlerDef, move, aiData);
+        ADJUST_SCORE(weatherScore);
+        if (weatherScore > 0 && aiData->abilities[battlerAtk] == ABILITY_TIME_DOMINUS)
+            ADJUST_SCORE(DECENT_EFFECT);
+        break;
+    }
+    case EFFECT_INVERSION:
+        if (!IsTypeChartInverted()
+         && !(hasPartner && aiData->partnerMove != MOVE_NONE && IsBattleMoveStatus(aiData->partnerMove)))
+            ADJUST_SCORE(POWERFUL_STATUS_MOVE);
+        break;
+    case EFFECT_METEORIC_WRATH:
+        if (gBattleStruct->meteoricWrathTimer == 0
+         && GetMoveEffect(aiData->partnerMove) != EFFECT_METEORIC_WRATH
+         && !CanAIFaintTarget(battlerAtk, battlerDef, 1)
+         && GetMoveEffect(aiData->partnerMove) != EFFECT_HELPING_HAND)
+            ADJUST_SCORE(PERFECT_EFFECT);
         break;
     case EFFECT_FELL_STINGER:
         if (gBattleMons[battlerAtk].statStages[STAT_ATK] < MAX_STAT_STAGE
@@ -5227,7 +5265,11 @@ static s32 AI_CalcMoveEffectScore(enum BattlerId battlerAtk, enum BattlerId batt
         break;
     case EFFECT_SAFEGUARD:
         if (!IsMistyTerrainAffected(battlerAtk, aiData->abilities[battlerAtk], aiData->holdEffects[battlerAtk], gFieldTimers.terrain) || !AI_IsBattlerGrounded(battlerAtk))
+        {
             ADJUST_SCORE(DECENT_EFFECT); // TODO: check if opp has status move?
+            if (aiData->abilities[battlerAtk] == ABILITY_TIME_DOMINUS && !(gSideStatuses[GetBattlerSide(battlerAtk)] & SIDE_STATUS_SAFEGUARD))
+                ADJUST_SCORE(DECENT_EFFECT);
+        }
         //if (CountUsablePartyMons(battlerDef) != 0)
             //ADJUST_SCORE(8);
         break;
@@ -5577,6 +5619,8 @@ static s32 AI_CalcMoveEffectScore(enum BattlerId battlerAtk, enum BattlerId batt
         if (ShouldSetTerrain(battlerAtk, terrain))
         {
             ADJUST_SCORE(GOOD_EFFECT);
+            if (aiData->abilities[battlerAtk] == ABILITY_TIME_DOMINUS && gFieldTimers.terrain != terrain)
+                ADJUST_SCORE(DECENT_EFFECT);
             if ((terrain == B_TERRAIN_ELECTRIC || terrain == B_TERRAIN_MISTY)
              && gBattleMons[battlerAtk].volatiles.yawn
              && AI_IsBattlerGrounded(battlerAtk))
@@ -5612,7 +5656,11 @@ static s32 AI_CalcMoveEffectScore(enum BattlerId battlerAtk, enum BattlerId batt
         if (!(gAiThinkingStruct->aiFlags[battlerAtk] & AI_FLAG_POWERFUL_STATUS))
         {
             if (!(gFieldStatuses & STATUS_FIELD_TRICK_ROOM) && ShouldSetFieldStatus(battlerAtk, STATUS_FIELD_TRICK_ROOM))
+            {
                 ADJUST_SCORE(GOOD_EFFECT);
+                if (aiData->abilities[battlerAtk] == ABILITY_TIME_DOMINUS)
+                    ADJUST_SCORE(DECENT_EFFECT);
+            }
             // Set it for next Pokémon in singles.
             else if (!(gFieldStatuses & STATUS_FIELD_TRICK_ROOM) && !hasPartner && (CountUsablePartyMons(battlerAtk) != 0))
                 ADJUST_SCORE(DECENT_EFFECT);
@@ -5732,6 +5780,7 @@ static s32 AI_CalcMoveEffectScore(enum BattlerId battlerAtk, enum BattlerId batt
         break;
     case EFFECT_TAILWIND:
     {
+        s32 scoreBeforeTailwind = score;
         if (gFieldStatuses & STATUS_FIELD_TRICK_ROOM && gFieldTimers.trickRoomTimer > 1)
             break;
 
@@ -5787,11 +5836,18 @@ static s32 AI_CalcMoveEffectScore(enum BattlerId battlerAtk, enum BattlerId batt
                     ADJUST_SCORE(windAbilityScore);
             }
         }
+        if (score > scoreBeforeTailwind && aiData->abilities[battlerAtk] == ABILITY_TIME_DOMINUS
+         && !(gSideStatuses[GetBattlerSide(battlerAtk)] & SIDE_STATUS_TAILWIND))
+            ADJUST_SCORE(DECENT_EFFECT);
         break;
     }
     case EFFECT_LUCKY_CHANT:
         if (isBattle1v1 && CountUsablePartyMons(battlerDef) > 0)
+        {
             ADJUST_SCORE(GOOD_EFFECT);
+            if (aiData->abilities[battlerAtk] == ABILITY_TIME_DOMINUS && !(gSideStatuses[GetBattlerSide(battlerAtk)] & SIDE_STATUS_LUCKY_CHANT))
+                ADJUST_SCORE(DECENT_EFFECT);
+        }
         break;
     case EFFECT_MAGNET_RISE:
         if (AI_IsBattlerGrounded(battlerAtk) && HasDamagingMoveOfType(battlerDef, TYPE_GROUND)

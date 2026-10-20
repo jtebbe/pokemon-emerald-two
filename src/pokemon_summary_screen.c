@@ -3230,7 +3230,7 @@ static void PrintMonOTID(void)
 
 static void PrintMonAbilityName(void)
 {
-    enum Ability ability = GetAbilityBySpecies(sMonSummaryScreen->summary.species, sMonSummaryScreen->summary.abilityNum);
+    enum Ability ability = GetAbilityBySpeciesAndItem(sMonSummaryScreen->summary.species, sMonSummaryScreen->summary.abilityNum, sMonSummaryScreen->summary.item);
     if (BXPY_ShouldHideEnemyAbility(sMonSummaryScreen->mode))
         PrintTextOnWindow(AddWindowFromTemplateList(sPageInfoTemplate, PSS_DATA_WINDOW_INFO_ABILITY), COMPOUND_STRING("???"), 0, 1, 0, 1);
     else
@@ -3239,7 +3239,7 @@ static void PrintMonAbilityName(void)
 
 static void PrintMonAbilityDescription(void)
 {
-    enum Ability ability = GetAbilityBySpecies(sMonSummaryScreen->summary.species, sMonSummaryScreen->summary.abilityNum);
+    enum Ability ability = GetAbilityBySpeciesAndItem(sMonSummaryScreen->summary.species, sMonSummaryScreen->summary.abilityNum, sMonSummaryScreen->summary.item);
 
     if (BXPY_ShouldHideEnemyAbility(sMonSummaryScreen->mode))
         PrintTextOnWindowToFit(AddWindowFromTemplateList(sPageInfoTemplate, PSS_DATA_WINDOW_INFO_ABILITY), COMPOUND_STRING("???"), 0, 17, 0, 0);

@@ -5,8 +5,8 @@
 #include "constants/opponents_frlg.h"
 
 #define TRAINER_NONE                          0
-#define TRAINER_UNUSED_1 1
-#define TRAINER_UNUSED_2 2
+#define TRAINER_BINGUS_SINGLES                  1
+#define TRAINER_BINGUS_DOUBLES                  2
 #define TRAINER_UNUSED_3 3
 #define TRAINER_UNUSED_4 4
 #define TRAINER_UNUSED_5 5

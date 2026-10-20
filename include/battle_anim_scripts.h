@@ -115,6 +115,7 @@ extern const u8 gBattleAnimMove_Mimic[];
 extern const u8 gBattleAnimMove_FrigidClaws[];
 extern const u8 gBattleAnimMove_Gemshot[];
 extern const u8 gBattleAnimMove_HarshZephyr[];
+extern const u8 gBattleAnimMove_VoidBlast[];
 extern const u8 gBattleAnimMove_AuraPulse[];
 extern const u8 gBattleAnimMove_DarkImitation[];
 extern const u8 gBattleAnimMove_Screech[];
@@ -942,5 +943,6 @@ extern const u8 gBattleAnimSpecial_SubstituteToMon[];
 extern const u8 gBattleAnimSpecial_MonToSubstitute[];
 extern const u8 gBattleAnimSpecial_CriticalCaptureBallThrow[];
 extern const u8 gBattleAnimGeneral_ProtectedItself[];
+extern const u8 gBattleAnimGeneral_MeteoricWrathImpact[];
 
 #endif // GUARD_BATTLE_ANIM_SCRIPTS_H

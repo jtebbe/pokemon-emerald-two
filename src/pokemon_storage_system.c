@@ -112,6 +112,7 @@ enum {
     MSG_ITEM_IS_HELD,
     MSG_CHANGED_TO_ITEM,
     MSG_CANT_STORE_MAIL,
+    MSG_REMOVE_APEX_METEORITE,
 };
 
 // IDs for how to resolve variables in the above messages
@@ -1081,6 +1082,7 @@ static const struct StorageMessage sMessages[] =
     [MSG_ITEM_IS_HELD]         = {COMPOUND_STRING("{DYNAMIC 0} is now held."),   MSG_VAR_ITEM_NAME},
     [MSG_CHANGED_TO_ITEM]      = {COMPOUND_STRING("Changed to {DYNAMIC 0}."),    MSG_VAR_ITEM_NAME},
     [MSG_CANT_STORE_MAIL]      = {COMPOUND_STRING("MAIL can't be stored!"),      MSG_VAR_NONE},
+    [MSG_REMOVE_APEX_METEORITE] = {COMPOUND_STRING("Remove the Apex Meteorite first."), MSG_VAR_NONE},
 };
 
 static const struct WindowTemplate sYesNoWindowTemplate =
@@ -2703,6 +2705,10 @@ static void Task_OnSelectedMon(u8 taskId)
             {
                 sStorage->state = 4;
             }
+            else if (sStorage->displayMonItemId == ITEM_APEX_METEORITE)
+            {
+                sStorage->state = 7;
+            }
             else
             {
                 PlaySE(SE_SELECT);
@@ -2782,6 +2788,11 @@ static void Task_OnSelectedMon(u8 taskId)
             ClearBottomWindow();
             SetPokeStorageTask(Task_PokeStorageMain);
         }
+        break;
+    case 7:
+        PlaySE(SE_FAILURE);
+        PrintMessage(MSG_REMOVE_APEX_METEORITE);
+        sStorage->state = 6;
         break;
     }
 }
@@ -6704,6 +6715,13 @@ static void InitCanReleaseMonVars(void)
             sStorage->releaseBoxId = StorageGetCurrentBox();
         }
         sStorage->releaseBoxPos = sCursorPosition;
+    }
+
+    if (GetMonData(&sStorage->tempMon, MON_DATA_HELD_ITEM) == ITEM_APEX_METEORITE)
+    {
+        sStorage->releaseStatusResolved = TRUE;
+        sStorage->canReleaseMon = FALSE;
+        return;
     }
 
     GetRestrictedReleaseMoves(sStorage->restrictedMoveList);

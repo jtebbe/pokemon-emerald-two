@@ -363,6 +363,14 @@ static void HandleSetEffectRemoveArgType(struct BattleCalcValues *cv, struct Set
 
 static void HandleSetEffectRecharge(struct BattleCalcValues *cv, struct SetEffect *se)
 {
+    if (cv->abilities[se->effectBattler] == ABILITY_TIME_DOMINUS)
+    {
+        RecordAbilityBattle(se->effectBattler, ABILITY_TIME_DOMINUS);
+        if (HasApexAbility(se->effectBattler))
+            RecordItemEffectBattle(se->effectBattler, HOLD_EFFECT_APEX_METEORITE);
+        gBattlescriptCurrInstr = se->script;
+        return;
+    }
     if (B_SKIP_RECHARGE == GEN_1 && !IsBattlerAlive(cv->battlerDef))  // Skip recharge if gen 1 and foe is KO'd
         return;
 
@@ -571,6 +579,7 @@ static void HandleSetEffectCoreEnforcer(struct BattleCalcValues *cv, struct SetE
      || BattlerJustSwitchedIn(se->effectBattler)
      || NoAliveMonsForEitherParty()
      || gBattleMons[se->effectBattler].volatiles.gastroAcid
+     || HasApexAbility(se->effectBattler)
      || gAbilitiesInfo[gBattleMons[se->effectBattler].ability].cantBeSuppressed)
     {
         SetEffectFail(BattleScript_ButItFailedRet, cv->isStatusMove);
@@ -980,13 +989,13 @@ static void HandleSetEffectReflect(struct BattleCalcValues *cv, struct SetEffect
 
         if (cv->holdEffects[se->effectBattler] == HOLD_EFFECT_LIGHT_CLAY)
         {
-            gSideTimers[side].reflectTimer = 8;
-            gSideTimers[side].reflectTimerTotal = 8;
+            gSideTimers[side].reflectTimer = GetBattleEffectDuration(cv->battlerAtk, 8);
+            gSideTimers[side].reflectTimerTotal = GetBattleEffectDuration(cv->battlerAtk, 8);
         }
         else
         {
-            gSideTimers[side].reflectTimer = 5;
-            gSideTimers[side].reflectTimerTotal = 5;
+            gSideTimers[side].reflectTimer = GetBattleEffectDuration(cv->battlerAtk, 5);
+            gSideTimers[side].reflectTimerTotal = GetBattleEffectDuration(cv->battlerAtk, 5);
         }
 
         PrepareStringBattleWithWait(STRINGID_PKMNRAISEDDEF, se->effectBattler);
@@ -1008,13 +1017,13 @@ static void HandleSetEffectLightScreen(struct BattleCalcValues *cv, struct SetEf
 
         if (cv->holdEffects[se->effectBattler] == HOLD_EFFECT_LIGHT_CLAY)
         {
-            gSideTimers[side].lightscreenTimer = 8;
-            gSideTimers[side].lightscreenTimerTotal = 8;
+            gSideTimers[side].lightscreenTimer = GetBattleEffectDuration(cv->battlerAtk, 8);
+            gSideTimers[side].lightscreenTimerTotal = GetBattleEffectDuration(cv->battlerAtk, 8);
         }
         else
         {
-            gSideTimers[side].lightscreenTimer = 5;
-            gSideTimers[side].lightscreenTimerTotal = 5;
+            gSideTimers[side].lightscreenTimer = GetBattleEffectDuration(cv->battlerAtk, 5);
+            gSideTimers[side].lightscreenTimerTotal = GetBattleEffectDuration(cv->battlerAtk, 5);
         }
 
         PrepareStringBattleWithWait(STRINGID_PKMNRAISEDSPDEF, se->effectBattler);
@@ -1151,7 +1160,7 @@ static void HandleSetEffectRainbow(struct BattleCalcValues *cv, struct SetEffect
         return;
 
     gSideStatuses[side] |= SIDE_STATUS_RAINBOW;
-    gSideTimers[side].rainbowTimer = 4;
+    gSideTimers[side].rainbowTimer = GetBattleEffectDuration(cv->battlerAtk, 4);
     BattleScriptPush(se->script);
     gBattlescriptCurrInstr = BattleScript_TheRainbowActivates;
 }
@@ -1164,7 +1173,7 @@ static void HandleSetEffectSeaOfFire(struct BattleCalcValues *cv, struct SetEffe
         return;
 
     gSideStatuses[side] |= SIDE_STATUS_SEA_OF_FIRE;
-    gSideTimers[side].seaOfFireTimer = 4;
+    gSideTimers[side].seaOfFireTimer = GetBattleEffectDuration(cv->battlerAtk, 4);
     BattleScriptPush(se->script);
     gBattlescriptCurrInstr = BattleScript_SeaOfFireActivates;
 }
@@ -1176,7 +1185,7 @@ static void HandleSetEffectSwamp(struct BattleCalcValues *cv, struct SetEffect *
         return;
 
     gSideStatuses[side] |= SIDE_STATUS_SWAMP;
-    gSideTimers[side].swampTimer = 4;
+    gSideTimers[side].swampTimer = GetBattleEffectDuration(cv->battlerAtk, 4);
     BattleScriptPush(se->script);
     gBattlescriptCurrInstr = BattleScript_TheSwampActivates;
 }
@@ -1596,13 +1605,13 @@ static void HandleSetEffectAuroraVeil(struct BattleCalcValues *cv, struct SetEff
 
         if (cv->holdEffects[se->effectBattler] == HOLD_EFFECT_LIGHT_CLAY)
         {
-            gSideTimers[side].auroraVeilTimer = 8;
-            gSideTimers[side].auroraVeilTimerTotal = 8;
+            gSideTimers[side].auroraVeilTimer = GetBattleEffectDuration(cv->battlerAtk, 8);
+            gSideTimers[side].auroraVeilTimerTotal = GetBattleEffectDuration(cv->battlerAtk, 8);
         }
         else
         {
-            gSideTimers[side].auroraVeilTimer = 5;
-            gSideTimers[side].auroraVeilTimerTotal = 5;
+            gSideTimers[side].auroraVeilTimer = GetBattleEffectDuration(cv->battlerAtk, 5);
+            gSideTimers[side].auroraVeilTimerTotal = GetBattleEffectDuration(cv->battlerAtk, 5);
         }
 
         PrepareStringBattleWithWait(STRINGID_PKMNAURORAVEIL, se->effectBattler);
@@ -1707,7 +1716,7 @@ static void HandleSetEffectSpite(struct BattleCalcValues *cv, struct SetEffect *
     }
 }
 
-static bool32 ShouldGroundAirborneBattler(enum BattlerId battler, enum Ability ability)
+bool32 TryGroundAirborneBattler(enum BattlerId battler, enum Ability ability)
 {
     enum SemiInvulnerableState state = gBattleMons[battler].volatiles.semiInvulnerable;
 
@@ -1745,9 +1754,9 @@ static void HandleSetEffectGravity(struct BattleCalcValues *cv, struct SetEffect
     else
     {
         gFieldStatuses |= STATUS_FIELD_GRAVITY;
-        gFieldTimers.gravityTimer = 5;
+        gFieldTimers.gravityTimer = GetBattleEffectDuration(cv->battlerAtk, 5);
 
-        if (ShouldGroundAirborneBattler(se->effectBattler, cv->abilities[se->effectBattler]))
+        if (TryGroundAirborneBattler(se->effectBattler, cv->abilities[se->effectBattler]))
         {
             BattleScriptPushAndSet(se->script, BattleScript_GroundAirborneBattler);
             if (!gBattleStruct->messagePrinted)
@@ -1910,7 +1919,7 @@ static void HandleSetEffectSafeguard(struct BattleCalcValues *cv, struct SetEffe
     else if (!cv->onlyChecking)
     {
         gSideStatuses[side] |= SIDE_STATUS_SAFEGUARD;
-        gSideTimers[side].safeguardTimer = 5;
+        gSideTimers[side].safeguardTimer = GetBattleEffectDuration(cv->battlerAtk, 5);
         PrepareStringBattleWithWait(STRINGID_PKMNCOVEREDBYVEIL, se->effectBattler);
         BattleScriptPushAndSet(se->script, BattleScript_WaitMessage);
     }
@@ -2188,7 +2197,7 @@ static void HandleSetEffectMist(struct BattleCalcValues *cv, struct SetEffect *s
     }
     else if (!cv->onlyChecking)
     {
-        gSideTimers[side].mistTimer = 5;
+        gSideTimers[side].mistTimer = GetBattleEffectDuration(cv->battlerAtk, 5);
         gSideStatuses[side] |= SIDE_STATUS_MIST;
         PrepareStringBattleWithWait(STRINGID_PKMNSHROUDEDINMIST, se->effectBattler);
         BattleScriptPushAndSet(se->script, BattleScript_WaitMessage);
@@ -2671,10 +2680,11 @@ void TryTransformBattler(enum BattlerId battlerAtk, enum BattlerId battlerDef)
     enum Ability oldAbility = gBattleMons[battlerAtk].ability;
 
     gChosenMove = MOVE_UNAVAILABLE;
+    if (!HasApexAbility(battlerAtk) || !gBattleMons[battlerAtk].volatiles.transformed)
+        gBattleMons[battlerAtk].volatiles.transformedMonSpecies = gBattleMons[battlerAtk].species;
     gBattleMons[battlerAtk].volatiles.transformed = TRUE;
     gBattleMons[battlerAtk].volatiles.disabledMove = MOVE_NONE;
     gBattleMons[battlerAtk].volatiles.disableTimer = 0;
-    gBattleMons[battlerAtk].volatiles.transformedMonSpecies = gBattleMons[battlerAtk].species;
     gBattleMons[battlerAtk].volatiles.transformedMonPID = gBattleMons[battlerDef].personality;
 
     if (B_TRANSFORM_SHINY >= GEN_4)
@@ -2694,7 +2704,20 @@ void TryTransformBattler(enum BattlerId battlerAtk, enum BattlerId battlerDef)
     for (u32 i = 0; i < offsetof(struct BattlePokemon, pp); i++)
         battleMonAttacker[i] = battleMonTarget[i];
 
-    gBattleMons[battlerAtk].volatiles.overwrittenAbility = GetBattlerAbility(battlerDef);
+    if (HasApexAbility(battlerAtk))
+    {
+        gBattleMons[battlerAtk].ability = GetBattlerApexAbility(battlerAtk);
+        gBattleMons[battlerAtk].volatiles.overwrittenAbility = ABILITY_NONE;
+    }
+    else if (HasApexAbility(battlerDef))
+    {
+        gBattleMons[battlerAtk].ability = oldAbility;
+        gBattleMons[battlerAtk].volatiles.overwrittenAbility = oldAbility;
+    }
+    else
+    {
+        gBattleMons[battlerAtk].volatiles.overwrittenAbility = GetBattlerAbility(battlerDef);
+    }
 
     UpdateTruantToggleForAbilityChange(battlerAtk, oldAbility);
     for (u32 i = 0; i < MAX_MON_MOVES; i++)
@@ -2939,11 +2962,11 @@ static void HandleSetEffectTypeHalver(struct BattleCalcValues *cv, struct SetEff
             gFieldStatuses |= halver.statusField;
             if (halver.volatileStatus == VOLATILE_WATER_SPORT)
             {
-                gFieldTimers.waterSportTimer = 5;
+                gFieldTimers.waterSportTimer = GetBattleEffectDuration(cv->battlerAtk, 5);
             }
             else if (halver.volatileStatus == VOLATILE_MUD_SPORT)
             {
-                gFieldTimers.mudSportTimer = 5;
+                gFieldTimers.mudSportTimer = GetBattleEffectDuration(cv->battlerAtk, 5);
             }
             PrepareStringBattleWithWait(halver.effectString, se->effectBattler);
             gBattlescriptCurrInstr = se->script;
@@ -2967,7 +2990,7 @@ static void HandleSetEffectTailwind(struct BattleCalcValues *cv, struct SetEffec
     else if (!cv->onlyChecking)
     {
         gSideStatuses[side] |= SIDE_STATUS_TAILWIND;
-        gSideTimers[side].tailwindTimer = (GetConfig(B_TAILWIND_TURNS) >= GEN_5 ? 4 : 3);
+        gSideTimers[side].tailwindTimer = GetBattleEffectDuration(cv->battlerAtk, GetConfig(B_TAILWIND_TURNS) >= GEN_5 ? 4 : 3);
         gBattlescriptCurrInstr = se->script;
         PrepareStringBattleWithWait(STRINGID_TAILWINDBLEW, se->effectBattler);
         BattleScriptPushAndSet(se->script, BattleScript_TailwindMessageWait);
@@ -3041,6 +3064,7 @@ static void HandleSetEffectPowerTrick(struct BattleCalcValues *cv, struct SetEff
 static void HandleSetEffectGastroAcid(struct BattleCalcValues *cv, struct SetEffect *se)
 {
     if (gBattleMons[se->effectBattler].volatiles.gastroAcid
+     || HasApexAbility(se->effectBattler)
      || gAbilitiesInfo[gBattleMons[se->effectBattler].ability].cantBeSuppressed)
     {
         SetEffectFail(BattleScript_ButItFailedRet, cv->isStatusMove);
@@ -3076,7 +3100,7 @@ static void HandleSetEffectLuckyChant(struct BattleCalcValues *cv, struct SetEff
     {
         gSideStatuses[side] |= SIDE_STATUS_LUCKY_CHANT;
         PrepareStringBattleWithWait(STRINGID_SHIELDEDFROMCRITICALHITS, se->effectBattler);
-        gSideTimers[side].luckyChantTimer = 5;
+        gSideTimers[side].luckyChantTimer = GetBattleEffectDuration(cv->battlerAtk, 5);
         gBattlescriptCurrInstr = se->script;
     }
 }
@@ -3138,7 +3162,7 @@ static void HandleSetEffectOverwriteAbility(struct BattleCalcValues *cv, struct 
             battlerAbility = cv->battlerAtk;
         }
 
-        if (gAbilitiesInfo[overwriteAbility].cantBeCopied)
+        if (HasApexAbility(battlerAbility) || gAbilitiesInfo[overwriteAbility].cantBeCopied)
         {
             SetEffectFailAndCheckReturn;
             RecordAbilityBattle(battlerAbility, overwriteAbility);
@@ -3147,7 +3171,7 @@ static void HandleSetEffectOverwriteAbility(struct BattleCalcValues *cv, struct 
         }
     }
 
-    if (gAbilitiesInfo[abilityEff].cantBeOverwritten || abilityEff == overwriteAbility)
+    if (HasApexAbility(se->effectBattler) || gAbilitiesInfo[abilityEff].cantBeOverwritten || abilityEff == overwriteAbility)
     {
         SetEffectFailAndCheckReturn;
         RecordAbilityBattle(se->effectBattler, abilityEff);
@@ -3176,7 +3200,8 @@ static void HandleSetEffectSkillSwap(struct BattleCalcValues *cv, struct SetEffe
     enum Ability abilityAtk = gBattleMons[cv->battlerAtk].ability;
     enum Ability abilityDef = gBattleMons[se->effectBattler].ability;
 
-    if (gAbilitiesInfo[abilityAtk].cantBeSwapped
+    if (HasApexAbility(cv->battlerAtk) || HasApexAbility(se->effectBattler)
+     || gAbilitiesInfo[abilityAtk].cantBeSwapped
      || gAbilitiesInfo[abilityDef].cantBeSwapped)
     {
         SetEffectFail(BattleScript_ButItFailedRet, cv->isStatusMove);
@@ -3308,6 +3333,32 @@ static void HandleSetEffectTrick(struct BattleCalcValues *cv, struct SetEffect *
     }
 }
 
+static void HandleSetEffectInversion(struct BattleCalcValues *cv, struct SetEffect *se)
+{
+    if (cv->onlyChecking) return;
+
+    bool32 wasInverted = IsTypeChartInverted();
+    gFieldStatuses ^= STATUS_FIELD_INVERSION;
+    PrepareStringBattleWithWait(wasInverted ? STRINGID_TYPECHARTRESTORED : STRINGID_TYPECHARTINVERTED, cv->battlerAtk);
+    BattleScriptPushAndSet(se->script, BattleScript_WaitMessage);
+}
+
+static void HandleSetEffectMeteoricWrath(struct BattleCalcValues *cv, struct SetEffect *se)
+{
+    if (gBattleStruct->meteoricWrathTimer != 0)
+    {
+        SetEffectFail(BattleScript_ButItFailedRet, cv->isStatusMove);
+    }
+    else if (!cv->onlyChecking)
+    {
+        // The casting turn consumes the first tick; impact is two turns later.
+        gBattleStruct->meteoricWrathTimer = 3;
+        gBattleStruct->meteoricWrathBattler = cv->battlerAtk;
+        PrepareStringBattleWithWait(STRINGID_METEORAPPROACHING, cv->battlerAtk);
+        BattleScriptPushAndSet(se->script, BattleScript_WaitMessage);
+    }
+}
+
 static void HandleSetEffectSetRoom(struct BattleCalcValues *cv, struct SetEffect *se)
 {
     enum StringID roomString;
@@ -3357,7 +3408,7 @@ static void HandleSetEffectSetRoom(struct BattleCalcValues *cv, struct SetEffect
     else
     {
         gFieldStatuses |= roomStatus;
-        *timer = 5;
+        *timer = GetBattleEffectDuration(cv->battlerAtk, 5);
         PrepareStringBattleWithWait(roomString, se->effectBattler);
     }
 
@@ -3705,7 +3756,7 @@ static void HandleSetEffectFairyLock(struct BattleCalcValues *cv, struct SetEffe
     else if (!cv->onlyChecking)
     {
         gFieldStatuses |= STATUS_FIELD_FAIRY_LOCK;
-        gFieldTimers.fairyLockTimer = 2;
+        gFieldTimers.fairyLockTimer = GetBattleEffectDuration(cv->battlerAtk, 2);
         PrepareStringBattleWithWait(STRINGID_NOONEWILLBEABLETORUNAWAY, se->effectBattler);
         BattleScriptPushAndSet(se->script, BattleScript_WaitMessage);
     }
@@ -4251,6 +4302,8 @@ static void (*const sSetEffectHandlers[])(struct BattleCalcValues *cv, struct Se
     [MOVE_EFFECT_ROOST] = HandleSetEffectRoost,
     [MOVE_EFFECT_RESTORE_HP] = HandleSetEffectRestoreHp,
     [MOVE_EFFECT_MUD_BATH] = HandleSetEffectMudBath,
+    [MOVE_EFFECT_METEORIC_WRATH] = HandleSetEffectMeteoricWrath,
+    [MOVE_EFFECT_INVERSION] = HandleSetEffectInversion,
     [MOVE_EFFECT_RESTORE_HP_ON_WEATHER] = HandleSetEffectRestoreHpOnWeather,
     [MOVE_EFFECT_HEAL_PULSE] = HandleSetEffectHealPulse,
     [MOVE_EFFECT_POLLEN_PUFF] = HandleSetEffectPollenPuff,

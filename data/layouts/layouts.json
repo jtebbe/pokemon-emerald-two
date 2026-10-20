@@ -4,10 +4,10 @@
     {
       "id": "LAYOUT_OUTDOOR",
       "name": "Outdoor_Layout",
-      "width": 20,
-      "height": 20,
-      "primary_tileset": "gTileset_General",
-      "secondary_tileset": "gTileset_Petalburg",
+      "width": 30,
+      "height": 30,
+      "primary_tileset": "gTileset_LumberVillage",
+      "secondary_tileset": "gTileset_MirageTower",
       "border_filepath": "data/layouts/Outdoor/border.bin",
       "blockdata_filepath": "data/layouts/Outdoor/map.bin",
       "layout_version": "emerald"

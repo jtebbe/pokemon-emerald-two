@@ -131,7 +131,8 @@ struct SpecialStatus
     u8 resultMessagePrinted:1;
     u8 critMessagePrinted:1;
     u8 protectMessagePrinted:1;
-    u8 padding:5;
+    u8 reverberationsEcho:1;
+    u8 reverberationsTargets:4;
 
     u8 gemParam:7;
     u8 gemBoost:1;
@@ -256,6 +257,8 @@ struct AiLogicData
     u32 predictingSwitch:1; // Determines whether AI will use switch predictions this turn or not
     u32 aiPredictionInProgress:1; // Tracks whether the AI is in the middle of running prediction calculations
     u32 aiCalcInProgress:1;
+    u32 distortionCached:1; // Scoped to one damage simulation; never reuse across switch candidates.
+    u32 distortionActive:1;
     u32 predictingMove:1; // Determines whether AI will use move predictions this turn or not
     u32 shouldConsiderExplosion:1; // Determines whether AI should consider explosion moves this turn
     u32 shouldSwitch:4; // Stores result of ShouldSwitch, which decides whether a mon should be switched out
@@ -265,7 +268,7 @@ struct AiLogicData
     u32 reverseBattlerLogicOrder:1;
     u32 dragonDartsHitsBothTarget:4;
     u32 battlerMovesScored:4; // Bitmask of battlers that have completed move scoring this turn, so a battler can check whether its ally has already committed to a chosen move regardless of AI processing order
-    u32 padding2:9;
+    u32 padding2:7;
 };
 
 struct AiThinkingStruct
@@ -461,7 +464,8 @@ struct PartyState
     u32 sentOut:1;
     u32 isKnockedOff:1;
     u32 freezeTurns:2;
-    u32 padding:3;
+    u32 apexRevealed:1;
+    u32 padding:2;
     enum Item usedHeldItem;
 };
 
@@ -492,6 +496,8 @@ struct BattleStruct
     struct PartyState partyState[MAX_BATTLE_TRAINERS][PARTY_SIZE];
     struct EventStates eventState;
     struct FutureSight futureSight[MAX_BATTLERS_COUNT];
+    u8 meteoricWrathTimer;
+    u8 meteoricWrathBattler;
     struct Wish wish[MAX_BATTLERS_COUNT];
     u16 moveTarget[MAX_BATTLERS_COUNT];
     u8 faintCounter[MAX_BATTLE_TRAINERS]; // Supreme Overload / Last Respects
@@ -615,7 +621,10 @@ struct BattleStruct
     u32 savedMoveResultFlags[MAX_BATTLERS_COUNT]; // for Bounced moves
     u8 numSpreadTargets:3;
     u8 moldBreakerActive:1;
-    u8 unused4:4;
+    enum DamageCategory resolvedMoveCategory:2;
+    u8 moveCategoryResolved:1;
+    u8 unused4:1;
+    enum Move dynamicMoveCategoryMove;
     struct MessageStatus slideMessageStatus;
     u8 trainerSlideSpriteIds[MAX_BATTLERS_COUNT];
     u8 hazardsQueue[NUM_BATTLE_SIDES][HAZARDS_MAX_COUNT];

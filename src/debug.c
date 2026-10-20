@@ -2047,6 +2047,8 @@ static bool32 DebugSelection_ ## label1 ## _Complete(u8 taskId) {               
     if (DebugSelection_GetData(taskId, 0) != sDebugMenuListData->data[dataIndex])   \
     {                                                                               \
         sDebugMenuListData->data[dataIndex] = DebugSelection_GetData(taskId, 0);    \
+        if (dataIndex == 0)                                                        \
+            sDebugMenuListData->data[5] = GetTrainerBattleType(sDebugMenuListData->data[0]) == TRAINER_BATTLE_TYPE_DOUBLES; \
         sDebugMenuListData->data[3] = FALSE;                                        \
         sDebugMenuListData->data[1] = 0;                                            \
     }                                                                               \
