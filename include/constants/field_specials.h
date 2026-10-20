@@ -104,4 +104,12 @@ enum {
     TEMPLATE_POSITION
 };
 
+
+enum RockSmashResult {
+    ROCK_SMASH_NONE = 0,
+    ROCK_SMASH_ENCOUNTER = 1,
+    ROCK_SMASH_ITEM = 2,
+};
+
+
 #endif // GUARD_CONSTANTS_FIELD_SPECIALS_H

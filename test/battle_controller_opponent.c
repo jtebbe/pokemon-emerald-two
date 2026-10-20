@@ -303,7 +303,7 @@ static void TestOpponentHandleChooseItem(enum BattlerId battler)
     u8 byte1 = TestRunner_Battle_GetAction(TEST_BATTLE_ITEM_ID, battler);
     u8 byte2 = TestRunner_Battle_GetAction(TEST_BATTLE_ITEM_ID, battler);
     gBattleStruct->chosenItem[battler] = (byte1 << 8) | byte2;
-    gBattleStruct->itemPartyIndex[battler] = (enum PartyMon)TestRunner_Battle_GetAction(TEST_BATTLE_ITEM_TARGET, battler);
+    gBattleStruct->itemPartyIndex[battler] = (enum PartySlot)TestRunner_Battle_GetAction(TEST_BATTLE_ITEM_TARGET, battler);
     gBattleStruct->itemMoveIndex[battler] = (enum MoveSlot)TestRunner_Battle_GetAction(TEST_BATTLE_ITEM_MOVE, battler);
     BtlController_EmitOneReturnValue(battler, B_COMM_TO_ENGINE, gBattleStruct->chosenItem[battler]);
     BtlController_Complete(battler);
@@ -311,7 +311,7 @@ static void TestOpponentHandleChooseItem(enum BattlerId battler)
 
 static void TestOpponentHandleChoosePokemon(enum BattlerId battler)
 {
-    gBattleStruct->monToSwitchIntoId[battler] = (enum PartyMon)TestRunner_Battle_GetAction(TEST_BATTLE_PARTY_INDEX, battler);
+    gBattleStruct->monToSwitchIntoId[battler] = (enum PartySlot)TestRunner_Battle_GetAction(TEST_BATTLE_PARTY_INDEX, battler);
     gSelectedMonPartyId = gBattleStruct->monToSwitchIntoId[battler]; // Revival Blessing
     BtlController_EmitChosenMonReturnValue(battler, B_COMM_TO_ENGINE, gBattleStruct->monToSwitchIntoId[battler], NULL);
     BtlController_Complete(battler);

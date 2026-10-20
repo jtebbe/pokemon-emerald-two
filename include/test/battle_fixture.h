@@ -41,7 +41,7 @@ struct BattleTestFixture
 };
 
 void TestRunner_Battle_ApplyFixture(void);
-void TestRunner_Battle_ApplyPPFixture(enum BattleTrainer trainer, enum PartyMon partyIndex, u8 pp[MAX_MON_MOVES]);
+void TestRunner_Battle_ApplyPPFixture(enum BattleTrainer trainer, enum PartySlot partyIndex, u8 pp[MAX_MON_MOVES]);
 void TestRunner_Battle_EndFixture(void);
 u8 TestRunner_Battle_GetAction(u32 actionType, enum BattlerId battler);
 

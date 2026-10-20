@@ -3,7 +3,7 @@
 
 void AllocateBattleResources(void);
 void FreeBattleResources(void);
-void SwitchPartyOrderInGameMulti(enum BattlerId battler, enum PartyMon partyId);
+void SwitchPartyOrderInGameMulti(enum BattlerId battler, enum PartySlot partyId);
 void AllocateBattleGfxResources(void);
 void CloseMainBattleScreen(void);
 
