@@ -15,6 +15,7 @@
 #include "battle_message.h"
 #include "battle_util.h"
 #include "battle_script_commands.h"
+#include "battle_setup.h"
 #include "battle_gfx_sfx_util.h"
 #include "battle_util2.h"
 #include "battle_bg.h"
@@ -581,8 +582,10 @@ struct BattleStruct
         struct BattleVideo battleVideo;
     } multiBuffer;
     u8 battlerKOAnimsRunning:3;
+    u8 ignoreOrbFailure:1; // Toxic / Flame orb aren't prevented by Safeguard / Flower Veil
+    u8 toxicChainPriority:1; // If Toxic Chain will trigger on target, all other non volatiles will be blocked
     u8 messagePrinted:1; // To prevented repeated attackmessages (Perish Song)
-    u8 unused1:4;
+    u8 unused1:2;
     enum PartySlot AI_monToSwitchIntoId[MAX_BATTLERS_COUNT];
     u8 debugBattler;
     u8 magnitudeBasePower;
@@ -629,7 +632,7 @@ struct BattleStruct
     u8 speedTieBreaks; // MAX_BATTLERS_COUNT! values.
     u32 stellarBoostFlags[MAX_BATTLE_TRAINERS]; // bitfield
     struct SleepClause monCausingSleepClause[NUM_BATTLE_SIDES]; // Stores which Pokémon on a given side is causing Sleep Clause to be active as the mon's index in the party
-    u8 additionalEffectsCounter:4; // A counter for the additionalEffects applied by the current move in Cmd_setadditionaleffects
+    u8 additionalEffectsCounter:4; // A counter for the additionalEffects applied by the current move in Move Resolution
     enum PartySlot pursuitStoredSwitch:4; // Stored id for the Pursuit target's switch
     s32 battlerExpReward;
     enum Species prevTurnSpecies[MAX_BATTLERS_COUNT]; // Stores species the AI has in play at start of turn
@@ -662,7 +665,8 @@ struct BattleStruct
     u32 statChangeBattler:3;
     u32 overworldWeatherPresent:1;
     u32 setEffectOnAlly:1;
-    u32 padding5:3;
+    u32 setChargeTurnAdditionalEffects:1;
+    u32 padding5:2;
     enum BattlerId statusedBattler:4; // For Synchronize/Poison Puppeteer
     enum BattlerId statusInflicterBattler:4; // For Synchronize/Poison Puppeteer
     enum MoveEffect synchronizeStatus;
@@ -1062,6 +1066,49 @@ enum BattlerId GetBattlerLeftFoe(enum BattlerId battler);
 enum BattlerId GetBattlerRightFoe(enum BattlerId battler);
 enum BattlerId GetDefaultSelectionTarget(enum BattlerId battler, enum MoveTarget moveTarget);
 
+bool32 IsHalfTeamMultiBattle(void);
+bool32 IsFullTeamMultiBattle(void);
+
+static inline bool32 HasAnyBattleFlags(u32 flags)
+{
+    return (gBattleTypeFlags & flags) != 0;
+}
+
+static inline bool32 HasAllBattleFlags(u32 flags)
+{
+    return (gBattleTypeFlags & flags) == flags;
+}
+
+static inline bool32 BattleTypeHasAi(void)
+{
+    return HasAnyBattleFlags(BATTLE_TYPE_TRAINER | BATTLE_TYPE_FIRST_BATTLE | BATTLE_TYPE_SAFARI | BATTLE_TYPE_ROAMER | BATTLE_TYPE_INGAME_PARTNER);
+}
+
+static inline bool32 IsWildDoubleBattle(void)
+{
+    return (HasAnyBattleFlags(BATTLE_TYPE_DOUBLE) && !HasAnyBattleFlags(BATTLE_TYPE_LINK | BATTLE_TYPE_TRAINER));
+}
+
+static inline bool32 IsTrainerBattle(void)
+{
+    return HasAnyBattleFlags(BATTLE_TYPE_TRAINER);
+}
+
+static inline bool32 IsMultiBattle(void)
+{
+    return HasAnyBattleFlags(BATTLE_TYPE_MULTI);
+}
+
+static inline bool32 IsMultiVsOneOpponentBattle(void)
+{
+    return (HasAnyBattleFlags(BATTLE_TYPE_INGAME_PARTNER) && TRAINER_BATTLE_PARAM.opponentB == 0xFFFF);
+}
+
+static inline bool32 IsLinkMultiBattle(void)
+{
+    return HasAllBattleFlags(BATTLE_TYPE_LINK | BATTLE_TYPE_MULTI);
+}
+
 static inline bool32 IsBattlerUsingAbilityDance(enum BattlerId battler)
 {
     return gSpecialStatuses[battler].dancerUsedMove
@@ -1139,7 +1186,7 @@ static inline bool32 IsBattlerAlly(enum BattlerId battlerAtk, enum BattlerId bat
 
 static inline bool32 IsDoubleBattle(void)
 {
-    return !!(gBattleTypeFlags & BATTLE_TYPE_MORE_THAN_TWO_BATTLERS);
+    return HasAnyBattleFlags(BATTLE_TYPE_DOUBLE | BATTLE_TYPE_MULTI | BATTLE_TYPE_INGAME_PARTNER | BATTLE_TYPE_TWO_OPPONENTS) != 0;
 }
 
 static inline bool32 IsSpreadMove(enum MoveTarget moveTarget)

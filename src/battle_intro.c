@@ -28,11 +28,11 @@ void HandleIntroSlide(u8 environment)
 {
     u8 taskId;
 
-    if ((gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER) && gPartnerTrainerId < TRAINER_PARTNER(PARTNER_NONE))
+    if (HasAnyBattleFlags(BATTLE_TYPE_INGAME_PARTNER) && gPartnerTrainerId < TRAINER_PARTNER(PARTNER_NONE))
     {
         taskId = CreateTask(BattleIntroSlidePartner, 0);
     }
-    else if (gBattleTypeFlags & BATTLE_TYPE_LINK)
+    else if (HasAnyBattleFlags(BATTLE_TYPE_LINK))
     {
         taskId = CreateTask(BattleIntroSlideLink, 0);
     }
@@ -71,7 +71,7 @@ static void BattleIntroNoSlide(u8 taskId)
     switch (gTasks[taskId].tState)
     {
     case 0:
-        if (gBattleTypeFlags & BATTLE_TYPE_LINK)
+        if (HasAnyBattleFlags(BATTLE_TYPE_LINK))
         {
             gTasks[taskId].data[2] = 16;
             gTasks[taskId].tState++;
@@ -124,7 +124,7 @@ void BattleIntroSlide1(u8 taskId)
     switch (gTasks[taskId].tState)
     {
     case 0:
-        if (gBattleTypeFlags & BATTLE_TYPE_LINK)
+        if (HasAnyBattleFlags(BATTLE_TYPE_LINK))
         {
             gTasks[taskId].data[2] = 16;
             gTasks[taskId].tState++;
@@ -235,7 +235,7 @@ void BattleIntroSlide2(u8 taskId)
     {
     case 0:
         gTasks[taskId].data[4] = 16;
-        if (gBattleTypeFlags & BATTLE_TYPE_LINK)
+        if (HasAnyBattleFlags(BATTLE_TYPE_LINK))
         {
             gTasks[taskId].data[2] = 16;
             gTasks[taskId].tState++;

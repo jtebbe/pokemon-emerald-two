@@ -293,9 +293,9 @@ static void SetTrainerSlideParameters(enum BattlerId battler, u32* lastId, u32* 
 {
     if ((battler & BIT_SIDE) == B_SIDE_OPPONENT)
     {
-        if (gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS)
+        if (HasAnyBattleFlags(BATTLE_TYPE_TWO_OPPONENTS))
         {
-            if (!AreMultiPartiesFullTeams())
+            if (AreMultiPartiesHalfTeams())
                 *lastId = MULTI_PARTY_SIZE;
             if (GetBattlerTrainer(battler) == B_TRAINER_OPPONENT_B)
             {
@@ -304,9 +304,9 @@ static void SetTrainerSlideParameters(enum BattlerId battler, u32* lastId, u32* 
             }
         }
     }
-    else if (GetBattlerTrainer(battler) == B_TRAINER_PARTNER && gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER)
+    else if (GetBattlerTrainer(battler) == B_TRAINER_PARTNER && HasAnyBattleFlags(BATTLE_TYPE_INGAME_PARTNER))
     {
-        if (!AreMultiPartiesFullTeams())
+        if (AreMultiPartiesHalfTeams())
             *lastId = MULTI_PARTY_SIZE;
         *trainerId = gPartnerTrainerId;
         *retValue = TRAINER_SLIDE_TARGET_TRAINER_PARTNER;
@@ -327,7 +327,7 @@ enum TrainerSlideTargets ShouldDoTrainerSlide(enum BattlerId battler, enum Train
     u32 retValue = TRAINER_SLIDE_TARGET_TRAINER_A;
     bool32 shouldRun = FALSE;
 
-    if (!(gBattleTypeFlags & BATTLE_TYPE_TRAINER))
+    if (!IsTrainerBattle())
         return TRAINER_SLIDE_TARGET_NONE;
 
     if (!IsDoubleBattle() && (battler > B_BATTLER_1))

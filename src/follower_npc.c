@@ -1163,7 +1163,7 @@ void SetFollowerNPCSprite(u32 spriteIndex)
     }
 }
 
-static void ChooseFirstThreeEligibleMons(void)
+static void ChooseFirstEligibleMons(void)
 {
     u32 i;
     u32 count = 0;
@@ -1180,7 +1180,7 @@ static void ChooseFirstThreeEligibleMons(void)
             count++;
         }
 
-        if (count == 3)
+        if (count == MULTI_PARTY_SIZE)
             break;
     }
 }
@@ -1679,12 +1679,12 @@ bool32 IsNPCFollowerWildBattle(void)
 void PrepareForFollowerNPCBattle(void)
 {
     // Load the partner party if the NPC follower should participate.
-    if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER && FollowerNPCIsBattlePartner())
+    if (HasAnyBattleFlags(BATTLE_TYPE_INGAME_PARTNER) && FollowerNPCIsBattlePartner())
     {
-        if (!AreMultiPartiesFullTeams())
+        if (AreMultiPartiesHalfTeams())
         {
             SavePlayerParty();
-            ChooseFirstThreeEligibleMons();
+            ChooseFirstEligibleMons();
             ReducePlayerPartyToSelectedMons();
         }
         gPartnerTrainerId = TRAINER_PARTNER(GetFollowerNPCData(FNPC_DATA_BATTLE_PARTNER));
@@ -1694,7 +1694,7 @@ void PrepareForFollowerNPCBattle(void)
 
 void RestorePartyAfterFollowerNPCBattle(void)
 {
-    if (!AreMultiPartiesFullTeams())
+    if (!IsPlayerMultiPartyFullTeam())
     {
         for (u32 i = 0; i < MULTI_PARTY_SIZE; i++)
         {

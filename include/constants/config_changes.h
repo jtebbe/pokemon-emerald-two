@@ -220,6 +220,7 @@
     F(B_DREAM_BALL_MODIFIER,       dreamBallModifier,       (u32, GEN_COUNT - 1)) /* TODO: use in tests */ \
     F(B_SPORT_BALL_MODIFIER,       sportBallModifier,       (u32, GEN_COUNT - 1)) /* TODO: use in tests */ \
     F(B_SAFARI_BALL_MODIFIER,      safariBallModifier,      (u32, GEN_COUNT - 1)) /* TODO: use in tests */ \
+    F(B_FRIEND_BALL_MODIFIER,      friendBallModifier,      (u32, GEN_COUNT - 1)) /* TODO: use in tests */ \
     F(B_SERENE_GRACE_BOOST,        sereneGraceBoost,        (u32, GEN_COUNT - 1)) /* TODO: use in tests */ \
     F(B_IRON_BALL,                 ironBall,                (u32, GEN_COUNT - 1)) /* TODO: use in tests */ \
     F(B_QUEUED_SWITCH_TIMINGS,     queuedSwitchTimings,     (u32, GEN_COUNT - 1)) \

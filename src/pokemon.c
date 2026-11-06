@@ -2688,7 +2688,7 @@ bool8 HealStatusConditions(struct Pokemon *mon, u32 healMask, enum BattlerId bat
             {
                 struct Pokemon *party = GetBattlerParty(battler);
 
-                for (enum PartySlot i = PARTY_SLOT_0; i < PARTY_SLOT_NONE; i++)
+                for (enum PartySlot i = PARTY_SLOT_0; i < PARTY_SIZE; i++)
                 {
                     if (&party[i] == mon)
                     {
@@ -3025,7 +3025,7 @@ bool32 DoesMonMeetAdditionalConditions(struct Pokemon *mon, const struct Evoluti
             break;
         }
         case IF_CRITICAL_HITS_GE:
-            if (partyId < PARTY_SLOT_NONE && gPartyCriticalHits[partyId] >= params[i].arg1)
+            if (partyId < PARTY_SIZE && gPartyCriticalHits[partyId] >= params[i].arg1)
                 currentCondition = TRUE;
             break;
         case IF_USED_MOVE_X_TIMES:
@@ -3270,6 +3270,21 @@ enum Species GetEvolutionTargetSpecies(struct Pokemon *mon, enum EvolutionMode m
                 // All checks passed, so stop checking the rest of the evolutions.
                 // This is different from vanilla where the loop continues.
                 // If you have overlapping evolutions, put the ones you want to happen first on top of the list.
+                targetSpecies = evolutions[i].targetSpecies;
+                break;
+            }
+        }
+        break;
+    case EVO_MODE_OVERWORLD_SPIN_EVO_CHECK://unused
+        for (i = 0; evolutions[i].method != EVOLUTIONS_END; i++)
+        {
+            if (SanitizeSpeciesId(evolutions[i].targetSpecies) == SPECIES_NONE)
+                continue;
+            if (evolutions[i].method != EVO_SPIN)
+                continue;
+
+            if (DoesMonMeetAdditionalConditions(mon, evolutions[i].params, NULL, PARTY_SIZE, canStopEvo, evoState))
+            {
                 targetSpecies = evolutions[i].targetSpecies;
                 break;
             }
@@ -3665,7 +3680,7 @@ bool32 IsSpeciesInCalicadeaDex(enum Species species)
 
 u16 GetBattleBGM(void)
 {
-    if (gBattleTypeFlags & BATTLE_TYPE_LEGENDARY)
+    if (HasAnyBattleFlags(BATTLE_TYPE_LEGENDARY))
     {
         switch (GetMonData(&gParties[B_TRAINER_OPPONENT_A][0], MON_DATA_SPECIES))
         {
@@ -3689,7 +3704,7 @@ u16 GetBattleBGM(void)
     {
         return MUS_VS_TRAINER;
     }
-    else if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
+    else if (IsTrainerBattle())
     {
         enum TrainerClassID trainerClass;
 
@@ -3942,7 +3957,7 @@ void SetWildMonHeldItem(void)
 {
     u16 rnd;
     enum Species species;
-    u16 count = (WILD_DOUBLE_BATTLE) ? 2 : 1;
+    u16 count = (IsWildDoubleBattle()) ? 2 : 1;
     u16 i;
     bool32 itemHeldBoost = CanFirstMonBoostHeldItemRarity();
     u16 chanceNoItem = itemHeldBoost ? 20 : 45;
@@ -3981,7 +3996,7 @@ bool8 IsMonShiny(struct Pokemon *mon)
 
 const u8 *GetTrainerPartnerName(void)
 {
-    if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER)
+    if (HasAnyBattleFlags(BATTLE_TYPE_INGAME_PARTNER))
     {
         return gStringVar1;
     }
@@ -4048,7 +4063,7 @@ void DoMonFrontSpriteAnimation(struct Sprite *sprite, enum Species species, bool
         pan = 0;
         break;
     }
-    if (panModeAnimFlag & SKIP_FRONT_ANIM || (gBattleTypeFlags & BATTLE_TYPE_GHOST))
+    if (panModeAnimFlag & SKIP_FRONT_ANIM || (HasAnyBattleFlags(BATTLE_TYPE_GHOST)))
     {
         // No animation, only check if cry needs to be played
         if (!noCry)
@@ -4731,18 +4746,41 @@ u16 MonTryLearningNewMoveEvolution(struct Pokemon *mon, bool8 firstMove)
     return 0;
 }
 
-void TrySpecialOverworldEvo(void)
+bool32 CheckSpecialOverworldEvo(void)
 {
     bool32 canStopEvo = FALSE;
-
-    for (enum PartySlot i = PARTY_SLOT_0; i < PARTY_SLOT_NONE; i++)
+    for (u8 i = 0; i < PARTY_SIZE; i++)
     {
+        enum Species targetSpecies = GetEvolutionTargetSpecies(&gParties[B_TRAINER_PLAYER][i], EVO_MODE_OVERWORLD_SPIN_EVO_CHECK, 0, NULL, &canStopEvo, CHECK_EVO);
+
+        if (targetSpecies != SPECIES_NONE)
+            return TRUE;
+        targetSpecies = GetEvolutionTargetSpecies(&gParties[B_TRAINER_PLAYER][i], EVO_MODE_OVERWORLD_SPECIAL, 0, NULL, &canStopEvo, CHECK_EVO);
+
+        if (targetSpecies != SPECIES_NONE)
+            return TRUE;
+    }
+
+    return FALSE;
+}
+
+
+void TrySpecialOverworldEvo(void)
+{
+    u32 triedEvolvingCopy = gTriedEvolving;
+    bool32 canStopEvo = FALSE;
+
+    for (enum PartySlot i = PARTY_SLOT_0; i < PARTY_SIZE; i++)
+    {
+        if (gTriedEvolving & (1u << i))
+            continue;
+        gTriedEvolving |= 1u << i;
+
         enum Species targetSpecies = GetEvolutionTargetSpecies(&gParties[B_TRAINER_PLAYER][i], EVO_MODE_OVERWORLD_SPECIAL, 0, NULL, &canStopEvo, CHECK_EVO);
 
-        if (targetSpecies != SPECIES_NONE && !(gTriedEvolving & (1u << i)))
+        if (targetSpecies != SPECIES_NONE)
         {
             GetEvolutionTargetSpecies(&gParties[B_TRAINER_PLAYER][i], EVO_MODE_OVERWORLD_SPECIAL, 0, NULL, &canStopEvo, DO_EVO);
-            gTriedEvolving |= 1u << i;
 
             if (gMain.callback2 == TrySpecialOverworldEvo) // This fixes small graphics glitches.
                 EvolutionScene(&gParties[B_TRAINER_PLAYER][i], targetSpecies, canStopEvo, i);
@@ -4753,9 +4791,10 @@ void TrySpecialOverworldEvo(void)
             return;
         }
     }
+    if (triedEvolvingCopy != 0)
+        SetMainCallback2(CB2_ReturnToFieldContinueScript);
 
     gTriedEvolving = 0;
-    SetMainCallback2(CB2_ReturnToField);
 }
 
 bool32 SpeciesHasGenderDifferences(enum Species species)

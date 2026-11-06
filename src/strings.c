@@ -258,6 +258,7 @@ const u8 gText_Learned[] = _("LEARNED");
 const u8 gText_Have[] = _("HAVE");
 const u8 gText_DontHave[] = _("DON'T HAVE");
 const u8 gText_Fourth[] = _("FOURTH");
+const u8 gText_Fifth[] = _("FIFTH");
 const u8 gText_CancelBattle[] = _("Cancel the battle?");
 const u8 gText_EscapeFromHere[] = _("Want to escape from here and return\nto {STR_VAR_1}?");
 const u8 gText_ReturnToHealingSpot[] = _("Want to return to the healing spot\nused last in {STR_VAR_1}?");

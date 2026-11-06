@@ -38,7 +38,7 @@ void BXPY_SetupAIData()
 
 void BXPY_SetupBattlers()
 {
-    bool32 isLink = (gBattleTypeFlags & BATTLE_TYPE_LINK);
+    bool32 isLink = (HasAnyBattleFlags(BATTLE_TYPE_LINK));
     bool32 isDouble = IsDoubleBattle();
     bool32 isMaster =  (gBattleTypeFlags & BATTLE_TYPE_IS_MASTER);
     bool32 isMulti = (gBattleTypeFlags & BATTLE_TYPE_MULTI);
@@ -76,7 +76,7 @@ void BXPY_SetupAIFlags(void)
     else
         gAiThinkingStruct->aiFlags[B_BATTLER_3] = gAiThinkingStruct->aiFlags[B_BATTLER_1];
 
-    if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER)
+    if (HasAnyBattleFlags(BATTLE_TYPE_INGAME_PARTNER))
     {
         gAiThinkingStruct->aiFlags[B_BATTLER_2] = GetAiFlags(gPartnerTrainerId, B_BATTLER_2);
     }

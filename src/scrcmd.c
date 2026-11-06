@@ -428,6 +428,7 @@ bool8 ScrCmd_setvar(struct ScriptContext *ctx)
 bool8 ScrCmd_copyvar(struct ScriptContext *ctx)
 {
     u32 varId = ScriptReadHalfword(ctx);
+    assertf(varId != 0, "variable %d set to 0", varId);
     u16 *ptr = GetVarPointer(varId);
 
     Script_RequestEffects(SCREFF_V1);
@@ -2179,7 +2180,7 @@ bool8 ScrCmd_checkfieldmove(struct ScriptContext *ctx)
         return FALSE;
 
     move = FieldMove_GetMoveId(fieldMove);
-    for (enum PartySlot i = PARTY_SLOT_0; i < PARTY_SLOT_NONE; i++)
+    for (enum PartySlot i = PARTY_SLOT_0; i < PARTY_SIZE; i++)
     {
         enum Species species = GetMonData(&gParties[B_TRAINER_PLAYER][i], MON_DATA_SPECIES);
         if (!species)
@@ -3065,6 +3066,7 @@ static bool32 EventEvolution(enum PartySlot partyIndex)
 
 static void TriggerMultipleEvolutions_Repeatable(void)
 {
+    u32 triedEvolvingCopy = gTriedEvolving;
     if (gSpecialVar_Result == EVO_EVENT_SUCCESSFUL)
         gSpecialVar_0x8006++;
 
@@ -3079,9 +3081,11 @@ static void TriggerMultipleEvolutions_Repeatable(void)
         }
     }
 
-    gTriedEvolving = 0;
     gSpecialVar_Result = gSpecialVar_0x8006;
-    SetMainCallback2(CB2_ReturnToFieldContinueScript);
+    if (triedEvolvingCopy != 0)
+        SetMainCallback2(CB2_ReturnToFieldContinueScript);
+
+    gTriedEvolving = 0;
 }
 
 void Script_TriggerMultipleEvolutions(struct ScriptContext *ctx)
@@ -3098,7 +3102,7 @@ void Script_TriggerUniqueEvolution(struct ScriptContext *ctx)
         gSpecialVar_Result = EVO_EVENT_IMPOSSIBLE;
         return;
     }
-    assertf(gSpecialVar_0x8004 < PARTY_SLOT_NONE, "TriggerEvolution script called with invalid partyIndex %d", gSpecialVar_0x8004)
+    assertf(gSpecialVar_0x8004 < PARTY_SIZE, "TriggerEvolution script called with invalid partyIndex %d", gSpecialVar_0x8004)
     {
         gSpecialVar_Result = EVO_EVENT_IMPOSSIBLE;
         return;

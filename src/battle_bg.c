@@ -787,7 +787,7 @@ static void DrawLinkBattleParticipantPokeballs(u8 taskId, u8 multiplayerId, u8 b
     u16 pokeballStatuses = 0;
     u16 tiles[6];
 
-    if (gBattleTypeFlags & BATTLE_TYPE_MULTI)
+    if (HasAnyBattleFlags(BATTLE_TYPE_MULTI))
     {
         if (gTasks[taskId].data[5] != 0)
         {
@@ -853,7 +853,7 @@ static void DrawLinkBattleVsScreenOutcomeText(void)
     {
         BattlePutTextOnWindow(gText_Draw, B_WIN_VS_OUTCOME_DRAW);
     }
-    else if (gBattleTypeFlags & BATTLE_TYPE_MULTI)
+    else if (HasAnyBattleFlags(BATTLE_TYPE_MULTI))
     {
         if (gBattleOutcome == B_OUTCOME_WON)
         {
@@ -937,7 +937,7 @@ void InitLinkBattleVsScreen(u8 taskId)
     switch (gTasks[taskId].data[0])
     {
     case 0:
-        if (gBattleTypeFlags & BATTLE_TYPE_MULTI)
+        if (HasAnyBattleFlags(BATTLE_TYPE_MULTI))
         {
             for (i = 0; i < MAX_LINK_PLAYERS; i++)
             {
@@ -1038,7 +1038,7 @@ void InitLinkBattleVsScreen(u8 taskId)
 
 void DrawBattleEntryBackground(void)
 {
-    if (gBattleTypeFlags & BATTLE_TYPE_LINK)
+    if (HasAnyBattleFlags(BATTLE_TYPE_LINK))
     {
         DecompressDataWithHeaderVram(gBattleVSFrame_Gfx, (void *)(BG_CHAR_ADDR(1)));
         DecompressDataWithHeaderVram(gVsLettersGfx, (void *)OBJ_VRAM0);
@@ -1063,7 +1063,7 @@ void DrawBattleEntryBackground(void)
         {
             LoadBattleEnvironmentEntryGfx(gBattleEnvironment);
         }
-        else if (!(gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER) || gPartnerTrainerId > TRAINER_PARTNER(PARTNER_NONE))
+        else if (!HasAnyBattleFlags(BATTLE_TYPE_INGAME_PARTNER) || gPartnerTrainerId > TRAINER_PARTNER(PARTNER_NONE))
         {
             LoadBattleEnvironmentEntryGfx(BATTLE_ENVIRONMENT_BUILDING);
         }
@@ -1079,7 +1079,7 @@ void DrawBattleEntryBackground(void)
             CopyBgTilemapBufferToVram(2);
         }
     }
-    else if (gBattleTypeFlags & BATTLE_TYPE_LEGENDARY)
+    else if (HasAnyBattleFlags(BATTLE_TYPE_LEGENDARY))
     {
         LoadBattleEnvironmentEntryGfx(GetBattleEnvironmentOverride());
     }

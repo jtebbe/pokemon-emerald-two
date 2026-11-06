@@ -171,7 +171,7 @@ void ChooseHalfPartyForBattle(void)
 {
     gMain.savedCallback = CB2_ReturnFromChooseHalfParty;
     gSpecialVar_0x8005 = MULTI_PARTY_SIZE;
-    InitChooseHalfPartyForBattle(0);
+    InitChoosePartyForBattle(0);
 }
 
 static void CB2_ReturnFromChooseHalfParty(void)

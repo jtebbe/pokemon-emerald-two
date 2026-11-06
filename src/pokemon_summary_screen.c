@@ -1819,7 +1819,7 @@ static void ChangeSummaryPokemon(u8 taskId, s8 delta)
             }
             monId = AdvanceStorageMonIndex(sMonSummaryScreen->monList.boxMons, sMonSummaryScreen->curMonIndex, sMonSummaryScreen->maxMonIndex, delta);
         }
-        else if (IsMultiBattle() == TRUE && !AreMultiPartiesFullTeams())
+        else if (IsMultiBattle() && PlayerAndPartnerSharePartyMenu())
         {
             monId = AdvanceMultiBattleMonIndex(delta);
         }
@@ -3372,7 +3372,7 @@ static bool8 IsInGamePartnerMon(void)
     {
         return TRUE;
     }
-    else if ((gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER) && gMain.inBattle)
+    else if (HasAnyBattleFlags(BATTLE_TYPE_INGAME_PARTNER) && gMain.inBattle)
     {
         if (sMonSummaryScreen->curMonIndex == 1 || sMonSummaryScreen->curMonIndex == 4 || sMonSummaryScreen->curMonIndex == 5)
             return TRUE;
