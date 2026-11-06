@@ -4619,6 +4619,7 @@ enum Species GetFormChangeTargetSpecies_Internal(struct FormChangeContext ctx)
             // or is suppressed. If so, revert to the no weather form.
             if (formChanges[i].param2
                 && ctx.ability != formChanges[i].param2
+                && !(ctx.ability == ABILITY_FICKLE_FORECASTS && formChanges[i].param2 == ABILITY_FORECAST)
                 && formChanges[i].param1 == B_WEATHER_NONE)
             {
                 targetSpecies = formChanges[i].targetSpecies;

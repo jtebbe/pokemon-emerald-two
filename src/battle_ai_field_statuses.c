@@ -160,6 +160,7 @@ static bool32 DoesAbilityBenefitFromWeather(enum Ability ability, u32 weather)
     case ABILITY_MAGIC_GUARD:
     case ABILITY_OVERCOAT:
         return (weather & B_WEATHER_DAMAGING_ANY);
+    case ABILITY_DUST_TO_DUST:
     case ABILITY_SAND_FORCE:
     case ABILITY_SAND_RUSH:
     case ABILITY_SAND_VEIL:
@@ -169,6 +170,7 @@ static bool32 DoesAbilityBenefitFromWeather(enum Ability ability, u32 weather)
     case ABILITY_SNOW_CLOAK:
     case ABILITY_SLUSH_RUSH:
         return (weather & B_WEATHER_ICY_ANY);
+    case ABILITY_DROPS_OF_GOD:
     case ABILITY_DRY_SKIN:
     case ABILITY_HYDRATION:
     case ABILITY_RAIN_DISH:
@@ -200,8 +202,9 @@ static bool32 DoesAbilityBenefitFromTerrain(enum Ability ability, enum BattleTer
         return terrain == B_TERRAIN_ELECTRIC;
     case ABILITY_GRASS_PELT:
         return terrain == B_TERRAIN_GRASSY;
-    // no abilities inherently benefit from Misty or Psychic Terrains
-    // return terrain == B_TERRAIN_MISTY;
+    case ABILITY_RAINBOW_RIDER:
+        return terrain == B_TERRAIN_MISTY;
+    // no abilities inherently benefit from Psychic Terrain
     // return terrain == B_TERRAIN_PSYCHIC;
     default:
         break;
@@ -258,7 +261,7 @@ static enum FieldEffectOutcome BenefitsFromSun(enum BattlerId battler)
      || HasMoveWithEffect(battler, EFFECT_HYDRO_STEAM))
         return FIELD_EFFECT_POSITIVE;
 
-    if (HasMoveWithFlag(battler, MoveHas50AccuracyInSun) || HasDamagingMoveOfType(battler, TYPE_WATER) || gAiLogicData->abilities[battler] == ABILITY_DRY_SKIN)
+    if (HasMoveWithFlag(battler, MoveHas50AccuracyInSun) || HasDamagingMoveOfType(battler, TYPE_WATER) || gAiLogicData->abilities[battler] == ABILITY_DRY_SKIN || gAiLogicData->abilities[battler] == ABILITY_DROPS_OF_GOD)
         return FIELD_EFFECT_NEGATIVE;
 
     return FIELD_EFFECT_NEUTRAL;
@@ -389,7 +392,9 @@ static enum FieldEffectOutcome BenefitsFromGrassyTerrain(enum BattlerId battler)
 //TODO: when is misty terrain bad?
 static enum FieldEffectOutcome BenefitsFromMistyTerrain(enum BattlerId battler)
 {
-    if (DoesAbilityBenefitFromTerrain(gAiLogicData->abilities[battler], B_TERRAIN_MISTY))
+    if (DoesAbilityBenefitFromTerrain(gAiLogicData->abilities[battler], B_TERRAIN_MISTY)
+     || (IsDoubleBattle() && IsBattlerAlive(GetPartnerBattler(battler))
+      && gAiLogicData->abilities[GetPartnerBattler(battler)] == ABILITY_RAINBOW_RIDER))
         return FIELD_EFFECT_POSITIVE;
 
     if (HasBattlerTerrainBoostMove(battler, B_TERRAIN_MISTY)
@@ -509,8 +514,8 @@ static enum FieldEffectOutcome BenefitsFromTrickRoom(enum BattlerId battler)
         for (u32 moveIndex = 0; moveIndex < MAX_MON_MOVES; moveIndex++)
         {
             enum Move move = aiMoves[moveIndex];
-            if (GetBattleMovePriorityForTarget(battler, gAiLogicData->abilities[battler], move, GetBattlerLeftFoe(battler)) > 0
-             && GetBattleMovePriorityForTarget(battler, gAiLogicData->abilities[battler], move, GetBattlerRightFoe(battler)) > 0
+            if (AI_GetMovePriorityWithAbilities(battler, gAiLogicData->abilities[battler], move, GetBattlerLeftFoe(battler), gAiLogicData->abilities) > 0
+             && AI_GetMovePriorityWithAbilities(battler, gAiLogicData->abilities[battler], move, GetBattlerRightFoe(battler), gAiLogicData->abilities) > 0
              && !IsBattleMoveStatus(move))
             {
                 return FIELD_EFFECT_POSITIVE;

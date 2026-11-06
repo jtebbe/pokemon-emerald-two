@@ -539,6 +539,8 @@ top:
         break;
 
     case STATE_EXIT:
+        if (TestRunner_Battle_GetStackHighWaterMark() != 0)
+            Test_MgbaPrintf("Battle test stack high-water mark: %d/%d bytes", TestRunner_Battle_GetStackHighWaterMark(), BATTLE_TEST_STACK_SIZE);
         MgbaExit_(gTestRunnerState.exitCode);
         break;
     default:

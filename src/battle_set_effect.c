@@ -154,13 +154,15 @@ static void HandleSetEffectConfusion(struct BattleCalcValues *cv, struct SetEffe
 
 static void HandleSetEffectFlinch(struct BattleCalcValues *cv, struct SetEffect *se)
 {
-    if (cv->abilities[se->effectBattler] == ABILITY_INNER_FOCUS)
+    enum Ability ability = cv->abilities[se->effectBattler];
+
+    if (ability == ABILITY_INNER_FOCUS || ability == ABILITY_SHELL_INVERSION || ability == ABILITY_TRUE_POWER)
     {
         if (se->primary || se->certain)
         {
-            gLastUsedAbility = ABILITY_INNER_FOCUS;
+            gLastUsedAbility = ability;
             gBattlerAbility = se->effectBattler;
-            RecordAbilityBattle(se->effectBattler, ABILITY_INNER_FOCUS);
+            RecordAbilityBattle(se->effectBattler, ability);
             gBattlescriptCurrInstr = se->script;
         }
         else
@@ -481,7 +483,7 @@ static void HandleSetEffectRemoveStatus(struct BattleCalcValues *cv, struct SetE
 static void HandleSetEffectThrash(struct BattleCalcValues *cv, struct SetEffect *se)
 {
     // Petal Dance (dance move) doesn't lock mons that copy the move with Dancer
-    if (gSpecialStatuses[se->effectBattler].dancerUsedMove || gBattleMons[se->effectBattler].volatiles.rampageTurns)
+    if (IsBattlerUsingAbilityDance(se->effectBattler) || gBattleMons[se->effectBattler].volatiles.rampageTurns)
     {
         gBattlescriptCurrInstr = se->script;
     }
@@ -672,6 +674,11 @@ static void HandleSetEffectRecoilHp25(struct BattleCalcValues *cv, struct SetEff
             se->effectFailed = IsStormSacrificeBlocked();
         return;
     }
+
+    if (cv->move != MOVE_STORM_SACRIFICE
+     && (IsAbilityAndRecord(se->effectBattler, cv->abilities[se->effectBattler], ABILITY_VAMPIRISM)
+      || (cv->abilities[se->effectBattler] == ABILITY_RELENTLESS_CHASE && gBattleStruct->relentlessChaseDamage > 0)))
+        return;
 
     if (cv->move == MOVE_STORM_SACRIFICE)
     {
@@ -1410,6 +1417,7 @@ static void HandleSetEffectRestoreHpOnWeather(struct BattleCalcValues *cv, struc
             }
         }
 
+        recoverAmount = GetMoonAttunedHealing(cv->battlerAtk, cv->move, recoverAmount, cv->abilities);
         SetHealAmount(se->effectBattler, recoverAmount);
         if (megaSolActivates)
         {
@@ -1727,6 +1735,7 @@ bool32 TryGroundAirborneBattler(enum BattlerId battler, enum Ability ability)
     if (IS_BATTLER_OF_TYPE(battler, TYPE_FLYING)
      || ability == ABILITY_LEVITATE
      || ability == ABILITY_EELEVATE
+     || ability == ABILITY_MAGLEV_POLARITY
      || state == STATE_ON_AIR
      || state == STATE_SKY_DROP_ATTACKER
      || state == STATE_SKY_DROP_TARGET
@@ -2280,13 +2289,13 @@ static void HandleSetEffectAttract(struct BattleCalcValues *cv, struct SetEffect
     {
         SetEffectFail(BattleScript_ButItFailedRet, cv->isStatusMove);
     }
-    else if (cv->abilities[se->effectBattler] == ABILITY_OBLIVIOUS)
+    else if (HasObliviousAbility(cv->abilities[se->effectBattler]))
     {
         SetEffectFailAndCheckReturn;
         gBattlerAbility = se->effectBattler;
-        gLastUsedAbility = ABILITY_OBLIVIOUS;
+        gLastUsedAbility = cv->abilities[se->effectBattler];
         BattleScriptPushAndSet(se->script, BattleScript_NotAffectedAbilityPopUp);
-        RecordAbilityBattle(se->effectBattler, ABILITY_OBLIVIOUS);
+        RecordAbilityBattle(se->effectBattler, cv->abilities[se->effectBattler]);
     }
     else if (!cv->onlyChecking)
     {
@@ -2987,7 +2996,7 @@ static void HandleSetEffectTailwind(struct BattleCalcValues *cv, struct SetEffec
 {
     u32 side = GetBattlerSide(se->effectBattler);
 
-    if (gSideStatuses[side] & SIDE_STATUS_TAILWIND)
+    if (IsBattlerInTailwind(se->effectBattler, cv->abilities[se->effectBattler]))
     {
         SetEffectFail(BattleScript_ButItFailedRet, cv->isStatusMove);
     }
@@ -3861,6 +3870,7 @@ static void HandleSetEffectCourtChange(struct BattleCalcValues *cv, struct SetEf
     SWAP(gBattleStruct->numHazards[B_SIDE_PLAYER], gBattleStruct->numHazards[B_SIDE_OPPONENT], temp);
     SWAP(sideTimerPlayer->spikesAmount, sideTimerOpp->spikesAmount, temp);
     SWAP(sideTimerPlayer->toxicSpikesAmount, sideTimerOpp->toxicSpikesAmount, temp);
+    SWAP(sideTimerPlayer->frigidSpikesAmount, sideTimerOpp->frigidSpikesAmount, temp);
 
     // Change battler IDs of swapped effects. Needed for the correct string when they expire
     UPDATE_COURTCHANGED_BATTLER(stickyWebBattlerId);
@@ -3908,6 +3918,7 @@ static void HandleSetEffectLifeDew(struct BattleCalcValues *cv, struct SetEffect
     {
         s32 maxHpFraction = se->additionalEffect->argument.maxHpFraction;
         s32 healAmount = GetMaxHpWithRounding(se->effectBattler) / maxHpFraction;
+        healAmount = GetMoonAttunedHealing(cv->battlerAtk, cv->move, healAmount, cv->abilities);
         SetHealAmount(se->effectBattler, healAmount);
         BattleScriptPushAndSet(se->script, BattleScript_RestoreHpEffectBattler);
     }
@@ -3946,13 +3957,13 @@ static void HandleSetEffectTaunt(struct BattleCalcValues *cv, struct SetEffect *
 {
     enum BattlerId aromaVeilBattler = B_BATTLER_0;
 
-    if (GetConfig(B_OBLIVIOUS_TAUNT) >= GEN_6 && cv->abilities[se->effectBattler] == ABILITY_OBLIVIOUS)
+    if (GetConfig(B_OBLIVIOUS_TAUNT) >= GEN_6 && HasObliviousAbility(cv->abilities[se->effectBattler]))
     {
         SetEffectFailAndCheckReturn;
         gBattlerAbility = se->effectBattler;
-        gLastUsedAbility = ABILITY_OBLIVIOUS;
+        gLastUsedAbility = cv->abilities[se->effectBattler];
         BattleScriptPushAndSet(se->script, BattleScript_NotAffectedAbilityPopUp);
-        RecordAbilityBattle(se->effectBattler, ABILITY_OBLIVIOUS);
+        RecordAbilityBattle(se->effectBattler, cv->abilities[se->effectBattler]);
     }
     else if (IsAbilityOnSideWithArr(se->effectBattler, ABILITY_AROMA_VEIL, cv->abilities, &aromaVeilBattler))
     {

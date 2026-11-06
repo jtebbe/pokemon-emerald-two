@@ -303,7 +303,8 @@ enum CriticalHitBoost
     F(VOLATILE_UNABLE_TO_USE_MOVE,          unableToUseMove,               (u32, 1)) \
     F(VOLATILE_ACTIVATE_DANCER,             activateDancer,                (u32, 1)) \
     F(VOLATILE_TRACE_ACTIVATED,             traceActivated,                (u32, 1)) \
-    F(VOLATILE_SPEED_SWAP,                  speedSwapped,                  (u32, 1))
+    F(VOLATILE_SPEED_SWAP,                  speedSwapped,                  (u32, 1)) \
+    F(VOLATILE_ABYSSAL_EMBRACE,             abyssalEmbrace,                (u32, MAX_BATTLERS_COUNT))
 
 
 /* Use within a macro to get the maximum allowed value for a volatile. Requires _typeMaxValue as input. */
@@ -398,6 +399,7 @@ enum Hazards
     HAZARDS_STICKY_WEB,
     HAZARDS_TOXIC_SPIKES,
     HAZARDS_STEALTH_ROCK,
+    HAZARDS_FRIGID_SPIKES,
     HAZARDS_MAX_COUNT,
 };
 

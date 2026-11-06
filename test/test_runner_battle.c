@@ -70,6 +70,66 @@ const struct Trainer gBattlePartners[DIFFICULTY_COUNT][PARTNER_COUNT] =
 struct BattleTestRunnerState *const gBattleTestRunnerState = (void *)sBackupMapData;
 STATIC_ASSERT(sizeof(struct BattleTestRunnerState) <= sizeof(sBackupMapData), sBackupMapDataSpace);
 
+// Kept outside sBackupMapData so growing the stack cannot reduce fixture/result
+// capacity. This translation unit is only linked into test ROMs.
+#define BATTLE_TEST_STACK_GUARD_WORDS 16
+#define BATTLE_TEST_STACK_GUARD_PATTERN 0xD15EA5ED
+#define BATTLE_TEST_STACK_UNUSED_PATTERN 0xA5C3F00D
+struct BattleTestStack
+{
+    u32 lowerGuard[BATTLE_TEST_STACK_GUARD_WORDS];
+    u32 words[BATTLE_TEST_STACK_SIZE / sizeof(u32)];
+    u32 upperGuard[BATTLE_TEST_STACK_GUARD_WORDS];
+};
+static EWRAM_DATA struct BattleTestStack sBattleTestStack ALIGNED(8) = {0};
+static EWRAM_DATA u32 sBattleTestStackHighWaterMark = 0;
+STATIC_ASSERT(BATTLE_TEST_STACK_SIZE % 8 == 0, battleTestStackSizeAlignment);
+STATIC_ASSERT((BATTLE_TEST_STACK_GUARD_WORDS * sizeof(u32)) % 8 == 0, battleTestStackGuardAlignment);
+STATIC_ASSERT(sizeof(struct BattleTestStack) == BATTLE_TEST_STACK_SIZE + 2 * BATTLE_TEST_STACK_GUARD_WORDS * sizeof(u32), battleTestStackLayout);
+
+// Match the old inline stack's clearing boundaries. Event captures can still
+// point to locals after InvokeTestFunction returns, so never repaint per call.
+static void InitBattleTestStack(void)
+{
+    for (u32 i = 0; i < BATTLE_TEST_STACK_GUARD_WORDS; i++)
+    {
+        sBattleTestStack.lowerGuard[i] = BATTLE_TEST_STACK_GUARD_PATTERN;
+        sBattleTestStack.upperGuard[i] = BATTLE_TEST_STACK_GUARD_PATTERN;
+    }
+    for (u32 i = 0; i < ARRAY_COUNT(sBattleTestStack.words); i++)
+        sBattleTestStack.words[i] = BATTLE_TEST_STACK_UNUSED_PATTERN;
+}
+
+static bool32 BattleTestStackGuardsIntact(void)
+{
+    for (u32 i = 0; i < BATTLE_TEST_STACK_GUARD_WORDS; i++)
+        if (sBattleTestStack.lowerGuard[i] != BATTLE_TEST_STACK_GUARD_PATTERN
+         || sBattleTestStack.upperGuard[i] != BATTLE_TEST_STACK_GUARD_PATTERN)
+            return FALSE;
+    return TRUE;
+}
+
+static u32 GetBattleTestStackUsage(void)
+{
+    u32 untouched = 0;
+    while (untouched < ARRAY_COUNT(sBattleTestStack.words)
+        && sBattleTestStack.words[untouched] == BATTLE_TEST_STACK_UNUSED_PATTERN)
+        untouched++;
+    return BATTLE_TEST_STACK_SIZE - untouched * sizeof(u32);
+}
+
+u32 TestRunner_Battle_GetStackHighWaterMark(void)
+{
+    return sBattleTestStackHighWaterMark;
+}
+
+static void RequireBattleTestStackGuards(void)
+{
+    if (!BattleTestStackGuardsIntact())
+        Test_ExitWithResult(TEST_RESULT_ERROR, SourceLine(0), "%s:%d: Battle test stack guard overwritten (%d-byte stack)",
+            gTestRunnerState.test->filename, SourceLine(0), BATTLE_TEST_STACK_SIZE);
+}
+
 static void CB2_BattleTest_NextParameter(void);
 static void CB2_BattleTest_NextTrial(void);
 static void PushBattlerAction(u32 sourceLine, enum BattlerId battlerId, u32 actionType, u32 byte);
@@ -193,7 +253,7 @@ NAKED static void InvokeOneVsTwoTestFunctionWithStack(void *results, u32 i, stru
         .pool");
 }
 
-// Calls test->function, but pointing its stack at DATA.stack so that
+// Calls test->function on the dedicated guarded stack so that
 // local variables are live after the function returns (and so can be
 // referenced by HP_BAR, or the next call, etc).
 // NOTE: This places the stack in EWRAM which has longer waitstates than
@@ -201,6 +261,7 @@ NAKED static void InvokeOneVsTwoTestFunctionWithStack(void *results, u32 i, stru
 // and b) mga-rom-test isn't meaningfully limited by the GBA frame rate.
 static void InvokeTestFunction(const struct BattleTest *test)
 {
+    RequireBattleTestStackGuards();
     STATE->parametersCount = 0;
     // 2 bits per battler; battler0/1 are always trainer0/1, respectively
     DATA.battlerTrainers = B_TRAINER_OPPONENT_A << 2;
@@ -210,29 +271,31 @@ static void InvokeTestFunction(const struct BattleTest *test)
     case BATTLE_TEST_WILD:
     case BATTLE_TEST_GHOST:
     case BATTLE_TEST_AI_SINGLES:
-        InvokeSingleTestFunctionWithStack(STATE->results, STATE->runParameter, &gBattleMons[B_POSITION_PLAYER_LEFT], &gBattleMons[B_POSITION_OPPONENT_LEFT], test->function.singles, &DATA.stack[BATTLE_TEST_STACK_SIZE]);
+        InvokeSingleTestFunctionWithStack(STATE->results, STATE->runParameter, &gBattleMons[B_POSITION_PLAYER_LEFT], &gBattleMons[B_POSITION_OPPONENT_LEFT], test->function.singles, &sBattleTestStack.words[ARRAY_COUNT(sBattleTestStack.words)]);
         break;
     case BATTLE_TEST_DOUBLES:
     case BATTLE_TEST_AI_DOUBLES:
         DATA.battlerTrainers |= B_TRAINER_OPPONENT_A << 6;
-        InvokeDoubleTestFunctionWithStack(STATE->results, STATE->runParameter, &gBattleMons[B_POSITION_PLAYER_LEFT], &gBattleMons[B_POSITION_OPPONENT_LEFT], &gBattleMons[B_POSITION_PLAYER_RIGHT], &gBattleMons[B_POSITION_OPPONENT_RIGHT], test->function.doubles, &DATA.stack[BATTLE_TEST_STACK_SIZE]);
+        InvokeDoubleTestFunctionWithStack(STATE->results, STATE->runParameter, &gBattleMons[B_POSITION_PLAYER_LEFT], &gBattleMons[B_POSITION_OPPONENT_LEFT], &gBattleMons[B_POSITION_PLAYER_RIGHT], &gBattleMons[B_POSITION_OPPONENT_RIGHT], test->function.doubles, &sBattleTestStack.words[ARRAY_COUNT(sBattleTestStack.words)]);
         break;
     case BATTLE_TEST_MULTI:
     case BATTLE_TEST_AI_MULTI:
         DATA.battlerTrainers |= (B_TRAINER_PARTNER << 4 | B_TRAINER_OPPONENT_B << 6);
-        InvokeMultiTestFunctionWithStack(STATE->results, STATE->runParameter, &gBattleMons[B_POSITION_PLAYER_LEFT], &gBattleMons[B_POSITION_OPPONENT_LEFT], &gBattleMons[B_POSITION_PLAYER_RIGHT], &gBattleMons[B_POSITION_OPPONENT_RIGHT], test->function.multi, &DATA.stack[BATTLE_TEST_STACK_SIZE]);
+        InvokeMultiTestFunctionWithStack(STATE->results, STATE->runParameter, &gBattleMons[B_POSITION_PLAYER_LEFT], &gBattleMons[B_POSITION_OPPONENT_LEFT], &gBattleMons[B_POSITION_PLAYER_RIGHT], &gBattleMons[B_POSITION_OPPONENT_RIGHT], test->function.multi, &sBattleTestStack.words[ARRAY_COUNT(sBattleTestStack.words)]);
         break;
     case BATTLE_TEST_TWO_VS_ONE:
     case BATTLE_TEST_AI_TWO_VS_ONE:
         DATA.battlerTrainers |= (B_TRAINER_PARTNER << 4 | B_TRAINER_OPPONENT_A << 6);
-        InvokeTwoVsOneTestFunctionWithStack(STATE->results, STATE->runParameter, &gBattleMons[B_POSITION_PLAYER_LEFT], &gBattleMons[B_POSITION_OPPONENT_LEFT], &gBattleMons[B_POSITION_PLAYER_RIGHT], &gBattleMons[B_POSITION_OPPONENT_RIGHT], test->function.two_vs_one, &DATA.stack[BATTLE_TEST_STACK_SIZE]);
+        InvokeTwoVsOneTestFunctionWithStack(STATE->results, STATE->runParameter, &gBattleMons[B_POSITION_PLAYER_LEFT], &gBattleMons[B_POSITION_OPPONENT_LEFT], &gBattleMons[B_POSITION_PLAYER_RIGHT], &gBattleMons[B_POSITION_OPPONENT_RIGHT], test->function.two_vs_one, &sBattleTestStack.words[ARRAY_COUNT(sBattleTestStack.words)]);
         break;
     case BATTLE_TEST_ONE_VS_TWO:
     case BATTLE_TEST_AI_ONE_VS_TWO:
         DATA.battlerTrainers |= B_TRAINER_OPPONENT_B << 6;
-        InvokeOneVsTwoTestFunctionWithStack(STATE->results, STATE->runParameter, &gBattleMons[B_POSITION_PLAYER_LEFT], &gBattleMons[B_POSITION_OPPONENT_LEFT], &gBattleMons[B_POSITION_PLAYER_RIGHT], &gBattleMons[B_POSITION_OPPONENT_RIGHT], test->function.one_vs_two, &DATA.stack[BATTLE_TEST_STACK_SIZE]);
+        InvokeOneVsTwoTestFunctionWithStack(STATE->results, STATE->runParameter, &gBattleMons[B_POSITION_PLAYER_LEFT], &gBattleMons[B_POSITION_OPPONENT_LEFT], &gBattleMons[B_POSITION_PLAYER_RIGHT], &gBattleMons[B_POSITION_OPPONENT_RIGHT], test->function.one_vs_two, &sBattleTestStack.words[ARRAY_COUNT(sBattleTestStack.words)]);
         break;
     }
+    RequireBattleTestStackGuards();
+    sBattleTestStackHighWaterMark = max(sBattleTestStackHighWaterMark, GetBattleTestStackUsage());
 }
 
 static const struct BattleTest *GetBattleTest(void)
@@ -302,6 +365,7 @@ static u32 BattleTest_EstimateCost(void *data)
     u32 cost;
     const struct BattleTest *test = data;
     memset(STATE, 0, sizeof(*STATE));
+    InitBattleTestStack();
     InitTestBattlers(test);
     STATE->runRandomly = TRUE;
     ResetStartingStatuses();
@@ -320,6 +384,7 @@ static void BattleTest_SetUp(void *data)
 {
     const struct BattleTest *test = data;
     memset(STATE, 0, sizeof(*STATE));
+    InitBattleTestStack();
     InitTestBattlers(test);
     InvokeTestFunction(test);
     STATE->parameters = STATE->parametersCount;
@@ -428,8 +493,12 @@ static void BattleTest_Run(void *data)
     memset(gSaveData.dexCaught, 0, sizeof(gSaveData.dexCaught));
     memset(gSaveData.dexSeen, 0, sizeof(gSaveData.dexSeen));
     memset(&DATA, 0, sizeof(DATA));
+    InitBattleTestStack();
     InitTestBattlers(test);
     TestInitConfigData();
+    // A fresh emulator starts variables at zero (Easy), not Normal. Establish
+    // the same baseline for the first battle and every later fixture.
+    SetCurrentDifficultyLevel(DIFFICULTY_NORMAL);
 
     DATA.queuedEventsFailIndex = MAX_QUEUED_EVENTS;
     DATA.fixture.rngSeed = defaultSeed;
@@ -2233,6 +2302,15 @@ static void CB2_BattleTest_NextTrial(void)
 
 static void BattleTest_TearDown(void *data)
 {
+    sBattleTestStackHighWaterMark = max(sBattleTestStackHighWaterMark, GetBattleTestStackUsage());
+    if (!BattleTestStackGuardsIntact())
+    {
+        gTestRunnerState.result = TEST_RESULT_ERROR;
+        gTestRunnerState.expectedResult = TEST_RESULT_PASS;
+        gPersistentTestRunnerState.expectedResult = TEST_RESULT_PASS;
+        gTestRunnerState.expectedFailState = NO_EXPECT_FAIL;
+    }
+
     // Free resources that aren't cleaned up when the battle was
     // aborted unexpectedly.
     ClearFlagAfterTest();
@@ -2273,6 +2351,19 @@ static bool32 BattleTest_CheckProgress(void *data)
 
 static bool32 BattleTest_HandleExitWithResult(void *data, enum TestResult result)
 {
+    // An overflow must not be treated as a statistical miss or an expected
+    // assertion failure. Do not schedule another trial with corrupted state.
+    if (!BattleTestStackGuardsIntact())
+    {
+        gTestRunnerState.result = TEST_RESULT_ERROR;
+        gTestRunnerState.expectedResult = TEST_RESULT_PASS;
+        gPersistentTestRunnerState.expectedResult = TEST_RESULT_PASS;
+        gTestRunnerState.expectedFailState = NO_EXPECT_FAIL;
+        Test_MgbaPrintf("%s:%d: Battle test stack guard overwritten (%d-byte stack)",
+            gTestRunnerState.test->filename, SourceLine(0), BATTLE_TEST_STACK_SIZE);
+        return FALSE;
+    }
+
     if (result != TEST_RESULT_ASSUMPTION_FAIL
      && result != TEST_RESULT_INVALID
      && result != TEST_RESULT_ERROR
@@ -4119,4 +4210,72 @@ void AssumeMoveEffectStatChange_(u32 sourceLine, u32 moveId, struct StatChangeAs
     }
 
     ASSUME(hasEffect == TRUE);
+}
+
+TEST("Battle test stack detects corruption of every lower guard word")
+{
+    for (u32 i = 0; i < BATTLE_TEST_STACK_GUARD_WORDS; i++)
+    {
+        InitBattleTestStack();
+        EXPECT(BattleTestStackGuardsIntact());
+        sBattleTestStack.lowerGuard[i] ^= 1;
+        EXPECT(!BattleTestStackGuardsIntact());
+    }
+    InitBattleTestStack();
+}
+
+TEST("Battle test stack detects corruption of every upper guard word")
+{
+    for (u32 i = 0; i < BATTLE_TEST_STACK_GUARD_WORDS; i++)
+    {
+        InitBattleTestStack();
+        sBattleTestStack.upperGuard[i] ^= 1;
+        EXPECT(!BattleTestStackGuardsIntact());
+    }
+    InitBattleTestStack();
+    EXPECT(BattleTestStackGuardsIntact());
+}
+
+TEST("Battle test stack watermark measures downward growth without clearing captured values")
+{
+    InitBattleTestStack();
+    EXPECT_EQ(GetBattleTestStackUsage(), 0);
+    u32 top = ARRAY_COUNT(sBattleTestStack.words) - 1;
+    sBattleTestStack.words[top] = 123;
+    EXPECT_EQ(GetBattleTestStackUsage(), sizeof(u32));
+    sBattleTestStack.words[top - 64] = 456;
+    EXPECT_EQ(GetBattleTestStackUsage(), 65 * sizeof(u32));
+    EXPECT_EQ(sBattleTestStack.words[top], 123);
+    EXPECT_EQ(sBattleTestStack.words[top - 64], 456);
+    EXPECT(BattleTestStackGuardsIntact());
+    InitBattleTestStack();
+}
+
+SINGLE_BATTLE_TEST("Battle test stack supports large EWRAM frames and preserves captured damage")
+{
+    volatile u32 largeFrame[512];
+    s16 damage;
+    for (u32 i = 0; i < ARRAY_COUNT(largeFrame); i++)
+        largeFrame[i] = i;
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET) { Level(60); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(player, MOVE_SEISMIC_TOSS); }
+    } SCENE {
+        HP_BAR(opponent, captureDamage: &damage);
+    } THEN {
+        EXPECT_EQ(damage, 60);
+        EXPECT_EQ(largeFrame[0], 0);
+        EXPECT_EQ(largeFrame[511], 511);
+        EXPECT_GE((u32)&largeFrame[0], EWRAM_START);
+        EXPECT_LT((u32)&largeFrame[511], EWRAM_END);
+        EXPECT_GE((u32)&sBattleTestStack, EWRAM_START);
+        EXPECT_LE((u32)&sBattleTestStack + sizeof(sBattleTestStack), EWRAM_END);
+        EXPECT_EQ((u32)sBattleTestStack.words % 8, 0);
+        EXPECT_EQ((u32)&sBattleTestStack.words[ARRAY_COUNT(sBattleTestStack.words)] % 8, 0);
+        EXPECT_LE(sizeof(struct BattleTestRunnerState), sizeof(sBackupMapData));
+        EXPECT_GE(TestRunner_Battle_GetStackHighWaterMark(), sizeof(largeFrame));
+        EXPECT_LT(TestRunner_Battle_GetStackHighWaterMark(), BATTLE_TEST_STACK_SIZE);
+    }
 }

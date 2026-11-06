@@ -86,7 +86,9 @@ struct ProtectStruct
     u32 forcedSwitch:1;
     u32 myceliumMight:1;
     u32 survivedOHKO:1; // Used to keep track of effects that allow focus punch when surviving moves like Fissure
-    u32 padding1:4;
+    u32 mushroomMadnessBoosted:1;
+    u32 unbrokenStoneBoosted:1;
+    u32 padding1:2;
     // End of 32-bit bitfield
     u16 helpingHand:3;
     u16 revengeDoubled:4;
@@ -94,10 +96,11 @@ struct ProtectStruct
     // End of 16-bit bitfield
     u16 physicalDmg;
     u16 specialDmg;
+    enum Move frostfeltHatredMove; // Cleared each turn and when its owner leaves the field.
     u8 physicalBattlerId:3;
     u8 specialBattlerId:3;
     u8 lastHitBySpecialMove:1;
-    u8 padding3:1;
+    u8 gloriousManeProtectedHit:1;
 };
 
 struct StatStages
@@ -150,6 +153,7 @@ struct SpecialStatus
     u8 statStageAmount2:4;
     // End of byte
     uq4_12_t storedTypeEffectiveness;
+    enum Item infiniteStashBerry; // Virtual resistance berry; never replaces the held item.
 };
 
 struct SideTimer
@@ -162,6 +166,8 @@ struct SideTimer
     u16 safeguardTimer;
     u8 spikesAmount:4;
     u8 toxicSpikesAmount:4;
+    u8 frigidSpikesAmount:2;
+    u8 hazardPadding:6;
     u8 stickyWebBattlerId;
     u8 stickyWebBattlerSide; // Used for Court Change
     u16 auroraVeilTimer;
@@ -268,7 +274,12 @@ struct AiLogicData
     u32 reverseBattlerLogicOrder:1;
     u32 dragonDartsHitsBothTarget:4;
     u32 battlerMovesScored:4; // Bitmask of battlers that have completed move scoring this turn, so a battler can check whether its ally has already committed to a chosen move regardless of AI processing order
-    u32 padding2:7;
+    u32 hasSucculentTrap:1; // Known field abilities, refreshed with switch candidates and saved with the AI cache.
+    u32 hasFrostfeltHatred:1;
+    u32 technicolorAveraging:1; // Guard for switch-in type uncertainty forecasts.
+    u32 fickleForecastsAveraging:1; // Scoped switch-in weather forecasts.
+    u32 voodooStrengthAveraging:1;
+    u32 padding2:2;
 };
 
 struct AiThinkingStruct
@@ -446,8 +457,18 @@ struct BattlerState
     u16 isFirstTurn:2; // Starts at 2 on switch in and counts down during end turn
     u16 toxicChainActivates:1;
     u16 substituteBlocked:1;
-    u16 padding:6;
+    u16 psisightBoosted:1;
+    u16 padding:5;
     // End of Word
+};
+
+// Kept separately so seal history does not enlarge the hot general-purpose party state.
+struct NineTailLegendState
+{
+    // One first-hit trigger per opposing holder, retained through switching.
+    u32 triggeredHolders;
+    enum Move disabledMoves[PARTY_SIZE * (MAX_BATTLE_TRAINERS / 2)];
+    u8 disabledCount;
 };
 
 struct PartyState
@@ -654,6 +675,26 @@ struct BattleStruct
     u8 allowPartingShot:1;
     u8 adrenalineOrbActivated:1; // prevents looping after an adrenaline stat changed
     s32 accumulatedDamage;
+    bool8 hasNineTailLegendSeals;
+    struct NineTailLegendState nineTailLegend[MAX_BATTLE_TRAINERS][PARTY_SIZE];
+    // A called end-turn move and its Dancer chain return to the end-turn script.
+    void (*endlessLuauCallback)(void);
+    const u8 *endlessLuauScript;
+    enum Move endlessLuauSavedMove;
+    enum Move endlessLuauSavedChosenMove;
+    u8 endlessLuauSavedAction;
+    u8 endlessLuauSavedMovePos;
+    u8 endlessLuauSavedScriptStack;
+    enum BattlerId endlessLuauBattler;
+    bool8 endlessLuauActive;
+    u32 relentlessChaseDamage;
+    u8 guardiansGrowlRattled;
+    u8 succulentTrapPoisonTargets;
+    // Keep Technicolor's history separate from the hot general party state.
+    enum Type technicolorTypes[MAX_BATTLE_TRAINERS][PARTY_SIZE][2];
+    enum Type technicolorMoveTypes[MAX_BATTLERS_COUNT]; // Resolved per recipient for this attack.
+    u32 maglevPolarityDamage; // Actual damage dealt to Electric/Steel targets this move.
+    u8 noblesseObligeTargets; // Recipients of direct critical damage during this move.
 };
 
 struct AiBattleData
@@ -1020,6 +1061,17 @@ enum BattlerPosition GetOppositePosition(enum BattlerPosition position);
 enum BattlerId GetBattlerLeftFoe(enum BattlerId battler);
 enum BattlerId GetBattlerRightFoe(enum BattlerId battler);
 enum BattlerId GetDefaultSelectionTarget(enum BattlerId battler, enum MoveTarget moveTarget);
+
+static inline bool32 IsBattlerUsingAbilityDance(enum BattlerId battler)
+{
+    return gSpecialStatuses[battler].dancerUsedMove
+        || (gBattleStruct->endlessLuauActive && gBattleStruct->endlessLuauBattler == battler);
+}
+
+static inline bool32 HasDancerAbility(enum Ability ability)
+{
+    return ability == ABILITY_DANCER || ability == ABILITY_ENDLESS_LUAU;
+}
 
 static inline bool32 IsBattlerAlive(enum BattlerId battler)
 {

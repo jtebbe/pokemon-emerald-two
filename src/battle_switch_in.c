@@ -343,6 +343,17 @@ static bool32 TryHazardsOnSwitchIn(enum BattlerId battler, enum Ability ability,
             effect = TRUE;
         }
         break;
+    case HAZARDS_FRIGID_SPIKES:
+        if (IsBattlerAffectedByHazards(battler, holdEffect, FALSE)
+         && IsBattlerGrounded(battler, ability, holdEffect))
+        {
+            gBattleScripting.battler = battler;
+            if (ability != ABILITY_MAGIC_GUARD)
+                SetPassiveDamageAmount(battler, GetBattlerMaxHP(battler) * gSideTimers[side].frigidSpikesAmount / 16);
+            BattleScriptCall(BattleScript_FrigidSpikesOnBattler);
+            effect = TRUE;
+        }
+        break;
     case HAZARDS_STICKY_WEB:
         if (IsBattlerAffectedByHazards(battler, holdEffect, FALSE) && IsBattlerGrounded(battler, ability, holdEffect))
         {
@@ -405,6 +416,19 @@ static bool32 TryHazardsOnSwitchIn(enum BattlerId battler, enum Ability ability,
     if (!clearedToxicSpikes)
         gBattleStruct->hazardsCounter++;
 
+    return effect;
+}
+
+// Reuse entry hazards without advancing the switch-in event iterator.
+// Magic Guard prevents the forced hazard activation, including status hazards.
+bool32 TryScrapBrawlerHazard(enum BattlerId battler, enum Hazards hazard)
+{
+    enum Ability ability = GetBattlerAbility(battler);
+    if (!IsBattlerAlive(battler) || ability == ABILITY_MAGIC_GUARD)
+        return FALSE;
+    u32 savedCounter = gBattleStruct->hazardsCounter;
+    bool32 effect = TryHazardsOnSwitchIn(battler, ability, GetBattlerHoldEffect(battler), hazard);
+    gBattleStruct->hazardsCounter = savedCounter;
     return effect;
 }
 

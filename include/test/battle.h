@@ -556,9 +556,8 @@
 #include "constants/songs.h"
 #include "test/test.h"
 
-// NOTE: If the stack is too small the test runner will probably crash
-// or loop.
-#define BATTLE_TEST_STACK_SIZE 1024
+// A separate guarded EWRAM stack preserves captured locals between callbacks.
+#define BATTLE_TEST_STACK_SIZE 4096
 #define MAX_TURNS 16
 #define MAX_QUEUED_EVENTS 30
 #define MAX_EXPECTED_ACTIONS 10
@@ -778,7 +777,6 @@ struct BattleTrialData
 
 struct BattleTestData
 {
-    u8 stack[BATTLE_TEST_STACK_SIZE];
     u8 partySizes[MAX_BATTLE_TRAINERS];
     u8 explicitMoves[MAX_BATTLE_TRAINERS];
     bool8 hasExplicitSpeeds;
@@ -868,6 +866,7 @@ struct BattleTestRunnerState
 extern const struct TestRunner gBattleTestRunner;
 extern struct BattleTestRunnerState *const gBattleTestRunnerState;
 bool32 IsAITest(void);
+u32 TestRunner_Battle_GetStackHighWaterMark(void);
 
 #define APPEND_COMMA_TRUE(a) , a, TRUE
 #define R_APPEND_TRUE(...) __VA_OPT__(FIRST(__VA_ARGS__), TRUE RECURSIVELY(R_FOR_EACH(APPEND_COMMA_TRUE, EXCEPT_1(__VA_ARGS__))))

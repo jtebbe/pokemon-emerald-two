@@ -1,4 +1,5 @@
 #include "global.h"
+#include "field_weather.h"
 #include "test/battle.h"
 #include "battle_ai_util.h"
 #include "battle_util.h"
@@ -130,7 +131,9 @@ AI_SINGLE_BATTLE_TEST("Ilex Whimsy switch-in prediction leaves the real side's t
     } THEN {
         u32 sideStatus = gSideStatuses[B_SIDE_OPPONENT];
         struct SideTimer timers = gSideTimers[B_SIDE_OPPONENT];
+        u32 weather = GetCurrentWeather();
         GetMostSuitableMonToSwitchInto(B_BATTLER_1, SWITCH_MID_BATTLE_OPTIONAL);
+        EXPECT_EQ(GetCurrentWeather(), weather);
         EXPECT_EQ(gSideStatuses[B_SIDE_OPPONENT], sideStatus);
         EXPECT_EQ(gSideTimers[B_SIDE_OPPONENT].mistTimer, timers.mistTimer);
         EXPECT_EQ(gSideTimers[B_SIDE_OPPONENT].safeguardTimer, timers.safeguardTimer);

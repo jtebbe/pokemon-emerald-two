@@ -1073,6 +1073,7 @@ static void Cmd_healthbarupdate(void)
 
 static void Cmd_datahpupdate(void)
 {
+    SetTechnicolorTargetType(gBattlerTarget);
     CMD_ARGS(u8 battler, u8 assuranceDouble);
     enum BattlerId battler = GetBattlerForBattleScript(cmd->battler);
 
@@ -1323,7 +1324,10 @@ void SetNonVolatileStatus(enum BattlerId battlerAtk, enum BattlerId effectBattle
     switch (effect)
     {
     case MOVE_EFFECT_SLEEP:
-        if (GetConfig(B_SLEEP_TURNS) >= GEN_CHAMPIONS)
+        // Two ticks mean one sleeping action, then waking on the next attempt.
+        if (trigger == TRIGGER_ON_ABILITY && GetBattlerAbility(battlerAtk) == ABILITY_HYPNOTIC_PATTERN)
+            gBattleMons[effectBattler].status1 |= STATUS1_SLEEP_TURN(2);
+        else if (GetConfig(B_SLEEP_TURNS) >= GEN_CHAMPIONS)
             gBattleMons[effectBattler].status1 |= STATUS1_SLEEP_TURN(RandomWeighted(RNG_SLEEP_TURNS, 0, 0, 1, 2));
         else if (GetConfig(B_SLEEP_TURNS) >= GEN_5)
             gBattleMons[effectBattler].status1 |= STATUS1_SLEEP_TURN(RandomUniform(RNG_SLEEP_TURNS, 2, 4));
@@ -3727,7 +3731,7 @@ static void Cmd_hidepartystatussummary(void)
 
 static void ResetValuesForCalledMove(void)
 {
-    if (gBattlerByTurnOrder[gCurrentTurnActionNumber] != gBattlerAttacker)
+    if (gCurrentTurnActionNumber >= gBattlersCount || gBattlerByTurnOrder[gCurrentTurnActionNumber] != gBattlerAttacker)
         gBattleStruct->eventState.atkCanceler = 0;
     else
         gBattleStruct->eventState.atkCanceler = CANCELER_VOLATILE_BLOCKED;
@@ -4874,14 +4878,14 @@ static void Cmd_tryinfatuating(void)
         return;
     }
 
-    if (GetBattlerAbility(gBattlerTarget) == ABILITY_OBLIVIOUS)
+    if (HasObliviousAbility(GetBattlerAbility(gBattlerTarget)))
     {
         gEffectBattler = gBattlerTarget; // for message
         gBattlescriptCurrInstr = BattleScript_NotAffectedAbilityPopUp;
         AddBattlerMoveResultFlag(gBattlerTarget, MOVE_RESULT_DOESNT_AFFECT_FOE);
         gBattlerAbility = gBattlerTarget;
-        gLastUsedAbility = ABILITY_OBLIVIOUS;
-        RecordAbilityBattle(gBattlerTarget, ABILITY_OBLIVIOUS);
+        gLastUsedAbility = GetBattlerAbility(gBattlerTarget);
+        RecordAbilityBattle(gBattlerTarget, GetBattlerAbility(gBattlerTarget));
     }
     else
     {
@@ -5415,6 +5419,9 @@ bool32 IsSubstituteProtected(enum BattlerId battlerAtk, enum BattlerId battlerDe
     else if (move == MOVE_NONE)
         return TRUE;
     else if (IsBattleMoveStatus(move) && battlerAtk == battlerDef)
+        return FALSE;
+    else if (GetBattleMoveType(move) == TYPE_WATER
+          && GetSeaHeraldBattler(battlerAtk, TYPE_WATER, gAiLogicData->aiCalcInProgress ? gAiLogicData->abilities : NULL) < MAX_BATTLERS_COUNT)
         return FALSE;
     else if (MoveIgnoresSubstitute(move))
         return FALSE;
@@ -6717,6 +6724,7 @@ static void SetStatChangeFlags(struct StatChange *st, u32 flags)
     st->stickyWeb = SET_FLAG(STAT_CHANGE_STICKY_WEB);
     st->mirrorHerbActivation = SET_FLAG(STAT_CHANGE_MIRROR_HERB);
     st->opportunistActivation = SET_FLAG(STAT_CHANGE_OPPORTUNIST);
+    st->bypassSubstitute = SET_FLAG(STAT_CHANGE_BYPASS_SUBSTITUTE);
 }
 #undef SET_FLAG
 
@@ -7700,6 +7708,7 @@ void BS_TrySetInfatuation(void)
 
     if (!gBattleMons[gBattlerTarget].volatiles.infatuation
         && gBattleMons[gBattlerTarget].ability != ABILITY_OBLIVIOUS
+        && GetBattlerAbility(gBattlerTarget) != ABILITY_TOTAL_ZEN
         && !IsAbilityOnSide(gBattlerTarget, ABILITY_AROMA_VEIL)
         && AreBattlersOfOppositeGender(gBattlerAttacker, gBattlerTarget))
     {
@@ -8127,7 +8136,9 @@ void BS_SwitchinAbilities(void)
     if (AbilityBattleEffects(ABILITYEFFECT_TERA_SHIFT, battler, ability, MOVE_NONE, TRUE)
      || AbilityBattleEffects(ABILITYEFFECT_NEUTRALIZINGGAS, battler, ability, MOVE_NONE, TRUE)
      || AbilityBattleEffects(ABILITYEFFECT_UNNERVE, battler, ability, MOVE_NONE, TRUE)
-     || AbilityBattleEffects(ABILITYEFFECT_ON_SWITCHIN, battler, ability, MOVE_NONE, TRUE)
+     // Castform's weather transformations are not fresh entries. Rolling
+     // again here would recursively change the weather and transform forever.
+     || (ability != ABILITY_FICKLE_FORECASTS && AbilityBattleEffects(ABILITYEFFECT_ON_SWITCHIN, battler, ability, MOVE_NONE, TRUE))
      || AbilityBattleEffects(ABILITYEFFECT_IMMUNITY, battler, ability, MOVE_NONE, TRUE)
      || AbilityBattleEffects(ABILITYEFFECT_DEPENDS_ON_ALLY, battler, ability, MOVE_NONE, TRUE)
      || AbilityBattleEffects(ABILITYEFFECT_ON_WEATHER, battler, ability, MOVE_NONE, TRUE)
@@ -8381,6 +8392,146 @@ void BS_TryPsychoShift(void)
     TryActivateSleepClause(gBattlerTarget, gBattlerPartyIndexes[gBattlerTarget]);
     TrySynchronizeActivation(gBattlerAttacker, gBattlerTarget, synchronizeEffect);
     gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
+void BS_MentalMasterReveal(void)
+{
+    NATIVE_ARGS(u8 partner, const u8 *skipInstr);
+    enum BattlerId source = gBattlerAttacker;
+    enum BattlerId target = GetOppositeBattler(source);
+    if (cmd->partner)
+        target = GetPartnerBattler(target);
+    if ((cmd->partner && !IsDoubleBattle()) || !IsBattlerAlive(target))
+    {
+        gBattlescriptCurrInstr = cmd->skipInstr;
+        return;
+    }
+
+    gEffectBattler = target;
+    memcpy(gBattleHistory->usedMoves[target], gBattleMons[target].moves, sizeof(gBattleMons[target].moves));
+    RecordAllMoves(target);
+    // Reveal the ability the foe owns, including Apex and suppressed abilities.
+    enum Ability ability = HasApexAbility(target) ? GetBattlerApexAbility(target) : gBattleMons[target].ability;
+    PREPARE_ABILITY_BUFFER(gBattleTextBuff1, ability);
+    RecordAbilityBattle(target, ability);
+    RecordItemEffectBattle(target, GetItemHoldEffect(gBattleMons[target].item));
+    gBattleHistory->heldItems[target] = gBattleMons[target].item;
+    gAiPartyData->mons[GetBattlerSide(target)][gBattlerPartyIndexes[target]].item = gBattleMons[target].item;
+    gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
+void BS_BlazingRushBurn(void)
+{
+    NATIVE_ARGS(u8 partner);
+    enum BattlerId source = gBattlerAttacker;
+    enum BattlerId target = GetOppositeBattler(source);
+    gBattlescriptCurrInstr = cmd->nextInstr;
+    if (cmd->partner)
+    {
+        if (!IsDoubleBattle())
+            return;
+        target = GetPartnerBattler(target);
+    }
+    if (!IsBattlerAlive(target)
+     || GetBattlerTotalSpeedStat(source, GetBattlerAbility(source), GetBattlerHoldEffect(source))
+        <= GetBattlerTotalSpeedStat(target, GetBattlerAbility(target), GetBattlerHoldEffect(target))
+     || !CanSetNonVolatileStatus(source, target, ABILITY_BLAZING_RUSH, GetBattlerAbility(target), MOVE_EFFECT_BURN, CHECK_TRIGGER))
+        return;
+    gBattleScripting.battler = gBattlerAbility = source;
+    SetNonVolatileStatus(source, target, MOVE_EFFECT_BURN, cmd->nextInstr, TRIGGER_ON_ABILITY);
+}
+
+void BS_SucculentTrapPoison(void)
+{
+    NATIVE_ARGS(u8 partner);
+    enum BattlerId source = gBattlerAttacker;
+    enum BattlerId target = GetOppositeBattler(source);
+    gBattlescriptCurrInstr = cmd->nextInstr;
+    if (cmd->partner)
+    {
+        if (!IsDoubleBattle())
+            return;
+        target = GetPartnerBattler(target);
+    }
+    if (!(gBattleStruct->succulentTrapPoisonTargets & (1u << target)) || !IsBattlerAlive(target)
+     || !CanSetNonVolatileStatus(source, target, ABILITY_SUCCULENT_TRAP, GetBattlerAbility(target), MOVE_EFFECT_POISON, CHECK_TRIGGER))
+        return;
+    gBattleScripting.battler = gBattlerAbility = source;
+    SetNonVolatileStatus(source, target, MOVE_EFFECT_POISON, cmd->nextInstr, TRIGGER_ON_ABILITY);
+}
+
+void BS_HypnoticPatternApply(void)
+{
+    NATIVE_ARGS(u8 partner);
+    enum BattlerId source = gBattlerAttacker;
+    enum BattlerId target = GetOppositeBattler(source);
+    gBattlescriptCurrInstr = cmd->nextInstr;
+    if (cmd->partner)
+    {
+        if (!IsDoubleBattle())
+            return;
+        target = GetPartnerBattler(target);
+    }
+    if (!CanHypnoticPatternSleep(source, target, GetBattlerAbility(target)))
+        return;
+
+    gBattleScripting.battler = gBattlerAbility = source;
+    gBattleStruct->battlerState[target].sleepClauseEffectExempt = FALSE;
+    SetNonVolatileStatus(source, target, MOVE_EFFECT_SLEEP, cmd->nextInstr, TRIGGER_ON_ABILITY);
+}
+
+void BS_SporeCloudApply(void)
+{
+    NATIVE_ARGS(u8 partner);
+    enum BattlerId source = gBattlerAttacker;
+    enum BattlerId target = GetOppositeBattler(source);
+    gBattlescriptCurrInstr = cmd->nextInstr;
+    if (cmd->partner)
+    {
+        if (!IsDoubleBattle())
+            return;
+        target = GetPartnerBattler(target);
+    }
+
+    u32 effects = GetSporeCloudEffects(source, target, GetBattlerAbility(target));
+    enum MoveEffect viable[3];
+    u32 count = 0;
+    const enum MoveEffect statuses[] = {MOVE_EFFECT_TOXIC, MOVE_EFFECT_SLEEP, MOVE_EFFECT_PARALYSIS};
+    for (u32 i = 0; i < ARRAY_COUNT(statuses); i++)
+        if (effects & (1u << statuses[i]))
+            viable[count++] = statuses[i];
+    if (count == 0)
+        return;
+
+    enum MoveEffect effect = viable[RandomUniform(RNG_SPORE_CLOUD, 0, count - 1)];
+    gBattleScripting.battler = gBattlerAbility = source;
+    if (effect == MOVE_EFFECT_SLEEP)
+        gBattleStruct->battlerState[target].sleepClauseEffectExempt = FALSE;
+    SetNonVolatileStatus(source, target, effect, cmd->nextInstr, TRIGGER_ON_ABILITY);
+}
+
+void BS_MoonAttunedRestore(void)
+{
+    NATIVE_ARGS(u8 partner);
+    enum BattlerId battler = cmd->partner ? GetPartnerBattler(gBattlerAbility) : gBattlerAbility;
+    if ((cmd->partner && !IsDoubleBattle()) || !CanMoonAttunedRestore(battler))
+    {
+        gBattlescriptCurrInstr = cmd->nextInstr;
+        return;
+    }
+
+    bool32 cure = (gBattleMons[battler].status1 & STATUS1_ANY) != 0;
+    bool32 heal = !gBattleMons[battler].volatiles.healBlockTimer && gBattleMons[battler].hp < GetBattlerMaxHP(battler);
+    gEffectBattler = gBattleScripting.battler = battler;
+    if (heal)
+        SetHealAmount(battler, GetBattlerMaxHP(battler) / 4);
+    BattleScriptPush(cmd->nextInstr);
+    if (cure && heal)
+        gBattlescriptCurrInstr = BattleScript_MoonAttunedCureAndHeal;
+    else if (cure)
+        gBattlescriptCurrInstr = BattleScript_MoonAttunedCure;
+    else
+        gBattlescriptCurrInstr = BattleScript_RestoreHpEffectBattler;
 }
 
 void BS_CureStatus(void)
@@ -8700,6 +8851,34 @@ void BS_TryEndNeutralizingGas(void)
     gBattlescriptCurrInstr = cmd->nextInstr;
 }
 
+void BS_TryFrigidSpikesFrostbite(void)
+{
+    NATIVE_ARGS();
+    enum BattlerId battler = gBattleScripting.battler;
+    if (IsBattlerAlive(battler) && CanFrigidSpikesFrostbite(battler, GetBattlerAbility(battler)))
+        SetNonVolatileStatus(battler, battler, MOVE_EFFECT_FROSTBITE, cmd->nextInstr, TRIGGER_ON_ABILITY);
+    else
+        gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
+void BS_TrySerpentsRetortPoison(void)
+{
+    NATIVE_ARGS();
+    enum BattlerId retorter = gBattleScripting.battler;
+    // Check after dealing damage: a KO cannot also receive a new status.
+    if (IsBattlerAlive(gBattlerAttacker)
+     && CanBePoisoned(retorter, gBattlerAttacker, ABILITY_SERPENTS_RETORT, GetBattlerAbility(gBattlerAttacker)))
+    {
+        gBattlerAbility = retorter;
+        SetNonVolatileStatus(retorter, gBattlerAttacker, MOVE_EFFECT_TOXIC, cmd->nextInstr, TRIGGER_ON_ABILITY);
+    }
+    else
+    {
+        gBattlerAbility = retorter;
+        gBattlescriptCurrInstr = cmd->nextInstr;
+    }
+}
+
 void BS_ConsumeBerry(void)
 {
     NATIVE_ARGS(u8 battler, bool8 fromBattler);
@@ -8922,6 +9101,12 @@ void BS_TryDefiantRattled(void)
     case ABILITY_RATTLED:
         if (GetConfig(B_UPDATED_INTIMIDATE) >= GEN_8 && gBattleStruct->intimidateActivated)
         {
+            if (GetBattlerAbility(gBattlerAttacker) == ABILITY_GUARDIANS_GROWL)
+            {
+                if (gBattleStruct->guardiansGrowlRattled & (1u << battler))
+                    break;
+                gBattleStruct->guardiansGrowlRattled |= 1u << battler;
+            }
             SetStatChange2(battler, STAT_SPEED, 1);
             gBattlerAbility = battler;
             RecordAbilityBattle(battler, ability);
@@ -9219,4 +9404,34 @@ void BS_TryDoMoveEffectsBeforeMoves(void)
     }
 
     gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
+void BS_SpicedDreamsApply(void)
+{
+    NATIVE_ARGS();
+    enum BattlerId battler = gBattleScripting.battler;
+    gBattlescriptCurrInstr = cmd->nextInstr;
+    if (!CanSpicedDreamsSleep(battler))
+        return;
+    gBattleStruct->battlerState[battler].sleepClauseEffectExempt = TRUE;
+    SetNonVolatileStatus(battler, battler, MOVE_EFFECT_SLEEP, cmd->nextInstr, TRIGGER_ON_ABILITY);
+}
+
+void BS_VoodooStrengthApply(void)
+{
+    NATIVE_ARGS(u8 partner);
+    enum BattlerId source = gBattlerAttacker;
+    enum BattlerId target = cmd->partner ? GetPartnerBattler(source) : source;
+    gBattlescriptCurrInstr = cmd->nextInstr;
+    if ((cmd->partner && !IsDoubleBattle()) || !IsBattlerAlive(target))
+        return;
+    enum Stat stats[NUM_BATTLE_STATS];
+    u32 count = GetVoodooStrengthStats(target, GetBattlerAbility(target), stats);
+    if (!count)
+        return;
+    enum RandomTag tag = cmd->partner ? RNG_VOODOO_STRENGTH_ALLY : RNG_VOODOO_STRENGTH_SELF;
+    SetStatChange(target, stats[RandomUniform(tag, 0, count - 1)], 2);
+    gBattleScripting.battler = gBattlerAbility = source;
+    gEffectBattler = target;
+    BattleScriptCall(BattleScript_VoodooStrengthStatChange);
 }

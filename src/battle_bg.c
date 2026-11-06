@@ -675,10 +675,14 @@ static u8 GetBattleEnvironmentOverride(void)
 {
     u8 battleScene = GetCurrentMapBattleScene();
 
-    if (TestRunner_Battle_GetForcedEnvironment()
-     && gBattleEnvironmentInfo[gBattleEnvironment].background.tilemap
-     && gBattleEnvironmentInfo[gBattleEnvironment].background.tileset)
+    if (TestRunner_Battle_GetForcedEnvironment())
     {
+        // Some environments define move mechanics without their own artwork.
+        // Use a complete background while preserving gBattleEnvironment.
+        if (!gBattleEnvironmentInfo[gBattleEnvironment].background.tilemap
+         || !gBattleEnvironmentInfo[gBattleEnvironment].background.tileset
+         || !gBattleEnvironmentInfo[gBattleEnvironment].palette)
+            return BATTLE_ENVIRONMENT_BUILDING;
         return gBattleEnvironment;
     }
     else if (gBattleTypeFlags & BATTLE_TYPE_LINK)

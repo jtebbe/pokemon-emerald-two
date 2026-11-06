@@ -101,14 +101,20 @@ u32 GetBattlerTotalSpeedStat(enum BattlerId battler, enum Ability ability, enum 
 s32 GetChosenMovePriority(enum BattlerId battler, enum Ability ability);
 s32 GetBattleMovePriority(enum BattlerId battler, enum Ability ability, enum Move move);
 s32 GetBattleMovePriorityForTarget(enum BattlerId battler, enum Ability ability, enum Move move, enum BattlerId target);
+s32 GetBattleMovePriorityBeforeFieldAbilities(enum BattlerId battler, enum Ability ability, enum Move move, enum BattlerId target);
+s32 ApplyMephiticDustPriority(enum BattlerId battler, s32 priority, const enum Ability abilities[]);
+s32 ApplySucculentTrapPriority(enum BattlerId battler, enum Move move, enum BattlerId target, s32 priority, const enum Ability abilities[]);
+
 s32 GetWhichBattlerFasterArgs(struct BattleCalcValues *calcValues, bool32 ignoreChosenMoves, u32 speedBattler1, u32 speedBattler2, s32 priority1, s32 priority2);
 s32 GetWhichBattlerFasterOrTies(struct BattleCalcValues *calcValues, bool32 ignoreChosenMoves);
 s32 GetWhichBattlerFaster(struct BattleCalcValues *calcValues, bool32 ignoreChosenMoves);
+bool32 IsViciousStingsMove(enum BattlerId battler, enum Ability ability, enum HoldEffect holdEffect, enum Move move);
 const u8 *GetChargingSetUpScript(enum BattleMoveEffects moveEffect, bool32 inMiddleOfTurn);
 void RunBattleScriptCommands_PopCallbacksStack(void);
 void RunBattleScriptCommands(void);
 enum Type GetDynamicMoveType(struct Pokemon *mon, enum Move move, enum BattlerId battler, enum Ability ability, enum HoldEffect holdEffect, enum MonState state);
 void SetTypeBeforeUsingMove(enum Move move, enum BattlerId battler, enum Ability ability, enum HoldEffect holdEffect);
+void SetTypeBeforeUsingMoveForTarget(enum Move move, enum BattlerId battler, enum BattlerId target, enum Ability ability, enum HoldEffect holdEffect);
 bool32 IsWildMonSmart(void);
 void CustomTrainerPartyAssignMoves(struct Pokemon *mon, const struct TrainerMon *partyEntry);
 bool32 CanPlayerForfeitNormalTrainerBattle(void);

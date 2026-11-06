@@ -102,6 +102,10 @@ bool32 CanTerastallize(enum BattlerId battler)
     if (GetActiveGimmick(battler) != GIMMICK_NONE)
         return FALSE;
 
+    // An Apex Meteorite occupies this Pokémon's gimmick, even without an Apex ability.
+    if (holdEffect == HOLD_EFFECT_APEX_METEORITE)
+        return FALSE;
+
     // Check if battler is holding a Mega Stone.
     if (!TESTING && (holdEffect == HOLD_EFFECT_MEGA_STONE)) // tests make this check already
         return FALSE;
@@ -137,6 +141,8 @@ bool32 IsTypeStellarBoosted(enum BattlerId battler, enum Type type)
 uq4_12_t GetTeraMultiplier(struct DamageContext *ctx)
 {
     enum Type teraType = GetBattlerTeraType(ctx->battlerAtk);
+    bool32 hasOriginalStab = IS_BATTLER_OF_BASE_TYPE(ctx->battlerAtk, ctx->moveType)
+        || AbilityGrantsStab(ctx->abilities[ctx->battlerAtk], ctx->moveType);
 
     // Safety check.
     if (GetActiveGimmick(ctx->battlerAtk) != GIMMICK_TERA)
@@ -146,7 +152,7 @@ uq4_12_t GetTeraMultiplier(struct DamageContext *ctx)
     if (teraType == TYPE_STELLAR)
     {
         bool32 shouldBoost = IsTypeStellarBoosted(ctx->battlerAtk, ctx->moveType);
-        if (IS_BATTLER_OF_BASE_TYPE(ctx->battlerAtk, ctx->moveType))
+        if (hasOriginalStab)
         {
             if (shouldBoost)
                 return UQ_4_12(2.0);
@@ -159,7 +165,7 @@ uq4_12_t GetTeraMultiplier(struct DamageContext *ctx)
             return UQ_4_12(1.0);
     }
     // Base and Tera type.
-    if (ctx->moveType == teraType && IS_BATTLER_OF_BASE_TYPE(ctx->battlerAtk, ctx->moveType))
+    if (ctx->moveType == teraType && hasOriginalStab)
     {
         if (ctx->abilities[ctx->battlerAtk] == ABILITY_ADAPTABILITY)
             return UQ_4_12(2.25);
@@ -167,7 +173,7 @@ uq4_12_t GetTeraMultiplier(struct DamageContext *ctx)
             return UQ_4_12(2.0);
     }
     // Tera type only (Adaptability applies).
-    else if (ctx->moveType == teraType && !IS_BATTLER_OF_BASE_TYPE(ctx->battlerAtk, ctx->moveType))
+    else if (ctx->moveType == teraType && !hasOriginalStab)
     {
         if (ctx->abilities[ctx->battlerAtk] == ABILITY_ADAPTABILITY)
             return UQ_4_12(2.0);
@@ -175,7 +181,7 @@ uq4_12_t GetTeraMultiplier(struct DamageContext *ctx)
             return UQ_4_12(1.5);
     }
     // Base type only (Adaptability does not apply while Terastallized).
-    else if (ctx->moveType != teraType && IS_BATTLER_OF_BASE_TYPE(ctx->battlerAtk, ctx->moveType))
+    else if (ctx->moveType != teraType && hasOriginalStab)
     {
         return UQ_4_12(1.5);
     }

@@ -1,6 +1,7 @@
 #ifndef GUARD_BATTLE_AI_UTIL_H
 #define GUARD_BATTLE_AI_UTIL_H
 
+#include "battle.h"
 #include "battle_ai_main.h"
 #include "battle_ai_field_statuses.h"
 
@@ -83,10 +84,11 @@ struct AiCalcValues
 {
     enum Move move;
     uq4_12_t typeEffectiveness;
-    u32 weather:8;
+    // Weather flags include Snow and higher bits; match gBattleWeather's width.
+    u32 weather:16;
     enum BattleTerrain terrain:8;
-    enum Gimmick gimmickAtk:8;
-    enum Gimmick gimmickDef:8;
+    enum Gimmick gimmickAtk:4;
+    enum Gimmick gimmickDef:4;
 };
 
 static inline bool32 IsMoveUnusable(enum MoveSlot moveIndex, enum Move move, u32 moveLimitations)
@@ -97,6 +99,18 @@ static inline bool32 IsMoveUnusable(enum MoveSlot moveIndex, enum Move move, u32
 }
 
 typedef bool32 (*MoveFlag)(enum Move move);
+
+// The ability arrays used by AI forecasts derive from its known field abilities.
+// Skip the target-dependent work when that field has no Succulent Trap holder.
+static inline s32 AI_GetMovePriorityWithAbilities(enum BattlerId battler, enum Ability ability, enum Move move, enum BattlerId target, const enum Ability abilities[])
+{
+    s32 priority = GetBattleMovePriorityBeforeFieldAbilities(battler, ability, move, target);
+    if ((gBattleMons[battler].status1 & STATUS1_PSN_ANY) && !gProtectStructs[battler].quash)
+        priority = ApplyMephiticDustPriority(battler, priority, abilities);
+    if (gAiLogicData->hasSucculentTrap)
+        return ApplySucculentTrapPriority(battler, move, target, priority, abilities);
+    return priority;
+}
 
 bool32 AI_IsFaster(enum BattlerId battlerAi, enum BattlerId battlerDef, enum Move aiMove, enum Move playerMove, enum ConsiderPriority considerPriority);
 bool32 AI_IsSlower(enum BattlerId battlerAi, enum BattlerId battlerDef, enum Move aiMove, enum Move playerMove, enum ConsiderPriority considerPriority);
@@ -146,11 +160,13 @@ u32 GetBattlerSecondaryDamage(enum BattlerId battlerId);
 bool32 BattlerWillFaintFromWeather(enum BattlerId battler, enum Ability ability);
 bool32 BattlerWillFaintFromSecondaryDamage(enum BattlerId battler, enum Ability ability);
 bool32 ShouldTryOHKO(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum Ability atkAbility, enum Ability defAbility, enum Move move);
+bool32 ShouldRecoverWithDamageAbility(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum Move move);
 bool32 ShouldAbsorb(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum Move move, u32 absorbPercentage);
 bool32 ShouldRecover(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum Move move, u32 healPercent);
 bool32 ShouldSetScreen(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum BattleMoveEffects moveEffect);
 bool32 ShouldCureStatus(enum BattlerId battlerAtk, enum BattlerId battlerDef, struct AiLogicData *aiData);
 bool32 ShouldCureStatusWithItem(enum BattlerId battlerAtk, enum BattlerId battlerDef, struct AiLogicData *aiData);
+bool32 AI_IsTunnelTroubleMove(enum BattlerId battler, enum Move move);
 enum AIPivot ShouldPivot(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum Move move);
 bool32 IsRecycleEncouragedItem(enum Item item);
 bool32 ShouldRestoreHpBerry(enum BattlerId battlerAtk, enum Item item);
@@ -158,6 +174,7 @@ bool32 IsStatBoostingBerry(enum Item item);
 bool32 CanKnockOffItem(enum BattlerId fromBattler, enum BattlerId battler, enum Item item);
 bool32 IsAbilityOfRating(enum Ability ability, s32 rating);
 bool32 AI_IsAbilityOnSide(enum BattlerId battlerId, enum Ability ability);
+bool32 AI_HasUnawareOnSide(enum BattlerId battlerId);
 bool32 AI_MoveMakesContact(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum Ability ability, enum HoldEffect holdEffect, enum Move move);
 bool32 AI_CanBypassProtect(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum Move move);
 void SetAIUsingGimmick(enum BattlerId battler, enum AIConsiderGimmick use);
@@ -169,6 +186,10 @@ bool32 ShouldConsiderSelfSacrificeDamageEffect(enum BattlerId battlerAtk, enum B
 // stat stage checks
 bool32 AnyStatIsRaised(enum BattlerId battlerId);
 bool32 AnyUsefulStatIsRaised(enum BattlerId battlerId);
+s32 AI_GetNoblesseObligeEntryScore(enum BattlerId battler);
+s32 AI_GetNoblesseObligeCritScore(enum BattlerId attacker, enum BattlerId defender, enum Move move);
+s32 AI_GetGnashingTeethDefenseChange(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum Move move);
+u32 AI_GetSerpentsRetortDamage(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum Move move);
 bool32 CanLowerStat(enum BattlerId battlerAtk, enum BattlerId battlerDef, struct AiLogicData *aiData, enum Stat stat);
 bool32 BattlerStatCanRise(enum BattlerId battler, enum Ability battlerAbility, enum Stat stat);
 bool32 AreBattlersStatsMaxed(enum BattlerId battler);
@@ -181,6 +202,8 @@ bool32 AI_CanMoveBeBlockedByTarget(struct DamageContext *ctx);
 enum MoveComparisonResult CompareMoveEffects(enum Move move1, enum Move move2, enum BattlerId battlerAtk, enum BattlerId battlerDef, s32 noOfHitsToKo);
 struct SimulatedDamage AI_CalcDamageSaveBattlers(enum Move move, enum BattlerId battlerAtk, enum BattlerId battlerDef, uq4_12_t *typeEffectiveness, enum Gimmick gimmickAtk, enum Gimmick gimmickDef);
 bool32 IsAdditionalEffectBlocked(enum BattlerId battlerAtk, enum Ability abilityAtk, enum BattlerId battlerDef, enum Ability abilityDef, enum Move move);
+s32 AI_GetVoodooStrengthEntryScore(enum BattlerId battler);
+enum BattlerId AI_GetVoodooStrengthCandidate(enum BattlerId attacker, enum BattlerId defender);
 struct SimulatedDamage AI_CalcDamage(struct AiCalcValues *aiCalc, enum BattlerId battlerAtk, enum BattlerId battlerDef);
 bool32 AI_IsDamagedByRecoil(enum BattlerId battler);
 u32 GetNoOfHitsToKO(u32 dmg, s32 hp);
@@ -239,7 +262,15 @@ bool32 HasMoveUsableWhileAsleep(enum BattlerId battler);
 bool32 IsStatRaisingMove(enum Move move);
 bool32 IsStatLoweringMove(enum Move move);
 bool32 IsSwitchOutEffect(enum BattleMoveEffects effect);
-bool32 IsChaseEffect(enum BattleMoveEffects effect);
+static inline bool32 AI_IsSwitchOutMove(enum BattlerId battler, enum Move move)
+{
+    return IsSwitchOutEffect(GetMoveEffect(move))
+        || (gAiLogicData->abilities[battler] == ABILITY_TUNNEL_TROUBLE && AI_IsTunnelTroubleMove(battler, move));
+}
+
+bool32 AI_IsChaseMove(enum BattlerId battler, enum Move move);
+bool32 AI_IsRelentlessChaseIntercept(enum BattlerId attacker, enum BattlerId defender, enum Move move);
+bool32 AI_CanGuardiansGrowlLowerStat(enum BattlerId source, enum BattlerId target, enum Stat stat);
 bool32 HasMoveWithFlag(enum BattlerId battler, MoveFlag getFlag);
 bool32 IsHazardClearingMove(enum Move move);
 bool32 IsSelfSacrificeEffect(enum Move move);
@@ -251,6 +282,13 @@ bool32 AI_CanBeConfused(enum BattlerId battlerAtk, enum BattlerId battlerDef, en
 bool32 IsBattlerIncapacitated(enum BattlerId battler, enum Ability ability);
 bool32 AI_CanPutToSleep(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum Ability defAbility, enum Move move, enum Move partnerMove);
 bool32 ShouldPoison(enum BattlerId battlerAtk, enum BattlerId battlerDef);
+bool32 AI_PredictMushroomMadnessBoost(struct DamageContext *ctx);
+s32 AI_GetFrostfeltHatredScore(enum BattlerId source, enum BattlerId target, enum Move move);
+s32 AI_GetEndlessLuauScore(enum BattlerId battler);
+s32 AI_GetDanceCopyScore(enum BattlerId user, enum Move move);
+s32 AI_GetSporeCloudEntryScore(enum BattlerId source);
+s32 AI_GetHypnoticPatternEntryScore(enum BattlerId source);
+bool32 AI_CanSucculentTrapLowerEvasion(enum BattlerId source, enum BattlerId target);
 bool32 AI_CanPoison(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum Ability defAbility, enum Move move, enum Move partnerMove);
 bool32 AI_CanParalyze(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum Ability defAbility, enum Move move, enum Move partnerMove);
 bool32 AI_CanConfuse(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum Ability defAbility, enum BattlerId battlerAtkPartner, enum Move move, enum Move partnerMove);

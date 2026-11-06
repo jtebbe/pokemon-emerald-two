@@ -1,4 +1,5 @@
 #include "global.h"
+#include "field_weather.h"
 #include "test/battle.h"
 #include "battle_util.h"
 #include "battle_ai_util.h"
@@ -90,7 +91,9 @@ AI_SINGLE_BATTLE_TEST("AI switch-in simulation does not leave a benched Distorti
     } WHEN {
         TURN { EXPECT_MOVE(opponent, MOVE_SCRATCH); }
     } THEN {
+        u32 weather = GetCurrentWeather();
         GetMostSuitableMonToSwitchInto(B_BATTLER_1, SWITCH_MID_BATTLE_OPTIONAL);
+        EXPECT_EQ(GetCurrentWeather(), weather);
         EXPECT(!IsDistortionActive());
         EXPECT_EQ(GetBattleMoveCategory(MOVE_BITE), DAMAGE_CATEGORY_PHYSICAL);
         EXPECT_EQ(GetBattleMoveCategory(MOVE_SHADOW_BALL), DAMAGE_CATEGORY_SPECIAL);

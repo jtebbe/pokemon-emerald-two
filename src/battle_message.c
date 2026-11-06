@@ -13,6 +13,7 @@
 #include "item.h"
 #include "link.h"
 #include "menu.h"
+#include "move.h"
 #include "palette.h"
 #include "string_util.h"
 #include "strings.h"
@@ -179,6 +180,12 @@ static const u8 sText_TerrainReturnedToNormal[] = _("The terrain returned to nor
 
 const u8 *const gBattleStringsTable[STRINGID_COUNT] =
 {
+    [STRINGID_MENTALMASTERREVEAL] = COMPOUND_STRING("{B_EFF_NAME_WITH_PREFIX} knows {B_BUFF1}."),
+    [STRINGID_ABYSSALEMBRACETRAPPED] = COMPOUND_STRING("{B_EFF_NAME_WITH_PREFIX} was caught by Abyssal Embrace!"),
+    [STRINGID_ABYSSALEMBRACEHURT] = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} is hurt by Abyssal Embrace!"),
+    [STRINGID_TECHNICOLORCHANGEDTYPES] = COMPOUND_STRING("{B_EFF_NAME_WITH_PREFIX} became\n{B_BUFF1}/{B_BUFF2}-type!"),
+    [STRINGID_FROSTFELTHATREDWEAKENED] = COMPOUND_STRING("{B_EFF_NAME_WITH_PREFIX}'s {B_BUFF1}\nwas weakened!"),
+    [STRINGID_UNBROKENSTONECONSUMESROCKS] = COMPOUND_STRING("{B_EFF_NAME_WITH_PREFIX} consumed the pointed stones!"),
     [STRINGID_TRAINER1LOSETEXT]                     = COMPOUND_STRING("{B_TRAINER1_LOSE_TEXT}"),
     [STRINGID_PKMNGAINEDEXP]                        = COMPOUND_STRING("{B_BUFF1} gained{B_BUFF2} {B_BUFF3} Exp. Points!\p"),
     [STRINGID_PKMNGREWTOLV]                         = COMPOUND_STRING("{B_BUFF1} grew to Lv. {B_BUFF2}!{WAIT_SE}\p"),
@@ -585,6 +592,11 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_SNOWWARNINGHAIL]                      = COMPOUND_STRING("It started to hail!"),
     [STRINGID_FRISKACTIVATES]                       = COMPOUND_STRING("{B_SCR_NAME_WITH_PREFIX} was frisked, revealing its {B_LAST_ITEM}!"),
     [STRINGID_UNNERVEENTERS]                        = COMPOUND_STRING("{B_EFF_TEAM1} side is too nervous to eat Berries!"),
+    [STRINGID_INFINITESTASHATE]                     = COMPOUND_STRING("{B_SCR_NAME_WITH_PREFIX} ate its\n{B_LAST_ITEM}!"),
+    [STRINGID_FRIGIDSPIKESSCATTERED] = COMPOUND_STRING("Frigid spikes were scattered\naround {B_DEF_TEAM2} team!"),
+    [STRINGID_HURTBYFRIGIDSPIKES] = COMPOUND_STRING("{B_SCR_NAME_WITH_PREFIX} was hurt\nby the frigid spikes!"),
+    [STRINGID_FRIGIDSPIKESDISAPPEARED] = COMPOUND_STRING("The frigid spikes around\n{B_ATK_TEAM2} side disappeared!"),
+    [STRINGID_INFINITESTASHBERRY]                   = COMPOUND_STRING("{B_SCR_NAME_WITH_PREFIX} pulled out a\n{B_LAST_ITEM} from its stash!"),
     [STRINGID_HARVESTBERRY]                         = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} harvested its {B_LAST_ITEM}!"),
     [STRINGID_PROTEANTYPECHANGE]                    = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX}'s {B_ATK_ABILITY} transformed it into the {B_BUFF1} type!"),
     [STRINGID_SYMBIOSISITEMPASS]                    = COMPOUND_STRING("{B_SCR_NAME_WITH_PREFIX} shared its {B_LAST_ITEM} with {B_EFF_NAME_WITH_PREFIX2}!"),
@@ -596,6 +608,7 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_HEALINGWISHCAMETRUE]                  = COMPOUND_STRING("The healing wish came true for {B_SCR_NAME_WITH_PREFIX2}!"),
     [STRINGID_HEALINGWISHHEALED]                    = COMPOUND_STRING("{B_SCR_NAME_WITH_PREFIX} regained health!"),
     [STRINGID_LUNARDANCECAMETRUE]                   = COMPOUND_STRING("{B_SCR_NAME_WITH_PREFIX} became cloaked in mystical moonlight!"),
+    [STRINGID_NINETAILLEGENDSEALED] = COMPOUND_STRING("{B_BUFF2}'s\n{B_BUFF1} was sealed\lfor the rest of the battle!"),
     [STRINGID_CURSEDBODYDISABLED]                   = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX}'s {B_BUFF1} was disabled!"),
     [STRINGID_ATTACKERACQUIREDABILITY]              = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} acquired {B_ATK_ABILITY}!"), // Not in Gen 5+
     [STRINGID_TARGETABILITYSTATLOWER]               = COMPOUND_STRING("{B_DEF_NAME_WITH_PREFIX}'s {B_DEF_ABILITY} {B_BUFF2}lowered its {B_BUFF1}!"), // Not in Gen 5+
@@ -1350,6 +1363,7 @@ const u16 gStatusConditionsStringIds[] =
 
 const u16 gRemoveHazardsStringIds[] =
 {
+    [HAZARDS_FRIGID_SPIKES] = STRINGID_FRIGIDSPIKESDISAPPEARED,
     [HAZARDS_SPIKES] = STRINGID_SPIKESDISAPPEAREDFROMTEAM,
     [HAZARDS_STICKY_WEB] = STRINGID_STICKYWEBDISAPPEAREDFROMTEAM,
     [HAZARDS_TOXIC_SPIKES] = STRINGID_TOXICSPIKESDISAPPEAREDFROMTEAM,
@@ -2060,6 +2074,47 @@ static const struct BattleWindowText *const sBattleTextOnWindowsInfo[] =
 };
 
 
+// Build only the occupied move slots. The normal battle string expander wraps
+// the result to two lines and inserts scrolling prompts for longer reveals.
+static const u8 *BuildMentalMasterReveal(void)
+{
+    enum BattlerId target = gEffectBattler;
+    u32 count = 0;
+    StringCopy(gStringVar4, COMPOUND_STRING("{B_EFF_NAME_WITH_PREFIX} knows "));
+    for (u32 slot = 0; slot < MAX_MON_MOVES; slot++)
+    {
+        enum Move move = gBattleMons[target].moves[slot];
+        if (move == MOVE_NONE)
+            continue;
+        if (count++)
+            StringAppend(gStringVar4, COMPOUND_STRING(", "));
+        StringAppend(gStringVar4, GetMoveName(move));
+    }
+    if (count == 0)
+        StringAppend(gStringVar4, COMPOUND_STRING("no moves"));
+
+    if (gBattleMons[target].item == ITEM_NONE)
+        StringAppend(gStringVar4, COMPOUND_STRING(", holds no item"));
+    else
+    {
+        const u8 *name = GetItemName(gBattleMons[target].item);
+        const u8 *vowels = COMPOUND_STRING("AEIOUXaeioux");
+        bool32 useAn = FALSE;
+        for (u32 i = 0; vowels[i] != EOS; i++)
+            if (name[0] == vowels[i])
+                useAn = TRUE;
+        // These names start with a different sound than their first letter.
+        if (gBattleMons[target].item == ITEM_UTILITY_UMBRELLA)
+            useAn = FALSE;
+        else if (gBattleMons[target].item == ITEM_HP_UP)
+            useAn = TRUE;
+        StringAppend(gStringVar4, useAn ? COMPOUND_STRING(", holds an ") : COMPOUND_STRING(", holds a "));
+        StringAppend(gStringVar4, name);
+    }
+    StringAppend(gStringVar4, COMPOUND_STRING(", and wields {B_BUFF1}."));
+    return gStringVar4;
+}
+
 void BufferStringBattle(enum StringID stringID, enum BattlerId battler)
 {
     s32 i;
@@ -2412,6 +2467,9 @@ void BufferStringBattle(enum StringID stringID, enum BattlerId battler)
                 }
             }
         }
+        break;
+    case STRINGID_MENTALMASTERREVEAL:
+        stringPtr = BuildMentalMasterReveal();
         break;
     case STRINGID_TRAINERSLIDE:
         stringPtr = gBattleStruct->trainerSlideMsg;

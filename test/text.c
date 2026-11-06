@@ -593,6 +593,10 @@ TEST("Battle strings fit on the battle message window")
         PREPARE_MON_NICK_WITH_PREFIX_BUFFER(gBattleTextBuff1, 0, 0);
         PREPARE_MOVE_BUFFER(gBattleTextBuff2, longMoveID);
         break;
+    case STRINGID_NINETAILLEGENDSEALED:
+        PREPARE_MOVE_BUFFER(gBattleTextBuff1, longMoveID);
+        PREPARE_MON_NICK_WITH_PREFIX_BUFFER(gBattleTextBuff2, 1, 0);
+        break;
     // Buffer Move name to B_BUFF1
     case STRINGID_PKMNLEARNEDMOVE2:
     case STRINGID_PKMNHURTBY:

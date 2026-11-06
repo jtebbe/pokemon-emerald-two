@@ -293,6 +293,60 @@ static bool32 HandleEndTurnMeteoricWrath(enum BattlerId battler)
     return TRUE;
 }
 
+static void FinishEndlessLuau(void)
+{
+    gBattleMainFunc = gBattleStruct->endlessLuauCallback;
+    gBattlescriptCurrInstr = gBattleStruct->endlessLuauScript;
+    gCurrentActionFuncId = gBattleStruct->endlessLuauSavedAction;
+    gCurrentMove = gBattleStruct->endlessLuauSavedMove;
+    gChosenMove = gBattleStruct->endlessLuauSavedChosenMove;
+    gCurrMovePos = gBattleStruct->endlessLuauSavedMovePos;
+    gBattleResources->battleScriptsStack->size = gBattleStruct->endlessLuauSavedScriptStack;
+    gBattleStruct->endlessLuauActive = FALSE;
+    ClearDamageCalcResults();
+    gBattleScripting.moveendState = 0;
+}
+
+static bool32 HandleEndTurnEndlessLuau(enum BattlerId battler)
+{
+    gBattleStruct->eventState.endTurnBattler++;
+    if (!IsBattlerPresent(battler) || GetBattlerAbility(battler) != ABILITY_ENDLESS_LUAU)
+        return FALSE;
+
+    u32 slots[MAX_MON_MOVES];
+    u32 count = 0;
+    for (u32 i = 0; i < MAX_MON_MOVES; i++)
+        if (IsDanceMove(gBattleMons[battler].moves[i]))
+            slots[count++] = i;
+    if (count == 0)
+        return FALSE;
+
+    gBattleStruct->endlessLuauCallback = gBattleMainFunc;
+    gBattleStruct->endlessLuauScript = gBattlescriptCurrInstr;
+    gBattleStruct->endlessLuauSavedAction = gCurrentActionFuncId;
+    gBattleStruct->endlessLuauSavedMove = gCurrentMove;
+    gBattleStruct->endlessLuauSavedChosenMove = gChosenMove;
+    gBattleStruct->endlessLuauSavedMovePos = gCurrMovePos;
+    gBattleStruct->endlessLuauSavedScriptStack = gBattleResources->battleScriptsStack->size;
+    gBattleStruct->endlessLuauBattler = battler;
+    gBattleStruct->endlessLuauActive = TRUE;
+
+    // Each automatic move starts its own finite Dancer chain.
+    memset(gSpecialStatuses, 0, sizeof(gSpecialStatuses));
+    for (u32 i = 0; i < gBattlersCount; i++)
+        gBattleMons[i].volatiles.activateDancer = FALSE;
+    gCurrMovePos = slots[RandomUniform(RNG_ENDLESS_LUAU, 0, count - 1)];
+    gBattlerAttacker = gBattlerAbility = gBattleScripting.battler = battler;
+    gCurrentMove = gCalledMove = gBattleMons[battler].moves[gCurrMovePos];
+    gChosenMove = GetBattlerChosenMove(battler);
+    gBattlerTarget = GetBattleMoveTarget(gCalledMove, TARGET_NONE);
+    gLastUsedAbility = ABILITY_ENDLESS_LUAU;
+    RecordAbilityBattle(battler, ABILITY_ENDLESS_LUAU);
+    gBattleMainFunc = FinishEndlessLuau;
+    BattleScriptExecute(BattleScript_DancerActivates);
+    return TRUE;
+}
+
 static bool32 HandleEndTurnWish(enum BattlerId battler)
 {
     bool32 effect = FALSE;
@@ -655,6 +709,19 @@ static bool32 HandleEndTurnCurse(enum BattlerId battler)
     }
 
     return effect;
+}
+
+static bool32 HandleEndTurnAbyssalEmbrace(enum BattlerId battler)
+{
+    gBattleStruct->eventState.endTurnBattler++;
+    if (!gBattleMons[battler].volatiles.abyssalEmbrace || !IsBattlerPresent(battler))
+        return FALSE;
+    u32 damage = GetAbyssalEmbraceDamage(battler);
+    if (!damage || IsAbilityAndRecord(battler, GetBattlerAbility(battler), ABILITY_MAGIC_GUARD))
+        return FALSE;
+    SetPassiveDamageAmount(battler, damage);
+    BattleScriptCall(BattleScript_AbyssalEmbraceTurnDmg);
+    return TRUE;
 }
 
 static bool32 HandleEndTurnWrap(enum BattlerId battler)
@@ -1337,10 +1404,15 @@ static bool32 HandleEndTurnThirdEventBlock(enum BattlerId battler)
         case ABILITY_SLOW_START:
         case ABILITY_BAD_DREAMS:
         case ABILITY_BALL_FETCH:
+        case ABILITY_VOODOO_STRENGTH:
+        case ABILITY_FICKLE_FORECASTS:
+        case ABILITY_TECHNICOLOR:
+        case ABILITY_INFINITE_STASH:
         case ABILITY_HARVEST:
         case ABILITY_MOODY:
         case ABILITY_PICKUP:
         case ABILITY_SPEED_BOOST:
+        case ABILITY_DROPS_OF_GOD:
         case ABILITY_BLAZING_GLORY:
             if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ability, MOVE_NONE, TRUE))
                 effect = TRUE;
@@ -1539,6 +1611,7 @@ static bool32 (*const sEndTurnEffectHandlers[])(enum BattlerId battler) =
     [ENDTURN_NIGHTMARE] = HandleEndTurnNightmare,
     [ENDTURN_CURSE] = HandleEndTurnCurse,
     [ENDTURN_WRAP] = HandleEndTurnWrap,
+    [ENDTURN_ABYSSAL_EMBRACE] = HandleEndTurnAbyssalEmbrace,
     [ENDTURN_SALT_CURE] = HandleEndTurnSaltCure,
     [ENDTURN_OCTOLOCK] = HandleEndTurnOctolock,
     [ENDTURN_SYRUP_BOMB] = HandleEndTurnSyrupBomb,
@@ -1569,6 +1642,7 @@ static bool32 (*const sEndTurnEffectHandlers[])(enum BattlerId battler) =
     [ENDTURN_FORM_CHANGE] = HandleEndTurnFormChange,
     [ENDTURN_EJECT_PACK] = HandleEndTurnEjectPack,
     [ENDTURN_SEND_OUT_REPLACEMENTS_5] = HandleEndTurnSendOutReplacements,
+    [ENDTURN_ENDLESS_LUAU] = HandleEndTurnEndlessLuau,
     [ENDTURN_FAINTED_MON_ACTIONS] = HandleEndTurnFaintedMonActions,
     [ENDTURN_TRAINER_A_SLIDES] = HandleEndTurnTrainerASlides,
     [ENDTURN_TRAINER_B_SLIDES] = HandleEndTurnTrainerBSlides,

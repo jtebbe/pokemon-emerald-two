@@ -28,7 +28,7 @@ static bool32 IsMirrorArmorReflected(struct BattleCalcValues *cv, struct StatCha
 
 // Utitily
 static void AdjustStatStage(struct BattleCalcValues *cv, struct StatChange *st);
-static bool32 CanAbilityPreventStatLoss(enum Ability ability);
+static bool32 CanAbilityPreventStatLoss(enum BattlerId battler, enum Ability ability);
 static bool32 AbilityPreventsSpecificStatDrop(enum Ability ability, enum Stat stat);
 static u32 GetNumPositiveStats(struct StatChange *st);
 static u32 GetNumNegativeStats(struct StatChange *st);
@@ -83,14 +83,14 @@ static bool32 CheckSpecificMoveCondition(struct BattleCalcValues *cv, struct Sta
     switch (cv->moveEffect)
     {
     case EFFECT_CAPTIVATE:
-        if (cv->abilities[cv->battlerDef] == ABILITY_OBLIVIOUS)
+        if (HasObliviousAbility(cv->abilities[cv->battlerDef]))
         {
             if (!st->onlyChecking)
             {
                 st->script = BattleScript_AbilityProtectedTarget;
                 gBattlerAbility = gBattleScripting.battler = cv->battlerDef;
-                gLastUsedAbility = ABILITY_OBLIVIOUS;
-                RecordAbilityBattle(cv->battlerDef, ABILITY_OBLIVIOUS);
+                gLastUsedAbility = cv->abilities[cv->battlerDef];
+                RecordAbilityBattle(cv->battlerDef, cv->abilities[cv->battlerDef]);
             }
             return TRUE;
         }
@@ -542,7 +542,7 @@ static void TryPlayStatChangeAnimation(struct BattleCalcValues *cv, struct StatC
 
 static bool32 IsSubstituteBlocked(struct BattleCalcValues *cv, struct StatChange *st)
 {
-    if (st->ignoreCertainFailure)
+    if (st->ignoreCertainFailure || st->bypassSubstitute)
         return FALSE;
 
     if (st->certain || GetBattlerMoveTargetType(cv->battlerAtk, cv->move) == TARGET_ALLY)
@@ -645,11 +645,29 @@ static bool32 IsIntimidateBlocked(struct BattleCalcValues *cv, struct StatChange
     if (!st->intimidate)
         return FALSE;
 
+    bool32 guardiansGrowl = cv->abilities[cv->battlerAtk] == ABILITY_GUARDIANS_GROWL;
+    if (guardiansGrowl
+     && (cv->abilities[cv->battlerDef] == ABILITY_SOUNDPROOF
+      || cv->abilities[cv->battlerDef] == ABILITY_HYPER_CUTTER
+      || cv->abilities[cv->battlerDef] == ABILITY_PIERCING_BEAK
+      || (cv->abilities[cv->battlerDef] == ABILITY_GUARD_DOG
+       && gBattleMons[cv->battlerDef].statStages[STAT_ATK] == MIN_STAT_STAGE)))
+    {
+        st->script = BattleScript_AbilityNoStatLoss;
+        gLastUsedAbility = cv->abilities[cv->battlerDef];
+        gBattlerAbility = gBattleScripting.battler = cv->battlerDef;
+        MarkStatsAsDone(st, NUM_BATTLE_STATS);
+        RecordAbilityBattle(cv->battlerDef, cv->abilities[cv->battlerDef]);
+        return TRUE;
+    }
+
     switch (cv->abilities[cv->battlerDef])
     {
+    case ABILITY_TRUE_POWER:
     case ABILITY_INNER_FOCUS:
     case ABILITY_SCRAPPY:
     case ABILITY_OWN_TEMPO:
+    case ABILITY_TOTAL_ZEN:
     case ABILITY_OBLIVIOUS:
         if (GetConfig(B_UPDATED_INTIMIDATE) < GEN_8)
             return FALSE;
@@ -679,7 +697,7 @@ static bool32 IsIntimidateBlocked(struct BattleCalcValues *cv, struct StatChange
     gLastUsedAbility = cv->abilities[cv->battlerDef];
     gBattlerAbility = cv->battlerDef;
     gBattleScripting.battler = cv->battlerDef;
-    MarkStatsAsDone(st, st->stat);
+    MarkStatsAsDone(st, guardiansGrowl ? NUM_BATTLE_STATS : st->stat);
     RecordAbilityBattle(cv->battlerDef, cv->abilities[cv->battlerDef]);
     return TRUE;
 }
@@ -689,7 +707,7 @@ static bool32 IsAbilityBlocked(struct BattleCalcValues *cv, struct StatChange *s
     if (st->certain)
         return FALSE;
 
-    if (CanAbilityPreventStatLoss(cv->abilities[cv->battlerDef]))
+    if (CanAbilityPreventStatLoss(cv->battlerDef, cv->abilities[cv->battlerDef]))
     {
         if (!st->onlyChecking)
         {
@@ -811,10 +829,12 @@ static void AdjustStatStage(struct BattleCalcValues *cv, struct StatChange *st)
     }
 }
 
-static bool32 CanAbilityPreventStatLoss(enum Ability ability)
+static bool32 CanAbilityPreventStatLoss(enum BattlerId battler, enum Ability ability)
 {
     switch (ability)
     {
+    case ABILITY_GLORIOUS_MANE:
+        return IsBattlerAtMaxHp(battler) || gProtectStructs[battler].gloriousManeProtectedHit;
     case ABILITY_CLEAR_BODY:
     case ABILITY_FULL_METAL_BODY:
     case ABILITY_WHITE_SMOKE:
@@ -835,6 +855,7 @@ static bool32 AbilityPreventsSpecificStatDrop(enum Ability ability, enum Stat st
     case ABILITY_KEEN_EYE:
     case ABILITY_MINDS_EYE:
         return stat == STAT_ACC;
+    case ABILITY_PIERCING_BEAK:
     case ABILITY_HYPER_CUTTER:
         return stat == STAT_ATK;
     case ABILITY_BIG_PECKS:

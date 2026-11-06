@@ -481,6 +481,11 @@ BattleScript_ShellTrapFailed::
 	waitmessage B_WAIT_TIME_LONG
 	goto BattleScript_MoveEnd
 
+BattleScript_PsisightFocus::
+	flushtextbox
+	call BattleScript_AbilityStatChange
+	end3
+
 BattleScript_BeakBlastSetUp::
 	flushtextbox
 	playanimation BS_SCRIPTING, B_ANIM_BEAK_BLAST_SETUP, NULL
@@ -852,6 +857,10 @@ BattleScript_TryTailwindAbilitiesLoop_Increment:
 	jumpifbytenotequal gBattlerTarget, gBattlersCount, BattleScript_TryTailwindAbilitiesLoop_Iter
 	restoretarget
 	return
+
+BattleScript_TunnelTroubleSwitch::
+	call BattleScript_AbilityPopUp
+	goto BattleScript_EffectHitEscape
 
 BattleScript_EffectHitEscape::
 	jumpiffainted BS_TARGET, FALSE, BattleScript_HitEscapeSwitch
@@ -1788,6 +1797,7 @@ BattleScript_WeatherAbilityActivates::
 	pause B_WAIT_TIME_SHORT
 	call BattleScript_AbilityPopUp
 	jumpifability BS_SCRIPTING, ABILITY_SAND_SPIT, BattleScript_SandSpitActivates
+	jumpifability BS_SCRIPTING, ABILITY_DUST_TO_DUST, BattleScript_SandSpitActivates
 	printfromtable gAbilityWeatherChangeStringId
 BattleScript_WeatherAbilityActivatesContinue:
 	waitstate
@@ -2212,6 +2222,53 @@ BattleScript_WindPowerActivates::
     copybyte gEffectBattler, gBattlerAbility
 	printstring STRINGID_BEINGHITCHARGEDPKMNWITHPOWER
 	waitmessage B_WAIT_TIME_LONG
+	return
+
+BattleScript_ScrapBrawlerSpikes::
+	call BattleScript_AbilityPopUp
+	printstring STRINGID_SPIKESSCATTERED
+	waitmessage B_WAIT_TIME_LONG
+	return
+
+BattleScript_ScrapBrawlerStealthRock::
+	call BattleScript_AbilityPopUp
+	printstring STRINGID_POINTEDSTONESFLOAT
+	waitmessage B_WAIT_TIME_LONG
+	return
+
+BattleScript_UnbrokenStoneStealthRock::
+    call BattleScript_AbilityPopUp
+    printstring STRINGID_POINTEDSTONESFLOAT
+    waitmessage B_WAIT_TIME_LONG
+    restoretarget
+    return
+
+BattleScript_UnbrokenStoneConsumesRocks::
+    call BattleScript_AbilityPopUp
+    printstring STRINGID_UNBROKENSTONECONSUMESROCKS
+    waitmessage B_WAIT_TIME_LONG
+    destroyabilitypopup
+    return
+
+BattleScript_FrozenShrapnelActivates::
+	call BattleScript_AbilityPopUp
+	printstring STRINGID_FRIGIDSPIKESSCATTERED
+	waitmessage B_WAIT_TIME_LONG
+	restoretarget
+	return
+
+BattleScript_FrigidSpikesOnBattler::
+	jumpifability BS_SCRIPTING, ABILITY_MAGIC_GUARD, BattleScript_FrigidSpikesStatus
+	healthbarupdate BS_SCRIPTING
+	datahpupdate BS_SCRIPTING, ASSURANCE_DOUBLE
+	printstring STRINGID_HURTBYFRIGIDSPIKES
+	waitmessage B_WAIT_TIME_LONG
+	jumpiffainted BS_SCRIPTING, TRUE, BattleScript_FrigidSpikesFaint
+BattleScript_FrigidSpikesStatus:
+	callnative BS_TryFrigidSpikesFrostbite
+	return
+BattleScript_FrigidSpikesFaint:
+	tryfaintmon BS_SCRIPTING
 	return
 
 BattleScript_ToxicDebrisActivates::
@@ -2866,6 +2923,18 @@ BattleScript_PrintPayDayMoneyString::
 	waitmessage B_WAIT_TIME_LONG
 	return
 
+BattleScript_AbyssalEmbraceActivates::
+    call BattleScript_AbilityPopUp
+    printstring STRINGID_ABYSSALEMBRACETRAPPED
+    waitmessage B_WAIT_TIME_LONG
+    destroyabilitypopup
+    return
+
+BattleScript_AbyssalEmbraceTurnDmg::
+    printstring STRINGID_ABYSSALEMBRACEHURT
+    waitmessage B_WAIT_TIME_LONG
+    goto BattleScript_DoTurnDmg
+
 BattleScript_WrapTurnDmg::
 	jumpifability BS_ATTACKER, ABILITY_MAGIC_GUARD, BattleScript_DoTurnDmgEnd
 	playanimation BS_ATTACKER, B_ANIM_TURN_TRAP, sB_ANIM_ARG1
@@ -3207,6 +3276,30 @@ BattleScript_PickupActivates::
 BattleScript_PickupActivatesEnd:
 	return
 
+BattleScript_InfiniteStashEatsBerry::
+	call BattleScript_InfiniteStashPullsBerry
+	consumeberry BS_SCRIPTING, FALSE
+	setbyte sBERRY_OVERRIDE, 0
+	return
+
+BattleScript_InfiniteStashResistAnimation::
+	call BattleScript_InfiniteStashPullsBerry
+	call BattleScript_BerryReduceAnimation
+	return
+
+BattleScript_InfiniteStashPullsBerry:
+	call BattleScript_AbilityPopUpScripting
+	printstring STRINGID_INFINITESTASHBERRY
+	waitmessage B_WAIT_TIME_LONG
+	printstring STRINGID_INFINITESTASHATE
+	waitmessage B_WAIT_TIME_LONG
+	return
+
+BattleScript_InfiniteStashResistMessage::
+	printstring STRINGID_BERRYDMGREDUCES
+	waitmessage B_WAIT_TIME_LONG
+	return
+
 BattleScript_HarvestActivates::
 	pause 5
 	tryrecycleitem BattleScript_HarvestActivatesEnd
@@ -3272,6 +3365,15 @@ BattleScript_ActivateWeatherAbilities_Loop:
 	restoretarget
 	return
 
+BattleScript_GuardiansGrowlActivates::
+	saveattacker
+	copybyte gBattlerAttacker, gEffectBattler
+	call BattleScript_AbilityPopUp
+	trystatchanges BS_ATTACKER, STAT_CHANGE_INTIMIDATE
+	destroyabilitypopup
+	restoreattacker
+	return
+
 BattleScript_IntimidateActivates::
 	call BattleScript_AbilityPopUp
 	trystatchanges BS_EFFECT_BATTLER, STAT_CHANGE_INTIMIDATE
@@ -3280,6 +3382,44 @@ BattleScript_IntimidateActivates::
 
 BattleScript_IntimidateWontDecrease:
 	printstring STRINGID_STATSWONTDECREASE
+    return
+
+BattleScript_FrostfeltHatredActivates::
+    call BattleScript_AbilityPopUp
+    jumpifbyte CMP_EQUAL, gBattleCommunication + MULTISTRING_CHOOSER, 0, BattleScript_FrostfeltHatredWeakened
+    printstring STRINGID_PKMNREDUCEDPP
+    waitmessage B_WAIT_TIME_LONG
+BattleScript_FrostfeltHatredWeakened:
+    printstring STRINGID_FROSTFELTHATREDWEAKENED
+    waitmessage B_WAIT_TIME_LONG
+    return
+
+BattleScript_BlazingRushActivates::
+    saveattacker
+    copybyte gBattlerAttacker, gEffectBattler
+    call BattleScript_AbilityPopUp
+    trystatchanges BS_ATTACKER, STAT_CHANGE_NO_FLAGS
+    callnative BS_BlazingRushBurn
+    .byte FALSE
+    callnative BS_BlazingRushBurn
+    .byte TRUE
+    copybyte gBattlerAbility, gBattlerAttacker
+    destroyabilitypopup
+    restoreattacker
+    return
+
+BattleScript_SucculentTrapActivates::
+    saveattacker
+    copybyte gBattlerAttacker, gEffectBattler
+    call BattleScript_AbilityPopUp
+    trystatchanges BS_ATTACKER, STAT_CHANGE_NO_FLAGS
+    callnative BS_SucculentTrapPoison
+    .byte FALSE
+    callnative BS_SucculentTrapPoison
+    .byte TRUE
+    copybyte gBattlerAbility, gBattlerAttacker
+    destroyabilitypopup
+    restoreattacker
     return
 
 BattleScript_SupersweetSyrupActivates::
@@ -3346,6 +3486,104 @@ BattleScript_CommanderActivates::
 	trybattlerstatchange BS_EFFECT_BATTLER, STAT_CHANGE_NO_FLAGS
 	return
 
+BattleScript_MentalMasterActivates::
+    saveattacker
+    copybyte gBattlerAttacker, gBattlerAbility
+    call BattleScript_AbilityPopUp
+    callnative BS_MentalMasterReveal
+    .byte FALSE
+    .4byte BattleScript_MentalMasterSecond
+    printstring STRINGID_MENTALMASTERREVEAL
+    waitmessage B_WAIT_TIME_LONG
+BattleScript_MentalMasterSecond:
+    callnative BS_MentalMasterReveal
+    .byte TRUE
+    .4byte BattleScript_MentalMasterDone
+    printstring STRINGID_MENTALMASTERREVEAL
+    waitmessage B_WAIT_TIME_LONG
+BattleScript_MentalMasterDone:
+    copybyte gBattlerAbility, gBattlerAttacker
+    restoreattacker
+    return
+
+BattleScript_SpicedDreamsActivates::
+    call BattleScript_AbilityPopUp
+    callnative BS_SpicedDreamsApply
+    return
+
+BattleScript_NoblesseObligeEntry::
+    saveattacker
+    copybyte gBattlerAttacker, gBattlerAbility
+    call BattleScript_AbilityPopUp
+    trystatchanges BS_ATTACKER, STAT_CHANGE_CERTAIN
+    copybyte gBattlerAbility, gBattlerAttacker
+    restoreattacker
+    return
+
+BattleScript_NoblesseObligeCrit::
+    call BattleScript_AbilityPopUp
+    trystatchanges BS_ATTACKER, STAT_CHANGE_BYPASS_SUBSTITUTE
+    return
+
+BattleScript_VoodooStrengthActivates::
+    saveattacker
+    copybyte gBattlerAttacker, gBattlerAbility
+    call BattleScript_AbilityPopUp
+    callnative BS_VoodooStrengthApply
+    .byte FALSE
+    callnative BS_VoodooStrengthApply
+    .byte TRUE
+    copybyte gBattlerAbility, gBattlerAttacker
+    restoreattacker
+    return
+
+BattleScript_VoodooStrengthStatChange::
+    trystatchanges BS_EFFECT_BATTLER, STAT_CHANGE_IGNORE_SELF
+    return
+
+BattleScript_HypnoticPatternActivates::
+    saveattacker
+    copybyte gBattlerAttacker, gBattlerAbility
+    call BattleScript_AbilityPopUp
+    callnative BS_HypnoticPatternApply
+    .byte FALSE
+    callnative BS_HypnoticPatternApply
+    .byte TRUE
+    copybyte gBattlerAbility, gBattlerAttacker
+    restoreattacker
+    return
+
+BattleScript_SporeCloudActivates::
+    saveattacker
+    copybyte gBattlerAttacker, gBattlerAbility
+    call BattleScript_AbilityPopUp
+    callnative BS_SporeCloudApply
+    .byte FALSE
+    callnative BS_SporeCloudApply
+    .byte TRUE
+    copybyte gBattlerAbility, gBattlerAttacker
+    restoreattacker
+    return
+
+BattleScript_MoonAttunedActivates::
+	call BattleScript_AbilityPopUp
+    callnative BS_MoonAttunedRestore
+    .byte FALSE
+    callnative BS_MoonAttunedRestore
+    .byte TRUE
+	return
+
+BattleScript_MoonAttunedCureAndHeal::
+	call BattleScript_MoonAttunedCure
+	goto BattleScript_RestoreHpEffectBattler
+
+BattleScript_MoonAttunedCure::
+	curestatus BS_EFFECT_BATTLER
+	updatestatusicon BS_EFFECT_BATTLER
+	printfromtable gCureStatusStringIds
+	waitmessage B_WAIT_TIME_LONG
+	return
+
 BattleScript_HospitalityActivates::
 	pause B_WAIT_TIME_SHORT
 	call BattleScript_AbilityPopUp
@@ -3409,6 +3647,20 @@ BattleScript_ApexMeteoriteRevealed::
 	printstring STRINGID_APEXPOTENTIAL
 	waitmessage B_WAIT_TIME_LONG
 	destroyitempopup
+	return
+
+BattleScript_StickySprayActivates::
+	saveattacker
+	savetarget
+	copybyte gBattlerAttacker, sBATTLER
+	copybyte gBattlerTarget, gEffectBattler
+	call BattleScript_AbilityPopUp
+	playmoveanimation MOVE_STICKY_WEB
+	waitanimation
+	printstring STRINGID_STICKYWEBUSED
+	waitmessage B_WAIT_TIME_LONG
+	restoreattacker
+	restoretarget
 	return
 
 BattleScript_RootboundActivates::
@@ -3660,6 +3912,12 @@ BattleScript_StickyHoldActivatesRet::
 	waitmessage B_WAIT_TIME_LONG
 	return
 
+BattleScript_TechnicolorActivates::
+    call BattleScript_AbilityPopUp
+    printstring STRINGID_TECHNICOLORCHANGEDTYPES
+    waitmessage B_WAIT_TIME_LONG
+    return
+
 BattleScript_ColorChangeActivates::
 	call BattleScript_AbilityPopUp
 	printstring STRINGID_PKMNCHANGEDTYPEWITH
@@ -3677,6 +3935,26 @@ BattleScript_TeraShellDistortingTypeMatchups::
 	pause B_WAIT_TIME_SHORTEST
 	call BattleScript_AbilityPopUpScripting
 	printstring STRINGID_PKMNMADESHELLGLEAM
+	waitmessage B_WAIT_TIME_LONG
+	return
+
+BattleScript_AuroralHeraldActivates::
+	saveattacker
+	savetarget
+	copybyte gBattlerAttacker, sBATTLER
+	copybyte gBattlerTarget, sBATTLER
+	call BattleScript_AbilityPopUp
+	playmoveanimation MOVE_AURORA_VEIL
+	waitanimation
+	printstring STRINGID_PKMNAURORAVEIL
+	waitmessage B_WAIT_TIME_LONG
+	restoreattacker
+	restoretarget
+	return
+
+BattleScript_NineTailLegendActivates::
+	call BattleScript_AbilityPopUp
+	printstring STRINGID_NINETAILLEGENDSEALED
 	waitmessage B_WAIT_TIME_LONG
 	return
 
@@ -3787,6 +4065,14 @@ BattleScript_HurtAttacker:
 BattleScript_HurtAttackerNoMsg:
 	healthbarupdate BS_ATTACKER
 	datahpupdate BS_ATTACKER, ASSURANCE_DOUBLE
+	return
+
+BattleScript_SerpentsRetortActivates::
+	flushtextbox
+	call BattleScript_AbilityPopUp
+	call BattleScript_HurtAttackerNoMsg
+	callnative BS_TrySerpentsRetortPoison
+	waitabilitypopup
 	return
 
 BattleScript_RoughSkinActivates::

@@ -267,7 +267,7 @@ static bool32 BXPY_CanCandidateWin1v1(enum BattlerId battler, enum BattlerId opp
                 bestOpposingMove = opposingMove;
                 minHitsToKO = hitsToKO;
             }
-            if (GetBattleMovePriorityForTarget(opposingBattler, gAiLogicData->abilities[opposingBattler], opposingMove, battler) > 0 && hitsToKO < minHitsToKOPriority)
+            if (AI_GetMovePriorityWithAbilities(opposingBattler, gAiLogicData->abilities[opposingBattler], opposingMove, battler, gAiLogicData->abilities) > 0 && hitsToKO < minHitsToKOPriority)
             {
                 bestOpposingPriorityMove = opposingMove;
                 minHitsToKOPriority = hitsToKO;
