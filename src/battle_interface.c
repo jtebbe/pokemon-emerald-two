@@ -2062,6 +2062,11 @@ void UpdateHealthboxAttribute(u8 healthboxSpriteId, struct Pokemon *mon, u8 elem
     enum BattlerId battler = gSprites[healthboxSpriteId].hMain_Battler;
     s32 maxHp = GetMonData(mon, MON_DATA_MAX_HP);
     s32 currHp = GetMonData(mon, MON_DATA_HP);
+    if (gBattleMons[battler].volatiles.multivolved)
+    {
+        maxHp = gBattleMons[battler].maxHP;
+        currHp = gBattleMons[battler].hp;
+    }
 
     if (IsOnPlayerSide(battler))
     {
@@ -2465,16 +2470,16 @@ static void FillHealthboxObject(void *dest, u32 valMult, u32 numTiles)
 static const union TextColor sBattlerTextColor =
 {
     .background = 0,
-    .foreground = 7,
-    .shadow = 1,
+    .foreground = 13,
+    .shadow = 15,
     .accent = 0,
 };
 
 static const union TextColor sAbilityTextColor =
 {
     .background = 0,
-    .foreground = 9,
-    .shadow = 1,
+    .foreground = 14,
+    .shadow = 15,
     .accent = 0,
 };
 

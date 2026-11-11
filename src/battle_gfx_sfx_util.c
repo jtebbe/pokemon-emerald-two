@@ -391,7 +391,12 @@ void BattleLoadMonSpriteGfx(struct Pokemon *mon, enum BattlerId battler)
     species = GetMonData(mon, MON_DATA_SPECIES);
     personalityValue = GetMonData(mon, MON_DATA_PERSONALITY);
 
-    if (gBattleSpritesDataPtr->battlerData[battler].transformSpecies != SPECIES_NONE)
+    bool32 multivolved = gBattleMons[battler].volatiles.multivolved;
+    if (multivolved)
+    {
+        species = gBattleMons[battler].species;
+    }
+    else if (gBattleSpritesDataPtr->battlerData[battler].transformSpecies != SPECIES_NONE)
     {
         species = gBattleSpritesDataPtr->battlerData[battler].transformSpecies;
         if (gBattleMons[battler].volatiles.transformed)
@@ -408,7 +413,7 @@ void BattleLoadMonSpriteGfx(struct Pokemon *mon, enum BattlerId battler)
 
     paletteOffset = OBJ_PLTT_ID(battler);
 
-    if (gBattleSpritesDataPtr->battlerData[battler].transformSpecies == SPECIES_NONE)
+    if (!multivolved && gBattleSpritesDataPtr->battlerData[battler].transformSpecies == SPECIES_NONE)
         paletteData = GetMonFrontSpritePal(mon);
     else
         paletteData = GetMonSpritePalFromSpeciesAndPersonality(species, isShiny, personalityValue);
@@ -417,7 +422,7 @@ void BattleLoadMonSpriteGfx(struct Pokemon *mon, enum BattlerId battler)
     LoadPalette(paletteData, BG_PLTT_ID(8) + BG_PLTT_ID(battler), PLTT_SIZE_4BPP);
 
     // transform's pink color
-    if (gBattleMons[battler].volatiles.transformed)
+    if (gBattleMons[battler].volatiles.transformed && !multivolved)
     {
         BlendPalette(paletteOffset, 16, 6, RGB_WHITE);
         CpuCopy32(&gPlttBufferFaded[paletteOffset], &gPlttBufferUnfaded[paletteOffset], PLTT_SIZEOF(16));
@@ -648,7 +653,8 @@ void HandleSpeciesGfxDataChange(enum BattlerId battlerAtk, enum BattlerId battle
         }
         else
         {
-            targetSpecies = GetMonData(monAtk, MON_DATA_SPECIES);
+            targetSpecies = gBattleMons[battlerAtk].volatiles.multivolved
+                ? gBattleMons[battlerAtk].species : GetMonData(monAtk, MON_DATA_SPECIES);
         }
         gBattleSpritesDataPtr->battlerData[battlerAtk].transformSpecies = targetSpecies;
 

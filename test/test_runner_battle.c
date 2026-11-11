@@ -2615,6 +2615,7 @@ void Nature_(u32 sourceLine, u32 nature)
     INVALID_IF(!DATA.currentMon, "Nature outside of PLAYER/OPPONENT");
     INVALID_IF(nature >= NUM_NATURES, "Illegal nature: %d", nature);
     DATA.nature = nature;
+    SetMonData(DATA.currentMon, MON_DATA_HIDDEN_NATURE, &nature);
 }
 
 void Ability_(u32 sourceLine, enum Ability ability)
@@ -2744,6 +2745,13 @@ void Item_(u32 sourceLine, u32 item)
     default:
         break;
     }
+}
+
+void Ball_(u32 sourceLine, enum PokeBall ball)
+{
+    INVALID_IF(!DATA.currentMon, "Ball outside of PLAYER/OPPONENT");
+    INVALID_IF(ball >= POKEBALL_COUNT, "Illegal ball: %d", ball);
+    SetMonData(DATA.currentMon, MON_DATA_POKEBALL, &ball);
 }
 
 void Moves_(u32 sourceLine, u16 moves[MAX_MON_MOVES])

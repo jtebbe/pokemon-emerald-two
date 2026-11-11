@@ -2179,12 +2179,12 @@ static void Detail_BuildActiveEffectsForBattler(void)
     TryAddActiveStatus(INFO_ATK_DEF_SWAPPED, vol->powerTrick, side);
     TryAddActiveStatus(INFO_SMACK_DOWN, vol->smackDown, side);
     TryAddActiveStatus(INFO_SALT_CURE, vol->saltCure, side);
-    TryAddActiveStatus(INFO_TAUNT, vol->tauntTimer, side);
+    TryAddActiveStatus(INFO_TAUNT, IsBattlerTaunted(battler, GetBattlerAbility(battler)), side);
     TryAddActiveStatus(INFO_CHARGE, vol->chargeTimer, side);
     TryAddActiveStatus(INFO_BOUND, vol->wrapTurns, side);
     TryAddActiveStatus(INFO_RAMPAGING, vol->rampageTurns, side);
     TryAddActiveStatus(INFO_CONFUSION, vol->confusionTimer, side);
-    TryAddActiveStatus(INFO_CANT_ESCAPE, vol->escapePrevention, side);
+    TryAddActiveStatus(INFO_CANT_ESCAPE, vol->escapePrevention || vol->spikyGrip, side);
     TryAddActiveStatus(INFO_CRITICAL_HIT_BOOST, vol->criticalHitBoost, side);
     TryAddActiveStatus(INFO_IDENTIFIED, vol->foresight, side);
     TryAddActiveStatus(INFO_IDENTIFIED, vol->miracleEye, side);

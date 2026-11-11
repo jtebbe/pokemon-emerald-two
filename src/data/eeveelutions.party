@@ -1,0 +1,626 @@
+/*
+Multivolve rolls one member from the pool for the current badge count.
+The order stays the same in each tier. Levels and held items come from Eevee.
+*/
+
+=== MULTIVOLVE_BADGES_0 ===
+Name: Multivolve
+Pic: Brendan
+Party Size: 1
+
+Vaporeon
+Bold Nature
+EVs: 252 Def / 4 SpA / 252 SpD
+- Water Gun
+- Growl
+- Tail Whip
+- Swift
+
+Jolteon
+Jolly Nature
+EVs: 252 SpA / 4 SpD / 252 Spe
+- Thunder Shock
+- Growl
+- Tail Whip
+- Swift
+
+Flareon
+Adamant Nature
+EVs: 252 Atk / 4 SpD / 252 Spe
+- Ember
+- Growl
+- Tail Whip
+- Quick Attack
+
+Espeon
+Timid Nature
+EVs: 252 SpA / 4 SpD / 252 Spe
+- Confusion
+- Growl
+- Tail Whip
+- Swift
+
+Umbreon
+Careful Nature
+EVs: 252 Def / 252 SpD / 4 Spe
+- Bite
+- Growl
+- Tail Whip
+- Quick Attack
+
+Leafeon
+Jolly Nature
+EVs: 252 Atk / 4 Def / 252 Spe
+- Razor Leaf
+- Growl
+- Tail Whip
+- Quick Attack
+
+Glaceon
+Modest Nature
+EVs: 252 Def / 252 SpA / 4 SpD
+- Icy Wind
+- Growl
+- Tail Whip
+- Quick Attack
+
+Sylveon
+Modest Nature
+EVs: 252 Def / 252 SpA / 4 SpD
+- Fairy Wind
+- Growl
+- Tail Whip
+- Swift
+
+=== MULTIVOLVE_BADGES_1 ===
+Name: Multivolve
+Pic: Brendan
+Party Size: 1
+
+Vaporeon
+Bold Nature
+EVs: 252 Def / 4 SpA / 252 SpD
+- Water Gun
+- Aqua Ring
+- Tail Whip
+- Swift
+
+Jolteon
+Jolly Nature
+EVs: 252 SpA / 4 SpD / 252 Spe
+- Thunder Shock
+- Thunder Wave
+- Tail Whip
+- Swift
+
+Flareon
+Adamant Nature
+EVs: 252 Atk / 4 SpD / 252 Spe
+- Ember
+- Bite
+- Tail Whip
+- Quick Attack
+
+Espeon
+Timid Nature
+EVs: 252 SpA / 4 SpD / 252 Spe
+- Confusion
+- Baby-Doll Eyes
+- Tail Whip
+- Swift
+
+Umbreon
+Careful Nature
+EVs: 252 Def / 252 SpD / 4 Spe
+- Bite
+- Baby-Doll Eyes
+- Tail Whip
+- Quick Attack
+
+Leafeon
+Jolly Nature
+EVs: 252 Atk / 4 Def / 252 Spe
+- Razor Leaf
+- Sand Attack
+- Tail Whip
+- Quick Attack
+
+Glaceon
+Modest Nature
+EVs: 252 Def / 252 SpA / 4 SpD
+- Icy Wind
+- Baby-Doll Eyes
+- Tail Whip
+- Quick Attack
+
+Sylveon
+Modest Nature
+EVs: 252 Def / 252 SpA / 4 SpD
+- Fairy Wind
+- Baby-Doll Eyes
+- Tail Whip
+- Swift
+
+=== MULTIVOLVE_BADGES_2 ===
+Name: Multivolve
+Pic: Brendan
+Party Size: 1
+
+Vaporeon
+Bold Nature
+EVs: 252 Def / 4 SpA / 252 SpD
+- Water Pulse
+- Aqua Ring
+- Tail Whip
+- Quick Attack
+
+Jolteon
+Jolly Nature
+EVs: 252 SpA / 4 SpD / 252 Spe
+- Electro Ball
+- Thunder Wave
+- Tail Whip
+- Swift
+
+Flareon
+Adamant Nature
+EVs: 252 Atk / 4 SpD / 252 Spe
+- Flame Charge
+- Bite
+- Tail Whip
+- Quick Attack
+
+Espeon
+Timid Nature
+EVs: 252 SpA / 4 SpD / 252 Spe
+- Psybeam
+- Baby-Doll Eyes
+- Tail Whip
+- Swift
+
+Umbreon
+Careful Nature
+EVs: 252 Def / 252 SpD / 4 Spe
+- Bite
+- Baby-Doll Eyes
+- Confuse Ray
+- Quick Attack
+
+Leafeon
+Jolly Nature
+EVs: 252 Atk / 4 Def / 252 Spe
+- Razor Leaf
+- Sand Attack
+- Leech Seed
+- Quick Attack
+
+Glaceon
+Modest Nature
+EVs: 252 Def / 252 SpA / 4 SpD
+- Icy Wind
+- Bite
+- Tail Whip
+- Quick Attack
+
+Sylveon
+Modest Nature
+EVs: 252 Def / 252 SpA / 4 SpD
+- Draining Kiss
+- Baby-Doll Eyes
+- Tail Whip
+- Swift
+
+=== MULTIVOLVE_BADGES_3 ===
+Name: Multivolve
+Pic: Brendan
+Party Size: 1
+
+Vaporeon
+Bold Nature
+EVs: 252 Def / 4 SpA / 252 SpD
+- Water Pulse
+- Aqua Ring
+- Rain Dance
+- Aurora Beam
+
+Jolteon
+Jolly Nature
+EVs: 252 SpA / 4 SpD / 252 Spe
+- Electro Ball
+- Thunder Wave
+- Pin Missile
+- Swift
+
+Flareon
+Adamant Nature
+EVs: 252 Atk / 4 SpD / 252 Spe
+- Flame Charge
+- Bite
+- Double Kick
+- Quick Attack
+
+Espeon
+Timid Nature
+EVs: 252 SpA / 4 SpD / 252 Spe
+- Psybeam
+- Light Screen
+- Reflect
+- Swift
+
+Umbreon
+Careful Nature
+EVs: 252 Def / 252 SpD / 4 Spe
+- Bite
+- Baby-Doll Eyes
+- Confuse Ray
+- Moonlight
+
+Leafeon
+Jolly Nature
+EVs: 252 Atk / 4 Def / 252 Spe
+- Razor Leaf
+- Trailblaze
+- Leech Seed
+- Quick Attack
+
+Glaceon
+Modest Nature
+EVs: 252 Def / 252 SpA / 4 SpD
+- Icy Wind
+- Bite
+- Chilling Water
+- Quick Attack
+
+Sylveon
+Modest Nature
+EVs: 252 Def / 252 SpA / 4 SpD
+- Draining Kiss
+- Baby-Doll Eyes
+- Light Screen
+- Swift
+
+=== MULTIVOLVE_BADGES_4 ===
+Name: Multivolve
+Pic: Brendan
+Party Size: 1
+
+Vaporeon
+Bold Nature
+EVs: 252 Def / 4 SpA / 252 SpD
+- Muddy Water
+- Aqua Ring
+- Rain Dance
+- Aurora Beam
+
+Jolteon
+Jolly Nature
+EVs: 252 SpA / 4 SpD / 252 Spe
+- Discharge
+- Thunder Wave
+- Pin Missile
+- Swift
+
+Flareon
+Adamant Nature
+EVs: 252 Atk / 4 SpD / 252 Spe
+- Fire Fang
+- Bite
+- Double Kick
+- Quick Attack
+
+Espeon
+Timid Nature
+EVs: 252 SpA / 4 SpD / 252 Spe
+- Psybeam
+- Light Screen
+- Reflect
+- Morning Sun
+
+Umbreon
+Careful Nature
+EVs: 252 Def / 252 SpD / 4 Spe
+- Bite
+- Snarl
+- Confuse Ray
+- Moonlight
+
+Leafeon
+Jolly Nature
+EVs: 252 Atk / 4 Def / 252 Spe
+- Seed Bomb
+- Trailblaze
+- Synthesis
+- Quick Attack
+
+Glaceon
+Modest Nature
+EVs: 252 Def / 252 SpA / 4 SpD
+- Ice Fang
+- Icy Wind
+- Chilling Water
+- Swift
+
+Sylveon
+Modest Nature
+EVs: 252 Def / 252 SpA / 4 SpD
+- Draining Kiss
+- Light Screen
+- Calm Mind
+- Swift
+
+=== MULTIVOLVE_BADGES_5 ===
+Name: Multivolve
+Pic: Brendan
+Party Size: 1
+
+Vaporeon
+Bold Nature
+EVs: 252 Def / 4 SpA / 252 SpD
+- Surf
+- Wish
+- Rain Dance
+- Aurora Beam
+
+Jolteon
+Jolly Nature
+EVs: 252 SpA / 4 SpD / 252 Spe
+- Discharge
+- Thunder Wave
+- Volt Switch
+- Swift
+
+Flareon
+Adamant Nature
+EVs: 252 Atk / 4 SpD / 252 Spe
+- Fire Fang
+- Facade
+- Double Kick
+- Quick Attack
+
+Espeon
+Timid Nature
+EVs: 252 SpA / 4 SpD / 252 Spe
+- Psychic
+- Light Screen
+- Swift
+- Morning Sun
+
+Umbreon
+Careful Nature
+EVs: 252 Def / 252 SpD / 4 Spe
+- Bite
+- Snarl
+- Protect
+- Wish
+
+Leafeon
+Jolly Nature
+EVs: 252 Atk / 4 Def / 252 Spe
+- Seed Bomb
+- X-Scissor
+- Synthesis
+- Quick Attack
+
+Glaceon
+Modest Nature
+EVs: 252 Def / 252 SpA / 4 SpD
+- Ice Beam
+- Chilling Water
+- Swift
+- Wish
+
+Sylveon
+Modest Nature
+EVs: 252 Def / 252 SpA / 4 SpD
+- Draining Kiss
+- Calm Mind
+- Psybeam
+- Swift
+
+=== MULTIVOLVE_BADGES_6 ===
+Name: Multivolve
+Pic: Brendan
+Party Size: 1
+
+Vaporeon
+Bold Nature
+EVs: 252 Def / 4 SpA / 252 SpD
+- Surf
+- Wish
+- Rain Dance
+- Protect
+
+Jolteon
+Jolly Nature
+EVs: 252 SpA / 4 SpD / 252 Spe
+- Thunderbolt
+- Thunder Wave
+- Volt Switch
+- Swift
+
+Flareon
+Adamant Nature
+EVs: 252 Atk / 4 SpD / 252 Spe
+- Temper Flare
+- Facade
+- Double Kick
+- Quick Attack
+
+Espeon
+Timid Nature
+EVs: 252 SpA / 4 SpD / 252 Spe
+- Psychic
+- Shadow Ball
+- Swift
+- Morning Sun
+
+Umbreon
+Careful Nature
+EVs: 252 Def / 252 SpD / 4 Spe
+- Crunch
+- Snarl
+- Protect
+- Wish
+
+Leafeon
+Jolly Nature
+EVs: 252 Atk / 4 Def / 252 Spe
+- Leaf Blade
+- X-Scissor
+- Synthesis
+- Swords Dance
+
+Glaceon
+Modest Nature
+EVs: 252 Def / 252 SpA / 4 SpD
+- Ice Beam
+- Chilling Water
+- Shadow Ball
+- Wish
+
+Sylveon
+Modest Nature
+EVs: 252 Def / 252 SpA / 4 SpD
+- Draining Kiss
+- Calm Mind
+- Psyshock
+- Swift
+
+=== MULTIVOLVE_BADGES_7 ===
+Name: Multivolve
+Pic: Brendan
+Party Size: 1
+
+Vaporeon
+Bold Nature
+EVs: 252 Def / 4 SpA / 252 SpD
+- Surf
+- Wish
+- Rain Dance
+- Ice Beam
+
+Jolteon
+Jolly Nature
+EVs: 252 SpA / 4 SpD / 252 Spe
+- Thunderbolt
+- Thunder Wave
+- Volt Switch
+- Shadow Ball
+
+Flareon
+Adamant Nature
+EVs: 252 Atk / 4 SpD / 252 Spe
+- Temper Flare
+- Facade
+- Trailblaze
+- Quick Attack
+
+Espeon
+Timid Nature
+EVs: 252 SpA / 4 SpD / 252 Spe
+- Psychic
+- Shadow Ball
+- Dazzling Gleam
+- Morning Sun
+
+Umbreon
+Careful Nature
+EVs: 252 Def / 252 SpD / 4 Spe
+- Crunch
+- Dark Pulse
+- Confuse Ray
+- Wish
+
+Leafeon
+Jolly Nature
+EVs: 252 Atk / 4 Def / 252 Spe
+- Leaf Blade
+- Knock Off
+- Synthesis
+- Swords Dance
+
+Glaceon
+Modest Nature
+EVs: 252 Def / 252 SpA / 4 SpD
+- Freeze-Dry
+- Ice Beam
+- Shadow Ball
+- Wish
+
+Sylveon
+Modest Nature
+EVs: 252 Def / 252 SpA / 4 SpD
+- Moonblast
+- Draining Kiss
+- Calm Mind
+- Psyshock
+
+=== MULTIVOLVE_BADGES_8 ===
+Name: Multivolve
+Pic: Brendan
+Party Size: 1
+
+Vaporeon
+Bold Nature
+EVs: 252 Def / 4 SpA / 252 SpD
+- Scald
+- Wish
+- Rain Dance
+- Protect
+
+Jolteon
+Jolly Nature
+EVs: 252 SpA / 4 SpD / 252 Spe
+- Alluring Voice
+- Thunderbolt
+- Volt Switch
+- Shadow Ball
+
+Flareon
+Adamant Nature
+EVs: 252 Atk / 4 SpD / 252 Spe
+- Flare Blitz
+- Facade
+- Trailblaze
+- Quick Attack
+
+Espeon
+Timid Nature
+EVs: 252 SpA / 4 SpD / 252 Spe
+- Psychic Noise
+- Shadow Ball
+- Dazzling Gleam
+- Morning Sun
+
+Umbreon
+Careful Nature
+EVs: 252 Def / 252 SpD / 4 Spe
+- Crunch
+- Dark Pulse
+- Protect
+- Wish
+
+Leafeon
+Jolly Nature
+EVs: 252 Atk / 4 Def / 252 Spe
+- Solar Blade
+- Knock Off
+- Synthesis
+- Swords Dance
+
+Glaceon
+Modest Nature
+EVs: 252 Def / 252 SpA / 4 SpD
+- Freeze-Dry
+- Blizzard
+- Shadow Ball
+- Wish
+
+Sylveon
+Modest Nature
+EVs: 252 Def / 252 SpA / 4 SpD
+- Hyper Voice
+- Draining Kiss
+- Calm Mind
+- Psyshock
+

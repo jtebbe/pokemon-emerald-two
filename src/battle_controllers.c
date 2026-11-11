@@ -7,6 +7,7 @@
 #include "battle_gfx_sfx_util.h"
 #include "battle_interface.h"
 #include "battle_message.h"
+#include "battle_multivolve.h"
 #include "battle_setup.h"
 #include "cable_club.h"
 #include "event_data.h"
@@ -849,6 +850,15 @@ static void UNUSED BtlController_EmitGetRawMonData(enum BattlerId battler, u32 b
 void BtlController_EmitSetMonData(enum BattlerId battler, u32 bufferId, u8 requestId, u8 monToCheck, u8 bytes, void *data)
 {
     s32 i;
+    u16 projectedHp;
+
+    if (requestId == REQUEST_HP_BATTLE && monToCheck == 0 && gBattleMons[battler].volatiles.multivolved)
+    {
+        memcpy(&projectedHp, data, sizeof(projectedHp));
+        projectedHp = GetMultivolvePartyHp(battler, projectedHp);
+        data = &projectedHp;
+        bytes = sizeof(projectedHp);
+    }
 
     gBattleResources->transferBuffer[0] = CONTROLLER_SETMONDATA;
     gBattleResources->transferBuffer[1] = requestId;
@@ -1646,6 +1656,14 @@ static void SetBattlerMonData(enum BattlerId battler, struct Pokemon *party, enu
 
     switch (gBattleResources->bufferA[battler][1])
     {
+    case REQUEST_HP_STATUS_BATTLE:
+    {
+        struct HpAndStatus health;
+        memcpy(&health, &gBattleResources->bufferA[battler][3], sizeof(health));
+        SetMonData(&party[monId], MON_DATA_HP, &health.hp);
+        SetMonData(&party[monId], MON_DATA_STATUS, &health.status);
+        break;
+    }
     case REQUEST_ALL_BATTLE:
         {
             SetMonData(&party[monId], MON_DATA_SPECIES, &battlePokemon->species);
@@ -1944,7 +1962,7 @@ void Controller_WaitForHealthBar(enum BattlerId battler)
 {
     s16 hpValue = MoveBattleBar(battler, gHealthboxSpriteIds[battler], HEALTH_BAR, 0);
     struct Pokemon *mon = GetBattlerMon(battler);
-    s32 maxHP = GetMonData(mon, MON_DATA_MAX_HP);
+    s32 maxHP = gBattleMons[battler].volatiles.multivolved ? gBattleMons[battler].maxHP : GetMonData(mon, MON_DATA_MAX_HP);
 
     SetHealthboxSpriteVisible(gHealthboxSpriteIds[battler]);
     if (hpValue != -1)
@@ -2444,8 +2462,16 @@ void BtlController_HandleHealthBarUpdate(enum BattlerId battler)
 
     LoadBattleBarGfx(0);
     hpVal = gBattleResources->bufferA[battler][2] | (gBattleResources->bufferA[battler][3] << 8);
-    maxHP = GetMonData(mon, MON_DATA_MAX_HP);
-    curHP = GetMonData(mon, MON_DATA_HP);
+    if (gBattleMons[battler].volatiles.multivolved)
+    {
+        maxHP = gBattleMons[battler].maxHP;
+        curHP = gBattleMons[battler].hp;
+    }
+    else
+    {
+        maxHP = GetMonData(mon, MON_DATA_MAX_HP);
+        curHP = GetMonData(mon, MON_DATA_HP);
+    }
 
     if (hpVal != INSTANT_HP_BAR_DROP)
     {

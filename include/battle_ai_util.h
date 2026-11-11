@@ -4,6 +4,7 @@
 #include "battle.h"
 #include "battle_ai_main.h"
 #include "battle_ai_field_statuses.h"
+#include "battle_util.h"
 
 // Roll boundaries used by AI when scoring. Doesn't affect actual damage dealt.
 #define MAX_ROLL_PERCENTAGE DMG_ROLL_PERCENT_HI
@@ -105,8 +106,11 @@ typedef bool32 (*MoveFlag)(enum Move move);
 static inline s32 AI_GetMovePriorityWithAbilities(enum BattlerId battler, enum Ability ability, enum Move move, enum BattlerId target, const enum Ability abilities[])
 {
     s32 priority = GetBattleMovePriorityBeforeFieldAbilities(battler, ability, move, target);
-    if ((gBattleMons[battler].status1 & STATUS1_PSN_ANY) && !gProtectStructs[battler].quash)
-        priority = ApplyMephiticDustPriority(battler, priority, abilities);
+    if (ability == ABILITY_MUTUAL_ORIGIN && !gProtectStructs[battler].quash
+     && CountOtherBattlersKnowingMove(battler, move, TRUE) > 0)
+        priority++;
+    if ((gBattleMons[battler].status1 & (STATUS1_PSN_ANY | STATUS1_PARALYSIS)) && !gProtectStructs[battler].quash)
+        priority = ApplyStatusPriorityPenalty(battler, priority, abilities);
     if (gAiLogicData->hasSucculentTrap)
         return ApplySucculentTrapPriority(battler, move, target, priority, abilities);
     return priority;
@@ -118,6 +122,7 @@ bool32 AI_RandLessThan(u32 val);
 bool32 AI_IsBattlerGrounded(enum BattlerId battler);
 enum MoveTarget AI_GetBattlerMoveTargetType(enum BattlerId battler, enum Move move);
 enum Ability AI_GetMoldBreakerSanitizedAbility(enum BattlerId battlerAtk, enum Ability abilityAtk, enum Ability abilityDef, enum HoldEffect holdEffectDef, enum Move move);
+void AI_SetMoveAbilityContext(const struct AiLogicData *aiData, enum BattlerId attacker, enum Move move, enum Ability *abilities, enum HoldEffect *holdEffects);
 u32 AI_GetDamage(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum MoveSlot moveIndex, enum DamageCalcContext calcContext, struct AiLogicData *aiData);
 bool32 IsAiFlagPresent(u64 flag);
 bool32 IsAiBattlerAware(enum BattlerId battlerId);
@@ -150,6 +155,7 @@ enum HoldEffect AI_DecideHoldEffectForTurn(enum BattlerId battlerId);
 bool32 DoesBattlerIgnoreAbilityChecks(enum BattlerId battlerAtk, enum Ability atkAbility, enum Move move);
 u32 AI_GetWeather(void);
 u32 AI_GetSwitchinWeather(enum BattlerId battler);
+u32 AI_WeatherAfterMoveStart(enum Ability ability, enum Type moveType, u32 weather);
 u32 AI_GetSwitchinTerrain(enum BattlerId battler);
 enum WeatherState IsWeatherActive(u32 flags);
 bool32 CanAIFaintTarget(enum BattlerId battlerAtk, enum BattlerId battlerDef, u32 numHits);
@@ -271,6 +277,9 @@ static inline bool32 AI_IsSwitchOutMove(enum BattlerId battler, enum Move move)
 bool32 AI_IsChaseMove(enum BattlerId battler, enum Move move);
 bool32 AI_IsRelentlessChaseIntercept(enum BattlerId attacker, enum BattlerId defender, enum Move move);
 bool32 AI_CanGuardiansGrowlLowerStat(enum BattlerId source, enum BattlerId target, enum Stat stat);
+bool32 AI_CanSickeningStenchAffectStat(enum BattlerId source, enum BattlerId target, enum Stat stat);
+void AI_ApplySickeningStench(enum BattlerId source);
+s32 AI_GetSickeningStenchEntryScore(enum BattlerId source);
 bool32 HasMoveWithFlag(enum BattlerId battler, MoveFlag getFlag);
 bool32 IsHazardClearingMove(enum Move move);
 bool32 IsSelfSacrificeEffect(enum Move move);

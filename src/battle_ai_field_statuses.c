@@ -155,6 +155,8 @@ static bool32 DoesAbilityBenefitFromWeather(enum Ability ability, u32 weather)
 {
     switch (ability)
     {
+    case ABILITY_ADAPTIVE_BUILD:
+        return (weather & (B_WEATHER_RAIN | B_WEATHER_SNOW));
     case ABILITY_FORECAST:
         return (weather & (B_WEATHER_RAIN | B_WEATHER_SUN | B_WEATHER_ICY_ANY));
     case ABILITY_MAGIC_GUARD:
@@ -168,15 +170,22 @@ static bool32 DoesAbilityBenefitFromWeather(enum Ability ability, u32 weather)
     case ABILITY_ICE_BODY:
     case ABILITY_ICE_FACE:
     case ABILITY_SNOW_CLOAK:
+    case ABILITY_SNOW_SIREN:
     case ABILITY_SLUSH_RUSH:
         return (weather & B_WEATHER_ICY_ANY);
+    case ABILITY_FROSTED_FUR:
+        return (weather & B_WEATHER_SNOW);
     case ABILITY_DROPS_OF_GOD:
     case ABILITY_DRY_SKIN:
     case ABILITY_HYDRATION:
+    case ABILITY_TIDAL_RULER:
+    case ABILITY_AQUATIC_FORM:
     case ABILITY_RAIN_DISH:
     case ABILITY_SWIFT_SWIM:
+    case ABILITY_HONED_HUNTER:
         return (weather & B_WEATHER_RAIN);
     case ABILITY_CHLOROPHYLL:
+    case ABILITY_PHOTOSYNTHETIC:
     case ABILITY_FLOWER_GIFT:
     case ABILITY_HARVEST:
     case ABILITY_LEAF_GUARD:
@@ -345,11 +354,11 @@ static enum FieldEffectOutcome BenefitsFromElectricTerrain(enum BattlerId battle
      || (HasMoveWithEffect(GetBattlerRightFoe(battler), EFFECT_REST) && AI_IsBattlerGrounded(GetBattlerRightFoe(battler))))
         return FIELD_EFFECT_POSITIVE;
 
-    bool32 grounded = AI_IsBattlerGrounded(battler);
-    if (grounded && HasBattlerSideMoveWithAdditionalEffect(GetBattlerLeftFoe(battler), MOVE_EFFECT_SLEEP))
+    bool32 terrainAffected = gAiLogicData->abilities[battler] == ABILITY_SHOCKBORN || AI_IsBattlerGrounded(battler);
+    if (terrainAffected && HasBattlerSideMoveWithAdditionalEffect(GetBattlerLeftFoe(battler), MOVE_EFFECT_SLEEP))
         return FIELD_EFFECT_POSITIVE;
 
-    if (grounded && ((gBattleMons[battler].status1 & STATUS1_SLEEP)
+    if (terrainAffected && ((gBattleMons[battler].status1 & STATUS1_SLEEP)
     || gBattleMons[battler].volatiles.yawn
     || HasDamagingMoveOfType(battler, TYPE_ELECTRIC)))
         return FIELD_EFFECT_POSITIVE;
@@ -446,7 +455,8 @@ static enum FieldEffectOutcome BenefitsFromPsychicTerrain(enum BattlerId battler
         // harass priority
         if (AI_IsAbilityOnSide(GetBattlerLeftFoe(battler), ABILITY_GALE_WINGS)
          || AI_IsAbilityOnSide(GetBattlerLeftFoe(battler), ABILITY_TRIAGE)
-         || AI_IsAbilityOnSide(GetBattlerLeftFoe(battler), ABILITY_PRANKSTER))
+         || AI_IsAbilityOnSide(GetBattlerLeftFoe(battler), ABILITY_PRANKSTER)
+         || AI_IsAbilityOnSide(GetBattlerLeftFoe(battler), ABILITY_EVIL_TRICKSTER))
             return FIELD_EFFECT_POSITIVE;
     }
 
@@ -459,7 +469,8 @@ static enum FieldEffectOutcome BenefitsFromPsychicTerrain(enum BattlerId battler
 
     if (AI_IsAbilityOnSide(battler, ABILITY_GALE_WINGS)
      || AI_IsAbilityOnSide(battler, ABILITY_TRIAGE)
-     || AI_IsAbilityOnSide(battler, ABILITY_PRANKSTER))
+     || AI_IsAbilityOnSide(battler, ABILITY_PRANKSTER)
+     || AI_IsAbilityOnSide(battler, ABILITY_EVIL_TRICKSTER))
         return FIELD_EFFECT_NEGATIVE;
 
     return FIELD_EFFECT_NEUTRAL;
@@ -476,17 +487,15 @@ static enum FieldEffectOutcome BenefitsFromGravity(enum BattlerId battler)
     if (HasMoveWithFlag(battler, IsMoveGravityBanned))
         return FIELD_EFFECT_NEGATIVE;
 
-    if (IsBattlerAlive(GetBattlerLeftFoe(battler)))
+    bool32 gravityFalls = gAiLogicData->abilities[battler] == ABILITY_GRAVITY_FALLS && HasDamagingMove(battler);
+    for (enum BattlerId foe = 0; foe < gBattlersCount; foe++)
     {
-        if (HasMoveWithLowAccuracy(battler, GetBattlerLeftFoe(battler), LOW_ACCURACY_THRESHOLD, FALSE)
-         || (!AI_IsBattlerGrounded(GetBattlerLeftFoe(battler)) && HasDamagingMoveOfType(battler, TYPE_GROUND)))
-            return FIELD_EFFECT_POSITIVE;
-    }
+        if (IsBattlerAlly(battler, foe) || !IsBattlerAlive(foe))
+            continue;
 
-    if (IsBattlerAlive(GetBattlerRightFoe(battler)))
-    {
-        if (HasMoveWithLowAccuracy(battler, GetBattlerRightFoe(battler), LOW_ACCURACY_THRESHOLD, FALSE)
-         || (!AI_IsBattlerGrounded(GetBattlerRightFoe(battler)) && HasDamagingMoveOfType(battler, TYPE_GROUND)))
+        if ((gravityFalls && GetSpeciesHeight(gBattleMons[foe].species) < GetSpeciesHeight(gBattleMons[battler].species))
+         || HasMoveWithLowAccuracy(battler, foe, LOW_ACCURACY_THRESHOLD, FALSE)
+         || (!AI_IsBattlerGrounded(foe) && HasDamagingMoveOfType(battler, TYPE_GROUND)))
             return FIELD_EFFECT_POSITIVE;
     }
 

@@ -20,7 +20,11 @@
 
 bool32 IsLevelCapEnabled(void);
 u32 GetCurrentLevelCap(void);
-u32 GetSoftLevelCapExpValue(u32 level, u32 expValue);
+struct BoxPokemon;
+struct Pokemon;
+u32 GetBoxMonLevelCap(struct BoxPokemon *mon);
+u32 GetMonLevelCap(struct Pokemon *mon);
+u32 GetSoftLevelCapExpValue(u32 level, u32 expValue, u32 levelCap);
 u32 GetCurrentEVCap(void);
 
 #endif /* GUARD_CAPS_H */

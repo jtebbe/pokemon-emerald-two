@@ -386,6 +386,20 @@ static inline bool32 IsPunchingMove(enum Move moveId)
     return gMovesInfo[SanitizeMoveId(moveId)].punchingMove;
 }
 
+bool32 IsKickingMove(enum Move move);
+bool32 IsHornMove(enum Move move);
+
+static inline bool32 IsPiercingHornMove(enum Ability ability, enum Move move)
+{
+    return ability == ABILITY_PIERCING_HORN && IsHornMove(move);
+}
+
+static inline bool32 IsMartialMasterMove(enum Ability ability, enum Move move)
+{
+    return (ability == ABILITY_PUNCHING_MASTER && IsPunchingMove(move))
+        || (ability == ABILITY_KICKING_MASTER && IsKickingMove(move));
+}
+
 static inline bool32 IsBitingMove(enum Move moveId)
 {
     return gMovesInfo[SanitizeMoveId(moveId)].bitingMove;

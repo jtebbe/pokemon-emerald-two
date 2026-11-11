@@ -136,7 +136,7 @@ struct SpecialStatus
     u8 critMessagePrinted:1;
     u8 protectMessagePrinted:1;
     u8 reverberationsEcho:1;
-    u8 reverberationsTargets:4;
+    u8 multiHitTargets:4;
 
     u8 gemParam:7;
     u8 gemBoost:1;
@@ -147,6 +147,12 @@ struct SpecialStatus
     u8 backUpTarget:3;
     u8 synchronize:1;
     // End of byte
+    u8 ampedBloomFollowUpType:5;
+    u8 ampedBloomPartySlot:3;
+    u8 postActionAbilityMove:1;
+    u8 greatMindsActive:1;
+    u8 greatMindsExplosion:1;
+    u8 mimeBoxActivated:1;
     enum QueuedSwitch queuedSwitch;
     struct StatStages statStageQueue[NUM_BATTLE_STATS];
     struct StatStages statStageQueue2[NUM_BATTLE_STATS]; // For Mirror Armor, Defiant, Competitive and Rattled (avoids overwriting the first queue)
@@ -280,7 +286,8 @@ struct AiLogicData
     u32 technicolorAveraging:1; // Guard for switch-in type uncertainty forecasts.
     u32 fickleForecastsAveraging:1; // Scoped switch-in weather forecasts.
     u32 voodooStrengthAveraging:1;
-    u32 padding2:2;
+    u32 pureBlissCached:1; // Scoped to one batch of move forecasts.
+    u32 pureBlissActive:1;
 };
 
 struct AiThinkingStruct
@@ -417,7 +424,8 @@ struct Wish
 struct FutureSight
 {
     enum Move move;
-    u16 counter:10;
+    u16 counter:9;
+    u16 greatMinds:1;
     u16 battlerIndex:3;
     enum PartySlot partyIndex:3;
 };
@@ -459,7 +467,10 @@ struct BattlerState
     u16 toxicChainActivates:1;
     u16 substituteBlocked:1;
     u16 psisightBoosted:1;
-    u16 padding:5;
+    u16 shellBurstUsed:1; // Resets on switching, including Baton Pass.
+    u16 shellBurstBlockedMove:1; // Keeps Dragon Darts' other target eligible.
+    u16 storedSacrificialCarp:1;
+    u16 padding:2;
     // End of Word
 };
 
@@ -486,8 +497,11 @@ struct PartyState
     u32 isKnockedOff:1;
     u32 freezeTurns:2;
     u32 apexRevealed:1;
-    u32 padding:2;
+    u32 luxuryBallUsed:1;
+    u32 scorchingBlastBurn:1;
     enum Item usedHeldItem;
+    u16 multivolveHp;
+    u16 multivolveMaxHp;
 };
 
 struct EventStates
@@ -511,6 +525,15 @@ struct EventStates
 };
 
 // Cleared at the beginning of the battle. Fields need to be cleared when needed manually otherwise.
+struct PostActionContactMove
+{
+    u8 userSlot:3;
+    u8 targetSlot:3;
+    u8 pending:1;
+    u8 queued:1;
+    enum Ability ability;
+};
+
 struct BattleStruct
 {
     struct BattlerState battlerState[MAX_BATTLERS_COUNT];
@@ -682,15 +705,15 @@ struct BattleStruct
     bool8 hasNineTailLegendSeals;
     struct NineTailLegendState nineTailLegend[MAX_BATTLE_TRAINERS][PARTY_SIZE];
     // A called end-turn move and its Dancer chain return to the end-turn script.
-    void (*endlessLuauCallback)(void);
-    const u8 *endlessLuauScript;
-    enum Move endlessLuauSavedMove;
-    enum Move endlessLuauSavedChosenMove;
-    u8 endlessLuauSavedAction;
-    u8 endlessLuauSavedMovePos;
-    u8 endlessLuauSavedScriptStack;
-    enum BattlerId endlessLuauBattler;
-    bool8 endlessLuauActive;
+    void (*endTurnAbilityMoveCallback)(void);
+    const u8 *endTurnAbilityMoveScript;
+    enum Move endTurnAbilityMoveSavedMove;
+    enum Move endTurnAbilityMoveSavedChosenMove;
+    u8 endTurnAbilityMoveSavedAction;
+    u8 endTurnAbilityMoveSavedMovePos;
+    u8 endTurnAbilityMoveSavedScriptStack;
+    enum BattlerId endTurnAbilityMoveBattler;
+    bool8 endTurnAbilityMoveActive;
     u32 relentlessChaseDamage;
     u8 guardiansGrowlRattled;
     u8 succulentTrapPoisonTargets;
@@ -698,7 +721,9 @@ struct BattleStruct
     enum Type technicolorTypes[MAX_BATTLE_TRAINERS][PARTY_SIZE][2];
     enum Type technicolorMoveTypes[MAX_BATTLERS_COUNT]; // Resolved per recipient for this attack.
     u32 maglevPolarityDamage; // Actual damage dealt to Electric/Steel targets this move.
-    u8 noblesseObligeTargets; // Recipients of direct critical damage during this move.
+    u8 noblesseObligeTargets:4; // Recipients of direct critical damage during this move.
+    u8 overwhelmTargets:4; // Recipients of direct damage during this move.
+    struct PostActionContactMove postActionContactMoves[MAX_BATTLERS_COUNT][MAX_BATTLERS_COUNT];
 };
 
 struct AiBattleData
@@ -758,6 +783,14 @@ static inline bool32 IsBattleMoveSpecial(enum Move move)
 static inline bool32 IsBattleMoveStatus(enum Move move)
 {
     return GetBattleMoveCategory(move) == DAMAGE_CATEGORY_STATUS;
+}
+
+static inline bool32 IsMartialMasterDoubleHit(enum BattlerId battler, enum Ability ability, enum Move move)
+{
+    return IsMartialMasterMove(ability, move)
+        && !IsBattleMoveStatus(move)
+        && !IsMultiHitMove(move)
+        && GetBattlerMoveStrikeCount(battler, move) < 2;
 }
 
 /* Checks if 'battler' is any of the types.
@@ -1109,15 +1142,22 @@ static inline bool32 IsLinkMultiBattle(void)
     return HasAllBattleFlags(BATTLE_TYPE_LINK | BATTLE_TYPE_MULTI);
 }
 
-static inline bool32 IsBattlerUsingAbilityDance(enum BattlerId battler)
+static inline bool32 IsBattlerUsingAbilityMove(enum BattlerId battler)
 {
     return gSpecialStatuses[battler].dancerUsedMove
-        || (gBattleStruct->endlessLuauActive && gBattleStruct->endlessLuauBattler == battler);
+        || gSpecialStatuses[battler].postActionAbilityMove
+        || (gBattleStruct->endTurnAbilityMoveActive && gBattleStruct->endTurnAbilityMoveBattler == battler);
 }
 
 static inline bool32 HasDancerAbility(enum Ability ability)
 {
-    return ability == ABILITY_DANCER || ability == ABILITY_ENDLESS_LUAU;
+    return ability == ABILITY_DANCER || ability == ABILITY_ENDLESS_LUAU || ability == ABILITY_SHADOW_DANCER
+        || ability == ABILITY_YAOI_ON_ICE;
+}
+
+static inline bool32 HasSimpleAbility(enum Ability ability)
+{
+    return ability == ABILITY_SIMPLE || ability == ABILITY_SHADOW_DANCER || ability == ABILITY_UNKNOWN_ORIGIN;
 }
 
 static inline bool32 IsBattlerAlive(enum BattlerId battler)
@@ -1142,6 +1182,11 @@ static inline bool32 IsBattlerPresent(enum BattlerId battler)
         return FALSE;
     else
         return TRUE;
+}
+
+static inline bool32 IsBattlerBelowHalfHp(enum BattlerId battler)
+{
+    return (u32)gBattleMons[battler].hp * 2 < gBattleMons[battler].maxHP;
 }
 
 static inline bool32 IsBattlerTurnDamaged(enum BattlerId battler, enum SubCheck subCheck)

@@ -1,4 +1,5 @@
 #include "global.h"
+#include "battle_util.h"
 #include "event_object_lock.h"
 #include "event_object_movement.h"
 #include "event_scripts.h"
@@ -154,7 +155,7 @@ bool32 SetUpFieldMove_Cut(void)
     {
         PlayerGetDestCoords(&gPlayerFacingPosition.x, &gPlayerFacingPosition.y);
         userAbility = GetMonAbility(&gParties[B_TRAINER_PLAYER][GetCursorSelectionMonId()]);
-        if (userAbility == ABILITY_HYPER_CUTTER)
+        if (HasHyperCutterAbility(userAbility))
         {
             sCutSquareSide = CUT_HYPER_SIDE;
             sTileCountFromPlayer_X = 2;
@@ -213,7 +214,7 @@ bool32 SetUpFieldMove_Cut(void)
             }
         }
 
-        if (userAbility != ABILITY_HYPER_CUTTER)
+        if (!HasHyperCutterAbility(userAbility))
         {
             if (ret == TRUE)
             {

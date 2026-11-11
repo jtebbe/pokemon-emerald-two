@@ -37,11 +37,11 @@ TEST("Level Caps option toggles the existing badge cap progression")
     gSaveData.optionsLevelCaps = FALSE;
     EXPECT(!IsLevelCapEnabled());
     EXPECT_EQ(GetCurrentLevelCap(), MAX_LEVEL);
-    EXPECT_EQ(GetSoftLevelCapExpValue(50, 1000), 1000);
+    EXPECT_EQ(GetSoftLevelCapExpValue(50, 1000, GetCurrentLevelCap()), 1000);
     gSaveData.optionsLevelCaps = TRUE;
     EXPECT(IsLevelCapEnabled());
     EXPECT_EQ(GetCurrentLevelCap(), caps[progress]);
-    EXPECT_EQ(GetSoftLevelCapExpValue(caps[progress], 1000), 0);
+    EXPECT_EQ(GetSoftLevelCapExpValue(caps[progress], 1000, GetCurrentLevelCap()), 0);
 }
 
 TEST("Level Caps option stops level gains at the cap but never lowers existing levels")

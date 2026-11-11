@@ -318,6 +318,7 @@ static void InitLocalLinkPlayer(void)
     gLocalLinkPlayer.version = gGameVersion + 0x4000;
     gLocalLinkPlayer.lp_field_2 = (u16)LinkProtocolBuildId();
     gLocalLinkPlayer.progressFlags = IsNationalPokedexEnabled();
+    gLocalLinkPlayer.badgeCount = GetBadgeCount();
     if (FlagGet(FLAG_IS_CHAMPION))
     {
         gLocalLinkPlayer.progressFlags |= 0x10;
@@ -573,7 +574,7 @@ static void ProcessRecvCmds(u8 unused)
                         if ((linkPlayer->version & 0xFF) == VERSION_RUBY || (linkPlayer->version & 0xFF) == VERSION_SAPPHIRE)
                         {
                             linkPlayer->progressFlagsCopy = 0;
-                            linkPlayer->neverRead = 0;
+                            linkPlayer->badgeCount = 0;
                             linkPlayer->progressFlags = 0;
                         }
                         ConvertLinkPlayerName(linkPlayer);

@@ -19,7 +19,8 @@
 #define MOVE_LIMITATION_UNUSABLE                (1 << 15)
 
 #define MOVE_LIMITATION_PLACEHOLDER             (1 << 16)
-#define MOVE_LIMITATIONS_ALL                    0xFFFF
+#define MOVE_LIMITATION_SPIKY_GRIP              (1 << 17)
+#define MOVE_LIMITATIONS_ALL                    (0xFFFF | MOVE_LIMITATION_SPIKY_GRIP)
 
 // Lowest and highest percentages used for damage roll calculations
 #define DMG_ROLL_PERCENT_LO 85
@@ -38,6 +39,7 @@ enum ResultOption
     CHECK_TRIGGER, // Check the function without running scripts / setting any flags.
     AI_CHECK,  // Check the function without running scripts / setting any flags. Same as CHECK_TRIGGER but only used when additional data has to be fetched during ai calcs
     RUN_SCRIPT,
+    CHECK_TOXIC_UPGRADE, // Check whether regular poison can be upgraded to bad poison.
 };
 
 enum FieldEffectCases
@@ -52,6 +54,7 @@ enum FaintedEffectsBlock
     FAINTED_EFFECTS_BLOCK_END_NEUTRALIZING_GAS,
     FAINTED_EFFECTS_BLOCK_END_ILLUSION,
     FAINTED_EFFECTS_BLOCK_VICTORY_CATCH,
+    FAINTED_EFFECTS_BLOCK_SACRIFICIAL_CARP,
     FAINTED_EFFECTS_BLOCK_FAINT_CRY,
     FAINTED_EFFECTS_BLOCK_FAINT_ANIMATION,
     FAINTED_EFFECTS_BLOCK_FAINT_MESSAGE,

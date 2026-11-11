@@ -6733,6 +6733,7 @@ static void AnimTask_AllySwitchDataSwap(u8 taskId)
 
     // Swap those back since they aren't affected by ally switch
     SWAP(gBattleStruct->battlerState[battlerAtk].storedHealingWish, gBattleStruct->battlerState[battlerPartner].storedHealingWish, temp);
+    SWAP(gBattleStruct->battlerState[battlerAtk].storedSacrificialCarp, gBattleStruct->battlerState[battlerPartner].storedSacrificialCarp, temp);
     SWAP(gBattleStruct->battlerState[battlerAtk].storedLunarDance, gBattleStruct->battlerState[battlerPartner].storedLunarDance, temp);
 
     SWAP(gBattleSpritesDataPtr->battlerData[battlerAtk].invisible, gBattleSpritesDataPtr->battlerData[battlerPartner].invisible, temp);

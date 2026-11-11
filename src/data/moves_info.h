@@ -19516,5 +19516,65 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .battleAnimScript = gBattleAnimMove_VoidBlast,
     },
 
+    [MOVE_SAPPING_VINES] =
+    {
+        .name = COMPOUND_STRING("Sapping Vines"),
+        .description = COMPOUND_STRING(
+            "Raises a random stat and\n"
+            "lowers the same stat on hit."),
+        .effect = EFFECT_HIT,
+        .power = 30,
+        .type = TYPE_GRASS,
+        .accuracy = 100,
+        .pp = 20,
+        .target = TARGET_SELECTED,
+        .category = DAMAGE_CATEGORY_PHYSICAL,
+        .battleAnimScript = gBattleAnimMove_SappingVines,
+    },
+
+    [MOVE_SOULTORCH_SWING] =
+    {
+        .name = COMPOUND_STRING("Soultorch Swing"),
+        .description = COMPOUND_STRING(
+            "A Fire- and Ghost-type\n"
+            "dance that may burn."),
+        .effect = EFFECT_TWO_TYPED_MOVE,
+        .power = 90,
+        .type = TYPE_FIRE,
+        .accuracy = 100,
+        .pp = 10,
+        .target = TARGET_SELECTED,
+        .category = DAMAGE_CATEGORY_PHYSICAL,
+        .argument = { .type = TYPE_GHOST },
+        .danceMove = TRUE,
+        .additionalEffects = ADDITIONAL_EFFECTS({
+            .moveEffect = MOVE_EFFECT_BURN,
+            .chance = 30,
+        }),
+        .battleAnimScript = gBattleAnimMove_SoultorchSwing,
+    },
+
+    [MOVE_SEA_HORN] =
+    {
+        .name = COMPOUND_STRING("Sea Horn"),
+        .description = COMPOUND_STRING(
+            "A horn strike that may cause\n"
+            "flinching. Critical hits land often."),
+        .effect = EFFECT_HIT,
+        .power = 75,
+        .type = TYPE_WATER,
+        .accuracy = 100,
+        .criticalHitStage = 1,
+        .pp = 20,
+        .target = TARGET_SELECTED,
+        .category = DAMAGE_CATEGORY_PHYSICAL,
+        .makesContact = TRUE,
+        .additionalEffects = ADDITIONAL_EFFECTS({
+            .moveEffect = MOVE_EFFECT_FLINCH,
+            .chance = 30,
+        }),
+        .battleAnimScript = gBattleAnimMove_SeaHorn,
+    },
+
 
 };

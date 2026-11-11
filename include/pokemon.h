@@ -628,6 +628,7 @@ u8 GetMonsStateToDoubles_2(void);
 enum Ability GetAbilityBySpecies(enum Species species, u8 abilityNum);
 enum Ability GetMonAbility(struct Pokemon *mon);
 enum Ability GetSpeciesApexAbility(enum Species species);
+enum PokeBall GetBoxMonIChooseYouBall(struct BoxPokemon *mon);
 enum Ability GetAbilityBySpeciesAndItem(enum Species species, u8 abilityNum, enum Item item);
 bool8 IsPlayerPartyAndPokemonStorageFull(void);
 bool8 IsPokemonStorageFull(void);
@@ -680,6 +681,12 @@ u16 GetLinkTrainerFlankId(u8 linkPlayerId);
 s32 GetBattlerMultiplayerId(u16 id);
 u8 GetTrainerEncounterMusicId(u16 trainerOpponentId);
 u16 ModifyStatByNature(u8 nature, u16 stat, enum Stat statIndex);
+
+static inline u16 CalculateNonHpStat(u32 baseStat, u32 level, u32 ev, u8 nature, enum Stat stat)
+{
+    u32 value = (2 * baseStat + 31 + ev / 4) * level / 100 + 5;
+    return ModifyStatByNature(nature, value, stat);
+}
 void MonGainEVs(struct Pokemon *mon, enum Species defeatedSpecies);
 u16 GetMonEVCount(struct Pokemon *mon);
 bool8 TryIncrementMonLevel(struct Pokemon *mon);

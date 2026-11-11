@@ -46,13 +46,25 @@ u32 GetCurrentLevelCap(void)
     return MAX_LEVEL;
 }
 
-u32 GetSoftLevelCapExpValue(u32 level, u32 expValue)
+u32 GetBoxMonLevelCap(struct BoxPokemon *mon)
+{
+    u32 levelCap = GetCurrentLevelCap();
+    if (levelCap < MAX_LEVEL && GetBoxMonIChooseYouBall(mon) == BALL_LEVEL)
+        levelCap = min(MAX_LEVEL, levelCap + 5);
+    return levelCap;
+}
+
+u32 GetMonLevelCap(struct Pokemon *mon)
+{
+    return GetBoxMonLevelCap(&mon->box);
+}
+
+u32 GetSoftLevelCapExpValue(u32 level, u32 expValue, u32 currentLevelCap)
 {
     static const u32 sExpScalingDown[5] = { 4, 8, 16, 32, 64 };
     static const u32 sExpScalingUp[5]   = { 16, 8, 4, 2, 1 };
 
     u32 levelDifference;
-    u32 currentLevelCap = GetCurrentLevelCap();
 
     if (!IsLevelCapEnabled())
         return expValue;

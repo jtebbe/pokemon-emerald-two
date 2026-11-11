@@ -211,6 +211,10 @@ enum CriticalHitBoost
     F(VOLATILE_ESCAPE_PREVENTION,           escapePrevention,              (u32, 1), V_BATON_PASSABLE) \
     F(VOLATILE_JAW_LOCK,                    jawLock,                       (u32, MAX_BATTLERS_COUNT)) \
     F(VOLATILE_NIGHTMARE,                   nightmare,                     (u32, 1)) \
+    F(VOLATILE_BLEED_TURNS,                bleedTurns,                    (u32, 3)) \
+    F(VOLATILE_TIMER_BALL_TURNS,           timerBallTurns,                (u32, 3)) \
+    F(VOLATILE_REPEAT_BALL_MOVE,           repeatBallMove,                (enum Move, MOVES_COUNT - 1)) \
+    F(VOLATILE_REPEAT_BALL_USES,           repeatBallUses,                (u32, 4)) \
     F(VOLATILE_CURSED,                      cursed,                        (u32, 1), V_BATON_PASSABLE) \
     F(VOLATILE_FORESIGHT,                   foresight,                     (u32, 1)) \
     F(VOLATILE_CRITICAL_HIT_BOOST,          criticalHitBoost,              (enum CriticalHitBoost, CRIT_BOOST_TWO_STAGES), V_BATON_PASSABLE) \
@@ -304,7 +308,10 @@ enum CriticalHitBoost
     F(VOLATILE_ACTIVATE_DANCER,             activateDancer,                (u32, 1)) \
     F(VOLATILE_TRACE_ACTIVATED,             traceActivated,                (u32, 1)) \
     F(VOLATILE_SPEED_SWAP,                  speedSwapped,                  (u32, 1)) \
-    F(VOLATILE_ABYSSAL_EMBRACE,             abyssalEmbrace,                (u32, MAX_BATTLERS_COUNT))
+    F(VOLATILE_ABYSSAL_EMBRACE,             abyssalEmbrace,                (u32, MAX_BATTLERS_COUNT)) \
+    F(VOLATILE_SPIKY_GRIP,                 spikyGrip,                     (u32, MAX_BATTLERS_COUNT)) \
+    F(VOLATILE_UMBRAL_THIRST,              umbralThirst,                   (bool8, 1)) \
+    F(VOLATILE_MULTIVOLVED,                multivolved,                    (bool8, 1))
 
 
 /* Use within a macro to get the maximum allowed value for a volatile. Requires _typeMaxValue as input. */

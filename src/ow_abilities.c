@@ -8,7 +8,7 @@ const static enum Ability sForceNatureAbilities[] = {ABILITY_SYNCHRONIZE, ABILIT
 const static enum Ability sForceOppositeGenderAbilities[] = {ABILITY_CUTE_CHARM, ABILITY_NONE};
 const static enum Ability sIncreaseHatchingSpeedAbilities[] = {ABILITY_MAGMA_ARMOR, ABILITY_FLAME_BODY, ABILITY_STEAM_ENGINE, ABILITY_NONE};
 const static enum Ability sRockSmashItemLikelihoodAbilities[] = {ABILITY_KEEN_EYE,  ABILITY_MAGNET_PULL, ABILITY_SUCTION_CUPS, ABILITY_NONE};
-const static enum Ability sRockSmashItemRarityAbilities[] = {ABILITY_SERENE_GRACE,  ABILITY_SUPER_LUCK, ABILITY_NONE};
+const static enum Ability sRockSmashItemRarityAbilities[] = {ABILITY_SERENE_GRACE, ABILITY_GENTLE_SOUL, ABILITY_SUPER_LUCK, ABILITY_NONE};
 
 
 static UNUSED bool32 HasHalfChance(enum Species species);

@@ -648,7 +648,7 @@ static bool32 IsIntimidateBlocked(struct BattleCalcValues *cv, struct StatChange
     bool32 guardiansGrowl = cv->abilities[cv->battlerAtk] == ABILITY_GUARDIANS_GROWL;
     if (guardiansGrowl
      && (cv->abilities[cv->battlerDef] == ABILITY_SOUNDPROOF
-      || cv->abilities[cv->battlerDef] == ABILITY_HYPER_CUTTER
+      || HasHyperCutterAbility(cv->abilities[cv->battlerDef])
       || cv->abilities[cv->battlerDef] == ABILITY_PIERCING_BEAK
       || (cv->abilities[cv->battlerDef] == ABILITY_GUARD_DOG
        && gBattleMons[cv->battlerDef].statStages[STAT_ATK] == MIN_STAT_STAGE)))
@@ -665,11 +665,14 @@ static bool32 IsIntimidateBlocked(struct BattleCalcValues *cv, struct StatChange
     {
     case ABILITY_TRUE_POWER:
     case ABILITY_INNER_FOCUS:
+    case ABILITY_DECAPITATOR:
     case ABILITY_SCRAPPY:
+    case ABILITY_DOUBLE_TEAMING:
     case ABILITY_OWN_TEMPO:
     case ABILITY_TOTAL_ZEN:
     case ABILITY_OBLIVIOUS:
-        if (GetConfig(B_UPDATED_INTIMIDATE) < GEN_8)
+    case ABILITY_FURIOUS_CHARGE:
+        if (cv->abilities[cv->battlerDef] != ABILITY_FURIOUS_CHARGE && GetConfig(B_UPDATED_INTIMIDATE) < GEN_8)
             return FALSE;
         PREPARE_STAT_BUFFER(gBattleTextBuff1, st->stat);
         st->script = BattleScript_AbilityNoSpecificStatLoss;
@@ -820,6 +823,8 @@ static void AdjustStatStage(struct BattleCalcValues *cv, struct StatChange *st)
             RecordAbilityBattle(cv->battlerDef, cv->abilities[cv->battlerDef]);
         break;
     case ABILITY_SIMPLE:
+    case ABILITY_SHADOW_DANCER:
+    case ABILITY_UNKNOWN_ORIGIN:
         st->stage = 2 * st->stage;
         if (!st->onlyChecking)
             RecordAbilityBattle(cv->battlerDef, cv->abilities[cv->battlerDef]);
@@ -836,6 +841,7 @@ static bool32 CanAbilityPreventStatLoss(enum BattlerId battler, enum Ability abi
     case ABILITY_GLORIOUS_MANE:
         return IsBattlerAtMaxHp(battler) || gProtectStructs[battler].gloriousManeProtectedHit;
     case ABILITY_CLEAR_BODY:
+    case ABILITY_AQUA_HERITAGE:
     case ABILITY_FULL_METAL_BODY:
     case ABILITY_WHITE_SMOKE:
         return TRUE;
@@ -857,6 +863,7 @@ static bool32 AbilityPreventsSpecificStatDrop(enum Ability ability, enum Stat st
         return stat == STAT_ACC;
     case ABILITY_PIERCING_BEAK:
     case ABILITY_HYPER_CUTTER:
+    case ABILITY_BIG_MEATY_CLAWS:
         return stat == STAT_ATK;
     case ABILITY_BIG_PECKS:
         return stat == STAT_DEF;
@@ -875,6 +882,7 @@ bool32 ShouldDefiantCompetitiveActivate(enum BattlerId battler, enum Ability abi
     switch (ability)
     {
     case ABILITY_DEFIANT:
+    case ABILITY_BLAZE_HERITAGE:
         if (CompareStat(battler, STAT_ATK, MAX_STAT_STAGE, CMP_EQUAL, ability))
             return FALSE;
         break;

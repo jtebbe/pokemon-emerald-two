@@ -833,6 +833,15 @@ void CalculateMonStatsCont(struct Pokemon *mon, bool32 updateSpeedStat)
     s32 newMaxHP;
 
     u8 nature = GetMonData(mon, MON_DATA_HIDDEN_NATURE);
+    bool32 invertBaseStats = GetBoxMonIChooseYouBall(&mon->box) == BALL_BEAST;
+    static const enum Stat invertedStats[NUM_STATS] = {
+        [STAT_HP] = STAT_SPEED,
+        [STAT_ATK] = STAT_SPATK,
+        [STAT_DEF] = STAT_SPDEF,
+        [STAT_SPEED] = STAT_HP,
+        [STAT_SPATK] = STAT_ATK,
+        [STAT_SPDEF] = STAT_DEF,
+    };
 
     SetMonData(mon, MON_DATA_LEVEL, &level);
 
@@ -844,9 +853,8 @@ void CalculateMonStatsCont(struct Pokemon *mon, bool32 updateSpeedStat)
         if (i == STAT_HP)
             continue;
 
-        u8 baseStat = GetSpeciesBaseStat(species, i);
-        s32 n = (((2 * baseStat + 31 + ev[i] / 4) * level) / 100) + 5;
-        n = ModifyStatByNature(nature, n, i);
+        u8 baseStat = GetSpeciesBaseStat(species, invertBaseStats ? invertedStats[i] : i);
+        s32 n = CalculateNonHpStat(baseStat, level, ev[i], nature, i);
 #if TESTING
         if (gTestRunnerEnabled && gMain.inBattle)
             n = TestRunner_Battle_OverrideStat(mon, i, n);
@@ -860,7 +868,7 @@ void CalculateMonStatsCont(struct Pokemon *mon, bool32 updateSpeedStat)
     }
     else
     {
-        s32 n = 2 * GetSpeciesBaseHP(species) + 31;
+        s32 n = 2 * GetSpeciesBaseStat(species, invertBaseStats ? STAT_SPEED : STAT_HP) + 31;
         newMaxHP = (((n + ev[STAT_HP] / 4) * level) / 100) + level + 10;
     }
 
@@ -1704,6 +1712,24 @@ void SetMonData(struct Pokemon *mon, s32 field, const void *dataArg)
         break;
     case MON_DATA_SPECIES_OR_EGG:
         break;
+    case MON_DATA_HELD_ITEM:
+    case MON_DATA_POKEBALL:
+    {
+        bool32 wasInverted = GetBoxMonIChooseYouBall(&mon->box) == BALL_BEAST;
+        SetBoxMonData(&mon->box, field, data);
+        if (mon->maxHP != 0 && wasInverted != (GetBoxMonIChooseYouBall(&mon->box) == BALL_BEAST))
+        {
+            u32 oldHP = mon->hp;
+            u32 oldMaxHP = mon->maxHP;
+            s32 levelUpHP = gBattleScripting.levelUpHP;
+            CalculateMonStats(mon);
+            gBattleScripting.levelUpHP = levelUpHP;
+            // Changing the ability preserves HP proportion and cannot revive a fainted mon.
+            u32 hp = oldHP ? max(1, oldHP * mon->maxHP / oldMaxHP) : 0;
+            SetMonData(mon, MON_DATA_HP, &hp);
+        }
+        break;
+    }
     default:
         SetBoxMonData(&mon->box, field, data);
         break;
@@ -2063,6 +2089,14 @@ enum Ability GetSpeciesApexAbility(enum Species species)
     return gSpeciesInfo[SanitizeSpeciesId(species)].apexAbility;
 }
 
+enum PokeBall GetBoxMonIChooseYouBall(struct BoxPokemon *mon)
+{
+    if (GetBoxMonData(mon, MON_DATA_HELD_ITEM) == ITEM_APEX_METEORITE
+     && GetSpeciesApexAbility(GetBoxMonData(mon, MON_DATA_SPECIES)) == ABILITY_I_CHOOSE_YOU)
+        return GetBoxMonData(mon, MON_DATA_POKEBALL);
+    return POKEBALL_COUNT;
+}
+
 enum Ability GetAbilityBySpeciesAndItem(enum Species species, u8 abilityNum, enum Item item)
 {
     if (item == ITEM_APEX_METEORITE)
@@ -2366,7 +2400,7 @@ bool8 PokemonUseItemEffects(struct Pokemon *mon, enum Item item, enum PartySlot 
             // Rare Candy / EXP Candy
             if ((itemEffect[i] & ITEM3_LEVEL_UP)
              && GetMonData(mon, MON_DATA_LEVEL) != MAX_LEVEL
-             && !(B_RARE_CANDY_CAP && IsLevelCapEnabled() && GetMonData(mon, MON_DATA_LEVEL) >= GetCurrentLevelCap()))
+             && !(B_RARE_CANDY_CAP && IsLevelCapEnabled() && GetMonData(mon, MON_DATA_LEVEL) >= GetMonLevelCap(mon)))
             {
                 u8 param = GetItemHoldEffectParam(item);
                 dataUnsigned = 0;
@@ -2382,7 +2416,7 @@ bool8 PokemonUseItemEffects(struct Pokemon *mon, enum Item item, enum PartySlot 
 
                     if (B_RARE_CANDY_CAP && IsLevelCapEnabled() && B_EXP_CAP_TYPE == EXP_CAP_HARD)
                     {
-                        u32 currentLevelCap = GetCurrentLevelCap();
+                        u32 currentLevelCap = GetMonLevelCap(mon);
                         if (dataUnsigned > gExperienceTables[gSpeciesInfo[species].growthRate][currentLevelCap])
                             dataUnsigned = gExperienceTables[gSpeciesInfo[species].growthRate][currentLevelCap];
                     }
@@ -3620,7 +3654,7 @@ bool8 TryIncrementMonLevel(struct Pokemon *mon)
         expPoints = gExperienceTables[gSpeciesInfo[species].growthRate][MAX_LEVEL];
         SetMonData(mon, MON_DATA_EXP, &expPoints);
     }
-    if (nextLevel > GetCurrentLevelCap() || expPoints < gExperienceTables[gSpeciesInfo[species].growthRate][nextLevel])
+    if (nextLevel > GetMonLevelCap(mon) || expPoints < gExperienceTables[gSpeciesInfo[species].growthRate][nextLevel])
     {
         return FALSE;
     }

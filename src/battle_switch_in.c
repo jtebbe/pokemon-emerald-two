@@ -64,6 +64,33 @@ bool32 DoSwitchInEvents(void)
         }
         gBattleStruct->switchInBattlerCounter = 0;
         gBattleStruct->eventState.switchIn++;
+        // fallthrough
+    case SWITCH_IN_EVENTS_MULTIVOLVE:
+        while (gBattleStruct->switchInBattlerCounter < gBattlersCount)
+        {
+            battler = gBattlersBySpeed[gBattleStruct->switchInBattlerCounter++];
+            if (calcValues.abilities[battler] != ABILITY_MULTIVOLVE
+             || !gBattleStruct->battlerState[battler].switchIn
+             || gBattleMons[battler].species != SPECIES_EEVEE)
+                continue;
+
+            gBattleMons[battler].ability = ABILITY_MULTIVOLVE;
+            gBattleScripting.battler = gBattlerAbility = battler;
+            BattleScriptCall(BattleScript_MultivolveActivates);
+            return TRUE;
+        }
+        // Resolve the incoming abilities and hazards using the new Speed stats.
+        for (battler = 0; battler < gBattlersCount; battler++)
+        {
+            if (gBattleStruct->battlerState[battler].switchIn && gBattleMons[battler].volatiles.multivolved)
+            {
+                SortBattlersBySpeed(gBattlersBySpeed, FALSE);
+                SortBattlersByRawSpeed(gBattlersByRawSpeed);
+                break;
+            }
+        }
+        gBattleStruct->switchInBattlerCounter = 0;
+        gBattleStruct->eventState.switchIn++;
         break;
     case SWITCH_IN_EVENTS_TERA_SHIFT:
         while (gBattleStruct->switchInBattlerCounter < gBattlersCount)
@@ -91,6 +118,29 @@ bool32 DoSwitchInEvents(void)
             battler = gBattlersBySpeed[gBattleStruct->switchInBattlerCounter++];
             if (AbilityBattleEffects(ABILITYEFFECT_UNNERVE, battler, calcValues.abilities[battler], 0, gBattleStruct->battlerState[battler].switchIn))
                 return TRUE;
+        }
+        gBattleStruct->switchInBattlerCounter = 0;
+        gBattleStruct->eventState.switchIn++;
+        break;
+    case SWITCH_IN_EVENTS_HAZARD_CLEARING:
+        // Clear the side before hazards can affect any Pokémon entering together.
+        while (gBattleStruct->switchInBattlerCounter < gBattlersCount)
+        {
+            battler = gBattlersBySpeed[gBattleStruct->switchInBattlerCounter++];
+            enum BattleSide side = GetBattlerSide(battler);
+            if (calcValues.abilities[battler] != ABILITY_ROCKY_CARAPACE
+             || !gBattleStruct->battlerState[battler].switchIn
+             || !AreAnyHazardsOnSide(side))
+                continue;
+
+            for (enum Hazards hazard = HAZARDS_NONE + 1; hazard < HAZARDS_MAX_COUNT; hazard++)
+                RemoveHazardFromField(side, hazard);
+
+            gBattleScripting.battler = gBattlerAbility = battler;
+            gLastUsedAbility = ABILITY_ROCKY_CARAPACE;
+            RecordAbilityBattle(battler, gLastUsedAbility);
+            BattleScriptCall(BattleScript_RockyCarapaceClearsHazards);
+            return TRUE;
         }
         gBattleStruct->switchInBattlerCounter = 0;
         gBattleStruct->eventState.switchIn++;
@@ -263,6 +313,18 @@ static bool32 FirstEventBlockEvents(struct BattleCalcValues *calcValues)
         else ;
         gBattleStruct->eventState.battlerSwitchIn++;
         break;
+    case FIRST_EVENT_BLOCK_SACRIFICIAL_CARP:
+        gBattleStruct->eventState.battlerSwitchIn++;
+        if (gBattleStruct->battlerState[battler].switchIn && gBattleStruct->battlerState[battler].storedSacrificialCarp)
+        {
+            gBattleStruct->battlerState[battler].storedSacrificialCarp = FALSE;
+            gEffectBattler = battler;
+            for (enum Stat stat = STAT_ATK; stat < NUM_STATS; stat++)
+                SetStatChange(battler, stat, 1);
+            BattleScriptCall(BattleScript_SacrificialCarpBoost);
+            effect = TRUE;
+        }
+        break;
     case FIRST_EVENT_BLOCK_HAZARDS:
         if (!gBattleStruct->battlerState[battler].switchIn)
         {
@@ -324,6 +386,12 @@ static void SetDmgHazardsBattlescript(enum BattlerId battler, u8 multistringId)
 
 static bool32 TryHazardsOnSwitchIn(enum BattlerId battler, enum Ability ability, enum HoldEffect holdEffect, enum Hazards hazardType)
 {
+    if (ability == ABILITY_RAPID_RUNNER)
+    {
+        gBattleStruct->hazardsCounter++;
+        return FALSE;
+    }
+
     bool32 effect = FALSE;
     enum BattleSide side = GetBattlerSide(battler);
     bool32 clearedToxicSpikes = FALSE;

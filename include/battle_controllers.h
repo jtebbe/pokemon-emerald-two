@@ -29,7 +29,7 @@ enum {
     REQUEST_SPEED_EV_BATTLE,
     REQUEST_SPATK_EV_BATTLE,
     REQUEST_SPDEF_EV_BATTLE,
-    REQUEST_UNUSED_27_BATTLE,
+    REQUEST_HP_STATUS_BATTLE,
     REQUEST_MET_LOCATION_BATTLE,
     REQUEST_MET_LEVEL_BATTLE,
     REQUEST_MET_GAME_BATTLE,
@@ -282,6 +282,7 @@ void HandleLinkBattleSetup(void);
 void SetUpBattleVarsAndBirchZigzagoon(void);
 void InitBattleControllers(void);
 bool32 IsValidForBattle(struct Pokemon *mon);
+bool32 IsValidForBattleButDead(struct Pokemon *mon);
 void TryReceiveLinkBattleData(void);
 void PrepareBufferDataTransferLink(enum BattlerId battler, u32 bufferId, u16 size, u8 *data);
 bool32 IsAiVsAiBattle(void);

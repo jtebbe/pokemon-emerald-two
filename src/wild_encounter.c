@@ -1,5 +1,6 @@
 #include "global.h"
 #include "battle_setup.h"
+#include "battle_util.h"
 #include "event_data.h"
 #include "event_object_movement.h"
 #include "fieldmap.h"
@@ -469,7 +470,7 @@ static u32 WildEncounterOdds(u32 encounterRate, bool8 ignoreAbility)
                 encounterRate *= 2;
             else if (ability == ABILITY_SAND_VEIL && gSaveData.weather == WEATHER_SANDSTORM)
                 encounterRate /= 2;
-            else if (ability == ABILITY_SNOW_CLOAK && gSaveData.weather == WEATHER_SNOW)
+            else if (HasSnowCloakAbility(ability) && gSaveData.weather == WEATHER_SNOW)
                 encounterRate /= 2;
             else if (ability == ABILITY_QUICK_FEET)
                 encounterRate /= 2;
@@ -818,7 +819,7 @@ bool8 IsAbilityAllowingEncounter(u8 level)
         return TRUE;
 
     ability = GetMonAbility(&gParties[B_TRAINER_PLAYER][0]);
-    if (ability == ABILITY_KEEN_EYE || ability == ABILITY_INTIMIDATE)
+    if (ability == ABILITY_KEEN_EYE || HasIntimidateAbility(ability))
     {
         u8 playerMonLevel = GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_LEVEL);
         if (playerMonLevel > 5 && level <= playerMonLevel - 5 && !(Random() % 2))
@@ -889,9 +890,11 @@ static bool8 TryGetAbilityInfluencedWildMonIndex(const struct WildPokemon *wildM
 {
     if (GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_IS_EGG))
         return FALSE;
-    else if (GetMonAbility(&gParties[B_TRAINER_PLAYER][0]) != ability)
+
+    enum Ability leadAbility = GetMonAbility(&gParties[B_TRAINER_PLAYER][0]);
+    if (leadAbility != ability && !(ability == ABILITY_STORM_DRAIN && HasStormDrainAbility(leadAbility)))
         return FALSE;
-    else if (Random() % 2 != 0)
+    if (Random() % 2 != 0)
         return FALSE;
 
 #ifdef BUGFIX

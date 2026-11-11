@@ -1,4 +1,5 @@
 #include "global.h"
+#include "battle_i_choose_you.h"
 #include "battle.h"
 #include "battle_anim.h"
 #include "battle_ai_main.h"
@@ -2387,6 +2388,8 @@ static void ClearSetDataOnLeave(enum BattlerId battlerLeavingField)
     gSpecialStatuses[battlerLeavingField].queuedSwitch = NO_QUEUED_SWITCH;
     gSpecialStatuses[battlerLeavingField].shellBellEmergencyExit = FALSE;
     gBattleStruct->battlerState[battlerLeavingField].isFirstTurn = 2;
+    gBattleStruct->battlerState[battlerLeavingField].shellBurstUsed = FALSE;
+    gBattleStruct->battlerState[battlerLeavingField].shellBurstBlockedMove = FALSE;
     gBattleStruct->battlerState[battlerLeavingField].stompingTantrumTimer = 0;
     gBattleStruct->battlerState[battlerLeavingField].canPickupItem = FALSE;
     gBattleStruct->battlerState[battlerLeavingField].wasAboveHalfHp = gBattleMons[battlerLeavingField].hp > gBattleMons[battlerLeavingField].maxHP / 2;
@@ -2422,6 +2425,8 @@ static void ClearSetDataOnLeave(enum BattlerId battlerLeavingField)
             gBattleMons[battler].volatiles.wrapped = FALSE;
         if (gBattleMons[battler].volatiles.abyssalEmbrace == battlerLeavingField + 1)
             gBattleMons[battler].volatiles.abyssalEmbrace = 0;
+        if (gBattleMons[battler].volatiles.spikyGrip == battlerLeavingField + 1)
+            gBattleMons[battler].volatiles.spikyGrip = 0;
         if (gBattleMons[battler].volatiles.syrupBomb && gBattleMons[battler].volatiles.stickySyrupedBy == battlerLeavingField)
             gBattleMons[battler].volatiles.syrupBomb = FALSE;
         if (gBattleMons[battler].volatiles.octolock && gBattleMons[battler].volatiles.octolockedBy == battlerLeavingField)
@@ -3778,15 +3783,18 @@ u32 GetBattlerTotalSpeedStat(enum BattlerId battler, enum Ability ability, enum 
 {
     u32 speed = gBattleMons[battler].speed;
 
-    // stat stages
-    speed *= gStatStageRatios[gBattleMons[battler].statStages[STAT_SPEED]][0];
-    speed /= gStatStageRatios[gBattleMons[battler].statStages[STAT_SPEED]][1];
+    u32 speedStage = gBattleMons[battler].statStages[STAT_SPEED];
+    if (speedStage != DEFAULT_STAT_STAGE)
+        speed = speed * gStatStageRatios[speedStage][0] / gStatStageRatios[speedStage][1];
 
     u32 weather = GetWeather();
     // weather abilities
-    if (ability == ABILITY_SWIFT_SWIM       && holdEffect != HOLD_EFFECT_UTILITY_UMBRELLA && weather  & B_WEATHER_RAIN)
+    if ((ability == ABILITY_SWIFT_SWIM || ability == ABILITY_HONED_HUNTER)
+     && holdEffect != HOLD_EFFECT_UTILITY_UMBRELLA && weather & B_WEATHER_RAIN)
         speed *= 2;
-    else if (ability == ABILITY_CHLOROPHYLL && holdEffect != HOLD_EFFECT_UTILITY_UMBRELLA && weather  & B_WEATHER_SUN)
+    else if (ability == ABILITY_TIDAL_RULER && holdEffect != HOLD_EFFECT_UTILITY_UMBRELLA && (weather & B_WEATHER_RAIN))
+        speed = speed * 3 / 2;
+    else if ((ability == ABILITY_CHLOROPHYLL || ability == ABILITY_PHOTOSYNTHETIC) && holdEffect != HOLD_EFFECT_UTILITY_UMBRELLA && weather & B_WEATHER_SUN)
         speed *= 2;
     else if (ability == ABILITY_SAND_RUSH   && weather & B_WEATHER_SANDSTORM)
         speed *= 2;
@@ -3799,6 +3807,8 @@ u32 GetBattlerTotalSpeedStat(enum BattlerId battler, enum Ability ability, enum 
     else if (ability == ABILITY_SURGE_SURFER && gFieldTimers.terrain == B_TERRAIN_ELECTRIC)
         speed *= 2;
     else if (ability == ABILITY_SLOW_START && gBattleMons[battler].volatiles.slowStartTimer != 0)
+        speed /= 2;
+    else if (GetBattlerIChooseYouBall(battler, ability) == BALL_HEAVY)
         speed /= 2;
     else if ((ability == ABILITY_PROTOSYNTHESIS && !gBattleMons[battler].volatiles.transformed && weather & B_WEATHER_SUN) || gBattleMons[battler].volatiles.boosterEnergyActivated)
         speed = (GetParadoxBoostedStatId(battler) == STAT_SPEED) ? (speed * 150) / 100 : speed;
@@ -3848,7 +3858,10 @@ s32 GetChosenMovePriority(enum BattlerId battler, enum Ability ability)
     enum Move move;
 
     gProtectStructs[battler].pranksterElevated = FALSE;
-    if (gProtectStructs[battler].noValidMoves)
+    if ((ability == ABILITY_BALANCE_MASTER || ability == ABILITY_TONGUE_LASH)
+     && battler == gBattlerAttacker && gSpecialStatuses[battler].postActionAbilityMove)
+        move = gCurrentMove;
+    else if (gProtectStructs[battler].noValidMoves)
         move = MOVE_STRUGGLE;
     else if (gLockedMoves[battler] != MOVE_NONE
           && (gBattleMons[battler].volatiles.multipleTurns || gBattleMons[battler].volatiles.rechargeTimer > 0))
@@ -3869,8 +3882,11 @@ s32 GetBattleMovePriority(enum BattlerId battler, enum Ability ability, enum Mov
 s32 GetBattleMovePriorityForTarget(enum BattlerId battler, enum Ability ability, enum Move move, enum BattlerId target)
 {
     s32 priority = GetBattleMovePriorityBeforeFieldAbilities(battler, ability, move, target);
-    if ((gBattleMons[battler].status1 & STATUS1_PSN_ANY) && !gProtectStructs[battler].quash)
-        priority = ApplyMephiticDustPriority(battler, priority, NULL);
+    if (ability == ABILITY_MUTUAL_ORIGIN && !gProtectStructs[battler].quash
+     && CountOtherBattlersKnowingMove(battler, move, gAiLogicData->aiCalcInProgress) > 0)
+        priority++;
+    if ((gBattleMons[battler].status1 & (STATUS1_PSN_ANY | STATUS1_PARALYSIS)) && !gProtectStructs[battler].quash)
+        priority = ApplyStatusPriorityPenalty(battler, priority, NULL);
     // Damage simulations also reach the native priority path through protection checks.
     if (!gAiLogicData->aiCalcInProgress || gAiLogicData->hasSucculentTrap)
         return ApplySucculentTrapPriority(battler, move, target, priority, NULL);
@@ -3907,11 +3923,14 @@ static enum BattlerId SucculentTrapRedirectedTarget(enum BattlerId battler, enum
         enum Type type = GetDynamicMoveType(GetBattlerMon(battler), move, battler, ability, holdEffect, MON_IN_BATTLE);
         if (type == TYPE_NONE)
             type = GetMoveType(move);
-        enum Ability redirectAbility = type == TYPE_ELECTRIC ? ABILITY_LIGHTNING_ROD : type == TYPE_WATER ? ABILITY_STORM_DRAIN : ABILITY_NONE;
+        enum Ability redirectAbility = type == TYPE_ELECTRIC && !IsHighVoltageElectricMove(ability, type) ? ABILITY_LIGHTNING_ROD : type == TYPE_WATER ? ABILITY_STORM_DRAIN : ABILITY_NONE;
         u32 bestOrder = MAX_BATTLERS_COUNT;
-        if (redirectAbility != ABILITY_NONE && target < gBattlersCount
-         && (abilities ? abilities[target] : GetBattlerAbility(target)) == redirectAbility)
-            return target;
+        if (redirectAbility != ABILITY_NONE && target < gBattlersCount)
+        {
+            enum Ability targetAbility = abilities ? abilities[target] : GetBattlerAbility(target);
+            if (targetAbility == redirectAbility || (type == TYPE_WATER && HasStormDrainAbility(targetAbility)))
+                return target;
+        }
         if (redirectAbility != ABILITY_NONE)
             for (enum BattlerId other = 0; other < gBattlersCount; other++)
             {
@@ -3919,7 +3938,8 @@ static enum BattlerId SucculentTrapRedirectedTarget(enum BattlerId battler, enum
                  || (B_REDIRECT_ABILITY_ALLIES < GEN_4 && IsBattlerAlly(battler, other)))
                     continue;
                 enum Ability otherAbility = abilities ? abilities[other] : GetBattlerAbility(other);
-                if (otherAbility == redirectAbility && GetBattlerTurnOrderNum(other) < bestOrder)
+                if ((otherAbility == redirectAbility || (type == TYPE_WATER && HasStormDrainAbility(otherAbility)))
+                 && GetBattlerTurnOrderNum(other) < bestOrder)
                 {
                     redirector = other;
                     bestOrder = GetBattlerTurnOrderNum(other);
@@ -3953,15 +3973,17 @@ s32 ApplySucculentTrapPriority(enum BattlerId battler, enum Move move, enum Batt
     return slowed ? priority - ((gBattleMons[battler].status1 & STATUS1_PSN_ANY) ? 2 : 1) : priority;
 }
 
-// Called only for poisoned battlers; multiple holders provide one field penalty.
-s32 ApplyMephiticDustPriority(enum BattlerId battler, s32 priority, const enum Ability abilities[])
+// One field penalty applies even when multiple foes have the ability.
+s32 ApplyStatusPriorityPenalty(enum BattlerId battler, s32 priority, const enum Ability abilities[])
 {
+    bool32 paralyzed = (gBattleMons[battler].status1 & STATUS1_PARALYSIS) != 0;
+    enum Ability penaltyAbility = paralyzed ? ABILITY_TONGUE_LASH : ABILITY_MEPHITIC_DUST;
     for (enum BattlerId foe = 0; foe < gBattlersCount; foe++)
     {
         if (IsBattlerAlly(battler, foe) || !IsBattlerAlive(foe))
             continue;
-        if ((abilities == NULL ? GetBattlerAbility(foe) : abilities[foe]) == ABILITY_MEPHITIC_DUST)
-            return priority - 1;
+        if ((abilities == NULL ? GetBattlerAbility(foe) : abilities[foe]) == penaltyAbility)
+            return priority - (paralyzed ? 2 : 1);
     }
     return priority;
 }
@@ -4003,6 +4025,10 @@ s32 GetBattleMovePriorityBeforeFieldAbilities(enum BattlerId battler, enum Abili
     {
         priority = -8;
     }
+    else if (IsPiercingHornMove(ability, move))
+    {
+        priority = -4;
+    }
     else if (ability == ABILITY_LULLING_MELODIES
           && IsLullingMelodiesMove(move)
           && CanLullingMelodiesGainPriority(battler))
@@ -4013,14 +4039,19 @@ s32 GetBattleMovePriorityBeforeFieldAbilities(enum BattlerId battler, enum Abili
     {
         priority++;
     }
+    else if (ability == ABILITY_HANGER_ATTACK && IsBattlerBelowHalfHp(battler))
+    {
+        priority++;
+    }
     else if (ability == ABILITY_GALE_WINGS
           && (GetConfig(B_GALE_WINGS) < GEN_7 || IsBattlerAtMaxHp(battler))
           && GetMoveType(move) == TYPE_FLYING)
     {
         priority++;
     }
-    else if (IsBattleMoveStatus(move) && IsAbilityAndRecord(battler, ability, ABILITY_PRANKSTER))
+    else if (IsBattleMoveStatus(move) && HasPranksterAbility(ability))
     {
+        RecordAbilityBattle(battler, ability);
         gProtectStructs[battler].pranksterElevated = 1;
         priority++;
     }
@@ -4051,17 +4082,19 @@ s32 GetWhichBattlerFasterArgs(struct BattleCalcValues *calcValues, bool32 ignore
 
     if (priority1 == priority2)
     {
-        // Quick Claw / Quick Draw / Custap Berry / Vicious Stings - always first
+        // Quick Claw / Quick Draw / Custap Berry / Vicious Stings / Martial Masters - always first
         // Stall / Mycelium Might / Lagging Tail / Full Incense - always last
         // If both battlers are affected by one of these effects, order is determined by Speed.
         bool32 battler1HasQuickEffect = gProtectStructs[calcValues->battlerAtk].quickDraw || gProtectStructs[calcValues->battlerAtk].usedCustapBerry
             || (!ignoreChosenMoves && gChosenActionByBattler[calcValues->battlerAtk] == B_ACTION_USE_MOVE
-             && IsViciousStingsMove(calcValues->battlerAtk, calcValues->abilities[calcValues->battlerAtk],
-                 calcValues->holdEffects[calcValues->battlerAtk], gChosenMoveByBattler[calcValues->battlerAtk]));
+             && (IsMartialMasterMove(calcValues->abilities[calcValues->battlerAtk], gChosenMoveByBattler[calcValues->battlerAtk])
+              || IsViciousStingsMove(calcValues->battlerAtk, calcValues->abilities[calcValues->battlerAtk],
+                  calcValues->holdEffects[calcValues->battlerAtk], gChosenMoveByBattler[calcValues->battlerAtk])));
         bool32 battler2HasQuickEffect = gProtectStructs[calcValues->battlerDef].quickDraw || gProtectStructs[calcValues->battlerDef].usedCustapBerry
             || (!ignoreChosenMoves && gChosenActionByBattler[calcValues->battlerDef] == B_ACTION_USE_MOVE
-             && IsViciousStingsMove(calcValues->battlerDef, calcValues->abilities[calcValues->battlerDef],
-                 calcValues->holdEffects[calcValues->battlerDef], gChosenMoveByBattler[calcValues->battlerDef]));
+             && (IsMartialMasterMove(calcValues->abilities[calcValues->battlerDef], gChosenMoveByBattler[calcValues->battlerDef])
+              || IsViciousStingsMove(calcValues->battlerDef, calcValues->abilities[calcValues->battlerDef],
+                  calcValues->holdEffects[calcValues->battlerDef], gChosenMoveByBattler[calcValues->battlerDef])));
         bool32 battler1HasStallingAbility = calcValues->abilities[calcValues->battlerAtk] == ABILITY_STALL || gProtectStructs[calcValues->battlerAtk].myceliumMight;
         bool32 battler2HasStallingAbility = calcValues->abilities[calcValues->battlerDef] == ABILITY_STALL || gProtectStructs[calcValues->battlerDef].myceliumMight;
         bool32 battler1HasSlowEffect = battler1HasStallingAbility || gProtectStructs[calcValues->battlerAtk].laggingTail;
@@ -4331,7 +4364,7 @@ static void TurnValuesCleanUp(bool32 endTurn)
             gBattleStruct->battlerState[i].commandingDondozo = FALSE;
 
         gSpecialStatuses[i].parentalBondState = PARENTAL_BOND_OFF;
-        gSpecialStatuses[i].reverberationsTargets = 0;
+        gSpecialStatuses[i].multiHitTargets = 0;
         gSpecialStatuses[i].reverberationsEcho = FALSE;
         gBattleStruct->battlerState[i].usedEjectItem = FALSE;
         gProtectStructs[i].lashOutAffected = FALSE;
@@ -4980,14 +5013,20 @@ void RunBattleScriptCommands(void)
         gBattleScriptingCommandsTable[gBattlescriptCurrInstr[0]]();
 }
 
-enum Type TrySetAteType(enum Move move, enum BattlerId battlerAtk, enum Ability attackerAbility)
+static enum Type TrySetAteType(enum Move move, enum BattlerId battlerAtk, enum Ability attackerAbility, enum PokeBall ball)
 {
     enum Type ateType = TYPE_NONE;
 
     // Ordinary abilities cannot convert a move, regardless of its effect.
     switch (attackerAbility)
     {
+    case ABILITY_I_CHOOSE_YOU:
+        if (ball != BALL_MOON)
+            return TYPE_NONE;
+        ateType = TYPE_FAIRY;
+        break;
     case ABILITY_PIXILATE:
+    case ABILITY_RAINBOW_SKIES:
         ateType = TYPE_FAIRY;
         break;
     case ABILITY_REFRIGERATE:
@@ -5001,6 +5040,9 @@ enum Type TrySetAteType(enum Move move, enum BattlerId battlerAtk, enum Ability 
         break;
     case ABILITY_DRAGONIZE:
         ateType = TYPE_DRAGON;
+        break;
+    case ABILITY_ANCIENT_HELIX:
+        ateType = TYPE_ROCK;
         break;
     default:
         return TYPE_NONE;
@@ -5032,6 +5074,12 @@ enum Type TrySetAteType(enum Move move, enum BattlerId battlerAtk, enum Ability 
 // Returns TYPE_NONE if type doesn't change.
 enum Type GetDynamicMoveType(struct Pokemon *mon, enum Move move, enum BattlerId battler, enum Ability ability, enum HoldEffect holdEffect, enum MonState state)
 {
+    if (state == MON_IN_BATTLE && move == MOVE_LICK && ability == ABILITY_TONGUE_LASH
+     && battler == gBattlerAttacker && gSpecialStatuses[battler].postActionAbilityMove)
+        return TYPE_NORMAL;
+    if (state == MON_IN_BATTLE && move == MOVE_EXPLOSION && gBattleStruct->endTurnAbilityMoveActive
+     && gBattleStruct->endTurnAbilityMoveBattler == battler && GetBattlerIChooseYouBall(battler, ability) == BALL_TIMER)
+        return TYPE_ELECTRIC;
     enum Type moveType = GetMoveType(move);
     enum BattleMoveEffects moveEffect = GetMoveEffect(move);
     enum Species species;
@@ -5208,7 +5256,10 @@ enum Type GetDynamicMoveType(struct Pokemon *mon, enum Move move, enum BattlerId
     }
     else if (moveType == TYPE_NORMAL && ability != ABILITY_NORMALIZE)
     {
-        enum Type ateType = TrySetAteType(move, battler, ability);
+        enum PokeBall ball = POKEBALL_COUNT;
+        if (ability == ABILITY_I_CHOOSE_YOU)
+            ball = state == MON_IN_BATTLE ? GetBattlerIChooseYouBall(battler, ability) : GetBoxMonIChooseYouBall(&mon->box);
+        enum Type ateType = TrySetAteType(move, battler, ability, ball);
         if (ateType != TYPE_NONE && state == MON_IN_BATTLE)
             gBattleStruct->battlerState[battler].ateBoost = TRUE;
         return ateType;

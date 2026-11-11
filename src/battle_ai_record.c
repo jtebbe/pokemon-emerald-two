@@ -28,19 +28,22 @@ void RecordKnownMove(enum BattlerId battler, enum Move move)
     if (moveIndex < MAX_MON_MOVES && gBattleHistory->usedMoves[battler][moveIndex] == MOVE_NONE)
     {
         gBattleHistory->usedMoves[battler][moveIndex] = move;
-        gAiPartyData->mons[GetBattlerSide(battler)][gBattlerPartyIndexes[battler]].moves[moveIndex] = move;
+        if (!gBattleMons[battler].volatiles.multivolved)
+            gAiPartyData->mons[GetBattlerSide(battler)][gBattlerPartyIndexes[battler]].moves[moveIndex] = move;
     }
 }
 
 void RecordAllMoves(enum BattlerId battler)
 {
-    memcpy(gAiPartyData->mons[GetBattlerSide(battler)][gBattlerPartyIndexes[battler]].moves, gBattleMons[battler].moves, MAX_MON_MOVES * sizeof(u16));
+    if (!gBattleMons[battler].volatiles.multivolved)
+        memcpy(gAiPartyData->mons[GetBattlerSide(battler)][gBattlerPartyIndexes[battler]].moves, gBattleMons[battler].moves, MAX_MON_MOVES * sizeof(u16));
 }
 
 void RecordAbilityBattle(enum BattlerId battlerId, enum Ability abilityId)
 {
     gBattleHistory->abilities[battlerId] = abilityId;
-    gAiPartyData->mons[GetBattlerSide(battlerId)][gBattlerPartyIndexes[battlerId]].ability = abilityId;
+    if (!gBattleMons[battlerId].volatiles.multivolved)
+        gAiPartyData->mons[GetBattlerSide(battlerId)][gBattlerPartyIndexes[battlerId]].ability = abilityId;
 }
 
 void RecordItemEffectBattle(enum BattlerId battlerId, enum HoldEffect itemEffect)

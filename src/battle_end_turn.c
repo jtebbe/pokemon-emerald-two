@@ -1,4 +1,5 @@
 #include "global.h"
+#include "battle_i_choose_you.h"
 #include "battle.h"
 #include "battle_hold_effects.h"
 #include "battle_setup.h"
@@ -128,7 +129,7 @@ static bool32 HandleEndTurnWeatherDamage(struct BattleCalcValues *cv, enum Battl
         break;
     case BATTLE_WEATHER_SUN:
     case BATTLE_WEATHER_SUN_PRIMAL:
-        if (ability == ABILITY_DRY_SKIN || ability == ABILITY_SOLAR_POWER)
+        if (ability == ABILITY_DRY_SKIN || ability == ABILITY_SOLAR_POWER || ability == ABILITY_PHOTOSYNTHETIC)
         {
             if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ability, MOVE_NONE, TRUE))
                 effect = TRUE;
@@ -153,14 +154,14 @@ static bool32 HandleEndTurnWeatherDamage(struct BattleCalcValues *cv, enum Battl
         break;
     case BATTLE_WEATHER_HAIL:
     case BATTLE_WEATHER_SNOW:
-        if (ability == ABILITY_ICE_BODY)
+        if (ability == ABILITY_ICE_BODY || (ability == ABILITY_FROSTED_FUR && currBattleWeather == BATTLE_WEATHER_SNOW))
         {
             if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ability, MOVE_NONE, TRUE))
                 effect = TRUE;
         }
         else if (currBattleWeather == BATTLE_WEATHER_HAIL)
         {
-            if (ability != ABILITY_SNOW_CLOAK
+            if (!HasSnowCloakAbility(ability)
              && ability != ABILITY_OVERCOAT
              && !IS_BATTLER_OF_TYPE(battler, TYPE_ICE)
              && gBattleMons[battler].volatiles.semiInvulnerable != STATE_UNDERGROUND
@@ -249,6 +250,7 @@ static bool32 HandleEndTurnFutureSight(struct BattleCalcValues *cv, enum Battler
         }
 
         gBattleStruct->eventState.atkCanceler = CANCELER_NO_TARGET;
+        gSpecialStatuses[gBattlerAttacker].greatMindsActive = gBattleStruct->futureSight[battler].greatMinds;
         SetTargetMoveFailureFlags(gBattlerAttacker, GetMoveTarget(gCurrentMove));
 
         if (IsFutureSightAttackerInParty(gBattlerAttacker, gBattlerTarget))
@@ -293,18 +295,45 @@ static bool32 HandleEndTurnMeteoricWrath(struct BattleCalcValues *cv, enum Battl
     return TRUE;
 }
 
-static void FinishEndlessLuau(void)
+static void FinishEndTurnAbilityMove(void)
 {
-    gBattleMainFunc = gBattleStruct->endlessLuauCallback;
-    gBattlescriptCurrInstr = gBattleStruct->endlessLuauScript;
-    gCurrentActionFuncId = gBattleStruct->endlessLuauSavedAction;
-    gCurrentMove = gBattleStruct->endlessLuauSavedMove;
-    gChosenMove = gBattleStruct->endlessLuauSavedChosenMove;
-    gCurrMovePos = gBattleStruct->endlessLuauSavedMovePos;
-    gBattleResources->battleScriptsStack->size = gBattleStruct->endlessLuauSavedScriptStack;
-    gBattleStruct->endlessLuauActive = FALSE;
+    gBattleMainFunc = gBattleStruct->endTurnAbilityMoveCallback;
+    gBattlescriptCurrInstr = gBattleStruct->endTurnAbilityMoveScript;
+    gCurrentActionFuncId = gBattleStruct->endTurnAbilityMoveSavedAction;
+    gCurrentMove = gBattleStruct->endTurnAbilityMoveSavedMove;
+    gChosenMove = gBattleStruct->endTurnAbilityMoveSavedChosenMove;
+    gCurrMovePos = gBattleStruct->endTurnAbilityMoveSavedMovePos;
+    gBattleResources->battleScriptsStack->size = gBattleStruct->endTurnAbilityMoveSavedScriptStack;
+    gBattleStruct->endTurnAbilityMoveActive = FALSE;
     ClearDamageCalcResults();
     gBattleScripting.moveendState = 0;
+}
+
+static void RunEndTurnAbilityMove(enum BattlerId battler, enum Ability ability, enum Move move, enum MoveSlot slot)
+{
+    gBattleStruct->endTurnAbilityMoveCallback = gBattleMainFunc;
+    gBattleStruct->endTurnAbilityMoveScript = gBattlescriptCurrInstr;
+    gBattleStruct->endTurnAbilityMoveSavedAction = gCurrentActionFuncId;
+    gBattleStruct->endTurnAbilityMoveSavedMove = gCurrentMove;
+    gBattleStruct->endTurnAbilityMoveSavedChosenMove = gChosenMove;
+    gBattleStruct->endTurnAbilityMoveSavedMovePos = gCurrMovePos;
+    gBattleStruct->endTurnAbilityMoveSavedScriptStack = gBattleResources->battleScriptsStack->size;
+    gBattleStruct->endTurnAbilityMoveBattler = battler;
+    gBattleStruct->endTurnAbilityMoveActive = TRUE;
+
+    // Each automatic move starts its own finite Dancer chain.
+    memset(gSpecialStatuses, 0, sizeof(gSpecialStatuses));
+    for (u32 i = 0; i < gBattlersCount; i++)
+        gBattleMons[i].volatiles.activateDancer = FALSE;
+    gCurrMovePos = slot;
+    gBattlerAttacker = gBattlerAbility = gBattleScripting.battler = battler;
+    gCurrentMove = gCalledMove = move;
+    gChosenMove = ability == ABILITY_ENDLESS_LUAU ? GetBattlerChosenMove(battler) : move;
+    gBattlerTarget = GetBattleMoveTarget(gCalledMove, TARGET_NONE);
+    gLastUsedAbility = ability;
+    RecordAbilityBattle(battler, ability);
+    gBattleMainFunc = FinishEndTurnAbilityMove;
+    BattleScriptExecute(BattleScript_AbilityCalledMove);
 }
 
 static bool32 HandleEndTurnEndlessLuau(struct BattleCalcValues *cv, enum BattlerId battler)
@@ -313,38 +342,54 @@ static bool32 HandleEndTurnEndlessLuau(struct BattleCalcValues *cv, enum Battler
     if (!IsBattlerPresent(battler) || GetBattlerAbility(battler) != ABILITY_ENDLESS_LUAU)
         return FALSE;
 
-    u32 slots[MAX_MON_MOVES];
+    enum MoveSlot slots[MAX_MON_MOVES];
     u32 count = 0;
-    for (u32 i = 0; i < MAX_MON_MOVES; i++)
-        if (IsDanceMove(gBattleMons[battler].moves[i]))
-            slots[count++] = i;
+    for (enum MoveSlot slot = 0; slot < MAX_MON_MOVES; slot++)
+        if (IsDanceMove(gBattleMons[battler].moves[slot]))
+            slots[count++] = slot;
     if (count == 0)
         return FALSE;
 
-    gBattleStruct->endlessLuauCallback = gBattleMainFunc;
-    gBattleStruct->endlessLuauScript = gBattlescriptCurrInstr;
-    gBattleStruct->endlessLuauSavedAction = gCurrentActionFuncId;
-    gBattleStruct->endlessLuauSavedMove = gCurrentMove;
-    gBattleStruct->endlessLuauSavedChosenMove = gChosenMove;
-    gBattleStruct->endlessLuauSavedMovePos = gCurrMovePos;
-    gBattleStruct->endlessLuauSavedScriptStack = gBattleResources->battleScriptsStack->size;
-    gBattleStruct->endlessLuauBattler = battler;
-    gBattleStruct->endlessLuauActive = TRUE;
-
-    // Each automatic move starts its own finite Dancer chain.
-    memset(gSpecialStatuses, 0, sizeof(gSpecialStatuses));
-    for (u32 i = 0; i < gBattlersCount; i++)
-        gBattleMons[i].volatiles.activateDancer = FALSE;
-    gCurrMovePos = slots[RandomUniform(RNG_ENDLESS_LUAU, 0, count - 1)];
-    gBattlerAttacker = gBattlerAbility = gBattleScripting.battler = battler;
-    gCurrentMove = gCalledMove = gBattleMons[battler].moves[gCurrMovePos];
-    gChosenMove = GetBattlerChosenMove(battler);
-    gBattlerTarget = GetBattleMoveTarget(gCalledMove, TARGET_NONE);
-    gLastUsedAbility = ABILITY_ENDLESS_LUAU;
-    RecordAbilityBattle(battler, ABILITY_ENDLESS_LUAU);
-    gBattleMainFunc = FinishEndlessLuau;
-    BattleScriptExecute(BattleScript_DancerActivates);
+    enum MoveSlot slot = slots[RandomUniform(RNG_ENDLESS_LUAU, 0, count - 1)];
+    RunEndTurnAbilityMove(battler, ABILITY_ENDLESS_LUAU, gBattleMons[battler].moves[slot], slot);
     return TRUE;
+}
+
+static bool32 HandleEndTurnApexAbilities(struct BattleCalcValues *cv, enum BattlerId battler)
+{
+    if (IsBattlerPresent(battler))
+    {
+        enum Ability ability = cv->abilities[battler];
+        enum PokeBall ball = GetBattlerIChooseYouBall(battler, ability);
+        if (ability == ABILITY_GENTLE_SOUL || ball == BALL_HEAL)
+        {
+            u32 divisor = ability == ABILITY_GENTLE_SOUL ? 16 : 4;
+            const u8 *script = ability == ABILITY_GENTLE_SOUL ? BattleScript_GentleSoulHeal : BattleScript_IChooseYouHeal;
+            while (gBattleStruct->eventState.endTurnBlock < (IsDoubleBattle() ? 2 : 1))
+            {
+                enum BattlerId target = gBattleStruct->eventState.endTurnBlock++ == 0 ? battler : GetPartnerBattler(battler);
+                if (!IsBattlerPresent(target) || IsBattlerAtMaxHp(target) || gBattleMons[target].volatiles.healBlockTimer)
+                    continue;
+
+                SetHealAmount(target, GetBattlerMaxHP(target) / divisor);
+                gEffectBattler = target;
+                gBattlerAbility = battler;
+                gLastUsedAbility = ability;
+                BattleScriptCall(script);
+                return TRUE;
+            }
+        }
+        else if (ball == BALL_TIMER && gBattleMons[battler].volatiles.timerBallTurns
+              && --gBattleMons[battler].volatiles.timerBallTurns == 0)
+        {
+            gBattleStruct->eventState.endTurnBattler++;
+            RunEndTurnAbilityMove(battler, ABILITY_I_CHOOSE_YOU, MOVE_EXPLOSION, MOVESLOT_0);
+            return TRUE;
+        }
+    }
+    gBattleStruct->eventState.endTurnBlock = 0;
+    gBattleStruct->eventState.endTurnBattler++;
+    return FALSE;
 }
 
 static bool32 HandleEndTurnWish(struct BattleCalcValues *cv, enum BattlerId battler)
@@ -467,6 +512,7 @@ static bool32 HandleEndTurnFirstEventBlock(struct BattleCalcValues *cv, enum Bat
         {
         case ABILITY_HEALER:
         case ABILITY_HYDRATION:
+        case ABILITY_TIDAL_RULER:
         case ABILITY_SHED_SKIN:
             if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ability, MOVE_NONE, TRUE))
                 effect = TRUE;
@@ -586,16 +632,12 @@ static bool32 HandleEndTurnPoison(struct BattleCalcValues *cv, enum BattlerId ba
 
     if (IsBattlerPresent(battler) && (gBattleMons[battler].status1 & STATUS1_POISON || isToxicPoison))
     {
+        u32 damage = isToxicPoison ? AdvanceBadPoisonDamage(battler) : GetBattlerMaxHP(battler) / 8;
         if (IsAbilityAndRecord(battler, ability, ABILITY_MAGIC_GUARD))
-        {
-            if (isToxicPoison && (gBattleMons[battler].status1 & STATUS1_TOXIC_COUNTER) != STATUS1_TOXIC_TURN(15)) // not 16 turns
-                gBattleMons[battler].status1 += STATUS1_TOXIC_TURN(1);
-        }
-        else if (ability == ABILITY_POISON_HEAL)
-        {
-            if (isToxicPoison && (gBattleMons[battler].status1 & STATUS1_TOXIC_COUNTER) != STATUS1_TOXIC_TURN(15)) // not 16 turns
-                gBattleMons[battler].status1 += STATUS1_TOXIC_TURN(1);
+            return FALSE;
 
+        if (ability == ABILITY_POISON_HEAL)
+        {
             if (!IsBattlerAtMaxHp(battler) && !gBattleMons[battler].volatiles.healBlockTimer)
             {
                 SetHealAmount(battler, GetBattlerMaxHP(battler) / 8);
@@ -603,18 +645,9 @@ static bool32 HandleEndTurnPoison(struct BattleCalcValues *cv, enum BattlerId ba
                 effect = TRUE;
             }
         }
-        else if (isToxicPoison)
-        {
-            SetPassiveDamageAmount(battler, GetBattlerMaxHP(battler) / 16);
-            if ((gBattleMons[battler].status1 & STATUS1_TOXIC_COUNTER) != STATUS1_TOXIC_TURN(15)) // not 16 turns
-                gBattleMons[battler].status1 += STATUS1_TOXIC_TURN(1);
-            gBattleStruct->passiveHpUpdate[battler] *= (gBattleMons[battler].status1 & STATUS1_TOXIC_COUNTER) >> 8;
-            BattleScriptCall(BattleScript_PoisonTurnDmg);
-            effect = TRUE;
-        }
         else
         {
-            SetPassiveDamageAmount(battler, GetBattlerMaxHP(battler) / 8);
+            SetPassiveDamageAmount(battler, damage);
             BattleScriptCall(BattleScript_PoisonTurnDmg);
             effect = TRUE;
         }
@@ -631,7 +664,7 @@ static bool32 HandleEndTurnBurn(struct BattleCalcValues *cv, enum BattlerId batt
 
     gBattleStruct->eventState.endTurnBattler++;
 
-    if (gBattleMons[battler].status1 & STATUS1_BURN
+    if (gBattleMons[battler].status1 & STATUS1_BURN && cv->abilities[battler] != ABILITY_INNER_FURNACE
      && IsBattlerPresent(battler)
      && !IsAbilityAndRecord(battler, ability, ABILITY_MAGIC_GUARD))
     {
@@ -721,6 +754,37 @@ static bool32 HandleEndTurnAbyssalEmbrace(struct BattleCalcValues *cv, enum Batt
         return FALSE;
     SetPassiveDamageAmount(battler, damage);
     BattleScriptCall(BattleScript_AbyssalEmbraceTurnDmg);
+    return TRUE;
+}
+
+static bool32 HandleEndTurnSpikyGrip(struct BattleCalcValues *cv, enum BattlerId battler)
+{
+    gBattleStruct->eventState.endTurnBattler++;
+    if (!IsBattlerPresent(battler))
+        return FALSE;
+
+    u32 damage = GetSpikyGripDamage(battler);
+    if (!damage || IsAbilityAndRecord(battler, cv->abilities[battler], ABILITY_MAGIC_GUARD))
+        return FALSE;
+
+    SetPassiveDamageAmount(battler, damage);
+    BattleScriptCall(BattleScript_SpikyGripTurnDmg);
+    return TRUE;
+}
+
+static bool32 HandleEndTurnBleed(struct BattleCalcValues *cv, enum BattlerId battler)
+{
+    gBattleStruct->eventState.endTurnBattler++;
+    if (!IsBattlerPresent(battler) || !gBattleMons[battler].volatiles.bleedTurns)
+        return FALSE;
+
+    u32 damage = GetBleedDamage(battler);
+    gBattleMons[battler].volatiles.bleedTurns--;
+    if (IsAbilityAndRecord(battler, cv->abilities[battler], ABILITY_MAGIC_GUARD))
+        return FALSE;
+
+    SetPassiveDamageAmount(battler, damage);
+    BattleScriptCall(BattleScript_BleedTurnDmg);
     return TRUE;
 }
 
@@ -1414,6 +1478,7 @@ static bool32 HandleEndTurnThirdEventBlock(struct BattleCalcValues *cv, enum Bat
         case ABILITY_SPEED_BOOST:
         case ABILITY_DROPS_OF_GOD:
         case ABILITY_BLAZING_GLORY:
+        case ABILITY_HANGER_ATTACK:
             if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ability, MOVE_NONE, TRUE))
                 effect = TRUE;
             break;
@@ -1612,7 +1677,9 @@ static bool32 (*const sEndTurnEffectHandlers[])(struct BattleCalcValues *cv, enu
     [ENDTURN_CURSE] = HandleEndTurnCurse,
     [ENDTURN_WRAP] = HandleEndTurnWrap,
     [ENDTURN_ABYSSAL_EMBRACE] = HandleEndTurnAbyssalEmbrace,
+    [ENDTURN_SPIKY_GRIP] = HandleEndTurnSpikyGrip,
     [ENDTURN_SALT_CURE] = HandleEndTurnSaltCure,
+    [ENDTURN_BLEED] = HandleEndTurnBleed,
     [ENDTURN_OCTOLOCK] = HandleEndTurnOctolock,
     [ENDTURN_SYRUP_BOMB] = HandleEndTurnSyrupBomb,
     [ENDTURN_TAUNT] = HandleEndTurnTaunt,
@@ -1643,6 +1710,7 @@ static bool32 (*const sEndTurnEffectHandlers[])(struct BattleCalcValues *cv, enu
     [ENDTURN_EJECT_PACK] = HandleEndTurnEjectPack,
     [ENDTURN_SEND_OUT_REPLACEMENTS_5] = HandleEndTurnSendOutReplacements,
     [ENDTURN_ENDLESS_LUAU] = HandleEndTurnEndlessLuau,
+    [ENDTURN_APEX_ABILITIES] = HandleEndTurnApexAbilities,
     [ENDTURN_FAINTED_MON_ACTIONS] = HandleEndTurnFaintedMonActions,
     [ENDTURN_TRAINER_A_SLIDES] = HandleEndTurnTrainerASlides,
     [ENDTURN_TRAINER_B_SLIDES] = HandleEndTurnTrainerBSlides,

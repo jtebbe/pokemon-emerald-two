@@ -19488,6 +19488,18 @@ ScreechRing:
 	return
 
 gBattleAnimMove_FlameWheel::
+	call FlameWheelHit
+	end
+
+gBattleAnimMove_SoultorchSwing::
+	fadetobg BG_GHOST
+	waitbgfadein
+	call FlameWheelHit
+	restorebg
+	waitbgfadein
+	end
+
+FlameWheelHit:
 	monbg ANIM_DEF_PARTNER
 	splitbgprio_foes ANIM_TARGET
 	createsprite gFireSpiralOutwardSpriteTemplate, ANIM_ATTACKER, 3, 0, 0, 56, 0
@@ -19521,7 +19533,7 @@ gBattleAnimMove_FlameWheel::
 	createsprite gSlideMonToOriginalPosSpriteTemplate, ANIM_ATTACKER, 2, 0, 0, 9
 	waitforvisualfinish
 	clearmonbg ANIM_DEF_PARTNER
-	end
+	return
 
 gBattleAnimMove_PinMissile::
 	monbg ANIM_TARGET
@@ -20262,6 +20274,27 @@ gBattleAnimMove_Slam::
 	end
 
 gBattleAnimMove_VineWhip::
+	call VineWhipHit
+	end
+
+gBattleAnimMove_SappingVines::
+	call VineWhipHit
+	waitforvisualfinish
+	monbg ANIM_DEF_PARTNER
+	splitbgprio_foes ANIM_TARGET
+	setalpha 12, 8
+	simple_palette_blend selector=F_PAL_BG, delay=1, initial_blend_y=0, target_blend_y=4, color=RGB(13, 31, 12)
+	waitforvisualfinish
+	playsewithpan SE_M_ABSORB, SOUND_PAN_TARGET
+	call AbsorbEffect
+	waitforvisualfinish
+	simple_palette_blend selector=F_PAL_BG, delay=1, initial_blend_y=4, target_blend_y=0, color=RGB(13, 31, 12)
+	waitforvisualfinish
+	clearmonbg ANIM_DEF_PARTNER
+	blendoff
+	end
+
+VineWhipHit:
 	playsewithpan SE_M_JUMP_KICK, SOUND_PAN_ATTACKER
 	createsprite gHorizontalLungeSpriteTemplate, ANIM_ATTACKER, 2, 4, 6
 	delay 6
@@ -20269,7 +20302,7 @@ gBattleAnimMove_VineWhip::
 	createsprite gVineWhipSpriteTemplate, ANIM_TARGET, 2, 0, 0
 	delay 6
 	createvisualtask AnimTask_ShakeMon2, 2, ANIM_TARGET, 2, 0, 6, 1
-	end
+	return
 
 gBattleAnimMove_DrillPeck::
 	createsprite gBowMonSpriteTemplate, ANIM_ATTACKER, 2, 0
@@ -21043,6 +21076,21 @@ gBattleAnimMove_Headbutt::
 	end
 
 gBattleAnimMove_HornAttack::
+	call HornAttackHit
+	end
+
+gBattleAnimMove_SeaHorn::
+	call HornAttackHit
+	monbg ANIM_TARGET
+	splitbgprio ANIM_TARGET
+	setalpha 12, 8
+	call WaterBubblesEffectShort
+	waitforvisualfinish
+	clearmonbg ANIM_TARGET
+	blendoff
+	end
+
+HornAttackHit:
 	createsprite gBowMonSpriteTemplate, ANIM_ATTACKER, 2, 0
 	playsewithpan SE_M_HEADBUTT, SOUND_PAN_ATTACKER
 	waitforvisualfinish
@@ -21056,7 +21104,7 @@ gBattleAnimMove_HornAttack::
 	create_flashing_hitsplat_sprite ANIM_TARGET, 3, x=0, y=0, relative_to=ANIM_TARGET, animation=1
 	playsewithpan SE_M_HORN_ATTACK, SOUND_PAN_TARGET
 	waitforvisualfinish
-	end
+	return
 
 gBattleAnimMove_FuryAttack::
 	createvisualtask AnimTask_RotateMonSpriteToSide, 2, 4, 256, ANIM_ATTACKER, 2
