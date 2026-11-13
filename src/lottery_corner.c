@@ -85,10 +85,11 @@ void PickLotteryCornerTicket(void)
     {
         for (j = 0; j < IN_BOX_COUNT; j++)
         {
-            if (GetBoxMonData(GetBoxedMonPtr(i, j), MON_DATA_SPECIES) != SPECIES_NONE &&
-            !GetBoxMonData(GetBoxedMonPtr(i, j), MON_DATA_IS_EGG))
+            struct BoxPokemon *mon = GetBoxedMonPtr(i, j);
+            if (GetBoxMonData(mon, MON_DATA_SPECIES) != SPECIES_NONE
+             && !GetBoxMonData(mon, MON_DATA_IS_EGG))
             {
-                u32 otId = GetBoxMonData(GetBoxedMonPtr(i, j), MON_DATA_OT_ID);
+                u32 otId = GetBoxMonData(mon, MON_DATA_OT_ID);
                 u8 numMatchingDigits = GetMatchingDigits(gSpecialVar_Result, otId);
 
                 if (numMatchingDigits > gSpecialVar_0x8004 && numMatchingDigits > 1)

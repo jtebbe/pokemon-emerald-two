@@ -2742,6 +2742,7 @@ static bool32 DebugSelection_GiveComplexPokemon_OnComplete(u8 taskId)
 
     u8 evs[NUM_STATS];
     ResolveEVs(rawEvs, evs, FALSE);
+
     for (u32 i = 0; i < NUM_STATS; i++)
     {
         SetMonData(&mon, MON_DATA_HP_EV + i, &evs[i]);
@@ -3164,16 +3165,6 @@ static void DebugAction_Sound_MUS_SelectId(u8 taskId)
         m4aSongNumStop(gTasks[taskId].tCurrentSong);
     }
 }
-
-static const u32 gDebugFollowerNPCGraphics[] =
-{
-    OBJ_EVENT_GFX_RIVAL_BRENDAN_NORMAL,
-    OBJ_EVENT_GFX_RIVAL_MAY_NORMAL,
-    OBJ_EVENT_GFX_STEVEN,
-    OBJ_EVENT_GFX_WALLY,
-    OBJ_EVENT_GFX_RED,
-    OBJ_EVENT_GFX_LEAF,
-};
 
 #undef tCurrentSong
 

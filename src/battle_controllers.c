@@ -88,8 +88,9 @@ bool32 BattlerUsesTestController(enum BattlerId battlerId)
 
 bool32 BattlerIsLink(enum BattlerId battlerId)
 {
-    return (gBattlerBattleController[battlerId] == BATTLE_CONTROLLER_LINK_PARTNER
-         || gBattlerBattleController[battlerId] == BATTLE_CONTROLLER_LINK_OPPONENT);
+    enum BattleController controller = gBattlerBattleController[battlerId];
+    return (controller == BATTLE_CONTROLLER_LINK_PARTNER
+         || controller == BATTLE_CONTROLLER_LINK_OPPONENT);
 }
 
 bool32 BattlerIsWally(enum BattlerId battlerId)
@@ -389,80 +390,31 @@ static void InitBtlControllersInternal(void)
     }
 }
 
-bool32 IsValidForBattle(struct Pokemon *mon)
-{
-    enum Species species = GetMonData(mon, MON_DATA_SPECIES_OR_EGG);
-    return (species != SPECIES_NONE
-         && species != SPECIES_EGG
-         && GetMonData(mon, MON_DATA_HP) != 0
-         && GetMonData(mon, MON_DATA_IS_EGG) == FALSE);
-}
-
-bool32 IsValidForBattleButDead(struct Pokemon *mon)
-{
-    enum Species species = GetMonData(mon, MON_DATA_SPECIES_OR_EGG);
-    return (species != SPECIES_NONE
-         && species != SPECIES_EGG
-         && GetMonData(mon, MON_DATA_IS_EGG) == FALSE);
-}
-
 static inline bool32 IsControllerPlayer(enum BattlerId battler)
 {
-    return (gBattlerControllerEndFuncs[battler] == PlayerBufferExecCompleted);
-}
-
-static inline bool32 IsControllerTestPlayer(enum BattlerId battler)
-{
-    return TESTING && (gBattlerControllerEndFuncs[battler] == TestPlayerBufferExecCompleted);
+    return (gBattlerBattleController[battler] == BATTLE_CONTROLLER_PLAYER);
 }
 
 static inline bool32 IsControllerTestPartner(enum BattlerId battler)
 {
-    return TESTING && (gBattlerControllerEndFuncs[battler] == TestPartnerBufferExecCompleted);
+    return gBattlerBattleController[battler] == BATTLE_CONTROLLER_TEST_PARTNER;
 }
 
 static inline bool32 IsControllerOpponent(enum BattlerId battler)
 {
-    return (gBattlerControllerEndFuncs[battler] == OpponentBufferExecCompleted);
-}
-
-static inline bool32 IsControllerPlayerPartner(enum BattlerId battler)
-{
-    return (gBattlerControllerEndFuncs[battler] == PlayerPartnerBufferExecCompleted);
+    return (gBattlerBattleController[battler] == BATTLE_CONTROLLER_OPPONENT);
 }
 
 static inline bool32 IsControllerWally(enum BattlerId battler)
 {
-    return (gBattlerControllerEndFuncs[battler] == WallyBufferExecCompleted);
+    return (gBattlerBattleController[battler] == BATTLE_CONTROLLER_WALLY);
 }
 
 
-
-static inline bool32 IsControllerTestOpponent(enum BattlerId battler)
-{
-    return TESTING && (gBattlerControllerEndFuncs[battler] == TestOpponentBufferExecCompleted);
-}
-
-static inline bool32 IsControllerLinkOpponent(enum BattlerId battler)
-{
-    return (gBattlerControllerEndFuncs[battler] == LinkOpponentBufferExecCompleted);
-}
-
-static inline bool32 IsControllerLinkPartner(enum BattlerId battler)
-{
-    return (gBattlerControllerEndFuncs[battler] == LinkPartnerBufferExecCompleted);
-}
 
 static inline bool32 IsControllerSafari(enum BattlerId battler)
 {
-    return (gBattlerControllerEndFuncs[battler] == SafariBufferExecCompleted);
-}
-
-bool32 ShouldUpdateTvData(enum BattlerId battler)
-{
-    return (IsControllerPlayer(battler)
-         || IsControllerLinkPartner(battler)
-         || IsControllerLinkOpponent(battler));
+    return (gBattlerBattleController[battler] == BATTLE_CONTROLLER_SAFARI);
 }
 
 static void SetBattlePartyIds(void)
@@ -478,7 +430,7 @@ static void SetBattlePartyIds(void)
             {
                 if (i < 2)
                 {
-                    if (IsValidForBattle(&GetBattlerParty(i)[j]))
+                    if (IsMonValidAndAliveForBattle(&GetBattlerParty(i)[j]))
                     {
                         gBattlerPartyIndexes[i] = j;
                         foundValidMon = TRUE;
@@ -487,19 +439,19 @@ static void SetBattlePartyIds(void)
                 }
                 else
                 {
-                    if (!(gBattlerPartyIndexes[i - 2] == j && BattlersShareParty(i - 2, i)))
-                    {
-                    if (IsValidForBattle(&GetBattlerParty(i)[j]))
+                    if (gBattlerPartyIndexes[i - 2] == j && BattlersShareParty(i - 2, i))
+                        continue;
+
+                    if (IsMonValidAndAliveForBattle(&GetBattlerParty(i)[j]))
                     {
                         gBattlerPartyIndexes[i] = j;
                         foundValidMon = TRUE;
                         break;
                     }
-                    else if (IsValidForBattleButDead(&GetBattlerParty(i)[j]) && faintedMon == PARTY_SLOT_NONE)
+                    else if (IsMonValidForBattle(&GetBattlerParty(i)[j]) && faintedMon == PARTY_SLOT_NONE)
                     {
                         // Put an "option" on a dead mon that can be revived;
                         faintedMon = j;
-                    }
                     }
 
                     if (faintedMon != PARTY_SLOT_NONE)
@@ -2164,7 +2116,7 @@ void BtlController_HandleLoadMonSprite(enum BattlerId battler)
     if (!HasAnyBattleFlags(BATTLE_TYPE_GHOST))
         SetBattlerShadowSpriteCallback(battler, species);
 
-    if (IsControllerOpponent(battler) || IsControllerLinkOpponent(battler) || IsControllerTestOpponent(battler))
+    if (BattlerIsOpponent(battler))
         gBattlerControllerFuncs[battler] = TryShinyAnimAfterMonAnim;
     else
         gBattlerControllerFuncs[battler] = WaitForMonAnimAfterLoad;
@@ -2172,11 +2124,7 @@ void BtlController_HandleLoadMonSprite(enum BattlerId battler)
 
 void BtlController_HandleSwitchInAnim(enum BattlerId battler)
 {
-    bool32 isPlayerSide = (IsControllerPlayer(battler)
-                        || IsControllerPlayerPartner(battler)
-                        || IsControllerTestPlayer(battler)
-                        || IsControllerTestPartner(battler)
-                        || IsControllerLinkPartner(battler));
+    bool32 isPlayerSide = (BattlerIsPlayer(battler) || BattlerIsPartner(battler));
 
     if (IsControllerPlayer(battler))
     {
@@ -2481,10 +2429,8 @@ void BtlController_HandleHealthBarUpdate(enum BattlerId battler)
     else
     {
         SetBattleBarStruct(battler, gHealthboxSpriteIds[battler], maxHP, 0, hpVal);
-        if (IsControllerPlayer(battler)
-         || IsControllerTestPlayer(battler)
+        if (BattlerIsPlayer(battler)
          || IsControllerTestPartner(battler)
-
          || IsControllerWally(battler))
             UpdateHpTextInHealthbox(gHealthboxSpriteIds[battler], HP_CURRENT, 0, maxHP);
         TestRunner_Battle_RecordHP(battler, curHP, 0);
@@ -2614,14 +2560,14 @@ enum BattlerId GetBattleIntroPartner(enum BattlerId battler)
 
 bool32 TwoPlayerIntroMons(enum BattlerId battler) // Double battle with both player Pokémon active.
 {
-    return (IsDoubleBattle() && IsValidForBattle(GetBattlerMon(battler ^ BIT_FLANK)));
+    return (IsDoubleBattle() && IsMonValidAndAliveForBattle(GetBattlerMon(battler ^ BIT_FLANK)));
 }
 
 bool32 TwoOpponentIntroMons(enum BattlerId battler) // Double battle with both opponent Pokémon active.
 {
     return (IsDoubleBattle()
-            && IsValidForBattle(GetBattlerMon(battler))
-            && IsValidForBattle(GetBattlerMon(GetPartnerBattler(battler))));
+            && IsMonValidAndAliveForBattle(GetBattlerMon(battler))
+            && IsMonValidAndAliveForBattle(GetBattlerMon(GetPartnerBattler(battler))));
 }
 
 // Task data for Task_StartSendOutAnim
@@ -2919,9 +2865,7 @@ void BtlController_HandleSwitchInShowSubstitute(enum BattlerId battler)
         if (gBattleSpritesDataPtr->battlerData[battler].behindSubstitute)
             InitAndLaunchSpecialAnimation(battler, battler, battler, B_ANIM_MON_TO_SUBSTITUTE);
 
-        if (IsControllerOpponent(battler)
-         && IsControllerLinkOpponent(battler)
-         && IsControllerTestOpponent(battler))
+        if (BattlerIsOpponent(battler))
             gBattlerControllerFuncs[battler] = BtlController_HandleSwitchInSoundAndEnd;
         else
             gBattlerControllerFuncs[battler] = BtlController_HandleSwitchInWaitAndEnd;

@@ -506,7 +506,7 @@ static void OpponentHandleChoosePokemon(enum BattlerId battler)
 
             for (chosenMonId = PARTY_SLOT_0; chosenMonId < lastId; chosenMonId++)
             {
-                if (IsValidForBattle(&gParties[GetBattlerTrainer(battler)][chosenMonId])
+                if (IsMonValidAndAliveForBattle(&gParties[GetBattlerTrainer(battler)][chosenMonId])
                  && !IsPartyMonOnFieldOrChosenToSwitch(battler, chosenMonId, battler1, battler2))
                     break;
             }

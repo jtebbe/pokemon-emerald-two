@@ -1210,8 +1210,7 @@ static bool32 IsOpponentPhysicalAttacker(enum BattlerId battler, enum BattlerId 
         return TRUE;
 
     enum Move incomingMove = GetIncomingMove(battler, opposingBattler, gAiLogicData);
-    return incomingMove != MOVE_NONE
-        && incomingMove != MOVE_UNAVAILABLE
+    return IsMoveValid(incomingMove)
         && GetBattleMoveCategory(incomingMove) == DAMAGE_CATEGORY_PHYSICAL;
 }
 
@@ -1758,7 +1757,7 @@ void GetShouldSwitchPartyMonEligibility(struct SwitchAiContext *switchContext)
 {
     for (enum PartySlot monIndex = PARTY_SLOT_0; monIndex < switchContext->lastId; monIndex++)
     {
-        if (!IsValidForBattle(&switchContext->party[monIndex]))
+        if (!IsMonValidAndAliveForBattle(&switchContext->party[monIndex]))
             continue;
         if (IsPartyMonOnFieldOrChosenToSwitch(switchContext->battler, monIndex, switchContext->battlerIn1, switchContext->battlerIn2))
             continue;
@@ -2650,7 +2649,7 @@ static enum PartySlot GetBestMonIntegrated(struct SwitchAiContext *switchContext
     for (enum PartySlot monIndex = PARTY_SLOT_0; monIndex < switchContext->lastId; monIndex++)
     {
         // Check mon validity
-        if (!IsValidForBattle(&switchContext->party[monIndex]))
+        if (!IsMonValidAndAliveForBattle(&switchContext->party[monIndex]))
             continue;
         // Check if mon is already in play or being sent in
         if (IsPartyMonOnFieldOrChosenToSwitch(switchContext->battler, monIndex, switchContext->battlerIn1, switchContext->battlerIn2))
@@ -2976,7 +2975,7 @@ static enum PartySlot GetBestMonVanilla(struct SwitchAiContext *switchContext)
     for (enum PartySlot monIndex = PARTY_SLOT_0; monIndex < switchContext->lastId; monIndex++)
     {
         // Check mon validity
-        if (!IsValidForBattle(&switchContext->party[monIndex]))
+        if (!IsMonValidAndAliveForBattle(&switchContext->party[monIndex]))
             continue;
         // Check if mon is already in play or being sent in
         if (IsPartyMonOnFieldOrChosenToSwitch(switchContext->battler, monIndex, switchContext->battlerIn1, switchContext->battlerIn2))
@@ -3076,7 +3075,7 @@ static enum PartySlot GetNextMonInParty(struct SwitchAiContext *switchContext)
     for (enum PartySlot monIndex = PARTY_SLOT_0; monIndex < switchContext->lastId; monIndex++)
     {
         // Check mon validity
-        if (!IsValidForBattle(&switchContext->party[monIndex]))
+        if (!IsMonValidAndAliveForBattle(&switchContext->party[monIndex]))
         {
             continue;
         }

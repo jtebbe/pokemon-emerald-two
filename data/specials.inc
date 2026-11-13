@@ -72,3 +72,4 @@ gSpecials::
 	def_special ShowPokemonStorageSystemPC, waitstate=1
 	def_special DoWateringBerryTreeAnim, waitstate=1
 	def_special GiveEggFromDaycare
+	def_special StartMining

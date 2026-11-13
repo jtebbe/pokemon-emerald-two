@@ -2623,14 +2623,10 @@ static enum CancelerResult CancelerMultihitMoves(struct BattleCalcValues *cv)
 
         for (i = 0; i < PARTY_SIZE; i++)
         {
-            enum Species species = GetMonData(&party[i], MON_DATA_SPECIES);
-            if (species != SPECIES_NONE
-             && GetMonData(&party[i], MON_DATA_HP)
-             && !GetMonData(&party[i], MON_DATA_IS_EGG)
-             && !GetMonData(&party[i], MON_DATA_STATUS))
+            if (IsMonValidAndAliveForBattle(&party[i]) && !GetMonData(&party[i], MON_DATA_STATUS))
             {
                 if (GetConfig(B_BEAT_UP) >= GEN_5)
-                    gBattleStruct->beatUpSpecies[gMultiHitCounter] = species;
+                    gBattleStruct->beatUpSpecies[gMultiHitCounter] = GetMonData(&party[i], MON_DATA_SPECIES);
                 else
                     gBattleStruct->beatUpSpecies[gMultiHitCounter] = i;
                 gMultiHitCounter++;
@@ -5226,8 +5222,7 @@ static enum MoveEndResult MoveEndUpdateLastMoves(struct BattleCalcValues *cv)
 
             gLastHitBy[cv->battlerDef] = cv->battlerAtk; // Used by switch AI only
 
-            if (!gBattleStruct->unableToUseMove
-             && !IsBattlerUnaffectedByMove(battlerDef))
+            if (!gBattleStruct->unableToUseMove && !IsBattlerUnaffectedByMove(battlerDef))
             {
                 if (gChosenMove == MOVE_UNAVAILABLE)
                 {
@@ -6628,6 +6623,25 @@ static enum MoveEndResult MoveEndOpportunist(struct BattleCalcValues *cv)
     return MOVEEND_RESULT_CONTINUE;
 }
 
+static enum MoveEndResult MoveEndNaturalGiftItemRemoval(struct BattleCalcValues *cv)
+{
+    gBattleScripting.moveendState++;
+
+    if (gBattleStruct->unableToUseMove && gBattleStruct->flungItem != FLUNG_ITEM_REMOVE)
+        return MOVEEND_RESULT_CONTINUE;
+
+    if (cv->moveEffect != EFFECT_NATURAL_GIFT
+     || gBattleMons[cv->battlerAtk].item == ITEM_NONE
+     || gBattleStruct->battlerState[cv->battlerAtk].originalBattlerPartyId != PARTY_SIZE)
+        return MOVEEND_RESULT_CONTINUE;
+
+    gLastUsedItem = gBattleMons[cv->battlerAtk].item;
+    gBattleStruct->flungItem = FLUNG_ITEM_REMOVE;
+    gBattleScripting.battler = cv->battlerAtk;
+    BattleScriptCall(BattleScript_RemoveItem);
+    return MOVEEND_RESULT_RUN_SCRIPT;
+}
+
 static enum MoveEndResult MoveEndThirdMoveBlock(struct BattleCalcValues *cv)
 {
     enum MoveEndResult result = MOVEEND_RESULT_CONTINUE;
@@ -6661,28 +6675,6 @@ static enum MoveEndResult MoveEndThirdMoveBlock(struct BattleCalcValues *cv)
 
             BattleScriptCall(BattleScript_RemoveTerrain);
             result = MOVEEND_RESULT_RUN_SCRIPT;
-        }
-        break;
-    case EFFECT_NATURAL_GIFT:
-        if (!gBattleStruct->unableToUseMove && GetItemPocket(gBattleMons[cv->battlerAtk].item) == POCKET_BERRIES)
-        {
-            enum Item item = gBattleMons[cv->battlerAtk].item;
-            gBattleMons[gBattlerAttacker].item = ITEM_NONE;
-            gBattleStruct->battlerState[cv->battlerAtk].canPickupItem = TRUE;
-            GetBattlerPartyState(cv->battlerAtk)->usedHeldItem = item;
-            CheckSetUnburden(cv->battlerAtk);
-            BtlController_EmitSetMonData(
-                cv->battlerAtk,
-                B_COMM_TO_CONTROLLER,
-                REQUEST_HELDITEM_BATTLE,
-                0,
-                sizeof(gBattleMons[cv->battlerAtk].item),
-                &gBattleMons[cv->battlerAtk].item);
-            MarkBattlerForControllerExec(cv->battlerAtk);
-            ClearBattlerItemEffectHistory(cv->battlerAtk);
-
-            if (!TrySymbiosis(cv->battlerAtk, item, NULL))
-                result = MOVEEND_RESULT_RUN_SCRIPT;
         }
         break;
     default:
@@ -7108,6 +7100,7 @@ static enum MoveEndResult (*const sMoveEndHandlers[])(struct BattleCalcValues *c
     [MOVEEND_PICKPOCKET] = MoveEndPickpocket,
     [MOVEEND_ITEMS_EFFECTS_ALL] = MoveEndItemsEffectsAll,
     [MOVEEND_OPPORTUNIST] = MoveEndOpportunist,
+    [MOVEEND_NATURAL_GIFT_ITEM_REMOVAL] = MoveEndNaturalGiftItemRemoval,
     [MOVEEND_THIRD_MOVE_BLOCK] = MoveEndThirdMoveBlock,
     [MOVEEND_RAMPAGE] = MoveEndRampage,
     [MOVEEND_CONFUSION_AFTER_SKY_DROP] = MoveEndConfusionAfterSkyDrop,
@@ -7687,7 +7680,7 @@ static enum Move GetMirrorMoveMove(void)
         if (i != gBattlerAttacker)
         {
             move = gBattleStruct->lastTakenMoveFrom[gBattlerAttacker][i];
-            if (move != MOVE_NONE && move != MOVE_UNAVAILABLE)
+            if (IsMoveValid(move))
             {
                 validMoves[validMovesCount] = move;
                 validMovesCount++;
@@ -7763,9 +7756,7 @@ static enum Move GetAssistMove(void)
     {
         if (monId == gBattlerPartyIndexes[gBattlerAttacker])
             continue;
-        if (GetMonData(&party[monId], MON_DATA_SPECIES_OR_EGG) == SPECIES_NONE)
-            continue;
-        if (GetMonData(&party[monId], MON_DATA_SPECIES_OR_EGG) == SPECIES_EGG)
+        if (!IsMonValidForBattle(&party[monId]))
             continue;
 
         for (u32 moveId = 0; moveId < MAX_MON_MOVES; moveId++)

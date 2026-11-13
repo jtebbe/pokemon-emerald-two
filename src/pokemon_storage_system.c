@@ -99,6 +99,7 @@ enum {
     MSG_HOLDING_POKE,
     MSG_WHICH_ONE_WILL_TAKE,
     MSG_CANT_RELEASE_EGG,
+    MSG_CANT_RELEASE_FUSED_MON,
     MSG_CONTINUE_BOX,
     MSG_CAME_BACK,
     MSG_WORRIED,
@@ -1069,6 +1070,7 @@ static const struct StorageMessage sMessages[] =
     [MSG_HOLDING_POKE]         = {COMPOUND_STRING("You're holding a POKéMON!"),  MSG_VAR_NONE},
     [MSG_WHICH_ONE_WILL_TAKE]  = {COMPOUND_STRING("Which one will you take?"),   MSG_VAR_NONE},
     [MSG_CANT_RELEASE_EGG]     = {COMPOUND_STRING("You can't release an EGG."),  MSG_VAR_NONE},
+    [MSG_CANT_RELEASE_FUSED_MON] = {COMPOUND_STRING("Can't release a fused mon."), MSG_VAR_NONE},
     [MSG_CONTINUE_BOX]         = {COMPOUND_STRING("Continue BOX operations?"),   MSG_VAR_NONE},
     [MSG_CAME_BACK]            = {COMPOUND_STRING("{DYNAMIC 0} came back!"),     MSG_VAR_MON_NAME_1},
     [MSG_WORRIED]              = {COMPOUND_STRING("Was it worried about you?"),  MSG_VAR_NONE},
@@ -2709,6 +2711,10 @@ static void Task_OnSelectedMon(u8 taskId)
             {
                 sStorage->state = 7;
             }
+            else if (IsAFusedMon(sStorage->displayMonSpecies))
+            {
+                sStorage->state = 8;
+            }
             else
             {
                 PlaySE(SE_SELECT);
@@ -2792,6 +2798,11 @@ static void Task_OnSelectedMon(u8 taskId)
     case 7:
         PlaySE(SE_FAILURE);
         PrintMessage(MSG_REMOVE_APEX_METEORITE);
+        sStorage->state = 6;
+        break;
+    case 8:
+        PlaySE(SE_FAILURE);
+        PrintMessage(MSG_CANT_RELEASE_FUSED_MON);
         sStorage->state = 6;
         break;
     }
