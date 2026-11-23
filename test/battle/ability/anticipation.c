@@ -319,7 +319,7 @@ SINGLE_BATTLE_TEST("Anticipation does not consider ate-abilities")
     }
 }
 
-SINGLE_BATTLE_TEST("Anticipation treats Hidden Power as a fixed Psychic-type move")
+SINGLE_BATTLE_TEST("Anticipation recognizes adaptive Hidden Power coverage")
 {
     GIVEN {
         ASSUME(GetMoveType(MOVE_HIDDEN_POWER) == TYPE_PSYCHIC);
@@ -327,7 +327,7 @@ SINGLE_BATTLE_TEST("Anticipation treats Hidden Power as a fixed Psychic-type mov
         PLAYER(SPECIES_MACHOP) { Ability(ABILITY_ANTICIPATION); Item(ITEM_PAYAPA_BERRY); }
         OPPONENT(SPECIES_WOBBUFFET) { Moves(MOVE_HIDDEN_POWER, MOVE_SCRATCH, MOVE_POUND, MOVE_CELEBRATE); }
     } WHEN {
-        TURN { MOVE(opponent, MOVE_HIDDEN_POWER); }
+        TURN { MOVE(opponent, MOVE_HIDDEN_POWER, WITH_RNG(RNG_HIDDEN_POWER_TYPE, 1)); }
     } SCENE {
         ABILITY_POPUP(player, ABILITY_ANTICIPATION);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_BERRY, player);

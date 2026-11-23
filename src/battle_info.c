@@ -2205,7 +2205,7 @@ static void Detail_BuildActiveEffectsForBattler(void)
     TryAddActiveStatus(INFO_BOUND, vol->wrapTurns, side);
     TryAddActiveStatus(INFO_RAMPAGING, vol->rampageTurns, side);
     TryAddActiveStatus(INFO_CONFUSION, vol->confusionTimer, side);
-    TryAddActiveStatus(INFO_CANT_ESCAPE, vol->escapePrevention || vol->spikyGrip, side);
+    TryAddActiveStatus(INFO_CANT_ESCAPE, vol->escapePrevention || vol->spikyGrip || vol->scalyScrapper, side);
     TryAddActiveStatus(INFO_CRITICAL_HIT_BOOST, vol->criticalHitBoost, side);
     TryAddActiveStatus(INFO_IDENTIFIED, vol->foresight, side);
     TryAddActiveStatus(INFO_IDENTIFIED, vol->miracleEye, side);
@@ -2214,7 +2214,7 @@ static void Detail_BuildActiveEffectsForBattler(void)
     TryAddActiveStatus(INFO_LEECH_SEED, vol->leechSeed, side);
     TryAddActiveStatus(INFO_MINIMIZED, vol->minimize, side);
     TryAddActiveStatus(INFO_RECHARGING, vol->rechargeTimer, side);
-    TryAddActiveStatus(INFO_FLASH_FIRE, vol->flashFireBoosted, side);
+    TryAddActiveStatus(INFO_FLASH_FIRE, vol->flashFireBoosted || GetBattlerAbility(battler) == ABILITY_EMBLAZENED, side);
     TryAddActiveStatus(INFO_CHARGING, gBattleMons[battler].volatiles.chargeTurn, side);
     TryAddActiveStatus(INFO_MICLE_BERRY, gBattleStruct->battlerState[battler].usedMicleBerry, side);
     TryAddActiveStatusTimer(INFO_DROWSY, vol->yawn, 2, side);

@@ -145,6 +145,29 @@ bool32 DoSwitchInEvents(void)
         gBattleStruct->switchInBattlerCounter = 0;
         gBattleStruct->eventState.switchIn++;
         break;
+    case SWITCH_IN_EVENTS_MAGMA:
+        while (gBattleStruct->switchInBattlerCounter < gBattlersCount)
+        {
+            enum BattlerId target = gBattleStruct->switchInBattlerCounter++;
+            if (!IsBattlerAlive(target))
+                continue;
+            for (enum BattlerId source = 0; source < gBattlersCount; source++)
+            {
+                if (source == target || !IsBattlerAlive(source) || GetBattlerAbility(source) != ABILITY_MAGMA_18000F
+                 || (!gBattleStruct->battlerState[source].switchIn && !gBattleStruct->battlerState[target].switchIn)
+                 || !CanBeBurned(source, target, GetBattlerAbility(target)))
+                    continue;
+                gEffectBattler = target;
+                gBattleScripting.battler = gBattlerAbility = source;
+                gLastUsedAbility = ABILITY_MAGMA_18000F;
+                gBattleScripting.moveEffect = MOVE_EFFECT_BURN;
+                BattleScriptCall(BattleScript_AbilityStatusEffect);
+                return TRUE;
+            }
+        }
+        gBattleStruct->switchInBattlerCounter = 0;
+        gBattleStruct->eventState.switchIn++;
+        break;
     case SWITCH_IN_EVENTS_FIRST_BLOCK:
         while (gBattleStruct->switchInBattlerCounter < gBattlersCount)
         {
@@ -252,6 +275,8 @@ bool32 DoSwitchInEvents(void)
         gBattleStruct->eventState.switchIn++;
         break;
     case SWITCH_IN_EVENTS_EJECT_PACK:
+        if (TryScaredyMawSwitch())
+            return TRUE;
         gBattleStruct->eventState.switchIn++;
         if (TrySwitchInEjectPack(START_OF_TURN))
             return TRUE;
@@ -416,17 +441,23 @@ static bool32 TryHazardsOnSwitchIn(enum BattlerId battler, enum Ability ability,
          && IsBattlerGrounded(battler, ability, holdEffect))
         {
             gBattleScripting.battler = battler;
-            if (ability != ABILITY_MAGIC_GUARD)
+            if (!HasMagicGuardAbility(ability))
                 SetPassiveDamageAmount(battler, GetBattlerMaxHP(battler) * gSideTimers[side].frigidSpikesAmount / 16);
             BattleScriptCall(BattleScript_FrigidSpikesOnBattler);
             effect = TRUE;
         }
         break;
+    case HAZARDS_MALIGNED_WEB:
     case HAZARDS_STICKY_WEB:
         if (IsBattlerAffectedByHazards(battler, holdEffect, FALSE) && IsBattlerGrounded(battler, ability, holdEffect))
         {
             gEffectBattler = battler;
             SetStatChange(battler, STAT_SPEED, -1);
+            if (hazardType == HAZARDS_MALIGNED_WEB)
+            {
+                SetStatChange(battler, STAT_DEF, -1);
+                SetStatChange(battler, STAT_SPDEF, -1);
+            }
             BattleScriptCall(BattleScript_StickyWebOnSwitchIn);
             effect = TRUE;
         }
@@ -467,7 +498,7 @@ static bool32 TryHazardsOnSwitchIn(enum BattlerId battler, enum Ability ability,
         }
         break;
     case HAZARDS_STEALTH_ROCK:
-        if (IsBattlerAffectedByHazards(battler, holdEffect, FALSE) && ability != ABILITY_MAGIC_GUARD)
+        if (IsBattlerAffectedByHazards(battler, holdEffect, FALSE) && !HasMagicGuardAbility(ability))
         {
             gBattleStruct->passiveHpUpdate[battler] = GetStealthHazardDamage(TYPE_SIDE_HAZARD_POINTED_STONES, battler);
             if (gBattleStruct->passiveHpUpdate[battler] != 0)
@@ -492,7 +523,7 @@ static bool32 TryHazardsOnSwitchIn(enum BattlerId battler, enum Ability ability,
 bool32 TryScrapBrawlerHazard(enum BattlerId battler, enum Hazards hazard)
 {
     enum Ability ability = GetBattlerAbility(battler);
-    if (!IsBattlerAlive(battler) || ability == ABILITY_MAGIC_GUARD)
+    if (!IsBattlerAlive(battler) || HasMagicGuardAbility(ability))
         return FALSE;
     u32 savedCounter = gBattleStruct->hazardsCounter;
     bool32 effect = TryHazardsOnSwitchIn(battler, ability, GetBattlerHoldEffect(battler), hazard);

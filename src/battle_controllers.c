@@ -804,7 +804,7 @@ void BtlController_EmitSetMonData(enum BattlerId battler, u32 bufferId, u8 reque
     s32 i;
     u16 projectedHp;
 
-    if (requestId == REQUEST_HP_BATTLE && monToCheck == 0 && gBattleMons[battler].volatiles.multivolved)
+    if (requestId == REQUEST_HP_BATTLE && monToCheck == 0 && (gBattleMons[battler].volatiles.multivolved || gBattleMons[battler].volatiles.copyrightFraud))
     {
         memcpy(&projectedHp, data, sizeof(projectedHp));
         projectedHp = GetMultivolvePartyHp(battler, projectedHp);
@@ -1914,7 +1914,7 @@ void Controller_WaitForHealthBar(enum BattlerId battler)
 {
     s16 hpValue = MoveBattleBar(battler, gHealthboxSpriteIds[battler], HEALTH_BAR, 0);
     struct Pokemon *mon = GetBattlerMon(battler);
-    s32 maxHP = gBattleMons[battler].volatiles.multivolved ? gBattleMons[battler].maxHP : GetMonData(mon, MON_DATA_MAX_HP);
+    s32 maxHP = (gBattleMons[battler].volatiles.multivolved || gBattleMons[battler].volatiles.copyrightFraud) ? gBattleMons[battler].maxHP : GetMonData(mon, MON_DATA_MAX_HP);
 
     SetHealthboxSpriteVisible(gHealthboxSpriteIds[battler]);
     if (hpValue != -1)
@@ -2410,7 +2410,7 @@ void BtlController_HandleHealthBarUpdate(enum BattlerId battler)
 
     LoadBattleBarGfx(0);
     hpVal = gBattleResources->bufferA[battler][2] | (gBattleResources->bufferA[battler][3] << 8);
-    if (gBattleMons[battler].volatiles.multivolved)
+    if ((gBattleMons[battler].volatiles.multivolved || gBattleMons[battler].volatiles.copyrightFraud))
     {
         maxHP = gBattleMons[battler].maxHP;
         curHP = gBattleMons[battler].hp;

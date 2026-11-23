@@ -384,7 +384,7 @@ static void HandleSetEffectRemoveArgType(struct BattleCalcValues *cv, struct Set
 static void HandleSetEffectRecharge(struct BattleCalcValues *cv, struct SetEffect *se)
 {
     enum Ability ability = cv->abilities[se->effectBattler];
-    if (AbilitySkipsRecharge(ability))
+    if (AbilitySkipsRecharge(ability) || IsOctocannonCounter(se->effectBattler))
     {
         RecordAbilityBattle(se->effectBattler, ability);
         if (HasApexAbility(se->effectBattler))
@@ -533,7 +533,7 @@ static void HandleSetEffectFlameBurst(struct BattleCalcValues *cv, struct SetEff
 
     if (IsBattlerAlive(partner)
      && !IsSemiInvulnerable(partner, CHECK_ALL)
-     && cv->abilities[partner] != ABILITY_MAGIC_GUARD)
+     && !HasMagicGuardAbility(cv->abilities[partner]))
     {
         gEffectBattler = partner;
         SetPassiveDamageAmount(partner, gBattleMons[partner].maxHP / 16);
@@ -703,7 +703,8 @@ static void HandleSetEffectRecoilHp25(struct BattleCalcValues *cv, struct SetEff
     }
 
     if (cv->move != MOVE_STORM_SACRIFICE
-     && (IsAbilityAndRecord(se->effectBattler, cv->abilities[se->effectBattler], ABILITY_VAMPIRISM)
+     && (IsAbilityAndRecord(se->effectBattler, cv->abilities[se->effectBattler], ABILITY_FORTIFICATION)
+      || IsAbilityAndRecord(se->effectBattler, cv->abilities[se->effectBattler], ABILITY_VAMPIRISM)
       || (cv->abilities[se->effectBattler] == ABILITY_RELENTLESS_CHASE && gBattleStruct->relentlessChaseDamage > 0)))
         return;
 
@@ -3039,7 +3040,8 @@ static void HandleSetEffectPsychoShift(struct BattleCalcValues *cv, struct SetEf
     }
     else if (!cv->onlyChecking)
     {
-        gBattleMons[se->effectBattler].status1 = attackerStatus & STATUS1_ANY;
+        gBattleMons[se->effectBattler].status1 = attackerStatus & (STATUS1_ANY | STATUS1_EMBLAZENED_BURN);
+        gBattleMons[se->effectBattler].volatiles.emblazenedStage = 0;
 
         BtlController_EmitSetMonData(
             se->effectBattler,
@@ -3280,10 +3282,10 @@ static void HandleSetEffectTrick(struct BattleCalcValues *cv, struct SetEffect *
 
         BattleScriptPushAndSet(se->script, BattleScript_MoveEffectTrick);
 
-        if (cv->abilities[se->effectBattler] != ABILITY_GORILLA_TACTICS)
+        if (!HasAbilityChoiceLock(cv->abilities[se->effectBattler]))
             gBattleStruct->choicedMove[se->effectBattler] = MOVE_NONE;
 
-        if (cv->abilities[cv->battlerAtk] != ABILITY_GORILLA_TACTICS
+        if (!HasAbilityChoiceLock(cv->abilities[cv->battlerAtk])
          && (!IsHoldEffectChoice(GetItemHoldEffect(oldItemDef))
          || (GetConfig(B_MODERN_TRICK_CHOICE_LOCK) >= GEN_5)))
         {
@@ -3639,7 +3641,7 @@ static void HandleSetEffectStickyWeb(struct BattleCalcValues *cv, struct SetEffe
     }
     else if (!cv->onlyChecking)
     {
-        PushHazardTypeToQueue(effectSide, HAZARDS_STICKY_WEB);
+        PushHazardTypeToQueue(effectSide, cv->abilities[cv->battlerAtk] == ABILITY_MALIGNED_THREADS ? HAZARDS_MALIGNED_WEB : HAZARDS_STICKY_WEB);
         gSideTimers[effectSide].stickyWebBattlerId = cv->battlerAtk; // For Mirror Armor
         gSideTimers[effectSide].stickyWebBattlerSide = GetBattlerSide(cv->battlerAtk); // For Court Change/Defiant - set this to the user's side
 

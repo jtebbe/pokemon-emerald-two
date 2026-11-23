@@ -189,12 +189,13 @@ DOUBLE_BATTLE_TEST("Apex reveal is separate for simultaneous holders and Ilex Wh
 SINGLE_BATTLE_TEST("An unassigned Apex ability still reveals its Meteorite to the AI")
 {
     GIVEN {
-        PLAYER(SPECIES_WOBBUFFET) { Item(ITEM_APEX_METEORITE); }
+        ASSUME(GetSpeciesApexAbility(SPECIES_REGIROCK) == ABILITY_NONE);
+        PLAYER(SPECIES_REGIROCK) { Item(ITEM_APEX_METEORITE); }
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
         TURN {}
     } SCENE {
-        MESSAGE("Wobbuffet is unleashing its potential!");
+        MESSAGE("Regirock is unleashing its potential!");
     } THEN {
         EXPECT_EQ(gAiPartyData->mons[B_SIDE_PLAYER][0].heldEffect, HOLD_EFFECT_APEX_METEORITE);
         EXPECT_EQ(AI_DecideKnownAbilityForTurn(B_BATTLER_0), ABILITY_NONE);

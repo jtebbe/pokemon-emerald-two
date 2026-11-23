@@ -666,7 +666,7 @@ static enum ItemEffect TryCureBurn(enum BattlerId battler)
 
     if (gBattleMons[battler].status1 & STATUS1_BURN)
     {
-        gBattleMons[battler].status1 &= ~STATUS1_BURN;
+        gBattleMons[battler].status1 &= ~STATUS1_BURN_ANY;
         gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_CURED_BURN;
         BattleScriptCall(BattleScript_BerryCureStatusRet);
         effect = ITEM_STATUS_CHANGE;

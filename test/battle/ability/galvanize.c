@@ -38,7 +38,10 @@ SINGLE_BATTLE_TEST("Galvanize can not turn certain moves into Electric type move
         TURN { MOVE(opponent, move); }
     } SCENE {
         ANIMATION(ANIM_TYPE_MOVE, move, opponent);
-        NOT MESSAGE("It's super effective!");
+        if (move == MOVE_HIDDEN_POWER)
+            MESSAGE("It's super effective!");
+        else
+            NOT MESSAGE("It's super effective!");
     }
 }
 
@@ -158,8 +161,9 @@ SINGLE_BATTLE_TEST("Galvanize doesn't affect Hidden Power's type")
     } WHEN {
         TURN { MOVE(player, MOVE_HIDDEN_POWER); }
     } SCENE {
-        NOT { ANIMATION(ANIM_TYPE_MOVE, MOVE_HIDDEN_POWER, player); }
-        MESSAGE("It doesn't affect the opposing Poochyena…");
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_HIDDEN_POWER, player);
+        HP_BAR(opponent);
+        MESSAGE("It's super effective!");
     }
 }
 

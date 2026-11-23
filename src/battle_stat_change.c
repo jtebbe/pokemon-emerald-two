@@ -331,6 +331,8 @@ static enum StatChangeResult DecreaseStat(struct BattleCalcValues *cv, struct St
         PREPARE_STRING_BUFFER(gBattleTextBuff2, STRINGID_EMPTYSTRING3);
     }
 
+    if (!st->onlyChecking && st->intimidate && cv->abilities[cv->battlerDef] == ABILITY_SCAREDY_MAW)
+        gBattleMons[cv->battlerDef].volatiles.scaredyMawPending = TRUE;
     if (currStage == MIN_STAT_STAGE)
     {
         if (st->onlyChecking)
@@ -598,7 +600,7 @@ static enum BattlerId StatChange_IsFlowerVeilProtected(struct BattleCalcValues *
     {
         if (!IsBattlerAlly(cv->battlerDef, battler))
             continue;
-        if (cv->abilities[battler] == ABILITY_FLOWER_VEIL)
+        if (HasFlowerVeilAbility(cv->abilities[battler]) && IsBattlerPresent(battler))
             return battler;
     }
 
@@ -620,9 +622,9 @@ static bool32 IsFlowerVeilBlocked(struct BattleCalcValues *cv, struct StatChange
         st->script = BattleScript_FlowerVeilProtects;
         gBattleScripting.battler = cv->battlerDef;
         gBattlerAbility = flowerVeilBattler;
-        gLastUsedAbility = ABILITY_FLOWER_VEIL;
+        gLastUsedAbility = cv->abilities[flowerVeilBattler];
         MarkStatsAsDone(st, NUM_BATTLE_STATS);
-        RecordAbilityBattle(gBattlerAbility, ABILITY_FLOWER_VEIL);
+        RecordAbilityBattle(gBattlerAbility, gLastUsedAbility);
     }
 
     return TRUE;
@@ -674,11 +676,14 @@ static bool32 IsIntimidateBlocked(struct BattleCalcValues *cv, struct StatChange
     case ABILITY_TRUE_POWER:
     case ABILITY_INNER_FOCUS:
     case ABILITY_DECAPITATOR:
+    case ABILITY_SPEEDY_SENTRY:
+    case ABILITY_BEAR_NECESSITIES:
     case ABILITY_SCRAPPY:
     case ABILITY_DOUBLE_TEAMING:
     case ABILITY_OWN_TEMPO:
     case ABILITY_TOTAL_ZEN:
     case ABILITY_OBLIVIOUS:
+    case ABILITY_NO_THOUGHTS:
     case ABILITY_FURIOUS_CHARGE:
         if (cv->abilities[cv->battlerDef] != ABILITY_FURIOUS_CHARGE && GetConfig(B_UPDATED_INTIMIDATE) < GEN_8)
             return FALSE;
@@ -868,6 +873,7 @@ static bool32 AbilityPreventsSpecificStatDrop(enum Ability ability, enum Stat st
         [[fallthrough]];
     case ABILITY_KEEN_EYE:
     case ABILITY_MINDS_EYE:
+    case ABILITY_DARKENED_SKIES:
         return stat == STAT_ACC;
     case ABILITY_PIERCING_BEAK:
     case ABILITY_HYPER_CUTTER:
@@ -891,6 +897,7 @@ bool32 ShouldDefiantCompetitiveActivate(enum BattlerId battler, enum Ability abi
     {
     case ABILITY_DEFIANT:
     case ABILITY_BLAZE_HERITAGE:
+    case ABILITY_MONKEY_BUSINESS:
         if (CompareStat(battler, STAT_ATK, MAX_STAT_STAGE, CMP_EQUAL, ability))
             return FALSE;
         break;

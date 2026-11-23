@@ -2062,7 +2062,7 @@ void UpdateHealthboxAttribute(u8 healthboxSpriteId, struct Pokemon *mon, u8 elem
     enum BattlerId battler = gSprites[healthboxSpriteId].hMain_Battler;
     s32 maxHp = GetMonData(mon, MON_DATA_MAX_HP);
     s32 currHp = GetMonData(mon, MON_DATA_HP);
-    if (gBattleMons[battler].volatiles.multivolved)
+    if ((gBattleMons[battler].volatiles.multivolved || gBattleMons[battler].volatiles.copyrightFraud))
     {
         maxHp = gBattleMons[battler].maxHP;
         currHp = gBattleMons[battler].hp;

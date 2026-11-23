@@ -1,4 +1,5 @@
 #include "global.h"
+#include "battle_apex_johto.h"
 #include "malloc.h"
 #include "battle.h"
 #include "battle_anim.h"
@@ -462,7 +463,8 @@ bool32 IsBattlerTrapped(enum BattlerId battlerAtk, enum BattlerId battlerDef)
 
     if (gBattleMons[battlerDef].volatiles.wrapped)
         return TRUE;
-    if (gBattleMons[battlerDef].volatiles.abyssalEmbrace || gBattleMons[battlerDef].volatiles.spikyGrip)
+    if (gBattleMons[battlerDef].volatiles.abyssalEmbrace || gBattleMons[battlerDef].volatiles.spikyGrip
+     || gBattleMons[battlerDef].volatiles.scalyScrapper)
         return TRUE;
     if (gBattleMons[battlerDef].volatiles.escapePrevention)
         return TRUE;
@@ -612,7 +614,7 @@ bool32 IsDamageMoveUnusable(struct DamageContext *ctx)
     enum Ability partnerDefAbility = ctx->abilities[GetPartnerBattler(ctx->battlerDef)];
     struct AiLogicData *aiData = gAiLogicData;
 
-    if (partnerDefAbility == ABILITY_MUSHROOM_MADNESS && IsDoubleBattle())
+    if ((partnerDefAbility == ABILITY_MUSHROOM_MADNESS || partnerDefAbility == ABILITY_VERY_PUNCHABLE) && IsDoubleBattle())
     {
         enum BattlerId powderTarget = GetMushroomMadnessTarget(ctx->battlerAtk, GetBattlerSide(ctx->battlerDef), ctx->move, ctx->abilities, ctx->holdEffects[ctx->battlerAtk]);
         if (powderTarget < MAX_BATTLERS_COUNT && powderTarget != ctx->battlerDef)
@@ -634,7 +636,7 @@ bool32 IsDamageMoveUnusable(struct DamageContext *ctx)
     // Limited to Lighning Rod and Storm Drain because otherwise the AI would consider Water Absorb, etc...
     if ((partnerDefAbility == ABILITY_LIGHTNING_ROD || HasStormDrainAbility(partnerDefAbility))
      && !IsSpreadMove(AI_GetBattlerMoveTargetType(ctx->battlerAtk, ctx->move))
-     && !(battlerDefAbility == ABILITY_MUSHROOM_MADNESS && GetMushroomMadnessTarget(ctx->battlerAtk, GetBattlerSide(ctx->battlerDef), ctx->move, ctx->abilities, ctx->holdEffects[ctx->battlerAtk]) == ctx->battlerDef))
+     && !((battlerDefAbility == ABILITY_MUSHROOM_MADNESS || battlerDefAbility == ABILITY_VERY_PUNCHABLE) && GetMushroomMadnessTarget(ctx->battlerAtk, GetBattlerSide(ctx->battlerDef), ctx->move, ctx->abilities, ctx->holdEffects[ctx->battlerAtk]) == ctx->battlerDef))
     {
         u32 originalTarget = ctx->battlerDef; // Need to preserve origin target;
         ctx->battlerDef = GetPartnerBattler(ctx->battlerDef);
@@ -1006,6 +1008,8 @@ static __attribute__((noinline)) struct SimulatedDamage AI_SimulateMultiHitDamag
         minimum = 2;
     else if (greatMinds)
         minimum = GREAT_MINDS_HITS;
+    else if (ctx->abilities[atk] == ABILITY_PSYSYNC && IsMovePsysyncAffected(atk, ctx->move, ctx->moveType))
+        minimum = 2;
     else if (IsMultiHitMove(ctx->move) && minimum < 2)
     {
         if (effect == EFFECT_SPECIES_POWER_OVERRIDE && gBattleMons[atk].species == GetMoveSpeciesPowerOverride_Species(ctx->move))
@@ -1091,7 +1095,7 @@ static __attribute__((noinline)) void AI_AddScrapBrawlerHazardDamage(struct Dama
 {
     enum BattlerId atk = ctx->battlerAtk, def = ctx->battlerDef;
     if (!damage->median || IsBattlerAlly(atk, def)
-     || ctx->abilities[def] == ABILITY_MAGIC_GUARD || ctx->holdEffects[def] == HOLD_EFFECT_HEAVY_DUTY_BOOTS
+     || HasMagicGuardAbility(ctx->abilities[def]) || ctx->holdEffects[def] == HOLD_EFFECT_HEAVY_DUTY_BOOTS
      || !IsMoveMakingContact(atk, def, ABILITY_SCRAP_BRAWLER, ctx->holdEffects[atk], ctx->move))
         return;
 
@@ -1530,6 +1534,10 @@ s32 AI_GetVoodooStrengthEntryScore(enum BattlerId battler)
     return score;
 }
 
+// Keep the dispatch frame small: switch-in forecasts recursively calculate many
+// possible types/weathers and must not retain the damage context on the stack.
+static __attribute__((noinline)) struct SimulatedDamage AI_CalcDamageInternal(struct AiCalcValues *aiCalc, enum BattlerId battlerAtk, enum BattlerId battlerDef);
+
 struct SimulatedDamage AI_CalcDamage(struct AiCalcValues *aiCalc, enum BattlerId battlerAtk, enum BattlerId battlerDef)
 {
     if (gAiLogicData->switchInCalc
@@ -1552,6 +1560,11 @@ struct SimulatedDamage AI_CalcDamage(struct AiCalcValues *aiCalc, enum BattlerId
         if (gAiLogicData->abilities[battlerDef] == ABILITY_TECHNICOLOR && gAiThinkingStruct->saved[battlerDef].saved)
             return AI_AverageTechnicolorSwitchDamage(aiCalc, battlerAtk, battlerDef, battlerDef);
     }
+    return AI_CalcDamageInternal(aiCalc, battlerAtk, battlerDef);
+}
+
+static __attribute__((noinline)) struct SimulatedDamage AI_CalcDamageInternal(struct AiCalcValues *aiCalc, enum BattlerId battlerAtk, enum BattlerId battlerDef)
+{
     struct SimulatedDamage simDamage = {0};
     enum Move move = aiCalc->move;
     enum BattleMoveEffects moveEffect = GetMoveEffect(move);
@@ -1688,13 +1701,14 @@ struct SimulatedDamage AI_CalcDamage(struct AiCalcValues *aiCalc, enum BattlerId
     }
 
     SetDynamicMoveCategory(battlerAtk, battlerDef, move);
-    if (ctx.abilities[battlerAtk] == ABILITY_TECHNICOLOR)
+    if (move == MOVE_HIDDEN_POWER || ctx.abilities[battlerAtk] == ABILITY_TECHNICOLOR)
         SetTypeBeforeUsingMoveForTarget(move, battlerAtk, battlerDef, ctx.abilities[battlerAtk], ctx.holdEffects[battlerAtk]);
     else
         SetTypeBeforeUsingMove(move, battlerAtk, ctx.abilities[battlerAtk], ctx.holdEffects[battlerAtk]);
 
     ctx.moveType = GetBattleMoveType(move);
-    if (ctx.abilities[battlerAtk] == ABILITY_PHOTOSYNTHETIC || ctx.abilities[battlerAtk] == ABILITY_FROSTED_FUR)
+    if (ctx.abilities[battlerAtk] == ABILITY_PHOTOSYNTHETIC || ctx.abilities[battlerAtk] == ABILITY_FROSTED_FUR
+     || ctx.abilities[battlerAtk] == ABILITY_40_DAY_STORM)
         ctx.weather = AI_WeatherAfterMoveStart(ctx.abilities[battlerAtk], ctx.moveType, ctx.weather);
     // Peak Voltage changes the terrain before this attack deals damage.
     // Keep the prediction local so other candidate moves see the actual field.
@@ -1714,10 +1728,12 @@ struct SimulatedDamage AI_CalcDamage(struct AiCalcValues *aiCalc, enum BattlerId
         AI_StoreBattlerTypes(battlerAtk, types);
         ProteanTryChangeType(battlerAtk, aiData->abilities[battlerAtk], move, ctx.moveType);
 
-        s32 fixedDamage = DoFixedDamageMoveCalc(&ctx);
+        s32 fixedDamage = ctx.abilities[battlerDef] == ABILITY_HIGHLY_FLAMMABLE && ctx.moveType == TYPE_FIRE
+            && !DoesSubstituteBlockMove(battlerAtk, battlerDef, move)
+            ? gBattleMons[battlerDef].hp : DoFixedDamageMoveCalc(&ctx);
         bool32 greatMinds = ctx.abilities[battlerAtk] == ABILITY_GREAT_MINDS && IsMoveGreatMindsAffected(battlerAtk, move);
         bool32 martialMaster = IsMartialMasterDoubleHit(battlerAtk, ctx.abilities[battlerAtk], move);
-        if (greatMinds || martialMaster || (ctx.abilities[battlerDef] == ABILITY_GLORIOUS_MANE
+        if (greatMinds || martialMaster || (ctx.abilities[battlerAtk] == ABILITY_PSYSYNC && IsMovePsysyncAffected(battlerAtk, move, ctx.moveType)) || (ctx.abilities[battlerDef] == ABILITY_GLORIOUS_MANE
          && !IsBattlerAlly(battlerAtk, battlerDef)
          && (GetBattlerMoveStrikeCount(battlerAtk, move) > 1 || IsMultiHitMove(move) || moveEffect == EFFECT_BEAT_UP
           || (ctx.abilities[battlerAtk] == ABILITY_PARENTAL_BOND && !IsMoveParentalBondBanned(move) && !gBattleMoveEffects[moveEffect].twoTurnEffect))
@@ -2024,7 +2040,7 @@ struct SimulatedDamage AI_CalcDamage(struct AiCalcValues *aiCalc, enum BattlerId
 bool32 AI_IsDamagedByRecoil(enum BattlerId battler)
 {
     enum Ability ability = gAiLogicData->abilities[battler];
-    if (ability == ABILITY_MAGIC_GUARD || ability == ABILITY_ROCK_HEAD || ability == ABILITY_VAMPIRISM)
+    if (HasMagicGuardAbility(ability) || ability == ABILITY_ROCK_HEAD || ability == ABILITY_VAMPIRISM)
         return FALSE;
     return TRUE;
 }
@@ -2204,7 +2220,7 @@ static bool32 AI_IsMoveEffectInMinus(enum BattlerId battlerAtk, enum BattlerId b
      || (abilityAtk == ABILITY_GREAT_MINDS && IsMoveGreatMindsAffected(battlerAtk, move)))
     {
         if (AI_MoveMakesContact(battlerAtk, battlerDef, abilityAtk, gAiLogicData->holdEffects[battlerAtk], move)
-         && abilityAtk != ABILITY_MAGIC_GUARD
+         && !HasMagicGuardAbility(abilityAtk)
          && (gAiLogicData->holdEffects[battlerDef] == HOLD_EFFECT_ROCKY_HELMET || abilityDef == ABILITY_IRON_BARBS))
         {
             return TRUE;
@@ -2307,7 +2323,7 @@ enum MoveComparisonResult CompareMoveEffects(enum Move move1, enum Move move2, e
     // Check if physical moves hurt.
     if (gAiLogicData->holdEffects[battlerAtk] != HOLD_EFFECT_PROTECTIVE_PADS && atkAbility != ABILITY_LONG_REACH
         && (gAiLogicData->holdEffects[battlerDef] == HOLD_EFFECT_ROCKY_HELMET
-        || defAbility == ABILITY_IRON_BARBS || defAbility == ABILITY_ROUGH_SKIN))
+        || defAbility == ABILITY_IRON_BARBS || defAbility == ABILITY_ROUGH_SKIN || defAbility == ABILITY_SCALY_SCRAPPER))
     {
         bool32 moveContact1 = MoveMakesContact(move1);
         bool32 moveContact2 = MoveMakesContact(move2);
@@ -2355,7 +2371,10 @@ u32 GetNoOfHitsToKO(u32 dmg, s32 hp)
 
 u32 GetNoOfHitsToKOBattlerDmg(u32 dmg, enum BattlerId battlerDef)
 {
-    return GetNoOfHitsToKO(dmg, gBattleMons[battlerDef].hp);
+    u32 hits = GetNoOfHitsToKO(dmg, gBattleMons[battlerDef].hp);
+    if (hits && gAiLogicData->abilities[battlerDef] == ABILITY_LUNAR_REVIVAL && !GetBattlerPartyState(battlerDef)->lunarRevivalUsed)
+        hits += GetNoOfHitsToKO(dmg, max(1, gBattleMons[battlerDef].maxHP / 4));
+    return hits;
 }
 
 // Keep the expensive follow-up calculation out of ordinary KO estimates.
@@ -2454,7 +2473,7 @@ uq4_12_t AI_GetMoveEffectiveness(enum Move move, enum BattlerId battlerAtk, enum
     ctx.holdEffects[ctx.battlerAtk] = gAiLogicData->holdEffects[battlerAtk];
     ctx.holdEffects[ctx.battlerDef] = gAiLogicData->holdEffects[battlerDef];
 
-    if (ctx.abilities[battlerAtk] == ABILITY_TECHNICOLOR)
+    if (move == MOVE_HIDDEN_POWER || ctx.abilities[battlerAtk] == ABILITY_TECHNICOLOR)
         SetTypeBeforeUsingMoveForTarget(move, battlerAtk, battlerDef, ctx.abilities[battlerAtk], ctx.holdEffects[battlerAtk]);
     else
         SetTypeBeforeUsingMove(move, battlerAtk, ctx.abilities[battlerAtk], ctx.holdEffects[battlerAtk]);
@@ -2498,8 +2517,8 @@ s32 AI_WhoStrikesFirst(enum BattlerId battlerAI, enum BattlerId battler, enum Mo
 
     if (considerPriority == CONSIDER_PRIORITY)
     {
-        bool32 quickAI = IsMartialMasterMove(abilityAI, aiMoveConsidered) || IsViciousStingsMove(battlerAI, abilityAI, holdEffectAI, aiMoveConsidered);
-        bool32 quickPlayer = IsMartialMasterMove(abilityPlayer, playerMoveConsidered) || IsViciousStingsMove(battler, abilityPlayer, holdEffectPlayer, playerMoveConsidered);
+        bool32 quickAI = abilityAI == ABILITY_OMNIMOVEMENT || IsMartialMasterMove(abilityAI, aiMoveConsidered) || IsViciousStingsMove(battlerAI, abilityAI, holdEffectAI, aiMoveConsidered);
+        bool32 quickPlayer = abilityPlayer == ABILITY_OMNIMOVEMENT || IsMartialMasterMove(abilityPlayer, playerMoveConsidered) || IsViciousStingsMove(battler, abilityPlayer, holdEffectPlayer, playerMoveConsidered);
         if (quickAI != quickPlayer)
             return quickAI ? AI_IS_FASTER : AI_IS_SLOWER;
     }
@@ -2550,6 +2569,15 @@ static bool32 DragonDartsHitsBothTargets(u32 battlerAtk, u32 battlerDef, u32 mov
 
 bool32 CanEndureHit(enum BattlerId battler, enum BattlerId battlerTarget, enum Move move)
 {
+    if (gAiLogicData->abilities[battlerTarget] == ABILITY_LUNAR_REVIVAL && !GetBattlerPartyState(battlerTarget)->lunarRevivalUsed
+     && !IsMultiHitMove(move) && GetBattlerMoveStrikeCount(battler, move) < 2
+     && !(gAiLogicData->abilities[battler] == ABILITY_GREAT_MINDS && IsMoveGreatMindsAffected(battler, move))
+     && !(gAiLogicData->abilities[battler] == ABILITY_REVERBERATIONS && IsMoveReverberationsAffected(battler, move))
+     && !(gAiLogicData->abilities[battler] == ABILITY_PSYSYNC && IsMovePsysyncAffected(battler, move, GetMoveType(move)))
+     && !(gAiLogicData->abilities[battler] == ABILITY_GNASHING_TEETH && IsMoveGnashingTeethAffected(battler, move))
+     && !IsMartialMasterDoubleHit(battler, gAiLogicData->abilities[battler], move)
+     && gAiLogicData->abilities[battler] != ABILITY_PARENTAL_BOND)
+        return TRUE;
     if (!IsBattlerAtMaxHp(battlerTarget))
         return FALSE;
 
@@ -2582,7 +2610,7 @@ bool32 CanEndureHit(enum BattlerId battler, enum BattlerId battlerTarget, enum M
     // Contact survives Sash/Sturdy at 1 HP, then immediate hazards finish it.
     // Require guaranteed damage: an airborne target can dodge a new Spikes roll.
     if (gAiLogicData->abilities[battler] == ABILITY_SCRAP_BRAWLER
-     && gAiLogicData->abilities[battlerTarget] != ABILITY_MAGIC_GUARD
+     && !HasMagicGuardAbility(gAiLogicData->abilities[battlerTarget])
      && gAiLogicData->holdEffects[battlerTarget] != HOLD_EFFECT_HEAVY_DUTY_BOOTS
      && IsMoveMakingContact(battler, battlerTarget, ABILITY_SCRAP_BRAWLER, gAiLogicData->holdEffects[battler], move)
      && ((!gBattleStruct->isSkyBattle && AI_IsBattlerGrounded(battlerTarget))
@@ -2889,6 +2917,10 @@ bool32 CanTargetFaintAiWithMod(enum BattlerId battlerDef, enum BattlerId battler
 
 bool32 AI_IsAbilityOnSide(enum BattlerId battlerId, enum Ability ability)
 {
+    if (ability == ABILITY_FLOWER_VEIL)
+        return (IsBattlerAlive(battlerId) && HasFlowerVeilAbility(gAiLogicData->abilities[battlerId]))
+            || (IsBattlerAlive(GetPartnerBattler(battlerId)) && HasFlowerVeilAbility(gAiLogicData->abilities[GetPartnerBattler(battlerId)]));
+
     if (IsBattlerAlive(battlerId) && gAiLogicData->abilities[battlerId] == ability)
         return TRUE;
     else if (IsBattlerAlive(GetPartnerBattler(battlerId)) && gAiLogicData->abilities[GetPartnerBattler(battlerId)] == ability)
@@ -3083,6 +3115,7 @@ u32 AI_GetSwitchinTerrain(enum BattlerId battler)
     case ABILITY_SHOCKBORN:
         newTerrain = B_TERRAIN_ELECTRIC;
         break;
+    case ABILITY_FOREST_WEIRDING:
     case ABILITY_GRASSY_SURGE:
         newTerrain = B_TERRAIN_GRASSY;
         break;
@@ -3107,7 +3140,8 @@ u32 AI_WeatherAfterMoveStart(enum Ability ability, enum Type moveType, u32 weath
     enum BattleWeather summoned = GetMoveSummonedWeather(ability, moveType);
     if (summoned != BATTLE_WEATHER_NONE && !gBattleStruct->overworldWeatherPresent
      && !(gBattleWeather & B_WEATHER_PRIMAL_ANY) && AI_WeatherHasEffect())
-        return summoned == BATTLE_WEATHER_SNOW ? B_WEATHER_SNOW : B_WEATHER_SUN_NORMAL;
+        return summoned == BATTLE_WEATHER_SNOW ? B_WEATHER_SNOW
+             : summoned == BATTLE_WEATHER_RAIN ? B_WEATHER_RAIN_NORMAL : B_WEATHER_SUN_NORMAL;
     return weather;
 }
 
@@ -3409,6 +3443,7 @@ bool32 IsBattlerDamagedByStatus(enum BattlerId battler)
         || gBattleMons[battler].volatiles.wrapped
         || gBattleMons[battler].volatiles.abyssalEmbrace
         || gBattleMons[battler].volatiles.spikyGrip
+        || gBattleMons[battler].volatiles.scalyScrapper
         || gBattleMons[battler].volatiles.nightmare
         || gBattleMons[battler].volatiles.cursed
         || gBattleMons[battler].volatiles.saltCure
@@ -3514,7 +3549,7 @@ s32 ProtectChecks(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum Mov
      && GetProtectType(GetMoveProtectMethod(move)) == PROTECT_TYPE_SINGLE
      && predictedMove != MOVE_NONE && predictedMove != MOVE_UNAVAILABLE
      && !IsBattleMoveStatus(predictedMove)
-     && gAiLogicData->abilities[battlerDef] != ABILITY_MAGIC_GUARD
+     && !HasMagicGuardAbility(gAiLogicData->abilities[battlerDef])
      && AI_MoveMakesContact(battlerDef, battlerAtk, gAiLogicData->abilities[battlerDef], gAiLogicData->holdEffects[battlerDef], predictedMove))
         score += max(1, GetBattlerMaxHP(battlerDef) / 6) >= GetBattlerHP(battlerDef) ? BEST_EFFECT : GOOD_EFFECT;
 
@@ -3724,6 +3759,7 @@ bool32 CanLowerStat(enum BattlerId battlerAtk, enum BattlerId battlerDef, struct
             break;
         case ABILITY_KEEN_EYE:
         case ABILITY_MINDS_EYE:
+        case ABILITY_DARKENED_SKIES:
             if (stat == STAT_ACC)
                 return FALSE;
             break;
@@ -3990,7 +4026,7 @@ static bool32 ShouldSelfInflictBurnForBenefit(enum BattlerId battler, enum Abili
 
     return (ability == ABILITY_MARVEL_SCALE
          || ability == ABILITY_QUICK_FEET
-         || ((ability == ABILITY_GUTS || ability == ABILITY_TRUE_POWER) && HasMoveWithCategory(battler, DAMAGE_CATEGORY_PHYSICAL))
+         || ((ability == ABILITY_GUTS || ability == ABILITY_BEAR_NECESSITIES || ability == ABILITY_TRUE_POWER) && HasMoveWithCategory(battler, DAMAGE_CATEGORY_PHYSICAL))
          || (ability == ABILITY_FLARE_BOOST && HasMoveWithCategory(battler, DAMAGE_CATEGORY_SPECIAL))
          || HasMoveWithEffect(battler, EFFECT_FACADE));
 }
@@ -4707,11 +4743,14 @@ bool32 AI_CanGuardiansGrowlLowerStat(enum BattlerId source, enum BattlerId targe
     case ABILITY_TRUE_POWER:
     case ABILITY_INNER_FOCUS:
     case ABILITY_DECAPITATOR:
+    case ABILITY_SPEEDY_SENTRY:
+    case ABILITY_BEAR_NECESSITIES:
     case ABILITY_SCRAPPY:
     case ABILITY_DOUBLE_TEAMING:
     case ABILITY_OWN_TEMPO:
     case ABILITY_TOTAL_ZEN:
     case ABILITY_OBLIVIOUS:
+    case ABILITY_NO_THOUGHTS:
         return GetConfig(B_UPDATED_INTIMIDATE) < GEN_8;
     default:
         return TRUE;
@@ -4894,7 +4933,7 @@ static u32 GetTrapDamage(enum BattlerId battler)
     }
     if (gBattleMons[battler].volatiles.abyssalEmbrace)
         damage += GetAbyssalEmbraceDamage(battler);
-    return damage + GetSpikyGripDamage(battler);
+    return damage + GetSpikyGripDamage(battler) + GetScalyScrapperDamage(battler);
 }
 
 static u32 GetPoisonDamage(enum BattlerId battlerId)
@@ -4932,7 +4971,7 @@ static bool32 DoesBattlerTakeSandstormDamage(enum BattlerId battlerId, enum Abil
       && ability != ABILITY_SAND_VEIL
       && ability != ABILITY_SAND_FORCE
       && ability != ABILITY_SAND_RUSH
-      && ability != ABILITY_MAGIC_GUARD
+      && !HasMagicGuardAbility(ability)
       && ability != ABILITY_OVERCOAT)
         return TRUE;
     return FALSE;
@@ -4946,7 +4985,7 @@ static bool32 DoesBattlerTakeHailDamage(enum BattlerId battlerId, enum Ability a
     if (!IS_BATTLER_OF_TYPE(battlerId, TYPE_ICE)
       && !HasSnowCloakAbility(ability)
       && ability != ABILITY_ICE_BODY
-      && ability != ABILITY_MAGIC_GUARD
+      && !HasMagicGuardAbility(ability)
       && ability != ABILITY_OVERCOAT)
         return TRUE;
     return FALSE;
@@ -4988,24 +5027,62 @@ static u32 GetWeatherDamage(enum BattlerId battlerId)
     return damage;
 }
 
+static __attribute__((noinline)) u32 AI_GetEcocollapseDamage(enum BattlerId battler)
+{
+    enum Type types[3];
+    u32 targetMask = 0, damage = 0;
+    GetBattlerTypes(battler, FALSE, types);
+    for (u32 i = 0; i < ARRAY_COUNT(types); i++)
+        if (types[i] < NUMBER_OF_MON_TYPES)
+            targetMask |= 1u << types[i];
+    for (enum BattlerId holder = 0; holder < gBattlersCount; holder++)
+    {
+        if (!IsBattlerAlive(holder) || gAiLogicData->abilities[holder] != ABILITY_ECOCOLLAPSE)
+            continue;
+        u32 pool = GetEcocollapseTypeMask(holder);
+        u32 total = __builtin_popcount(pool), matching = __builtin_popcount(pool & targetMask);
+        if (total)
+            damage += max(1, GetBattlerMaxHP(battler) / 4) * matching / total;
+    }
+    return damage;
+}
+
 u32 GetBattlerSecondaryDamage(enum BattlerId battlerId)
 {
     u32 secondaryDamage;
 
-    if (gAiLogicData->abilities[battlerId] == ABILITY_MAGIC_GUARD)
+    if (HasMagicGuardAbility(gAiLogicData->abilities[battlerId]))
         return FALSE;
 
     secondaryDamage = GetLeechSeedDamage(battlerId)
      + GetNightmareDamage(battlerId)
      + GetCurseDamage(battlerId)
      + GetBleedDamage(battlerId)
+     + max(1, gBattleMons[battlerId].maxHP / 16) * gBattleMons[battlerId].volatiles.barbStacks
      + GetTrapDamage(battlerId)
      + GetPoisonDamage(battlerId)
      + GetWeatherDamage(battlerId);
 
+    if ((gBattleMons[battlerId].status1 & STATUS1_EMBLAZENED_BURN)
+     && gAiLogicData->abilities[battlerId] != ABILITY_INNER_FURNACE
+     && GetVolcanismBattler(battlerId) == MAX_BATTLERS_COUNT)
+    {
+        u32 damage = GetEmblazenedBurnDamage(battlerId);
+        if (gAiLogicData->abilities[battlerId] == ABILITY_HEATPROOF)
+            damage /= 2;
+        secondaryDamage += max(1, damage);
+    }
     if (gAiLogicData->abilities[battlerId] == ABILITY_BLAZING_GLORY)
         secondaryDamage += max(1, GetBattlerMaxHP(battlerId) / 6);
+    if ((gBattleMons[battlerId].status1 & STATUS1_BURN) && GetVolcanismBattler(battlerId) != MAX_BATTLERS_COUNT)
+        secondaryDamage += max(1, GetBattlerMaxHP(battlerId) / 3);
 
+    for (enum BattlerId holder = 0; holder < gBattlersCount; holder++)
+        if (gAiLogicData->abilities[holder] == ABILITY_ECOCOLLAPSE)
+        {
+            secondaryDamage += AI_GetEcocollapseDamage(battlerId);
+            break;
+        }
     return secondaryDamage;
 }
 
@@ -5153,8 +5230,8 @@ static inline bool32 DoesBattlerBenefitFromAllVolatileStatus(enum BattlerId batt
 {
     if (ability == ABILITY_MARVEL_SCALE
      || ability == ABILITY_QUICK_FEET
-     || ability == ABILITY_MAGIC_GUARD
-     || ((ability == ABILITY_GUTS || ability == ABILITY_TRUE_POWER) && HasMoveWithCategory(battler, DAMAGE_CATEGORY_PHYSICAL))
+     || HasMagicGuardAbility(ability)
+     || ((ability == ABILITY_GUTS || ability == ABILITY_BEAR_NECESSITIES || ability == ABILITY_TRUE_POWER) && HasMoveWithCategory(battler, DAMAGE_CATEGORY_PHYSICAL))
      || HasMoveWithEffect(battler, EFFECT_FACADE)
      || HasMoveWithEffect(battler, EFFECT_PSYCHO_SHIFT))
         return TRUE;
@@ -5672,7 +5749,7 @@ bool32 IsFlinchGuaranteed(enum BattlerId battlerAtk, enum BattlerId battlerDef, 
 bool32 HasChoiceEffect(enum BattlerId battler)
 {
     enum Ability ability = gAiLogicData->abilities[battler];
-    if (ability == ABILITY_GORILLA_TACTICS)
+    if (HasAbilityChoiceLock(ability))
         return TRUE;
 
     if (ability == ABILITY_KLUTZ)
@@ -5834,6 +5911,8 @@ bool32 ShouldAbsorb(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum M
     u32 currHP = gBattleMons[battlerAtk].hp;
     u32 healAmount = (AI_GetDamage(battlerAtk, battlerDef, gAiThinkingStruct->movesetIndex, AI_ATTACKING, gAiLogicData) * absorbPercentage / 100);
     healAmount = GetDrainedBigRootHp(battlerAtk, healAmount);
+    if (gAiLogicData->abilities[battlerAtk] == ABILITY_FLORAL_HEALING)
+        healAmount = max(1, healAmount) * 2;
     enum Move predictedMove = GetPredictedMove(battlerAtk, battlerDef, gAiLogicData);
     bool32 aiIsFaster = AI_IsFaster(battlerAtk, battlerDef, move, predictedMove, CONSIDER_PRIORITY);
 
@@ -5862,6 +5941,8 @@ bool32 ShouldRecover(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum 
     u32 currHP = gBattleMons[battlerAtk].hp;
     u32 healAmount = (healPercent * maxHP) / 100;
     healAmount = GetMoonAttunedHealing(battlerAtk, move, healAmount, gAiLogicData->abilities);
+    if (gAiLogicData->abilities[battlerAtk] == ABILITY_FLORAL_HEALING)
+        healAmount *= 2;
     enum Move predictedMove = GetPredictedMove(battlerAtk, battlerDef, gAiLogicData);
     bool32 aiIsFaster = AI_IsFaster(battlerAtk, battlerDef, move, predictedMove, CONSIDER_PRIORITY);
     if (healAmount + currHP > maxHP)
@@ -6977,9 +7058,10 @@ bool32 AI_CanBypassProtect(enum BattlerId battlerAtk, enum BattlerId battlerDef,
 {
     if (move == MOVE_NONE || move == MOVE_UNAVAILABLE)
         return FALSE;
-    if ((AI_GetWeather() & B_WEATHER_RAIN)
-     && (gAiLogicData->abilities[battlerAtk] == ABILITY_SEA_HERALD
-      || (IsDoubleBattle() && gAiLogicData->abilities[GetPartnerBattler(battlerAtk)] == ABILITY_SEA_HERALD)))
+    if (gAiLogicData->abilities[battlerAtk] == ABILITY_40_DAY_STORM
+     || ((AI_GetWeather() & B_WEATHER_RAIN)
+      && (gAiLogicData->abilities[battlerAtk] == ABILITY_SEA_HERALD
+       || (IsDoubleBattle() && gAiLogicData->abilities[GetPartnerBattler(battlerAtk)] == ABILITY_SEA_HERALD))))
     {
         enum Type savedType = gBattleStruct->dynamicMoveType;
         enum DamageCategory savedCategory = gBattleStruct->dynamicMoveCategory;
@@ -6987,12 +7069,18 @@ bool32 AI_CanBypassProtect(enum BattlerId battlerAtk, enum BattlerId battlerDef,
         bool32 savedGem = gSpecialStatuses[battlerAtk].gemBoost;
         u32 savedGemParam = gSpecialStatuses[battlerAtk].gemParam;
         SetTypeBeforeUsingMoveForTarget(move, battlerAtk, battlerDef, gAiLogicData->abilities[battlerAtk], gAiLogicData->holdEffects[battlerAtk]);
-        bool32 bypasses = GetSeaHeraldBattler(battlerAtk, GetBattleMoveType(move), gAiLogicData->abilities) < MAX_BATTLERS_COUNT;
+        bool32 storm = gAiLogicData->abilities[battlerAtk] == ABILITY_40_DAY_STORM;
+        bool32 bypasses = storm
+            ? GetBattleMoveType(move) == TYPE_FLYING && IsBattlerWeatherAffected(gAiLogicData->holdEffects[battlerAtk],
+                AI_WeatherAfterMoveStart(ABILITY_40_DAY_STORM, TYPE_FLYING, AI_GetWeather()), B_WEATHER_RAIN)
+            : GetSeaHeraldBattler(battlerAtk, GetBattleMoveType(move), gAiLogicData->abilities) < MAX_BATTLERS_COUNT;
         gBattleStruct->dynamicMoveType = savedType;
         gBattleStruct->dynamicMoveCategory = savedCategory;
         gBattleStruct->battlerState[battlerAtk].ateBoost = savedAte;
         gSpecialStatuses[battlerAtk].gemBoost = savedGem;
         gSpecialStatuses[battlerAtk].gemParam = savedGemParam;
+        if (storm)
+            return bypasses;
         if (bypasses)
             return TRUE;
     }
@@ -7459,6 +7547,7 @@ bool32 IsMoxieTypeAbility(enum Ability ability)
 {
     switch (ability)
     {
+    case ABILITY_PEOPLES_CHAMP:
     case ABILITY_SADISTIC_STREAK:
     case ABILITY_SICKENING_GREED:
     case ABILITY_MOXIE:
@@ -7482,6 +7571,7 @@ bool32 DoesAbilityRaiseStatsWhenLowered(enum Ability ability)
     case ABILITY_COMPETITIVE:
     case ABILITY_DEFIANT:
     case ABILITY_BLAZE_HERITAGE:
+    case ABILITY_MONKEY_BUSINESS:
         return TRUE;
     default:
         return FALSE;
@@ -7496,6 +7586,7 @@ bool32 DoesIntimidateRaiseStats(enum Ability ability)
     case ABILITY_CONTRARY:
     case ABILITY_DEFIANT:
     case ABILITY_BLAZE_HERITAGE:
+    case ABILITY_MONKEY_BUSINESS:
     case ABILITY_GUARD_DOG:
         return TRUE;
     case ABILITY_RATTLED:
@@ -7522,6 +7613,7 @@ bool32 ShouldTriggerAbility(enum BattlerId battlerAtk, enum BattlerId battlerDef
 
         case ABILITY_DEFIANT:
         case ABILITY_BLAZE_HERITAGE:
+        case ABILITY_MONKEY_BUSINESS:
         case ABILITY_JUSTIFIED:
         case ABILITY_MOXIE:
         case ABILITY_SAP_SIPPER:
@@ -7544,6 +7636,7 @@ bool32 ShouldTriggerAbility(enum BattlerId battlerAtk, enum BattlerId battlerDef
                  || (BattlerStatCanRise(battlerDef, ability, STAT_ATK) && HasMoveWithCategory(battlerDef, DAMAGE_CATEGORY_PHYSICAL))
                  || (BattlerStatCanRise(battlerDef, ability, STAT_SPATK) && HasMoveWithCategory(battlerDef, DAMAGE_CATEGORY_SPECIAL)));
 
+        case ABILITY_HYPERBUOYANT:
         case ABILITY_PEAK_VOLTAGE:
             for (enum Stat stat = STAT_ATK; stat < NUM_STATS; stat++)
             {
@@ -7561,7 +7654,12 @@ bool32 ShouldTriggerAbility(enum BattlerId battlerAtk, enum BattlerId battlerDef
 
         case ABILITY_DRY_SKIN:
         case ABILITY_VOLT_ABSORB:
+        case ABILITY_ACTUALLY_A_TREE:
         case ABILITY_WATER_ABSORB:
+        case ABILITY_MUD_WALLOWING:
+        case ABILITY_MAGMA_18000F:
+    case ABILITY_EARTH_EATER:
+        case ABILITY_EARTHEN_MOTHER:
             return (gAiThinkingStruct->aiFlags[battlerDef] & AI_FLAG_HP_AWARE);
 
         case ABILITY_RATTLED:
@@ -7798,6 +7896,70 @@ enum AIScore BattlerBenefitsFromAbilityScore(enum BattlerId battler, enum Abilit
         return AI_GetWeather() & (B_WEATHER_SNOW | B_WEATHER_RAIN) ? BEST_EFFECT : GOOD_EFFECT;
     case ABILITY_TIDAL_RULER:
         return AI_GetWeather() & B_WEATHER_RAIN ? BEST_EFFECT : NO_INCREASE;
+    case ABILITY_SOL_STRENGTH:
+        return AI_GetWeather() & B_WEATHER_SUN ? BEST_EFFECT : NO_INCREASE;
+    case ABILITY_WINDBORNE:
+        return IsBattlerInTailwind(battler, ability) ? BEST_EFFECT : GOOD_EFFECT;
+    case ABILITY_LUNAR_REVIVAL:
+        return GetBattlerPartyState(battler)->lunarRevivalUsed ? NO_INCREASE : BEST_EFFECT;
+    case ABILITY_THUNDER_RUNNER:
+    case ABILITY_ERUPTION_HERALD:
+    case ABILITY_MOUNTAIN_TITAN:
+    case ABILITY_40_DAY_STORM:
+        return GOOD_EFFECT;
+    case ABILITY_PURIFYING_NOMAD:
+        return PurifyingNomadHasStatus(battler) ? BEST_EFFECT : GOOD_EFFECT;
+    case ABILITY_GOLDEN_RAINBOW:
+        return GetGoldenRainbowCandidates(battler) ? BEST_EFFECT : NO_INCREASE;
+    case ABILITY_NAUGHTY_OR_NICE:
+    case ABILITY_GRACEFUL_GLIDE:
+    case ABILITY_BLADED_WINGS:
+    case ABILITY_EMBLAZENED:
+    case ABILITY_UNSTOPPABLE_ROLL:
+    case ABILITY_FOREST_WEIRDING:
+    case ABILITY_COPYRIGHT_FRAUD:
+        return GOOD_EFFECT;
+    case ABILITY_LON_LON_BRED:
+        return GetBattlerPartyState(battler)->lonLonBredUses < 2 ? GOOD_EFFECT : NO_INCREASE;
+    case ABILITY_ANCIENT_WOOL:
+    case ABILITY_ALGAE_ADDICTION:
+    case ABILITY_OCTOCANNON:
+    case ABILITY_GIGA_DRILL_BREAK:
+    case ABILITY_FANGS_FROM_ABOVE:
+    case ABILITY_PRICKLY_DEFENSE:
+    case ABILITY_BARBED_STRIKES:
+    case ABILITY_HORN_LAUNCH:
+    case ABILITY_ICY_ASSASSIN:
+    case ABILITY_HIGHLANDER:
+    case ABILITY_MAGMA_18000F:
+    case ABILITY_DA_DONS_TAX:
+    case ABILITY_UMBRAL_WITCH:
+    case ABILITY_LEGACY_LEXICON:
+    case ABILITY_VERY_PUNCHABLE:
+    case ABILITY_PSYSYNC:
+    case ABILITY_HIGHLY_FLAMMABLE:
+    case ABILITY_RETURN_FIRE:
+    case ABILITY_MONKEY_BUSINESS:
+    case ABILITY_OMNIMOVEMENT:
+    case ABILITY_NO_THOUGHTS:
+    case ABILITY_MUD_WALLOWING:
+        return GOOD_EFFECT;
+    case ABILITY_CLEANING_STATION:
+        return IsDoubleBattle() && CleaningStationCanHelp(GetPartnerBattler(battler)) ? BEST_EFFECT : NO_INCREASE;
+    case ABILITY_ECOCOLLAPSE:
+        return GOOD_EFFECT;
+    case ABILITY_SPEEDY_SENTRY:
+        return GetBattlerPartyState(battler)->speedySentryUsed ? GOOD_EFFECT : BEST_EFFECT;
+    case ABILITY_LUCKY_LIL_EGG:
+    case ABILITY_SERENE_SKIES:
+    case ABILITY_GAZE_BEYOND:
+    case ABILITY_FURCHARGED:
+    case ABILITY_HYPERBUOYANT:
+    case ABILITY_ACTUALLY_A_TREE:
+    case ABILITY_DARKENED_SKIES:
+    case ABILITY_PEOPLES_CHAMP:
+    case ABILITY_MALIGNED_THREADS:
+    case ABILITY_ABYSSAL_SHOCK:
     case ABILITY_EVIL_TRICKSTER:
     case ABILITY_BIG_MEATY_CLAWS:
     case ABILITY_HYPNOTIST:
@@ -7813,6 +7975,7 @@ enum AIScore BattlerBenefitsFromAbilityScore(enum BattlerId battler, enum Abilit
     // Transferrable abilities that can be assumed to be always beneficial.
     case ABILITY_CLEAR_BODY:
     case ABILITY_GOOD_AS_GOLD:
+    case ABILITY_FORTIFICATION:
     case ABILITY_MAGIC_GUARD:
     case ABILITY_MOODY:
     case ABILITY_PURIFYING_SALT:
@@ -7840,6 +8003,7 @@ enum AIScore BattlerBenefitsFromAbilityScore(enum BattlerId battler, enum Abilit
         if (HasPartner(battler) && aiData->abilities[GetPartnerBattler(battler)] != ability)
             return BEST_EFFECT;
         break;
+    case ABILITY_BEAR_NECESSITIES:
     case ABILITY_GUTS:
         if (HasMoveWithCategory(battler, DAMAGE_CATEGORY_PHYSICAL) && gBattleMons[battler].status1 & (STATUS1_CAN_MOVE))
             return GOOD_EFFECT;
@@ -7885,6 +8049,7 @@ enum AIScore BattlerBenefitsFromAbilityScore(enum BattlerId battler, enum Abilit
     }
     case ABILITY_SICKENING_STENCH:
         return AI_GetSickeningStenchEntryScore(battler);
+    case ABILITY_SCAREDY_MAW:
     case ABILITY_INTIMIDATE:
     case ABILITY_AERIAL_TERROR:
     case ABILITY_FURIOUS_CHARGE:
@@ -8045,7 +8210,7 @@ s32 GetAILastPartyIndex(enum BattlerId battler)
 bool32 ShouldInstructPartner(enum BattlerId partner, enum Move move)
 {
     if (GetMoveEffect(move) == EFFECT_MAX_HP_50_RECOIL
-     && gAiLogicData->abilities[partner] != ABILITY_MAGIC_GUARD
+     && !HasMagicGuardAbility(gAiLogicData->abilities[partner])
      && gAiLogicData->abilities[partner] != ABILITY_VAMPIRISM)
         return FALSE;
 

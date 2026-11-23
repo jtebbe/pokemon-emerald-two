@@ -147,10 +147,13 @@ struct SpecialStatus
     u8 backUpTarget:3;
     u8 synchronize:1;
     // End of byte
+    u8 eruptionHeraldFollowUp:1;
+    u8 eruptionHeraldPartySlot:3;
     u8 ampedBloomFollowUpType:5;
     u8 ampedBloomPartySlot:3;
     u8 postActionAbilityMove:1;
     u8 greatMindsActive:1;
+    u8 psysyncActive:1;
     u8 greatMindsExplosion:1;
     u8 mimeBoxActivated:1;
     enum QueuedSwitch queuedSwitch;
@@ -288,6 +291,7 @@ struct AiLogicData
     u32 voodooStrengthAveraging:1;
     u32 pureBlissCached:1; // Scoped to one batch of move forecasts.
     u32 pureBlissActive:1;
+    u32 hasSereneSkies:1; // Keep the existing hot forecast flags in one word.
 };
 
 struct AiThinkingStruct
@@ -426,6 +430,7 @@ struct FutureSight
     enum Move move;
     u16 counter:9;
     u16 greatMinds:1;
+    u16 psysync:1;
     u16 battlerIndex:3;
     enum PartySlot partyIndex:3;
 };
@@ -499,6 +504,12 @@ struct PartyState
     u32 apexRevealed:1;
     u32 luxuryBallUsed:1;
     u32 scorchingBlastBurn:1;
+    u32 speedySentryUsed:1;
+    u32 lunarRevivalUsed:1;
+    u32 goldenRainbowUsed:1;
+    u32 lonLonBredUses:2;
+    u32 ecoTypeChosen:1;
+    enum Type ecoLastType:5;
     enum Item usedHeldItem;
     u16 multivolveHp;
     u16 multivolveMaxHp;
@@ -532,6 +543,8 @@ struct PostActionContactMove
     u8 pending:1;
     u8 queued:1;
     enum Ability ability;
+    enum Move move;
+    enum MoveSlot moveSlot;
 };
 
 struct BattleStruct
@@ -540,6 +553,7 @@ struct BattleStruct
     struct PartyState partyState[MAX_BATTLE_TRAINERS][PARTY_SIZE];
     struct EventStates eventState;
     struct FutureSight futureSight[MAX_BATTLERS_COUNT];
+    u8 speedySentryBattler;
     u8 meteoricWrathTimer;
     u8 meteoricWrathBattler;
     struct Wish wish[MAX_BATTLERS_COUNT];
@@ -660,6 +674,14 @@ struct BattleStruct
     s32 battlerExpReward;
     enum Species prevTurnSpecies[MAX_BATTLERS_COUNT]; // Stores species the AI has in play at start of turn
     s16 passiveHpUpdate[MAX_BATTLERS_COUNT]; // non-move damage and healing
+    struct
+    {
+        bool8 active;
+        u8 savedEffectBattler;
+        u8 savedAbilityBattler;
+        enum Ability savedAbility;
+        s16 savedHpUpdate;
+    } floralHealing;
     s16 moveDamage[MAX_BATTLERS_COUNT];
     u16 innardsOutHpLost[MAX_BATTLERS_COUNT];
     u32 moveResultFlags[MAX_BATTLERS_COUNT];
@@ -719,6 +741,38 @@ struct BattleStruct
     u8 succulentTrapPoisonTargets;
     // Keep Technicolor's history separate from the hot general party state.
     enum Type technicolorTypes[MAX_BATTLE_TRAINERS][PARTY_SIZE][2];
+    bool8 goldenRainbowReviving;
+    enum BattlerId goldenRainbowSource;
+    struct EventStates goldenRainbowSavedEvents;
+    u8 goldenRainbowSavedCounter;
+    u8 goldenRainbowSavedFlags;
+    u8 naughtyNiceTargets;
+    u8 naughtyNiceCursor;
+    u8 ecocollapseTargets;
+    u8 ecocollapseCursor;
+    u8 octocannonHitTargets;
+    struct {
+        bool8 active;
+        enum BattlerId battler;
+        enum PartySlot partySlot;
+        bool8 chargeTurn;
+        bool8 multipleTurns;
+        u8 rechargeTimer;
+        enum SemiInvulnerableState semiInvulnerable;
+        enum Move lockedMove;
+    } octocannon;
+    u8 pricklyDefenseHazards;
+    u8 returnFireHazard;
+    u8 highlyFlammableBattler;
+    u8 highlyFlammableNext;
+    u8 donTaxCopies;
+    bool8 donTaxActive;
+    enum BattlerId donTaxAttacker;
+    enum BattlerId donTaxTarget;
+    const u8 *donTaxResumeScript;
+    u8 hiddenPowerValidTargets;
+    u8 hiddenPowerAttacker;
+    enum Type hiddenPowerMoveTypes[MAX_BATTLERS_COUNT];
     enum Type technicolorMoveTypes[MAX_BATTLERS_COUNT]; // Resolved per recipient for this attack.
     u32 maglevPolarityDamage; // Actual damage dealt to Electric/Steel targets this move.
     u8 noblesseObligeTargets:4; // Recipients of direct critical damage during this move.

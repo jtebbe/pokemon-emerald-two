@@ -1,6 +1,8 @@
 #ifndef GUARD_BATTLE_SCRIPTS_H
 #define GUARD_BATTLE_SCRIPTS_H
 
+extern const u8 BattleScript_MonkeyBusinessActivates[];
+
 extern const u8 BattleScript_MoveResolution[];
 extern const u8 BattleScript_HauntingShrieksEnd[];
 extern const u8 BattleScript_SupersweetSyrupActivates[];
@@ -168,6 +170,10 @@ extern const u8 BattleScript_WeatherAbilityActivates[];
 extern const u8 BattleScript_OrichalcumPulseActivates[];
 extern const u8 BattleScript_OrichalcumPulseActivatesInSun[];
 extern const u8 BattleScript_TraceActivates[];
+extern const u8 BattleScript_ReturnFireActivates[];
+extern const u8 BattleScript_HighlyFlammable[];
+extern const u8 BattleScript_DonTaxCopy[];
+extern const u8 BattleScript_UmbralWitchCost[];
 extern const u8 BattleScript_AbilityHpHeal[];
 extern const u8 BattleScript_ShedSkinActivates[];
 extern const u8 BattleScript_IntimidateActivates[];
@@ -505,6 +511,17 @@ extern const u8 BattleScript_IceFaceNullsDamage[];
 extern const u8 BattleScript_BattlerFormChangeWithString[];
 extern const u8 BattleScript_DampPreventsAftermath[];
 extern const u8 BattleScript_HealingWishActivates[];
+extern const u8 BattleScript_AlgaeAddiction[];
+extern const u8 BattleScript_CleaningStation[];
+extern const u8 BattleScript_Ecocollapse[];
+extern const u8 BattleScript_LunarRevival[];
+extern const u8 BattleScript_LunarRevivalBreath[];
+extern const u8 BattleScript_BarbedStrikesApplied[];
+extern const u8 BattleScript_BarbedStrikesDamage[];
+extern const u8 BattleScript_PricklyDefenseNext[];
+extern const u8 BattleScript_PricklyDefense[];
+extern const u8 BattleScript_FangsFromAbove[];
+extern const u8 BattleScript_HornLaunch[];
 extern const u8 BattleScript_LunarDanceActivates[];
 extern const u8 BattleScript_ShellTrapSetUp[];
 extern const u8 BattleScript_ShellTrapSetUpEncored[];
@@ -553,6 +570,10 @@ extern const u8 BattleScript_EndTurnEvents[];
 extern const u8 BattleScript_QuestionForfeitBattle[];
 extern const u8 BattleScript_ForfeitBattleGaveMoney[];
 extern const u8 BattleScript_AbilityPopUp[];
+extern const u8 BattleScript_FloralHealingAlly[];
+extern const u8 BattleScript_VolcanismErupts[];
+extern const u8 BattleScript_ScalyScrapperTraps[];
+extern const u8 BattleScript_ScalyScrapperTurnDmg[];
 extern const u8 BattleScript_AbilityPopUpOverwriteThenNormal[];
 extern const u8 BattleScript_Attackstring[];
 extern const u8 BattleScript_SubmoveAttackstring[];
@@ -685,7 +706,18 @@ extern const u8 BattleScript_Stockpile[];
 extern const u8 BattleScript_Memento[];
 extern const u8 BattleScript_TakeHeart[];
 
+extern const u8 BattleScript_SpeedySentry[];
+extern const u8 BattleScript_SpeedySentrySwitch[];
 extern const u8 BattleScript_MeteoricWrathArrived[];
 extern const u8 BattleScript_MeteoricWrathImpact[];
+
+extern const u8 BattleScript_NaughtyOrNice[];
+extern const u8 BattleScript_UnstoppableRoll[];
+extern const u8 BattleScript_ForestWeirding[];
+extern const u8 BattleScript_CopyrightFraud[];
+
+extern const u8 BattleScript_ThunderRunnerTerrain[];
+extern const u8 BattleScript_PurifyingNomad[];
+extern const u8 BattleScript_GoldenRainbow[];
 
 #endif // GUARD_BATTLE_SCRIPTS_H

@@ -23,7 +23,8 @@ SINGLE_BATTLE_TEST("Time Dominus activates only with an Apex Meteorite on either
 SINGLE_BATTLE_TEST("An unassigned Apex ability is NONE rather than a normal ability fallback")
 {
     GIVEN {
-        PLAYER(SPECIES_WOBBUFFET) { Item(ITEM_APEX_METEORITE); Ability(ABILITY_SHADOW_TAG); }
+        ASSUME(GetSpeciesApexAbility(SPECIES_REGIROCK) == ABILITY_NONE);
+        PLAYER(SPECIES_REGIROCK) { Item(ITEM_APEX_METEORITE); Ability(ABILITY_PRESSURE); }
         OPPONENT(SPECIES_WOBBUFFET) { MovesWithPP({MOVE_SCRATCH, 10}); }
     } WHEN {
         TURN { MOVE(opponent, MOVE_SCRATCH); }

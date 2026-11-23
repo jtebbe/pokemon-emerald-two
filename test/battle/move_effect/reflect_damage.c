@@ -295,7 +295,7 @@ SINGLE_BATTLE_TEST("Reflect Damage moves can hit Pokémon immune to their type (
 }
 TO_DO_BATTLE_TEST("Reflect Damage: Counter can return damage dealt to a substitute (Gen 1)");
 
-SINGLE_BATTLE_TEST("Reflect Damage: fixed special Psychic Hidden Power is reflected by Mirror Coat, not Counter")
+SINGLE_BATTLE_TEST("Reflect Damage: adaptive special Hidden Power is reflected by Mirror Coat, not Counter")
 {
     enum Move reflectMove;
     s16 damage;

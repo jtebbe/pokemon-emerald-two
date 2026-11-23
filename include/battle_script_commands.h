@@ -1,6 +1,8 @@
 #ifndef GUARD_BATTLE_SCRIPT_COMMANDS_H
 #define GUARD_BATTLE_SCRIPT_COMMANDS_H
 
+void BS_MonkeyBusinessRemoveItem(void);
+
 #include "constants/battle_script_commands.h"
 #include "battle_set_effect.h"
 
@@ -47,6 +49,7 @@ bool32 CanUseLastResort(enum BattlerId battlerId);
 bool32 TryDefogClear(enum BattlerId battlerAtk, bool32 clear);
 bool32 TryTidyUpClear(bool32 clear);
 u32 IsFlowerVeilProtected(enum BattlerId battler);
+void BS_RestoreFloralHealing(void);
 u32 IsLeafGuardProtected(enum BattlerId battler, enum Ability ability);
 bool32 IsShieldsDownProtected(enum BattlerId battler, enum Ability ability);
 u32 IsAbilityStatusProtected(enum BattlerId battler, enum Ability ability);
@@ -66,7 +69,24 @@ bool32 CanBurnHitThaw(enum Move move);
 bool32 CanMoveThawTarget(enum Ability abilityAtk, enum Move move);
 bool32 CanFireMoveThawTarget(enum Move move, enum Type moveType);
 
+void BS_AlgaeCoat(void);
+void BS_CleaningStation(void);
+void BS_EcocollapseNext(void);
+void BS_PricklyDefenseNext(void);
+void BS_ReturnFireMessage(void);
+void BS_HighlyFlammableNext(void);
+void BS_SpeedySentrySwitch(void);
+
 extern void (*const gBattleScriptingCommandsTable[])(void);
 extern const struct StatFractions gAccuracyStageRatios[];
+
+void BS_NaughtyOrNiceNext(void);
+void BS_CopyrightFraud(void);
+
+void BS_PurifyingNomad(void);
+void BS_PurifyingNomadIcons(void);
+void BS_GoldenRainbowPrepare(void);
+void BS_GoldenRainbowSendOutBegin(void);
+void BS_GoldenRainbowSendOutEnd(void);
 
 #endif // GUARD_BATTLE_SCRIPT_COMMANDS_H

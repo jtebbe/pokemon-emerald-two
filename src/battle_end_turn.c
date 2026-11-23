@@ -1,4 +1,5 @@
 #include "global.h"
+#include "battle_apex_johto.h"
 #include "battle_i_choose_you.h"
 #include "battle.h"
 #include "battle_hold_effects.h"
@@ -129,7 +130,7 @@ static bool32 HandleEndTurnWeatherDamage(struct BattleCalcValues *cv, enum Battl
         break;
     case BATTLE_WEATHER_SUN:
     case BATTLE_WEATHER_SUN_PRIMAL:
-        if (ability == ABILITY_DRY_SKIN || ability == ABILITY_SOLAR_POWER || ability == ABILITY_PHOTOSYNTHETIC)
+        if (ability == ABILITY_DRY_SKIN || ability == ABILITY_SOLAR_POWER || ability == ABILITY_PHOTOSYNTHETIC || ability == ABILITY_SOL_STRENGTH)
         {
             if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ability, MOVE_NONE, TRUE))
                 effect = TRUE;
@@ -251,6 +252,7 @@ static bool32 HandleEndTurnFutureSight(struct BattleCalcValues *cv, enum Battler
 
         gBattleStruct->eventState.atkCanceler = CANCELER_NO_TARGET;
         gSpecialStatuses[gBattlerAttacker].greatMindsActive = gBattleStruct->futureSight[battler].greatMinds;
+        gSpecialStatuses[gBattlerAttacker].psysyncActive = gBattleStruct->futureSight[battler].psysync;
         SetTargetMoveFailureFlags(gBattlerAttacker, GetMoveTarget(gCurrentMove));
 
         if (IsFutureSightAttackerInParty(gBattlerAttacker, gBattlerTarget))
@@ -295,8 +297,39 @@ static bool32 HandleEndTurnMeteoricWrath(struct BattleCalcValues *cv, enum Battl
     return TRUE;
 }
 
+static bool32 HandleEndTurnEcocollapse(struct BattleCalcValues *cv, enum BattlerId battler)
+{
+    gBattleStruct->eventState.endTurnBattler++;
+    if (cv->abilities[battler] != ABILITY_ECOCOLLAPSE || !IsBattlerPresent(battler))
+        return FALSE;
+    u32 mask = GetEcocollapseTypeMask(battler);
+    if (!mask)
+        return FALSE;
+    enum Type type = RandomBitIndex(RNG_ECOCOLLAPSE_TYPE, mask);
+    GetBattlerPartyState(battler)->ecoTypeChosen = TRUE;
+    GetBattlerPartyState(battler)->ecoLastType = type;
+    gBattleStruct->ecocollapseTargets = 0;
+    gBattleStruct->ecocollapseCursor = 0;
+    for (enum BattlerId target = 0; target < gBattlersCount; target++)
+    {
+        enum Type types[3];
+        if (!IsBattlerPresent(target) || HasMagicGuardAbility(cv->abilities[target]))
+            continue;
+        GetBattlerTypes(target, FALSE, types);
+        for (u32 i = 0; i < ARRAY_COUNT(types); i++)
+            if (types[i] == type)
+                gBattleStruct->ecocollapseTargets |= 1u << target;
+    }
+    PREPARE_TYPE_BUFFER(gBattleTextBuff1, type);
+    gBattleScripting.battler = gBattlerAbility = battler;
+    gLastUsedAbility = ABILITY_ECOCOLLAPSE;
+    BattleScriptCall(BattleScript_Ecocollapse);
+    return TRUE;
+}
+
 static void FinishEndTurnAbilityMove(void)
 {
+    FinishOctocannonCounter();
     gBattleMainFunc = gBattleStruct->endTurnAbilityMoveCallback;
     gBattlescriptCurrInstr = gBattleStruct->endTurnAbilityMoveScript;
     gCurrentActionFuncId = gBattleStruct->endTurnAbilityMoveSavedAction;
@@ -322,7 +355,11 @@ static void RunEndTurnAbilityMove(enum BattlerId battler, enum Ability ability, 
     gBattleStruct->endTurnAbilityMoveActive = TRUE;
 
     // Each automatic move starts its own finite Dancer chain.
-    memset(gSpecialStatuses, 0, sizeof(gSpecialStatuses));
+    for (enum BattlerId other = 0; other < gBattlersCount; other++)
+        gSpecialStatuses[other] = (struct SpecialStatus) {
+            .eruptionHeraldFollowUp = gSpecialStatuses[other].eruptionHeraldFollowUp,
+            .eruptionHeraldPartySlot = gSpecialStatuses[other].eruptionHeraldPartySlot,
+        };
     for (u32 i = 0; i < gBattlersCount; i++)
         gBattleMons[i].volatiles.activateDancer = FALSE;
     gCurrMovePos = slot;
@@ -334,6 +371,36 @@ static void RunEndTurnAbilityMove(enum BattlerId battler, enum Ability ability, 
     RecordAbilityBattle(battler, ability);
     gBattleMainFunc = FinishEndTurnAbilityMove;
     BattleScriptExecute(BattleScript_AbilityCalledMove);
+}
+
+void StartEndTurnEruptionHerald(enum BattlerId battler)
+{
+    RunEndTurnAbilityMove(battler, ABILITY_ERUPTION_HERALD, MOVE_ERUPTION, MOVESLOT_0);
+    gSpecialStatuses[battler].postActionAbilityMove = TRUE;
+}
+
+static bool32 HandleEndTurnEruptionHerald(struct BattleCalcValues *cv, enum BattlerId battler)
+{
+    if (TryEruptionHeraldFollowUp(TRUE))
+        return TRUE;
+    gBattleStruct->eventState.endTurnBattler = gBattlersCount;
+    return FALSE;
+}
+
+void StartEndTurnOctocannon(enum BattlerId battler, enum Move move, enum MoveSlot slot, enum BattlerId target)
+{
+    RunEndTurnAbilityMove(battler, ABILITY_OCTOCANNON, move, slot);
+    gSpecialStatuses[battler].postActionAbilityMove = TRUE;
+    if (target < gBattlersCount)
+        gBattlerTarget = gBattleStruct->moveTarget[battler] = target;
+}
+
+static bool32 HandleEndTurnOctocannon(struct BattleCalcValues *cv, enum BattlerId battler)
+{
+    if (TryEndTurnOctocannon())
+        return TRUE;
+    gBattleStruct->eventState.endTurnBattler = gBattlersCount;
+    return FALSE;
 }
 
 static bool32 HandleEndTurnEndlessLuau(struct BattleCalcValues *cv, enum BattlerId battler)
@@ -664,11 +731,31 @@ static bool32 HandleEndTurnBurn(struct BattleCalcValues *cv, enum BattlerId batt
 
     gBattleStruct->eventState.endTurnBattler++;
 
+    if ((gBattleMons[battler].status1 & STATUS1_BURN) && IsBattlerPresent(battler))
+    {
+        enum BattlerId source = GetVolcanismBattler(battler);
+        if (source != MAX_BATTLERS_COUNT)
+        {
+            gBattleMons[battler].status1 &= ~STATUS1_BURN_ANY;
+            BtlController_EmitSetMonData(battler, B_COMM_TO_CONTROLLER, REQUEST_STATUS_BATTLE, 0,
+                sizeof(gBattleMons[battler].status1), &gBattleMons[battler].status1);
+            MarkBattlerForControllerExec(battler);
+            SetPassiveDamageAmount(battler, GetBattlerMaxHP(battler) / 3);
+            gBattlerAbility = source;
+            BattleScriptCall(BattleScript_VolcanismErupts);
+            return TRUE;
+        }
+    }
+
     if (gBattleMons[battler].status1 & STATUS1_BURN && cv->abilities[battler] != ABILITY_INNER_FURNACE
      && IsBattlerPresent(battler)
      && !IsAbilityAndRecord(battler, ability, ABILITY_MAGIC_GUARD))
     {
-        s32 burnDamage = GetBattlerMaxHP(battler) / ((GetConfig(B_BURN_DAMAGE) >= GEN_7 || GetConfig(B_BURN_DAMAGE) == GEN_1) ? 16 : 8);
+        bool32 escalating = gBattleMons[battler].status1 & STATUS1_EMBLAZENED_BURN;
+        s32 burnDamage = escalating ? GetEmblazenedBurnDamage(battler)
+            : GetBattlerMaxHP(battler) / ((GetConfig(B_BURN_DAMAGE) >= GEN_7 || GetConfig(B_BURN_DAMAGE) == GEN_1) ? 16 : 8);
+        if (escalating && gBattleMons[battler].volatiles.emblazenedStage < 15)
+            gBattleMons[battler].volatiles.emblazenedStage++;
         if (ability == ABILITY_HEATPROOF)
         {
             if (burnDamage > (burnDamage / 2) + 1) // Record ability if the burn takes less damage than it normally would.
@@ -769,6 +856,32 @@ static bool32 HandleEndTurnSpikyGrip(struct BattleCalcValues *cv, enum BattlerId
 
     SetPassiveDamageAmount(battler, damage);
     BattleScriptCall(BattleScript_SpikyGripTurnDmg);
+    return TRUE;
+}
+
+static bool32 HandleEndTurnScalyScrapper(struct BattleCalcValues *cv, enum BattlerId battler)
+{
+    gBattleStruct->eventState.endTurnBattler++;
+    if (!IsBattlerPresent(battler))
+        return FALSE;
+
+    u32 damage = GetScalyScrapperDamage(battler);
+    if (!damage || IsAbilityAndRecord(battler, cv->abilities[battler], ABILITY_MAGIC_GUARD))
+        return FALSE;
+
+    SetPassiveDamageAmount(battler, damage);
+    BattleScriptCall(BattleScript_ScalyScrapperTurnDmg);
+    return TRUE;
+}
+
+static bool32 HandleEndTurnBarbedStrikes(struct BattleCalcValues *cv, enum BattlerId battler)
+{
+    gBattleStruct->eventState.endTurnBattler++;
+    u32 stacks = gBattleMons[battler].volatiles.barbStacks;
+    if (!stacks || !IsBattlerPresent(battler) || IsAbilityAndRecord(battler, cv->abilities[battler], ABILITY_MAGIC_GUARD))
+        return FALSE;
+    SetPassiveDamageAmount(battler, max(1, GetBattlerMaxHP(battler) / 16) * stacks);
+    BattleScriptCall(BattleScript_BarbedStrikesDamage);
     return TRUE;
 }
 
@@ -1061,8 +1174,8 @@ static bool32 HandleEndTurnYawn(struct BattleCalcValues *cv, enum BattlerId batt
         gBattleMons[battler].volatiles.yawn--;
         if (!gBattleMons[battler].volatiles.yawn
          && !(gBattleMons[battler].status1 & STATUS1_ANY)
-         && ability != ABILITY_VITAL_SPIRIT
-         && ability != ABILITY_INSOMNIA
+         && ability != ABILITY_VITAL_SPIRIT && ability != ABILITY_BEAR_NECESSITIES
+         && !HasInsomniaAbility(ability)
          && !UproarWakeUpCheck(battler)
          && !IsLeafGuardProtected(battler, ability))
         {
@@ -1664,6 +1777,7 @@ static bool32 (*const sEndTurnEffectHandlers[])(struct BattleCalcValues *cv, enu
     [ENDTURN_SEND_OUT_REPLACEMENTS_1] = HandleEndTurnSendOutReplacements,
     [ENDTURN_FUTURE_SIGHT] = HandleEndTurnFutureSight,
     [ENDTURN_METEORIC_WRATH] = HandleEndTurnMeteoricWrath,
+    [ENDTURN_OCTOCANNON] = HandleEndTurnOctocannon,
     [ENDTURN_WISH] = HandleEndTurnWish,
     [ENDTURN_FIRST_EVENT_BLOCK] = HandleEndTurnFirstEventBlock,
     [ENDTURN_SEND_OUT_REPLACEMENTS_2] = HandleEndTurnSendOutReplacements,
@@ -1678,7 +1792,9 @@ static bool32 (*const sEndTurnEffectHandlers[])(struct BattleCalcValues *cv, enu
     [ENDTURN_WRAP] = HandleEndTurnWrap,
     [ENDTURN_ABYSSAL_EMBRACE] = HandleEndTurnAbyssalEmbrace,
     [ENDTURN_SPIKY_GRIP] = HandleEndTurnSpikyGrip,
+    [ENDTURN_SCALY_SCRAPPER] = HandleEndTurnScalyScrapper,
     [ENDTURN_SALT_CURE] = HandleEndTurnSaltCure,
+    [ENDTURN_BARBED_STRIKES] = HandleEndTurnBarbedStrikes,
     [ENDTURN_BLEED] = HandleEndTurnBleed,
     [ENDTURN_OCTOLOCK] = HandleEndTurnOctolock,
     [ENDTURN_SYRUP_BOMB] = HandleEndTurnSyrupBomb,
@@ -1709,8 +1825,10 @@ static bool32 (*const sEndTurnEffectHandlers[])(struct BattleCalcValues *cv, enu
     [ENDTURN_FORM_CHANGE] = HandleEndTurnFormChange,
     [ENDTURN_EJECT_PACK] = HandleEndTurnEjectPack,
     [ENDTURN_SEND_OUT_REPLACEMENTS_5] = HandleEndTurnSendOutReplacements,
+    [ENDTURN_ERUPTION_HERALD] = HandleEndTurnEruptionHerald,
     [ENDTURN_ENDLESS_LUAU] = HandleEndTurnEndlessLuau,
     [ENDTURN_APEX_ABILITIES] = HandleEndTurnApexAbilities,
+    [ENDTURN_ECOCOLLAPSE] = HandleEndTurnEcocollapse,
     [ENDTURN_FAINTED_MON_ACTIONS] = HandleEndTurnFaintedMonActions,
     [ENDTURN_TRAINER_A_SLIDES] = HandleEndTurnTrainerASlides,
     [ENDTURN_TRAINER_B_SLIDES] = HandleEndTurnTrainerBSlides,

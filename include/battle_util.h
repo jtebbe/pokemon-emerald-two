@@ -8,6 +8,11 @@
 #include "constants/hold_effects.h"
 #include "constants/battle_stat_change.h"
 
+static inline bool32 HasAbilityChoiceLock(enum Ability ability)
+{
+    return ability == ABILITY_GORILLA_TACTICS || ability == ABILITY_UNSTOPPABLE_ROLL;
+}
+
 struct DamageContext
 {
     enum BattlerId battlerAtk:3;
@@ -43,7 +48,8 @@ struct DamageContext
     u32 gloriousManeCappedTargets:4;
     u32 frostfeltHatredWeakened:1; // AI forecast, applied per hit without changing the real field.
     u32 scorchingBlast:1; // Primary Fire typing, including while checking a second type.
-    u32 padding:4;
+    u32 choosingHiddenPower:1;
+    u32 padding:3;
 };
 
 // Helper struct to keep the arg list small and prevent constant recalculations of abilities/hold effects.
@@ -57,8 +63,23 @@ struct BattleCalcValues
     enum HoldEffect holdEffects[MAX_BATTLERS_COUNT];
     u32 onlyChecking:1;
     u32 isStatusMove:1;
+    u32 skipFieldAccuracyAbilities:1; // AI batch has no Darkened Skies or Abyssal Shock holder.
 };
 
+enum Type GetHiddenPowerMoveType(struct DamageContext *ctx, bool32 randomTie);
+void ResolveHiddenPowerType(struct DamageContext *ctx);
+void SetHiddenPowerType(enum BattlerId attacker, enum BattlerId target, bool32 randomTie);
+u32 GetEcocollapseTypeMask(enum BattlerId battler);
+bool32 CleaningStationCanHelp(enum BattlerId battler);
+void ApplyCleaningStation(enum BattlerId battler);
+bool32 IsOctocannonCounter(enum BattlerId battler);
+void FinishOctocannonCounter(void);
+bool32 TryEndTurnOctocannon(void);
+void StartEndTurnOctocannon(enum BattlerId battler, enum Move move, enum MoveSlot slot, enum BattlerId target);
+bool32 TryLunarRevival(enum BattlerId battler);
+bool32 TryScaredyMawSwitch(void);
+u32 CountHighlanderFaintedAllies(enum BattlerId battler);
+bool32 IsMovePsysyncAffected(enum BattlerId battler, enum Move move, enum Type type);
 u32 GetHauntingShrieksHitCount(enum BattlerId battler);
 struct Pokemon *GetHauntingShrieksContributor(enum BattlerId battler, u32 hitIndex);
 
@@ -224,6 +245,8 @@ uq4_12_t GetBadgeBoostModifier(void);
 enum DamageCategory GetBattleMoveCategory(enum Move move);
 bool32 IsDistortionActive(void);
 bool32 IsPureBlissActive(void);
+enum BattlerId GetVolcanismBattler(enum BattlerId target);
+u32 GetScalyScrapperDamage(enum BattlerId battler);
 bool32 CanApplyMeanLook(enum BattlerId battler);
 bool32 CanApplyLeechSeed(enum BattlerId battler);
 void SetDynamicMoveCategory(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum Move move);
@@ -369,6 +392,7 @@ void RemoveHazardFromField(enum BattleSide side, enum Hazards hazardType);
 enum TwoTurnMoveActivation GetTwoTurnMoveActivation(struct BattleCalcValues *cv, u32 weather);
 bool32 CanMoveSkipAccuracyCalc(struct BattleCalcValues *cv, u32 weather, enum ResultOption option);
 u32 GetTotalAccuracy(struct BattleCalcValues *cv, u32 weather);
+u32 GetAbyssalShockBattler(enum BattlerId battler, const enum Ability *abilities);
 bool32 DoesOHKOMoveMissTarget(struct BattleCalcValues *cv);
 bool32 DoesMoveMissTarget(struct BattleCalcValues *cv);
 bool32 IsSemiInvulnerable(enum BattlerId battler, enum SemiInvulnerableExclusion excludeCommander);
@@ -434,7 +458,10 @@ bool32 IsBattlerJawLocked(enum BattlerId battler);
 // Damage calc modifiers
 uq4_12_t GetBurnOrFrostBiteModifier(struct DamageContext *ctx);
 bool32 IsBattlerInTailwind(enum BattlerId battler, enum Ability ability);
+bool32 CanMonkeyBusinessRemoveItem(enum BattlerId source, enum BattlerId target, enum Ability targetAbility, enum Item item);
 bool32 AbilityGrantsStab(enum Ability ability, enum Type moveType);
+bool32 HasSereneSkiesPriority(enum BattlerId battler, enum Ability ability, enum Move move, const enum Ability *abilities);
+enum Ability GetFutureSightSourceAbility(enum BattlerId attacker, enum BattlerId target);
 uq4_12_t GetSameTypeAttackBonusModifier(struct DamageContext *ctx);
 uq4_12_t GetMoveAgainstProtectionModifier(struct DamageContext *ctx);
 uq4_12_t GetOtherModifiers(struct DamageContext *ctx);
@@ -451,7 +478,7 @@ static inline bool32 HasAdaptabilityAbility(enum Ability ability)
 
 static inline bool32 HasDefiantAbility(enum Ability ability)
 {
-    return ability == ABILITY_DEFIANT || ability == ABILITY_BLAZE_HERITAGE;
+    return ability == ABILITY_DEFIANT || ability == ABILITY_BLAZE_HERITAGE || ability == ABILITY_MONKEY_BUSINESS;
 }
 
 static inline bool32 HasClearBodyAbility(enum Ability ability)
@@ -459,15 +486,20 @@ static inline bool32 HasClearBodyAbility(enum Ability ability)
     return ability == ABILITY_CLEAR_BODY || ability == ABILITY_AQUA_HERITAGE;
 }
 
+static inline bool32 HasMagicGuardAbility(enum Ability ability)
+{
+    return ability == ABILITY_MAGIC_GUARD || ability == ABILITY_FORTIFICATION;
+}
+
 static inline bool32 HasIntimidateAbility(enum Ability ability)
 {
-    return ability == ABILITY_INTIMIDATE || ability == ABILITY_FURIOUS_CHARGE || ability == ABILITY_MINDLESS_RAMPAGE
+    return ability == ABILITY_SCAREDY_MAW || ability == ABILITY_INTIMIDATE || ability == ABILITY_FURIOUS_CHARGE || ability == ABILITY_MINDLESS_RAMPAGE
         || ability == ABILITY_AERIAL_TERROR;
 }
 
 static inline bool32 HasSereneGraceAbility(enum Ability ability)
 {
-    return ability == ABILITY_SERENE_GRACE || ability == ABILITY_GENTLE_SOUL;
+    return ability == ABILITY_SERENE_GRACE || ability == ABILITY_GENTLE_SOUL || ability == ABILITY_LUCKY_LIL_EGG;
 }
 
 static inline bool32 HasStormDrainAbility(enum Ability ability)
@@ -478,12 +510,28 @@ static inline bool32 HasStormDrainAbility(enum Ability ability)
 static inline bool32 HasCriticalHitImmunityAbility(enum Ability ability)
 {
     return ability == ABILITY_BATTLE_ARMOR || ability == ABILITY_SHELL_ARMOR
-        || ability == ABILITY_BATTLE_KING || ability == ABILITY_SEA_GUARDIAN;
+        || ability == ABILITY_BATTLE_KING || ability == ABILITY_SEA_GUARDIAN || ability == ABILITY_HORN_LAUNCH || ability == ABILITY_ANCIENT_WOOL;
 }
 
 static inline bool32 HasInnerFocusAbility(enum Ability ability)
 {
-    return ability == ABILITY_INNER_FOCUS || ability == ABILITY_DECAPITATOR;
+    return ability == ABILITY_INNER_FOCUS || ability == ABILITY_DECAPITATOR || ability == ABILITY_SPEEDY_SENTRY;
+}
+
+static inline bool32 HasMindsEyeAbility(enum Ability ability)
+{
+    return ability == ABILITY_MINDS_EYE || ability == ABILITY_DARKENED_SKIES;
+}
+
+static inline bool32 HasInsomniaAbility(enum Ability ability)
+{
+    return ability == ABILITY_INSOMNIA || ability == ABILITY_DARKENED_SKIES;
+}
+
+static inline bool32 IsWebMove(enum Move move)
+{
+    return move == MOVE_STRING_SHOT || move == MOVE_ELECTROWEB || move == MOVE_SPIDER_WEB
+        || move == MOVE_TOXIC_THREAD || move == MOVE_STICKY_WEB || move == MOVE_SILK_TRAP;
 }
 
 static inline bool32 IsScorchingBlastFireMove(enum Ability ability, enum Type moveType)
@@ -498,7 +546,7 @@ static inline bool32 IsHighVoltageElectricMove(enum Ability ability, enum Type m
 
 static inline bool32 HasMegaLauncherAbility(enum Ability ability)
 {
-    return ability == ABILITY_MEGA_LAUNCHER || ability == ABILITY_SCORCHING_BLAST;
+    return ability == ABILITY_MEGA_LAUNCHER || ability == ABILITY_SCORCHING_BLAST || ability == ABILITY_OCTOCANNON;
 }
 
 static inline bool32 HasSnowCloakAbility(enum Ability ability)
@@ -513,17 +561,22 @@ static inline bool32 IsBelowDecapitatorThreshold(u32 hp, u32 maxHP)
 
 static inline bool32 HasScrappyAbility(enum Ability ability)
 {
-    return ability == ABILITY_SCRAPPY || ability == ABILITY_DOUBLE_TEAMING;
+    return ability == ABILITY_SCRAPPY || ability == ABILITY_DOUBLE_TEAMING || ability == ABILITY_BEAR_NECESSITIES;
+}
+
+static inline bool32 HasFlowerVeilAbility(enum Ability ability)
+{
+    return ability == ABILITY_FLOWER_VEIL || ability == ABILITY_FLORAL_HEALING;
 }
 
 static inline bool32 HasUnawareAbility(enum Ability ability)
 {
-    return ability == ABILITY_UNAWARE || ability == ABILITY_TOTAL_ZEN || ability == ABILITY_MINDLESS_RAMPAGE;
+    return ability == ABILITY_UNAWARE || ability == ABILITY_TOTAL_ZEN || ability == ABILITY_MINDLESS_RAMPAGE || ability == ABILITY_NO_THOUGHTS;
 }
 
 static inline bool32 HasObliviousAbility(enum Ability ability)
 {
-    return ability == ABILITY_OBLIVIOUS || ability == ABILITY_TOTAL_ZEN;
+    return ability == ABILITY_OBLIVIOUS || ability == ABILITY_TOTAL_ZEN || ability == ABILITY_NO_THOUGHTS;
 }
 
 static inline bool32 HasPranksterAbility(enum Ability ability)
@@ -540,7 +593,7 @@ static inline bool32 HasLevitateAbility(enum Ability ability)
 {
     return ability == ABILITY_LEVITATE || ability == ABILITY_EELEVATE
         || ability == ABILITY_MAGLEV_POLARITY || ability == ABILITY_EVIL_TRICKSTER
-        || ability == ABILITY_NOXIOUS_CLOUD || ability == ABILITY_AIR_PURIFIER;
+        || ability == ABILITY_NOXIOUS_CLOUD || ability == ABILITY_AIR_PURIFIER || ability == ABILITY_LEGACY_LEXICON;
 }
 
 static inline bool32 HasUnnerveAbility(enum Ability ability)

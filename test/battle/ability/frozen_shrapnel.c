@@ -374,18 +374,28 @@ SINGLE_BATTLE_TEST("Frozen Shrapnel and Toxic Spikes apply their statuses in haz
 
 SINGLE_BATTLE_TEST("Frozen Shrapnel fits in a field with every existing hazard")
 {
+    bool32 malignedWeb;
+    PARAMETRIZE { malignedWeb = FALSE; }
+    PARAMETRIZE { malignedWeb = TRUE; }
     GIVEN {
         PLAYER(SPECIES_SANDSHREW_ALOLA) { Item(ITEM_APEX_METEORITE); }
+        PLAYER(SPECIES_ARIADOS) { Item(ITEM_APEX_METEORITE); }
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
         TURN { MOVE(player, MOVE_SPIKES); MOVE(opponent, MOVE_SCRATCH); }
         TURN { MOVE(player, MOVE_TOXIC_SPIKES); }
         TURN { MOVE(player, MOVE_STEALTH_ROCK); }
+        if (malignedWeb) TURN { SWITCH(player, 1); }
         TURN { MOVE(player, MOVE_STICKY_WEB); }
     } THEN {
         EXPECT_EQ(gBattleStruct->numHazards[B_SIDE_OPPONENT], 5);
         for (enum Hazards hazard = HAZARDS_SPIKES; hazard < HAZARDS_MAX_COUNT; hazard++)
-            EXPECT(IsHazardOnSide(B_SIDE_OPPONENT, hazard));
+        {
+            // Normal and Maligned webs occupy the same hazard slot.
+            if (hazard != HAZARDS_MALIGNED_WEB)
+                EXPECT(IsHazardOnSide(B_SIDE_OPPONENT, hazard));
+        }
+        EXPECT_EQ(IsHazardOnSide(B_SIDE_OPPONENT, HAZARDS_MALIGNED_WEB), malignedWeb);
     }
 }
 

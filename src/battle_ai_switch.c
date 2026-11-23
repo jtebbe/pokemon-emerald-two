@@ -1,4 +1,5 @@
 #include "global.h"
+#include "battle_apex_johto.h"
 #include "battle_i_choose_you.h"
 #include "battle.h"
 #include "constants/battle_ai.h"
@@ -53,6 +54,61 @@ static bool32 ShouldSwitchIfIntimidateBenefit(struct SwitchAiContext *switchCont
 static bool32 DoesMostSuitableSwitchinBenefitFromWish(enum BattlerId battler);
 static enum PartySlot GetSwitchinCandidate(u32 switchinCategory, struct SwitchAiContext *switchContext);
 
+static __attribute__((noinline)) s32 AI_GetJohtoEntryScore(enum BattlerId battler)
+{
+    enum Ability ability = gAiLogicData->abilities[battler];
+    if (ability == ABILITY_GOLDEN_RAINBOW)
+        return GetGoldenRainbowCandidates(battler) ? 6 : 0;
+    if (ability == ABILITY_PURIFYING_NOMAD)
+        return PurifyingNomadHasStatus(battler) ? 3 : 0;
+    if (ability == ABILITY_LON_LON_BRED)
+    {
+        enum BattlerId target = GetLonLonBredTarget(battler);
+        return GetBattlerPartyState(battler)->lonLonBredUses < 2
+            && !gBattleMons[target].volatiles.healBlockTimer
+            && gBattleMons[target].hp < gBattleMons[target].maxHP ? 3 : 0;
+    }
+    if (ability != ABILITY_NAUGHTY_OR_NICE)
+        return 0;
+    s32 score = 0;
+    for (enum BattlerId target = 0; target < gBattlersCount; target++)
+    {
+        if (target == battler || !IsBattlerAlive(target))
+            continue;
+        if (IsBattlerAlly(battler, target))
+        {
+            if (gBattleMons[target].hp < gBattleMons[target].maxHP && !gBattleMons[target].volatiles.healBlockTimer)
+                score++;
+        }
+        else if (!HasMagicGuardAbility(gAiLogicData->abilities[target]))
+            score += gBattleMons[target].hp <= max(1, gBattleMons[target].maxHP / 16) ? 4 : 2;
+    }
+    return score;
+}
+
+static s32 AI_GetJohtoCandidateEntryScore(enum BattlerId battler, enum PartySlot slot)
+{
+    enum PartySlot original = gBattlerPartyIndexes[battler];
+    gBattlerPartyIndexes[battler] = slot;
+    s32 score = AI_GetJohtoEntryScore(battler);
+    gBattlerPartyIndexes[battler] = original;
+    return score;
+}
+
+static __attribute__((noinline)) void AI_ApplyLexiconSwitchForm(enum BattlerId battler, const struct Pokemon *mon)
+{
+    struct Pokemon temporary = *mon;
+    enum Species species = SPECIES_UNOWN_LEXICON;
+    u32 hp = temporary.hp, maxHP = temporary.maxHP;
+    s32 levelUpHP = gBattleScripting.levelUpHP;
+    SetMonData(&temporary, MON_DATA_SPECIES, &species);
+    CalculateMonStats(&temporary);
+    gBattleScripting.levelUpHP = levelUpHP;
+    temporary.hp = hp ? max(1, hp * temporary.maxHP / maxHP) : 0;
+    PokemonToBattleMon(&temporary, &gBattleMons[battler]);
+    CopyMonAbilityAndTypesToBattleMon(battler, &temporary);
+}
+
 static enum Ability GetPartyMonAbilityForSwitchCalc(enum BattlerId battler, enum PartySlot monIndex, struct Pokemon *mon)
 {
     enum Ability ability = GetMonAbility(mon);
@@ -73,13 +129,16 @@ static enum Ability GetPartyMonAbilityForSwitchCalc(enum BattlerId battler, enum
 static void InitializeSwitchinCandidate(enum BattlerId switchinBattler, enum PartySlot monIndex, struct Pokemon *mon,
     const struct BattlePokemon *originalMons, const struct AiLogicData *originalAiData)
 {
+    bool32 previousPurifyingNomad = gAiLogicData->abilities[switchinBattler] == ABILITY_PURIFYING_NOMAD && IsBattlerAlive(switchinBattler);
     bool32 previousRush = gAiLogicData->abilities[switchinBattler] == ABILITY_BLAZING_RUSH;
     bool32 previousGrowl = gAiLogicData->abilities[switchinBattler] == ABILITY_GUARDIANS_GROWL;
     bool32 previousIntimidate = HasIntimidateAbility(gAiLogicData->abilities[switchinBattler]);
     bool32 previousStench = gAiLogicData->abilities[switchinBattler] == ABILITY_SICKENING_STENCH;
     bool32 previousIChooseYou = gAiLogicData->abilities[switchinBattler] == ABILITY_I_CHOOSE_YOU;
+    bool32 previousMonkeyBusiness = gAiLogicData->abilities[switchinBattler] == ABILITY_MONKEY_BUSINESS;
     bool32 previousTrap = gAiLogicData->abilities[switchinBattler] == ABILITY_SUCCULENT_TRAP;
     bool32 previousEmbrace = gAiLogicData->abilities[switchinBattler] == ABILITY_ABYSSAL_EMBRACE;
+    bool32 previousMagma = gAiLogicData->abilities[switchinBattler] == ABILITY_MAGMA_18000F;
     bool32 previousFrigidStare = gAiLogicData->abilities[switchinBattler] == ABILITY_FRIGID_STARE;
     enum PartySlot storeCurrBattlerPartyIndex = gBattlerPartyIndexes[switchinBattler]; // Rage Fist fix
     enum BattleSide side = GetBattlerSide(switchinBattler);
@@ -87,11 +146,16 @@ static void InitializeSwitchinCandidate(enum BattlerId switchinBattler, enum Par
     gProtectStructs[switchinBattler].frostfeltHatredMove = MOVE_NONE;
     bool32 savedMushroomBoost = gProtectStructs[switchinBattler].mushroomMadnessBoosted;
     gProtectStructs[switchinBattler].mushroomMadnessBoosted = FALSE;
+    u32 johtoSavedField = gFieldStatuses;
+    u16 johtoEntryHP[MAX_BATTLERS_COUNT];
+    bool32 johtoHPChanged = FALSE;
     u32 savedSideStatus = gSideStatuses[side];
     struct SideTimer savedSideTimer = gSideTimers[side];
     PokemonToBattleMon(mon, &gBattleMons[switchinBattler]);
     gBattlerPartyIndexes[switchinBattler] = monIndex;
     CopyMonAbilityAndTypesToBattleMon(switchinBattler, mon);
+    if (GetMonAbility(mon) == ABILITY_LEGACY_LEXICON && GetMonData(mon, MON_DATA_SPECIES) != SPECIES_UNOWN_LEXICON)
+        AI_ApplyLexiconSwitchForm(switchinBattler, mon);
     // Setup switchin battler data
     gAiThinkingStruct->saved[switchinBattler].saved = TRUE;
     SetBattlerAiData(switchinBattler, gAiLogicData);
@@ -99,8 +163,29 @@ static void InitializeSwitchinCandidate(enum BattlerId switchinBattler, enum Par
     {
         if (other == switchinBattler)
             continue;
+        if (previousMonkeyBusiness || gAiLogicData->abilities[switchinBattler] == ABILITY_MONKEY_BUSINESS)
+        {
+            // Reset each candidate before simulating removal; never mutate the real item history.
+            gBattleMons[other].item = originalMons[other].item;
+            gBattleMons[other].volatiles.unburdenActive = originalMons[other].volatiles.unburdenActive;
+            gAiLogicData->items[other] = originalAiData->items[other];
+            gAiLogicData->holdEffects[other] = originalAiData->holdEffects[other];
+            if (gAiLogicData->abilities[switchinBattler] == ABILITY_MONKEY_BUSINESS
+             && GetSwitchinHazardsDamage(switchinBattler) < gBattleMons[switchinBattler].hp
+             && CanMonkeyBusinessRemoveItem(switchinBattler, other, gAiLogicData->abilities[other], gAiLogicData->items[other]))
+            {
+                gBattleMons[other].item = ITEM_NONE;
+                gAiLogicData->items[other] = ITEM_NONE;
+                gAiLogicData->holdEffects[other] = HOLD_EFFECT_NONE;
+                if (gAiLogicData->abilities[other] == ABILITY_UNBURDEN)
+                    gBattleMons[other].volatiles.unburdenActive = TRUE;
+            }
+            gAiLogicData->speedStats[other] = GetBattlerTotalSpeedStat(other, gAiLogicData->abilities[other], gAiLogicData->holdEffects[other]);
+        }
         u32 source = originalMons[other].volatiles.spikyGrip;
         gBattleMons[other].volatiles.spikyGrip = source == switchinBattler + 1 ? 0 : source;
+        source = originalMons[other].volatiles.scalyScrapper;
+        gBattleMons[other].volatiles.scalyScrapper = source == switchinBattler + 1 ? 0 : source;
     }
     bool32 abyssalEmbrace = gAiLogicData->abilities[switchinBattler] == ABILITY_ABYSSAL_EMBRACE;
     if (previousEmbrace || abyssalEmbrace)
@@ -128,7 +213,7 @@ static void InitializeSwitchinCandidate(enum BattlerId switchinBattler, enum Par
     bool32 honedHunter = gAiLogicData->abilities[switchinBattler] == ABILITY_HONED_HUNTER;
     if (previousGrowl || gAiLogicData->abilities[switchinBattler] == ABILITY_GUARDIANS_GROWL || previousStench || sickeningStench
      || previousTrap || succulentTrap || previousRush || blazingRush || previousIChooseYou || iChooseYou
-     || previousIntimidate || intimidate || previousFrigidStare)
+     || previousIntimidate || intimidate || previousFrigidStare || previousMagma || gAiLogicData->abilities[switchinBattler] == ABILITY_MAGMA_18000F)
     {
         for (enum BattlerId foe = 0; foe < gBattlersCount; foe++)
         {
@@ -137,21 +222,49 @@ static void InitializeSwitchinCandidate(enum BattlerId switchinBattler, enum Par
             memcpy(gBattleMons[foe].statStages, originalMons[foe].statStages, sizeof(gBattleMons[foe].statStages));
             if (previousIChooseYou || iChooseYou)
                 memcpy(gBattleMons[foe].types, originalMons[foe].types, sizeof(gBattleMons[foe].types));
-            if (previousTrap || succulentTrap || previousRush || blazingRush || previousFrigidStare)
+            if (previousTrap || succulentTrap || previousRush || blazingRush || previousFrigidStare || previousMagma || gAiLogicData->abilities[switchinBattler] == ABILITY_MAGMA_18000F)
                 gBattleMons[foe].status1 = originalMons[foe].status1;
             gAiLogicData->speedStats[foe] = originalAiData->speedStats[foe];
         }
     }
+    if (previousPurifyingNomad && !(gSideStatuses[side] & SIDE_STATUS_TAILWIND))
+    {
+        gSideStatuses[side] |= SIDE_STATUS_TAILWIND;
+        gSideTimers[side].tailwindTimer = 2;
+        gAiLogicData->speedStats[switchinBattler] = GetBattlerTotalSpeedStat(switchinBattler, gAiLogicData->abilities[switchinBattler], gAiLogicData->holdEffects[switchinBattler]);
+    }
     u32 switchinWeather = AI_GetSwitchinWeather(switchinBattler);
     u32 switchinTerrain = AI_GetSwitchinTerrain(switchinBattler);
-    if (gAiLogicData->abilities[switchinBattler] == ABILITY_RAINBOW_SKIES && !(gSideStatuses[side] & SIDE_STATUS_RAINBOW))
+    if ((gAiLogicData->abilities[switchinBattler] == ABILITY_RAINBOW_SKIES
+      || gAiLogicData->abilities[switchinBattler] == ABILITY_SERENE_SKIES) && !(gSideStatuses[side] & SIDE_STATUS_RAINBOW))
     {
         gSideStatuses[side] |= SIDE_STATUS_RAINBOW;
-        gSideTimers[side].rainbowTimer = 0;
+        gSideTimers[side].rainbowTimer = gAiLogicData->abilities[switchinBattler] == ABILITY_SERENE_SKIES ? 4 : 0;
     }
     SetBattlerVolatilesForSwitchin(switchinBattler, switchinWeather, switchinTerrain);
 
     SetBattlerStatusForSwitchin(switchinBattler);
+    if ((gAiLogicData->abilities[0] == ABILITY_MAGMA_18000F || gAiLogicData->abilities[1] == ABILITY_MAGMA_18000F
+      || gAiLogicData->abilities[2] == ABILITY_MAGMA_18000F || gAiLogicData->abilities[3] == ABILITY_MAGMA_18000F)
+     && GetSwitchinHazardsDamage(switchinBattler) < gBattleMons[switchinBattler].hp)
+    {
+        for (enum BattlerId target = 0; target < gBattlersCount; target++)
+        {
+            if (!IsBattlerAlive(target))
+                continue;
+            enum HoldEffect holdEffect = gAiLogicData->holdEffects[target];
+            if (holdEffect == HOLD_EFFECT_CURE_BRN || holdEffect == HOLD_EFFECT_CURE_STATUS)
+                continue;
+            for (enum BattlerId source = 0; source < gBattlersCount; source++)
+            {
+                if (source == target || !IsBattlerAlive(source) || gAiLogicData->abilities[source] != ABILITY_MAGMA_18000F
+                 || (source != switchinBattler && target != switchinBattler))
+                    continue;
+                if (CanBeBurned(source, target, gAiLogicData->abilities[target]))
+                    gBattleMons[target].status1 = STATUS1_BURN;
+            }
+        }
+    }
     if (gAiLogicData->abilities[switchinBattler] == ABILITY_FRIGID_STARE
      && GetSwitchinHazardsDamage(switchinBattler) < gBattleMons[switchinBattler].hp)
     {
@@ -180,7 +293,10 @@ static void InitializeSwitchinCandidate(enum BattlerId switchinBattler, enum Par
         gBattleMons[switchinBattler].status1 = STATUS1_SLEEP_TURN(3);
     bool32 moonAttuned = gAiLogicData->abilities[switchinBattler] == ABILITY_MOON_ATTUNED;
     bool32 airPurifier = gAiLogicData->abilities[switchinBattler] == ABILITY_AIR_PURIFIER;
-    bool32 entryRestore = moonAttuned || airPurifier;
+    bool32 cleaningStation = gAiLogicData->abilities[switchinBattler] == ABILITY_CLEANING_STATION;
+    struct BattlePokemon cleaningPartnerBackup;
+    bool32 purifyingNomad = gAiLogicData->abilities[switchinBattler] == ABILITY_PURIFYING_NOMAD;
+    bool32 entryRestore = moonAttuned || airPurifier || cleaningStation || purifyingNomad;
     bool32 restoreEntryHP = moonAttuned;
     u32 originalEntryHP = gBattleMons[switchinBattler].hp;
     u32 originalEntryStatus = gBattleMons[switchinBattler].status1;
@@ -193,6 +309,11 @@ static void InitializeSwitchinCandidate(enum BattlerId switchinBattler, enum Par
         restoredEntryHP = (s32)originalEntryHP - (s32)GetSwitchinHazardsDamage(switchinBattler);
         if (restoredEntryHP > 0)
         {
+            if (purifyingNomad)
+            {
+                gBattleMons[switchinBattler].status1 = STATUS1_NONE;
+                gBattleMons[switchinBattler].volatiles.nightmare = FALSE;
+            }
             bool32 cleanseSelf = airPurifier && (originalEntryStatus & STATUS1_PSN_ANY);
             if (cleanseSelf)
                 gBattleMons[switchinBattler].status1 = STATUS1_NONE;
@@ -207,16 +328,25 @@ static void InitializeSwitchinCandidate(enum BattlerId switchinBattler, enum Par
                     restoredEntryHP = min(gBattleMons[switchinBattler].maxHP, restoredEntryHP + max(1, gBattleMons[switchinBattler].maxHP / 4));
             }
 
-            restorePartner = IsDoubleBattle() && (moonAttuned ? IsBattlerAlive(entryPartner) : CanAirPurifierCleanse(entryPartner));
+            restorePartner = IsDoubleBattle() && (purifyingNomad ? IsBattlerAlive(entryPartner) : cleaningStation ? CleaningStationCanHelp(entryPartner)
+                : moonAttuned ? IsBattlerAlive(entryPartner) : CanAirPurifierCleanse(entryPartner));
             if (restorePartner)
             {
                 partnerHP = gBattleMons[entryPartner].hp;
                 partnerStatus = gBattleMons[entryPartner].status1;
                 partnerSpeed = gAiLogicData->speedStats[entryPartner];
+                if (cleaningStation || purifyingNomad)
+                {
+                    cleaningPartnerBackup = gBattleMons[entryPartner];
+                    if (cleaningStation)
+                        ApplyCleaningStation(entryPartner);
+                    else
+                        gBattleMons[entryPartner].volatiles.nightmare = FALSE;
+                }
                 gBattleMons[entryPartner].status1 = STATUS1_NONE;
-                if (!gBattleMons[entryPartner].volatiles.healBlockTimer)
+                if (!purifyingNomad && !gBattleMons[entryPartner].volatiles.healBlockTimer)
                     gBattleMons[entryPartner].hp = airPurifier ? gBattleMons[entryPartner].maxHP
-                        : min(gBattleMons[entryPartner].maxHP, partnerHP + max(1, gBattleMons[entryPartner].maxHP / 4));
+                        : min(gBattleMons[entryPartner].maxHP, partnerHP + max(1, gBattleMons[entryPartner].maxHP / (cleaningStation ? 8 : 4)));
                 gAiLogicData->speedStats[entryPartner] = GetBattlerTotalSpeedStat(entryPartner, gAiLogicData->abilities[entryPartner], gAiLogicData->holdEffects[entryPartner]);
             }
             if (airPurifier)
@@ -234,6 +364,58 @@ static void InitializeSwitchinCandidate(enum BattlerId switchinBattler, enum Par
             if (IsBattlerAlive(foe) && !IsBattlerAlly(switchinBattler, foe))
                 SetBattlerStatStagesForSwitchin(switchinBattler, foe, switchinTerrain);
 
+    enum Ability johtoAbility = gAiLogicData->abilities[switchinBattler];
+    bool32 copyrightFraud = FALSE;
+    if ((johtoAbility == ABILITY_THUNDER_RUNNER || (johtoAbility >= ABILITY_NAUGHTY_OR_NICE && johtoAbility <= ABILITY_LON_LON_BRED))
+     && GetSwitchinHazardsDamage(switchinBattler) < gBattleMons[switchinBattler].hp)
+    {
+        if (johtoAbility == ABILITY_THUNDER_RUNNER && switchinTerrain == B_TERRAIN_ELECTRIC)
+        {
+            gBattleMons[switchinBattler].statStages[STAT_SPEED] = min(MAX_STAT_STAGE, gBattleMons[switchinBattler].statStages[STAT_SPEED] + 1);
+            gBattleMons[switchinBattler].statStages[STAT_EVASION] = min(MAX_STAT_STAGE, gBattleMons[switchinBattler].statStages[STAT_EVASION] + 1);
+            gAiLogicData->speedStats[switchinBattler] = GetBattlerTotalSpeedStat(switchinBattler, johtoAbility, gAiLogicData->holdEffects[switchinBattler]);
+        }
+        if (johtoAbility == ABILITY_COPYRIGHT_FRAUD)
+            copyrightFraud = ApplyCopyrightFraud(switchinBattler, FALSE);
+        if (johtoAbility == ABILITY_UNSTOPPABLE_ROLL)
+            gBattleMons[switchinBattler].statStages[STAT_SPEED] = MAX_STAT_STAGE;
+        if (johtoAbility == ABILITY_GRACEFUL_GLIDE)
+        {
+            gSideStatuses[side] |= SIDE_STATUS_TAILWIND;
+            if (!gSideTimers[side].tailwindTimer)
+                gSideTimers[side].tailwindTimer = 2;
+        }
+        if (johtoAbility == ABILITY_FOREST_WEIRDING)
+            gFieldStatuses |= STATUS_FIELD_TRICK_ROOM;
+        if (johtoAbility == ABILITY_NAUGHTY_OR_NICE || johtoAbility == ABILITY_LON_LON_BRED)
+        {
+            johtoHPChanged = TRUE;
+            for (enum BattlerId target = 0; target < gBattlersCount; target++)
+            {
+                johtoEntryHP[target] = gBattleMons[target].hp;
+                if (!IsBattlerAlive(target))
+                    continue;
+                s32 amount = 0;
+                if (johtoAbility == ABILITY_NAUGHTY_OR_NICE && target != switchinBattler)
+                {
+                    u32 hp = gBattleMons[target].maxHP;
+                    amount = (max(1, hp / 16) + max(1, hp / 8) + max(1, hp / 4)) / 3;
+                    if (!IsBattlerAlly(switchinBattler, target))
+                        amount = HasMagicGuardAbility(gAiLogicData->abilities[target]) ? 0 : -amount;
+                }
+                else if (johtoAbility == ABILITY_LON_LON_BRED && target == GetLonLonBredTarget(switchinBattler)
+                      && GetBattlerPartyState(switchinBattler)->lonLonBredUses < 2)
+                    amount = max(1, gBattleMons[target].maxHP / 2);
+                if (amount > 0 && gBattleMons[target].volatiles.healBlockTimer)
+                    amount = 0;
+                // Keep the original field occupancy for evaluating both foes.
+                gBattleMons[target].hp = min(gBattleMons[target].maxHP, max(1, (s32)gBattleMons[target].hp + amount));
+            }
+        }
+        if (johtoAbility == ABILITY_COPYRIGHT_FRAUD || johtoAbility == ABILITY_UNSTOPPABLE_ROLL || johtoAbility == ABILITY_GRACEFUL_GLIDE)
+            gAiLogicData->speedStats[switchinBattler] = GetBattlerTotalSpeedStat(switchinBattler, johtoAbility, gAiLogicData->holdEffects[switchinBattler]);
+    }
+    u32 copyrightHP = gBattleMons[switchinBattler].hp;
     bool32 rootbound = gAiLogicData->abilities[switchinBattler] == ABILITY_ROOTBOUND;
     bool32 roadrunnin = gAiLogicData->abilities[switchinBattler] == ABILITY_ROADRUNNIN;
     bool32 chemicalOddity = gAiLogicData->abilities[switchinBattler] == ABILITY_CHEMICAL_ODDITY;
@@ -351,6 +533,8 @@ static void InitializeSwitchinCandidate(enum BattlerId switchinBattler, enum Par
         }
         if (shellInversion || roadrunnin || sickeningStench || chemicalOddity || airPurifier || blazeHeritage || sacrificialCarp)
             gAiLogicData->speedStats[switchinBattler] = GetBattlerTotalSpeedStat(switchinBattler, gAiLogicData->abilities[switchinBattler], gAiLogicData->holdEffects[switchinBattler]);
+        if (copyrightFraud)
+            gBattleMons[switchinBattler].hp = copyrightHP;
         if (restoreEntryHP)
             gBattleMons[switchinBattler].hp = max(0, restoredEntryHP);
         else
@@ -373,10 +557,18 @@ static void InitializeSwitchinCandidate(enum BattlerId switchinBattler, enum Par
         gBattleMons[switchinBattler].status1 = originalEntryStatus;
     if (restorePartner)
     {
+        if (cleaningStation || purifyingNomad)
+            gBattleMons[entryPartner] = cleaningPartnerBackup;
         gBattleMons[entryPartner].hp = partnerHP;
         gBattleMons[entryPartner].status1 = partnerStatus;
         gAiLogicData->speedStats[entryPartner] = partnerSpeed;
     }
+    if (copyrightFraud)
+        gBattleMons[switchinBattler].hp = copyrightHP;
+    if (johtoHPChanged)
+        for (enum BattlerId target = 0; target < gBattlersCount; target++)
+            gBattleMons[target].hp = johtoEntryHP[target];
+    gFieldStatuses = johtoSavedField;
     gAiLogicData->switchInCalc = FALSE;
     gProtectStructs[switchinBattler].mushroomMadnessBoosted = savedMushroomBoost;
     gProtectStructs[switchinBattler].frostfeltHatredMove = savedFrostfeltMove;
@@ -402,7 +594,7 @@ static u32 GetWishHealAmountForBattler(enum BattlerId battler)
         wishHeal = GetBattlerMaxHP(battler) / 2;
     }
 
-    return wishHeal;
+    return gAiLogicData->abilities[battler] == ABILITY_FLORAL_HEALING ? wishHeal * 2 : wishHeal;
 }
 
 static void GetIncomingHealInfo(enum BattlerId battler, struct IncomingHealInfo *healInfo)
@@ -586,7 +778,7 @@ static bool32 AI_DoesChoiceEffectBlockMove(enum BattlerId battler, enum Move mov
     // Choice locked into something else
     if (gAiLogicData->lastUsedMove[battler] != MOVE_NONE && gAiLogicData->lastUsedMove[battler] != move
     && (IsHoldEffectChoice(GetBattlerHoldEffect(battler) && IsBattlerItemEnabled(battler))
-        || gAiLogicData->abilities[battler] == ABILITY_GORILLA_TACTICS))
+        || HasAbilityChoiceLock(gAiLogicData->abilities[battler])))
         return TRUE;
     return FALSE;
 }
@@ -818,6 +1010,58 @@ static bool32 ShouldSwitchIfAllMovesBad(struct SwitchAiContext *switchContext)
     return FALSE;
 }
 
+static bool32 ShouldSwitchToSpeedySentry(struct SwitchAiContext *ctx)
+{
+    if (!(gAiThinkingStruct->aiFlags[ctx->battler] & AI_FLAG_SMART_SWITCHING)
+     || !IsMoveValid(ctx->incomingMove) || IsBattleMoveStatus(ctx->incomingMove)
+     || IsBattlerAlly(ctx->battler, ctx->opposingBattler)
+     || (gAiLogicData->abilities[ctx->battler] == ABILITY_SPEEDY_SENTRY && !GetBattlerPartyState(ctx->battler)->speedySentryUsed))
+        return FALSE;
+
+    for (enum PartySlot slot = PARTY_SLOT_0; slot < ctx->lastId; slot++)
+    {
+        if (!(ctx->eligiblePartyMons & (1u << slot))
+         || ctx->party[slot].box.data.heldItem != ITEM_APEX_METEORITE
+         || gBattleStruct->partyState[GetBattlerTrainer(ctx->battler)][slot].speedySentryUsed
+         || GetPartyMonAbilityForSwitchCalc(ctx->battler, slot, &ctx->party[slot]) != ABILITY_SPEEDY_SENTRY)
+            continue;
+
+        struct BattlePokemon savedMon = gBattleMons[ctx->battler];
+        enum Ability savedAbility = gAiLogicData->abilities[ctx->battler];
+        enum HoldEffect savedHoldEffect = gAiLogicData->holdEffects[ctx->battler];
+        enum Item savedItem = gAiLogicData->items[ctx->battler];
+        PokemonToBattleMon(&ctx->party[slot], &gBattleMons[ctx->battler]);
+        CopyMonAbilityAndTypesToBattleMon(ctx->battler, &ctx->party[slot]);
+        gAiLogicData->abilities[ctx->battler] = ABILITY_SPEEDY_SENTRY;
+        gAiLogicData->items[ctx->battler] = gBattleMons[ctx->battler].item;
+        gAiLogicData->holdEffects[ctx->battler] = GetItemHoldEffect(gBattleMons[ctx->battler].item);
+        struct DamageContext damage = {0};
+        damage.aiCalc = TRUE;
+        damage.battlerAtk = ctx->opposingBattler;
+        damage.battlerDef = ctx->battler;
+        damage.move = damage.chosenMove = ctx->incomingMove;
+        damage.moveType = GetDynamicMoveType(GetBattlerMon(ctx->opposingBattler), ctx->incomingMove,
+            ctx->opposingBattler, gAiLogicData->abilities[ctx->opposingBattler], gAiLogicData->holdEffects[ctx->opposingBattler], MON_IN_BATTLE);
+        damage.weather = AI_GetWeather();
+        damage.terrain = gFieldTimers.terrain;
+        for (enum BattlerId battler = 0; battler < gBattlersCount; battler++)
+        {
+            damage.abilities[battler] = gAiLogicData->abilities[battler];
+            damage.holdEffects[battler] = gAiLogicData->holdEffects[battler];
+        }
+        bool32 canIntercept = !AI_CanMoveBeBlockedByTarget(&damage)
+            && CalcTypeEffectivenessMultiplier(&damage) > UQ_4_12(1.0)
+            && GetSwitchinHazardsDamage(ctx->battler) < gBattleMons[ctx->battler].hp;
+        gBattleMons[ctx->battler] = savedMon;
+        gAiLogicData->abilities[ctx->battler] = savedAbility;
+        gAiLogicData->holdEffects[ctx->battler] = savedHoldEffect;
+        gAiLogicData->items[ctx->battler] = savedItem;
+        if (canIntercept)
+            return SetSwitchinAndSwitch(ctx->battler, slot);
+    }
+    return FALSE;
+}
+
 static bool32 ShouldSwitchIfWonderGuard(struct SwitchAiContext *switchContext)
 {
     if (IsDoubleBattle())
@@ -883,6 +1127,9 @@ static bool32 FindMonThatAbsorbsOpponentsMove(struct SwitchAiContext *switchCont
     if (incomingType == TYPE_WATER)
     {
         absorbingTypeAbilities[numAbsorbingAbilities++] = ABILITY_WATER_ABSORB;
+        absorbingTypeAbilities[numAbsorbingAbilities++] = ABILITY_MUD_WALLOWING;
+        absorbingTypeAbilities[numAbsorbingAbilities++] = ABILITY_HYPERBUOYANT;
+        absorbingTypeAbilities[numAbsorbingAbilities++] = ABILITY_ACTUALLY_A_TREE;
         absorbingTypeAbilities[numAbsorbingAbilities++] = ABILITY_DRY_SKIN;
         absorbingTypeAbilities[numAbsorbingAbilities++] = ABILITY_INNER_FURNACE;
         if (GetConfig(B_REDIRECT_ABILITY_IMMUNITY) >= GEN_5)
@@ -900,7 +1147,10 @@ static bool32 FindMonThatAbsorbsOpponentsMove(struct SwitchAiContext *switchCont
      && GetMoveTarget(switchContext->incomingMove) != TARGET_USER)
         absorbingTypeAbilities[numAbsorbingAbilities++] = ABILITY_STICKY_SPRAY;
     if (incomingType == TYPE_PSYCHIC)
+    {
+        absorbingTypeAbilities[numAbsorbingAbilities++] = ABILITY_NO_THOUGHTS;
         absorbingTypeAbilities[numAbsorbingAbilities++] = ABILITY_TOTAL_ZEN;
+    }
     if (incomingType == TYPE_FAIRY)
         absorbingTypeAbilities[numAbsorbingAbilities++] = ABILITY_UMBRAL_THIRST;
     if (incomingType == TYPE_GRASS)
@@ -910,6 +1160,7 @@ static bool32 FindMonThatAbsorbsOpponentsMove(struct SwitchAiContext *switchCont
     if (incomingType == TYPE_GROUND)
     {
         absorbingTypeAbilities[numAbsorbingAbilities++] = ABILITY_EARTH_EATER;
+        absorbingTypeAbilities[numAbsorbingAbilities++] = ABILITY_MUD_WALLOWING;
         absorbingTypeAbilities[numAbsorbingAbilities++] = ABILITY_EARTHEN_MOTHER;
         absorbingTypeAbilities[numAbsorbingAbilities++] = ABILITY_LEVITATE;
         absorbingTypeAbilities[numAbsorbingAbilities++] = ABILITY_EVIL_TRICKSTER;
@@ -1076,7 +1327,7 @@ static bool32 ShouldSwitchIfBadlyStatused(struct SwitchAiContext *switchContext)
             if (gBattleMons[switchContext->battler].statStages[STAT_EVASION] > (DEFAULT_STAT_STAGE + 3)
                 && !HasUnawareAbility(gAiLogicData->abilities[switchContext->opposingBattler])
                 && gAiLogicData->abilities[switchContext->opposingBattler] != ABILITY_KEEN_EYE
-                && gAiLogicData->abilities[switchContext->opposingBattler] != ABILITY_MINDS_EYE
+                && !HasMindsEyeAbility(gAiLogicData->abilities[switchContext->opposingBattler])
                 && (GetConfig(B_ILLUMINATE_EFFECT) >= GEN_9 && gAiLogicData->abilities[switchContext->opposingBattler] != ABILITY_ILLUMINATE)
                 && !gBattleMons[switchContext->battler].volatiles.foresight
                 && !gBattleMons[switchContext->battler].volatiles.miracleEye)
@@ -1087,7 +1338,7 @@ static bool32 ShouldSwitchIfBadlyStatused(struct SwitchAiContext *switchContext)
         }
 
         // Secondary Damage
-        if (monAbility != ABILITY_MAGIC_GUARD
+        if (!HasMagicGuardAbility(monAbility)
             && !AiExpectsToFaintPlayer(switchContext->battler)
             && gAiLogicData->mostSuitableMonId[switchContext->battler] != PARTY_SLOT_NONE)
         {
@@ -1260,11 +1511,13 @@ static bool32 CanIntimidateLowerOpponentAtk(enum BattlerId battler, enum Battler
         case ABILITY_TRUE_POWER:
         case ABILITY_INNER_FOCUS:
         case ABILITY_DECAPITATOR:
+        case ABILITY_SPEEDY_SENTRY:
         case ABILITY_SCRAPPY:
         case ABILITY_DOUBLE_TEAMING:
         case ABILITY_OWN_TEMPO:
         case ABILITY_TOTAL_ZEN:
         case ABILITY_OBLIVIOUS:
+        case ABILITY_NO_THOUGHTS:
             return FALSE;
         default:
             break;
@@ -1379,6 +1632,7 @@ static bool32 ShouldSwitchIfAbilityBenefit(struct SwitchAiContext *switchContext
         return FALSE;
 
     case ABILITY_GUARDIANS_GROWL:
+    case ABILITY_SCAREDY_MAW:
     case ABILITY_INTIMIDATE:
     case ABILITY_AERIAL_TERROR:
     case ABILITY_FURIOUS_CHARGE:
@@ -1665,7 +1919,8 @@ void GetBestMonDynFuncExample(struct SwitchAiContext *switchContext)
 
 static bool32 CanBattlerConsiderSwitch(enum BattlerId battler)
 {
-    if ((gBattleMons[battler].volatiles.abyssalEmbrace || gBattleMons[battler].volatiles.spikyGrip) && !AI_CanBattlerEscape(battler))
+    if ((gBattleMons[battler].volatiles.abyssalEmbrace || gBattleMons[battler].volatiles.spikyGrip
+      || gBattleMons[battler].volatiles.scalyScrapper) && !AI_CanBattlerEscape(battler))
         return FALSE;
     if (gBattleMons[battler].volatiles.wrapped)
         return FALSE;
@@ -1804,6 +2059,8 @@ bool32 ShouldSwitch(enum BattlerId battler)
 
     // FindMon functions can prompt a switch to specific party members that override GetMostSuitableMonToSwitchInto
     // The rest can prompt a switch to party member returned by GetMostSuitableMonToSwitchInto
+    if (ShouldSwitchToSpeedySentry(&switchContext))
+        return TRUE;
     if (ShouldSwitchIfWonderGuard(&switchContext))
         return TRUE;
     if ((gAiThinkingStruct->aiFlags[switchContext.battler] & AI_FLAG_SMART_SWITCHING) && (CanMonSurviveHazardSwitchin(&switchContext) == FALSE))
@@ -1982,7 +2239,7 @@ static u32 GetSwitchinSingleUseItemHealing(enum BattlerId battler, enum BattlerI
         break;
     }
 
-    return itemHeal;
+    return gAiLogicData->abilities[battler] == ABILITY_FLORAL_HEALING ? itemHeal * 2 : itemHeal;
 }
 
 // Gets hazard damage
@@ -2002,7 +2259,7 @@ static u32 GetSwitchinHazardsDamage(enum BattlerId battler)
         && !(gFieldStatuses & STATUS_FIELD_MAGIC_ROOM) && ability != ABILITY_KLUTZ;
 
     // Check ways mon might avoid all hazards
-    if (ability != ABILITY_MAGIC_GUARD && !bootsActive)
+    if (!HasMagicGuardAbility(ability) && !bootsActive)
     {
         // Stealth Rock
         if (IsHazardOnSide(side, HAZARDS_STEALTH_ROCK))
@@ -2042,7 +2299,7 @@ static u32 GetSwitchinHazardsDamage(enum BattlerId battler)
             hazardDamage += tSpikesDamage;
         }
     }
-    if (ability != ABILITY_MAGIC_GUARD && !bootsActive
+    if (!HasMagicGuardAbility(ability) && !bootsActive
      && IsHazardOnSide(side, HAZARDS_FRIGID_SPIKES) && AI_IsBattlerGrounded(battler))
         hazardDamage += max(1, maxHP * gSideTimers[side].frigidSpikesAmount / 16);
     return hazardDamage;
@@ -2057,7 +2314,7 @@ static s32 GetSwitchinWeatherImpact(enum BattlerId battler)
     u32 weather = AI_GetSwitchinWeather(battler);
 
     // Damage
-    if (holdEffect != HOLD_EFFECT_SAFETY_GOGGLES && ability != ABILITY_MAGIC_GUARD && ability != ABILITY_OVERCOAT)
+    if (holdEffect != HOLD_EFFECT_SAFETY_GOGGLES && !HasMagicGuardAbility(ability) && ability != ABILITY_OVERCOAT)
     {
         if ((weather  & B_WEATHER_HAIL)
          && !IS_BATTLER_OF_TYPE(battler, TYPE_ICE)
@@ -2107,7 +2364,7 @@ static s32 GetSwitchinWeatherImpact(enum BattlerId battler)
         if (weatherImpact == 0)
             weatherImpact = -1;
     }
-    if ((weather & B_WEATHER_SUN) && ability == ABILITY_PHOTOSYNTHETIC && holdEffect != HOLD_EFFECT_UTILITY_UMBRELLA)
+    if ((weather & B_WEATHER_SUN) && (ability == ABILITY_PHOTOSYNTHETIC || ability == ABILITY_SOL_STRENGTH) && holdEffect != HOLD_EFFECT_UTILITY_UMBRELLA)
         weatherImpact = -(maxHP / 8);
 
     return weatherImpact;
@@ -2164,6 +2421,8 @@ static u32 GetSwitchinRecurringHealing(enum BattlerId battler)
                 recurringHealing += max(1, maxHP / 4);
         }
     }
+    if (ability == ABILITY_FLORAL_HEALING)
+        recurringHealing *= 2;
     return recurringHealing;
 }
 
@@ -2175,7 +2434,7 @@ static u32 GetSwitchinRecurringDamage(enum BattlerId battler)
     enum HoldEffect holdEffect = gAiLogicData->holdEffects[battler];
 
     // Items
-    if (ability != ABILITY_MAGIC_GUARD && ability != ABILITY_KLUTZ)
+    if (!HasMagicGuardAbility(ability) && ability != ABILITY_KLUTZ)
     {
         if (holdEffect == HOLD_EFFECT_BLACK_SLUDGE && !IS_BATTLER_OF_TYPE(battler, TYPE_POISON))
         {
@@ -2218,11 +2477,17 @@ static u32 GetSwitchinStatusDamage(enum BattlerId battler)
         return 0;
 
     // Status condition damage
-    if ((status != 0) && ability != ABILITY_MAGIC_GUARD)
+    if ((status != 0) && !HasMagicGuardAbility(ability))
     {
-        if ((status & STATUS1_BURN) && ability != ABILITY_INNER_FURNACE)
+        if ((status & STATUS1_BURN) && GetVolcanismBattler(battler) != MAX_BATTLERS_COUNT)
         {
-            if (GetConfig(B_BURN_DAMAGE) >= GEN_7 || GetConfig(B_BURN_DAMAGE) == GEN_1)
+            statusDamage = max(1, maxHP / 3);
+        }
+        else if ((status & STATUS1_BURN) && ability != ABILITY_INNER_FURNACE)
+        {
+            if (status & STATUS1_EMBLAZENED_BURN)
+                statusDamage = GetEmblazenedBurnDamage(battler);
+            else if (GetConfig(B_BURN_DAMAGE) >= GEN_7 || GetConfig(B_BURN_DAMAGE) == GEN_1)
                 statusDamage = maxHP / 16;
             else
                 statusDamage = maxHP / 8;
@@ -2278,8 +2543,15 @@ static u32 GetSwitchinStatusDamage(enum BattlerId battler)
 static u32 GetSwitchinHitsToKO(s32 damageTaken, enum BattlerId battler, const struct IncomingHealInfo *healInfo, u32 originalHp, enum Move move)
 {
     u32 hazardDamage = GetSwitchinHazardsDamage(battler);
+    bool32 lunarRevival = gAiLogicData->abilities[battler] == ABILITY_LUNAR_REVIVAL && !GetBattlerPartyState(battler)->lunarRevivalUsed;
     u32 hazardCheckHp = healInfo->healBeforeHazards ? gBattleMons[battler].maxHP : gBattleMons[battler].hp;
     u32 startingHP;
+    if (lunarRevival && hazardDamage >= hazardCheckHp)
+    {
+        originalHp = hazardCheckHp = max(1, gBattleMons[battler].maxHP / 4);
+        hazardDamage = 0;
+        lunarRevival = FALSE;
+    }
 
     if (healInfo->healAfterHazards)
     {
@@ -2295,6 +2567,10 @@ static u32 GetSwitchinHitsToKO(s32 damageTaken, enum BattlerId battler, const st
         startingHP = hazardCheckHp - hazardDamage;
     }
 
+    if (gAiLogicData->abilities[battler] == ABILITY_LON_LON_BRED
+     && GetBattlerPartyState(battler)->lonLonBredUses < 2 && GetLonLonBredTarget(battler) == battler
+     && !gBattleMons[battler].volatiles.healBlockTimer)
+        startingHP = min(gBattleMons[battler].maxHP, startingHP + max(1, gBattleMons[battler].maxHP / 2));
     if (gAiLogicData->abilities[battler] == ABILITY_MOON_ATTUNED && !gBattleMons[battler].volatiles.healBlockTimer)
         startingHP = min(gBattleMons[battler].maxHP, startingHP + max(1, gBattleMons[battler].maxHP / 4));
     if (gAiLogicData->abilities[battler] == ABILITY_AIR_PURIFIER && (gBattleMons[battler].status1 & STATUS1_PSN_ANY)
@@ -2305,6 +2581,8 @@ static u32 GetSwitchinHitsToKO(s32 damageTaken, enum BattlerId battler, const st
     u32 recurringDamage = GetSwitchinRecurringDamage(battler);
     u32 recurringHealing = GetSwitchinRecurringHealing(battler);
     u32 statusDamage = GetSwitchinStatusDamage(battler);
+    bool32 burnErupts = (gBattleMons[battler].status1 & STATUS1_BURN)
+        && GetVolcanismBattler(battler) != MAX_BATTLERS_COUNT;
     u32 hitsToKO = 0;
     u16 maxHP = gBattleMons[battler].maxHP;
     enum Item item = gAiLogicData->items[battler];
@@ -2342,6 +2620,12 @@ static u32 GetSwitchinHitsToKO(s32 damageTaken, enum BattlerId battler, const st
         if (damageTaken >= maxHP && startingHP == maxHP && (heldItemEffect == HOLD_EFFECT_FOCUS_SASH || (!opponentCanBreakMold && GetConfig(B_STURDY) >= GEN_5 && ability == ABILITY_STURDY)) && hitsToKO < 1)
             currentHP = 1;
 
+        if (currentHP <= 0 && lunarRevival)
+        {
+            currentHP = max(1, maxHP / 4);
+            lunarRevival = FALSE;
+        }
+
         // If mon is still alive, apply weather impact first, as it might KO the mon before it can heal with its item (order is weather -> item -> status)
         if (currentHP > 0)
             currentHP = currentHP - weatherImpact;
@@ -2363,7 +2647,11 @@ static u32 GetSwitchinHitsToKO(s32 damageTaken, enum BattlerId battler, const st
 
         // Healing from items occurs before status so we can do the rest in one line
         if (currentHP > 0)
+        {
             currentHP = currentHP + recurringHealing - recurringDamage - statusDamage;
+            if ((gBattleMons[battler].status1 & STATUS1_EMBLAZENED_BURN) && statusDamage > 0)
+                statusDamage = min((u32)INT32_MAX / 2, statusDamage) * 2;
+        }
 
         // Wish healing happens at the end of the turn when it is due this turn.
         if (applyWishNow && currentHP > 0)
@@ -2372,6 +2660,20 @@ static u32 GetSwitchinHitsToKO(s32 damageTaken, enum BattlerId battler, const st
             if (currentHP > maxHP)
                 currentHP = maxHP;
             applyWishNow = FALSE;
+        }
+
+        if (burnErupts)
+        {
+            statusDamage = 0;
+            burnErupts = FALSE;
+            if (currentHP > 0 && damageTaken + recurringDamage <= recurringHealing && weatherImpact <= 0)
+                return 0;
+        }
+
+        if (currentHP <= 0 && lunarRevival)
+        {
+            currentHP = max(1, maxHP / 4);
+            lunarRevival = FALSE;
         }
 
         // Recalculate toxic damage if needed
@@ -2678,6 +2980,11 @@ static enum PartySlot GetBestMonIntegrated(struct SwitchAiContext *switchContext
             entryStatusScore = AI_GetVoodooStrengthEntryScore(switchContext->battler);
         else if (gAiLogicData->abilities[switchContext->battler] == ABILITY_NOBLESSE_OBLIGE)
             entryStatusScore = AI_GetNoblesseObligeEntryScore(switchContext->battler);
+        else if (gAiLogicData->abilities[switchContext->battler] == ABILITY_NAUGHTY_OR_NICE
+              || gAiLogicData->abilities[switchContext->battler] == ABILITY_LON_LON_BRED
+              || gAiLogicData->abilities[switchContext->battler] == ABILITY_PURIFYING_NOMAD
+              || gAiLogicData->abilities[switchContext->battler] == ABILITY_GOLDEN_RAINBOW)
+            entryStatusScore = AI_GetJohtoCandidateEntryScore(switchContext->battler, monIndex);
         s32 luauScore = gAiLogicData->abilities[switchContext->battler] == ABILITY_ENDLESS_LUAU ? AI_GetEndlessLuauScore(switchContext->battler) : 0;
 
         u32 originalHp = gBattleMons[switchContext->battler].hp;
@@ -3265,16 +3572,20 @@ static void SetBattlerStatStagesForSwitchin(enum BattlerId battler, enum Battler
     enum Ability aiAbility = gAiLogicData->abilities[battler];
     enum HoldEffect aiHoldEffect = gAiLogicData->holdEffects[battler];
     enum Item aiItem = gAiLogicData->items[battler];
-    bool32 isStickyWebsAffected = (aiAbility != ABILITY_ROCKY_CARAPACE
+    bool32 isStickyWebsAffected = (IsHazardOnSide(GetBattlerSide(battler), HAZARDS_STICKY_WEB)
+                                && aiAbility != ABILITY_ROCKY_CARAPACE
                                 && aiAbility != ABILITY_RAPID_RUNNER
-                                && aiAbility != ABILITY_AQUA_HERITAGE
-                                && IsHazardOnSide(GetBattlerSide(battler), HAZARDS_STICKY_WEB)
+                                && !HasClearBodyAbility(aiAbility) && aiAbility != ABILITY_WHITE_SMOKE && aiAbility != ABILITY_FULL_METAL_BODY
+                                && aiHoldEffect != HOLD_EFFECT_CLEAR_AMULET
                                 && IsBattlerAffectedByHazards(battler, aiHoldEffect, FALSE)
                                 && IsBattlerGrounded(battler, aiAbility, aiHoldEffect));
 
     bool32 opponentStatDrop = FALSE;
 
     // Ability stat changes
+    if (aiAbility == ABILITY_PEOPLES_CHAMP)
+        for (enum Stat stat = STAT_ATK; stat < NUM_STATS; stat++)
+            gBattleMons[battler].statStages[stat] = min(MAX_STAT_STAGE, gBattleMons[battler].statStages[stat] + 1);
     switch(aiAbility)
     {
     case ABILITY_INTREPID_SWORD:
@@ -3286,6 +3597,12 @@ static void SetBattlerStatStagesForSwitchin(enum BattlerId battler, enum Battler
             gBattleMons[battler].statStages[STAT_ATK] = min(MAX_STAT_STAGE, gBattleMons[battler].statStages[STAT_ATK] + 1);
             gBattleMons[battler].statStages[STAT_ACC] = min(MAX_STAT_STAGE, gBattleMons[battler].statStages[STAT_ACC] + 1);
         }
+        break;
+    case ABILITY_UMBRAL_WITCH:
+        gBattleMons[battler].statStages[STAT_SPATK] = min(MAX_STAT_STAGE, gBattleMons[battler].statStages[STAT_SPATK] + 2);
+        break;
+    case ABILITY_FURCHARGED:
+        gBattleMons[battler].statStages[STAT_SPDEF] = min(MAX_STAT_STAGE, gBattleMons[battler].statStages[STAT_SPDEF] + 1);
         break;
     case ABILITY_DAUNTLESS_SHIELD:
         gBattleMons[battler].statStages[STAT_DEF] += 1;
@@ -3338,6 +3655,7 @@ static void SetBattlerStatStagesForSwitchin(enum BattlerId battler, enum Battler
             gAiLogicData->speedStats[opposingBattler] = GetBattlerTotalSpeedStat(opposingBattler, other, gAiLogicData->holdEffects[opposingBattler]);
         break;
     }
+    case ABILITY_SCAREDY_MAW:
     case ABILITY_INTIMIDATE:
     case ABILITY_AERIAL_TERROR:
     case ABILITY_FURIOUS_CHARGE:
@@ -3425,6 +3743,11 @@ static void SetBattlerStatStagesForSwitchin(enum BattlerId battler, enum Battler
             }
         }
         break;
+    case ABILITY_WINDBORNE:
+        if ((gSideStatuses[GetBattlerSide(battler)] & SIDE_STATUS_TAILWIND)
+         && GetSwitchinHazardsDamage(battler) < gBattleMons[battler].hp)
+            gBattleMons[battler].statStages[STAT_EVASION] = min(MAX_STAT_STAGE, gBattleMons[battler].statStages[STAT_EVASION] + 1);
+        break;
     case ABILITY_WIND_RIDER:
         if (gSideStatuses[GetBattlerSide(battler)] & SIDE_STATUS_TAILWIND)
             gBattleMons[battler].statStages[STAT_ATK] += 1;
@@ -3498,7 +3821,19 @@ static void SetBattlerStatStagesForSwitchin(enum BattlerId battler, enum Battler
 
     // Hazard stat changes
     if (isStickyWebsAffected && aiHoldEffect != HOLD_EFFECT_WHITE_HERB)
-        gBattleMons[battler].statStages[STAT_SPEED] -= 1;
+    {
+        s32 change = aiAbility == ABILITY_CONTRARY ? 1 : HasSimpleAbility(aiAbility) ? -2 : -1;
+        gBattleMons[battler].statStages[STAT_SPEED] = max(MIN_STAT_STAGE,
+            gBattleMons[battler].statStages[STAT_SPEED] + (aiAbility == ABILITY_CONTRARY ? 0 : change));
+        if (IsHazardOnSide(GetBattlerSide(battler), HAZARDS_MALIGNED_WEB)
+         && !HasClearBodyAbility(aiAbility) && aiAbility != ABILITY_WHITE_SMOKE && aiAbility != ABILITY_FULL_METAL_BODY
+         && aiHoldEffect != HOLD_EFFECT_CLEAR_AMULET)
+        {
+            if (aiAbility != ABILITY_BIG_PECKS)
+                gBattleMons[battler].statStages[STAT_DEF] = min(MAX_STAT_STAGE, max(MIN_STAT_STAGE, gBattleMons[battler].statStages[STAT_DEF] + change));
+            gBattleMons[battler].statStages[STAT_SPDEF] = min(MAX_STAT_STAGE, max(MIN_STAT_STAGE, gBattleMons[battler].statStages[STAT_SPDEF] + change));
+        }
+    }
 }
 
 static void SetBattlerHPChangeForSwitch(enum BattlerId battler, enum BattlerId opposingBattler)

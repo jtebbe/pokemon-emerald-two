@@ -132,8 +132,9 @@ SINGLE_BATTLE_TEST("Pixilate doesn't affect Hidden Power's type")
     } WHEN {
         TURN { MOVE(player, MOVE_HIDDEN_POWER); }
     } SCENE {
-        NOT { ANIMATION(ANIM_TYPE_MOVE, MOVE_HIDDEN_POWER, player); }
-        MESSAGE("It doesn't affect the opposing Poochyena…");
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_HIDDEN_POWER, player);
+        HP_BAR(opponent);
+        MESSAGE("It's super effective!");
     }
 }
 

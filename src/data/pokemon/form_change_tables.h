@@ -1,3 +1,16 @@
+#if P_FAMILY_UNOWN
+static const struct FormChange sUnownFormChangeTable[] = {
+    {FORM_CHANGE_BATTLE_SWITCH_IN, SPECIES_UNOWN_LEXICON, ABILITY_LEGACY_LEXICON},
+    {FORM_CHANGE_TERMINATOR},
+};
+static const struct FormChange sUnownLexiconFormChangeTable[] = {
+    {FORM_CHANGE_BATTLE_SWITCH_OUT, SPECIES_UNOWN},
+    {FORM_CHANGE_FAINT, SPECIES_UNOWN},
+    {FORM_CHANGE_END_BATTLE, SPECIES_UNOWN},
+    {FORM_CHANGE_TERMINATOR},
+};
+#endif
+
 #if P_FAMILY_BULBASAUR
 static const struct FormChange sVenusaurFormChangeTable[] =
 {

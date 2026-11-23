@@ -929,6 +929,7 @@ enum __attribute__((packed)) Move
     MOVE_SAPPING_VINES,
     MOVE_SOULTORCH_SWING,
     MOVE_SEA_HORN,
+    MOVE_DYNAMAX_CANNON,
     MOVES_COUNT,
 
     MOVES_COUNT_ALL = MOVES_COUNT,

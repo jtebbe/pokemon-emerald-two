@@ -2261,7 +2261,7 @@ AI_SINGLE_BATTLE_TEST("AI_FLAG_SMART_SWITCHING: AI will consider player's endure
     }
 }
 
-AI_SINGLE_BATTLE_TEST("AI treats Hidden Power as fixed Psychic rather than a Flash Fire trigger")
+AI_SINGLE_BATTLE_TEST("AI knows adaptive Hidden Power does not give Flash Fire a free switch")
 {
     GIVEN {
         ASSUME(GetMoveType(MOVE_HIDDEN_POWER) == TYPE_PSYCHIC);

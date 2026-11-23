@@ -23,8 +23,237 @@ TEST("Species and forms default to no Apex ability unless explicitly assigned")
             expected = ABILITY_SPACE_DOMINUS;
         else if (species == SPECIES_ARCEUS_NORMAL || (species >= SPECIES_ARCEUS_FIGHTING && species <= SPECIES_ARCEUS_FAIRY))
             expected = ABILITY_OMNIPOTENCE;
+        if (species == SPECIES_UNOWN || (species >= SPECIES_UNOWN_B && species <= SPECIES_UNOWN_QUESTION)
+         || species == SPECIES_UNOWN_LEXICON)
+            expected = ABILITY_LEGACY_LEXICON;
         switch (species)
         {
+        case SPECIES_RAIKOU:
+            expected = ABILITY_THUNDER_RUNNER;
+            break;
+        case SPECIES_ENTEI:
+            expected = ABILITY_ERUPTION_HERALD;
+            break;
+        case SPECIES_SUICUNE:
+            expected = ABILITY_PURIFYING_NOMAD;
+            break;
+        case SPECIES_LARVITAR:
+        case SPECIES_PUPITAR:
+        case SPECIES_TYRANITAR:
+        case SPECIES_TYRANITAR_MEGA:
+            expected = ABILITY_MOUNTAIN_TITAN;
+            break;
+        case SPECIES_LUGIA:
+            expected = ABILITY_40_DAY_STORM;
+            break;
+        case SPECIES_HO_OH:
+            expected = ABILITY_GOLDEN_RAINBOW;
+            break;
+        case SPECIES_DELIBIRD:
+            expected = ABILITY_NAUGHTY_OR_NICE;
+            break;
+        case SPECIES_MANTYKE:
+        case SPECIES_MANTINE:
+            expected = ABILITY_GRACEFUL_GLIDE;
+            break;
+        case SPECIES_SKARMORY:
+        case SPECIES_SKARMORY_MEGA:
+            expected = ABILITY_BLADED_WINGS;
+            break;
+        case SPECIES_HOUNDOUR:
+        case SPECIES_HOUNDOOM:
+        case SPECIES_HOUNDOOM_MEGA:
+            expected = ABILITY_EMBLAZENED;
+            break;
+        case SPECIES_PHANPY:
+        case SPECIES_DONPHAN:
+            expected = ABILITY_UNSTOPPABLE_ROLL;
+            break;
+        case SPECIES_STANTLER:
+        case SPECIES_WYRDEER:
+            expected = ABILITY_FOREST_WEIRDING;
+            break;
+        case SPECIES_SMEARGLE:
+            expected = ABILITY_COPYRIGHT_FRAUD;
+            break;
+        case SPECIES_MILTANK:
+            expected = ABILITY_LON_LON_BRED;
+            break;
+        case SPECIES_SWINUB:
+        case SPECIES_PILOSWINE:
+        case SPECIES_MAMOSWINE:
+            expected = ABILITY_ANCIENT_WOOL;
+            break;
+        case SPECIES_CORSOLA:
+            expected = ABILITY_ALGAE_ADDICTION;
+            break;
+        case SPECIES_CORSOLA_GALAR:
+        case SPECIES_CURSOLA:
+            expected = ABILITY_ECOCOLLAPSE;
+            break;
+        case SPECIES_REMORAID:
+            expected = ABILITY_CLEANING_STATION;
+            break;
+        case SPECIES_OCTILLERY:
+            expected = ABILITY_OCTOCANNON;
+            break;
+        case SPECIES_TEDDIURSA:
+        case SPECIES_URSARING:
+        case SPECIES_URSALUNA:
+            expected = ABILITY_BEAR_NECESSITIES;
+            break;
+        case SPECIES_URSALUNA_BLOODMOON:
+            expected = ABILITY_LUNAR_REVIVAL;
+            break;
+        case SPECIES_DUNSPARCE:
+        case SPECIES_DUDUNSPARCE_TWO_SEGMENT:
+        case SPECIES_DUDUNSPARCE_THREE_SEGMENT:
+            expected = ABILITY_GIGA_DRILL_BREAK;
+            break;
+        case SPECIES_GLIGAR:
+        case SPECIES_GLISCOR:
+            expected = ABILITY_FANGS_FROM_ABOVE;
+            break;
+        case SPECIES_SNUBBULL:
+        case SPECIES_GRANBULL:
+            expected = ABILITY_SCAREDY_MAW;
+            break;
+        case SPECIES_QWILFISH:
+            expected = ABILITY_PRICKLY_DEFENSE;
+            break;
+        case SPECIES_QWILFISH_HISUI:
+        case SPECIES_OVERQWIL:
+            expected = ABILITY_BARBED_STRIKES;
+            break;
+        case SPECIES_SHUCKLE:
+            expected = ABILITY_FORTIFICATION;
+            break;
+        case SPECIES_HERACROSS:
+        case SPECIES_HERACROSS_MEGA:
+            expected = ABILITY_HORN_LAUNCH;
+            break;
+        case SPECIES_SNEASEL:
+        case SPECIES_WEAVILE:
+            expected = ABILITY_ICY_ASSASSIN;
+            break;
+        case SPECIES_SNEASEL_HISUI:
+        case SPECIES_SNEASLER:
+            expected = ABILITY_HIGHLANDER;
+            break;
+        case SPECIES_SLUGMA:
+        case SPECIES_MAGCARGO:
+            expected = ABILITY_MAGMA_18000F;
+            break;
+        case SPECIES_MURKROW:
+        case SPECIES_HONCHKROW:
+            expected = ABILITY_DA_DONS_TAX;
+            break;
+        case SPECIES_MISDREAVUS:
+        case SPECIES_MISMAGIUS:
+            expected = ABILITY_UMBRAL_WITCH;
+            break;
+        case SPECIES_WYNAUT:
+        case SPECIES_WOBBUFFET:
+            expected = ABILITY_VERY_PUNCHABLE;
+            break;
+        case SPECIES_GIRAFARIG:
+        case SPECIES_FARIGIRAF:
+            expected = ABILITY_PSYSYNC;
+            break;
+        case SPECIES_PINECO:
+            expected = ABILITY_HIGHLY_FLAMMABLE;
+            break;
+        case SPECIES_FORRETRESS:
+            expected = ABILITY_RETURN_FIRE;
+            break;
+        case SPECIES_HOPPIP:
+        case SPECIES_SKIPLOOM:
+        case SPECIES_JUMPLUFF:
+            expected = ABILITY_WINDBORNE;
+            break;
+        case SPECIES_AIPOM:
+        case SPECIES_AMBIPOM:
+            expected = ABILITY_MONKEY_BUSINESS;
+            break;
+        case SPECIES_SUNKERN:
+        case SPECIES_SUNFLORA:
+            expected = ABILITY_SOL_STRENGTH;
+            break;
+        case SPECIES_YANMA:
+        case SPECIES_YANMEGA:
+            expected = ABILITY_OMNIMOVEMENT;
+            break;
+        case SPECIES_WOOPER:
+        case SPECIES_QUAGSIRE:
+            expected = ABILITY_NO_THOUGHTS;
+            break;
+        case SPECIES_WOOPER_PALDEA:
+        case SPECIES_CLODSIRE:
+            expected = ABILITY_MUD_WALLOWING;
+            break;
+        case SPECIES_TOGEPI:
+            expected = ABILITY_LUCKY_LIL_EGG;
+            break;
+        case SPECIES_TOGETIC:
+        case SPECIES_TOGEKISS:
+            expected = ABILITY_SERENE_SKIES;
+            break;
+        case SPECIES_NATU:
+        case SPECIES_XATU:
+            expected = ABILITY_GAZE_BEYOND;
+            break;
+        case SPECIES_MAREEP:
+        case SPECIES_FLAAFFY:
+        case SPECIES_AMPHAROS:
+            expected = ABILITY_FURCHARGED;
+            break;
+        case SPECIES_AZURILL:
+        case SPECIES_MARILL:
+        case SPECIES_AZUMARILL:
+            expected = ABILITY_HYPERBUOYANT;
+            break;
+        case SPECIES_BONSLY:
+        case SPECIES_SUDOWOODO:
+            expected = ABILITY_ACTUALLY_A_TREE;
+            break;
+        case SPECIES_CHIKORITA:
+        case SPECIES_BAYLEEF:
+        case SPECIES_MEGANIUM:
+            expected = ABILITY_FLORAL_HEALING;
+            break;
+        case SPECIES_CYNDAQUIL:
+        case SPECIES_QUILAVA:
+        case SPECIES_TYPHLOSION:
+            expected = ABILITY_VOLCANISM;
+            break;
+        case SPECIES_TYPHLOSION_HISUI:
+            expected = ABILITY_SOULSCORCHER;
+            break;
+        case SPECIES_TOTODILE:
+        case SPECIES_CROCONAW:
+        case SPECIES_FERALIGATR:
+            expected = ABILITY_SCALY_SCRAPPER;
+            break;
+        case SPECIES_SENTRET:
+        case SPECIES_FURRET:
+            expected = ABILITY_SPEEDY_SENTRY;
+            break;
+        case SPECIES_HOOTHOOT:
+        case SPECIES_NOCTOWL:
+            expected = ABILITY_DARKENED_SKIES;
+            break;
+        case SPECIES_LEDYBA:
+        case SPECIES_LEDIAN:
+            expected = ABILITY_PEOPLES_CHAMP;
+            break;
+        case SPECIES_SPINARAK:
+        case SPECIES_ARIADOS:
+            expected = ABILITY_MALIGNED_THREADS;
+            break;
+        case SPECIES_CHINCHOU:
+        case SPECIES_LANTURN:
+            expected = ABILITY_ABYSSAL_SHOCK;
+            break;
         case SPECIES_VOLTORB:
         case SPECIES_ELECTRODE:
             expected = ABILITY_I_CHOOSE_YOU;
@@ -116,6 +345,7 @@ TEST("Species and forms default to no Apex ability unless explicitly assigned")
         case SPECIES_KLEAVOR:
             expected = ABILITY_DECAPITATOR;
             break;
+        case SPECIES_SMOOCHUM:
         case SPECIES_JYNX:
             expected = ABILITY_SNOW_SIREN;
             break;

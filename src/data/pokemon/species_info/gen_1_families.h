@@ -16178,6 +16178,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
 #if P_GEN_2_CROSS_EVOS
     [SPECIES_SMOOCHUM] =
     {
+        .apexAbility = ABILITY_SNOW_SIREN,
         .baseHP        = 45,
         .baseAttack    = 30,
         .baseDefense   = 15,

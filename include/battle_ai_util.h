@@ -106,6 +106,9 @@ typedef bool32 (*MoveFlag)(enum Move move);
 static inline s32 AI_GetMovePriorityWithAbilities(enum BattlerId battler, enum Ability ability, enum Move move, enum BattlerId target, const enum Ability abilities[])
 {
     s32 priority = GetBattleMovePriorityBeforeFieldAbilities(battler, ability, move, target);
+    if (gAiLogicData->hasSereneSkies && (gSideStatuses[GetBattlerSide(battler)] & SIDE_STATUS_RAINBOW) && !gProtectStructs[battler].quash
+     && HasSereneSkiesPriority(battler, ability, move, abilities))
+        priority++;
     if (ability == ABILITY_MUTUAL_ORIGIN && !gProtectStructs[battler].quash
      && CountOtherBattlersKnowingMove(battler, move, TRUE) > 0)
         priority++;

@@ -160,6 +160,9 @@ enum BattleSide
 #define STATUS1_TOXIC_COUNTER    (1 << 8 | 1 << 9 | 1 << 10 | 1 << 11)
 #define STATUS1_TOXIC_TURN(num)  ((num) << 8)
 #define STATUS1_FROSTBITE        (1 << 12)
+// Burn variant; retain the BURN flag for all ordinary burn interactions.
+#define STATUS1_EMBLAZENED_BURN  (1 << 13)
+#define STATUS1_BURN_ANY         (STATUS1_BURN | STATUS1_EMBLAZENED_BURN)
 #define STATUS1_PSN_ANY          (STATUS1_POISON | STATUS1_TOXIC_POISON)
 #define STATUS1_ANY              (STATUS1_SLEEP | STATUS1_POISON | STATUS1_BURN | STATUS1_FREEZE | STATUS1_PARALYSIS | STATUS1_TOXIC_POISON | STATUS1_FROSTBITE)
 
@@ -211,6 +214,9 @@ enum CriticalHitBoost
     F(VOLATILE_ESCAPE_PREVENTION,           escapePrevention,              (u32, 1), V_BATON_PASSABLE) \
     F(VOLATILE_JAW_LOCK,                    jawLock,                       (u32, MAX_BATTLERS_COUNT)) \
     F(VOLATILE_NIGHTMARE,                   nightmare,                     (u32, 1)) \
+    F(VOLATILE_BARB_STACKS,                 barbStacks,                     (u32, 3)) \
+    F(VOLATILE_LUNAR_REVIVAL_SKIP,          lunarRevivalSkip,               (u32, 1)) \
+    F(VOLATILE_SCAREDY_MAW_PENDING,         scaredyMawPending,              (u32, 1)) \
     F(VOLATILE_BLEED_TURNS,                bleedTurns,                    (u32, 3)) \
     F(VOLATILE_TIMER_BALL_TURNS,           timerBallTurns,                (u32, 3)) \
     F(VOLATILE_REPEAT_BALL_MOVE,           repeatBallMove,                (enum Move, MOVES_COUNT - 1)) \
@@ -310,6 +316,10 @@ enum CriticalHitBoost
     F(VOLATILE_SPEED_SWAP,                  speedSwapped,                  (u32, 1)) \
     F(VOLATILE_ABYSSAL_EMBRACE,             abyssalEmbrace,                (u32, MAX_BATTLERS_COUNT)) \
     F(VOLATILE_SPIKY_GRIP,                 spikyGrip,                     (u32, MAX_BATTLERS_COUNT)) \
+    F(VOLATILE_SCALY_SCRAPPER,             scalyScrapper,                 (u32, MAX_BATTLERS_COUNT)) \
+    F(VOLATILE_EMBLAZENED_STAGE,           emblazenedStage,               (u32, 15)) \
+    F(VOLATILE_COPYRIGHT_FRAUD,            copyrightFraud,                (bool8, 1)) \
+    F(VOLATILE_ALGAE_ACTIVE,              algaeActive,                    (bool8, 1)) \
     F(VOLATILE_UMBRAL_THIRST,              umbralThirst,                   (bool8, 1)) \
     F(VOLATILE_MULTIVOLVED,                multivolved,                    (bool8, 1))
 
@@ -404,6 +414,7 @@ enum Hazards
     HAZARDS_NONE,
     HAZARDS_SPIKES,
     HAZARDS_STICKY_WEB,
+    HAZARDS_MALIGNED_WEB,
     HAZARDS_TOXIC_SPIKES,
     HAZARDS_STEALTH_ROCK,
     HAZARDS_FRIGID_SPIKES,

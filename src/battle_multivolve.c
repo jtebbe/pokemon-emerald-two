@@ -45,7 +45,7 @@ static const struct Trainer *GetMultivolvePool(enum BattlerId battler)
     return &sMultivolveSets[DIFFICULTY_NORMAL][min(NUM_BADGES, badges)];
 }
 
-static u16 ScaleHp(u32 hp, u32 oldMax, u32 newMax)
+u16 ScaleTemporaryBattleHp(u32 hp, u32 oldMax, u32 newMax)
 {
     if (hp == 0)
         return 0;
@@ -65,7 +65,7 @@ static void RefreshStats(enum BattlerId battler, const struct TrainerMon *set)
     const u8 *ev = set->ev;
 
     // Keep the last unrounded ratio when the party HP still matches our projection.
-    if (state->multivolveMaxHp == 0 || ScaleHp(state->multivolveHp, state->multivolveMaxHp, partyMaxHp) != partyHp)
+    if (state->multivolveMaxHp == 0 || ScaleTemporaryBattleHp(state->multivolveHp, state->multivolveMaxHp, partyMaxHp) != partyHp)
     {
         state->multivolveHp = partyHp;
         state->multivolveMaxHp = partyMaxHp;
@@ -74,7 +74,7 @@ static void RefreshStats(enum BattlerId battler, const struct TrainerMon *set)
     mon->level = GetMonData(partyMon, MON_DATA_LEVEL);
     mon->experience = GetMonData(partyMon, MON_DATA_EXP);
     mon->maxHP = (2 * GetSpeciesBaseStat(set->species, STAT_HP) + 31 + ev[0] / 4) * mon->level / 100 + mon->level + 10;
-    mon->hp = ScaleHp(state->multivolveHp, state->multivolveMaxHp, mon->maxHP);
+    mon->hp = ScaleTemporaryBattleHp(state->multivolveHp, state->multivolveMaxHp, mon->maxHP);
     mon->attack = CalculateNonHpStat(GetSpeciesBaseStat(set->species, STAT_ATK), mon->level, ev[1], set->nature, STAT_ATK);
     mon->defense = CalculateNonHpStat(GetSpeciesBaseStat(set->species, STAT_DEF), mon->level, ev[2], set->nature, STAT_DEF);
     mon->spAttack = CalculateNonHpStat(GetSpeciesBaseStat(set->species, STAT_SPATK), mon->level, ev[3], set->nature, STAT_SPATK);
@@ -123,10 +123,10 @@ u16 GetMultivolvePartyHp(enum BattlerId battler, u16 hp)
     struct PartyState *state = GetBattlerPartyState(battler);
     u16 formMaxHp = gBattleMons[battler].maxHP;
 
-    if (ScaleHp(state->multivolveHp, state->multivolveMaxHp, formMaxHp) != hp)
+    if (ScaleTemporaryBattleHp(state->multivolveHp, state->multivolveMaxHp, formMaxHp) != hp)
     {
         state->multivolveHp = hp;
         state->multivolveMaxHp = formMaxHp;
     }
-    return ScaleHp(state->multivolveHp, state->multivolveMaxHp, GetMonData(GetBattlerMon(battler), MON_DATA_MAX_HP));
+    return ScaleTemporaryBattleHp(state->multivolveHp, state->multivolveMaxHp, GetMonData(GetBattlerMon(battler), MON_DATA_MAX_HP));
 }

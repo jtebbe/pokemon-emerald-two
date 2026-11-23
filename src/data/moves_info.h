@@ -1333,6 +1333,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_ICE_BEAM] =
     {
+        .beamMove = TRUE,
         .name = COMPOUND_STRING("Ice Beam"),
         .description = COMPOUND_STRING(
             "Blasts the foe with an icy\n"
@@ -1386,6 +1387,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_PSYBEAM] =
     {
+        .beamMove = TRUE,
         .name = COMPOUND_STRING("Psybeam"),
         .description = COMPOUND_STRING(
             "Fires a peculiar ray that\n"
@@ -1407,6 +1409,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_BUBBLE_BEAM] =
     {
+        .beamMove = TRUE,
         .name = COMPOUND_STRING("Bubble Beam"),
         .description = COMPOUND_STRING(
             "Forcefully sprays bubbles\n"
@@ -1429,6 +1432,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_AURORA_BEAM] =
     {
+        .beamMove = TRUE,
         .name = COMPOUND_STRING("Aurora Beam"),
         .description = COMPOUND_STRING(
             "Fires a rainbow-colored\n"
@@ -1451,6 +1455,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_HYPER_BEAM] =
     {
+        .beamMove = TRUE,
         .name = COMPOUND_STRING("Hyper Beam"),
         .description = COMPOUND_STRING(
         #if B_SKIP_RECHARGE != GEN_1
@@ -1742,6 +1747,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SOLAR_BEAM] =
     {
+        .beamMove = TRUE,
         .name = COMPOUND_STRING("Solar Beam"),
         .description = COMPOUND_STRING(
             "Absorbs light in one turn,\n"
@@ -3003,6 +3009,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SPIKE_CANNON] =
     {
+        .cannonMove = TRUE,
         .name = COMPOUND_STRING("Spike Cannon"),
         .description = COMPOUND_STRING(
             "Launches sharp spikes that\n"
@@ -4402,6 +4409,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_OCTAZOOKA] =
     {
+        .cannonMove = TRUE,
         .name = COMPOUND_STRING("Octazooka"),
         .description = COMPOUND_STRING(
             "Fires a lump of ink to\n"
@@ -4450,6 +4458,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_ZAP_CANNON] =
     {
+        .cannonMove = TRUE,
         .name = COMPOUND_STRING("Zap Cannon"),
         .description = COMPOUND_STRING(
             "Powerful and sure to cause\n"
@@ -5460,8 +5469,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Hidden Power"),
         .description = COMPOUND_STRING(
-            "A mysterious psychic\n"
-            "attack."),
+            "Adapts its type to exploit\n"
+            "the target's weaknesses."),
         .power = 60,
         .effect = EFFECT_HIT,
         .type = TYPE_PSYCHIC,
@@ -7131,6 +7140,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_HYDRO_CANNON] =
     {
+        .cannonMove = TRUE,
         .name = COMPOUND_STRING("Hydro Cannon"),
         .description = COMPOUND_STRING(
         #if B_SKIP_RECHARGE != GEN_1
@@ -7496,6 +7506,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SIGNAL_BEAM] =
     {
+        .beamMove = TRUE,
         .name = COMPOUND_STRING("Signal Beam"),
         .description = COMPOUND_STRING(
             "A strange beam attack that\n"
@@ -9813,6 +9824,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_FLASH_CANNON] =
     {
+        .cannonMove = TRUE,
         .name = COMPOUND_STRING("Flash Cannon"),
         .description = COMPOUND_STRING(
             "Releases a blast of light\n"
@@ -10277,6 +10289,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_CHARGE_BEAM] =
     {
+        .beamMove = TRUE,
         .name = COMPOUND_STRING("Charge Beam"),
         .description = COMPOUND_STRING(
             "Fires a beam of electricity.\n"
@@ -11192,6 +11205,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SIMPLE_BEAM] =
     {
+        .beamMove = TRUE,
         .name = COMPOUND_STRING("Simple Beam"),
         .description = COMPOUND_STRING(
             "A beam that changes the\n"
@@ -14908,6 +14922,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_FLEUR_CANNON] =
     {
+        .cannonMove = TRUE,
         .name = COMPOUND_STRING("Fleur Cannon"),
         .description = COMPOUND_STRING(
             "Unleashes a strong beam,\n"
@@ -15101,6 +15116,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_MOONGEIST_BEAM] =
     {
+        .beamMove = TRUE,
         .name = COMPOUND_STRING("Moongeist Beam"),
         .description = COMPOUND_STRING(
             "A moon-powered beam that\n"
@@ -16323,6 +16339,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_ETERNABEAM] =
     {
+        .beamMove = TRUE,
         .name = COMPOUND_STRING("Eternabeam"),
         .description = COMPOUND_STRING(
             "Eternatus' strongest move.\n"
@@ -16345,6 +16362,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_STEEL_BEAM] =
     {
+        .beamMove = TRUE,
         .name = COMPOUND_STRING("Steel Beam"),
         .description = COMPOUND_STRING(
             "Fires a beam of steel from\n"
@@ -16423,6 +16441,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_METEOR_BEAM] =
     {
+        .beamMove = TRUE,
         .name = COMPOUND_STRING("Meteor Beam"),
         .description = COMPOUND_STRING(
             "A 2-turn move that raises\n"
@@ -18357,6 +18376,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_TWIN_BEAM] =
     {
+        .beamMove = TRUE,
         .name = COMPOUND_STRING("Twin Beam"),
         .description = COMPOUND_STRING(
             "Mystical eye-beams that hit\n"
@@ -18396,6 +18416,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_ARMOR_CANNON] =
     {
+        .cannonMove = TRUE,
         .name = COMPOUND_STRING("Armor Cannon"),
         .description = COMPOUND_STRING(
             "Shoots armor. This lowers\n"
@@ -18850,6 +18871,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_FICKLE_BEAM] =
     {
+        .beamMove = TRUE,
         .name = COMPOUND_STRING("Fickle Beam"),
         .description = COMPOUND_STRING(
             "Shoots a beam of light.\n"
@@ -19577,4 +19599,18 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     },
 
 
+    [MOVE_DYNAMAX_CANNON] =
+    {
+        .name = COMPOUND_STRING("Dynamax Cannon"),
+        .description = COMPOUND_STRING("Fires a powerful beam of\nDraconic core energy."),
+        .effect = EFFECT_HIT,
+        .power = 100,
+        .type = TYPE_DRAGON,
+        .accuracy = 100,
+        .pp = 5,
+        .target = TARGET_SELECTED,
+        .category = DAMAGE_CATEGORY_SPECIAL,
+        .cannonMove = TRUE,
+        .battleAnimScript = gBattleAnimMove_Eternabeam,
+    },
 };

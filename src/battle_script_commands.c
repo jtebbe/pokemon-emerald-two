@@ -1,4 +1,5 @@
 #include "global.h"
+#include "battle_apex_johto.h"
 #include "battle_i_choose_you.h"
 #include "battle.h"
 #include "battle_hold_effects.h"
@@ -835,13 +836,12 @@ static const struct PickupItem sPickupTable[] =
 
 bool32 ProteanTryChangeType(enum BattlerId battler, enum Ability ability, enum Move move, enum Type moveType)
 {
-      if ((ability == ABILITY_PROTEAN || ability == ABILITY_LIBERO)
-         && !gBattleMons[battler].volatiles.usedProteanLibero
-         && !gBattleStruct->bouncedMoveIsUsed
-         && (gBattleMons[battler].types[0] != moveType || gBattleMons[battler].types[1] != moveType
-             || (gBattleMons[battler].types[2] != moveType && gBattleMons[battler].types[2] != TYPE_MYSTERY))
-         && move != MOVE_STRUGGLE
-         && GetActiveGimmick(battler) != GIMMICK_TERA)
+    bool32 eligible = ((ability == ABILITY_PROTEAN || ability == ABILITY_LIBERO) && !gBattleMons[battler].volatiles.usedProteanLibero)
+        || (ability == ABILITY_LEGACY_LEXICON && move == MOVE_HIDDEN_POWER);
+    if (eligible && !gBattleStruct->bouncedMoveIsUsed
+     && (gBattleMons[battler].types[0] != moveType || gBattleMons[battler].types[1] != moveType
+      || (gBattleMons[battler].types[2] != moveType && gBattleMons[battler].types[2] != TYPE_MYSTERY))
+     && move != MOVE_STRUGGLE && GetActiveGimmick(battler) != GIMMICK_TERA)
     {
         SET_BATTLER_TYPE(battler, moveType);
         return TRUE;
@@ -1067,6 +1067,13 @@ static void Cmd_healthbarupdate(void)
     if (gBattleControllerExecFlags)
         return;
 
+    if (gBattleStruct->passiveHpUpdate[battler] < 0 && IsBattlerPresent(battler)
+     && GetBattlerAbility(battler) == ABILITY_FLORAL_HEALING)
+    {
+        s32 healAmount = -2 * gBattleStruct->passiveHpUpdate[battler];
+        gBattleStruct->passiveHpUpdate[battler] = -min(healAmount, GetBattlerMaxHP(battler) - GetBattlerHP(battler));
+    }
+
     BtlController_EmitHealthBarUpdate(battler, B_COMM_TO_CONTROLLER, min(gBattleStruct->passiveHpUpdate[battler], 10000));
     MarkBattlerForControllerExec(battler);
     gBattlescriptCurrInstr = cmd->nextInstr;
@@ -1081,6 +1088,7 @@ static void Cmd_datahpupdate(void)
     if (gBattleControllerExecFlags)
         return;
 
+    u32 previousHP = gBattleMons[battler].hp;
     if (gBattleStruct->passiveHpUpdate[battler] < 0)
     {
         // Negative damage is HP gain
@@ -1113,6 +1121,39 @@ static void Cmd_datahpupdate(void)
         sizeof(gBattleMons[battler].hp), &gBattleMons[battler].hp);
     MarkBattlerForControllerExec(battler);
 
+    gBattlescriptCurrInstr = cmd->nextInstr;
+
+    if (!gBattleStruct->floralHealing.active && gBattleMons[battler].hp > previousHP
+     && GetBattlerAbility(battler) == ABILITY_FLORAL_HEALING && IsDoubleBattle())
+    {
+        enum BattlerId ally = GetPartnerBattler(battler);
+        u32 sharedHealing = (gBattleMons[battler].hp - previousHP) / 2;
+        if (sharedHealing && IsBattlerPresent(ally) && !IsBattlerAtMaxHp(ally)
+         && !gBattleMons[ally].volatiles.healBlockTimer)
+        {
+            gBattleStruct->floralHealing.active = TRUE;
+            gBattleStruct->floralHealing.savedEffectBattler = gEffectBattler;
+            gBattleStruct->floralHealing.savedAbilityBattler = gBattlerAbility;
+            gBattleStruct->floralHealing.savedAbility = gLastUsedAbility;
+            gBattleStruct->floralHealing.savedHpUpdate = gBattleStruct->passiveHpUpdate[ally];
+            gEffectBattler = ally;
+            gBattlerAbility = battler;
+            gLastUsedAbility = ABILITY_FLORAL_HEALING;
+            SetHealAmount(ally, sharedHealing);
+            BattleScriptPush(cmd->nextInstr);
+            gBattlescriptCurrInstr = BattleScript_FloralHealingAlly;
+        }
+    }
+}
+
+void BS_RestoreFloralHealing(void)
+{
+    NATIVE_ARGS();
+    gBattleStruct->passiveHpUpdate[gEffectBattler] = gBattleStruct->floralHealing.savedHpUpdate;
+    gEffectBattler = gBattleStruct->floralHealing.savedEffectBattler;
+    gBattlerAbility = gBattleStruct->floralHealing.savedAbilityBattler;
+    gLastUsedAbility = gBattleStruct->floralHealing.savedAbility;
+    gBattleStruct->floralHealing.active = FALSE;
     gBattlescriptCurrInstr = cmd->nextInstr;
 }
 
@@ -1284,7 +1325,7 @@ void StealTargetItem(enum BattlerId battlerStealer, enum BattlerId itemBattler, 
     BtlController_EmitSetMonData(itemBattler, B_COMM_TO_CONTROLLER, REQUEST_HELDITEM_BATTLE, 0, sizeof(gBattleMons[itemBattler].item), &gBattleMons[itemBattler].item);  // remove target item
     MarkBattlerForControllerExec(itemBattler);
 
-    if (GetBattlerAbility(itemBattler) != ABILITY_GORILLA_TACTICS)
+    if (!HasAbilityChoiceLock(GetBattlerAbility(itemBattler)))
         gBattleStruct->choicedMove[itemBattler] = MOVE_NONE;
 
     TrySaveExchangedItem(itemBattler, gLastUsedItem);
@@ -1346,6 +1387,9 @@ void SetNonVolatileStatus(enum BattlerId battlerAtk, enum BattlerId effectBattle
         break;
     case MOVE_EFFECT_BURN:
         gBattleMons[effectBattler].status1 |= STATUS1_BURN;
+        gBattleMons[effectBattler].volatiles.emblazenedStage = 0;
+        if (GetBattlerAbility(battlerAtk) == ABILITY_EMBLAZENED)
+            gBattleMons[effectBattler].status1 |= STATUS1_EMBLAZENED_BURN;
         gBattlescriptCurrInstr = BattleScript_MoveEffectBurn;
         break;
     case MOVE_EFFECT_FREEZE:
@@ -1451,6 +1495,8 @@ static void Cmd_tryfaintmon(void)
         if (!IsBattlerAlive(battler)
          && !(gBattleStruct->battlerState[battler].notOnField))
         {
+            if (TryLunarRevival(battler))
+                return;
             SetValuesOnFaint(battler);
             BattleScriptPush(cmd->nextInstr);
             gBattlescriptCurrInstr = BattleScript_FaintBattler;
@@ -1535,7 +1581,7 @@ static void Cmd_jumpifability(void)
     {
     default:
         battler = GetBattlerForBattleScript(cmd->battler);
-        if (GetBattlerAbility(battler) == ability)
+        if (GetBattlerAbility(battler) == ability || (ability == ABILITY_MAGIC_GUARD && HasMagicGuardAbility(GetBattlerAbility(battler))))
             hasAbility = TRUE;
         break;
     case BS_ATTACKER_SIDE:
@@ -1558,7 +1604,7 @@ static void Cmd_jumpifability(void)
 
     if (hasAbility)
     {
-        gLastUsedAbility = ability;
+        gLastUsedAbility = GetBattlerAbility(battler);
         gBattlescriptCurrInstr = cmd->jumpInstr;
         RecordAbilityBattle(battler, gLastUsedAbility);
         gBattlerAbility = battler;
@@ -1923,6 +1969,10 @@ static void Cmd_getexp(void)
                     if (gBattleMons[battler].volatiles.multivolved)
                     {
                         RefreshMultivolveStats(battler);
+                    }
+                    else if (gBattleMons[battler].volatiles.copyrightFraud)
+                    {
+                        gBattleMons[battler].level = GetMonData(GetBattlerMon(battler), MON_DATA_LEVEL);
                     }
                     else if (gBattleMons[battler].volatiles.transformed)
                     {
@@ -4490,7 +4540,10 @@ bool32 TryTidyUpClear(bool32 clear)
 u32 IsFlowerVeilProtected(enum BattlerId battler)
 {
     if (IS_BATTLER_OF_TYPE(battler, TYPE_GRASS))
-        return IsAbilityOnSide(battler, ABILITY_FLOWER_VEIL);
+    {
+        u32 holder = IsAbilityOnSide(battler, ABILITY_FLOWER_VEIL);
+        return holder ? holder : IsAbilityOnSide(battler, ABILITY_FLORAL_HEALING);
+    }
     else
         return 0;
 }
@@ -4498,7 +4551,7 @@ u32 IsFlowerVeilProtected(enum BattlerId battler)
 u32 IsLeafGuardProtected(enum BattlerId battler, enum Ability ability)
 {
     if (IsBattlerWeatherAffected(GetBattlerHoldEffect(battler), GetWeather(), B_WEATHER_SUN))
-        return ability == ABILITY_LEAF_GUARD;
+        return ability == ABILITY_LEAF_GUARD || ability == ABILITY_FLORAL_HEALING;
     else
         return 0;
 }
@@ -5243,6 +5296,18 @@ static void Cmd_switchoutabilities(void)
                                         sizeof(gBattleMons[battler].status1),
                                         &gBattleMons[battler].status1);
         MarkBattlerForControllerExec(battler);
+        break;
+    case ABILITY_PURIFYING_NOMAD:
+        if (IsBattlerAlive(battler) && !(gSideStatuses[GetBattlerSide(battler)] & SIDE_STATUS_TAILWIND))
+        {
+            gSideStatuses[GetBattlerSide(battler)] |= SIDE_STATUS_TAILWIND;
+            gSideTimers[GetBattlerSide(battler)].tailwindTimer = 2;
+            gBattleScripting.battler = gBattlerAbility = battler;
+            gLastUsedAbility = ABILITY_PURIFYING_NOMAD;
+            BattleScriptPush(gBattlescriptCurrInstr);
+            gBattlescriptCurrInstr = BattleScript_FangsFromAbove;
+            return;
+        }
         break;
     case ABILITY_REGENERATOR:
     {
@@ -6494,6 +6559,21 @@ static bool32 DoFaintedEffectsBlock(void)
                 }
             }
             break;
+        case FAINTED_EFFECTS_BLOCK_SCALY_SCRAPPER:
+        {
+            gBattleStruct->eventState.faintedEffects++;
+            u32 source = gBattleMons[gBattlerFainted].volatiles.scalyScrapper;
+            if (source && IsBattlerPresent(source - 1)
+             && GetBattlerAbility(source - 1) == ABILITY_SCALY_SCRAPPER
+             && !IsBattlerAtMaxHp(source - 1) && !gBattleMons[source - 1].volatiles.healBlockTimer)
+            {
+                gEffectBattler = gBattlerAbility = source - 1;
+                SetHealAmount(gEffectBattler, GetBattlerMaxHP(gEffectBattler) / 4);
+                BattleScriptCall(BattleScript_GentleSoulHeal);
+                return TRUE;
+            }
+            break;
+        }
         case FAINTED_EFFECTS_BLOCK_FAINT_CRY:
             BtlController_EmitFaintingCry(gBattlerFainted, B_COMM_TO_CONTROLLER);
             MarkBattlerForControllerExec(gBattlerFainted);
@@ -7092,7 +7172,7 @@ void BS_ItemRestoreHP(void)
         battler = GetPartnerBattler(gBattlerAttacker);
 
     if (battler != MAX_BATTLERS_COUNT
-     && gBattleMons[battler].volatiles.multivolved
+     && (gBattleMons[battler].volatiles.multivolved || gBattleMons[battler].volatiles.copyrightFraud)
      && GetBattlerMon(battler) == &party[gBattleStruct->itemPartyIndex[gBattlerAttacker]])
     {
         hp = gBattleMons[battler].hp;
@@ -7445,6 +7525,11 @@ void BS_TryWindRiderPower(void)
     {
         switch (ability)
         {
+        case ABILITY_WINDBORNE:
+            if (battler == gBattlerAttacker
+             && gBattleStruct->eventState.beforeFirstTurn != FIRST_TURN_EVENTS_STARTING_STATUS)
+                AbilityBattleEffects(ABILITYEFFECT_ON_SWITCHIN, battler, ability, MOVE_NONE, TRUE);
+            break;
         case ABILITY_WIND_RIDER:
             // Starting Status Tailwind causes the Wind Rider boost to go off twice
             if (gBattleStruct->eventState.beforeFirstTurn != FIRST_TURN_EVENTS_STARTING_STATUS)
@@ -7460,6 +7545,35 @@ void BS_TryWindRiderPower(void)
             break;
         }
     }
+}
+
+void BS_MonkeyBusinessRemoveItem(void)
+{
+    NATIVE_ARGS(u8 partner, const u8 *failInstr);
+    enum BattlerId source = gBattlerAttacker;
+    enum BattlerId target = GetOppositeBattler(source);
+    if (cmd->partner)
+        target = GetPartnerBattler(target);
+    if ((cmd->partner && !IsDoubleBattle())
+     || !CanMonkeyBusinessRemoveItem(source, target, GetBattlerAbility(target), gBattleMons[target].item))
+    {
+        gBattlescriptCurrInstr = cmd->failInstr;
+        return;
+    }
+
+    gBattlerTarget = gEffectBattler = target;
+    gLastUsedItem = gBattleMons[target].item;
+    gBattleMons[target].item = ITEM_NONE;
+    if (!HasAbilityChoiceLock(gBattleMons[target].ability))
+        gBattleStruct->choicedMove[target] = MOVE_NONE;
+    CheckSetUnburden(target);
+    ClearBattlerItemEffectHistory(target);
+    // Like Knock Off, this is removal rather than consumption or theft by the holder.
+    GetLostItemState(GetBattlerTrainer(target), gBattlerPartyIndexes[target])->stolen = TRUE;
+    BtlController_EmitSetMonData(target, B_COMM_TO_CONTROLLER, REQUEST_HELDITEM_BATTLE, 0,
+        sizeof(gBattleMons[target].item), &gBattleMons[target].item);
+    MarkBattlerForControllerExec(target);
+    gBattlescriptCurrInstr = cmd->nextInstr;
 }
 
 void BS_ActivateWeatherChangeAbilities(void)
@@ -7499,7 +7613,10 @@ void BS_TryRevivalBlessing(void)
     {
         struct Pokemon *party = GetBattlerParty(gBattlerAttacker);
 
-        u16 hp = GetMonData(&party[gSelectedMonPartyId], MON_DATA_MAX_HP) / 2;
+        u16 hp = GetMonData(&party[gSelectedMonPartyId], MON_DATA_MAX_HP);
+        if (!gBattleStruct->goldenRainbowReviving)
+            hp = max(1, hp / 2);
+        gBattleStruct->goldenRainbowReviving = FALSE;
         BtlController_EmitSetMonData(gBattlerAttacker, B_COMM_TO_CONTROLLER, REQUEST_HP_BATTLE, 1u << gSelectedMonPartyId, sizeof(hp), &hp);
         MarkBattlerForControllerExec(gBattlerAttacker);
         PREPARE_SPECIES_BUFFER(gBattleTextBuff1, GetMonData(&party[gSelectedMonPartyId], MON_DATA_SPECIES));
@@ -7666,8 +7783,7 @@ void BS_TrySetInfatuation(void)
     NATIVE_ARGS(const u8 *failInstr);
 
     if (!gBattleMons[gBattlerTarget].volatiles.infatuation
-        && gBattleMons[gBattlerTarget].ability != ABILITY_OBLIVIOUS
-        && GetBattlerAbility(gBattlerTarget) != ABILITY_TOTAL_ZEN
+        && !HasObliviousAbility(GetBattlerAbility(gBattlerTarget))
         && !IsAbilityOnSide(gBattlerTarget, ABILITY_AROMA_VEIL)
         && AreBattlersOfOppositeGender(gBattlerAttacker, gBattlerTarget))
     {
@@ -9138,6 +9254,7 @@ void BS_TryDefiantRattled(void)
     {
     case ABILITY_DEFIANT:
     case ABILITY_BLAZE_HERITAGE:
+    case ABILITY_MONKEY_BUSINESS:
     case ABILITY_COMPETITIVE:
         if (ShouldDefiantCompetitiveActivate(battler, ability))
         {
@@ -9400,6 +9517,10 @@ void BS_SetMeteoricWrathImpact(void)
     {
         gBattleCommunication[0] = TRUE;
         gBattlerTarget = gEffectBattler;
+        if (GetBattlerAbility(gEffectBattler) == ABILITY_OCTOCANNON
+         && gEffectBattler != gBattleStruct->meteoricWrathBattler
+         && gBattleStruct->passiveHpUpdate[gEffectBattler] < GetBattlerHP(gEffectBattler))
+            QueuePostActionContactMove(gEffectBattler, gBattleStruct->meteoricWrathBattler, ABILITY_OCTOCANNON);
     }
     else
     {
@@ -9504,4 +9625,238 @@ void BS_VoodooStrengthApply(void)
     gBattleScripting.battler = gBattlerAbility = source;
     gEffectBattler = target;
     BattleScriptCall(BattleScript_VoodooStrengthStatChange);
+}
+
+// Apply the temporary coat even when absorption cannot restore HP.
+void BS_AlgaeCoat(void)
+{
+    NATIVE_ARGS(const u8 *alreadyGrass);
+    enum BattlerId battler = gBattleScripting.battler;
+    gBattleMons[battler].volatiles.algaeActive = TRUE;
+    gEffectBattler = battler;
+    if (IS_BATTLER_OF_TYPE(battler, TYPE_GRASS))
+        gBattlescriptCurrInstr = cmd->alreadyGrass;
+    else
+    {
+        gBattleMons[battler].types[2] = TYPE_GRASS;
+        PREPARE_TYPE_BUFFER(gBattleTextBuff1, TYPE_GRASS);
+        gBattlescriptCurrInstr = cmd->nextInstr;
+    }
+}
+
+void BS_CleaningStation(void)
+{
+    NATIVE_ARGS();
+    enum BattlerId battler = gEffectBattler;
+    ApplyCleaningStation(battler);
+    GetBattlerPartyState(battler)->scorchingBlastBurn = FALSE;
+    SetHealAmount(battler, max(1, GetBattlerMaxHP(battler) / 8));
+    gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
+void BS_EcocollapseNext(void)
+{
+    NATIVE_ARGS(bool8 faint, const u8 *done);
+    for (enum BattlerId target = gBattleStruct->ecocollapseCursor; target < gBattlersCount; target++)
+    {
+        gBattleStruct->ecocollapseCursor = target + 1;
+        if (!(gBattleStruct->ecocollapseTargets & (1u << target)) || gBattleStruct->battlerState[target].notOnField)
+            continue;
+        if (cmd->faint && IsBattlerAlive(target))
+            continue;
+        gEffectBattler = target;
+        if (!cmd->faint)
+            SetPassiveDamageAmount(target, max(1, GetBattlerMaxHP(target) / 4));
+        gBattlescriptCurrInstr = cmd->nextInstr;
+        return;
+    }
+    gBattleStruct->ecocollapseCursor = 0;
+    gBattlescriptCurrInstr = cmd->done;
+}
+
+void BS_PricklyDefenseNext(void)
+{
+    NATIVE_ARGS();
+    gBattlescriptCurrInstr = cmd->nextInstr;
+    enum BattleSide side = GetBattlerSide(gBattlerAbility) ^ BIT_SIDE;
+    enum StringID string;
+    if (gBattleStruct->pricklyDefenseHazards & 1)
+    {
+        gBattleStruct->pricklyDefenseHazards &= ~1;
+        if (!gSideTimers[side].spikesAmount)
+            PushHazardTypeToQueue(side, HAZARDS_SPIKES);
+        gSideTimers[side].spikesAmount++;
+        string = STRINGID_SPIKESSCATTERED;
+    }
+    else if (gBattleStruct->pricklyDefenseHazards & 2)
+    {
+        gBattleStruct->pricklyDefenseHazards &= ~2;
+        if (!gSideTimers[side].toxicSpikesAmount)
+            PushHazardTypeToQueue(side, HAZARDS_TOXIC_SPIKES);
+        gSideTimers[side].toxicSpikesAmount++;
+        string = STRINGID_POISONSPIKESSCATTERED;
+    }
+    else
+        return;
+    if (gBattleStruct->pricklyDefenseHazards)
+        BattleScriptCall(BattleScript_PricklyDefenseNext);
+    PrepareStringBattleWithWait(string, GetOppositeBattler(gBattlerAbility));
+}
+
+void BS_ReturnFireMessage(void)
+{
+    NATIVE_ARGS();
+    enum StringID string = STRINGID_SPIKESSCATTERED;
+    switch (gBattleStruct->returnFireHazard)
+    {
+    case HAZARDS_STEALTH_ROCK: string = STRINGID_POINTEDSTONESFLOAT; break;
+    case HAZARDS_TOXIC_SPIKES: string = STRINGID_POISONSPIKESSCATTERED; break;
+    case HAZARDS_STICKY_WEB: string = STRINGID_STICKYWEBUSED; break;
+    default: break;
+    }
+    gBattlescriptCurrInstr = cmd->nextInstr;
+    PrepareStringBattleWithWait(string, GetOppositeBattler(gBattlerAbility));
+}
+
+void BS_HighlyFlammableNext(void)
+{
+    NATIVE_ARGS(const u8 *done);
+    enum BattlerId source = gBattleStruct->highlyFlammableBattler;
+    for (enum BattlerId target = gBattleStruct->highlyFlammableNext; target < gBattlersCount; target++)
+    {
+        gBattleStruct->highlyFlammableNext = target + 1;
+        if (target == source || !IsBattlerAlive(target))
+            continue;
+        gEffectBattler = target;
+        SetPassiveDamageAmount(target, max(1, GetBattlerMaxHP(target) * 3 / 4));
+        gBattlescriptCurrInstr = cmd->nextInstr;
+        return;
+    }
+    gEffectBattler = source;
+    SetPassiveDamageAmount(source, gBattleMons[source].hp);
+    gBattlescriptCurrInstr = cmd->done;
+}
+
+void BS_SpeedySentrySwitch(void)
+{
+    NATIVE_ARGS();
+    gBattlescriptCurrInstr = cmd->nextInstr;
+    enum BattlerId battler = gBattleStruct->speedySentryBattler;
+    if (IsBattlerPresent(battler) && CanBattlerSwitch(battler))
+    {
+        gBattleScripting.battler = battler;
+        gSpecialStatuses[battler].queuedSwitch = QUEUED_SWITCH_OPEN_PARTY_SCREEN;
+        BattleScriptCall(BattleScript_SpeedySentrySwitch);
+    }
+}
+
+void BS_CopyrightFraud(void)
+{
+    NATIVE_ARGS();
+    enum BattlerId battler = gBattleScripting.battler;
+    gEffectBattler = GetCopyrightFraudTarget(battler);
+    if (ApplyCopyrightFraud(battler, TRUE))
+        UpdateHealthboxAttribute(gHealthboxSpriteIds[battler], GetBattlerMon(battler), HEALTHBOX_ALL);
+    gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
+void BS_NaughtyOrNiceNext(void)
+{
+    NATIVE_ARGS(bool8 faint, const u8 *done);
+    for (enum BattlerId target = gBattleStruct->naughtyNiceCursor; target < gBattlersCount; target++)
+    {
+        gBattleStruct->naughtyNiceCursor = target + 1;
+        if (!(gBattleStruct->naughtyNiceTargets & (1u << target))
+         || gBattleStruct->battlerState[target].notOnField || (cmd->faint && IsBattlerAlive(target)))
+            continue;
+        gEffectBattler = target;
+        gBattlescriptCurrInstr = cmd->nextInstr;
+        return;
+    }
+    gBattleStruct->naughtyNiceCursor = 0;
+    gBattlescriptCurrInstr = cmd->done;
+}
+
+void BS_PurifyingNomad(void)
+{
+    NATIVE_ARGS();
+    enum BattlerId source = gBattleScripting.battler;
+    u32 zero = STATUS1_NONE;
+    for (u32 team = 0; team < (IsDoubleBattle() && HasPartnerTrainer(source) ? 2u : 1u); team++)
+    {
+        enum BattlerId owner = team ? GetPartnerBattler(source) : source;
+        enum BattleTrainer trainer = GetBattlerTrainer(owner);
+        struct Pokemon *party = GetBattlerParty(owner);
+        u32 mask = 0;
+        for (enum PartySlot slot = 0; slot < PARTY_SIZE; slot++)
+        {
+            enum Species species = GetMonData(&party[slot], MON_DATA_SPECIES_OR_EGG);
+            if (species == SPECIES_NONE || species == SPECIES_EGG)
+                continue;
+            mask |= 1u << slot;
+            TryDeactivateSleepClause(owner, slot);
+            gBattleStruct->partyState[trainer][slot].scorchingBlastBurn = FALSE;
+            gBattleStruct->partyState[trainer][slot].freezeTurns = 0;
+        }
+        if (mask)
+        {
+            BtlController_EmitSetMonData(owner, B_COMM_TO_CONTROLLER, REQUEST_STATUS_BATTLE, mask, sizeof(zero), &zero);
+            MarkBattlerForControllerExec(owner);
+        }
+    }
+    for (enum BattlerId target = 0; target < gBattlersCount; target++)
+        if (IsBattlerAlly(source, target))
+        {
+            gBattleMons[target].status1 = STATUS1_NONE;
+            gBattleMons[target].volatiles.nightmare = FALSE;
+            gBattleMons[target].volatiles.emblazenedStage = 0;
+        }
+    gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
+void BS_PurifyingNomadIcons(void)
+{
+    NATIVE_ARGS();
+    for (enum BattlerId target = 0; target < gBattlersCount; target++)
+        if (IsBattlerAlly(gBattleScripting.battler, target) && IsBattlerPresent(target))
+            UpdateHealthboxAttribute(gHealthboxSpriteIds[target], GetBattlerMon(target), HEALTHBOX_STATUS_ICON);
+    gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
+void BS_GoldenRainbowPrepare(void)
+{
+    NATIVE_ARGS();
+    enum BattlerId battler = gBattleScripting.battler;
+    gSelectedMonPartyId = RandomBitIndex(RNG_GOLDEN_RAINBOW, GetGoldenRainbowCandidates(battler));
+    GetBattlerPartyState(battler)->goldenRainbowUsed = TRUE;
+    gBattleStruct->goldenRainbowReviving = TRUE;
+    gBattleCommunication[MULTIUSE_STATE] = FALSE;
+    gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
+void BS_GoldenRainbowSendOutBegin(void)
+{
+    NATIVE_ARGS();
+    gBattleStruct->goldenRainbowSource = gBattlerAttacker;
+    gBattleStruct->goldenRainbowSavedEvents = gBattleStruct->eventState;
+    gBattleStruct->goldenRainbowSavedCounter = gBattleStruct->switchInBattlerCounter;
+    gBattleStruct->goldenRainbowSavedFlags = 0;
+    for (enum BattlerId battler = 0; battler < gBattlersCount; battler++)
+    {
+        if (gBattleStruct->battlerState[battler].switchIn)
+            gBattleStruct->goldenRainbowSavedFlags |= 1u << battler;
+        gBattleStruct->battlerState[battler].switchIn = FALSE;
+    }
+    gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
+void BS_GoldenRainbowSendOutEnd(void)
+{
+    NATIVE_ARGS();
+    gBattleStruct->eventState = gBattleStruct->goldenRainbowSavedEvents;
+    gBattleStruct->switchInBattlerCounter = gBattleStruct->goldenRainbowSavedCounter;
+    for (enum BattlerId battler = 0; battler < gBattlersCount; battler++)
+        gBattleStruct->battlerState[battler].switchIn = !!(gBattleStruct->goldenRainbowSavedFlags & (1u << battler));
+    gBattleScripting.battler = gBattlerAbility = gBattleStruct->goldenRainbowSource;
+    gBattlescriptCurrInstr = cmd->nextInstr;
 }

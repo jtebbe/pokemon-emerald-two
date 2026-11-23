@@ -857,6 +857,97 @@ BattleScript_EffectHealingWishGen4:
 BattleScript_HealingWishActivates::
 	setbyte cMULTISTRING_CHOOSER, 0
 	goto BattleScript_EffectHealingWishRestore
+BattleScript_AlgaeAddiction::
+    call BattleScript_AbilityPopUp
+    callnative BS_AlgaeCoat
+    .4byte BattleScript_AlgaeHeal
+    printstring STRINGID_THIRDTYPEADDED
+    waitmessage B_WAIT_TIME_LONG
+BattleScript_AlgaeHeal:
+    jumpifvolatile BS_SCRIPTING, VOLATILE_HEAL_BLOCK_TIMER, BattleScript_AlgaeReturn
+    tryhealquarterhealth BS_SCRIPTING, BattleScript_AlgaeReturn
+    healthbarupdate BS_SCRIPTING
+    datahpupdate BS_SCRIPTING, ASSURANCE_IGNORE
+    printstring STRINGID_PKMNREGAINEDHEALTH
+    waitmessage B_WAIT_TIME_LONG
+BattleScript_AlgaeReturn:
+    return
+
+BattleScript_CleaningStation::
+    call BattleScript_AbilityPopUp
+    curestatus BS_EFFECT_BATTLER
+    updatestatusicon BS_EFFECT_BATTLER
+    callnative BS_CleaningStation
+    printstring STRINGID_CLEANINGSTATION
+    waitmessage B_WAIT_TIME_LONG
+    healthbarupdate BS_EFFECT_BATTLER
+    datahpupdate BS_EFFECT_BATTLER, ASSURANCE_IGNORE
+    return
+
+BattleScript_Ecocollapse::
+    call BattleScript_AbilityPopUp
+    printstring STRINGID_ECOCOLLAPSE
+    waitmessage B_WAIT_TIME_LONG
+BattleScript_EcocollapseDamageLoop:
+    callnative BS_EcocollapseNext
+    .byte FALSE
+    .4byte BattleScript_EcocollapseFaintLoop
+    healthbarupdate BS_EFFECT_BATTLER
+    datahpupdate BS_EFFECT_BATTLER, ASSURANCE_IGNORE
+    goto BattleScript_EcocollapseDamageLoop
+BattleScript_EcocollapseFaintLoop:
+    callnative BS_EcocollapseNext
+    .byte TRUE
+    .4byte BattleScript_EcocollapseReturn
+    tryfaintmon BS_EFFECT_BATTLER
+    goto BattleScript_EcocollapseFaintLoop
+BattleScript_EcocollapseReturn:
+    return
+
+BattleScript_LunarRevival::
+    call BattleScript_AbilityPopUp
+    healthbarupdate BS_SCRIPTING
+    datahpupdate BS_SCRIPTING, ASSURANCE_IGNORE
+    return
+
+BattleScript_LunarRevivalBreath::
+    printstring STRINGID_LUNARREVIVALBREATH
+    waitmessage B_WAIT_TIME_LONG
+    goto BattleScript_MoveEnd
+
+BattleScript_BarbedStrikesApplied::
+    call BattleScript_AbilityPopUp
+    printstring STRINGID_BARBEDSTRIKESAPPLIED
+    waitmessage B_WAIT_TIME_LONG
+    return
+
+BattleScript_BarbedStrikesDamage::
+    printstring STRINGID_BARBEDSTRIKESHURT
+    waitmessage B_WAIT_TIME_LONG
+    goto BattleScript_DoTurnDmg
+
+BattleScript_PricklyDefense::
+    call BattleScript_AbilityPopUp
+BattleScript_PricklyDefenseNext::
+    callnative BS_PricklyDefenseNext
+    return
+
+BattleScript_FangsFromAbove::
+    saveattacker
+    copybyte gBattlerAttacker, sBATTLER
+    call BattleScript_AbilityPopUp
+    printstring STRINGID_TAILWINDBLEW
+    call BattleScript_TailwindMessageWait
+    copybyte sBATTLER, gBattlerAttacker
+    restoreattacker
+    return
+
+BattleScript_HornLaunch::
+    call BattleScript_AbilityPopUp
+    call BattleScript_TryHitSwitchTarget
+    restoretarget
+    return
+
 BattleScript_LunarDanceActivates::
 	setbyte cMULTISTRING_CHOOSER, 1
 	restoremovepp BS_SCRIPTING
@@ -3039,6 +3130,38 @@ BattleScript_SpikyGripActivates::
 	waitmessage B_WAIT_TIME_LONG
 	return
 
+BattleScript_ScalyScrapperTraps::
+	call BattleScript_AbilityPopUp
+	printstring STRINGID_SCALYSCRAPPERTRAPPED
+	waitmessage B_WAIT_TIME_LONG
+	return
+
+BattleScript_ScalyScrapperTurnDmg::
+	printstring STRINGID_SCALYSCRAPPERHURT
+	waitmessage B_WAIT_TIME_LONG
+	goto BattleScript_DoTurnDmg
+
+BattleScript_VolcanismErupts::
+	call BattleScript_AbilityPopUp
+	updatestatusicon BS_ATTACKER
+	playmoveanimation MOVE_EXPLOSION
+	waitanimation
+	printstring STRINGID_VOLCANISMERUPTS
+	waitmessage B_WAIT_TIME_LONG
+	jumpifability BS_ATTACKER, ABILITY_MAGIC_GUARD, BattleScript_VolcanismEnd
+	goto BattleScript_DoTurnDmg
+BattleScript_VolcanismEnd:
+	return
+
+BattleScript_FloralHealingAlly::
+	call BattleScript_AbilityPopUp
+	playanimation BS_EFFECT_BATTLER, B_ANIM_SIMPLE_HEAL
+	waitanimation
+	healthbarupdate BS_EFFECT_BATTLER
+	datahpupdate BS_EFFECT_BATTLER, ASSURANCE_IGNORE
+	callnative BS_RestoreFloralHealing
+	return
+
 BattleScript_SpikyGripTurnDmg::
 	printstring STRINGID_SPIKYGRIPHURT
 	waitmessage B_WAIT_TIME_LONG
@@ -3436,6 +3559,46 @@ BattleScript_ReceiverActivates::
 	switchinabilities BS_ABILITY_BATTLER
 	return
 
+BattleScript_ReturnFireActivates::
+    call BattleScript_AbilityPopUp
+    callnative BS_ReturnFireMessage
+    return
+
+BattleScript_HighlyFlammable::
+    saveattacker
+    savetarget
+    copybyte gBattlerAttacker, sBATTLER
+    copybyte gBattlerTarget, sBATTLER
+    call BattleScript_AbilityPopUp
+    playmoveanimation MOVE_EXPLOSION
+    waitanimation
+BattleScript_HighlyFlammableLoop:
+    callnative BS_HighlyFlammableNext
+    .4byte BattleScript_HighlyFlammableFaint
+    healthbarupdate BS_EFFECT_BATTLER
+    datahpupdate BS_EFFECT_BATTLER, ASSURANCE_IGNORE
+    tryfaintmon BS_EFFECT_BATTLER
+    goto BattleScript_HighlyFlammableLoop
+BattleScript_HighlyFlammableFaint:
+    healthbarupdate BS_EFFECT_BATTLER
+    datahpupdate BS_EFFECT_BATTLER, ASSURANCE_IGNORE
+    tryfaintmon BS_EFFECT_BATTLER
+    restoretarget
+    restoreattacker
+    goto BattleScript_MoveEnd
+
+BattleScript_DonTaxCopy::
+    call BattleScript_AbilityPopUp
+    playanimation BS_ATTACKER, B_ANIM_SNATCH_MOVE
+    return
+
+BattleScript_UmbralWitchCost::
+    call BattleScript_AbilityPopUp
+    healthbarupdate BS_EFFECT_BATTLER
+    datahpupdate BS_EFFECT_BATTLER, ASSURANCE_IGNORE
+    tryfaintmon BS_EFFECT_BATTLER
+    return
+
 BattleScript_AbilityHpHeal::
 	call BattleScript_AbilityPopUp
  	playanimation BS_ATTACKER, B_ANIM_SIMPLE_HEAL
@@ -3766,6 +3929,28 @@ BattleScript_SporeCloudActivates::
     callnative BS_SporeCloudApply
     .byte TRUE
     copybyte gBattlerAbility, gBattlerAttacker
+    restoreattacker
+    return
+
+BattleScript_MonkeyBusinessActivates::
+    saveattacker
+    savetarget
+    copybyte gBattlerAttacker, gBattlerAbility
+    call BattleScript_AbilityPopUp
+    callnative BS_MonkeyBusinessRemoveItem
+    .byte FALSE
+    .4byte BattleScript_MonkeyBusinessSecond
+    waitstate
+    call BattleScript_KnockedOff
+BattleScript_MonkeyBusinessSecond:
+    callnative BS_MonkeyBusinessRemoveItem
+    .byte TRUE
+    .4byte BattleScript_MonkeyBusinessEnd
+    waitstate
+    call BattleScript_KnockedOff
+BattleScript_MonkeyBusinessEnd:
+    copybyte gBattlerAbility, gBattlerAttacker
+    restoretarget
     restoreattacker
     return
 
@@ -5291,3 +5476,96 @@ BattleScript_BelchFails::
 	printstring STRINGID_BELCHCANTSELECT
 	waitmessage B_WAIT_TIME_LONG
 	goto BattleScript_MoveEnd
+
+BattleScript_SpeedySentry::
+    call BattleScript_AbilityPopUp
+    saveattacker
+    copybyte gBattlerAttacker, gBattlerAbility
+    trystatchanges BS_ATTACKER, STAT_CHANGE_BYPASS_SUBSTITUTE
+    restoreattacker
+    callnative BS_SpeedySentrySwitch
+    goto BattleScript_MoveEnd
+
+BattleScript_SpeedySentrySwitch::
+    returntoball BS_SCRIPTING, FALSE
+    switchoutabilities BS_SCRIPTING
+    return
+
+BattleScript_NaughtyOrNice::
+    call BattleScript_AbilityPopUp
+    printstring STRINGID_NAUGHTYORNICE
+    waitmessage B_WAIT_TIME_LONG
+BattleScript_NaughtyOrNiceLoop:
+    callnative BS_NaughtyOrNiceNext
+    .byte FALSE
+    .4byte BattleScript_NaughtyOrNiceFaints
+    healthbarupdate BS_EFFECT_BATTLER
+    datahpupdate BS_EFFECT_BATTLER, ASSURANCE_IGNORE
+    goto BattleScript_NaughtyOrNiceLoop
+BattleScript_NaughtyOrNiceFaints:
+    callnative BS_NaughtyOrNiceNext
+    .byte TRUE
+    .4byte BattleScript_NaughtyOrNiceEnd
+    tryfaintmon BS_EFFECT_BATTLER
+    goto BattleScript_NaughtyOrNiceFaints
+BattleScript_NaughtyOrNiceEnd:
+    return
+
+BattleScript_UnstoppableRoll::
+    call BattleScript_AbilityPopUp
+    trybattlerstatchange BS_SCRIPTING, STAT_CHANGE_CERTAIN
+    return
+
+BattleScript_ForestWeirding::
+    call BattleScript_AbilityPopUp
+    playanimation BS_SCRIPTING, B_ANIM_TRICK_ROOM
+    waitanimation
+    printstring STRINGID_FORESTWEIRDING
+    waitmessage B_WAIT_TIME_LONG
+    goto BattleScript_TryRoomServiceLoop
+
+BattleScript_CopyrightFraud::
+    call BattleScript_AbilityPopUp
+    callnative BS_CopyrightFraud
+    printstring STRINGID_COPYRIGHTFRAUD
+    waitmessage B_WAIT_TIME_LONG
+    return
+
+BattleScript_ThunderRunnerTerrain::
+    call BattleScript_AbilityPopUp
+    trybattlerstatchange BS_SCRIPTING, STAT_CHANGE_CERTAIN
+    return
+
+BattleScript_PurifyingNomad::
+    call BattleScript_AbilityPopUp
+    callnative BS_PurifyingNomad
+    waitstate
+    callnative BS_PurifyingNomadIcons
+    printstring STRINGID_PURIFYINGNOMAD
+    waitmessage B_WAIT_TIME_LONG
+    return
+
+BattleScript_GoldenRainbow::
+    call BattleScript_AbilityPopUp
+    saveattacker
+    copybyte gBattlerAttacker, sBATTLER
+    callnative BS_GoldenRainbowPrepare
+    tryrevivalblessing
+    waitstate
+    printstring STRINGID_PKMNREVIVEDREADYTOFIGHT
+    waitmessage B_WAIT_TIME_LONG
+    jumpifbyte CMP_EQUAL, gBattleCommunication, TRUE, BattleScript_GoldenRainbowSendOut
+    restoreattacker
+    return
+BattleScript_GoldenRainbowSendOut:
+    callnative BS_GoldenRainbowSendOutBegin
+    getswitchedmondata BS_SCRIPTING
+    switchindataupdate BS_SCRIPTING
+    hpthresholds BS_SCRIPTING
+    switchinanim BS_SCRIPTING, FALSE, FALSE
+    waitstate
+    switchineffects BS_SCRIPTING
+    switchinevents
+    callnative BS_GoldenRainbowSendOutEnd
+    restoreattacker
+    return

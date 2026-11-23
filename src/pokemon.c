@@ -2439,7 +2439,7 @@ bool8 PokemonUseItemEffects(struct Pokemon *mon, enum Item item, enum PartySlot 
                 retVal = FALSE;
             if ((itemEffect[i] & ITEM3_POISON) && HealStatusConditions(mon, STATUS1_PSN_ANY | STATUS1_TOXIC_COUNTER, battler) == 0)
                 retVal = FALSE;
-            if ((itemEffect[i] & ITEM3_BURN) && HealStatusConditions(mon, STATUS1_BURN, battler) == 0)
+            if ((itemEffect[i] & ITEM3_BURN) && HealStatusConditions(mon, STATUS1_BURN_ANY, battler) == 0)
                 retVal = FALSE;
             if ((itemEffect[i] & ITEM3_FREEZE) && HealStatusConditions(mon, STATUS1_ICY_ANY, battler) == 0)
                 retVal = FALSE;
@@ -4865,6 +4865,10 @@ bool32 TryFormChange(struct Pokemon *mon, enum FormChanges method, enum BattleTr
     enum Species targetSpecies = GetFormChangeTargetSpecies(mon, method);
 
     struct PartyState *battlePartyState = GetBattlerPartyStateByPokemon(mon, trainer);
+    if (currentSpecies == SPECIES_UNOWN_LEXICON && battlePartyState != NULL
+     && battlePartyState->changedSpecies != SPECIES_NONE
+     && (method == FORM_CHANGE_BATTLE_SWITCH_OUT || method == FORM_CHANGE_FAINT || method == FORM_CHANGE_END_BATTLE))
+        targetSpecies = battlePartyState->changedSpecies;
     // If the battle ends, and there's not a specified species to change back to,
     // use the species at the start of the battle.
     if (targetSpecies == SPECIES_NONE
@@ -4883,10 +4887,17 @@ bool32 TryFormChange(struct Pokemon *mon, enum FormChanges method, enum BattleTr
 
     if (targetSpecies != currentSpecies)
     {
+        u32 oldHP = GetMonData(mon, MON_DATA_HP);
+        u32 oldMaxHP = GetMonData(mon, MON_DATA_MAX_HP);
         TryToSetBattleFormChangeMoves(mon, method);
         SetMonData(mon, MON_DATA_SPECIES, &targetSpecies);
         TrySetDayLimitToFormChange(mon);
         CalculateMonStats(mon);
+        if ((currentSpecies == SPECIES_UNOWN_LEXICON || targetSpecies == SPECIES_UNOWN_LEXICON) && oldMaxHP)
+        {
+            u16 hp = oldHP ? max(1, oldHP * GetMonData(mon, MON_DATA_MAX_HP) / oldMaxHP) : 0;
+            SetMonData(mon, MON_DATA_HP, &hp);
+        }
         return TRUE;
     }
 
