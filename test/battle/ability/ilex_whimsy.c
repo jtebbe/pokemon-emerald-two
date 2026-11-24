@@ -37,7 +37,7 @@ SINGLE_BATTLE_TEST("Ilex Whimsy reveals the Apex Meteorite before shielding eith
         EXPECT_EQ(gSideTimers[side].mistTimer, 4);
         EXPECT_EQ(gSideTimers[side].safeguardTimer, 4);
         EXPECT_EQ(gSideTimers[side].luckyChantTimer, 4);
-        EXPECT_EQ(gAiPartyData->mons[side][0].heldEffect, HOLD_EFFECT_APEX_METEORITE);
+        EXPECT_EQ(gAiPartyData->mons[side][0].holdEffect, HOLD_EFFECT_APEX_METEORITE);
         EXPECT_EQ(AI_DecideKnownAbilityForTurn(battler), ABILITY_ILEX_WHIMSY);
         EXPECT_EQ(gLoadFail, FALSE);
         EXPECT_EQ(gSpriteAllocs, 0);
@@ -197,7 +197,7 @@ SINGLE_BATTLE_TEST("An unassigned Apex ability still reveals its Meteorite to th
     } SCENE {
         MESSAGE("Regirock is unleashing its potential!");
     } THEN {
-        EXPECT_EQ(gAiPartyData->mons[B_SIDE_PLAYER][0].heldEffect, HOLD_EFFECT_APEX_METEORITE);
+        EXPECT_EQ(gAiPartyData->mons[B_SIDE_PLAYER][0].holdEffect, HOLD_EFFECT_APEX_METEORITE);
         EXPECT_EQ(AI_DecideKnownAbilityForTurn(B_BATTLER_0), ABILITY_NONE);
     }
 }

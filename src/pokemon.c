@@ -5,6 +5,7 @@
 #include "battle_anim.h"
 #include "battle_controllers.h"
 #include "battle_message.h"
+#include "battle_partner.h"
 #include "battle_setup.h"
 #include "caps.h"
 #include "data.h"
@@ -4030,6 +4031,7 @@ const u8 *GetTrainerPartnerName(void)
 {
     if (HasAnyBattleFlags(BATTLE_TYPE_INGAME_PARTNER))
     {
+        GetInGamePartnerName(gStringVar1, gPartnerTrainerId);
         return gStringVar1;
     }
     else

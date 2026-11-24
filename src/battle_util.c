@@ -4642,7 +4642,7 @@ u32 AbilityBattleEffects(enum AbilityEffect caseID, enum BattlerId battler, enum
                 }
                 break;
             case ABILITY_CUD_CHEW:
-                if (--gBattleMons[battler].volatiles.cudChewTimer == 0)
+                if (gBattleMons[battler].volatiles.cudChewTimer > 0 && --gBattleMons[battler].volatiles.cudChewTimer == 0)
                 {
                     gBattleScripting.battler = battler;
                     gLastUsedItem = GetBattlerPartyState(battler)->usedHeldItem;
@@ -8313,7 +8313,7 @@ static inline u32 CalcMoveBasePowerAfterModifiers(struct DamageContext *ctx)
         break;
     case EFFECT_MAGNITUDE:
     case EFFECT_EARTHQUAKE:
-        if (ctx->terrain == B_TERRAIN_GRASSY && !IsSemiInvulnerable(battlerDef, CHECK_ALL))
+        if (IsGrassyTerrainAffected(battlerDef, ctx->abilities[battlerDef], ctx->holdEffects[battlerDef], ctx->terrain))
             modifier = uq4_12_multiply(modifier, UQ_4_12(0.5));
         break;
     case EFFECT_KNOCK_OFF:
@@ -10873,7 +10873,7 @@ enum Type GetHiddenPowerMoveType(struct DamageContext *ctx, bool32 randomTie)
         choice.updateFlags = choice.runScript = FALSE;
         choice.abilityBlocked = choice.airBalloonBlocked = FALSE;
         uq4_12_t effect = CalcTypeEffectivenessMultiplier(&choice);
-        s16 passiveHP = gBattleStruct->passiveHpUpdate[choice.battlerDef];
+        s32 passiveHP = gBattleStruct->passiveHpUpdate[choice.battlerDef];
         u8 chooser = gBattleCommunication[MULTISTRING_CHOOSER];
         if (effect && CanAbilityAbsorbMove(&choice))
             effect = 0;
@@ -10953,7 +10953,7 @@ enum Type GetTechnicolorMoveType(struct DamageContext *ctx)
         uq4_12_t effect = CalcTypeEffectivenessMultiplier(&choice);
         // Existing absorption queries prepare healing/message data even when
         // no script runs. A rejected candidate must not change either buffer.
-        s16 passiveHP = gBattleStruct->passiveHpUpdate[choice.battlerDef];
+        s32 passiveHP = gBattleStruct->passiveHpUpdate[choice.battlerDef];
         u8 chooser = gBattleCommunication[MULTISTRING_CHOOSER];
         if (effect && CanAbilityAbsorbMove(&choice))
             effect = 0;
@@ -13155,7 +13155,6 @@ void ClearDamageCalcResults(void)
     gBattleStruct->numSpreadTargets = 0;
     gBattleStruct->unableToUseMove = FALSE;
     gBattleStruct->attackAnimPlayed = FALSE;
-    gBattleStruct->accumulatedDamage = 0;
     gBattleStruct->maglevPolarityDamage = 0;
     gBattleStruct->noblesseObligeTargets = 0;
     gBattleStruct->overwhelmTargets = 0;
@@ -14651,4 +14650,21 @@ bool32 IsBattlerJawLocked(enum BattlerId battler)
     }
 
     return FALSE;
+}
+
+u32 GetAccumulatedDamage(void)
+{
+    u32 accumulatedDamage = 0;
+
+    for (enum BattlerId battlerDef = B_BATTLER_0; battlerDef < gBattlersCount; battlerDef++)
+    {
+        u32 damage = gBattleStruct->moveDamage[battlerDef];
+
+        if (damage > INT32_MAX - accumulatedDamage)
+            return INT32_MAX;
+
+        accumulatedDamage += damage;
+    }
+
+    return accumulatedDamage;
 }

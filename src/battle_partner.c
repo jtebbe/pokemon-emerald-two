@@ -35,3 +35,14 @@ void FillPartnerParty(u16 trainerId)
     for (s32 i = 0; i < lastIndex && i < partner->partySize; i++)
         GenerateMonFromTrainerMon(&gParties[B_TRAINER_PARTNER][i], &partner->party[i], &partnerGen);
 }
+
+// All supported in-game partners use ordinary trainer data.
+enum TrainerClassID GetPartnerClass(u16 trainerId)
+{
+    return GetTrainerClassFromId(trainerId);
+}
+
+void GetInGamePartnerName(u8 *dst, u16 trainerId)
+{
+    StringCopy(dst, GetTrainerNameFromId(trainerId));
+}

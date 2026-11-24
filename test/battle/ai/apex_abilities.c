@@ -67,7 +67,7 @@ AI_SINGLE_BATTLE_TEST("AI avoids status moves and stat drops blocked by Ilex Whi
         }
     } THEN {
         EXPECT_EQ(AI_DecideKnownAbilityForTurn(B_BATTLER_0), ABILITY_ILEX_WHIMSY);
-        EXPECT_EQ(gAiPartyData->mons[B_SIDE_PLAYER][0].heldEffect, HOLD_EFFECT_APEX_METEORITE);
+        EXPECT_EQ(gAiPartyData->mons[B_SIDE_PLAYER][0].holdEffect, HOLD_EFFECT_APEX_METEORITE);
     }
 }
 
@@ -100,7 +100,7 @@ AI_SINGLE_BATTLE_TEST("Apex reveal identifies Time Dominus without omniscient AI
         TURN { EXPECT_MOVE(opponent, MOVE_SCRATCH); }
     } THEN {
         EXPECT_EQ(AI_DecideKnownAbilityForTurn(B_BATTLER_0), ABILITY_TIME_DOMINUS);
-        EXPECT_EQ(gAiPartyData->mons[B_SIDE_PLAYER][0].heldEffect, HOLD_EFFECT_APEX_METEORITE);
+        EXPECT_EQ(gAiPartyData->mons[B_SIDE_PLAYER][0].holdEffect, HOLD_EFFECT_APEX_METEORITE);
     }
 }
 

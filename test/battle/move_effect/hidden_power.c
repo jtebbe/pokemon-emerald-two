@@ -86,7 +86,7 @@ SINGLE_BATTLE_TEST("Hidden Power AI forecasts the real target and leaves battle 
         ctx.abilities[B_BATTLER_0] = ABILITY_SHADOW_TAG;
         ctx.abilities[B_BATTLER_1] = ABILITY_VOLT_ABSORB;
         u32 hp = opponent->hp;
-        s16 passive = gBattleStruct->passiveHpUpdate[B_BATTLER_1];
+        s32 passive = gBattleStruct->passiveHpUpdate[B_BATTLER_1];
         EXPECT_EQ(GetHiddenPowerMoveType(&ctx, FALSE), TYPE_ROCK);
         EXPECT_EQ(opponent->hp, hp);
         EXPECT_EQ(gBattleStruct->passiveHpUpdate[B_BATTLER_1], passive);

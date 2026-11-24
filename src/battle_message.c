@@ -4,6 +4,7 @@
 #include "battle_ai_record.h"
 #include "battle_controllers.h"
 #include "battle_message.h"
+#include "battle_partner.h"
 #include "battle_setup.h"
 #include "battle_special.h"
 #include "data.h"

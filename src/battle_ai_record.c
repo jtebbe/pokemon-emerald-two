@@ -2,6 +2,7 @@
 #include "battle.h"
 #include "battle_setup.h"
 #include "battle_controllers.h"
+#include "battle_ai_record.h"
 #include "constants/abilities.h"
 #include "constants/hold_effects.h"
 #include "constants/battle_ai.h"
@@ -29,27 +30,27 @@ void RecordKnownMove(enum BattlerId battler, enum Move move)
     {
         gBattleHistory->usedMoves[battler][moveIndex] = move;
         if (!gBattleMons[battler].volatiles.multivolved)
-            gAiPartyData->mons[GetBattlerSide(battler)][gBattlerPartyIndexes[battler]].moves[moveIndex] = move;
+            GetRecordedPartyMonData(battler)->moves[moveIndex] = move;
     }
 }
 
 void RecordAllMoves(enum BattlerId battler)
 {
     if (!gBattleMons[battler].volatiles.multivolved)
-        memcpy(gAiPartyData->mons[GetBattlerSide(battler)][gBattlerPartyIndexes[battler]].moves, gBattleMons[battler].moves, MAX_MON_MOVES * sizeof(u16));
+        memcpy(GetRecordedPartyMonData(battler)->moves, gBattleMons[battler].moves, MAX_MON_MOVES * sizeof(u16));
 }
 
 void RecordAbilityBattle(enum BattlerId battlerId, enum Ability abilityId)
 {
     gBattleHistory->abilities[battlerId] = abilityId;
     if (!gBattleMons[battlerId].volatiles.multivolved)
-        gAiPartyData->mons[GetBattlerSide(battlerId)][gBattlerPartyIndexes[battlerId]].ability = abilityId;
+        GetRecordedPartyMonData(battlerId)->ability = abilityId;
 }
 
 void RecordItemEffectBattle(enum BattlerId battlerId, enum HoldEffect itemEffect)
 {
     gBattleHistory->itemEffects[battlerId] = itemEffect;
-    gAiPartyData->mons[GetBattlerSide(battlerId)][gBattlerPartyIndexes[battlerId]].heldEffect = itemEffect;
+    GetRecordedPartyMonData(battlerId)->holdEffect = itemEffect;
 }
 
 void ClearBattlerAbilityHistory(enum BattlerId battlerId)
@@ -67,4 +68,9 @@ void ClearBattlerMoveHistory(enum BattlerId battlerId)
 void ClearBattlerItemEffectHistory(enum BattlerId battlerId)
 {
     gBattleHistory->itemEffects[battlerId] = HOLD_EFFECT_NONE;
+}
+
+struct AiPartyMon *GetRecordedPartyMonData(enum BattlerId battler)
+{
+    return &gAiPartyData->mons[GetBattlerTrainer(battler)][gBattlerPartyIndexes[battler]];
 }

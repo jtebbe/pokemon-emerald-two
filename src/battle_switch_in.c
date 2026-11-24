@@ -51,7 +51,7 @@ bool32 DoSwitchInEvents(void)
             RecordAbilityBattle(battler, GetBattlerApexAbility(battler));
             struct AiPartyMon *aiMon = &gAiPartyData->mons[GetBattlerTrainer(battler)][gBattlerPartyIndexes[battler]];
             aiMon->item = gBattleMons[battler].item;
-            aiMon->heldEffect = HOLD_EFFECT_APEX_METEORITE;
+            aiMon->holdEffect = HOLD_EFFECT_APEX_METEORITE;
             aiMon->ability = GetBattlerApexAbility(battler);
             if (!GetBattlerPartyState(battler)->apexRevealed)
             {

@@ -1093,7 +1093,7 @@ static enum CancelerResult CancelerSetTargets(struct BattleCalcValues *cv)
         {
             cv->battlerDef = cv->battlerAtk;
         }
-        else if (isDoubleBattle && moveTarget == TARGET_USER_OR_ALLY && !IsBattlerAlive(cv->battlerDef))
+        else if (isDoubleBattle && moveTarget == TARGET_USER_OR_ALLY && (!IsBattlerAlive(cv->battlerDef) || !IsBattlerAlly(cv->battlerAtk, cv->battlerDef)))
         {
             cv->battlerDef = cv->battlerAtk;
         }
@@ -1171,13 +1171,15 @@ static enum CancelerResult CancelerPPDeduction(struct BattleCalcValues *cv)
         for (u32 i = 0; i < gBattlersCount; i++)
         {
             if (!IsBattlerAlly(i, cv->battlerAtk))
-                ppToDeduct += (GetBattlerAbility(i) == ABILITY_PRESSURE);
+                ppToDeduct += (cv->abilities[i] == ABILITY_PRESSURE);
         }
     }
     else if (moveTarget != TARGET_OPPONENTS_FIELD)
     {
-        if (cv->battlerAtk != cv->battlerDef && GetBattlerAbility(cv->battlerDef) == ABILITY_PRESSURE)
-             ppToDeduct++;
+        if (cv->battlerAtk != cv->battlerDef
+         && (GetConfig(B_PRESSURE_ALLIES) < GEN_5 || !IsBattlerAlly(cv->battlerAtk, cv->battlerDef))
+         && cv->abilities[cv->battlerDef] == ABILITY_PRESSURE)
+            ppToDeduct++;
     }
 
     // For item Metronome, echoed voice
@@ -3775,7 +3777,6 @@ static enum MoveEndResult MoveEndSetValues(struct BattleCalcValues *cv)
 
     for (enum BattlerId battlerDef = B_BATTLER_0; battlerDef < gBattlersCount; battlerDef++)
     {
-        gBattleStruct->accumulatedDamage += gBattleStruct->moveDamage[battlerDef];
         if (!cv->isStatusMove && !IsOctocannonCounter(cv->battlerAtk) && cv->abilities[battlerDef] == ABILITY_OCTOCANNON
          && cv->battlerAtk != battlerDef && gSpecialStatuses[battlerDef].damagedByAttack
          && gBattleStruct->moveDamage[battlerDef] > 0 && !gBattleStruct->battlerState[battlerDef].substituteBlocked)
@@ -5876,7 +5877,7 @@ static enum MoveEndResult MoveEndMoveBlockRecoil(struct BattleCalcValues *cv)
              || IsAbilityAndRecord(cv->battlerAtk, cv->abilities[cv->battlerAtk], ABILITY_VAMPIRISM))
                 break;
 
-            s32 recoilDamage = gBattleStruct->accumulatedDamage;
+            s32 recoilDamage = GetAccumulatedDamage();
             if (cv->abilities[cv->battlerAtk] == ABILITY_RELENTLESS_CHASE && gBattleStruct->relentlessChaseDamage > 0)
             {
                 if (cv->moveEffect == EFFECT_CHLOROBLAST)
@@ -6570,7 +6571,7 @@ static enum MoveEndResult MoveEndVampirism(struct BattleCalcValues *cv)
     enum BattlerId battler = cv->battlerAtk;
 
     enum Ability ability = cv->abilities[battler];
-    u32 damage = ability == ABILITY_MAGLEV_POLARITY ? gBattleStruct->maglevPolarityDamage : gBattleStruct->accumulatedDamage;
+    u32 damage = ability == ABILITY_MAGLEV_POLARITY ? gBattleStruct->maglevPolarityDamage : GetAccumulatedDamage();
 
     // Both accumulators contain actual HP lost, including substitutes and every
     // hit/target. Never heal a replacement or revive a user KO'd by a contact effect.
@@ -7529,6 +7530,11 @@ static void TryAcupressureStatChange(struct BattleCalcValues *cv)
             bits |= 1u << stat;
     }
 
+    struct StatChange st = {
+        .onlyChecking = TRUE,
+        .ignoreCertainFailure = TRUE,
+    };
+
     if (bits)
     {
         enum Stat statId;
@@ -7537,7 +7543,12 @@ static void TryAcupressureStatChange(struct BattleCalcValues *cv)
             statId = (Random() % (NUM_BATTLE_STATS - 1)) + 1;
         } while (!(bits & (1u << statId)));
 
-        SetStatChange(cv->battlerDef, statId, 2);
+        st.certain = cv->battlerAtk == cv->battlerDef;
+        st.stat = statId;
+        st.stage = 2;
+
+        AdjustStatStage(cv, &st);
+        SetStatChange(cv->battlerDef, st.stat, st.stage);
         gBattleStruct->moveResultFlags[cv->battlerDef] = MOVE_RESULT_ATTEMPT_STAT_CHANGE;
     }
     else
