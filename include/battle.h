@@ -683,6 +683,7 @@ struct BattleStruct
         s32 savedHpUpdate;
     } floralHealing;
     u32 moveDamage[MAX_BATTLERS_COUNT];
+    u32 accumulatedDamage; // Actual damage across every hit and target of this move.
     u32 innardsOutHpLost[MAX_BATTLERS_COUNT];
     u32 moveResultFlags[MAX_BATTLERS_COUNT];
     u32 savedMoveResultFlags[MAX_BATTLERS_COUNT]; // for Bounced moves

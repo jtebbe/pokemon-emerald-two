@@ -3777,6 +3777,14 @@ static enum MoveEndResult MoveEndSetValues(struct BattleCalcValues *cv)
 
     for (enum BattlerId battlerDef = B_BATTLER_0; battlerDef < gBattlersCount; battlerDef++)
     {
+        // moveDamage is overwritten for each strike; keep the whole move's
+        // actual damage for draining abilities, Shell Bell, and recoil.
+        u32 damage = gBattleStruct->moveDamage[battlerDef];
+        if (damage > INT32_MAX - gBattleStruct->accumulatedDamage)
+            gBattleStruct->accumulatedDamage = INT32_MAX;
+        else
+            gBattleStruct->accumulatedDamage += damage;
+
         if (!cv->isStatusMove && !IsOctocannonCounter(cv->battlerAtk) && cv->abilities[battlerDef] == ABILITY_OCTOCANNON
          && cv->battlerAtk != battlerDef && gSpecialStatuses[battlerDef].damagedByAttack
          && gBattleStruct->moveDamage[battlerDef] > 0 && !gBattleStruct->battlerState[battlerDef].substituteBlocked)
